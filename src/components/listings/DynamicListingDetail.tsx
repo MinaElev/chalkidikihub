@@ -66,7 +66,6 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
         <div className="lg:col-span-2 space-y-8">
           {/* Image Gallery with Lightbox */}
           <ImageGallery images={listing.images || []} alt={title} />
-          )}
 
           <div>
             <div className="flex items-center justify-between gap-4">
