@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Listing } from '@/types';
 import { MapPin, Users, BedDouble, Bath } from 'lucide-react';
+import { FavoriteButton } from '@/components/ui/FavoriteButton';
 
 interface ListingCardProps {
   listing: Listing;
@@ -37,6 +38,9 @@ export function ListingCard({ listing }: ListingCardProps) {
             <span className="text-sm font-semibold text-gray-900">
               {t('from')} &euro;{listing.price_per_night}{t('perNight')}
             </span>
+          </div>
+          <div className="absolute top-3 left-3">
+            <FavoriteButton itemType="listing" itemSlug={listing.slug} size="sm" />
           </div>
         </div>
 

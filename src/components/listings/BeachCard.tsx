@@ -5,6 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { Beach } from '@/types';
 import { MapPin, Star, MessageCircle } from 'lucide-react';
 import { CrowdBadge } from './CrowdIndicator';
+import { FavoriteButton } from '@/components/ui/FavoriteButton';
 
 export function BeachCard({ beach }: { beach: Beach }) {
   const locale = useLocale();
@@ -31,6 +32,9 @@ export function BeachCard({ beach }: { beach: Beach }) {
               <span className="text-blue-400 text-4xl">~</span>
             </div>
           )}
+          <div className="absolute top-3 left-3">
+            <FavoriteButton itemType="beach" itemSlug={beach.slug} size="sm" />
+          </div>
           {/* Rating badge */}
           <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full flex items-center gap-1">
             <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
