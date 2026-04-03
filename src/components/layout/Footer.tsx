@@ -19,7 +19,7 @@ export function Footer() {
                 <span className="text-white font-bold text-sm">H</span>
               </div>
               <span className="font-bold text-xl text-white">
-                Halkidiki<span className="text-primary-400">Hub</span>
+                Chalkidiki<span className="text-primary-400">Hub</span>
               </span>
             </div>
             <p className="text-sm text-gray-400">{t('description')}</p>

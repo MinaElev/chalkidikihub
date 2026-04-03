@@ -21,7 +21,7 @@ export function Header() {
               <span className="text-white font-bold text-sm">H</span>
             </div>
             <span className="font-bold text-xl text-gray-900">
-              Halkidiki<span className="text-primary-600">Hub</span>
+              Chalkidiki<span className="text-primary-600">Hub</span>
             </span>
           </Link>
 
