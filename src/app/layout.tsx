@@ -1,4 +1,5 @@
 import './globals.css';
+import { PWARegister } from '@/components/PWARegister';
 
 export default function RootLayout({
   children,
@@ -12,8 +13,18 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://bvwiwxmgbtklztgapxyp.supabase.co" />
         <link rel="preconnect" href="https://api.openchargemap.io" />
         <meta name="theme-color" content="#0284c7" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/icons/icon-192.png" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="HalkidikiHub" />
       </head>
-      <body>{children}</body>
+      <body>
+        <PWARegister />
+        {children}
+      </body>
     </html>
   );
 }
