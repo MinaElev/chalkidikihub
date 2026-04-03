@@ -67,13 +67,30 @@ export default function AdminEditListingPage() {
     e.preventDefault();
     setSaving(true); setError(''); setSuccess('');
     const supabase = createClient();
-    const { error: err } = await supabase.from('listings').update({
-      ...form,
-      price_per_night: Number(form.price_per_night),
-      guests_max: Number(form.guests_max),
-      bedrooms: Number(form.bedrooms),
-      bathrooms: Number(form.bathrooms),
-    }).eq('id', id);
+
+    // Explicitly list all DB columns to avoid sending unknown fields
+    const updateData = {
+      title_el: form.title_el, title_en: form.title_en, title_de: form.title_de,
+      title_bg: form.title_bg, title_ru: form.title_ru, title_ro: form.title_ro,
+      description_el: form.description_el, description_en: form.description_en, description_de: form.description_de,
+      description_bg: form.description_bg, description_ru: form.description_ru, description_ro: form.description_ro,
+      area: form.area, location_name: form.location_name,
+      latitude: Number(form.latitude), longitude: Number(form.longitude),
+      price_per_night: Number(form.price_per_night), currency: form.currency,
+      guests_max: Number(form.guests_max), bedrooms: Number(form.bedrooms), bathrooms: Number(form.bathrooms),
+      amenities: form.amenities, status: form.status,
+      contact_phone: form.contact_phone || null, contact_email: form.contact_email || null,
+      booking_url: form.booking_url || null, airbnb_url: form.airbnb_url || null,
+      meta_title_el: form.meta_title_el, meta_title_en: form.meta_title_en,
+      meta_title_de: form.meta_title_de, meta_title_bg: form.meta_title_bg,
+      meta_title_ru: form.meta_title_ru, meta_title_ro: form.meta_title_ro,
+      meta_description_el: form.meta_description_el, meta_description_en: form.meta_description_en,
+      meta_description_de: form.meta_description_de, meta_description_bg: form.meta_description_bg,
+      meta_description_ru: form.meta_description_ru, meta_description_ro: form.meta_description_ro,
+      image_alt: form.image_alt,
+    };
+
+    const { error: err } = await supabase.from('listings').update(updateData).eq('id', id);
     if (err) { setError(err.message); } else { setSuccess('Αποθηκεύτηκε!'); }
     setSaving(false);
   }
