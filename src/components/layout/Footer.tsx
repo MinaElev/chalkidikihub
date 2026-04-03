@@ -66,8 +66,8 @@ export function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">{t('legal')}</h3>
             <ul className="space-y-2">
-              <li><span className="text-sm text-gray-400">{t('terms')}</span></li>
-              <li><span className="text-sm text-gray-400">{t('privacy')}</span></li>
+              <li><Link href="/terms" className="text-sm text-gray-400 hover:text-white transition-colors">{t('terms')}</Link></li>
+              <li><Link href="/privacy" className="text-sm text-gray-400 hover:text-white transition-colors">{t('privacy')}</Link></li>
             </ul>
           </div>
         </div>
