@@ -158,7 +158,7 @@ export default function MapPage() {
       )}
 
       {/* Filter buttons */}
-      <div className="absolute top-4 left-4 z-[800] flex flex-wrap gap-2">
+      <div className="absolute top-4 left-14 z-[800] flex flex-wrap gap-2">
         {Object.entries(typeConfig).map(([type, conf]) => {
           const Icon = filterIcons[type];
           const isActive = activeFilters.has(type);
