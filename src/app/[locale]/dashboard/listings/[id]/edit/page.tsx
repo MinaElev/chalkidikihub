@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity, Area } from '@/types';
+import { LocationPicker } from '@/components/ui/LocationPicker';
 import { Loader2, Upload, X, Save, ArrowLeft, Trash2 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
@@ -35,6 +36,8 @@ export default function EditListingPage() {
     description_el: '',
     area: 'kassandra' as Area,
     location_name: '',
+    latitude: 40.1,
+    longitude: 23.6,
     price_per_night: 50,
     guests_max: 2,
     bedrooms: 1,
@@ -68,6 +71,8 @@ export default function EditListingPage() {
           description_el: data.description_el || '',
           area: data.area as Area,
           location_name: data.location_name || '',
+          latitude: data.latitude || 40.1,
+          longitude: data.longitude || 23.6,
           price_per_night: Number(data.price_per_night),
           guests_max: data.guests_max,
           bedrooms: data.bedrooms,
@@ -124,6 +129,8 @@ export default function EditListingPage() {
         description_en: form.description_el,
         area: form.area,
         location_name: form.location_name,
+        latitude: form.latitude,
+        longitude: form.longitude,
         price_per_night: form.price_per_night,
         guests_max: form.guests_max,
         bedrooms: form.bedrooms,
@@ -257,6 +264,13 @@ export default function EditListingPage() {
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
           </div>
         </div>
+
+        {/* Map picker */}
+        <LocationPicker
+          latitude={form.latitude}
+          longitude={form.longitude}
+          onLocationChange={(lat, lng) => setForm((prev) => ({ ...prev, latitude: lat, longitude: lng }))}
+        />
 
         {/* Amenities */}
         <div>

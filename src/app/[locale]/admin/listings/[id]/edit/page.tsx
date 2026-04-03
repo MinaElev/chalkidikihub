@@ -9,6 +9,7 @@ import { ImageUpload } from '@/components/admin/ImageUpload';
 import { AIHelper } from '@/components/admin/AIHelper';
 import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity } from '@/types';
+import { LocationPicker } from '@/components/ui/LocationPicker';
 
 export default function AdminEditListingPage() {
   const { id } = useParams();
@@ -224,16 +225,14 @@ export default function AdminEditListingPage() {
             <input type="number" min={0} value={form.bathrooms} onChange={(e) => update('bathrooms', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Lat / Lng</label>
-            <div className="flex gap-1">
-              <input type="number" step="0.0001" value={form.latitude} onChange={(e) => update('latitude', e.target.value)}
-                className="w-full px-2 py-2 border border-gray-300 rounded-lg text-xs" placeholder="lat" />
-              <input type="number" step="0.0001" value={form.longitude} onChange={(e) => update('longitude', e.target.value)}
-                className="w-full px-2 py-2 border border-gray-300 rounded-lg text-xs" placeholder="lng" />
-            </div>
-          </div>
         </div>
+
+        {/* Map picker */}
+        <LocationPicker
+          latitude={Number(form.latitude) || 40.1}
+          longitude={Number(form.longitude) || 23.6}
+          onLocationChange={(lat, lng) => { update('latitude', lat); update('longitude', lng); }}
+        />
 
         {/* Amenities */}
         <div>

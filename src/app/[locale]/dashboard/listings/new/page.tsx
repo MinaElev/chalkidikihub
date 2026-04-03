@@ -8,6 +8,7 @@ import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity, Area } from '@/types';
 import { Loader2, Upload, X } from 'lucide-react';
 import { compressImage } from '@/lib/image-utils';
+import { LocationPicker } from '@/components/ui/LocationPicker';
 
 export default function NewListingPage() {
   const t = useTranslations('amenities');
@@ -22,6 +23,8 @@ export default function NewListingPage() {
     description_el: '',
     area: 'kassandra' as Area,
     location_name: '',
+    latitude: 40.1,
+    longitude: 23.6,
     price_per_night: 50,
     guests_max: 2, bedrooms: 1, bathrooms: 1,
     amenities: [] as Amenity[],
@@ -93,6 +96,8 @@ export default function NewListingPage() {
         description_en: form.description_el, // Fallback
         area: form.area,
         location_name: form.location_name,
+        latitude: form.latitude,
+        longitude: form.longitude,
         price_per_night: form.price_per_night,
         guests_max: form.guests_max,
         bedrooms: form.bedrooms,
@@ -207,6 +212,13 @@ export default function NewListingPage() {
               placeholder="e.g. Hanioti, Kassandra" />
           </div>
         </div>
+
+        {/* Map picker */}
+        <LocationPicker
+          latitude={form.latitude}
+          longitude={form.longitude}
+          onLocationChange={(lat, lng) => setForm({ ...form, latitude: lat, longitude: lng })}
+        />
 
         {/* Numbers */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
