@@ -23,7 +23,7 @@ export default function AdminEditListingPage() {
     area: 'kassandra', location_name: '', latitude: 0, longitude: 0,
     price_per_night: 0, currency: 'EUR', guests_max: 2, bedrooms: 1, bathrooms: 1,
     amenities: [] as string[], status: 'draft',
-    contact_phone: '', contact_email: '', booking_url: '', airbnb_url: '',
+    contact_phone: '', contact_email: '', booking_url: '', airbnb_url: '', website_url: '',
     meta_title_el: '', meta_title_en: '', meta_title_de: '', meta_title_bg: '', meta_title_ru: '', meta_title_ro: '',
     meta_description_el: '', meta_description_en: '', meta_description_de: '', meta_description_bg: '', meta_description_ru: '', meta_description_ro: '',
     image_alt: '',
@@ -81,7 +81,7 @@ export default function AdminEditListingPage() {
       guests_max: Number(form.guests_max), bedrooms: Number(form.bedrooms), bathrooms: Number(form.bathrooms),
       amenities: form.amenities, status: form.status,
       contact_phone: form.contact_phone || null, contact_email: form.contact_email || null,
-      booking_url: form.booking_url || null, airbnb_url: form.airbnb_url || null,
+      booking_url: form.booking_url || null, airbnb_url: form.airbnb_url || null, website_url: form.website_url || null,
       meta_title_el: form.meta_title_el, meta_title_en: form.meta_title_en,
       meta_title_de: form.meta_title_de, meta_title_bg: form.meta_title_bg,
       meta_title_ru: form.meta_title_ru, meta_title_ro: form.meta_title_ro,
@@ -273,6 +273,12 @@ export default function AdminEditListingPage() {
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">Airbnb URL</label>
               <input type="url" value={form.airbnb_url} onChange={(e) => update('airbnb_url', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">Website</label>
+              <input type="url" value={form.website_url} onChange={(e) => update('website_url', e.target.value)}
+                placeholder="https://www.myhotel.gr"
                 className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" />
             </div>
           </div>

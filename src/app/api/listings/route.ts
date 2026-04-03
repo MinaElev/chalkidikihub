@@ -32,6 +32,7 @@ function transform(row: Record<string, unknown>) {
     contact_email: row.contact_email || null,
     booking_url: row.booking_url || null,
     airbnb_url: row.airbnb_url || null,
+    website_url: row.website_url || null,
     images: (row.listing_images as Array<Record<string, unknown>> || []).map((img) => ({
       id: img.id,
       listing_id: row.id,
@@ -50,7 +51,7 @@ const SELECT_FIELDS = `
   description_el, description_en, description_de, description_bg, description_ru, description_ro,
   area, location_name, latitude, longitude,
   price_per_night, currency, guests_max, bedrooms, bathrooms,
-  amenities, status, contact_phone, contact_email, booking_url, airbnb_url, created_at, updated_at,
+  amenities, status, contact_phone, contact_email, booking_url, airbnb_url, website_url, created_at, updated_at,
   listing_images (id, image_url, sort_order, is_cover)
 `;
 

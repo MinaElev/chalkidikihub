@@ -119,6 +119,12 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
             </div>
             <hr />
             {/* Booking buttons */}
+            {(listing as any).website_url && (
+              <a href={(listing as any).website_url} target="_blank" rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-900 text-white font-medium rounded-xl transition-colors">
+                <ExternalLink className="w-4 h-4" />Website
+              </a>
+            )}
             {bookingUrl && (
               <a href={bookingUrl} target="_blank" rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#003580] hover:bg-[#00264d] text-white font-medium rounded-xl transition-colors">

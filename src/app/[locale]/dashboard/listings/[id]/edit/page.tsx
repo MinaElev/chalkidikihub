@@ -45,6 +45,7 @@ export default function EditListingPage() {
     amenities: [] as Amenity[],
     contact_phone: '',
     contact_email: '',
+    website_url: '',
     booking_url: '',
     airbnb_url: '',
     status: 'draft',
@@ -80,6 +81,7 @@ export default function EditListingPage() {
           amenities: (data.amenities as Amenity[]) || [],
           contact_phone: data.contact_phone || '',
           contact_email: data.contact_email || '',
+          website_url: data.website_url || '',
           booking_url: data.booking_url || '',
           airbnb_url: data.airbnb_url || '',
           status: data.status,
@@ -138,6 +140,7 @@ export default function EditListingPage() {
         amenities: form.amenities,
         contact_phone: form.contact_phone || null,
         contact_email: form.contact_email || null,
+        website_url: form.website_url || null,
         booking_url: form.booking_url || null,
         airbnb_url: form.airbnb_url || null,
         status: form.status,
@@ -306,6 +309,14 @@ export default function EditListingPage() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 text-sm mt-1" />
             </div>
           </div>
+        </div>
+
+        {/* Website */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Website καταλύματος</label>
+          <input type="url" value={form.website_url} onChange={(e) => setForm((prev) => ({ ...prev, website_url: e.target.value }))}
+            placeholder="https://www.myhotel.gr"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 text-sm" />
         </div>
 
         {/* Booking links */}

@@ -30,6 +30,7 @@ export default function NewListingPage() {
     amenities: [] as Amenity[],
     contact_phone: '',
     contact_email: '',
+    website_url: '',
     booking_url: '',
     airbnb_url: '',
     status: 'draft',
@@ -105,6 +106,7 @@ export default function NewListingPage() {
         amenities: form.amenities,
         contact_phone: form.contact_phone || null,
         contact_email: form.contact_email || null,
+        website_url: form.website_url || null,
         booking_url: form.booking_url || null,
         airbnb_url: form.airbnb_url || null,
         status: form.status,
@@ -284,6 +286,15 @@ export default function NewListingPage() {
             </div>
           </div>
           <p className="text-xs text-gray-400 mt-1">Θα εμφανίζονται στους επισκέπτες ως κουμπιά κλήσης και email</p>
+        </div>
+
+        {/* Website */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Website καταλύματος</label>
+          <input type="url" value={form.website_url} onChange={(e) => setForm({ ...form, website_url: e.target.value })}
+            placeholder="https://www.myhotel.gr"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 text-sm" />
+          <p className="text-xs text-gray-400 mt-1">Προαιρετικά - η ιστοσελίδα του καταλύματος</p>
         </div>
 
         {/* Booking links */}
