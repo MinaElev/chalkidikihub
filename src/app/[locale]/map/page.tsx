@@ -28,6 +28,8 @@ export default function MapPage() {
   const mapRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapInstanceRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const markersRef = useRef<any>(null);
   const [items, setItems] = useState<MapItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilters, setActiveFilters] = useState<Set<string>>(new Set(['listing', 'beach', 'restaurant', 'activity', 'charger']));
@@ -111,26 +113,30 @@ export default function MapPage() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function updateMarkers(L: any, map: any) {
-    // Clear existing markers
-    map.eachLayer((layer: { options?: { pane?: string } }) => {
-      if (layer.options?.pane === 'markerPane') map.removeLayer(layer);
-    });
+    // Remove old markers layer
+    if (markersRef.current) {
+      map.removeLayer(markersRef.current);
+    }
 
+    const markerGroup = L.layerGroup();
     const filtered = items.filter(item => activeFilters.has(item.type));
 
     filtered.forEach((item) => {
       const conf = typeConfig[item.type];
       const icon = L.divIcon({
-        html: `<div style="background:${conf.color};width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);font-size:14px;cursor:pointer">${conf.emoji}</div>`,
+        html: `<div style="background:${conf.color};width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);font-size:15px;cursor:pointer">${conf.emoji}</div>`,
         className: '',
-        iconSize: [30, 30],
-        iconAnchor: [15, 30],
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
       });
 
-      L.marker([item.lat, item.lng], { icon })
-        .addTo(map)
-        .on('click', () => setSelectedItem(item));
+      const marker = L.marker([item.lat, item.lng], { icon });
+      marker.on('click', () => { setSelectedItem(item); });
+      markerGroup.addLayer(marker);
     });
+
+    markerGroup.addTo(map);
+    markersRef.current = markerGroup;
   }
 
   function toggleFilter(type: string) {
@@ -146,13 +152,13 @@ export default function MapPage() {
   return (
     <div className="relative" style={{ height: 'calc(100vh - 64px)' }}>
       {loading && (
-        <div className="absolute inset-0 z-20 bg-white/80 flex items-center justify-center">
+        <div className="absolute inset-0 z-[900] bg-white/80 flex items-center justify-center">
           <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
         </div>
       )}
 
       {/* Filter buttons */}
-      <div className="absolute top-4 left-4 z-20 flex flex-wrap gap-2">
+      <div className="absolute top-4 left-4 z-[800] flex flex-wrap gap-2">
         {Object.entries(typeConfig).map(([type, conf]) => {
           const Icon = filterIcons[type];
           const isActive = activeFilters.has(type);
@@ -172,7 +178,7 @@ export default function MapPage() {
 
       {/* Selected item popup */}
       {selectedItem && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 w-80 bg-white rounded-xl shadow-xl border border-gray-200 p-4">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[800] w-80 bg-white rounded-xl shadow-xl border border-gray-200 p-4">
           <button onClick={() => setSelectedItem(null)} className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-lg">&times;</button>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-lg">{typeConfig[selectedItem.type].emoji}</span>
