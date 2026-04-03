@@ -17,7 +17,12 @@
       "Bash(find C:/Users/mnc/Desktop/hub/src/app -path */admin/beaches* -o -path */admin/restaurants* -o -path */admin/activities* -o -path */admin/blog*)",
       "Bash(npx next:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(git branch:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)"
     ]
   }
 }

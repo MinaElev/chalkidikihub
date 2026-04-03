@@ -29,9 +29,13 @@ export default function MyListingsPage() {
 
   async function loadListings() {
     const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
     const { data } = await supabase
       .from('listings')
       .select('id, slug, title_el, title_en, area, price_per_night, status, created_at')
+      .eq('owner_id', user.id)
       .order('created_at', { ascending: false });
     setListings(data || []);
     setLoading(false);

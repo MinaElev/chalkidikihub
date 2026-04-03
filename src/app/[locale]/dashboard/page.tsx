@@ -12,7 +12,9 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.from('listings').select('status').then(({ data }) => {
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return;
+      const { data } = await supabase.from('listings').select('status').eq('owner_id', user.id);
       if (data) {
         setStats({
           total: data.length,
