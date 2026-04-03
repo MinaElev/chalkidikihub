@@ -5,7 +5,8 @@ import { seedRestaurants } from '@/lib/seed-restaurants';
 import { seedBeaches } from '@/lib/seed-beaches';
 import { AREAS } from '@/lib/constants';
 import { Link } from '@/i18n/navigation';
-import { ArrowLeft, MapPin, Star, Clock, Phone, Eye, Music, CalendarCheck, User, Tag } from 'lucide-react';
+import { MapPin, Star, Clock, Phone, Eye, Music, CalendarCheck, User, Tag } from 'lucide-react';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { NearbyListings } from '@/components/listings/NearbyListings';
 import { BeachCard } from '@/components/listings/BeachCard';
 import { DynamicRestaurantDetail } from '@/components/listings/DynamicRestaurantDetail';
@@ -41,6 +42,7 @@ function RestaurantDetail({ locale, restaurant, areaName, nearbyBeaches }: {
   locale: string; restaurant: (typeof seedRestaurants)[number]; areaName: string; nearbyBeaches: typeof seedBeaches;
 }) {
   const t = useTranslations('restaurants');
+  const tNav = useTranslations('nav');
   const tCuisine = useTranslations('cuisineTypes');
   const tPrice = useTranslations('priceLevels');
   const name = restaurant.name[locale] || restaurant.name.en;
@@ -48,9 +50,7 @@ function RestaurantDetail({ locale, restaurant, areaName, nearbyBeaches }: {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <Link href="/restaurants" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6">
-        <ArrowLeft className="w-4 h-4" />{t('title')}
-      </Link>
+      <Breadcrumbs items={[{ label: tNav('restaurants'), href: '/restaurants' }, { label: name }]} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">

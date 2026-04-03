@@ -5,7 +5,8 @@ import { seedActivities } from '@/lib/seed-activities';
 import { seedBeaches } from '@/lib/seed-beaches';
 import { AREAS } from '@/lib/constants';
 import { Link } from '@/i18n/navigation';
-import { ArrowLeft, MapPin, Star, Clock, Euro, User, Tag } from 'lucide-react';
+import { MapPin, Star, Clock, Euro, User, Tag } from 'lucide-react';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { NearbyListings } from '@/components/listings/NearbyListings';
 import { BeachCard } from '@/components/listings/BeachCard';
 import { DynamicActivityDetail } from '@/components/listings/DynamicActivityDetail';
@@ -41,6 +42,7 @@ function ActivityDetail({ locale, activity, areaName, nearbyBeaches }: {
   locale: string; activity: (typeof seedActivities)[number]; areaName: string; nearbyBeaches: typeof seedBeaches;
 }) {
   const t = useTranslations('activities');
+  const tNav = useTranslations('nav');
   const tCat = useTranslations('activityCategories');
   const tBeaches = useTranslations('beaches');
   const name = activity.name[locale] || activity.name.en;
@@ -48,9 +50,7 @@ function ActivityDetail({ locale, activity, areaName, nearbyBeaches }: {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <Link href="/activities" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6">
-        <ArrowLeft className="w-4 h-4" />{t('title')}
-      </Link>
+      <Breadcrumbs items={[{ label: tNav('activities'), href: '/activities' }, { label: name }]} />
 
       {activity.image_url && (
         <div className="relative aspect-[21/9] bg-gray-200 rounded-2xl overflow-hidden mb-8">

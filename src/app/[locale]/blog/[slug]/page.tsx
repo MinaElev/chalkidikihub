@@ -3,7 +3,8 @@ import { useTranslations, useLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { seedArticles } from '@/lib/seed-blog';
 import { Link } from '@/i18n/navigation';
-import { ArrowLeft, Calendar, Clock, User, Tag } from 'lucide-react';
+import { Calendar, Clock, User, Tag } from 'lucide-react';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { RelatedArticles, RelatedBeaches, RelatedListings, ExploreAreas } from '@/components/blog/RelatedContent';
 import { DynamicArticle } from '@/components/blog/DynamicArticle';
 import { ShareButtons } from '@/components/ui/ShareButtons';
@@ -38,6 +39,7 @@ function ArticleDetail({
   article: (typeof seedArticles)[number];
 }) {
   const t = useTranslations('blog');
+  const tNav = useTranslations('nav');
   const tCat = useTranslations('blogCategories');
 
   const title = article.title[locale] || article.title.en;
@@ -45,14 +47,7 @@ function ArticleDetail({
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Back */}
-      <Link
-        href="/blog"
-        className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        {t('backToBlog')}
-      </Link>
+      <Breadcrumbs items={[{ label: tNav('blog'), href: '/blog' }, { label: title }]} />
 
       {/* Hero image */}
       {article.image_url && (

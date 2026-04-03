@@ -4,7 +4,8 @@ import { notFound } from 'next/navigation';
 import { seedBeaches } from '@/lib/seed-beaches';
 import { AREAS } from '@/lib/constants';
 import { Link } from '@/i18n/navigation';
-import { ArrowLeft, MapPin, Star } from 'lucide-react';
+import { MapPin, Star } from 'lucide-react';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { BeachFeatureBadge } from '@/components/listings/BeachFeatureBadge';
 import { BeachReviews } from '@/components/listings/BeachReviews';
 import { NearbyListings } from '@/components/listings/NearbyListings';
@@ -43,20 +44,14 @@ function BeachDetail({
 }) {
   const t = useTranslations('beaches');
   const tCommon = useTranslations('common');
+  const tNav = useTranslations('nav');
 
   const name = beach.name[locale] || beach.name.en;
   const description = beach.description[locale] || beach.description.en;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Back */}
-      <Link
-        href="/beaches"
-        className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        {t('title')}
-      </Link>
+      <Breadcrumbs items={[{ label: tNav('beaches'), href: '/beaches' }, { label: name }]} />
 
       {/* Hero image */}
       <div className="relative aspect-[21/9] bg-gray-200 rounded-2xl overflow-hidden mb-8">

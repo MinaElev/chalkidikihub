@@ -3,7 +3,8 @@ import { setRequestLocale } from 'next-intl/server';
 import { seedListings } from '@/lib/seed-data';
 import { AREAS } from '@/lib/constants';
 import { Link } from '@/i18n/navigation';
-import { MapPin, Users, BedDouble, Bath, ArrowLeft, Phone, Mail } from 'lucide-react';
+import { MapPin, Users, BedDouble, Bath, Phone, Mail } from 'lucide-react';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { AmenityBadge } from '@/components/listings/AmenityBadge';
 import { DynamicListingDetail } from '@/components/listings/DynamicListingDetail';
 import { ShareButtons } from '@/components/ui/ShareButtons';
@@ -46,20 +47,14 @@ function ListingDetail({
 }) {
   const t = useTranslations('listings.details');
   const tCommon = useTranslations('common');
+  const tNav = useTranslations('nav');
 
   const title = listing.title[locale] || listing.title.en;
   const description = listing.description[locale] || listing.description.en;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Back */}
-      <Link
-        href="/listings"
-        className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        {tCommon('backToHome')}
-      </Link>
+      <Breadcrumbs items={[{ label: tNav('listings'), href: '/listings' }, { label: title }]} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main content */}

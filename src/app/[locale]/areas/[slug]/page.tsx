@@ -11,9 +11,10 @@ import { BeachCard } from '@/components/listings/BeachCard';
 import { ChargerCard } from '@/components/listings/ChargerCard';
 import { ActivityCard } from '@/components/listings/ActivityCard';
 import { RestaurantCard } from '@/components/listings/RestaurantCard';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { AreaHero } from '@/components/layout/AreaHero';
 import { Link } from '@/i18n/navigation';
-import { ArrowLeft, MapPin } from 'lucide-react';
+
 import { Area } from '@/types';
 
 type Props = {
@@ -57,6 +58,7 @@ function AreaDetail({
   restaurants: typeof seedRestaurants;
 }) {
   const t = useTranslations('areas');
+  const tNav = useTranslations('nav');
   const tBeaches = useTranslations('beaches');
   const tChargers = useTranslations('evChargers');
   const tActivities = useTranslations('activities');
@@ -65,13 +67,7 @@ function AreaDetail({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <Link
-        href="/areas"
-        className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        {t('title')}
-      </Link>
+      <Breadcrumbs items={[{ label: tNav('areas'), href: '/areas' }, { label: area.name[locale] || area.name.el }]} />
 
       {/* Area Hero - fetches live from DB */}
       <AreaHero slug={areaSlug} />
