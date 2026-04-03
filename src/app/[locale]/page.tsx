@@ -32,7 +32,7 @@ function HeroSection() {
 
   return (
     <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white">
-      <div className="absolute inset-0 bg-[url('/images/hero-pattern.svg')] opacity-10" />
+      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
         <div className="max-w-3xl">
           <h1 className="text-4xl md:text-6xl font-bold leading-tight">
