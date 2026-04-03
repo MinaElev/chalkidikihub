@@ -10,6 +10,7 @@ import { AmenityBadge } from './AmenityBadge';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 import { RelatedContent } from './RelatedContent';
 import { ImageGallery } from '@/components/ui/ImageGallery';
+import { LocationMap } from '@/components/ui/LocationMap';
 
 export function DynamicListingDetail({ slug, locale }: { slug: string; locale: string }) {
   const [listing, setListing] = useState<Listing | null>(null);
@@ -97,6 +98,14 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
               <div className="flex flex-wrap gap-2">
                 {listing.amenities.map((amenity) => (<AmenityBadge key={amenity} amenity={amenity} />))}
               </div>
+            </div>
+          )}
+
+          {/* Map */}
+          {listing.latitude && listing.longitude && listing.latitude !== 0 && (
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900 mb-3">{t('location')}</h2>
+              <LocationMap latitude={listing.latitude} longitude={listing.longitude} name={title} />
             </div>
           )}
 

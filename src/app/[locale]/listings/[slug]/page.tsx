@@ -9,6 +9,7 @@ import { DynamicListingDetail } from '@/components/listings/DynamicListingDetail
 import { ShareButtons } from '@/components/ui/ShareButtons';
 import { ImageGallery } from '@/components/ui/ImageGallery';
 import { RelatedContent } from '@/components/listings/RelatedContent';
+import { LocationMap } from '@/components/ui/LocationMap';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -122,6 +123,14 @@ function ListingDetail({
               ))}
             </div>
           </div>
+
+          {/* Map */}
+          {listing.latitude && listing.longitude && listing.latitude !== 0 && (
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900 mb-3">{t('location')}</h2>
+              <LocationMap latitude={listing.latitude} longitude={listing.longitude} name={title} />
+            </div>
+          )}
 
           <ShareButtons title={title} description={description} />
         </div>
