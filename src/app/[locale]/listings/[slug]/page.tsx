@@ -7,6 +7,7 @@ import { MapPin, Users, BedDouble, Bath, ArrowLeft, Phone, Mail } from 'lucide-r
 import { AmenityBadge } from '@/components/listings/AmenityBadge';
 import { DynamicListingDetail } from '@/components/listings/DynamicListingDetail';
 import { ShareButtons } from '@/components/ui/ShareButtons';
+import { ImageGallery } from '@/components/ui/ImageGallery';
 import { RelatedContent } from '@/components/listings/RelatedContent';
 
 type Props = {
@@ -62,10 +63,8 @@ function ListingDetail({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main content */}
         <div className="lg:col-span-2 space-y-8">
-          {/* Image gallery placeholder */}
-          <div className="aspect-[16/9] bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl flex items-center justify-center overflow-hidden">
-            <span className="text-primary-400 text-6xl font-bold">H</span>
-          </div>
+          {/* Image Gallery */}
+          <ImageGallery images={listing.images || []} alt={title} />
 
           {/* Title & location */}
           <div>

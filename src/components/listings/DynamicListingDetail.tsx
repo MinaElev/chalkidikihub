@@ -9,6 +9,7 @@ import { MapPin, Users, BedDouble, Bath, ArrowLeft, Phone, Mail, Loader2, Extern
 import { AmenityBadge } from './AmenityBadge';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 import { RelatedContent } from './RelatedContent';
+import { ImageGallery } from '@/components/ui/ImageGallery';
 
 export function DynamicListingDetail({ slug, locale }: { slug: string; locale: string }) {
   const [listing, setListing] = useState<Listing | null>(null);
@@ -63,24 +64,8 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          {/* Image */}
-          <div className="aspect-[16/9] bg-gray-200 rounded-2xl overflow-hidden">
-            {coverImage ? (
-              <img src={coverImage.image_url} alt={title} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
-                <span className="text-primary-400 text-6xl font-bold">H</span>
-              </div>
-            )}
-          </div>
-
-          {/* All images gallery */}
-          {listing.images && listing.images.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto">
-              {listing.images.map((img) => (
-                <img key={img.id} src={img.image_url} alt="" className="w-32 h-24 rounded-lg object-cover shrink-0" />
-              ))}
-            </div>
+          {/* Image Gallery with Lightbox */}
+          <ImageGallery images={listing.images || []} alt={title} />
           )}
 
           <div>
