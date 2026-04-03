@@ -1,0 +1,310 @@
+{
+  "common": {
+    "siteName": "Halkidiki Hub",
+    "siteDescription": "Găsiți cazarea perfectă de închiriat în Halkidiki",
+    "loading": "Se încarcă...",
+    "error": "Ceva nu a mers bine",
+    "backToHome": "Înapoi la pagina principală",
+    "viewAll": "Vezi toate",
+    "perNight": "/ noapte",
+    "guests": "oaspeți",
+    "bedrooms": "dormitoare",
+    "bathrooms": "băi",
+    "from": "de la",
+    "search": "Caută",
+    "noResults": "Nu s-au găsit rezultate",
+    "readMore": "Citește mai mult",
+    "contactOwner": "Contactează proprietarul"
+  },
+  "nav": {
+    "home": "Acasă",
+    "listings": "Cazare",
+    "areas": "Zone",
+    "beaches": "Plaje",
+    "evChargers": "Stații EV",
+    "blog": "Blog",
+    "activities": "Atracții",
+    "restaurants": "Restaurante",
+    "about": "Despre",
+    "login": "Autentificare",
+    "register": "Înregistrare",
+    "dashboard": "Panou de control",
+    "myListings": "Anunțurile mele",
+    "profile": "Profil",
+    "logout": "Deconectare"
+  },
+  "hero": {
+    "title": "Descoperiți Halkidiki",
+    "subtitle": "Găsiți cazarea perfectă pentru vacanța dumneavoastră în cel mai frumos loc din Grecia",
+    "searchPlaceholder": "Unde doriți să stați?",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guestsLabel": "Oaspeți"
+  },
+  "areas": {
+    "title": "Zonele Halkidiki",
+    "subtitle": "Explorați cele trei peninsule ale Halkidiki",
+    "kassandra": {
+      "name": "Kassandra",
+      "description": "Prima peninsulă a Halkidiki. Atmosferă vibrantă, plaje frumoase și viață de noapte animată."
+    },
+    "sithonia": {
+      "name": "Sithonia",
+      "description": "A doua peninsulă a Halkidiki. Plaje exotice, natură luxuriantă și liniște."
+    },
+    "athos": {
+      "name": "Athos",
+      "description": "A treia peninsulă a Halkidiki. Spiritualitate, istorie și natură neatinsă."
+    },
+    "mainlandHalkidiki": {
+      "name": "Halkidiki continental",
+      "description": "Partea continentală a Halkidiki. Sate tradiționale, podgorii și ospitalitate autentică."
+    },
+    "viewListings": "Vezi cazare",
+    "listingsCount": "{count} cazări"
+  },
+  "listings": {
+    "title": "Cazare în Halkidiki",
+    "subtitle": "Găsiți cazarea ideală pentru dumneavoastră",
+    "filters": {
+      "area": "Zonă",
+      "allAreas": "Toate zonele",
+      "priceRange": "Interval de preț",
+      "minPrice": "Preț minim",
+      "maxPrice": "Preț maxim",
+      "guestsMin": "Minim oaspeți",
+      "amenities": "Facilități",
+      "sortBy": "Sortare",
+      "sortNewest": "Cele mai noi",
+      "sortPriceLow": "Preț (mic → mare)",
+      "sortPriceHigh": "Preț (mare → mic)",
+      "clearFilters": "Șterge filtrele"
+    },
+    "details": {
+      "amenities": "Facilități",
+      "location": "Locație",
+      "description": "Descriere",
+      "gallery": "Fotografii",
+      "pricePerNight": "Preț pe noapte",
+      "maxGuests": "Maxim oaspeți",
+      "contact": "Contact"
+    }
+  },
+  "amenities": {
+    "wifi": "Wi-Fi",
+    "parking": "Parcare",
+    "airConditioning": "Aer condiționat",
+    "pool": "Piscină",
+    "kitchen": "Bucătărie",
+    "tv": "Televizor",
+    "washingMachine": "Mașină de spălat",
+    "balcony": "Balcon",
+    "seaView": "Vedere la mare",
+    "garden": "Grădină",
+    "bbq": "Grătar",
+    "petsAllowed": "Animale permise"
+  },
+  "beaches": {
+    "title": "Plajele Halkidiki",
+    "subtitle": "Descoperiți cele mai frumoase plaje din Halkidiki",
+    "viewAll": "Toate plajele",
+    "rating": "Evaluare",
+    "reviews": "recenzii",
+    "noReviews": "Nicio recenzie încă",
+    "writeReview": "Scrieți o recenzie",
+    "features": "Caracteristici",
+    "nearbyListings": "Cazare în apropiere",
+    "filters": {
+      "allAreas": "Toate zonele",
+      "allFeatures": "Caracteristici",
+      "sortBy": "Sortare",
+      "sortRating": "Evaluare",
+      "sortName": "Nume",
+      "sortReviews": "Recenzii",
+      "clearFilters": "Șterge filtrele"
+    }
+  },
+  "beachFeatures": {
+    "sandy": "Nisip",
+    "pebble": "Pietriș",
+    "organized": "Organizată",
+    "free": "Liberă",
+    "parking": "Parcare",
+    "beachBar": "Beach bar",
+    "shallowWater": "Apă puțin adâncă",
+    "waterSports": "Sporturi nautice",
+    "accessible": "Accesibilă",
+    "sunbeds": "Șezlonguri",
+    "lifeguard": "Salvamar",
+    "nudist": "Nudiști"
+  },
+  "evChargers": {
+    "title": "Stații de încărcare EV",
+    "subtitle": "Găsiți stații de încărcare pentru vehicule electrice în Halkidiki",
+    "viewAll": "Vezi toate stațiile",
+    "provider": "Furnizor",
+    "power": "Putere",
+    "spots": "Locuri",
+    "costPerKwh": "Cost per kWh",
+    "freeCharging": "Încărcare gratuită",
+    "hours": "Program",
+    "open24h": "Deschis 24h",
+    "rating": "Evaluare",
+    "reviews": "Recenzii",
+    "noReviews": "Fără recenzii",
+    "connectors": "Conectori",
+    "nearbyListings": "Cazare în apropiere",
+    "nearbyBeaches": "Plaje în apropiere",
+    "status": "Status",
+    "statusAvailable": "Disponibil",
+    "statusOccupied": "Ocupat",
+    "statusOffline": "Offline",
+    "filters": {
+      "allAreas": "Toate zonele",
+      "allConnectors": "Toți conectorii",
+      "allSpeeds": "Toate vitezele",
+      "freeOnly": "Doar gratuite",
+      "sortBy": "Sortează după",
+      "sortRating": "Evaluare",
+      "sortPower": "Putere",
+      "sortName": "Nume",
+      "clearFilters": "Șterge filtrele"
+    }
+  },
+  "connectorTypes": {
+    "type2": "Type 2",
+    "ccs": "CCS",
+    "chademo": "CHAdeMO",
+    "schuko": "Schuko"
+  },
+  "chargerSpeeds": {
+    "slow": "Lent",
+    "fast": "Rapid",
+    "rapid": "Ultra-rapid"
+  },
+  "blog": {
+    "title": "Blog & Ghiduri",
+    "subtitle": "Descoperiți secretele Halkidiki",
+    "readMore": "Citește mai mult",
+    "backToBlog": "Înapoi la Blog",
+    "publishedOn": "Publicat",
+    "readTime": "{min} min de citit",
+    "author": "Autor",
+    "relatedArticles": "Articole similare",
+    "relatedBeaches": "Plaje menționate",
+    "relatedListings": "Cazare recomandată",
+    "exploreArea": "Explorează zona",
+    "allArticles": "Toate articolele",
+    "noResults": "Nu s-au găsit articole",
+    "filters": {
+      "allCategories": "Toate categoriile",
+      "allAreas": "Toate zonele",
+      "sortNewest": "Cele mai noi",
+      "sortPopular": "Populare",
+      "clearFilters": "Șterge"
+    }
+  },
+  "blogCategories": {
+    "guides": "Ghiduri",
+    "beaches": "Plaje",
+    "food": "Mâncare & Băuturi",
+    "activities": "Activități",
+    "tips": "Sfaturi",
+    "culture": "Cultură"
+  },
+  "activities": {
+    "title": "Atracții & Activități",
+    "subtitle": "Descoperiți ce puteți face în Halkidiki",
+    "viewAll": "Toate activitățile",
+    "priceRange": "Interval preț",
+    "duration": "Durată",
+    "rating": "Evaluare",
+    "reviews": "recenzii",
+    "noReviews": "Fără recenzii",
+    "nearbyListings": "Cazare în apropiere",
+    "nearbyBeaches": "Plaje în apropiere",
+    "free": "Gratuit",
+    "filters": {
+      "allCategories": "Toate categoriile",
+      "allAreas": "Toate zonele",
+      "sortRating": "Evaluare",
+      "sortName": "Nume",
+      "sortReviews": "Recenzii",
+      "clearFilters": "Șterge"
+    }
+  },
+  "activityCategories": {
+    "historical": "Istoric",
+    "nature": "Natură",
+    "waterSports": "Sporturi nautice",
+    "boatTrips": "Excursii cu barca",
+    "wellness": "Wellness",
+    "family": "Familie",
+    "nightlife": "Viață de noapte",
+    "religious": "Religios"
+  },
+  "crowd": {
+    "low": "Liniștit",
+    "moderate": "Moderat",
+    "high": "Aglomerat",
+    "very_high": "Foarte aglomerat",
+    "bestTime": "Cel mai bun moment",
+    "peakHours": "Ore de vârf",
+    "liveConditions": "Condiții live"
+  },
+  "restaurants": {
+    "title": "Restaurante & Taverne",
+    "subtitle": "Gusturi din Halkidiki - Fructe de mare proaspete și rețete tradiționale",
+    "viewAll": "Toate restaurantele",
+    "cuisine": "Bucătărie",
+    "priceLevel": "Nivel preț",
+    "rating": "Evaluare",
+    "reviews": "recenzii",
+    "noReviews": "Fără recenzii",
+    "phone": "Telefon",
+    "hours": "Program",
+    "seaView": "Vedere la mare",
+    "liveMusic": "Muzică live",
+    "reservations": "Rezervări",
+    "nearbyListings": "Cazare în apropiere",
+    "nearbyBeaches": "Plaje în apropiere",
+    "callNow": "Sună",
+    "filters": {
+      "allCuisines": "Toate bucătăriile",
+      "allAreas": "Toate zonele",
+      "allPrices": "Toate prețurile",
+      "seaViewOnly": "Doar cu vedere",
+      "sortRating": "Evaluare",
+      "sortName": "Nume",
+      "sortReviews": "Recenzii",
+      "sortPrice": "Preț",
+      "clearFilters": "Șterge"
+    }
+  },
+  "cuisineTypes": {
+    "seafood": "Fructe de mare",
+    "traditional": "Tradițională",
+    "grill": "Grătar",
+    "mediterranean": "Mediteraneană",
+    "pizza": "Pizza",
+    "cafe": "Cafenea",
+    "fineDining": "Fine dining",
+    "streetFood": "Street food"
+  },
+  "priceLevels": {
+    "budget": "€ Accesibil",
+    "moderate": "€€ Moderat",
+    "upscale": "€€€ Premium",
+    "fineDining": "€€€€ Fine dining"
+  },
+  "footer": {
+    "description": "Platforma de cazare din Halkidiki. Găsiți cazarea ideală sau listați-o pe a dumneavoastră.",
+    "quickLinks": "Linkuri rapide",
+    "forOwners": "Pentru proprietari",
+    "registerProperty": "Listează proprietatea",
+    "legal": "Legal",
+    "terms": "Termeni și condiții",
+    "privacy": "Politica de confidențialitate",
+    "copyright": "© {year} Halkidiki Hub. Toate drepturile rezervate."
+  }
+}

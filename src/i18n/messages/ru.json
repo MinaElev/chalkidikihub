@@ -1,0 +1,310 @@
+{
+  "common": {
+    "siteName": "Halkidiki Hub",
+    "siteDescription": "Найдите идеальное жильё для аренды в Халкидики",
+    "loading": "Загрузка...",
+    "error": "Что-то пошло не так",
+    "backToHome": "На главную",
+    "viewAll": "Смотреть все",
+    "perNight": "/ ночь",
+    "guests": "гостей",
+    "bedrooms": "спальни",
+    "bathrooms": "ванные",
+    "from": "от",
+    "search": "Поиск",
+    "noResults": "Результатов не найдено",
+    "readMore": "Подробнее",
+    "contactOwner": "Связаться с владельцем"
+  },
+  "nav": {
+    "home": "Главная",
+    "listings": "Жильё",
+    "areas": "Районы",
+    "beaches": "Пляжи",
+    "evChargers": "Зарядки для EV",
+    "blog": "Блог",
+    "activities": "Достопримечательности",
+    "restaurants": "Рестораны",
+    "about": "О нас",
+    "login": "Вход",
+    "register": "Регистрация",
+    "dashboard": "Панель управления",
+    "myListings": "Мои объявления",
+    "profile": "Профиль",
+    "logout": "Выход"
+  },
+  "hero": {
+    "title": "Откройте Халкидики",
+    "subtitle": "Найдите идеальное жильё для отпуска в самом красивом месте Греции",
+    "searchPlaceholder": "Где вы хотите остановиться?",
+    "checkIn": "Заезд",
+    "checkOut": "Выезд",
+    "guestsLabel": "Гости"
+  },
+  "areas": {
+    "title": "Районы Халкидики",
+    "subtitle": "Исследуйте три полуострова Халкидики",
+    "kassandra": {
+      "name": "Кассандра",
+      "description": "Первый полуостров Халкидики. Живая атмосфера, красивые пляжи и яркая ночная жизнь."
+    },
+    "sithonia": {
+      "name": "Ситония",
+      "description": "Второй полуостров Халкидики. Экзотические пляжи, пышная природа и спокойствие."
+    },
+    "athos": {
+      "name": "Афон",
+      "description": "Третий полуостров Халкидики. Духовность, история и нетронутая природа."
+    },
+    "mainlandHalkidiki": {
+      "name": "Материковая Халкидики",
+      "description": "Материковая часть Халкидики. Традиционные деревни, виноградники и настоящее гостеприимство."
+    },
+    "viewListings": "Смотреть жильё",
+    "listingsCount": "{count} объявлений"
+  },
+  "listings": {
+    "title": "Жильё в Халкидики",
+    "subtitle": "Найдите идеальное жильё для вас",
+    "filters": {
+      "area": "Район",
+      "allAreas": "Все районы",
+      "priceRange": "Ценовой диапазон",
+      "minPrice": "Мин. цена",
+      "maxPrice": "Макс. цена",
+      "guestsMin": "Мин. гостей",
+      "amenities": "Удобства",
+      "sortBy": "Сортировка",
+      "sortNewest": "Новые",
+      "sortPriceLow": "Цена (низкая → высокая)",
+      "sortPriceHigh": "Цена (высокая → низкая)",
+      "clearFilters": "Сбросить фильтры"
+    },
+    "details": {
+      "amenities": "Удобства",
+      "location": "Расположение",
+      "description": "Описание",
+      "gallery": "Фотографии",
+      "pricePerNight": "Цена за ночь",
+      "maxGuests": "Макс. гостей",
+      "contact": "Контакт"
+    }
+  },
+  "amenities": {
+    "wifi": "Wi-Fi",
+    "parking": "Парковка",
+    "airConditioning": "Кондиционер",
+    "pool": "Бассейн",
+    "kitchen": "Кухня",
+    "tv": "Телевизор",
+    "washingMachine": "Стиральная машина",
+    "balcony": "Балкон",
+    "seaView": "Вид на море",
+    "garden": "Сад",
+    "bbq": "Барбекю",
+    "petsAllowed": "Животные разрешены"
+  },
+  "beaches": {
+    "title": "Пляжи Халкидики",
+    "subtitle": "Откройте самые красивые пляжи Халкидики",
+    "viewAll": "Все пляжи",
+    "rating": "Рейтинг",
+    "reviews": "отзывов",
+    "noReviews": "Отзывов пока нет",
+    "writeReview": "Написать отзыв",
+    "features": "Особенности",
+    "nearbyListings": "Жильё поблизости",
+    "filters": {
+      "allAreas": "Все районы",
+      "allFeatures": "Особенности",
+      "sortBy": "Сортировка",
+      "sortRating": "Рейтинг",
+      "sortName": "Название",
+      "sortReviews": "Отзывы",
+      "clearFilters": "Сбросить фильтры"
+    }
+  },
+  "beachFeatures": {
+    "sandy": "Песчаный",
+    "pebble": "Галечный",
+    "organized": "Организованный",
+    "free": "Свободный",
+    "parking": "Парковка",
+    "beachBar": "Пляжный бар",
+    "shallowWater": "Мелководье",
+    "waterSports": "Водные виды спорта",
+    "accessible": "Доступный",
+    "sunbeds": "Шезлонги",
+    "lifeguard": "Спасатель",
+    "nudist": "Нудистский"
+  },
+  "evChargers": {
+    "title": "Зарядные станции",
+    "subtitle": "Найдите зарядные станции для электромобилей в Халкидики",
+    "viewAll": "Все зарядные станции",
+    "provider": "Провайдер",
+    "power": "Мощность",
+    "spots": "Места",
+    "costPerKwh": "Стоимость за кВтч",
+    "freeCharging": "Бесплатная зарядка",
+    "hours": "Часы работы",
+    "open24h": "Открыто 24ч",
+    "rating": "Рейтинг",
+    "reviews": "Отзывы",
+    "noReviews": "Нет отзывов",
+    "connectors": "Разъёмы",
+    "nearbyListings": "Ближайшее жильё",
+    "nearbyBeaches": "Ближайшие пляжи",
+    "status": "Статус",
+    "statusAvailable": "Доступна",
+    "statusOccupied": "Занята",
+    "statusOffline": "Не в сети",
+    "filters": {
+      "allAreas": "Все районы",
+      "allConnectors": "Все разъёмы",
+      "allSpeeds": "Все скорости",
+      "freeOnly": "Только бесплатные",
+      "sortBy": "Сортировать по",
+      "sortRating": "Рейтинг",
+      "sortPower": "Мощность",
+      "sortName": "Название",
+      "clearFilters": "Сбросить фильтры"
+    }
+  },
+  "connectorTypes": {
+    "type2": "Type 2",
+    "ccs": "CCS",
+    "chademo": "CHAdeMO",
+    "schuko": "Schuko"
+  },
+  "chargerSpeeds": {
+    "slow": "Медленная",
+    "fast": "Быстрая",
+    "rapid": "Сверхбыстрая"
+  },
+  "blog": {
+    "title": "Блог & Путеводители",
+    "subtitle": "Откройте секреты Халкидики",
+    "readMore": "Читать далее",
+    "backToBlog": "Назад к блогу",
+    "publishedOn": "Опубликовано",
+    "readTime": "{min} мин. чтения",
+    "author": "Автор",
+    "relatedArticles": "Похожие статьи",
+    "relatedBeaches": "Упомянутые пляжи",
+    "relatedListings": "Рекомендуемое жильё",
+    "exploreArea": "Исследуйте район",
+    "allArticles": "Все статьи",
+    "noResults": "Статьи не найдены",
+    "filters": {
+      "allCategories": "Все категории",
+      "allAreas": "Все районы",
+      "sortNewest": "Новые",
+      "sortPopular": "Популярные",
+      "clearFilters": "Сбросить"
+    }
+  },
+  "blogCategories": {
+    "guides": "Путеводители",
+    "beaches": "Пляжи",
+    "food": "Еда и напитки",
+    "activities": "Активности",
+    "tips": "Советы",
+    "culture": "Культура"
+  },
+  "activities": {
+    "title": "Достопримечательности & Активности",
+    "subtitle": "Откройте чем заняться в Халкидики",
+    "viewAll": "Все активности",
+    "priceRange": "Цены",
+    "duration": "Продолжительность",
+    "rating": "Рейтинг",
+    "reviews": "отзывов",
+    "noReviews": "Нет отзывов",
+    "nearbyListings": "Жильё поблизости",
+    "nearbyBeaches": "Пляжи поблизости",
+    "free": "Бесплатно",
+    "filters": {
+      "allCategories": "Все категории",
+      "allAreas": "Все районы",
+      "sortRating": "Рейтинг",
+      "sortName": "Название",
+      "sortReviews": "Отзывы",
+      "clearFilters": "Сбросить"
+    }
+  },
+  "activityCategories": {
+    "historical": "Исторические",
+    "nature": "Природа",
+    "waterSports": "Водный спорт",
+    "boatTrips": "Морские прогулки",
+    "wellness": "Велнес",
+    "family": "Для семей",
+    "nightlife": "Ночная жизнь",
+    "religious": "Религиозные"
+  },
+  "crowd": {
+    "low": "Спокойно",
+    "moderate": "Умеренно",
+    "high": "Людно",
+    "very_high": "Очень людно",
+    "bestTime": "Лучшее время",
+    "peakHours": "Часы пик",
+    "liveConditions": "Текущие условия"
+  },
+  "restaurants": {
+    "title": "Рестораны & Таверны",
+    "subtitle": "Вкусы Халкидики - Свежие морепродукты и традиционные рецепты",
+    "viewAll": "Все рестораны",
+    "cuisine": "Кухня",
+    "priceLevel": "Ценовой уровень",
+    "rating": "Рейтинг",
+    "reviews": "отзывов",
+    "noReviews": "Нет отзывов",
+    "phone": "Телефон",
+    "hours": "Часы работы",
+    "seaView": "Вид на море",
+    "liveMusic": "Живая музыка",
+    "reservations": "Бронирование",
+    "nearbyListings": "Жильё поблизости",
+    "nearbyBeaches": "Пляжи поблизости",
+    "callNow": "Позвонить",
+    "filters": {
+      "allCuisines": "Все кухни",
+      "allAreas": "Все районы",
+      "allPrices": "Все цены",
+      "seaViewOnly": "Только с видом",
+      "sortRating": "Рейтинг",
+      "sortName": "Название",
+      "sortReviews": "Отзывы",
+      "sortPrice": "Цена",
+      "clearFilters": "Сбросить"
+    }
+  },
+  "cuisineTypes": {
+    "seafood": "Морепродукты",
+    "traditional": "Традиционная",
+    "grill": "Гриль",
+    "mediterranean": "Средиземноморская",
+    "pizza": "Пицца",
+    "cafe": "Кафе",
+    "fineDining": "Высокая кухня",
+    "streetFood": "Стрит-фуд"
+  },
+  "priceLevels": {
+    "budget": "€ Бюджетно",
+    "moderate": "€€ Умеренно",
+    "upscale": "€€€ Высокий",
+    "fineDining": "€€€€ Роскошь"
+  },
+  "footer": {
+    "description": "Платформа аренды жилья в Халкидики. Найдите идеальное жильё или разместите своё.",
+    "quickLinks": "Быстрые ссылки",
+    "forOwners": "Для владельцев",
+    "registerProperty": "Разместить жильё",
+    "legal": "Правовая информация",
+    "terms": "Условия использования",
+    "privacy": "Политика конфиденциальности",
+    "copyright": "© {year} Halkidiki Hub. Все права защищены."
+  }
+}

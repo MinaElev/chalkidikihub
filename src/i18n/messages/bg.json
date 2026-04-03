@@ -1,0 +1,310 @@
+{
+  "common": {
+    "siteName": "Halkidiki Hub",
+    "siteDescription": "Намерете перфектната квартира под наем в Халкидики",
+    "loading": "Зареждане...",
+    "error": "Нещо се обърка",
+    "backToHome": "Обратно към началото",
+    "viewAll": "Вижте всички",
+    "perNight": "/ нощ",
+    "guests": "гости",
+    "bedrooms": "спални",
+    "bathrooms": "бани",
+    "from": "от",
+    "search": "Търсене",
+    "noResults": "Няма намерени резултати",
+    "readMore": "Прочетете повече",
+    "contactOwner": "Свържете се със собственика"
+  },
+  "nav": {
+    "home": "Начало",
+    "listings": "Настаняване",
+    "areas": "Райони",
+    "beaches": "Плажове",
+    "evChargers": "EV Зарядни",
+    "blog": "Блог",
+    "activities": "Забележителности",
+    "restaurants": "Ресторанти",
+    "about": "За нас",
+    "login": "Вход",
+    "register": "Регистрация",
+    "dashboard": "Табло",
+    "myListings": "Моите обяви",
+    "profile": "Профил",
+    "logout": "Изход"
+  },
+  "hero": {
+    "title": "Открийте Халкидики",
+    "subtitle": "Намерете перфектното настаняване за вашата ваканция на най-красивото място в Гърция",
+    "searchPlaceholder": "Къде искате да отседнете?",
+    "checkIn": "Настаняване",
+    "checkOut": "Напускане",
+    "guestsLabel": "Гости"
+  },
+  "areas": {
+    "title": "Райони на Халкидики",
+    "subtitle": "Разгледайте трите полуострова на Халкидики",
+    "kassandra": {
+      "name": "Касандра",
+      "description": "Първият полуостров на Халкидики. Оживена атмосфера, красиви плажове и бурен нощен живот."
+    },
+    "sithonia": {
+      "name": "Ситония",
+      "description": "Вторият полуостров на Халкидики. Екзотични плажове, буйна природа и спокойствие."
+    },
+    "athos": {
+      "name": "Атон",
+      "description": "Третият полуостров на Халкидики. Духовност, история и недокосната природа."
+    },
+    "mainlandHalkidiki": {
+      "name": "Континентален Халкидики",
+      "description": "Континенталната част на Халкидики. Традиционни села, лозя и автентично гостоприемство."
+    },
+    "viewListings": "Вижте настаняване",
+    "listingsCount": "{count} настанявания"
+  },
+  "listings": {
+    "title": "Настаняване в Халкидики",
+    "subtitle": "Намерете идеалното настаняване за вас",
+    "filters": {
+      "area": "Район",
+      "allAreas": "Всички райони",
+      "priceRange": "Ценови диапазон",
+      "minPrice": "Минимална цена",
+      "maxPrice": "Максимална цена",
+      "guestsMin": "Минимален брой гости",
+      "amenities": "Удобства",
+      "sortBy": "Сортиране по",
+      "sortNewest": "Най-нови",
+      "sortPriceLow": "Цена (ниска → висока)",
+      "sortPriceHigh": "Цена (висока → ниска)",
+      "clearFilters": "Изчистване на филтри"
+    },
+    "details": {
+      "amenities": "Удобства",
+      "location": "Местоположение",
+      "description": "Описание",
+      "gallery": "Снимки",
+      "pricePerNight": "Цена за нощ",
+      "maxGuests": "Максимален брой гости",
+      "contact": "Контакт"
+    }
+  },
+  "amenities": {
+    "wifi": "Wi-Fi",
+    "parking": "Паркинг",
+    "airConditioning": "Климатик",
+    "pool": "Басейн",
+    "kitchen": "Кухня",
+    "tv": "Телевизор",
+    "washingMachine": "Перална",
+    "balcony": "Балкон",
+    "seaView": "Гледка към морето",
+    "garden": "Градина",
+    "bbq": "Барбекю",
+    "petsAllowed": "Домашни любимци"
+  },
+  "beaches": {
+    "title": "Плажове на Халкидики",
+    "subtitle": "Открийте най-красивите плажове на Халкидики",
+    "viewAll": "Всички плажове",
+    "rating": "Оценка",
+    "reviews": "отзиви",
+    "noReviews": "Все още няма отзиви",
+    "writeReview": "Напишете отзив",
+    "features": "Характеристики",
+    "nearbyListings": "Настаняване наблизо",
+    "filters": {
+      "allAreas": "Всички райони",
+      "allFeatures": "Характеристики",
+      "sortBy": "Сортиране по",
+      "sortRating": "Оценка",
+      "sortName": "Име",
+      "sortReviews": "Отзиви",
+      "clearFilters": "Изчистване на филтри"
+    }
+  },
+  "beachFeatures": {
+    "sandy": "Пясъчен",
+    "pebble": "Чакълест",
+    "organized": "Организиран",
+    "free": "Свободен",
+    "parking": "Паркинг",
+    "beachBar": "Плажен бар",
+    "shallowWater": "Плитка вода",
+    "waterSports": "Водни спортове",
+    "accessible": "Достъпен",
+    "sunbeds": "Шезлонги",
+    "lifeguard": "Спасител",
+    "nudist": "Нудистки"
+  },
+  "evChargers": {
+    "title": "EV Зарядни станции",
+    "subtitle": "Намерете зарядни станции за електрически автомобили в Халкидики",
+    "viewAll": "Вижте всички зарядни",
+    "provider": "Доставчик",
+    "power": "Мощност",
+    "spots": "Места",
+    "costPerKwh": "Цена за kWh",
+    "freeCharging": "Безплатно зареждане",
+    "hours": "Работно време",
+    "open24h": "Отворено 24ч",
+    "rating": "Рейтинг",
+    "reviews": "Отзиви",
+    "noReviews": "Няма отзиви",
+    "connectors": "Конектори",
+    "nearbyListings": "Близки обяви",
+    "nearbyBeaches": "Близки плажове",
+    "status": "Статус",
+    "statusAvailable": "Наличен",
+    "statusOccupied": "Зает",
+    "statusOffline": "Офлайн",
+    "filters": {
+      "allAreas": "Всички райони",
+      "allConnectors": "Всички конектори",
+      "allSpeeds": "Всички скорости",
+      "freeOnly": "Само безплатни",
+      "sortBy": "Сортиране по",
+      "sortRating": "Рейтинг",
+      "sortPower": "Мощност",
+      "sortName": "Име",
+      "clearFilters": "Изчисти филтрите"
+    }
+  },
+  "connectorTypes": {
+    "type2": "Type 2",
+    "ccs": "CCS",
+    "chademo": "CHAdeMO",
+    "schuko": "Schuko"
+  },
+  "chargerSpeeds": {
+    "slow": "Бавен",
+    "fast": "Бърз",
+    "rapid": "Свръхбърз"
+  },
+  "blog": {
+    "title": "Блог & Пътеводители",
+    "subtitle": "Открийте тайните на Халкидики",
+    "readMore": "Прочетете повече",
+    "backToBlog": "Обратно към блога",
+    "publishedOn": "Публикувано",
+    "readTime": "{min} мин. четене",
+    "author": "Автор",
+    "relatedArticles": "Свързани статии",
+    "relatedBeaches": "Споменати плажове",
+    "relatedListings": "Препоръчано настаняване",
+    "exploreArea": "Разгледайте района",
+    "allArticles": "Всички статии",
+    "noResults": "Няма намерени статии",
+    "filters": {
+      "allCategories": "Всички категории",
+      "allAreas": "Всички райони",
+      "sortNewest": "Най-нови",
+      "sortPopular": "Популярни",
+      "clearFilters": "Изчистване"
+    }
+  },
+  "blogCategories": {
+    "guides": "Пътеводители",
+    "beaches": "Плажове",
+    "food": "Храна & Напитки",
+    "activities": "Дейности",
+    "tips": "Съвети",
+    "culture": "Култура"
+  },
+  "activities": {
+    "title": "Забележителности & Дейности",
+    "subtitle": "Открийте какво можете да правите в Халкидики",
+    "viewAll": "Всички дейности",
+    "priceRange": "Ценови диапазон",
+    "duration": "Продължителност",
+    "rating": "Оценка",
+    "reviews": "отзиви",
+    "noReviews": "Няма отзиви",
+    "nearbyListings": "Настаняване наблизо",
+    "nearbyBeaches": "Плажове наблизо",
+    "free": "Безплатно",
+    "filters": {
+      "allCategories": "Всички категории",
+      "allAreas": "Всички райони",
+      "sortRating": "Оценка",
+      "sortName": "Име",
+      "sortReviews": "Отзиви",
+      "clearFilters": "Изчистване"
+    }
+  },
+  "activityCategories": {
+    "historical": "Исторически",
+    "nature": "Природа",
+    "waterSports": "Водни спортове",
+    "boatTrips": "Разходки с лодка",
+    "wellness": "Уелнес",
+    "family": "Семейство",
+    "nightlife": "Нощен живот",
+    "religious": "Религиозни"
+  },
+  "crowd": {
+    "low": "Спокойно",
+    "moderate": "Умерено",
+    "high": "Натоварено",
+    "very_high": "Много натоварено",
+    "bestTime": "Най-добро време",
+    "peakHours": "Пикови часове",
+    "liveConditions": "Текущи условия"
+  },
+  "restaurants": {
+    "title": "Ресторанти & Таверни",
+    "subtitle": "Вкусове на Халкидики - Пресни морски дарове и традиционни рецепти",
+    "viewAll": "Всички ресторанти",
+    "cuisine": "Кухня",
+    "priceLevel": "Ценови клас",
+    "rating": "Оценка",
+    "reviews": "отзиви",
+    "noReviews": "Няма отзиви",
+    "phone": "Телефон",
+    "hours": "Работно време",
+    "seaView": "Изглед към морето",
+    "liveMusic": "Жива музика",
+    "reservations": "Резервации",
+    "nearbyListings": "Настаняване наблизо",
+    "nearbyBeaches": "Плажове наблизо",
+    "callNow": "Обади се",
+    "filters": {
+      "allCuisines": "Всички кухни",
+      "allAreas": "Всички райони",
+      "allPrices": "Всички цени",
+      "seaViewOnly": "Само с изглед",
+      "sortRating": "Оценка",
+      "sortName": "Име",
+      "sortReviews": "Отзиви",
+      "sortPrice": "Цена",
+      "clearFilters": "Изчистване"
+    }
+  },
+  "cuisineTypes": {
+    "seafood": "Морски дарове",
+    "traditional": "Традиционна",
+    "grill": "Скара",
+    "mediterranean": "Средиземноморска",
+    "pizza": "Пица",
+    "cafe": "Кафе",
+    "fineDining": "Висша кухня",
+    "streetFood": "Улична храна"
+  },
+  "priceLevels": {
+    "budget": "€ Бюджетно",
+    "moderate": "€€ Умерено",
+    "upscale": "€€€ Високо",
+    "fineDining": "€€€€ Луксозно"
+  },
+  "footer": {
+    "description": "Платформата за квартири под наем в Халкидики. Намерете идеалното настаняване или публикувайте вашето.",
+    "quickLinks": "Бързи връзки",
+    "forOwners": "За собственици",
+    "registerProperty": "Публикувайте имот",
+    "legal": "Правна информация",
+    "terms": "Условия за ползване",
+    "privacy": "Политика за поверителност",
+    "copyright": "© {year} Halkidiki Hub. Всички права запазени."
+  }
+}

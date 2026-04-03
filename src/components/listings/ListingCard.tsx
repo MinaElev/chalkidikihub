@@ -1,0 +1,71 @@
+'use client';
+
+import { useLocale, useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
+import { Listing } from '@/types';
+import { MapPin, Users, BedDouble, Bath } from 'lucide-react';
+
+interface ListingCardProps {
+  listing: Listing;
+}
+
+export function ListingCard({ listing }: ListingCardProps) {
+  const locale = useLocale();
+  const t = useTranslations('common');
+
+  const title = listing.title[locale] || listing.title.en;
+  const coverImage = listing.images.find((img) => img.is_cover);
+
+  return (
+    <Link href={`/listings/${listing.slug}`} className="group block">
+      <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+        {/* Image */}
+        <div className="relative aspect-[4/3] bg-gray-200 overflow-hidden">
+          {coverImage ? (
+            <img
+              src={coverImage.image_url}
+              alt={title}
+              loading="lazy"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+              <span className="text-primary-400 text-4xl font-bold">H</span>
+            </div>
+          )}
+          <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+            <span className="text-sm font-semibold text-gray-900">
+              {t('from')} &euro;{listing.price_per_night}{t('perNight')}
+            </span>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-4">
+          <h3 className="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors line-clamp-1">
+            {title}
+          </h3>
+          <div className="flex items-center gap-1 mt-1 text-gray-500">
+            <MapPin className="w-3.5 h-3.5" />
+            <span className="text-sm">{listing.location_name}</span>
+          </div>
+
+          <div className="flex items-center gap-4 mt-3 text-sm text-gray-600">
+            <div className="flex items-center gap-1">
+              <Users className="w-4 h-4" />
+              <span>{listing.guests_max}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <BedDouble className="w-4 h-4" />
+              <span>{listing.bedrooms}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Bath className="w-4 h-4" />
+              <span>{listing.bathrooms}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}

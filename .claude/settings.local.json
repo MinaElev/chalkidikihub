@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm run:*)",
+      "Bash(curl -L -o /c/Users/mnc/Desktop/hub/public/images/areas/kassandra.jpg \"https://greece-moments.com/wp-content/uploads/2024/12/Kap-Possidi-Drohne-Aufnahme-Chalkidiki.jpg.webp\")",
+      "Bash(for f:*)",
+      "Bash(do python:*)",
+      "Bash(done)",
+      "Bash(curl -s \"https://api.openchargemap.io/v3/poi/?output=json&countrycode=GR&latitude=40.1&longitude=23.5&distance=50&distanceunit=KM&maxresults=5&compact=true&verbose=false&key=43335d86-6aec-4424-84fb-129fcf2e2fef\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s \"https://api.openchargemap.io/v3/poi/?output=json&countrycode=GR&latitude=40.1&longitude=23.5&distance=50&distanceunit=KM&maxresults=3&compact=true&verbose=false&key=43335d86-6aec-4424-84fb-129fcf2e2fef\")",
+      "Bash(curl -s --max-time 10 \"https://api.openchargemap.io/v3/poi/?output=json&countrycode=GR&latitude=40.1&longitude=23.5&distance=50&distanceunit=KM&maxresults=2&compact=true&key=43335d86-6aec-4424-84fb-129fcf2e2fef\")",
+      "Bash(node -e \":*)",
+      "Bash(node -e \"const c=new AbortController\\(\\);setTimeout\\(\\(\\)=>c.abort\\(\\),5000\\);fetch\\(''https://api.openchargemap.io/v3/poi/?output=json&countrycode=GR&latitude=40.15&longitude=23.6&distance=60&distanceunit=KM&maxresults=3&compact=true&key=43335d86-6aec-4424-84fb-129fcf2e2fef'',{signal:c.signal}\\).then\\(r=>r.json\\(\\)\\).then\\(d=>console.log\\(''OK:'',d.length,''results''\\)\\).catch\\(e=>console.log\\(''FAIL:'',e.message\\)\\)\")",
+      "Bash(node -e \"const c=new AbortController\\(\\);setTimeout\\(\\(\\)=>c.abort\\(\\),15000\\);fetch\\(''https://api.openchargemap.io/v3/poi/?output=json&countrycode=GR&latitude=40.15&longitude=23.6&distance=60&distanceunit=KM&maxresults=3&compact=true&key=43335d86-6aec-4424-84fb-129fcf2e2fef'',{signal:c.signal}\\).then\\(r=>r.json\\(\\)\\).then\\(d=>console.log\\(''OK:'',d.length,''results -'',d.map\\(p=>p.AddressInfo?.Title\\).join\\('', ''\\)\\)\\).catch\\(e=>console.log\\(''FAIL:'',e.message\\)\\)\")",
+      "Bash(find C:/Users/mnc/Desktop/hub/src/app -path */admin/beaches* -o -path */admin/restaurants* -o -path */admin/activities* -o -path */admin/blog*)",
+      "Bash(npx next:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

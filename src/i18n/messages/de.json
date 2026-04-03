@@ -1,0 +1,310 @@
+{
+  "common": {
+    "siteName": "Halkidiki Hub",
+    "siteDescription": "Finden Sie die perfekte Ferienunterkunft in Chalkidiki",
+    "loading": "Wird geladen...",
+    "error": "Etwas ist schiefgelaufen",
+    "backToHome": "Zurück zur Startseite",
+    "viewAll": "Alle anzeigen",
+    "perNight": "/ Nacht",
+    "guests": "Gäste",
+    "bedrooms": "Schlafzimmer",
+    "bathrooms": "Badezimmer",
+    "from": "ab",
+    "search": "Suchen",
+    "noResults": "Keine Ergebnisse gefunden",
+    "readMore": "Mehr lesen",
+    "contactOwner": "Eigentümer kontaktieren"
+  },
+  "nav": {
+    "home": "Startseite",
+    "listings": "Unterkünfte",
+    "areas": "Gebiete",
+    "beaches": "Strände",
+    "evChargers": "E-Ladestationen",
+    "blog": "Blog",
+    "activities": "Aktivitäten",
+    "restaurants": "Restaurants",
+    "about": "Über uns",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "dashboard": "Dashboard",
+    "myListings": "Meine Unterkünfte",
+    "profile": "Profil",
+    "logout": "Abmelden"
+  },
+  "hero": {
+    "title": "Entdecken Sie Chalkidiki",
+    "subtitle": "Finden Sie die perfekte Unterkunft für Ihren Urlaub am schönsten Ort Griechenlands",
+    "searchPlaceholder": "Wo möchten Sie übernachten?",
+    "checkIn": "Anreise",
+    "checkOut": "Abreise",
+    "guestsLabel": "Gäste"
+  },
+  "areas": {
+    "title": "Gebiete von Chalkidiki",
+    "subtitle": "Erkunden Sie die drei Halbinseln von Chalkidiki",
+    "kassandra": {
+      "name": "Kassandra",
+      "description": "Die erste Halbinsel von Chalkidiki. Lebhafte Atmosphäre, schöne Strände und pulsierendes Nachtleben."
+    },
+    "sithonia": {
+      "name": "Sithonia",
+      "description": "Die zweite Halbinsel von Chalkidiki. Exotische Strände, üppige Natur und Ruhe."
+    },
+    "athos": {
+      "name": "Athos",
+      "description": "Die dritte Halbinsel von Chalkidiki. Spiritualität, Geschichte und unberührte Natur."
+    },
+    "mainlandHalkidiki": {
+      "name": "Chalkidiki Festland",
+      "description": "Das Festland von Chalkidiki. Traditionelle Dörfer, Weinberge und authentische Gastfreundschaft."
+    },
+    "viewListings": "Unterkünfte ansehen",
+    "listingsCount": "{count} Unterkünfte"
+  },
+  "listings": {
+    "title": "Unterkünfte in Chalkidiki",
+    "subtitle": "Finden Sie die ideale Unterkunft für Sie",
+    "filters": {
+      "area": "Gebiet",
+      "allAreas": "Alle Gebiete",
+      "priceRange": "Preisbereich",
+      "minPrice": "Mindestpreis",
+      "maxPrice": "Höchstpreis",
+      "guestsMin": "Mindestgäste",
+      "amenities": "Ausstattung",
+      "sortBy": "Sortieren nach",
+      "sortNewest": "Neueste",
+      "sortPriceLow": "Preis (niedrig → hoch)",
+      "sortPriceHigh": "Preis (hoch → niedrig)",
+      "clearFilters": "Filter zurücksetzen"
+    },
+    "details": {
+      "amenities": "Ausstattung",
+      "location": "Standort",
+      "description": "Beschreibung",
+      "gallery": "Fotos",
+      "pricePerNight": "Preis pro Nacht",
+      "maxGuests": "Maximale Gäste",
+      "contact": "Kontakt"
+    }
+  },
+  "amenities": {
+    "wifi": "WLAN",
+    "parking": "Parkplatz",
+    "airConditioning": "Klimaanlage",
+    "pool": "Pool",
+    "kitchen": "Küche",
+    "tv": "Fernseher",
+    "washingMachine": "Waschmaschine",
+    "balcony": "Balkon",
+    "seaView": "Meerblick",
+    "garden": "Garten",
+    "bbq": "Grill",
+    "petsAllowed": "Haustiere erlaubt"
+  },
+  "beaches": {
+    "title": "Strände von Chalkidiki",
+    "subtitle": "Entdecken Sie die schönsten Strände von Chalkidiki",
+    "viewAll": "Alle Strände",
+    "rating": "Bewertung",
+    "reviews": "Bewertungen",
+    "noReviews": "Noch keine Bewertungen",
+    "writeReview": "Bewertung schreiben",
+    "features": "Merkmale",
+    "nearbyListings": "Unterkünfte in der Nähe",
+    "filters": {
+      "allAreas": "Alle Gebiete",
+      "allFeatures": "Merkmale",
+      "sortBy": "Sortieren nach",
+      "sortRating": "Bewertung",
+      "sortName": "Name",
+      "sortReviews": "Bewertungen",
+      "clearFilters": "Filter zurücksetzen"
+    }
+  },
+  "beachFeatures": {
+    "sandy": "Sandstrand",
+    "pebble": "Kiesstrand",
+    "organized": "Organisiert",
+    "free": "Frei",
+    "parking": "Parkplatz",
+    "beachBar": "Strandbar",
+    "shallowWater": "Flaches Wasser",
+    "waterSports": "Wassersport",
+    "accessible": "Barrierefrei",
+    "sunbeds": "Sonnenliegen",
+    "lifeguard": "Rettungsschwimmer",
+    "nudist": "FKK"
+  },
+  "evChargers": {
+    "title": "E-Ladestationen",
+    "subtitle": "Finden Sie Ladestationen für Elektrofahrzeuge in Chalkidiki",
+    "viewAll": "Alle Ladestationen anzeigen",
+    "provider": "Anbieter",
+    "power": "Leistung",
+    "spots": "Plätze",
+    "costPerKwh": "Kosten pro kWh",
+    "freeCharging": "Kostenloses Laden",
+    "hours": "Öffnungszeiten",
+    "open24h": "24h geöffnet",
+    "rating": "Bewertung",
+    "reviews": "Bewertungen",
+    "noReviews": "Keine Bewertungen",
+    "connectors": "Anschlüsse",
+    "nearbyListings": "Unterkünfte in der Nähe",
+    "nearbyBeaches": "Strände in der Nähe",
+    "status": "Status",
+    "statusAvailable": "Verfügbar",
+    "statusOccupied": "Belegt",
+    "statusOffline": "Offline",
+    "filters": {
+      "allAreas": "Alle Gebiete",
+      "allConnectors": "Alle Anschlüsse",
+      "allSpeeds": "Alle Geschwindigkeiten",
+      "freeOnly": "Nur kostenlos",
+      "sortBy": "Sortieren nach",
+      "sortRating": "Bewertung",
+      "sortPower": "Leistung",
+      "sortName": "Name",
+      "clearFilters": "Filter zurücksetzen"
+    }
+  },
+  "connectorTypes": {
+    "type2": "Typ 2",
+    "ccs": "CCS",
+    "chademo": "CHAdeMO",
+    "schuko": "Schuko"
+  },
+  "chargerSpeeds": {
+    "slow": "Langsam",
+    "fast": "Schnell",
+    "rapid": "Schnellladen"
+  },
+  "blog": {
+    "title": "Blog & Reiseführer",
+    "subtitle": "Entdecken Sie die Geheimnisse von Chalkidiki",
+    "readMore": "Weiterlesen",
+    "backToBlog": "Zurück zum Blog",
+    "publishedOn": "Veröffentlicht",
+    "readTime": "{min} Min. Lesezeit",
+    "author": "Autor",
+    "relatedArticles": "Verwandte Artikel",
+    "relatedBeaches": "Erwähnte Strände",
+    "relatedListings": "Empfohlene Unterkünfte",
+    "exploreArea": "Gebiet erkunden",
+    "allArticles": "Alle Artikel",
+    "noResults": "Keine Artikel gefunden",
+    "filters": {
+      "allCategories": "Alle Kategorien",
+      "allAreas": "Alle Gebiete",
+      "sortNewest": "Neueste",
+      "sortPopular": "Beliebt",
+      "clearFilters": "Zurücksetzen"
+    }
+  },
+  "blogCategories": {
+    "guides": "Reiseführer",
+    "beaches": "Strände",
+    "food": "Essen & Trinken",
+    "activities": "Aktivitäten",
+    "tips": "Tipps",
+    "culture": "Kultur"
+  },
+  "activities": {
+    "title": "Sehenswürdigkeiten & Aktivitäten",
+    "subtitle": "Entdecken Sie was Sie in Chalkidiki unternehmen können",
+    "viewAll": "Alle Aktivitäten",
+    "priceRange": "Preisbereich",
+    "duration": "Dauer",
+    "rating": "Bewertung",
+    "reviews": "Bewertungen",
+    "noReviews": "Keine Bewertungen",
+    "nearbyListings": "Unterkünfte in der Nähe",
+    "nearbyBeaches": "Strände in der Nähe",
+    "free": "Kostenlos",
+    "filters": {
+      "allCategories": "Alle Kategorien",
+      "allAreas": "Alle Gebiete",
+      "sortRating": "Bewertung",
+      "sortName": "Name",
+      "sortReviews": "Bewertungen",
+      "clearFilters": "Zurücksetzen"
+    }
+  },
+  "activityCategories": {
+    "historical": "Historisch",
+    "nature": "Natur",
+    "waterSports": "Wassersport",
+    "boatTrips": "Bootsfahrten",
+    "wellness": "Wellness",
+    "family": "Familie",
+    "nightlife": "Nachtleben",
+    "religious": "Religiös"
+  },
+  "crowd": {
+    "low": "Ruhig",
+    "moderate": "Mäßig",
+    "high": "Voll",
+    "very_high": "Sehr voll",
+    "bestTime": "Beste Zeit",
+    "peakHours": "Stoßzeiten",
+    "liveConditions": "Live-Bedingungen"
+  },
+  "restaurants": {
+    "title": "Restaurants & Tavernen",
+    "subtitle": "Chalkidiki genießen - Frische Meeresfrüchte und traditionelle Rezepte",
+    "viewAll": "Alle Restaurants",
+    "cuisine": "Küche",
+    "priceLevel": "Preisniveau",
+    "rating": "Bewertung",
+    "reviews": "Bewertungen",
+    "noReviews": "Keine Bewertungen",
+    "phone": "Telefon",
+    "hours": "Öffnungszeiten",
+    "seaView": "Meerblick",
+    "liveMusic": "Live-Musik",
+    "reservations": "Reservierungen",
+    "nearbyListings": "Unterkünfte in der Nähe",
+    "nearbyBeaches": "Strände in der Nähe",
+    "callNow": "Anrufen",
+    "filters": {
+      "allCuisines": "Alle Küchen",
+      "allAreas": "Alle Gebiete",
+      "allPrices": "Alle Preise",
+      "seaViewOnly": "Nur Meerblick",
+      "sortRating": "Bewertung",
+      "sortName": "Name",
+      "sortReviews": "Bewertungen",
+      "sortPrice": "Preis",
+      "clearFilters": "Zurücksetzen"
+    }
+  },
+  "cuisineTypes": {
+    "seafood": "Meeresfrüchte",
+    "traditional": "Traditionell",
+    "grill": "Grill",
+    "mediterranean": "Mediterran",
+    "pizza": "Pizza",
+    "cafe": "Café",
+    "fineDining": "Gehobene Küche",
+    "streetFood": "Straßenküche"
+  },
+  "priceLevels": {
+    "budget": "€ Günstig",
+    "moderate": "€€ Mittel",
+    "upscale": "€€€ Gehoben",
+    "fineDining": "€€€€ Luxus"
+  },
+  "footer": {
+    "description": "Die Ferienwohnungsplattform von Chalkidiki. Finden Sie die ideale Unterkunft oder inserieren Sie Ihre eigene.",
+    "quickLinks": "Schnelllinks",
+    "forOwners": "Für Eigentümer",
+    "registerProperty": "Unterkunft inserieren",
+    "legal": "Rechtliches",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzrichtlinie",
+    "copyright": "© {year} Halkidiki Hub. Alle Rechte vorbehalten."
+  }
+}

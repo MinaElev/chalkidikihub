@@ -1,0 +1,540 @@
+'use client';
+
+import { useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { Wrench, ImageIcon, Loader2, CheckCircle, AlertCircle, Zap, Search, Sparkles } from 'lucide-react';
+
+interface ImageRecord {
+  table: string;
+  id: string;
+  name: string;
+  image_url: string;
+  size?: number;
+}
+
+export default function AdminToolsPage() {
+  const [scanning, setScanning] = useState(false);
+  const [compressing, setCompressing] = useState(false);
+  const [images, setImages] = useState<ImageRecord[]>([]);
+  const [processed, setProcessed] = useState(0);
+  const [results, setResults] = useState<string[]>([]);
+  const [totalSaved, setTotalSaved] = useState(0);
+
+  async function scanImages() {
+    setScanning(true);
+    setImages([]);
+    const supabase = createClient();
+    const found: ImageRecord[] = [];
+
+    // Scan all tables with image_url
+    const tables = [
+      { table: 'areas', nameField: 'name_el' },
+      { table: 'beaches', nameField: 'name_el' },
+      { table: 'restaurants', nameField: 'name_el' },
+      { table: 'activities', nameField: 'name_el' },
+      { table: 'blog_articles', nameField: 'title_el' },
+    ];
+
+    for (const t of tables) {
+      const { data } = await supabase.from(t.table).select(`id, ${t.nameField}, image_url, image_optimized`).eq('image_optimized', false);
+      if (data) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (data as any[]).forEach((row: any) => {
+          const url = row.image_url as string;
+          if (url && url.startsWith('http')) {
+            found.push({
+              table: t.table,
+              id: row.id as string,
+              name: row[t.nameField] as string || 'Unknown',
+              image_url: url,
+            });
+          }
+        });
+      }
+    }
+
+    // Scan listing_images (only non-optimized)
+    const { data: listingImgs } = await supabase.from('listing_images').select('id, image_url, listing_id, image_optimized').eq('image_optimized', false);
+    if (listingImgs) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (listingImgs as any[]).forEach((row: any) => {
+        const url = row.image_url as string;
+        if (url && url.startsWith('http')) {
+          found.push({
+            table: 'listing_images',
+            id: row.id as string,
+            name: `Listing image ${(row.id as string).slice(0, 8)}`,
+            image_url: url,
+          });
+        }
+      });
+    }
+
+    setImages(found);
+    setScanning(false);
+  }
+
+  async function compressAll() {
+    setCompressing(true);
+    setProcessed(0);
+    setResults([]);
+    setTotalSaved(0);
+
+    let saved = 0;
+
+    for (let i = 0; i < images.length; i++) {
+      const img = images[i];
+      try {
+        // Fetch original image
+        const response = await fetch(img.image_url);
+        if (!response.ok) {
+          setResults((prev) => [...prev, `❌ ${img.name}: Failed to fetch`]);
+          continue;
+        }
+
+        const originalBlob = await response.blob();
+        const originalSize = originalBlob.size;
+
+        // Skip if already small (<200KB) - mark as optimized
+        if (originalSize < 200 * 1024) {
+          const supabase2 = createClient();
+          await supabase2.from(img.table).update({ image_optimized: true }).eq('id', img.id);
+          setResults((prev) => [...prev, `⏭️ ${img.name}: Already optimized (${formatSize(originalSize)})`]);
+          setProcessed(i + 1);
+          continue;
+        }
+
+        // Compress using canvas
+        const bitmap = await createImageBitmap(originalBlob);
+        const canvas = new OffscreenCanvas(
+          Math.min(bitmap.width, 1200),
+          Math.min(bitmap.height, 900)
+        );
+
+        // Calculate proportional size
+        let w = bitmap.width;
+        let h = bitmap.height;
+        if (w > 1200 || h > 900) {
+          const ratio = Math.min(1200 / w, 900 / h);
+          w = Math.round(w * ratio);
+          h = Math.round(h * ratio);
+          canvas.width = w;
+          canvas.height = h;
+        }
+
+        const ctx = canvas.getContext('2d')!;
+        ctx.drawImage(bitmap, 0, 0, w, h);
+        const compressedBlob = await canvas.convertToBlob({ type: 'image/webp', quality: 0.82 });
+
+        const savedBytes = originalSize - compressedBlob.size;
+        const savedPercent = Math.round((savedBytes / originalSize) * 100);
+
+        // Only re-upload if we saved >20%
+        if (savedPercent > 20) {
+          const supabase = createClient();
+          const filePath = `optimized/${img.table}/${Date.now()}-${i}.webp`;
+
+          const { error: uploadError } = await supabase.storage
+            .from('content-images')
+            .upload(filePath, compressedBlob, { contentType: 'image/webp', upsert: true });
+
+          if (!uploadError) {
+            const { data: { publicUrl } } = supabase.storage
+              .from('content-images')
+              .getPublicUrl(filePath);
+
+            // Update DB record + mark as optimized
+            if (img.table === 'listing_images') {
+              await supabase.from('listing_images').update({ image_url: publicUrl, image_optimized: true }).eq('id', img.id);
+            } else {
+              await supabase.from(img.table).update({ image_url: publicUrl, image_optimized: true }).eq('id', img.id);
+            }
+
+            saved += savedBytes;
+            setResults((prev) => [...prev, `✅ ${img.name}: ${formatSize(originalSize)} → ${formatSize(compressedBlob.size)} (-${savedPercent}%)`]);
+          } else {
+            setResults((prev) => [...prev, `❌ ${img.name}: Upload failed - ${uploadError.message}`]);
+          }
+        } else {
+          // Mark as optimized even if not compressed (already good quality)
+          const supabase3 = createClient();
+          await supabase3.from(img.table).update({ image_optimized: true }).eq('id', img.id);
+          setResults((prev) => [...prev, `⏭️ ${img.name}: Already good (only -${savedPercent}%) - marked`]);
+        }
+      } catch (err) {
+        setResults((prev) => [...prev, `❌ ${img.name}: ${(err as Error).message}`]);
+      }
+
+      setProcessed(i + 1);
+      setTotalSaved(saved);
+    }
+
+    setCompressing(false);
+  }
+
+  function formatSize(bytes: number): string {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  return (
+    <div>
+      <div className="flex items-center gap-3 mb-6">
+        <Wrench className="w-6 h-6 text-red-600" />
+        <h1 className="text-2xl font-bold text-gray-900">Tools</h1>
+      </div>
+
+      {/* Bulk Image Optimizer */}
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+            <ImageIcon className="w-5 h-5 text-orange-600" />
+          </div>
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">Bulk Image Optimizer</h2>
+            <p className="text-sm text-gray-500">Σκανάρει όλες τις εικόνες και τις κάνει compress (max 1200x900, WebP, 82% quality)</p>
+          </div>
+        </div>
+
+        <div className="flex gap-3 mb-6">
+          <button onClick={scanImages} disabled={scanning || compressing}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium disabled:opacity-50">
+            {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImageIcon className="w-4 h-4" />}
+            1. Σκανάρισμα εικόνων
+          </button>
+
+          {images.length > 0 && (
+            <button onClick={compressAll} disabled={compressing}
+              className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-sm font-medium disabled:opacity-50">
+              {compressing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+              2. Compress όλες ({images.length})
+            </button>
+          )}
+        </div>
+
+        {/* Scan results */}
+        {images.length > 0 && !compressing && processed === 0 && (
+          <div className="bg-gray-50 rounded-lg p-4 mb-4">
+            <p className="text-sm font-medium text-gray-700 mb-2">Βρέθηκαν {images.length} εικόνες:</p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {['areas', 'beaches', 'restaurants', 'activities', 'blog_articles', 'listing_images'].map((t) => {
+                const count = images.filter((i) => i.table === t).length;
+                if (count === 0) return null;
+                return (
+                  <div key={t} className="text-sm text-gray-600">
+                    <span className="font-medium">{t}:</span> {count}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Progress */}
+        {(compressing || processed > 0) && (
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-600">{processed}/{images.length} processed</span>
+              {totalSaved > 0 && (
+                <span className="text-sm text-green-600 font-medium flex items-center gap-1">
+                  <CheckCircle className="w-4 h-4" />
+                  Εξοικονόμηση: {formatSize(totalSaved)}
+                </span>
+              )}
+            </div>
+            <div className="w-full h-2 bg-gray-200 rounded-full">
+              <div className="h-full bg-orange-500 rounded-full transition-all"
+                style={{ width: `${images.length > 0 ? (processed / images.length) * 100 : 0}%` }} />
+            </div>
+          </div>
+        )}
+
+        {/* Results log */}
+        {results.length > 0 && (
+          <div className="bg-gray-900 rounded-lg p-4 max-h-80 overflow-y-auto font-mono text-xs">
+            {results.map((r, i) => (
+              <div key={i} className={`py-0.5 ${r.startsWith('✅') ? 'text-green-400' : r.startsWith('❌') ? 'text-red-400' : 'text-gray-400'}`}>
+                {r}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      {/* AI Bulk SEO Generator */}
+      <BulkSEOGenerator />
+    </div>
+  );
+}
+
+interface MissingRecord {
+  table: string;
+  id: string;
+  name: string;
+  title_el: string;
+  description_el: string;
+  location: string;
+  missing: string[]; // what's missing: 'meta_title', 'meta_desc', 'translations', 'image_alt'
+}
+
+function BulkSEOGenerator() {
+  const [scanning, setScanning] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [missing, setMissing] = useState<MissingRecord[]>([]);
+  const [seoProcessed, setSeoProcessed] = useState(0);
+  const [seoResults, setSeoResults] = useState<string[]>([]);
+  const [showDetails, setShowDetails] = useState(false);
+
+  async function scanMissingSEO() {
+    setScanning(true);
+    setMissing([]);
+    const supabase = createClient();
+    const found: typeof missing = [];
+
+    const tables = [
+      { table: 'areas', titleField: 'name_el', descField: 'description_el', locField: 'name_en', transField: 'name_en' },
+      { table: 'beaches', titleField: 'name_el', descField: 'description_el', locField: 'location_name', transField: 'name_en' },
+      { table: 'restaurants', titleField: 'name_el', descField: 'description_el', locField: 'location_name', transField: 'name_en' },
+      { table: 'activities', titleField: 'name_el', descField: 'description_el', locField: 'location_name', transField: 'name_en' },
+      { table: 'blog_articles', titleField: 'title_el', descField: 'excerpt_el', locField: 'category', transField: 'title_en' },
+      { table: 'listings', titleField: 'title_el', descField: 'description_el', locField: 'location_name', transField: 'title_en' },
+    ];
+
+    for (const t of tables) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data } = await supabase.from(t.table).select(`id, ${t.titleField}, ${t.descField}, ${t.locField}, ${t.transField}, meta_title_el, meta_title_en, meta_title_de, meta_description_el, image_alt`);
+      if (data) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (data as any[]).forEach((row: any) => {
+          const hasTitle = row[t.titleField] && row[t.titleField].length > 0;
+          if (!hasTitle) return;
+
+          const missingItems: string[] = [];
+          if (!row.meta_title_el) missingItems.push('Meta Title EL');
+          if (!row.meta_title_en) missingItems.push('Meta Title EN');
+          if (!row.meta_title_de) missingItems.push('Meta Title DE');
+          if (!row.meta_description_el) missingItems.push('Meta Desc EL');
+          if (!row[t.transField]) missingItems.push('Translation EN');
+          if (!row.image_alt) missingItems.push('Image Alt');
+
+          if (missingItems.length > 0) {
+            found.push({
+              table: t.table,
+              id: row.id,
+              name: row[t.titleField] || 'Unknown',
+              title_el: row[t.titleField] || '',
+              description_el: row[t.descField] || '',
+              location: row[t.locField] || 'Halkidiki',
+              missing: missingItems,
+            });
+          }
+        });
+      }
+    }
+
+    setMissing(found);
+    setScanning(false);
+  }
+
+  async function generateAll() {
+    setGenerating(true);
+    setSeoProcessed(0);
+    setSeoResults([]);
+
+    for (let i = 0; i < missing.length; i++) {
+      const item = missing[i];
+      try {
+        const res = await fetch('/api/ai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'full_auto',
+            title: item.title_el,
+            description: item.description_el,
+            category: item.table,
+            location: item.location,
+          }),
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        // Build update object
+        const updateObj: Record<string, string> = {
+          meta_title_el: data.seo.meta_title_el,
+          meta_title_en: data.seo.meta_title_en,
+          meta_title_de: data.seo.meta_title_de,
+          meta_title_bg: data.seo.meta_title_bg,
+          meta_title_ru: data.seo.meta_title_ru,
+          meta_title_ro: data.seo.meta_title_ro,
+          meta_description_el: data.seo.meta_description_el,
+          meta_description_en: data.seo.meta_description_en,
+          meta_description_de: data.seo.meta_description_de,
+          meta_description_bg: data.seo.meta_description_bg,
+          meta_description_ru: data.seo.meta_description_ru,
+          meta_description_ro: data.seo.meta_description_ro,
+          image_alt: data.seo.image_alt || '',
+        };
+
+        // Add translations based on table
+        if (item.table === 'blog_articles') {
+          updateObj.title_en = data.translations.title_en;
+          updateObj.title_de = data.translations.title_de;
+          updateObj.title_bg = data.translations.title_bg;
+          updateObj.title_ru = data.translations.title_ru;
+          updateObj.title_ro = data.translations.title_ro;
+          updateObj.excerpt_en = data.translations.description_en;
+          updateObj.excerpt_de = data.translations.description_de;
+          updateObj.excerpt_bg = data.translations.description_bg;
+          updateObj.excerpt_ru = data.translations.description_ru;
+          updateObj.excerpt_ro = data.translations.description_ro;
+        } else if (item.table === 'listings') {
+          updateObj.title_en = data.translations.title_en;
+          updateObj.title_de = data.translations.title_de;
+          updateObj.title_bg = data.translations.title_bg;
+          updateObj.title_ru = data.translations.title_ru;
+          updateObj.title_ro = data.translations.title_ro;
+          updateObj.description_en = data.translations.description_en;
+          updateObj.description_de = data.translations.description_de;
+          updateObj.description_bg = data.translations.description_bg;
+          updateObj.description_ru = data.translations.description_ru;
+          updateObj.description_ro = data.translations.description_ro;
+        } else {
+          updateObj.name_en = data.translations.title_en;
+          updateObj.name_de = data.translations.title_de;
+          updateObj.name_bg = data.translations.title_bg;
+          updateObj.name_ru = data.translations.title_ru;
+          updateObj.name_ro = data.translations.title_ro;
+          updateObj.description_en = data.translations.description_en;
+          updateObj.description_de = data.translations.description_de;
+          updateObj.description_bg = data.translations.description_bg;
+          updateObj.description_ru = data.translations.description_ru;
+          updateObj.description_ro = data.translations.description_ro;
+        }
+
+        const supabase = createClient();
+        const { error } = await supabase.from(item.table).update(updateObj).eq('id', item.id);
+
+        if (error) {
+          setSeoResults((prev) => [...prev, `❌ ${item.name}: ${error.message}`]);
+        } else {
+          setSeoResults((prev) => [...prev, `✅ ${item.name} (${item.table}): SEO + μεταφράσεις σε 6 γλώσσες`]);
+        }
+      } catch (err) {
+        setSeoResults((prev) => [...prev, `❌ ${item.name}: ${(err as Error).message}`]);
+      }
+
+      setSeoProcessed(i + 1);
+
+      // Small delay to avoid rate limiting
+      await new Promise((r) => setTimeout(r, 500));
+    }
+
+    setGenerating(false);
+  }
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl p-6 mt-6">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+          <Sparkles className="w-5 h-5 text-purple-600" />
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900">AI Bulk SEO + Μεταφράσεις</h2>
+          <p className="text-sm text-gray-500">Βρίσκει records χωρίς SEO meta tags και τα δημιουργεί μαζικά με AI (+ μεταφράσεις σε 6 γλώσσες)</p>
+        </div>
+      </div>
+
+      <div className="flex gap-3 mb-6">
+        <button onClick={scanMissingSEO} disabled={scanning || generating}
+          className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium disabled:opacity-50">
+          {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+          1. Σκανάρισμα (χωρίς SEO)
+        </button>
+
+        {missing.length > 0 && (
+          <button onClick={generateAll} disabled={generating}
+            className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium disabled:opacity-50">
+            {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            2. AI Generate ({missing.length} records)
+          </button>
+        )}
+      </div>
+
+      {/* Scan results */}
+      {missing.length > 0 && !generating && seoProcessed === 0 && (
+        <div className="bg-purple-50 rounded-lg p-4 mb-4">
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-sm font-medium text-purple-700">Βρέθηκαν {missing.length} records με ελλιπές SEO:</p>
+            <button onClick={() => setShowDetails(!showDetails)} className="text-xs text-purple-600 hover:underline">
+              {showDetails ? 'Απόκρυψη' : 'Αναλυτικά'}
+            </button>
+          </div>
+
+          {/* Summary by table */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
+            {['areas', 'beaches', 'restaurants', 'activities', 'blog_articles', 'listings'].map((t) => {
+              const count = missing.filter((m) => m.table === t).length;
+              if (count === 0) return null;
+              return <div key={t} className="text-sm text-purple-600"><span className="font-medium">{t}:</span> {count}</div>;
+            })}
+          </div>
+
+          {/* Detailed breakdown */}
+          {showDetails && (
+            <div className="mt-3 space-y-2 max-h-80 overflow-y-auto">
+              {missing.map((item, idx) => (
+                <div key={idx} className="bg-white rounded-lg p-3 border border-purple-100">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-medium text-gray-900">{item.name}</span>
+                    <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">{item.table}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {item.missing.map((m, midx) => (
+                      <span key={midx} className="text-[10px] px-1.5 py-0.5 bg-red-100 text-red-700 rounded">
+                        {m}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <p className="text-xs text-purple-500 mt-3">Εκτιμώμενο κόστος: ~${(missing.length * 0.002).toFixed(3)} (GPT-4o-mini)</p>
+        </div>
+      )}
+
+      {scanning && missing.length === 0 && !generating && (
+        <p className="text-sm text-gray-500">Σκανάρισμα...</p>
+      )}
+
+      {!scanning && missing.length === 0 && seoProcessed === 0 && (
+        <p className="text-sm text-green-600 flex items-center gap-1">
+          <CheckCircle className="w-4 h-4" />Όλα τα records έχουν πλήρες SEO!
+        </p>
+      )}
+
+      {/* Progress */}
+      {(generating || seoProcessed > 0) && (
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-600">{seoProcessed}/{missing.length} processed</span>
+          </div>
+          <div className="w-full h-2 bg-gray-200 rounded-full">
+            <div className="h-full bg-purple-500 rounded-full transition-all"
+              style={{ width: `${missing.length > 0 ? (seoProcessed / missing.length) * 100 : 0}%` }} />
+          </div>
+        </div>
+      )}
+
+      {/* Results log */}
+      {seoResults.length > 0 && (
+        <div className="bg-gray-900 rounded-lg p-4 max-h-80 overflow-y-auto font-mono text-xs">
+          {seoResults.map((r, i) => (
+            <div key={i} className={`py-0.5 ${r.startsWith('✅') ? 'text-green-400' : 'text-red-400'}`}>{r}</div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

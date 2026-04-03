@@ -1,0 +1,310 @@
+{
+  "common": {
+    "siteName": "Halkidiki Hub",
+    "siteDescription": "Find the perfect rental accommodation in Halkidiki",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "backToHome": "Back to home",
+    "viewAll": "View all",
+    "perNight": "/ night",
+    "guests": "guests",
+    "bedrooms": "bedrooms",
+    "bathrooms": "bathrooms",
+    "from": "from",
+    "search": "Search",
+    "noResults": "No results found",
+    "readMore": "Read more",
+    "contactOwner": "Contact owner"
+  },
+  "nav": {
+    "home": "Home",
+    "listings": "Accommodations",
+    "areas": "Areas",
+    "beaches": "Beaches",
+    "evChargers": "EV Chargers",
+    "blog": "Blog",
+    "activities": "Activities",
+    "restaurants": "Restaurants",
+    "about": "About",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "myListings": "My Listings",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "hero": {
+    "title": "Discover Halkidiki",
+    "subtitle": "Find the perfect accommodation for your vacation in the most beautiful place in Greece",
+    "searchPlaceholder": "Where do you want to stay?",
+    "checkIn": "Check in",
+    "checkOut": "Check out",
+    "guestsLabel": "Guests"
+  },
+  "areas": {
+    "title": "Halkidiki Areas",
+    "subtitle": "Explore the three peninsulas of Halkidiki",
+    "kassandra": {
+      "name": "Kassandra",
+      "description": "The first peninsula of Halkidiki. Vibrant atmosphere, beautiful beaches and lively nightlife."
+    },
+    "sithonia": {
+      "name": "Sithonia",
+      "description": "The second peninsula of Halkidiki. Exotic beaches, lush nature and tranquility."
+    },
+    "athos": {
+      "name": "Athos",
+      "description": "The third peninsula of Halkidiki. Spirituality, history and untouched nature."
+    },
+    "mainlandHalkidiki": {
+      "name": "Mainland Halkidiki",
+      "description": "The mainland of Halkidiki. Traditional villages, vineyards and authentic hospitality."
+    },
+    "viewListings": "View accommodations",
+    "listingsCount": "{count} accommodations"
+  },
+  "listings": {
+    "title": "Accommodations in Halkidiki",
+    "subtitle": "Find the ideal accommodation for you",
+    "filters": {
+      "area": "Area",
+      "allAreas": "All areas",
+      "priceRange": "Price range",
+      "minPrice": "Min price",
+      "maxPrice": "Max price",
+      "guestsMin": "Min guests",
+      "amenities": "Amenities",
+      "sortBy": "Sort by",
+      "sortNewest": "Newest",
+      "sortPriceLow": "Price (low to high)",
+      "sortPriceHigh": "Price (high to low)",
+      "clearFilters": "Clear filters"
+    },
+    "details": {
+      "amenities": "Amenities",
+      "location": "Location",
+      "description": "Description",
+      "gallery": "Photos",
+      "pricePerNight": "Price per night",
+      "maxGuests": "Max guests",
+      "contact": "Contact"
+    }
+  },
+  "amenities": {
+    "wifi": "Wi-Fi",
+    "parking": "Parking",
+    "airConditioning": "Air conditioning",
+    "pool": "Pool",
+    "kitchen": "Kitchen",
+    "tv": "TV",
+    "washingMachine": "Washing machine",
+    "balcony": "Balcony",
+    "seaView": "Sea view",
+    "garden": "Garden",
+    "bbq": "BBQ",
+    "petsAllowed": "Pets allowed"
+  },
+  "beaches": {
+    "title": "Halkidiki Beaches",
+    "subtitle": "Discover the most beautiful beaches of Halkidiki",
+    "viewAll": "All beaches",
+    "rating": "Rating",
+    "reviews": "reviews",
+    "noReviews": "No reviews yet",
+    "writeReview": "Write a review",
+    "features": "Features",
+    "nearbyListings": "Nearby accommodations",
+    "filters": {
+      "allAreas": "All areas",
+      "allFeatures": "Features",
+      "sortBy": "Sort by",
+      "sortRating": "Rating",
+      "sortName": "Name",
+      "sortReviews": "Reviews",
+      "clearFilters": "Clear filters"
+    }
+  },
+  "beachFeatures": {
+    "sandy": "Sandy",
+    "pebble": "Pebble",
+    "organized": "Organized",
+    "free": "Free",
+    "parking": "Parking",
+    "beachBar": "Beach bar",
+    "shallowWater": "Shallow water",
+    "waterSports": "Water sports",
+    "accessible": "Accessible",
+    "sunbeds": "Sunbeds",
+    "lifeguard": "Lifeguard",
+    "nudist": "Nudist"
+  },
+  "evChargers": {
+    "title": "EV Chargers",
+    "subtitle": "Find electric vehicle charging stations in Halkidiki",
+    "viewAll": "View all chargers",
+    "provider": "Provider",
+    "power": "Power",
+    "spots": "Spots",
+    "costPerKwh": "Cost per kWh",
+    "freeCharging": "Free charging",
+    "hours": "Hours",
+    "open24h": "Open 24h",
+    "rating": "Rating",
+    "reviews": "Reviews",
+    "noReviews": "No reviews",
+    "connectors": "Connectors",
+    "nearbyListings": "Nearby listings",
+    "nearbyBeaches": "Nearby beaches",
+    "status": "Status",
+    "statusAvailable": "Available",
+    "statusOccupied": "Occupied",
+    "statusOffline": "Offline",
+    "filters": {
+      "allAreas": "All areas",
+      "allConnectors": "All connectors",
+      "allSpeeds": "All speeds",
+      "freeOnly": "Free only",
+      "sortBy": "Sort by",
+      "sortRating": "Rating",
+      "sortPower": "Power",
+      "sortName": "Name",
+      "clearFilters": "Clear filters"
+    }
+  },
+  "connectorTypes": {
+    "type2": "Type 2",
+    "ccs": "CCS",
+    "chademo": "CHAdeMO",
+    "schuko": "Schuko"
+  },
+  "chargerSpeeds": {
+    "slow": "Slow",
+    "fast": "Fast",
+    "rapid": "Rapid"
+  },
+  "blog": {
+    "title": "Blog & Guides",
+    "subtitle": "Discover the secrets of Halkidiki",
+    "readMore": "Read more",
+    "backToBlog": "Back to Blog",
+    "publishedOn": "Published",
+    "readTime": "{min} min read",
+    "author": "Author",
+    "relatedArticles": "Related articles",
+    "relatedBeaches": "Beaches mentioned",
+    "relatedListings": "Recommended accommodations",
+    "exploreArea": "Explore the area",
+    "allArticles": "All articles",
+    "noResults": "No articles found",
+    "filters": {
+      "allCategories": "All categories",
+      "allAreas": "All areas",
+      "sortNewest": "Newest",
+      "sortPopular": "Popular",
+      "clearFilters": "Clear"
+    }
+  },
+  "blogCategories": {
+    "guides": "Guides",
+    "beaches": "Beaches",
+    "food": "Food & Drink",
+    "activities": "Activities",
+    "tips": "Tips",
+    "culture": "Culture"
+  },
+  "activities": {
+    "title": "Attractions & Activities",
+    "subtitle": "Discover what to do in Halkidiki",
+    "viewAll": "All activities",
+    "priceRange": "Price range",
+    "duration": "Duration",
+    "rating": "Rating",
+    "reviews": "reviews",
+    "noReviews": "No reviews",
+    "nearbyListings": "Nearby accommodations",
+    "nearbyBeaches": "Nearby beaches",
+    "free": "Free",
+    "filters": {
+      "allCategories": "All categories",
+      "allAreas": "All areas",
+      "sortRating": "Rating",
+      "sortName": "Name",
+      "sortReviews": "Reviews",
+      "clearFilters": "Clear"
+    }
+  },
+  "activityCategories": {
+    "historical": "Historical",
+    "nature": "Nature",
+    "waterSports": "Water sports",
+    "boatTrips": "Boat trips",
+    "wellness": "Wellness",
+    "family": "Family",
+    "nightlife": "Nightlife",
+    "religious": "Religious"
+  },
+  "crowd": {
+    "low": "Quiet",
+    "moderate": "Moderate",
+    "high": "Busy",
+    "very_high": "Very busy",
+    "bestTime": "Best time",
+    "peakHours": "Peak hours",
+    "liveConditions": "Live conditions"
+  },
+  "restaurants": {
+    "title": "Restaurants & Tavernas",
+    "subtitle": "Taste Halkidiki - Fresh seafood and traditional recipes",
+    "viewAll": "All restaurants",
+    "cuisine": "Cuisine",
+    "priceLevel": "Price level",
+    "rating": "Rating",
+    "reviews": "reviews",
+    "noReviews": "No reviews",
+    "phone": "Phone",
+    "hours": "Hours",
+    "seaView": "Sea view",
+    "liveMusic": "Live music",
+    "reservations": "Reservations",
+    "nearbyListings": "Nearby accommodations",
+    "nearbyBeaches": "Nearby beaches",
+    "callNow": "Call",
+    "filters": {
+      "allCuisines": "All cuisines",
+      "allAreas": "All areas",
+      "allPrices": "All prices",
+      "seaViewOnly": "Sea view only",
+      "sortRating": "Rating",
+      "sortName": "Name",
+      "sortReviews": "Reviews",
+      "sortPrice": "Price",
+      "clearFilters": "Clear"
+    }
+  },
+  "cuisineTypes": {
+    "seafood": "Seafood",
+    "traditional": "Traditional",
+    "grill": "Grill",
+    "mediterranean": "Mediterranean",
+    "pizza": "Pizza",
+    "cafe": "Café",
+    "fineDining": "Fine dining",
+    "streetFood": "Street food"
+  },
+  "priceLevels": {
+    "budget": "€ Budget",
+    "moderate": "€€ Moderate",
+    "upscale": "€€€ Upscale",
+    "fineDining": "€€€€ Fine dining"
+  },
+  "footer": {
+    "description": "The rental accommodation platform of Halkidiki. Find the ideal accommodation or list your own.",
+    "quickLinks": "Quick links",
+    "forOwners": "For owners",
+    "registerProperty": "List your property",
+    "legal": "Legal",
+    "terms": "Terms of use",
+    "privacy": "Privacy policy",
+    "copyright": "© {year} Halkidiki Hub. All rights reserved."
+  }
+}

@@ -1,0 +1,310 @@
+{
+  "common": {
+    "siteName": "Halkidiki Hub",
+    "siteDescription": "Βρείτε τα ιδανικά ενοικιαζόμενα δωμάτια στη Χαλκιδική",
+    "loading": "Φόρτωση...",
+    "error": "Κάτι πήγε στραβά",
+    "backToHome": "Πίσω στην αρχική",
+    "viewAll": "Δείτε όλα",
+    "perNight": "/ βράδυ",
+    "guests": "επισκέπτες",
+    "bedrooms": "υπνοδωμάτια",
+    "bathrooms": "μπάνια",
+    "from": "από",
+    "search": "Αναζήτηση",
+    "noResults": "Δεν βρέθηκαν αποτελέσματα",
+    "readMore": "Περισσότερα",
+    "contactOwner": "Επικοινωνία με ιδιοκτήτη"
+  },
+  "nav": {
+    "home": "Αρχική",
+    "listings": "Καταλύματα",
+    "areas": "Περιοχές",
+    "beaches": "Παραλίες",
+    "evChargers": "Φορτιστές EV",
+    "blog": "Blog",
+    "activities": "Αξιοθέατα",
+    "restaurants": "Εστιατόρια",
+    "about": "Σχετικά",
+    "login": "Σύνδεση",
+    "register": "Εγγραφή",
+    "dashboard": "Πίνακας Ελέγχου",
+    "myListings": "Τα Καταλύματά μου",
+    "profile": "Προφίλ",
+    "logout": "Αποσύνδεση"
+  },
+  "hero": {
+    "title": "Ανακαλύψτε τη Χαλκιδική",
+    "subtitle": "Βρείτε το τέλειο κατάλυμα για τις διακοπές σας στο πιο όμορφο μέρος της Ελλάδας",
+    "searchPlaceholder": "Πού θέλετε να μείνετε;",
+    "checkIn": "Άφιξη",
+    "checkOut": "Αναχώρηση",
+    "guestsLabel": "Επισκέπτες"
+  },
+  "areas": {
+    "title": "Περιοχές Χαλκιδικής",
+    "subtitle": "Εξερευνήστε τα τρία πόδια της Χαλκιδικής",
+    "kassandra": {
+      "name": "Κασσάνδρα",
+      "description": "Το πρώτο πόδι της Χαλκιδικής. Ζωντανή ατμόσφαιρα, όμορφες παραλίες και πλούσια νυχτερινή ζωή."
+    },
+    "sithonia": {
+      "name": "Σιθωνία",
+      "description": "Το δεύτερο πόδι της Χαλκιδικής. Εξωτικές παραλίες, καταπράσινη φύση και ηρεμία."
+    },
+    "athos": {
+      "name": "Άθως",
+      "description": "Το τρίτο πόδι της Χαλκιδικής. Πνευματικότητα, ιστορία και ανέγγιχτη φύση."
+    },
+    "mainlandHalkidiki": {
+      "name": "Ενδοχώρα Χαλκιδικής",
+      "description": "Η ηπειρωτική Χαλκιδική. Παραδοσιακά χωριά, αμπελώνες και αυθεντική φιλοξενία."
+    },
+    "viewListings": "Δείτε καταλύματα",
+    "listingsCount": "{count} καταλύματα"
+  },
+  "listings": {
+    "title": "Καταλύματα στη Χαλκιδική",
+    "subtitle": "Βρείτε το ιδανικό κατάλυμα για εσάς",
+    "filters": {
+      "area": "Περιοχή",
+      "allAreas": "Όλες οι περιοχές",
+      "priceRange": "Εύρος τιμής",
+      "minPrice": "Ελάχιστη τιμή",
+      "maxPrice": "Μέγιστη τιμή",
+      "guestsMin": "Ελάχιστοι επισκέπτες",
+      "amenities": "Παροχές",
+      "sortBy": "Ταξινόμηση",
+      "sortNewest": "Νεότερα",
+      "sortPriceLow": "Τιμή (χαμηλή → υψηλή)",
+      "sortPriceHigh": "Τιμή (υψηλή → χαμηλή)",
+      "clearFilters": "Καθαρισμός φίλτρων"
+    },
+    "details": {
+      "amenities": "Παροχές",
+      "location": "Τοποθεσία",
+      "description": "Περιγραφή",
+      "gallery": "Φωτογραφίες",
+      "pricePerNight": "Τιμή ανά βράδυ",
+      "maxGuests": "Μέγιστοι επισκέπτες",
+      "contact": "Επικοινωνία"
+    }
+  },
+  "amenities": {
+    "wifi": "Wi-Fi",
+    "parking": "Πάρκινγκ",
+    "airConditioning": "Κλιματισμός",
+    "pool": "Πισίνα",
+    "kitchen": "Κουζίνα",
+    "tv": "Τηλεόραση",
+    "washingMachine": "Πλυντήριο",
+    "balcony": "Μπαλκόνι",
+    "seaView": "Θέα θάλασσα",
+    "garden": "Κήπος",
+    "bbq": "BBQ",
+    "petsAllowed": "Κατοικίδια"
+  },
+  "beaches": {
+    "title": "Παραλίες Χαλκιδικής",
+    "subtitle": "Ανακαλύψτε τις πιο όμορφες παραλίες της Χαλκιδικής",
+    "viewAll": "Όλες οι παραλίες",
+    "rating": "Βαθμολογία",
+    "reviews": "κριτικές",
+    "noReviews": "Δεν υπάρχουν κριτικές ακόμα",
+    "writeReview": "Γράψτε κριτική",
+    "features": "Χαρακτηριστικά",
+    "nearbyListings": "Κοντινά καταλύματα",
+    "filters": {
+      "allAreas": "Όλες οι περιοχές",
+      "allFeatures": "Χαρακτηριστικά",
+      "sortBy": "Ταξινόμηση",
+      "sortRating": "Βαθμολογία",
+      "sortName": "Όνομα",
+      "sortReviews": "Κριτικές",
+      "clearFilters": "Καθαρισμός φίλτρων"
+    }
+  },
+  "beachFeatures": {
+    "sandy": "Αμμουδιά",
+    "pebble": "Βότσαλο",
+    "organized": "Οργανωμένη",
+    "free": "Ελεύθερη",
+    "parking": "Πάρκινγκ",
+    "beachBar": "Beach bar",
+    "shallowWater": "Ρηχά νερά",
+    "waterSports": "Θαλάσσια σπορ",
+    "accessible": "Προσβάσιμη",
+    "sunbeds": "Ξαπλώστρες",
+    "lifeguard": "Ναυαγοσώστης",
+    "nudist": "Γυμνιστών"
+  },
+  "evChargers": {
+    "title": "Φορτιστές EV",
+    "subtitle": "Βρείτε σταθμούς φόρτισης ηλεκτρικών οχημάτων στη Χαλκιδική",
+    "viewAll": "Δείτε όλους τους φορτιστές",
+    "provider": "Πάροχος",
+    "power": "Ισχύς",
+    "spots": "Θέσεις",
+    "costPerKwh": "Κόστος ανά kWh",
+    "freeCharging": "Δωρεάν φόρτιση",
+    "hours": "Ώρες",
+    "open24h": "Ανοιχτό 24ω",
+    "rating": "Βαθμολογία",
+    "reviews": "Κριτικές",
+    "noReviews": "Χωρίς κριτικές",
+    "connectors": "Σύνδεσμοι",
+    "nearbyListings": "Κοντινά καταλύματα",
+    "nearbyBeaches": "Κοντινές παραλίες",
+    "status": "Κατάσταση",
+    "statusAvailable": "Διαθέσιμος",
+    "statusOccupied": "Κατειλημμένος",
+    "statusOffline": "Εκτός σύνδεσης",
+    "filters": {
+      "allAreas": "Όλες οι περιοχές",
+      "allConnectors": "Όλοι οι σύνδεσμοι",
+      "allSpeeds": "Όλες οι ταχύτητες",
+      "freeOnly": "Μόνο δωρεάν",
+      "sortBy": "Ταξινόμηση κατά",
+      "sortRating": "Βαθμολογία",
+      "sortPower": "Ισχύς",
+      "sortName": "Όνομα",
+      "clearFilters": "Καθαρισμός φίλτρων"
+    }
+  },
+  "connectorTypes": {
+    "type2": "Type 2",
+    "ccs": "CCS",
+    "chademo": "CHAdeMO",
+    "schuko": "Schuko"
+  },
+  "chargerSpeeds": {
+    "slow": "Αργός",
+    "fast": "Γρήγορος",
+    "rapid": "Ταχύς"
+  },
+  "blog": {
+    "title": "Blog & Οδηγοί",
+    "subtitle": "Ανακαλύψτε τα μυστικά της Χαλκιδικής",
+    "readMore": "Διαβάστε περισσότερα",
+    "backToBlog": "Πίσω στο Blog",
+    "publishedOn": "Δημοσιεύτηκε",
+    "readTime": "{min} λεπτά ανάγνωση",
+    "author": "Συντάκτης",
+    "relatedArticles": "Σχετικά άρθρα",
+    "relatedBeaches": "Παραλίες που αναφέρονται",
+    "relatedListings": "Προτεινόμενα καταλύματα",
+    "exploreArea": "Εξερευνήστε την περιοχή",
+    "allArticles": "Όλα τα άρθρα",
+    "noResults": "Δεν βρέθηκαν άρθρα",
+    "filters": {
+      "allCategories": "Όλες οι κατηγορίες",
+      "allAreas": "Όλες οι περιοχές",
+      "sortNewest": "Νεότερα",
+      "sortPopular": "Δημοφιλή",
+      "clearFilters": "Καθαρισμός"
+    }
+  },
+  "blogCategories": {
+    "guides": "Οδηγοί",
+    "beaches": "Παραλίες",
+    "food": "Φαγητό & Ποτό",
+    "activities": "Δραστηριότητες",
+    "tips": "Συμβουλές",
+    "culture": "Πολιτισμός"
+  },
+  "activities": {
+    "title": "Αξιοθέατα & Δραστηριότητες",
+    "subtitle": "Ανακαλύψτε τι μπορείτε να κάνετε στη Χαλκιδική",
+    "viewAll": "Όλες οι δραστηριότητες",
+    "priceRange": "Τιμές",
+    "duration": "Διάρκεια",
+    "rating": "Βαθμολογία",
+    "reviews": "κριτικές",
+    "noReviews": "Χωρίς κριτικές",
+    "nearbyListings": "Κοντινά καταλύματα",
+    "nearbyBeaches": "Κοντινές παραλίες",
+    "free": "Δωρεάν",
+    "filters": {
+      "allCategories": "Όλες οι κατηγορίες",
+      "allAreas": "Όλες οι περιοχές",
+      "sortRating": "Βαθμολογία",
+      "sortName": "Όνομα",
+      "sortReviews": "Κριτικές",
+      "clearFilters": "Καθαρισμός"
+    }
+  },
+  "activityCategories": {
+    "historical": "Ιστορικά",
+    "nature": "Φύση",
+    "waterSports": "Θαλάσσια σπορ",
+    "boatTrips": "Βόλτες με βάρκα",
+    "wellness": "Ευεξία",
+    "family": "Οικογένεια",
+    "nightlife": "Νυχτερινή ζωή",
+    "religious": "Θρησκευτικά"
+  },
+  "crowd": {
+    "low": "Χαλαρά",
+    "moderate": "Μέτρια κίνηση",
+    "high": "Πολύς κόσμος",
+    "very_high": "Πάρα πολύς κόσμος",
+    "bestTime": "Καλύτερη ώρα",
+    "peakHours": "Ώρες αιχμής",
+    "liveConditions": "Live συνθήκες"
+  },
+  "restaurants": {
+    "title": "Εστιατόρια & Ταβέρνες",
+    "subtitle": "Γεύσεις Χαλκιδικής - Φρέσκα θαλασσινά και παραδοσιακές συνταγές",
+    "viewAll": "Όλα τα εστιατόρια",
+    "cuisine": "Κουζίνα",
+    "priceLevel": "Τιμές",
+    "rating": "Βαθμολογία",
+    "reviews": "κριτικές",
+    "noReviews": "Χωρίς κριτικές",
+    "phone": "Τηλέφωνο",
+    "hours": "Ωράριο",
+    "seaView": "Θέα θάλασσα",
+    "liveMusic": "Ζωντανή μουσική",
+    "reservations": "Κρατήσεις",
+    "nearbyListings": "Κοντινά καταλύματα",
+    "nearbyBeaches": "Κοντινές παραλίες",
+    "callNow": "Κλήση",
+    "filters": {
+      "allCuisines": "Όλες οι κουζίνες",
+      "allAreas": "Όλες οι περιοχές",
+      "allPrices": "Όλες οι τιμές",
+      "seaViewOnly": "Μόνο θέα θάλασσα",
+      "sortRating": "Βαθμολογία",
+      "sortName": "Όνομα",
+      "sortReviews": "Κριτικές",
+      "sortPrice": "Τιμή",
+      "clearFilters": "Καθαρισμός"
+    }
+  },
+  "cuisineTypes": {
+    "seafood": "Θαλασσινά",
+    "traditional": "Παραδοσιακή",
+    "grill": "Ψησταριά",
+    "mediterranean": "Μεσογειακή",
+    "pizza": "Πίτσα",
+    "cafe": "Καφέ",
+    "fineDining": "Fine dining",
+    "streetFood": "Street food"
+  },
+  "priceLevels": {
+    "budget": "€ Οικονομικό",
+    "moderate": "€€ Μεσαίο",
+    "upscale": "€€€ Υψηλό",
+    "fineDining": "€€€€ Πολυτελές"
+  },
+  "footer": {
+    "description": "Η πλατφόρμα ενοικιαζόμενων δωματίων της Χαλκιδικής. Βρείτε το ιδανικό κατάλυμα ή καταχωρήστε το δικό σας.",
+    "quickLinks": "Γρήγοροι σύνδεσμοι",
+    "forOwners": "Για ιδιοκτήτες",
+    "registerProperty": "Καταχωρήστε το κατάλυμά σας",
+    "legal": "Νομικά",
+    "terms": "Όροι χρήσης",
+    "privacy": "Πολιτική απορρήτου",
+    "copyright": "© {year} Halkidiki Hub. Με επιφύλαξη παντός δικαιώματος."
+  }
+}

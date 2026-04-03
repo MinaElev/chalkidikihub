@@ -1,0 +1,213 @@
+import { useTranslations, useLocale } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
+import { seedListings } from '@/lib/seed-data';
+import { seedArticles } from '@/lib/seed-blog';
+import { ListingCard } from '@/components/listings/ListingCard';
+import { BlogCard } from '@/components/blog/BlogCard';
+import { FeaturedAreas } from '@/components/layout/FeaturedAreas';
+import { Search, MapPin, Home, Star } from 'lucide-react';
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function HomePage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  return (
+    <>
+      <HeroSection />
+      <FeaturedAreas />
+      <FeaturedListingsSection locale={locale} />
+      <BlogSection />
+      <CTASection />
+    </>
+  );
+}
+
+function HeroSection() {
+  const t = useTranslations('hero');
+
+  return (
+    <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white">
+      <div className="absolute inset-0 bg-[url('/images/hero-pattern.svg')] opacity-10" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+        <div className="max-w-3xl">
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+            {t('title')}
+          </h1>
+          <p className="mt-4 text-lg md:text-xl text-primary-100 max-w-2xl">
+            {t('subtitle')}
+          </p>
+
+          {/* Search Box */}
+          <div className="mt-8 bg-white rounded-2xl p-4 md:p-6 shadow-xl">
+            <div className="flex flex-col md:flex-row gap-3">
+              <div className="flex-1 relative">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder={t('searchPlaceholder')}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                />
+              </div>
+              <div className="flex gap-3">
+                <input
+                  type="date"
+                  placeholder={t('checkIn')}
+                  className="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-xl text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                />
+                <input
+                  type="date"
+                  placeholder={t('checkOut')}
+                  className="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-xl text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                />
+              </div>
+              <button className="flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
+                <Search className="w-5 h-5" />
+                <span>{t.raw('guestsLabel') ? useTranslations('common')('search') : 'Search'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="mt-12 flex flex-wrap gap-8">
+          <div className="flex items-center gap-3">
+            <Home className="w-8 h-8 text-primary-300" />
+            <div>
+              <div className="text-2xl font-bold">500+</div>
+              <div className="text-sm text-primary-200">Properties</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Star className="w-8 h-8 text-primary-300" />
+            <div>
+              <div className="text-2xl font-bold">4.8</div>
+              <div className="text-sm text-primary-200">Average rating</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <MapPin className="w-8 h-8 text-primary-300" />
+            <div>
+              <div className="text-2xl font-bold">50+</div>
+              <div className="text-sm text-primary-200">Locations</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// FeaturedAreasSection moved to @/components/layout/FeaturedAreas (client component with DB fetch)
+
+function FeaturedListingsSection({ locale }: { locale: string }) {
+  const t = useTranslations('common');
+  const tListings = useTranslations('listings');
+  const featured = seedListings.slice(0, 3);
+
+  return (
+    <section className="py-16 md:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900">{tListings('title')}</h2>
+            <p className="mt-1 text-gray-600">{tListings('subtitle')}</p>
+          </div>
+          <Link
+            href="/listings"
+            className="hidden md:inline-flex px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+          >
+            {t('viewAll')} &rarr;
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featured.map((listing) => (
+            <ListingCard key={listing.id} listing={listing} />
+          ))}
+        </div>
+
+        <div className="mt-8 text-center md:hidden">
+          <Link
+            href="/listings"
+            className="inline-flex px-6 py-3 text-sm font-medium text-primary-600 border border-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+          >
+            {t('viewAll')} &rarr;
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BlogSection() {
+  const t = useTranslations('blog');
+  const tCommon = useTranslations('common');
+  const latest = seedArticles.slice(0, 3);
+
+  return (
+    <section className="py-16 md:py-24 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900">{t('title')}</h2>
+            <p className="mt-1 text-gray-600">{t('subtitle')}</p>
+          </div>
+          <Link
+            href="/blog"
+            className="hidden md:inline-flex px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+          >
+            {t('allArticles')} &rarr;
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {latest.map((article) => (
+            <BlogCard key={article.id} article={article} />
+          ))}
+        </div>
+
+        <div className="mt-8 text-center md:hidden">
+          <Link
+            href="/blog"
+            className="inline-flex px-6 py-3 text-sm font-medium text-primary-600 border border-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+          >
+            {t('allArticles')} &rarr;
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CTASection() {
+  const t = useTranslations('footer');
+  const tNav = useTranslations('nav');
+
+  return (
+    <section className="py-16 bg-primary-600">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="text-3xl font-bold text-white">{t('forOwners')}</h2>
+        <p className="mt-3 text-lg text-primary-100">{t('description')}</p>
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            href="/auth/register"
+            className="px-8 py-3 bg-white text-primary-600 font-semibold rounded-xl hover:bg-primary-50 transition-colors"
+          >
+            {t('registerProperty')}
+          </Link>
+          <Link
+            href="/listings"
+            className="px-8 py-3 border-2 border-white text-white font-semibold rounded-xl hover:bg-primary-700 transition-colors"
+          >
+            {tNav('listings')}
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
