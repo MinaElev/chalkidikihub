@@ -5,8 +5,51 @@ import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { UserMenu } from './UserMenu';
 import { GlobalSearch } from './GlobalSearch';
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Menu, X, ChevronDown } from 'lucide-react';
+
+function DropdownMenu({ label, items }: { label: string; items: Array<{ href: string; label: string }> }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen(!open)}
+        onMouseEnter={() => setOpen(true)}
+        className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
+      >
+        {label}
+        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+      {open && (
+        <div
+          className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 py-1 z-50"
+          onMouseLeave={() => setOpen(false)}
+        >
+          {items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600 transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function Header() {
   const t = useTranslations('nav');
@@ -28,53 +71,26 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
-            >
+            <Link href="/" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
               {t('home')}
             </Link>
-            <Link
-              href="/listings"
-              className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
-            >
+            <Link href="/listings" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
               {t('listings')}
             </Link>
-            <Link
-              href="/areas"
-              className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
-            >
-              {t('areas')}
-            </Link>
-            <Link
-              href="/beaches"
-              className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
-            >
-              {t('beaches')}
-            </Link>
-            <Link
-              href="/ev-chargers"
-              className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
-            >
-              {t('evChargers')}
-            </Link>
-            <Link
-              href="/blog"
-              className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
-            >
-              {t('blog')}
-            </Link>
-            <Link
-              href="/activities"
-              className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
-            >
-              {t('activities')}
-            </Link>
-            <Link
-              href="/restaurants"
-              className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
-            >
+            <DropdownMenu
+              label={t('areas')}
+              items={[
+                { href: '/areas', label: t('areas') },
+                { href: '/beaches', label: t('beaches') },
+                { href: '/activities', label: t('activities') },
+                { href: '/ev-chargers', label: t('evChargers') },
+              ]}
+            />
+            <Link href="/restaurants" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
               {t('restaurants')}
+            </Link>
+            <Link href="/blog" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
+              {t('blog')}
             </Link>
           </nav>
 
@@ -101,62 +117,25 @@ export function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200">
             <nav className="flex flex-col gap-2">
-              <Link
-                href="/"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('home')}
-              </Link>
-              <Link
-                href="/listings"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('listings')}
-              </Link>
-              <Link
-                href="/areas"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('areas')}
-              </Link>
-              <Link
-                href="/beaches"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('beaches')}
-              </Link>
-              <Link
-                href="/ev-chargers"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('evChargers')}
-              </Link>
-              <Link
-                href="/blog"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('blog')}
-              </Link>
-              <Link
-                href="/activities"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('activities')}
-              </Link>
-              <Link
-                href="/restaurants"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('restaurants')}
-              </Link>
+              <Link href="/" className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}>{t('home')}</Link>
+              <Link href="/listings" className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}>{t('listings')}</Link>
+
+              <div className="px-4 py-1 text-xs font-semibold text-gray-400 uppercase tracking-wide">{t('areas')}</div>
+              <Link href="/areas" className="px-6 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}>{t('areas')}</Link>
+              <Link href="/beaches" className="px-6 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}>{t('beaches')}</Link>
+              <Link href="/activities" className="px-6 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}>{t('activities')}</Link>
+              <Link href="/ev-chargers" className="px-6 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}>{t('evChargers')}</Link>
+
+              <Link href="/restaurants" className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}>{t('restaurants')}</Link>
+              <Link href="/blog" className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}>{t('blog')}</Link>
               <hr className="my-2" />
               <Link
                 href="/auth/login"
