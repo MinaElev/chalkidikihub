@@ -1,12 +1,13 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { MapPin, Waves, UtensilsCrossed, Landmark, Zap, FileText } from 'lucide-react';
 
 export function Footer() {
   const t = useTranslations('footer');
   const tNav = useTranslations('nav');
+  const locale = useLocale();
   const year = new Date().getFullYear();
 
   return (
@@ -68,6 +69,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li><Link href="/terms" className="text-sm text-gray-400 hover:text-white transition-colors">{t('terms')}</Link></li>
               <li><Link href="/privacy" className="text-sm text-gray-400 hover:text-white transition-colors">{t('privacy')}</Link></li>
+              <li><Link href="/contact" className="text-sm text-gray-400 hover:text-white transition-colors">{locale === 'el' ? 'Επικοινωνία' : 'Contact'}</Link></li>
             </ul>
           </div>
         </div>
