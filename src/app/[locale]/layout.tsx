@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n/config';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { BackToTop } from '@/components/ui/BackToTop';
 
 type Props = {
   children: React.ReactNode;
@@ -50,6 +51,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <BackToTop />
       </div>
     </NextIntlClientProvider>
   );
