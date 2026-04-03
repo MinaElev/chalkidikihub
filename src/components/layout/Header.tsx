@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { UserMenu } from './UserMenu';
@@ -53,6 +53,7 @@ function DropdownMenu({ label, items }: { label: string; items: Array<{ href: st
 
 export function Header() {
   const t = useTranslations('nav');
+  const locale = useLocale();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -84,6 +85,7 @@ export function Header() {
                 { href: '/beaches', label: t('beaches') },
                 { href: '/activities', label: t('activities') },
                 { href: '/ev-chargers', label: t('evChargers') },
+                { href: '/map', label: '🗺️ ' + (locale === 'el' ? 'Χάρτης' : 'Map') },
               ]}
             />
             <Link href="/restaurants" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
