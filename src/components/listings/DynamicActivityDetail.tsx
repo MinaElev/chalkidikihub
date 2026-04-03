@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Activity } from '@/types';
 import { Link } from '@/i18n/navigation';
-import { ArrowLeft, MapPin, Star, Clock, Euro, Loader2 } from 'lucide-react';
+import { ArrowLeft, MapPin, Star, Clock, Euro } from 'lucide-react';
+import { DetailSkeleton } from '@/components/ui/Skeleton';
 
 export function DynamicActivityDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -21,7 +22,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
       .finally(() => setLoading(false));
   }, [slug]);
 
-  if (loading) return <div className="min-h-[40vh] flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary-600" /></div>;
+  if (loading) return <DetailSkeleton />;
   if (!activity) return <div className="max-w-4xl mx-auto px-4 py-16 text-center"><p className="text-lg text-gray-500">Not found</p><Link href="/activities" className="mt-4 inline-flex text-primary-600 hover:underline">{t('title')}</Link></div>;
 
   const name = activity.name[locale] || activity.name.en;

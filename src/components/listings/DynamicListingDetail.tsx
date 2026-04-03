@@ -11,6 +11,7 @@ import { AmenityBadge } from './AmenityBadge';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 import { RelatedContent } from './RelatedContent';
 import { ImageGallery } from '@/components/ui/ImageGallery';
+import { DetailSkeleton } from '@/components/ui/Skeleton';
 import { LocationMap } from '@/components/ui/LocationMap';
 
 export function DynamicListingDetail({ slug, locale }: { slug: string; locale: string }) {
@@ -28,13 +29,7 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
       .finally(() => setLoading(false));
   }, [slug]);
 
-  if (loading) {
-    return (
-      <div className="min-h-[40vh] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
-      </div>
-    );
-  }
+  if (loading) return <DetailSkeleton />;
 
   if (!listing) {
     return (
