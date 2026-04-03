@@ -124,7 +124,7 @@ export default function AdminToolsPage() {
 
         const ctx = canvas.getContext('2d')!;
         ctx.drawImage(bitmap, 0, 0, w, h);
-        const compressedBlob = await canvas.convertToBlob({ type: 'image/webp', quality: 0.82 });
+        const compressedBlob = await canvas.convertToBlob({ type: 'image/webp', quality: 0.72 });
 
         const savedBytes = originalSize - compressedBlob.size;
         const savedPercent = Math.round((savedBytes / originalSize) * 100);

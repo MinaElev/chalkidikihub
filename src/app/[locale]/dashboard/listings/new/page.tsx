@@ -125,7 +125,7 @@ export default function NewListingPage() {
         // Compress before upload
         let uploadBlob: Blob = file;
         try {
-          const { blob } = await compressImage(file, { maxWidth: 1200, maxHeight: 900, quality: 0.82, format: 'webp' });
+          const { blob } = await compressImage(file, { maxWidth: 1200, maxHeight: 800, quality: 0.72, format: 'webp' });
           uploadBlob = blob;
         } catch {} // Fallback to original if compression fails
 

@@ -34,8 +34,8 @@ export function ImageUpload({ currentUrl, onUpload, folder, aiPromptContext }: I
       const originalSize = file.size;
       const { blob, width, height } = await compressImage(file, {
         maxWidth: 1200,
-        maxHeight: 900,
-        quality: 0.82,
+        maxHeight: 800,
+        quality: 0.72,
         format: 'webp',
       });
 

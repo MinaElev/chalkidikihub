@@ -12,8 +12,8 @@ interface CompressOptions {
 
 const DEFAULTS: CompressOptions = {
   maxWidth: 1200,
-  maxHeight: 900,
-  quality: 0.82,
+  maxHeight: 800,
+  quality: 0.72,
   format: 'webp',
 };
 
