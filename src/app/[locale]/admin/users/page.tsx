@@ -7,6 +7,7 @@ import { Users, Shield, User, Loader2 } from 'lucide-react';
 interface Profile {
   id: string;
   full_name: string;
+  email: string;
   phone: string;
   role: string;
   created_at: string;
@@ -50,6 +51,7 @@ export default function AdminUsersPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">User</th>
+              <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Email</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Phone</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Role</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Joined</th>
@@ -68,10 +70,11 @@ export default function AdminUsersPage() {
                     </div>
                     <div>
                       <div className="font-medium text-gray-900">{user.full_name || 'No name'}</div>
-                      <div className="text-xs text-gray-500">{user.id.slice(0, 8)}...</div>
+                      <div className="text-xs text-gray-500">{user.email || user.id.slice(0, 8) + '...'}</div>
                     </div>
                   </div>
                 </td>
+                <td className="px-4 py-3 text-sm text-gray-600">{user.email || '-'}</td>
                 <td className="px-4 py-3 text-sm text-gray-600">{user.phone || '-'}</td>
                 <td className="px-4 py-3">
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
