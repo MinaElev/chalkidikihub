@@ -9,6 +9,7 @@ import { Loader2, CheckCircle } from 'lucide-react';
 export default function RegisterPage() {
   const t = useTranslations('nav');
   const tFooter = useTranslations('footer');
+  const router = useRouter();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -37,11 +38,12 @@ export default function RegisterPage() {
       return;
     }
 
-    setSuccess(true);
-    setLoading(false);
+    // Auto login after register (email confirmation is OFF)
+    router.push('/dashboard');
   }
 
-  if (success) {
+  if (false) {
+    // Unused - kept for when email confirmation is enabled
     return (
       <div className="min-h-[60vh] flex items-center justify-center px-4">
         <div className="w-full max-w-md bg-white border border-gray-200 rounded-2xl p-8 shadow-sm text-center">
