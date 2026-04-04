@@ -11,7 +11,7 @@ export function useLiveData<T>(apiUrl: string, seedData: T[]): { data: T[]; isLi
     fetch(apiUrl, { signal: controller.signal })
       .then((r) => r.json())
       .then((dbData: T[]) => {
-        if (Array.isArray(dbData) && dbData.length > 0) {
+        if (Array.isArray(dbData)) {
           setData(dbData);
           setIsLive(true);
         }
