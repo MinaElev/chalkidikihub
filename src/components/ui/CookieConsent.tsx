@@ -30,10 +30,10 @@ export function CookieConsent() {
   const isGreek = locale === 'el';
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[999] p-4 md:p-6">
-      <div className="max-w-2xl mx-auto bg-gray-900 text-white rounded-2xl shadow-2xl p-5 md:p-6 border border-gray-700">
-        <div className="flex items-start gap-4">
-          <div className="text-4xl shrink-0 animate-bounce">🍪</div>
+    <div className="fixed bottom-0 left-0 right-0 z-[999] p-4 md:p-6" role="dialog" aria-label="Cookie consent" data-nosnippet>
+      <div className="max-w-xl mx-auto bg-gray-900 text-white rounded-2xl shadow-2xl p-4 border border-gray-700">
+        <div className="flex items-start gap-3">
+          <div className="text-2xl shrink-0">🍪</div>
           <div className="flex-1">
             <h3 className="font-bold text-lg mb-1">
               {isGreek ? 'Ψιτ... θέλεις μπισκότο;' : 'Psst... want a cookie?'}

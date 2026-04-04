@@ -36,10 +36,12 @@ export function FeaturedAreas() {
               className="group relative overflow-hidden rounded-2xl aspect-[3/4] bg-gray-300"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10" />
-              <div
-                className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
-                style={{ backgroundImage: `url(${area.image_url})` }}
-              />
+              {area.image_url ? (
+                <img src={area.image_url} alt={area.name[locale] || area.name.el || ''} loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700 group-hover:scale-105 transition-transform duration-300" />
+              )}
               <div className="absolute inset-0 bg-primary-900/30" />
               <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
                 <h3 className="text-xl font-bold text-white">{area.name[locale] || area.name.el}</h3>
