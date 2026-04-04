@@ -8,6 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { RelatedArticles, RelatedBeaches, RelatedListings, ExploreAreas } from '@/components/blog/RelatedContent';
 import { DynamicArticle } from '@/components/blog/DynamicArticle';
 import { ShareButtons } from '@/components/ui/ShareButtons';
+import { getContentMeta } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -15,6 +16,11 @@ type Props = {
 
 export function generateStaticParams() {
   return seedArticles.map((a) => ({ slug: a.slug }));
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { locale, slug } = await params;
+  return getContentMeta('blog_articles', slug, locale, 'Blog | Chalkidiki Hub', 'Travel guide for Halkidiki');
 }
 
 export default async function BlogArticlePage({ params }: Props) {

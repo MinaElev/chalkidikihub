@@ -11,11 +11,17 @@ import { NearbyListings } from '@/components/listings/NearbyListings';
 import { BeachCard } from '@/components/listings/BeachCard';
 import { DynamicRestaurantDetail } from '@/components/listings/DynamicRestaurantDetail';
 import { ShareButtons } from '@/components/ui/ShareButtons';
+import { getContentMeta } from '@/lib/seo';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export function generateStaticParams() {
   return seedRestaurants.map((r) => ({ slug: r.slug }));
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { locale, slug } = await params;
+  return getContentMeta('restaurants', slug, locale, 'Restaurant | Chalkidiki Hub', 'Best restaurants in Halkidiki');
 }
 
 export default async function RestaurantDetailPage({ params }: Props) {

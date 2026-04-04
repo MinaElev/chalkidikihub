@@ -12,6 +12,7 @@ import { NearbyListings } from '@/components/listings/NearbyListings';
 import { CrowdIndicator } from '@/components/listings/CrowdIndicator';
 import { DynamicBeachDetail } from '@/components/listings/DynamicBeachDetail';
 import { ShareButtons } from '@/components/ui/ShareButtons';
+import { getContentMeta } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -19,6 +20,11 @@ type Props = {
 
 export function generateStaticParams() {
   return seedBeaches.map((b) => ({ slug: b.slug }));
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { locale, slug } = await params;
+  return getContentMeta('beaches', slug, locale, 'Beach | Chalkidiki Hub', 'Discover beaches in Halkidiki');
 }
 
 export default async function BeachDetailPage({ params }: Props) {

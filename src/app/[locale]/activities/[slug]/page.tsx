@@ -11,11 +11,17 @@ import { NearbyListings } from '@/components/listings/NearbyListings';
 import { BeachCard } from '@/components/listings/BeachCard';
 import { DynamicActivityDetail } from '@/components/listings/DynamicActivityDetail';
 import { ShareButtons } from '@/components/ui/ShareButtons';
+import { getContentMeta } from '@/lib/seo';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export function generateStaticParams() {
   return seedActivities.map((a) => ({ slug: a.slug }));
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { locale, slug } = await params;
+  return getContentMeta('activities', slug, locale, 'Activity | Chalkidiki Hub', 'Things to do in Halkidiki');
 }
 
 export default async function ActivityDetailPage({ params }: Props) {

@@ -11,6 +11,7 @@ import { ShareButtons } from '@/components/ui/ShareButtons';
 import { ImageGallery } from '@/components/ui/ImageGallery';
 import { RelatedContent } from '@/components/listings/RelatedContent';
 import { LocationMap } from '@/components/ui/LocationMap';
+import { getContentMeta } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -18,6 +19,11 @@ type Props = {
 
 export function generateStaticParams() {
   return seedListings.map((l) => ({ slug: l.slug }));
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { locale, slug } = await params;
+  return getContentMeta('listings', slug, locale, 'Accommodation | Chalkidiki Hub', 'Find accommodation in Halkidiki');
 }
 
 export default async function ListingDetailPage({ params }: Props) {
