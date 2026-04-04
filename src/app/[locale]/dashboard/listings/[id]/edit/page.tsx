@@ -123,7 +123,7 @@ export default function EditListingPage() {
 
     // Get cover image URL for SEO
     const { data: coverImgs } = await supabase.from('listing_images')
-      .select('image_url').eq('listing_id', id).eq('is_cover', true).limit(1);
+      .select('image_url').eq('listing_id', listingId).eq('is_cover', true).limit(1);
     const seoImageUrl = (coverImgs && coverImgs[0]?.image_url) || '';
 
     // Update listing
