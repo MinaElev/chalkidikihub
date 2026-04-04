@@ -11,7 +11,7 @@ export function CookieConsent() {
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
     if (!consent) {
-      setTimeout(() => setVisible(true), 2000);
+      setTimeout(() => setVisible(true), 500);
     }
   }, []);
 
