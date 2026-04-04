@@ -13,6 +13,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://bvwiwxmgbtklztgapxyp.supabase.co" />
         <link rel="preconnect" href="https://api.openchargemap.io" />
         <meta name="theme-color" content="#0284c7" />
+        <meta name="google-site-verification" content="23O0hBvOmQHGLCg-_KCo_7HDlwNRkM-OMM7KYlFS8hY" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/icons/icon-192.png" />
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
