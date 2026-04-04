@@ -27,7 +27,8 @@
       "Bash(npm install:*)",
       "Bash(npx tsc:*)",
       "Bash(grep -l \"Loader2.*animate-spin\" /c/Users/mnc/Desktop/hub/src/components/listings/Dynamic*.tsx /c/Users/mnc/Desktop/hub/src/components/blog/Dynamic*.tsx)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(xargs grep:*)"
     ]
   }
 }

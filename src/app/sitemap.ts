@@ -8,7 +8,7 @@ import { seedActivities } from '@/lib/seed-activities';
 import { seedRestaurants } from '@/lib/seed-restaurants';
 import { AREAS } from '@/lib/constants';
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://halkidikihub.com';
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];

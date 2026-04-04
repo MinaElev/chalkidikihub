@@ -37,13 +37,13 @@ export function generateWebsiteJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Halkidiki Hub',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://halkidikihub.com',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr',
     description: 'Find the perfect rental accommodation in Halkidiki, Greece',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://halkidikihub.com'}/en/listings?q={search_term_string}`,
+        urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr'}/en/listings?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },
