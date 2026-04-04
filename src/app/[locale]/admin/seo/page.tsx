@@ -43,6 +43,16 @@ export default function AdminSeoPage() {
       { table: 'listings', type: 'listing', nameField: 'title', editPath: '/admin/listings' },
     ];
 
+    // Get listing images count per listing
+    const { data: listingImagesData } = await supabase.from('listing_images').select('listing_id');
+    const listingImageCounts: Record<string, number> = {};
+    if (listingImagesData) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (listingImagesData as any[]).forEach((img: any) => {
+        listingImageCounts[img.listing_id] = (listingImageCounts[img.listing_id] || 0) + 1;
+      });
+    }
+
     for (const t of tables) {
       const { data } = await supabase.from(t.table).select('*');
       if (!data) continue;
@@ -74,8 +84,9 @@ export default function AdminSeoPage() {
           if (!nameVal && lang !== 'el') issues.push(`${t.nameField} (${lang.toUpperCase()})`);
         });
 
-        // Check image
-        if (!row.image_url) issues.push('Image');
+        // Check image - for listings, also check listing_images table
+        const hasImage = row.image_url || (t.type === 'listing' && listingImageCounts[row.id] > 0);
+        if (!hasImage) issues.push('Image');
         if (!row.image_alt) issues.push('Image Alt');
 
         const totalChecks = LANGS.length * 2 + LANGS.length - 1 + 2; // meta*2 + translations(no el) + image + alt
