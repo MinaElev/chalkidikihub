@@ -29,6 +29,7 @@ export default function AdminEditListingPage() {
     image_alt: '',
   });
   const [ownerInfo, setOwnerInfo] = useState({ name: '', email: '', id: '' });
+  const [images, setImages] = useState<Array<{ id: string; image_url: string; sort_order: number; is_cover: boolean }>>([]);
 
   useEffect(() => {
     async function load() {
@@ -48,6 +49,11 @@ export default function AdminEditListingPage() {
           id: data.owner_id,
         });
       }
+
+      // Load images
+      const { data: imgs } = await supabase.from('listing_images').select('*').eq('listing_id', id).order('sort_order');
+      if (imgs) setImages(imgs as typeof images);
+
       setLoading(false);
     }
     load();
@@ -285,7 +291,127 @@ export default function AdminEditListingPage() {
         </div>
 
         {/* Image */}
-        <ImageUpload currentUrl="" onUpload={() => {}} folder="listings" />
+        {/* Listing Images Manager */}
+        <div>
+          <h3 className="text-sm font-semibold text-gray-700 mb-3">Φωτογραφίες ({images.length})</h3>
+
+          {/* Existing images - drag to reorder, delete, set cover */}
+          {images.length > 0 ? (
+            <div className="grid grid-cols-3 md:grid-cols-5 gap-3 mb-3">
+              {images.map((img, idx) => (
+                <div key={img.id} className={`relative group rounded-lg overflow-hidden border-2 ${img.is_cover ? 'border-primary-500' : 'border-gray-200'}`}>
+                  <img src={img.image_url} alt="" className="w-full aspect-square object-cover" loading="lazy" />
+
+                  {/* Cover badge */}
+                  {img.is_cover && (
+                    <div className="absolute top-1 left-1 bg-primary-600 text-white text-[9px] px-1.5 py-0.5 rounded">Cover</div>
+                  )}
+
+                  {/* Order badge */}
+                  <div className="absolute top-1 right-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">{idx + 1}</div>
+
+                  {/* Hover actions */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100">
+                    {/* Set as cover */}
+                    {!img.is_cover && (
+                      <button type="button" onClick={async () => {
+                        const supabase = createClient();
+                        await supabase.from('listing_images').update({ is_cover: false }).eq('listing_id', id);
+                        await supabase.from('listing_images').update({ is_cover: true }).eq('id', img.id);
+                        setImages(prev => prev.map(i => ({ ...i, is_cover: i.id === img.id })));
+                      }} className="px-2 py-1 bg-primary-600 text-white text-[10px] rounded font-medium">
+                        Cover
+                      </button>
+                    )}
+
+                    {/* Move left */}
+                    {idx > 0 && (
+                      <button type="button" onClick={async () => {
+                        const supabase = createClient();
+                        const prev = images[idx - 1];
+                        await supabase.from('listing_images').update({ sort_order: idx - 1 }).eq('id', img.id);
+                        await supabase.from('listing_images').update({ sort_order: idx }).eq('id', prev.id);
+                        setImages(old => {
+                          const n = [...old];
+                          [n[idx - 1], n[idx]] = [n[idx], n[idx - 1]];
+                          return n;
+                        });
+                      }} className="px-1.5 py-1 bg-white text-gray-700 text-[10px] rounded font-medium">
+                        ←
+                      </button>
+                    )}
+
+                    {/* Move right */}
+                    {idx < images.length - 1 && (
+                      <button type="button" onClick={async () => {
+                        const supabase = createClient();
+                        const next = images[idx + 1];
+                        await supabase.from('listing_images').update({ sort_order: idx + 1 }).eq('id', img.id);
+                        await supabase.from('listing_images').update({ sort_order: idx }).eq('id', next.id);
+                        setImages(old => {
+                          const n = [...old];
+                          [n[idx], n[idx + 1]] = [n[idx + 1], n[idx]];
+                          return n;
+                        });
+                      }} className="px-1.5 py-1 bg-white text-gray-700 text-[10px] rounded font-medium">
+                        →
+                      </button>
+                    )}
+
+                    {/* Delete */}
+                    <button type="button" onClick={async () => {
+                      if (!confirm('Διαγραφή φωτογραφίας;')) return;
+                      const supabase = createClient();
+                      await supabase.from('listing_images').delete().eq('id', img.id);
+                      setImages(prev => prev.filter(i => i.id !== img.id));
+                    }} className="px-1.5 py-1 bg-red-600 text-white text-[10px] rounded font-medium">
+                      ✕
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-400 mb-3">Χωρίς φωτογραφίες</p>
+          )}
+
+          {/* Upload new */}
+          <label className="inline-flex items-center gap-2 px-4 py-2 border-2 border-dashed border-gray-300 rounded-xl text-sm text-gray-500 hover:border-primary-500 hover:text-primary-600 cursor-pointer transition-colors">
+            + Προσθήκη φωτογραφίας
+            <input type="file" accept="image/*" multiple className="hidden" onChange={async (e) => {
+              const files = e.target.files;
+              if (!files) return;
+              const supabase = createClient();
+              const { data: { user } } = await supabase.auth.getUser();
+              if (!user) return;
+
+              for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const filePath = `${user.id}/${id}/${Date.now()}-${i}.webp`;
+
+                // Compress
+                let uploadBlob: Blob = file;
+                try {
+                  const { compressImage } = await import('@/lib/image-utils');
+                  const { blob } = await compressImage(file, { maxWidth: 1200, maxHeight: 800, quality: 0.72, format: 'webp' });
+                  uploadBlob = blob;
+                } catch {}
+
+                const { error } = await supabase.storage.from('listing-images').upload(filePath, uploadBlob, { contentType: 'image/webp', upsert: true });
+                if (!error) {
+                  const { data: { publicUrl } } = supabase.storage.from('listing-images').getPublicUrl(filePath);
+                  const { data: newImg } = await supabase.from('listing_images').insert({
+                    listing_id: id,
+                    image_url: publicUrl,
+                    sort_order: images.length + i,
+                    is_cover: images.length === 0 && i === 0,
+                  }).select().single();
+                  if (newImg) setImages(prev => [...prev, newImg as typeof prev[0]]);
+                }
+              }
+            }} />
+          </label>
+        </div>
 
         {/* SEO - ALL languages */}
         <div className="border-t border-gray-200 pt-6">
