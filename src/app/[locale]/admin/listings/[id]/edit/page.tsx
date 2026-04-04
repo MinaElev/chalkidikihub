@@ -75,6 +75,10 @@ export default function AdminEditListingPage() {
     setSaving(true); setError(''); setSuccess('');
     const supabase = createClient();
 
+    // Auto-set image_url from cover photo for SEO (Open Graph, JSON-LD)
+    const coverImg = images.find(i => i.is_cover) || images[0];
+    const seoImageUrl = coverImg?.image_url || '';
+
     // Explicitly list all DB columns to avoid sending unknown fields
     const updateData = {
       title_el: form.title_el, title_en: form.title_en, title_de: form.title_de,
@@ -95,6 +99,7 @@ export default function AdminEditListingPage() {
       meta_description_de: form.meta_description_de, meta_description_bg: form.meta_description_bg,
       meta_description_ru: form.meta_description_ru, meta_description_ro: form.meta_description_ro,
       image_alt: form.image_alt,
+      image_url: seoImageUrl,
     };
 
     const { error: err } = await supabase.from('listings').update(updateData).eq('id', id);

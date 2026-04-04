@@ -121,10 +121,16 @@ export default function EditListingPage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { setError('Not authenticated'); setSaving(false); return; }
 
+    // Get cover image URL for SEO
+    const { data: coverImgs } = await supabase.from('listing_images')
+      .select('image_url').eq('listing_id', id).eq('is_cover', true).limit(1);
+    const seoImageUrl = (coverImgs && coverImgs[0]?.image_url) || '';
+
     // Update listing
     const { error: updateError } = await supabase
       .from('listings')
       .update({
+        image_url: seoImageUrl,
         title_el: form.title_el,
         title_en: form.title_el,
         description_el: form.description_el,
