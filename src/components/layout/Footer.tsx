@@ -57,6 +57,7 @@ export function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">{t('forOwners')}</h3>
             <ul className="space-y-2">
+              <li><Link href="/for-owners" className="text-sm text-gray-400 hover:text-white transition-colors">{locale === 'el' ? 'Γιατί ChalkidikiHub' : 'Why ChalkidikiHub'}</Link></li>
               <li><Link href="/auth/register" className="text-sm text-gray-400 hover:text-white transition-colors">{t('registerProperty')}</Link></li>
               <li><Link href="/auth/login" className="text-sm text-gray-400 hover:text-white transition-colors">{tNav('login')}</Link></li>
               <li><Link href="/dashboard" className="text-sm text-gray-400 hover:text-white transition-colors">{tNav('dashboard')}</Link></li>
