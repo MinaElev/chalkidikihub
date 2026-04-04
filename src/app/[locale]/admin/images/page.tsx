@@ -152,7 +152,11 @@ export default function AdminImagesPage() {
 
         if (!error) {
           const { data: { publicUrl } } = supabase.storage.from('content-images').getPublicUrl(filePath);
-          await supabase.from(img.table).update({ image_url: publicUrl, image_optimized: true }).eq('id', img.id);
+          const { error: dbError } = await supabase.from(img.table).update({ image_url: publicUrl, image_optimized: true }).eq('id', img.id);
+          if (dbError) {
+            setImages(prev => { const n = [...prev]; n[idx] = { ...n[idx], compressing: false, result: `Compressed OK but DB save failed: ${dbError.message}` }; return n; });
+            return;
+          }
           setImages(prev => {
             const n = [...prev];
             n[idx] = { ...n[idx], compressing: false, optimized: true, size: compressedBlob.size, image_url: publicUrl, result: `${formatSize(originalSize)} → ${formatSize(compressedBlob.size)} (-${savedPercent}%)` };
