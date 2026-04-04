@@ -6,6 +6,7 @@ import { locales, type Locale } from '@/i18n/config';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { BackToTop } from '@/components/ui/BackToTop';
+import { CookieConsent } from '@/components/ui/CookieConsent';
 
 type Props = {
   children: React.ReactNode;
@@ -52,6 +53,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <main className="flex-1">{children}</main>
         <Footer />
         <BackToTop />
+        <CookieConsent />
       </div>
     </NextIntlClientProvider>
   );
