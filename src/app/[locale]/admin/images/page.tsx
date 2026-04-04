@@ -118,8 +118,14 @@ export default function AdminImagesPage() {
 
       const bitmap = await createImageBitmap(originalBlob);
       let w = bitmap.width, h = bitmap.height;
-      if (w > 1200 || h > 800) {
-        const ratio = Math.min(1200 / w, 800 / h);
+
+      // More aggressive for very large images
+      const maxW = originalSize > 2 * 1024 * 1024 ? 1000 : 1200;
+      const maxH = originalSize > 2 * 1024 * 1024 ? 667 : 800;
+      const quality = originalSize > 3 * 1024 * 1024 ? 0.65 : 0.72;
+
+      if (w > maxW || h > maxH) {
+        const ratio = Math.min(maxW / w, maxH / h);
         w = Math.round(w * ratio);
         h = Math.round(h * ratio);
       }
@@ -127,13 +133,21 @@ export default function AdminImagesPage() {
       const canvas = new OffscreenCanvas(w, h);
       const ctx = canvas.getContext('2d')!;
       ctx.drawImage(bitmap, 0, 0, w, h);
-      const compressedBlob = await canvas.convertToBlob({ type: 'image/webp', quality: 0.72 });
+      const compressedBlob = await canvas.convertToBlob({ type: 'image/webp', quality });
 
       const savedPercent = Math.round((1 - compressedBlob.size / originalSize) * 100);
 
       if (savedPercent > 15) {
         const supabase = createClient();
         const filePath = `optimized/${img.table}/${Date.now()}.webp`;
+
+        // Check compressed size
+        const compressedSizeMB = (compressedBlob.size / (1024 * 1024)).toFixed(1);
+        if (compressedBlob.size > 5 * 1024 * 1024) {
+          setImages(prev => { const n = [...prev]; n[idx] = { ...n[idx], compressing: false, result: `Still too large after compression: ${compressedSizeMB}MB` }; return n; });
+          return;
+        }
+
         const { error } = await supabase.storage.from('content-images').upload(filePath, compressedBlob, { contentType: 'image/webp', upsert: true });
 
         if (!error) {
@@ -144,6 +158,10 @@ export default function AdminImagesPage() {
             n[idx] = { ...n[idx], compressing: false, optimized: true, size: compressedBlob.size, image_url: publicUrl, result: `${formatSize(originalSize)} → ${formatSize(compressedBlob.size)} (-${savedPercent}%)` };
             return n;
           });
+          return;
+        } else {
+          // Upload failed - show error
+          setImages(prev => { const n = [...prev]; n[idx] = { ...n[idx], compressing: false, result: `Upload error: ${error.message}` }; return n; });
           return;
         }
       }
