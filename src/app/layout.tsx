@@ -21,6 +21,8 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="ChalkidikiHub" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YKD6X4B919" />
+        <script dangerouslySetInnerHTML={{ __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-YKD6X4B919');` }} />
       </head>
       <body>
         <PWARegister />
