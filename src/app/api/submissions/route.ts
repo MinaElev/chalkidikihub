@@ -51,6 +51,7 @@ export async function GET(request: NextRequest) {
 
 // PATCH: approve/reject/delete (admin only - uses service role)
 export async function PATCH(request: NextRequest) {
+  try {
   const body = await request.json();
   const { id, action, admin_notes, user_id } = body;
 
@@ -188,4 +189,7 @@ export async function PATCH(request: NextRequest) {
   }
 
   return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
+  } catch (err) {
+    return NextResponse.json({ error: (err as Error).message || 'Server error' }, { status: 500 });
+  }
 }

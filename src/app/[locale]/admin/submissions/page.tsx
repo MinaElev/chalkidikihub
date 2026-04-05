@@ -59,13 +59,16 @@ export default function AdminSubmissionsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, action, admin_notes: rejectNotes[id] || '' }),
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data;
+      try { data = JSON.parse(text); } catch { data = { error: `Server returned: ${res.status} ${text.slice(0, 200)}` }; }
+
       if (res.ok && data.success) {
         setSubmissions((prev) =>
           prev.map((s) => s.id === id ? { ...s, status: action === 'approve' ? 'approved' : 'rejected', admin_notes: rejectNotes[id] || null } : s)
         );
       } else {
-        setActionError(data.error || `Failed to ${action}`);
+        setActionError(data.error || `Failed to ${action} (${res.status})`);
       }
     } catch (err) {
       setActionError(`Network error: ${(err as Error).message}`);
