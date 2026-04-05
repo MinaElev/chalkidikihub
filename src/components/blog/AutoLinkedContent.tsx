@@ -86,7 +86,9 @@ export function AutoLinkedContent({ content, className }: { content: string; cla
     // Find all matches
     const matches: Array<{ start: number; end: number; item: LinkableItem }> = [];
     for (const item of linkables) {
-      const regex = new RegExp(`\\b${escapeRegex(item.name)}\\b`, 'gi');
+      // \b doesn't work with Greek characters, use lookaround with spaces/punctuation/start/end
+      const escaped = escapeRegex(item.name);
+      const regex = new RegExp(`(?<![\\p{L}])${escaped}(?![\\p{L}])`, 'giu');
       let match;
       while ((match = regex.exec(text)) !== null) {
         const start = match.index;
