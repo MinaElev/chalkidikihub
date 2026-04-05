@@ -27,11 +27,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function RestaurantDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const restaurant = seedRestaurants.find((r) => r.slug === slug);
-  if (!restaurant) return <DynamicRestaurantDetail slug={slug} />;
-  const area = AREAS.find((a) => a.slug === restaurant.area);
-  const nearbyBeaches = seedBeaches.filter((b) => restaurant.nearby_beach_ids.includes(b.id));
-  return <RestaurantDetail locale={locale} restaurant={restaurant} areaName={area?.name[locale] || ''} nearbyBeaches={nearbyBeaches} />;
+  return <DynamicRestaurantDetail slug={slug} />;
 }
 
 function StarRating({ rating }: { rating: number }) {

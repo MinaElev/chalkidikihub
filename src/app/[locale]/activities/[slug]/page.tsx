@@ -27,11 +27,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function ActivityDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const activity = seedActivities.find((a) => a.slug === slug);
-  if (!activity) return <DynamicActivityDetail slug={slug} />;
-  const area = AREAS.find((a) => a.slug === activity.area);
-  const nearbyBeaches = seedBeaches.filter((b) => activity.nearby_beach_ids.includes(b.id));
-  return <ActivityDetail locale={locale} activity={activity} areaName={area?.name[locale] || ''} nearbyBeaches={nearbyBeaches} />;
+  return <DynamicActivityDetail slug={slug} />;
 }
 
 function StarRating({ rating }: { rating: number }) {

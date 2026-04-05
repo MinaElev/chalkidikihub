@@ -31,10 +31,8 @@ export default async function BeachDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const beach = seedBeaches.find((b) => b.slug === slug);
-  if (!beach) return <DynamicBeachDetail slug={slug} />;
-
-  const area = AREAS.find((a) => a.slug === beach.area);
+  // Always use DynamicBeachDetail to fetch live content from DB
+  return <DynamicBeachDetail slug={slug} />;
 
   return <BeachDetail locale={locale} beach={beach} areaName={area?.name[locale] || ''} />;
 }

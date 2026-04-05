@@ -30,15 +30,7 @@ export default async function ListingDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  // Check seed data first
-  const listing = seedListings.find((l) => l.slug === slug);
-
-  if (listing) {
-    const area = AREAS.find((a) => a.slug === listing.area);
-    return <ListingDetail locale={locale} listing={listing} areaName={area?.name[locale] || ''} />;
-  }
-
-  // Not in seed data - must be a DB listing, render client component that fetches it
+  // Always use DynamicListingDetail to fetch live content from DB
   return <DynamicListingDetail slug={slug} locale={locale} />;
 }
 
