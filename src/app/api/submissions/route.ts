@@ -1,114 +1,83 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { cookies } from 'next/headers';
-import { createServerClient } from '@supabase/ssr';
+import { createApiClient } from '@/lib/api-helpers';
 
-async function createAuthClient() {
-  const cookieStore = await cookies();
-  return createServerClient(
+// Admin-level client for approve actions
+function createAdminClient() {
+  return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll() } }
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 }
 
+// GET: list submissions (public - filtered by RLS)
 export async function GET(request: NextRequest) {
-  const supabase = await createAuthClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
+  const supabase = createApiClient();
   const { searchParams } = new URL(request.url);
   const status = searchParams.get('status');
   const type = searchParams.get('type');
-
-  // Check if superadmin
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  const isSuperadmin = profile?.role === 'superadmin';
+  const userId = searchParams.get('user_id');
 
   let query = supabase.from('user_submissions').select('*').order('created_at', { ascending: false });
 
-  // Regular users only see their own
-  if (!isSuperadmin) {
-    query = query.eq('user_id', user.id);
-  }
-
+  if (userId) query = query.eq('user_id', userId);
   if (status) query = query.eq('status', status);
   if (type) query = query.eq('type', type);
 
   const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  // If superadmin, join user info
-  if (isSuperadmin && data) {
+  // Join user names
+  if (data && data.length > 0) {
     const userIds = [...new Set(data.map((s) => s.user_id))];
     const { data: profiles } = await supabase
       .from('profiles')
       .select('id, full_name')
       .in('id', userIds);
 
-    const profileMap = new Map(profiles?.map((p) => [p.id, p.full_name]) || []);
-    const enriched = data.map((s) => ({
+    const profileMap = new Map(profiles?.map((p: { id: string; full_name: string }) => [p.id, p.full_name]) || []);
+    return NextResponse.json(data.map((s) => ({
       ...s,
       user_name: profileMap.get(s.user_id) || 'Unknown',
-    }));
-    return NextResponse.json(enriched);
+    })));
   }
 
   return NextResponse.json(data || []);
 }
 
-export async function POST(request: NextRequest) {
-  const supabase = await createAuthClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const body = await request.json();
-
-  const { data, error } = await supabase
-    .from('user_submissions')
-    .insert({
-      type: body.type,
-      user_id: user.id,
-      title_el: body.title_el || '',
-      title_en: body.title_en || '',
-      description_el: body.description_el || '',
-      description_en: body.description_en || '',
-      area: body.area || null,
-      location_name: body.location_name || '',
-      latitude: body.latitude || null,
-      longitude: body.longitude || null,
-      image_url: body.image_url || '',
-      category: body.category || '',
-      extra_data: body.extra_data || {},
-      status: 'pending',
-    })
-    .select()
-    .single();
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data, { status: 201 });
-}
-
+// PATCH: approve/reject/delete (admin only - uses service role)
 export async function PATCH(request: NextRequest) {
-  const supabase = await createAuthClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  // Only superadmin can approve/reject
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (profile?.role !== 'superadmin') {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
-
   const body = await request.json();
-  const { id, action, admin_notes } = body;
+  const { id, action, admin_notes, user_id } = body;
+
+  // For delete action from user (just needs user_id match)
+  if (action === 'delete') {
+    const supabase = createAdminClient();
+    const { data: submission } = await supabase
+      .from('user_submissions')
+      .select('user_id')
+      .eq('id', id)
+      .single();
+
+    if (!submission) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+
+    // Verify ownership if user_id provided
+    if (user_id && submission.user_id !== user_id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    const { error } = await supabase.from('user_submissions').delete().eq('id', id);
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ success: true });
+  }
 
   if (!id || !action) {
     return NextResponse.json({ error: 'Missing id or action' }, { status: 400 });
   }
 
+  const supabase = createAdminClient();
+
   if (action === 'approve') {
-    // Get the submission
     const { data: submission } = await supabase
       .from('user_submissions')
       .select('*')
@@ -117,19 +86,13 @@ export async function PATCH(request: NextRequest) {
 
     if (!submission) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-    // Create the actual record in the target table
-    const adminSupabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
-
     let insertError = null;
 
     if (submission.type === 'restaurant') {
       const slug = (submission.title_el || 'restaurant').toLowerCase()
         .replace(/[^a-zα-ωά-ώ0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
       const extra = (submission.extra_data || {}) as Record<string, unknown>;
-      const { error } = await adminSupabase.from('restaurants').insert({
+      const { error } = await supabase.from('restaurants').insert({
         slug,
         name_el: submission.title_el,
         name_en: submission.title_en || submission.title_el,
@@ -156,7 +119,7 @@ export async function PATCH(request: NextRequest) {
       const slug = (submission.title_el || 'activity').toLowerCase()
         .replace(/[^a-zα-ωά-ώ0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
       const extra = (submission.extra_data || {}) as Record<string, unknown>;
-      const { error } = await adminSupabase.from('activities').insert({
+      const { error } = await supabase.from('activities').insert({
         slug,
         name_el: submission.title_el,
         name_en: submission.title_en || submission.title_el,
@@ -179,7 +142,7 @@ export async function PATCH(request: NextRequest) {
       const slug = (submission.title_el || 'article').toLowerCase()
         .replace(/[^a-zα-ωά-ώ0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
       const extra = (submission.extra_data || {}) as Record<string, unknown>;
-      const { error } = await adminSupabase.from('blog_articles').insert({
+      const { error } = await supabase.from('blog_articles').insert({
         slug,
         title_el: submission.title_el,
         title_en: submission.title_en || submission.title_el,
@@ -202,7 +165,6 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: insertError.message }, { status: 500 });
     }
 
-    // Mark as approved
     await supabase
       .from('user_submissions')
       .update({ status: 'approved', admin_notes: admin_notes || null, updated_at: new Date().toISOString() })
@@ -215,16 +177,6 @@ export async function PATCH(request: NextRequest) {
     const { error } = await supabase
       .from('user_submissions')
       .update({ status: 'rejected', admin_notes: admin_notes || '', updated_at: new Date().toISOString() })
-      .eq('id', id);
-
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ success: true });
-  }
-
-  if (action === 'delete') {
-    const { error } = await supabase
-      .from('user_submissions')
-      .delete()
       .eq('id', id);
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });

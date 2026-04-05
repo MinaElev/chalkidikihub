@@ -48,24 +48,23 @@ export default function SuggestBlogPage() {
       }
     }
 
-    const res = await fetch('/api/submissions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'blog',
-        title_el: form.title_el, title_en: form.title_en,
-        description_el: form.content_el, description_en: form.content_en,
-        image_url: imageUrl,
-        category: form.category,
-        extra_data: { tags: form.tags },
-      }),
+    const { error: insertError } = await supabase.from('user_submissions').insert({
+      type: 'blog',
+      user_id: user.id,
+      title_el: form.title_el,
+      title_en: form.title_en || '',
+      description_el: form.content_el,
+      description_en: form.content_en || '',
+      image_url: imageUrl,
+      category: form.category,
+      extra_data: { tags: form.tags },
+      status: 'pending',
     });
 
-    if (res.ok) {
+    if (!insertError) {
       setSuccess(true);
     } else {
-      const data = await res.json();
-      setError(data.error || t('submitError'));
+      setError(insertError.message || t('submitError'));
     }
     setLoading(false);
   }

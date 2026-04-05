@@ -58,26 +58,27 @@ export default function SuggestRestaurantPage() {
       }
     }
 
-    const res = await fetch('/api/submissions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'restaurant',
-        title_el: form.title_el, title_en: form.title_en,
-        description_el: form.description_el, description_en: form.description_en,
-        area: form.area, location_name: form.location_name,
-        latitude: form.latitude, longitude: form.longitude,
-        image_url: imageUrl,
-        category: form.cuisine,
-        extra_data: { cuisine: form.cuisine, phone: form.phone, hours: form.hours },
-      }),
+    const { error: insertError } = await supabase.from('user_submissions').insert({
+      type: 'restaurant',
+      user_id: user.id,
+      title_el: form.title_el,
+      title_en: form.title_en || '',
+      description_el: form.description_el,
+      description_en: form.description_en || '',
+      area: form.area,
+      location_name: form.location_name,
+      latitude: form.latitude,
+      longitude: form.longitude,
+      image_url: imageUrl,
+      category: form.cuisine,
+      extra_data: { cuisine: form.cuisine, phone: form.phone, hours: form.hours },
+      status: 'pending',
     });
 
-    if (res.ok) {
+    if (!insertError) {
       setSuccess(true);
     } else {
-      const data = await res.json();
-      setError(data.error || t('submitError'));
+      setError(insertError.message || t('submitError'));
     }
     setLoading(false);
   }

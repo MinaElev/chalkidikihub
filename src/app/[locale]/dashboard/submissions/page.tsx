@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { createClient } from '@/lib/supabase/client';
 import { UserSubmission } from '@/types';
 import { ClipboardList, Trash2, Loader2, UtensilsCrossed, Landmark, FileText, MessageSquare } from 'lucide-react';
 
@@ -23,20 +24,25 @@ export default function SubmissionsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/submissions')
-      .then((r) => r.json())
-      .then((data) => { if (Array.isArray(data)) setSubmissions(data); })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    async function load() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setLoading(false); return; }
+      const { data } = await supabase
+        .from('user_submissions')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      if (data) setSubmissions(data as UserSubmission[]);
+      setLoading(false);
+    }
+    load();
   }, []);
 
   async function handleDelete(id: string) {
-    const res = await fetch('/api/submissions', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, action: 'delete' }),
-    });
-    if (res.ok) {
+    const supabase = createClient();
+    const { error } = await supabase.from('user_submissions').delete().eq('id', id);
+    if (!error) {
       setSubmissions((prev) => prev.filter((s) => s.id !== id));
     }
   }
