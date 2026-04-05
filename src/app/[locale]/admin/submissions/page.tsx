@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { createClient } from '@/lib/supabase/client';
 import { UserSubmission } from '@/types';
 import { Shield, Check, X, ChevronDown, ChevronUp, Loader2, UtensilsCrossed, Landmark, FileText, MapPin, Image } from 'lucide-react';
 
@@ -25,14 +26,26 @@ export default function AdminSubmissionsPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (filterType) params.set('type', filterType);
-    if (filterStatus) params.set('status', filterStatus);
-    fetch(`/api/submissions?${params}`)
-      .then((r) => r.json())
-      .then((data) => { if (Array.isArray(data)) setSubmissions(data); })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    async function load() {
+      const supabase = createClient();
+      let query = supabase.from('user_submissions').select('*').order('created_at', { ascending: false });
+      if (filterType) query = query.eq('type', filterType);
+      if (filterStatus) query = query.eq('status', filterStatus);
+      const { data } = await query;
+
+      if (data) {
+        // Join user names from profiles
+        const userIds = [...new Set(data.map((s) => s.user_id))];
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .in('id', userIds);
+        const profileMap = new Map(profiles?.map((p) => [p.id, p.full_name]) || []);
+        setSubmissions(data.map((s) => ({ ...s, user_name: profileMap.get(s.user_id) || 'Unknown' })) as UserSubmission[]);
+      }
+      setLoading(false);
+    }
+    load();
   }, [filterType, filterStatus]);
 
   async function handleAction(id: string, action: 'approve' | 'reject') {
