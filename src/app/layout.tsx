@@ -21,11 +21,15 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="ChalkidikiHub" />
         {/* Performance: preconnect to critical origins */}
-        <link rel="preconnect" href="https://bvwiwxmgbtklztgapxyp.supabase.co" />
+        <link rel="preconnect" href="https://bvwiwxmgbtklztgapxyp.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://bvwiwxmgbtklztgapxyp.supabase.co" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YKD6X4B919" />
-        <script dangerouslySetInnerHTML={{ __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-YKD6X4B919');` }} />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        {/* Defer Google Analytics to not block rendering */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
+          gtag('js',new Date());gtag('config','G-YKD6X4B919');
+          setTimeout(function(){var s=document.createElement('script');s.src='https://www.googletagmanager.com/gtag/js?id=G-YKD6X4B919';s.async=true;document.head.appendChild(s)},2000);
+        ` }} />
       </head>
       <body>
         <PWARegister />
