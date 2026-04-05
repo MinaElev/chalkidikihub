@@ -80,7 +80,7 @@ export default function InternalLinksPage() {
 
     // Now scan blog articles for mentions
     const contentItems: ContentItem[] = [];
-    const { data: blogs } = await supabase.from('blog_articles').select('id, slug, title_el, content_el, related_beach_slugs, related_area_slugs, related_listing_slugs, related_article_slugs');
+    const { data: blogs } = await supabase.from('blog_articles').select('id, slug, title_el, content_el, related_beach_slugs, related_area_slugs, related_listing_slugs, related_article_slugs, related_restaurant_slugs, related_activity_slugs');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (blogs as any[] || []).forEach((blog: any) => {
       const content = (blog.content_el || '') + ' ' + (blog.title_el || '');
@@ -89,6 +89,8 @@ export default function InternalLinksPage() {
         ...(blog.related_area_slugs || []),
         ...(blog.related_listing_slugs || []),
         ...(blog.related_article_slugs || []),
+        ...(blog.related_restaurant_slugs || []),
+        ...(blog.related_activity_slugs || []),
       ];
 
       const suggested: ContentItem['suggestedLinks'] = [];
@@ -132,24 +134,24 @@ export default function InternalLinksPage() {
     const areaSlugs = item.suggestedLinks.filter(s => s.type === 'area').map(s => s.slug);
     const articleSlugs = item.suggestedLinks.filter(s => s.type === 'blog').map(s => s.slug);
     const listingSlugs = item.suggestedLinks.filter(s => s.type === 'listing').map(s => s.slug);
-
-    // Merge with existing
-    const update: Record<string, string[]> = {};
-    if (beachSlugs.length > 0) update.related_beach_slugs = [...new Set([...item.currentLinks.filter(s => beachSlugs.includes(s) || !beachSlugs.length), ...beachSlugs])];
-    if (areaSlugs.length > 0) update.related_area_slugs = [...new Set(areaSlugs)];
-    if (articleSlugs.length > 0) update.related_article_slugs = [...new Set(articleSlugs)];
-    if (listingSlugs.length > 0) update.related_listing_slugs = [...new Set(listingSlugs)];
+    const restaurantSlugs = item.suggestedLinks.filter(s => s.type === 'restaurant').map(s => s.slug);
+    const activitySlugs = item.suggestedLinks.filter(s => s.type === 'activity').map(s => s.slug);
 
     // Get current values and merge
-    const { data: current } = await supabase.from('blog_articles').select('related_beach_slugs, related_area_slugs, related_article_slugs, related_listing_slugs').eq('id', item.id).single();
-    if (current) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const c = current as any;
-      if (beachSlugs.length > 0) update.related_beach_slugs = [...new Set([...(c.related_beach_slugs || []), ...beachSlugs])];
-      if (areaSlugs.length > 0) update.related_area_slugs = [...new Set([...(c.related_area_slugs || []), ...areaSlugs])];
-      if (articleSlugs.length > 0) update.related_article_slugs = [...new Set([...(c.related_article_slugs || []), ...articleSlugs])];
-      if (listingSlugs.length > 0) update.related_listing_slugs = [...new Set([...(c.related_listing_slugs || []), ...listingSlugs])];
-    }
+    const { data: current } = await supabase.from('blog_articles')
+      .select('related_beach_slugs, related_area_slugs, related_article_slugs, related_listing_slugs, related_restaurant_slugs, related_activity_slugs')
+      .eq('id', item.id).single();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const c = (current as any) || {};
+    const update: Record<string, string[]> = {};
+
+    if (beachSlugs.length > 0) update.related_beach_slugs = [...new Set([...(c.related_beach_slugs || []), ...beachSlugs])];
+    if (areaSlugs.length > 0) update.related_area_slugs = [...new Set([...(c.related_area_slugs || []), ...areaSlugs])];
+    if (articleSlugs.length > 0) update.related_article_slugs = [...new Set([...(c.related_article_slugs || []), ...articleSlugs])];
+    if (listingSlugs.length > 0) update.related_listing_slugs = [...new Set([...(c.related_listing_slugs || []), ...listingSlugs])];
+    if (restaurantSlugs.length > 0) update.related_restaurant_slugs = [...new Set([...(c.related_restaurant_slugs || []), ...restaurantSlugs])];
+    if (activitySlugs.length > 0) update.related_activity_slugs = [...new Set([...(c.related_activity_slugs || []), ...activitySlugs])];
 
     const { error } = await supabase.from('blog_articles').update(update).eq('id', item.id);
     if (error) {
