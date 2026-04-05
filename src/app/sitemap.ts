@@ -5,6 +5,8 @@ import { AREAS } from '@/lib/constants';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
+// Force dynamic rendering (not prerendered at build time)
+export const dynamic = 'force-dynamic';
 // Revalidate sitemap every hour
 export const revalidate = 3600;
 
