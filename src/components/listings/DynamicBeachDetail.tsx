@@ -6,6 +6,8 @@ import { Beach } from '@/types';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, MapPin, Star } from 'lucide-react';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
+import { JsonLd } from '@/components/ui/JsonLd';
+import { generateBeachLD } from '@/lib/seo';
 import { BeachFeatureBadge } from './BeachFeatureBadge';
 import { CrowdIndicator } from './CrowdIndicator';
 
@@ -31,6 +33,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <JsonLd data={generateBeachLD(beach as unknown as Record<string, unknown>, locale)} />
       <Link href="/beaches" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6"><ArrowLeft className="w-4 h-4" />{t('title')}</Link>
       {beach.image_url && <div className="relative aspect-[21/9] bg-gray-200 rounded-2xl overflow-hidden mb-8"><img src={beach.image_url} alt={name} className="w-full h-full object-cover" /></div>}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -23,6 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = (messages as Record<string, Record<string, string>>).common;
 
   return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr'),
     title: {
       default: `${t.siteName} - ${t.siteDescription}`,
       template: `%s | ${t.siteName}`,
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: t.siteName,
       locale: locale,
       type: 'website',
+      url: '/',
     },
   };
 }

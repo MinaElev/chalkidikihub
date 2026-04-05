@@ -6,6 +6,8 @@ import { BlogArticle } from '@/types';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, ArrowRight, Calendar, Clock, User, Tag, BookOpen } from 'lucide-react';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
+import { JsonLd } from '@/components/ui/JsonLd';
+import { generateArticleLD } from '@/lib/seo';
 import { AutoLinkedContent } from './AutoLinkedContent';
 import { BlogCard } from './BlogCard';
 
@@ -77,6 +79,7 @@ export function DynamicArticle({ slug }: { slug: string }) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <JsonLd data={generateArticleLD(article as unknown as Record<string, unknown>, locale)} />
       <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6">
         <ArrowLeft className="w-4 h-4" />{t('backToBlog')}
       </Link>
@@ -86,7 +89,7 @@ export function DynamicArticle({ slug }: { slug: string }) {
         <div className="flex-1 min-w-0 max-w-4xl">
           {article.image_url && (
             <div className="relative aspect-[21/9] bg-gray-200 rounded-2xl overflow-hidden mb-8">
-              <img src={article.image_url} alt="" className="w-full h-full object-cover" loading="lazy" />
+              <img src={article.image_url} alt={title} className="w-full h-full object-cover" loading="lazy" />
             </div>
           )}
 
@@ -133,7 +136,7 @@ export function DynamicArticle({ slug }: { slug: string }) {
                     <Link key={a.slug} href={`/blog/${a.slug}`}
                       className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
                       {a.image_url && (
-                        <img src={a.image_url} alt="" className="w-14 h-14 rounded-lg object-cover shrink-0" />
+                        <img src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} className="w-14 h-14 rounded-lg object-cover shrink-0" />
                       )}
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-gray-900 group-hover:text-primary-700 truncate">
@@ -199,7 +202,7 @@ export function DynamicArticle({ slug }: { slug: string }) {
                   className="block group">
                   {a.image_url && (
                     <div className="aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
-                      <img src={a.image_url} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                      <img src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                     </div>
                   )}
                   <span className="inline-flex px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-[10px] font-medium mb-1">

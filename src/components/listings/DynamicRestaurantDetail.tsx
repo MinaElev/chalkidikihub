@@ -6,6 +6,8 @@ import { Restaurant, Beach, Listing } from '@/types';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, ArrowRight, MapPin, Star, Clock, Phone, Eye, Music, CalendarCheck, Tag, UtensilsCrossed } from 'lucide-react';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
+import { JsonLd } from '@/components/ui/JsonLd';
+import { generateRestaurantLD } from '@/lib/seo';
 import { RestaurantCard } from './RestaurantCard';
 import { BeachCard } from './BeachCard';
 import { ListingCard } from './ListingCard';
@@ -88,6 +90,7 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <JsonLd data={generateRestaurantLD(restaurant as unknown as Record<string, unknown>, locale)} />
       <Link href="/restaurants" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6">
         <ArrowLeft className="w-4 h-4" />{t('title')}
       </Link>
@@ -171,7 +174,7 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
                   {ctaRestaurants.map((r) => (
                     <Link key={r.slug} href={`/restaurants/${r.slug}`}
                       className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
-                      {r.image_url && <img src={r.image_url} alt="" className="w-14 h-14 rounded-lg object-cover shrink-0" />}
+                      {r.image_url && <img src={r.image_url} alt={r.name[locale] || r.name.en} className="w-14 h-14 rounded-lg object-cover shrink-0" />}
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-gray-900 group-hover:text-red-700 truncate">
                           {r.name[locale] || r.name.en}
@@ -331,7 +334,7 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
                     <Link key={r.slug} href={`/restaurants/${r.slug}`} className="block group">
                       {r.image_url && (
                         <div className="aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
-                          <img src={r.image_url} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                          <img src={r.image_url} alt={r.name[locale] || r.name.en} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                         </div>
                       )}
                       <div className="flex flex-wrap gap-1 mb-1">

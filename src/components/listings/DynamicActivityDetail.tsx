@@ -6,6 +6,8 @@ import { Activity, Beach } from '@/types';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, ArrowRight, MapPin, Star, Clock, Euro, Compass, Tag } from 'lucide-react';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
+import { JsonLd } from '@/components/ui/JsonLd';
+import { generateActivityLD } from '@/lib/seo';
 import { ActivityCard } from './ActivityCard';
 import { BeachCard } from './BeachCard';
 import { LocationMap } from '@/components/ui/LocationMap';
@@ -85,6 +87,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <JsonLd data={generateActivityLD(activity as unknown as Record<string, unknown>, locale)} />
       <Link href="/activities" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6">
         <ArrowLeft className="w-4 h-4" />{t('title')}
       </Link>
@@ -154,7 +157,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
                   {ctaActivities.map((a) => (
                     <Link key={a.slug} href={`/activities/${a.slug}`}
                       className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
-                      {a.image_url && <img src={a.image_url} alt="" className="w-14 h-14 rounded-lg object-cover shrink-0" />}
+                      {a.image_url && <img src={a.image_url} alt={a.name[locale] || a.name.en} className="w-14 h-14 rounded-lg object-cover shrink-0" />}
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-gray-900 group-hover:text-amber-700 truncate">
                           {a.name[locale] || a.name.en}
@@ -283,7 +286,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
                     <Link key={a.slug} href={`/activities/${a.slug}`} className="block group">
                       {a.image_url && (
                         <div className="aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
-                          <img src={a.image_url} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                          <img src={a.image_url} alt={a.name[locale] || a.name.en} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                         </div>
                       )}
                       <span className="inline-flex px-2 py-0.5 bg-amber-50 text-amber-700 rounded text-[10px] font-medium mb-1">
