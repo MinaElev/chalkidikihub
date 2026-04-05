@@ -1,11 +1,9 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { seedListings } from '@/lib/seed-data';
-import { seedArticles } from '@/lib/seed-blog';
-import { ListingCard } from '@/components/listings/ListingCard';
 import { FeaturedAreas } from '@/components/layout/FeaturedAreas';
 import { HomeBlogSection } from '@/components/layout/HomeBlogSection';
+import { HomeFeaturedListings } from '@/components/layout/HomeFeaturedListings';
 import { Search, MapPin, Home, Star } from 'lucide-react';
 
 type Props = {
@@ -20,7 +18,7 @@ export default async function HomePage({ params }: Props) {
     <>
       <HeroSection />
       <FeaturedAreas />
-      <FeaturedListingsSection locale={locale} />
+      <HomeFeaturedListings />
       <HomeBlogSection />
       <CTASection />
     </>
@@ -104,45 +102,7 @@ function HeroSection() {
 
 // FeaturedAreasSection moved to @/components/layout/FeaturedAreas (client component with DB fetch)
 
-function FeaturedListingsSection({ locale }: { locale: string }) {
-  const t = useTranslations('common');
-  const tListings = useTranslations('listings');
-  const featured = seedListings.slice(0, 3);
-
-  return (
-    <section className="py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900">{tListings('title')}</h2>
-            <p className="mt-1 text-gray-600">{tListings('subtitle')}</p>
-          </div>
-          <Link
-            href="/listings"
-            className="hidden md:inline-flex px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-          >
-            {t('viewAll')} &rarr;
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featured.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
-          ))}
-        </div>
-
-        <div className="mt-8 text-center md:hidden">
-          <Link
-            href="/listings"
-            className="inline-flex px-6 py-3 text-sm font-medium text-primary-600 border border-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-          >
-            {t('viewAll')} &rarr;
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
+// FeaturedListingsSection moved to @/components/layout/HomeFeaturedListings (client component with DB fetch)
 
 // BlogSection moved to @/components/layout/HomeBlogSection (client component with DB fetch)
 

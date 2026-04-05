@@ -23,12 +23,8 @@ export default function ListingsPage() {
       .catch(() => {});
   }, []);
 
-  // Merge: DB listings first (real), then seed data
-  const allListings = useMemo(() => {
-    const dbSlugs = new Set(dbListings.map((l) => l.slug));
-    const seedOnly = seedListings.filter((l) => !dbSlugs.has(l.slug));
-    return [...dbListings, ...seedOnly];
-  }, [dbListings]);
+  // Only DB listings - no seed data
+  const allListings = dbListings;
 
   const filteredListings = useMemo(() => {
     let result = [...allListings];

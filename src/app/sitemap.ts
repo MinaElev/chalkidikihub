@@ -1,17 +1,13 @@
 import { MetadataRoute } from 'next';
 import { locales } from '@/i18n/config';
-import { seedListings } from '@/lib/seed-data';
-import { seedBeaches } from '@/lib/seed-beaches';
-import { seedChargers } from '@/lib/seed-chargers';
-import { seedArticles } from '@/lib/seed-blog';
-import { seedActivities } from '@/lib/seed-activities';
-import { seedRestaurants } from '@/lib/seed-restaurants';
+import { createApiClient } from '@/lib/api-helpers';
 import { AREAS } from '@/lib/constants';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
+  const supabase = createApiClient();
 
   // Homepage for each locale
   for (const locale of locales) {
@@ -21,50 +17,41 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily',
       priority: 1,
       alternates: {
-        languages: Object.fromEntries(
-          locales.map((l) => [l, `${baseUrl}/${l}`])
-        ),
+        languages: Object.fromEntries(locales.map((l) => [l, `${baseUrl}/${l}`])),
       },
     });
   }
 
-  // Listings page
-  for (const locale of locales) {
-    entries.push({
-      url: `${baseUrl}/${locale}/listings`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.9,
-    });
-  }
-
-  // Individual listings
-  for (const listing of seedListings) {
+  // Static pages
+  const staticPages = ['listings', 'areas', 'beaches', 'restaurants', 'activities', 'ev-chargers', 'blog', 'map', 'contact', 'for-owners', 'terms', 'privacy'];
+  for (const page of staticPages) {
     for (const locale of locales) {
       entries.push({
-        url: `${baseUrl}/${locale}/listings/${listing.slug}`,
-        lastModified: new Date(listing.updated_at),
+        url: `${baseUrl}/${locale}/${page}`,
+        lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 0.8,
-        alternates: {
-          languages: Object.fromEntries(
-            locales.map((l) => [l, `${baseUrl}/${l}/listings/${listing.slug}`])
-          ),
-        },
       });
     }
   }
 
-  // Areas
-  for (const locale of locales) {
-    entries.push({
-      url: `${baseUrl}/${locale}/areas`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    });
+  // Listings from DB
+  const { data: listings } = await supabase.from('listings').select('slug, updated_at').eq('status', 'published');
+  if (listings) {
+    for (const item of listings) {
+      for (const locale of locales) {
+        entries.push({
+          url: `${baseUrl}/${locale}/listings/${item.slug}`,
+          lastModified: new Date(item.updated_at),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+          alternates: { languages: Object.fromEntries(locales.map((l) => [l, `${baseUrl}/${l}/listings/${item.slug}`])) },
+        });
+      }
+    }
   }
 
+  // Areas
   for (const area of AREAS) {
     for (const locale of locales) {
       entries.push({
@@ -72,147 +59,72 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 0.7,
-        alternates: {
-          languages: Object.fromEntries(
-            locales.map((l) => [l, `${baseUrl}/${l}/areas/${area.slug}`])
-          ),
-        },
+        alternates: { languages: Object.fromEntries(locales.map((l) => [l, `${baseUrl}/${l}/areas/${area.slug}`])) },
       });
     }
   }
 
-  // Beaches page
-  for (const locale of locales) {
-    entries.push({
-      url: `${baseUrl}/${locale}/beaches`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    });
-  }
-
-  // Individual beaches
-  for (const beach of seedBeaches) {
-    for (const locale of locales) {
-      entries.push({
-        url: `${baseUrl}/${locale}/beaches/${beach.slug}`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.7,
-        alternates: {
-          languages: Object.fromEntries(
-            locales.map((l) => [l, `${baseUrl}/${l}/beaches/${beach.slug}`])
-          ),
-        },
-      });
+  // Beaches from DB
+  const { data: beaches } = await supabase.from('beaches').select('slug');
+  if (beaches) {
+    for (const item of beaches) {
+      for (const locale of locales) {
+        entries.push({
+          url: `${baseUrl}/${locale}/beaches/${item.slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.7,
+          alternates: { languages: Object.fromEntries(locales.map((l) => [l, `${baseUrl}/${l}/beaches/${item.slug}`])) },
+        });
+      }
     }
   }
 
-  // EV Chargers page
-  for (const locale of locales) {
-    entries.push({
-      url: `${baseUrl}/${locale}/ev-chargers`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    });
-  }
-
-  // Individual chargers
-  for (const charger of seedChargers) {
-    for (const locale of locales) {
-      entries.push({
-        url: `${baseUrl}/${locale}/ev-chargers/${charger.slug}`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.6,
-        alternates: {
-          languages: Object.fromEntries(
-            locales.map((l) => [l, `${baseUrl}/${l}/ev-chargers/${charger.slug}`])
-          ),
-        },
-      });
+  // Restaurants from DB
+  const { data: restaurants } = await supabase.from('restaurants').select('slug');
+  if (restaurants) {
+    for (const item of restaurants) {
+      for (const locale of locales) {
+        entries.push({
+          url: `${baseUrl}/${locale}/restaurants/${item.slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'monthly',
+          priority: 0.7,
+          alternates: { languages: Object.fromEntries(locales.map((l) => [l, `${baseUrl}/${l}/restaurants/${item.slug}`])) },
+        });
+      }
     }
   }
 
-  // Blog page
-  for (const locale of locales) {
-    entries.push({
-      url: `${baseUrl}/${locale}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.9,
-    });
-  }
-
-  // Individual articles
-  for (const article of seedArticles) {
-    for (const locale of locales) {
-      entries.push({
-        url: `${baseUrl}/${locale}/blog/${article.slug}`,
-        lastModified: new Date(article.published_at),
-        changeFrequency: 'monthly',
-        priority: 0.8,
-        alternates: {
-          languages: Object.fromEntries(
-            locales.map((l) => [l, `${baseUrl}/${l}/blog/${article.slug}`])
-          ),
-        },
-      });
+  // Activities from DB
+  const { data: activities } = await supabase.from('activities').select('slug');
+  if (activities) {
+    for (const item of activities) {
+      for (const locale of locales) {
+        entries.push({
+          url: `${baseUrl}/${locale}/activities/${item.slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'monthly',
+          priority: 0.7,
+          alternates: { languages: Object.fromEntries(locales.map((l) => [l, `${baseUrl}/${l}/activities/${item.slug}`])) },
+        });
+      }
     }
   }
 
-  // Activities page
-  for (const locale of locales) {
-    entries.push({
-      url: `${baseUrl}/${locale}/activities`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    });
-  }
-
-  // Individual activities
-  for (const activity of seedActivities) {
-    for (const locale of locales) {
-      entries.push({
-        url: `${baseUrl}/${locale}/activities/${activity.slug}`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.7,
-        alternates: {
-          languages: Object.fromEntries(
-            locales.map((l) => [l, `${baseUrl}/${l}/activities/${activity.slug}`])
-          ),
-        },
-      });
-    }
-  }
-
-  // Restaurants page
-  for (const locale of locales) {
-    entries.push({
-      url: `${baseUrl}/${locale}/restaurants`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    });
-  }
-
-  // Individual restaurants
-  for (const restaurant of seedRestaurants) {
-    for (const locale of locales) {
-      entries.push({
-        url: `${baseUrl}/${locale}/restaurants/${restaurant.slug}`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.7,
-        alternates: {
-          languages: Object.fromEntries(
-            locales.map((l) => [l, `${baseUrl}/${l}/restaurants/${restaurant.slug}`])
-          ),
-        },
-      });
+  // Blog from DB
+  const { data: articles } = await supabase.from('blog_articles').select('slug, published_at');
+  if (articles) {
+    for (const item of articles) {
+      for (const locale of locales) {
+        entries.push({
+          url: `${baseUrl}/${locale}/blog/${item.slug}`,
+          lastModified: new Date(item.published_at),
+          changeFrequency: 'monthly',
+          priority: 0.8,
+          alternates: { languages: Object.fromEntries(locales.map((l) => [l, `${baseUrl}/${l}/blog/${item.slug}`])) },
+        });
+      }
     }
   }
 
