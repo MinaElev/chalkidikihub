@@ -6,6 +6,7 @@ import { BlogArticle } from '@/types';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, Calendar, Clock, User, Tag } from 'lucide-react';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
+import { AutoLinkedContent } from './AutoLinkedContent';
 
 export function DynamicArticle({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -74,12 +75,7 @@ export function DynamicArticle({ slug }: { slug: string }) {
       <hr className="my-8" />
 
       <article className="prose prose-lg max-w-none">
-        {(content || excerpt || '').split('\n').map((paragraph: string, idx: number) => {
-          if (paragraph.startsWith('## ')) return <h2 key={idx} className="text-2xl font-bold text-gray-900 mt-8 mb-4">{paragraph.replace('## ', '')}</h2>;
-          if (paragraph.startsWith('- ')) return <div key={idx} className="flex gap-2 ml-4 mb-2"><span className="text-primary-600">•</span><p className="text-gray-600">{paragraph.replace('- ', '')}</p></div>;
-          if (paragraph.trim() === '') return <div key={idx} className="h-2" />;
-          return <p key={idx} className="text-gray-600 leading-relaxed mb-4">{paragraph}</p>;
-        })}
+        <AutoLinkedContent content={content || excerpt || ''} />
       </article>
     </div>
   );
