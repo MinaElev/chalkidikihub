@@ -33,8 +33,6 @@ export default async function BeachDetailPage({ params }: Props) {
 
   // Always use DynamicBeachDetail to fetch live content from DB
   return <DynamicBeachDetail slug={slug} />;
-
-  return <BeachDetail locale={locale} beach={beach} areaName={area?.name[locale] || ''} />;
 }
 
 function BeachDetail({
