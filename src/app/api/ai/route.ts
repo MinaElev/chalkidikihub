@@ -10,7 +10,7 @@ async function getOpenAIKey(): Promise<string> {
   return process.env.OPENAI_API_KEY || '';
 }
 
-async function callOpenAI(prompt: string, maxTokens: number = 3000): Promise<string> {
+async function callOpenAI(prompt: string, maxTokens: number = 6000): Promise<string> {
   const apiKey = await getOpenAIKey();
   if (!apiKey) throw new Error('OpenAI API key not configured. Set it in Admin → Settings.');
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -89,13 +89,14 @@ Return ONLY a JSON object with this EXACT structure:
 }
 
 IMPORTANT:
+- Translate the COMPLETE description - do NOT shorten or summarize, translate EVERY sentence
 - Translations must be natural, not literal
 - Meta titles MUST include the location (Halkidiki/Chalkidiki/Халкидики)
 - Tags must be tourism-relevant SEO keywords in English
-- Keep descriptions the same approximate length as the Greek original
+- Keep descriptions the EXACT same length as the Greek original - translate ALL content
 - No markdown, no explanation, ONLY the JSON object`;
 
-      const result = await callOpenAI(prompt, 3000);
+      const result = await callOpenAI(prompt, 6000);
       const parsed = JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
       return NextResponse.json(parsed);
     }
