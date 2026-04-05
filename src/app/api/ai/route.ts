@@ -135,6 +135,36 @@ Return JSON only: { meta_title_el, meta_title_en, meta_title_de, meta_title_bg, 
       return NextResponse.json(JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()));
     }
 
+    if (action === 'format_content') {
+      const { content, lang } = body;
+      if (!content) return NextResponse.json({ error: 'No content provided' }, { status: 400 });
+
+      const langMap: Record<string, string> = { el: 'Greek', en: 'English', de: 'German', bg: 'Bulgarian', ru: 'Russian', ro: 'Romanian' };
+      const langName = langMap[lang || 'el'] || 'Greek';
+
+      const prompt = `You are an expert content editor for a tourism blog about Halkidiki, Greece.
+
+Take the following raw ${langName} text and format it into a well-structured, engaging blog article. DO NOT change the meaning or add new information. Only restructure and format.
+
+Rules:
+- Add clear section headings using "## " prefix (2-3 headings)
+- Break long text into short, readable paragraphs (3-4 sentences each)
+- Add bullet points where listing items (use "- " prefix)
+- Add numbered lists where steps/rankings (use "1. " prefix)
+- Bold important phrases using **bold** syntax
+- Keep the same language (${langName}) - do not translate
+- Keep the same facts and information - do not invent anything
+- Make it engaging and easy to scan
+- If text is already well-formatted, improve it slightly
+- Return ONLY the formatted text, no explanations or wrapping
+
+Raw text:
+${content}`;
+
+      const formatted = await callOpenAI(prompt, 4000);
+      return NextResponse.json({ formatted: formatted.trim() });
+    }
+
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });

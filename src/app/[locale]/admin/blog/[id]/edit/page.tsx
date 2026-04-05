@@ -292,6 +292,29 @@ export default function EditBlogPage() {
 
 function ContentTabs({ form, update, id }: { form: Record<string, unknown>; update: (field: string, value: unknown) => void; id: string }) {
   const [activeTab, setActiveTab] = useState('el');
+  const [formatting, setFormatting] = useState(false);
+
+  async function handleAIFormat() {
+    const contentKey = `content_${activeTab}`;
+    const content = (form[contentKey] as string || '').trim();
+    if (!content) return;
+    setFormatting(true);
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'format_content', content, lang: activeTab }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.formatted) {
+          update(contentKey, data.formatted);
+        }
+      }
+    } catch {}
+    setFormatting(false);
+  }
+
   const langs = [
     { code: 'el', label: 'EL 🇬🇷', flag: '🇬🇷' },
     { code: 'en', label: 'EN 🇬🇧', flag: '🇬🇧' },
@@ -307,7 +330,15 @@ function ContentTabs({ form, update, id }: { form: Record<string, unknown>; upda
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <label className="block text-sm font-semibold text-gray-700">Content</label>
+        <div className="flex items-center gap-2">
+          <label className="block text-sm font-semibold text-gray-700">Content</label>
+          <button type="button" onClick={handleAIFormat} disabled={formatting || !((form[`content_${activeTab}`] as string || '').trim())}
+            className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-all"
+            title="Μορφοποίηση κειμένου με AI: παράγραφοι, τίτλοι, bullet points">
+            {formatting ? <Loader2 className="w-3 h-3 animate-spin" /> : <span>✨</span>}
+            {formatting ? 'Μορφοποίηση...' : 'AI Μορφοποίηση'}
+          </button>
+        </div>
         <ContentTranslator
           contentEl={form.content_el as string || ''}
           onTranslated={(translations) => {
