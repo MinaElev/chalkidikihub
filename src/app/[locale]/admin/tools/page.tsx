@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { Link } from '@/i18n/navigation';
 import { Wrench, ImageIcon, Loader2, CheckCircle, AlertCircle, Zap, Search, Sparkles } from 'lucide-react';
 
 interface ImageRecord {
@@ -184,6 +185,22 @@ export default function AdminToolsPage() {
         <Wrench className="w-6 h-6 text-red-600" />
         <h1 className="text-2xl font-bold text-gray-900">Tools</h1>
       </div>
+
+      {/* Internal Links Tool */}
+      <Link href="/admin/tools/internal-links" className="block bg-white border border-gray-200 rounded-xl p-6 mb-6 hover:shadow-md transition-shadow group">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Search className="w-5 h-5 text-blue-600" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600">Internal Links Scanner</h2>
+              <p className="text-sm text-gray-500">Σκανάρει articles για αναφορές σε παραλίες, εστιατόρια, αξιοθέατα → προτείνει links (SEO boost)</p>
+            </div>
+          </div>
+          <span className="text-primary-600 text-sm font-medium">Open →</span>
+        </div>
+      </Link>
 
       {/* Bulk Image Optimizer */}
       <div className="bg-white border border-gray-200 rounded-xl p-6">
