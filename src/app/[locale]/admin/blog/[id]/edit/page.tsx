@@ -161,37 +161,8 @@ export default function EditBlogPage() {
               className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
         </div>
 
-        <div><label className="block text-sm font-medium text-gray-700 mb-1">Content (EL)</label>
-          <textarea rows={8} value={form.content_el} onChange={(e) => update('content_el', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
-
-        <div><label className="block text-sm font-medium text-gray-700 mb-1">Content (EN)</label>
-          <textarea rows={8} value={form.content_en} onChange={(e) => update('content_en', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
-
-        {/* Translate content to all languages */}
-        <ContentTranslator
-          contentEl={form.content_el}
-          onTranslated={(translations) => {
-            setForm((prev) => ({
-              ...prev,
-              content_en: translations.en || prev.content_en,
-              content_de: translations.de || '',
-              content_bg: translations.bg || '',
-              content_ru: translations.ru || '',
-              content_ro: translations.ro || '',
-            }));
-            // Save extra languages to DB immediately
-            const supabase = createClient();
-            supabase.from('blog_articles').update({
-              content_en: translations.en,
-              content_de: translations.de,
-              content_bg: translations.bg,
-              content_ru: translations.ru,
-              content_ro: translations.ro,
-            }).eq('id', id);
-          }}
-        />
+        {/* Content - all languages */}
+        <ContentTabs form={form} update={update} id={id as string} />
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
@@ -315,6 +286,86 @@ export default function EditBlogPage() {
           </button>
         </div>
       </form>
+    </div>
+  );
+}
+
+function ContentTabs({ form, update, id }: { form: Record<string, unknown>; update: (field: string, value: unknown) => void; id: string }) {
+  const [activeTab, setActiveTab] = useState('el');
+  const langs = [
+    { code: 'el', label: 'EL 🇬🇷', flag: '🇬🇷' },
+    { code: 'en', label: 'EN 🇬🇧', flag: '🇬🇧' },
+    { code: 'de', label: 'DE 🇩🇪', flag: '🇩🇪' },
+    { code: 'bg', label: 'BG 🇧🇬', flag: '🇧🇬' },
+    { code: 'ru', label: 'RU 🇷🇺', flag: '🇷🇺' },
+    { code: 'ro', label: 'RO 🇷🇴', flag: '🇷🇴' },
+  ];
+
+  const contentKey = `content_${activeTab}`;
+  const hasContent = (form[contentKey] as string || '').length > 0;
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-2">
+        <label className="block text-sm font-semibold text-gray-700">Content</label>
+        <ContentTranslator
+          contentEl={form.content_el as string || ''}
+          onTranslated={(translations) => {
+            update('content_en', translations.en || '');
+            update('content_de', translations.de || '');
+            update('content_bg', translations.bg || '');
+            update('content_ru', translations.ru || '');
+            update('content_ro', translations.ro || '');
+            // Save to DB
+            const supabase = createClient();
+            supabase.from('blog_articles').update({
+              content_en: translations.en,
+              content_de: translations.de,
+              content_bg: translations.bg,
+              content_ru: translations.ru,
+              content_ro: translations.ro,
+            }).eq('id', id);
+          }}
+        />
+      </div>
+
+      {/* Language tabs */}
+      <div className="flex gap-1 mb-2">
+        {langs.map((lang) => {
+          const hasLangContent = ((form[`content_${lang.code}`] as string) || '').length > 0;
+          return (
+            <button key={lang.code} type="button"
+              onClick={() => setActiveTab(lang.code)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1 ${
+                activeTab === lang.code
+                  ? 'bg-primary-600 text-white'
+                  : hasLangContent
+                    ? 'bg-green-50 text-green-700 border border-green-200'
+                    : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+              }`}>
+              {lang.label}
+              {hasLangContent && activeTab !== lang.code && <span className="text-[8px]">✓</span>}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Content textarea for active language */}
+      <textarea
+        rows={10}
+        value={(form[contentKey] as string) || ''}
+        onChange={(e) => update(contentKey, e.target.value)}
+        placeholder={activeTab === 'el' ? 'Γράψτε το άρθρο στα ελληνικά...' : `Content in ${activeTab.toUpperCase()}...`}
+        className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500"
+      />
+      <div className="flex items-center justify-between mt-1">
+        <span className="text-xs text-gray-400">
+          {((form[contentKey] as string) || '').length} chars | ~{Math.ceil(((form[contentKey] as string) || '').split(/\s+/).length / 200)} min read
+        </span>
+        {!hasContent && activeTab !== 'el' && (
+          <span className="text-xs text-amber-600">❌ Χωρίς μετάφραση - πάτα "Μετάφραση Content"</span>
+        )}
+      </div>
     </div>
   );
 }
