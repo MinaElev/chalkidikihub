@@ -2,6 +2,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { FeaturedAreas } from '@/components/layout/FeaturedAreas';
+import { HomeBeachesSection } from '@/components/layout/HomeBeachesSection';
 import { HomeBlogSection } from '@/components/layout/HomeBlogSection';
 import { HomeFeaturedListings } from '@/components/layout/HomeFeaturedListings';
 import { Search, MapPin, Home, Star } from 'lucide-react';
@@ -19,6 +20,7 @@ export default async function HomePage({ params }: Props) {
       <HeroSection />
       <FeaturedAreas />
       <HomeFeaturedListings />
+      <HomeBeachesSection />
       <HomeBlogSection />
       <CTASection />
     </>
@@ -27,6 +29,7 @@ export default async function HomePage({ params }: Props) {
 
 function HeroSection() {
   const t = useTranslations('hero');
+  const tCommon = useTranslations('common');
 
   return (
     <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white">
@@ -65,7 +68,7 @@ function HeroSection() {
               </div>
               <button className="flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
                 <Search className="w-5 h-5" />
-                <span>{t.raw('guestsLabel') ? useTranslations('common')('search') : 'Search'}</span>
+                <span>{t.raw('guestsLabel') ? tCommon('search') : 'Search'}</span>
               </button>
             </div>
           </div>

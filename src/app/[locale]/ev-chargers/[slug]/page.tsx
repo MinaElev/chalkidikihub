@@ -1,50 +1,71 @@
-import { setRequestLocale } from 'next-intl/server';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { notFound } from 'next/navigation';
-import { seedChargers } from '@/lib/seed-chargers';
-import { seedBeaches } from '@/lib/seed-beaches';
 import { AREAS } from '@/lib/constants';
 import { Link } from '@/i18n/navigation';
-import { ArrowLeft, MapPin, Star, Zap, Clock, Gift, Building } from 'lucide-react';
+import { ArrowLeft, MapPin, Star, Zap, Clock, Gift, Building, Loader2 } from 'lucide-react';
 import { ConnectorBadge } from '@/components/listings/ConnectorBadge';
-import { NearbyListings } from '@/components/listings/NearbyListings';
 import { BeachCard } from '@/components/listings/BeachCard';
+import { EvCharger, Beach } from '@/types';
+import { useParams } from 'next/navigation';
 
-type Props = {
-  params: Promise<{ locale: string; slug: string }>;
-};
-
-export function generateStaticParams() {
-  return seedChargers.map((c) => ({ slug: c.slug }));
-}
-
-export default async function ChargerDetailPage({ params }: Props) {
-  const { locale, slug } = await params;
-  setRequestLocale(locale);
-
-  const charger = seedChargers.find((c) => c.slug === slug);
-  if (!charger) notFound();
-
-  const area = AREAS.find((a) => a.slug === charger.area);
-  const nearbyBeaches = seedBeaches.filter((b) => charger.nearby_beach_ids.includes(b.id));
-
-  return <ChargerDetail locale={locale} charger={charger} areaName={area?.name[locale] || ''} nearbyBeaches={nearbyBeaches} />;
-}
-
-function ChargerDetail({
-  locale,
-  charger,
-  areaName,
-  nearbyBeaches,
-}: {
-  locale: string;
-  charger: (typeof seedChargers)[number];
-  areaName: string;
-  nearbyBeaches: typeof seedBeaches;
-}) {
+export default function ChargerDetailPage() {
+  const { slug } = useParams<{ slug: string }>();
+  const locale = useLocale();
   const t = useTranslations('evChargers');
   const tBeaches = useTranslations('beaches');
 
+  const [charger, setCharger] = useState<EvCharger | null>(null);
+  const [nearbyBeaches, setNearbyBeaches] = useState<Beach[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/chargers')
+      .then((r) => r.json())
+      .then((data: EvCharger[]) => {
+        if (Array.isArray(data)) {
+          const found = data.find((c) => c.slug === slug);
+          if (found) {
+            setCharger(found);
+            // Fetch nearby beaches
+            if (found.nearby_beach_ids?.length > 0) {
+              fetch('/api/beaches')
+                .then((r) => r.json())
+                .then((beaches: Beach[]) => {
+                  if (Array.isArray(beaches)) {
+                    setNearbyBeaches(beaches.filter((b) => found.nearby_beach_ids.includes(b.id)));
+                  }
+                })
+                .catch(() => {});
+            }
+          }
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-32">
+        <Loader2 className="w-8 h-8 animate-spin text-green-500" />
+      </div>
+    );
+  }
+
+  if (!charger) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+        <p className="text-lg text-gray-500">Charger not found</p>
+        <Link href="/ev-chargers" className="mt-4 inline-flex text-primary-600 hover:underline">
+          <ArrowLeft className="w-4 h-4 mr-2" /> {t('title')}
+        </Link>
+      </div>
+    );
+  }
+
+  const area = AREAS.find((a) => a.slug === charger.area);
   const name = charger.name[locale] || charger.name.en;
   const description = charger.description[locale] || charger.description.en;
   const maxPower = Math.max(...charger.connectors.map((c) => c.power_kw));
@@ -86,7 +107,7 @@ function ChargerDetail({
               <span>{charger.location_name}</span>
               <span className="text-gray-300">|</span>
               <Link href={`/areas/${charger.area}`} className="text-primary-600 hover:underline">
-                {areaName}
+                {area?.name[locale] || ''}
               </Link>
             </div>
           </div>
@@ -114,17 +135,11 @@ function ChargerDetail({
               </div>
             </div>
           )}
-
-          {/* Nearby listings */}
-          {charger.nearby_listing_ids.length > 0 && (
-            <NearbyListings listingIds={charger.nearby_listing_ids} />
-          )}
         </div>
 
         {/* Sidebar */}
         <div className="lg:col-span-1">
           <div className="sticky top-24 bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-4">
-            {/* Power */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                 <Zap className="w-5 h-5 text-green-600" />
@@ -134,8 +149,6 @@ function ChargerDetail({
                 <div className="font-semibold text-gray-900">{maxPower} kW max</div>
               </div>
             </div>
-
-            {/* Spots */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                 <Building className="w-5 h-5 text-blue-600" />
@@ -145,8 +158,6 @@ function ChargerDetail({
                 <div className="font-semibold text-gray-900">{charger.total_spots}</div>
               </div>
             </div>
-
-            {/* Hours */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                 <Clock className="w-5 h-5 text-purple-600" />
@@ -158,16 +169,11 @@ function ChargerDetail({
                 </div>
               </div>
             </div>
-
             <hr />
-
-            {/* Provider */}
             <div>
               <div className="text-sm text-gray-500">{t('provider')}</div>
               <div className="font-semibold text-gray-900">{charger.provider}</div>
             </div>
-
-            {/* Cost */}
             <div>
               <div className="text-sm text-gray-500">{t('costPerKwh')}</div>
               <div className="font-semibold text-gray-900">

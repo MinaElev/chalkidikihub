@@ -1,10 +1,8 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { BlogArticle } from '@/types';
-import { seedArticles } from '@/lib/seed-blog';
-import { seedBeaches } from '@/lib/seed-beaches';
-import { seedListings } from '@/lib/seed-data';
+import { BlogArticle, Beach, Listing } from '@/types';
 import { AREAS } from '@/lib/constants';
 import { BlogCard } from './BlogCard';
 import { BeachCard } from '@/components/listings/BeachCard';
@@ -14,7 +12,18 @@ import { useLocale } from 'next-intl';
 
 export function RelatedArticles({ slugs }: { slugs: string[] }) {
   const t = useTranslations('blog');
-  const articles = seedArticles.filter((a) => slugs.includes(a.slug));
+  const [articles, setArticles] = useState<BlogArticle[]>([]);
+
+  useEffect(() => {
+    if (slugs.length === 0) return;
+    fetch('/api/blog')
+      .then((r) => r.json())
+      .then((data: BlogArticle[]) => {
+        if (Array.isArray(data)) setArticles(data.filter((a) => slugs.includes(a.slug)));
+      })
+      .catch(() => {});
+  }, [slugs]);
+
   if (articles.length === 0) return null;
 
   return (
@@ -31,7 +40,18 @@ export function RelatedArticles({ slugs }: { slugs: string[] }) {
 
 export function RelatedBeaches({ slugs }: { slugs: string[] }) {
   const t = useTranslations('blog');
-  const beaches = seedBeaches.filter((b) => slugs.includes(b.slug));
+  const [beaches, setBeaches] = useState<Beach[]>([]);
+
+  useEffect(() => {
+    if (slugs.length === 0) return;
+    fetch('/api/beaches')
+      .then((r) => r.json())
+      .then((data: Beach[]) => {
+        if (Array.isArray(data)) setBeaches(data.filter((b) => slugs.includes(b.slug)));
+      })
+      .catch(() => {});
+  }, [slugs]);
+
   if (beaches.length === 0) return null;
 
   return (
@@ -48,7 +68,18 @@ export function RelatedBeaches({ slugs }: { slugs: string[] }) {
 
 export function RelatedListings({ slugs }: { slugs: string[] }) {
   const t = useTranslations('blog');
-  const listings = seedListings.filter((l) => slugs.includes(l.slug));
+  const [listings, setListings] = useState<Listing[]>([]);
+
+  useEffect(() => {
+    if (slugs.length === 0) return;
+    fetch('/api/listings')
+      .then((r) => r.json())
+      .then((data: Listing[]) => {
+        if (Array.isArray(data)) setListings(data.filter((l) => slugs.includes(l.slug)));
+      })
+      .catch(() => {});
+  }, [slugs]);
+
   if (listings.length === 0) return null;
 
   return (

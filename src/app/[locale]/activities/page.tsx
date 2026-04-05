@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';
-import { seedActivities } from '@/lib/seed-activities';
 import { useLiveData } from '@/lib/use-live-data';
 import { Activity } from '@/types';
 import { ActivityCard } from '@/components/listings/ActivityCard';
@@ -16,7 +15,7 @@ export default function ActivitiesPage() {
   const tAreas = useTranslations('areas');
   const tCommon = useTranslations('common');
   const [filters, setFilters] = useState<ActivityFilters>({});
-  const { data: activities } = useLiveData<Activity>('/api/activities', seedActivities);
+  const { data: activities } = useLiveData<Activity>('/api/activities', []);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'), sithonia: tAreas('sithonia.name'),

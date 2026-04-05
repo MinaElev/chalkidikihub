@@ -46,6 +46,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: '/admin/restaurants', icon: UtensilsCrossed, label: 'Restaurants' },
     { href: '/admin/activities', icon: Landmark, label: 'Activities' },
     { href: '/admin/blog', icon: FileText, label: 'Blog' },
+    { href: '/admin/submissions', icon: Shield, label: 'Submissions' },
     { href: '/admin/messages', icon: FileText, label: 'Messages' },
     { href: '/admin/images', icon: FileText, label: 'Images' },
     { href: '/admin/seo', icon: FileText, label: 'SEO' },

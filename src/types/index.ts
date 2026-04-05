@@ -285,3 +285,30 @@ export interface EvChargerFilters {
   freeOnly?: boolean;
   sort?: 'rating' | 'power' | 'name';
 }
+
+export type SubmissionType = 'restaurant' | 'activity' | 'blog';
+export type SubmissionStatus = 'pending' | 'approved' | 'rejected';
+
+export interface UserSubmission {
+  id: string;
+  type: SubmissionType;
+  status: SubmissionStatus;
+  user_id: string;
+  title_el: string;
+  title_en: string;
+  description_el: string;
+  description_en: string;
+  area: string | null;
+  location_name: string;
+  latitude: number | null;
+  longitude: number | null;
+  image_url: string;
+  category: string;
+  extra_data: Record<string, unknown>;
+  admin_notes: string | null;
+  created_at: string;
+  updated_at: string;
+  // Joined from profiles
+  user_name?: string;
+  user_email?: string;
+}

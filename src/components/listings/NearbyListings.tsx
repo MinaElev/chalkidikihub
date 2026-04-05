@@ -1,13 +1,25 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { seedListings } from '@/lib/seed-data';
+import { Listing } from '@/types';
 import { ListingCard } from './ListingCard';
 
 export function NearbyListings({ listingIds }: { listingIds: string[] }) {
   const t = useTranslations('beaches');
+  const [nearby, setNearby] = useState<Listing[]>([]);
 
-  const nearby = seedListings.filter((l) => listingIds.includes(l.id));
+  useEffect(() => {
+    if (listingIds.length === 0) return;
+    fetch('/api/listings')
+      .then((r) => r.json())
+      .then((data: Listing[]) => {
+        if (Array.isArray(data)) {
+          setNearby(data.filter((l) => listingIds.includes(l.id)));
+        }
+      })
+      .catch(() => {});
+  }, [listingIds]);
 
   if (nearby.length === 0) return null;
 

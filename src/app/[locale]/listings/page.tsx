@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl';
 import { useState, useMemo, useEffect } from 'react';
-import { seedListings } from '@/lib/seed-data';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { SearchFilters } from '@/components/listings/SearchFilters';
 import { SearchFilters as SearchFiltersType, Listing } from '@/types';

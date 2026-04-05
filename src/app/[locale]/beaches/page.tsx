@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';
-import { seedBeaches } from '@/lib/seed-beaches';
 import { useLiveData } from '@/lib/use-live-data';
 import { Beach } from '@/types';
 import { BeachCard } from '@/components/listings/BeachCard';
@@ -12,11 +11,12 @@ import { SlidersHorizontal, X } from 'lucide-react';
 
 export default function BeachesPage() {
   const t = useTranslations('beaches');
+  const tCommon = useTranslations('common');
   const tAreas = useTranslations('areas');
   const tFeatures = useTranslations('beachFeatures');
   const [filters, setFilters] = useState<BeachFiltersType>({});
   const [showFeatures, setShowFeatures] = useState(false);
-  const { data: beaches } = useLiveData<Beach>('/api/beaches', seedBeaches);
+  const { data: beaches } = useLiveData<Beach>('/api/beaches', []);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'),
@@ -145,7 +145,7 @@ export default function BeachesPage() {
         </div>
       ) : (
         <div className="mt-16 text-center">
-          <p className="text-lg text-gray-500">{useTranslations('common')('noResults')}</p>
+          <p className="text-lg text-gray-500">{tCommon('noResults')}</p>
         </div>
       )}
     </div>

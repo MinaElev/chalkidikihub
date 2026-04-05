@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';
-import { seedRestaurants } from '@/lib/seed-restaurants';
 import { useLiveData } from '@/lib/use-live-data';
 import { Restaurant } from '@/types';
 import { RestaurantCard } from '@/components/listings/RestaurantCard';
@@ -17,7 +16,7 @@ export default function RestaurantsPage() {
   const tAreas = useTranslations('areas');
   const tCommon = useTranslations('common');
   const [filters, setFilters] = useState<RestaurantFilters>({});
-  const { data: restaurants } = useLiveData<Restaurant>('/api/restaurants', seedRestaurants);
+  const { data: restaurants } = useLiveData<Restaurant>('/api/restaurants', []);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'), sithonia: tAreas('sithonia.name'),

@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';
-import { seedArticles } from '@/lib/seed-blog';
 import { useLiveData } from '@/lib/use-live-data';
 import { BlogArticle } from '@/types';
 import { BlogCard } from '@/components/blog/BlogCard';
@@ -18,7 +17,7 @@ export default function BlogPage() {
   const tAreas = useTranslations('areas');
   const tCommon = useTranslations('common');
   const [filters, setFilters] = useState<BlogFilters>({});
-  const { data: articles } = useLiveData<BlogArticle>('/api/blog', seedArticles);
+  const { data: articles } = useLiveData<BlogArticle>('/api/blog', []);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'),

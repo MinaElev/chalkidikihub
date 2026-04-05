@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl';
 import { useState, useMemo, useEffect } from 'react';
-import { seedChargers } from '@/lib/seed-chargers';
 import { ChargerCard } from '@/components/listings/ChargerCard';
 import { EvChargerFilters, EvCharger, Area, ConnectorType, ChargerSpeed } from '@/types';
 import { AREA_SLUGS, ALL_CONNECTOR_TYPES, ALL_CHARGER_SPEEDS } from '@/lib/constants';
@@ -15,7 +14,7 @@ export default function EvChargersPage() {
   const tSpeed = useTranslations('chargerSpeeds');
   const tCommon = useTranslations('common');
   const [filters, setFilters] = useState<EvChargerFilters>({});
-  const [chargers, setChargers] = useState<EvCharger[]>(seedChargers);
+  const [chargers, setChargers] = useState<EvCharger[]>([]);
   const [isLive, setIsLive] = useState(false);
   const [loading, setLoading] = useState(true);
 

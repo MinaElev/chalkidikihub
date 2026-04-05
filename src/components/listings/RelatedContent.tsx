@@ -8,20 +8,14 @@ import { BeachCard } from './BeachCard';
 import { RestaurantCard } from './RestaurantCard';
 import { ActivityCard } from './ActivityCard';
 import { BlogCard } from '@/components/blog/BlogCard';
-import { seedListings } from '@/lib/seed-data';
-import { seedBeaches } from '@/lib/seed-beaches';
-import { seedRestaurants } from '@/lib/seed-restaurants';
-import { seedActivities } from '@/lib/seed-activities';
-import { seedArticles } from '@/lib/seed-blog';
 
 interface RelatedContentProps {
   area: Area;
-  currentSlug: string; // exclude current listing
+  currentSlug: string;
 }
 
 export function RelatedContent({ area, currentSlug }: RelatedContentProps) {
   const locale = useLocale();
-  const tCommon = useTranslations('common');
   const tBeaches = useTranslations('beaches');
   const tRestaurants = useTranslations('restaurants');
   const tActivities = useTranslations('activities');
@@ -34,48 +28,42 @@ export function RelatedContent({ area, currentSlug }: RelatedContentProps) {
   const [articles, setArticles] = useState<BlogArticle[]>([]);
 
   useEffect(() => {
-    // Fetch from DB with seed fallback
     fetch(`/api/listings?area=${area}`)
       .then((r) => r.json())
       .then((data: Listing[]) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setListings(data.filter((l) => l.slug !== currentSlug).slice(0, 3));
-        } else {
-          setListings(seedListings.filter((l) => l.area === area && l.slug !== currentSlug).slice(0, 3));
-        }
+        if (Array.isArray(data)) setListings(data.filter((l) => l.slug !== currentSlug).slice(0, 3));
       })
-      .catch(() => setListings(seedListings.filter((l) => l.area === area && l.slug !== currentSlug).slice(0, 3)));
+      .catch(() => {});
 
     fetch(`/api/beaches?area=${area}`)
       .then((r) => r.json())
       .then((data: Beach[]) => {
-        setBeaches(Array.isArray(data) && data.length > 0 ? data.slice(0, 3) : seedBeaches.filter((b) => b.area === area).slice(0, 3));
+        if (Array.isArray(data)) setBeaches(data.slice(0, 3));
       })
-      .catch(() => setBeaches(seedBeaches.filter((b) => b.area === area).slice(0, 3)));
+      .catch(() => {});
 
     fetch(`/api/restaurants?area=${area}`)
       .then((r) => r.json())
       .then((data: Restaurant[]) => {
-        setRestaurants(Array.isArray(data) && data.length > 0 ? data.slice(0, 3) : seedRestaurants.filter((r) => r.area === area).slice(0, 3));
+        if (Array.isArray(data)) setRestaurants(data.slice(0, 3));
       })
-      .catch(() => setRestaurants(seedRestaurants.filter((r) => r.area === area).slice(0, 3)));
+      .catch(() => {});
 
     fetch(`/api/activities?area=${area}`)
       .then((r) => r.json())
       .then((data: Activity[]) => {
-        setActivities(Array.isArray(data) && data.length > 0 ? data.slice(0, 2) : seedActivities.filter((a) => a.area === area).slice(0, 2));
+        if (Array.isArray(data)) setActivities(data.slice(0, 2));
       })
-      .catch(() => setActivities(seedActivities.filter((a) => a.area === area).slice(0, 2)));
+      .catch(() => {});
 
     fetch('/api/blog')
       .then((r) => r.json())
       .then((data: BlogArticle[]) => {
-        const related = Array.isArray(data) && data.length > 0
-          ? data.filter((a) => a.related_area_slugs?.includes(area)).slice(0, 2)
-          : seedArticles.filter((a) => a.related_area_slugs.includes(area)).slice(0, 2);
-        setArticles(related);
+        if (Array.isArray(data)) {
+          setArticles(data.filter((a) => a.related_area_slugs?.includes(area)).slice(0, 2));
+        }
       })
-      .catch(() => setArticles(seedArticles.filter((a) => a.related_area_slugs.includes(area)).slice(0, 2)));
+      .catch(() => {});
   }, [area, currentSlug]);
 
   const hasContent = listings.length > 0 || beaches.length > 0 || restaurants.length > 0 || activities.length > 0 || articles.length > 0;

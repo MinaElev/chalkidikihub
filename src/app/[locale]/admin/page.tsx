@@ -3,11 +3,6 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Users, List, Eye, FileText, Waves, UtensilsCrossed, Landmark, Zap } from 'lucide-react';
-import { seedBeaches } from '@/lib/seed-beaches';
-import { seedRestaurants } from '@/lib/seed-restaurants';
-import { seedActivities } from '@/lib/seed-activities';
-import { seedChargers } from '@/lib/seed-chargers';
-import { seedArticles } from '@/lib/seed-blog';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -15,6 +10,11 @@ export default function AdminDashboard() {
     totalListings: 0,
     publishedListings: 0,
     draftListings: 0,
+    beaches: 0,
+    restaurants: 0,
+    activities: 0,
+    chargers: 0,
+    articles: 0,
   });
 
   useEffect(() => {
@@ -22,12 +22,29 @@ export default function AdminDashboard() {
       const supabase = createClient();
       const { count: userCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
       const { data: listings } = await supabase.from('listings').select('status');
+      const { count: beachCount } = await supabase.from('beaches').select('*', { count: 'exact', head: true });
+      const { count: restaurantCount } = await supabase.from('restaurants').select('*', { count: 'exact', head: true });
+      const { count: activityCount } = await supabase.from('activities').select('*', { count: 'exact', head: true });
+      const { count: articleCount } = await supabase.from('blog_articles').select('*', { count: 'exact', head: true });
+
+      // Chargers from API
+      let chargerCount = 0;
+      try {
+        const res = await fetch('/api/chargers');
+        const data = await res.json();
+        if (Array.isArray(data)) chargerCount = data.length;
+      } catch {}
 
       setStats({
         totalUsers: userCount || 0,
         totalListings: listings?.length || 0,
         publishedListings: listings?.filter((l) => l.status === 'published').length || 0,
         draftListings: listings?.filter((l) => l.status === 'draft').length || 0,
+        beaches: beachCount || 0,
+        restaurants: restaurantCount || 0,
+        activities: activityCount || 0,
+        chargers: chargerCount,
+        articles: articleCount || 0,
       });
     }
     loadStats();
@@ -38,11 +55,11 @@ export default function AdminDashboard() {
     { label: 'Total Listings', value: stats.totalListings, icon: List, color: 'bg-purple-100 text-purple-600' },
     { label: 'Published', value: stats.publishedListings, icon: Eye, color: 'bg-green-100 text-green-600' },
     { label: 'Draft', value: stats.draftListings, icon: FileText, color: 'bg-amber-100 text-amber-600' },
-    { label: 'Beaches', value: seedBeaches.length, icon: Waves, color: 'bg-cyan-100 text-cyan-600' },
-    { label: 'Restaurants', value: seedRestaurants.length, icon: UtensilsCrossed, color: 'bg-red-100 text-red-600' },
-    { label: 'Activities', value: seedActivities.length, icon: Landmark, color: 'bg-orange-100 text-orange-600' },
-    { label: 'EV Chargers', value: seedChargers.length, icon: Zap, color: 'bg-emerald-100 text-emerald-600' },
-    { label: 'Blog Articles', value: seedArticles.length, icon: FileText, color: 'bg-indigo-100 text-indigo-600' },
+    { label: 'Beaches', value: stats.beaches, icon: Waves, color: 'bg-cyan-100 text-cyan-600' },
+    { label: 'Restaurants', value: stats.restaurants, icon: UtensilsCrossed, color: 'bg-red-100 text-red-600' },
+    { label: 'Activities', value: stats.activities, icon: Landmark, color: 'bg-orange-100 text-orange-600' },
+    { label: 'EV Chargers', value: stats.chargers, icon: Zap, color: 'bg-emerald-100 text-emerald-600' },
+    { label: 'Blog Articles', value: stats.articles, icon: FileText, color: 'bg-indigo-100 text-indigo-600' },
   ];
 
   return (

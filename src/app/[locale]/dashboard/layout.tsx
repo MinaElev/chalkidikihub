@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { LayoutDashboard, Home, List, User, LogOut, Loader2 } from 'lucide-react';
+import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -13,6 +13,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const t = useTranslations('nav');
+  const tSub = useTranslations('submissions');
 
   useEffect(() => {
     const supabase = createClient();
@@ -64,6 +65,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Link href="/dashboard/profile" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
                 <User className="w-4 h-4" />{t('profile')}
               </Link>
+              <hr className="my-2" />
+              <Link href="/dashboard/suggest-restaurant" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <UtensilsCrossed className="w-4 h-4" />{tSub('suggestRestaurant')}
+              </Link>
+              <Link href="/dashboard/suggest-activity" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <Landmark className="w-4 h-4" />{tSub('suggestActivity')}
+              </Link>
+              <Link href="/dashboard/suggest-blog" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <FileText className="w-4 h-4" />{tSub('suggestBlog')}
+              </Link>
+              <Link href="/dashboard/submissions" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <ClipboardList className="w-4 h-4" />{tSub('mySubmissions')}
+              </Link>
+              <hr className="my-2" />
               <Link href="/" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
                 <Home className="w-4 h-4" />{t('home')}
               </Link>

@@ -2,14 +2,13 @@
 
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { seedArticles } from '@/lib/seed-blog';
 import { useLiveData } from '@/lib/use-live-data';
 import { BlogCard } from '@/components/blog/BlogCard';
 import { BlogArticle } from '@/types';
 
 export function HomeBlogSection() {
   const t = useTranslations('blog');
-  const { data: articles } = useLiveData<BlogArticle>('/api/blog', seedArticles);
+  const { data: articles } = useLiveData<BlogArticle>('/api/blog', []);
   const latest = articles.slice(0, 3);
 
   return (
