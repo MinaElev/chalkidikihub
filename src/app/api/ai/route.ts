@@ -103,27 +103,13 @@ IMPORTANT:
 
     if (action === 'translate_content') {
       // Translate long-form content (blog articles) to 5 languages
-      const content = body.content as string;
-      if (!content) return NextResponse.json({ error: 'No content provided' }, { status: 400 });
+      const rawContent = (body.content as string || '').trim();
+      if (!rawContent) return NextResponse.json({ error: 'No content provided' }, { status: 400 });
 
-      const prompt = `You are a professional translator. Translate the following Greek text to English, German, Bulgarian, Russian, and Romanian.
+      // Sanitize content - remove problematic characters
+      const content = rawContent.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 
-IMPORTANT: Translate the ENTIRE text completely. Do NOT summarize or shorten. Every paragraph, every sentence must be translated.
-Keep the same formatting (## headings, bullet points, line breaks).
-
-Return ONLY a JSON object:
-{
-  "en": "full English translation...",
-  "de": "full German translation...",
-  "bg": "full Bulgarian translation...",
-  "ru": "full Russian translation...",
-  "ro": "full Romanian translation..."
-}
-
-No markdown wrapping, no explanation.
-
-Greek text to translate:
-${content}`;
+      const prompt = 'You are a professional translator. Translate the following Greek text to English, German, Bulgarian, Russian, and Romanian.\n\nIMPORTANT: Translate the ENTIRE text completely. Do NOT summarize or shorten. Every paragraph, every sentence must be translated.\nKeep the same formatting (## headings, bullet points, line breaks).\n\nReturn ONLY a JSON object:\n{\n  "en": "full English translation...",\n  "de": "full German translation...",\n  "bg": "full Bulgarian translation...",\n  "ru": "full Russian translation...",\n  "ro": "full Romanian translation..."\n}\n\nNo markdown wrapping, no explanation.\n\nGreek text to translate:\n' + rawContent;
 
       const result = await callOpenAI(prompt, 10000);
       const translations = JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
