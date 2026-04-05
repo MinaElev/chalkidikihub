@@ -33,7 +33,7 @@ export default function NewListingPage() {
     website_url: '',
     booking_url: '',
     airbnb_url: '',
-    status: 'draft',
+    status: 'published',
   });
 
   const areaLabels: Record<Area, string> = {
