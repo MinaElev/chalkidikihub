@@ -27,13 +27,8 @@ export default async function BlogArticlePage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  // Check seed data first
-  const article = seedArticles.find((a) => a.slug === slug);
-  if (article) {
-    return <ArticleDetail locale={locale} article={article} />;
-  }
-
-  // Not in seed - fetch from DB dynamically
+  // Always use DynamicArticle to fetch live content from DB
+  // This ensures translated content (DE, BG, RU, RO) is shown
   return <DynamicArticle slug={slug} />;
 }
 

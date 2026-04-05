@@ -31,7 +31,9 @@
       "Bash(xargs grep:*)",
       "Bash(ΤΙΠΟΤΑ.\":*)",
       "Bash(\" 🍪:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(curl -s http://localhost:3001/api/blog?slug=top-10-beaches-kassandra)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(''''content_de len:'''', len\\(d.get\\(''''content'''',{}\\).get\\(''''de'''',''''''''\\)\\)\\); print\\(''''content_en len:'''', len\\(d.get\\(''''content'''',{}\\).get\\(''''en'''',''''''''\\)\\)\\); print\\(''''content_el len:'''', len\\(d.get\\(''''content'''',{}\\).get\\(''''el'''',''''''''\\)\\)\\)\")"
     ]
   }
 }

@@ -26,7 +26,7 @@ function transformArticle(row: Record<string, unknown>) {
   return {
     id: row.id, slug: row.slug,
     title: toLocaleMap(row, 'title'),
-    excerpt: { el: row.excerpt_el || '', en: row.excerpt_en || '', de: '', bg: '', ru: '', ro: '' },
+    excerpt: toLocaleMap(row, 'excerpt'),
     content: toLocaleMap(row, 'content'),
     category: row.category, image_url: row.image_url || '',
     author: row.author || 'Halkidiki Hub',
