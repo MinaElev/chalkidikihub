@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Link, useRouter } from '@/i18n/navigation';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, ImagePlus } from 'lucide-react';
+import { compressImage } from '@/lib/image-utils';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { AIHelper } from '@/components/admin/AIHelper';
 import { ContentTranslator } from '@/components/admin/ContentTranslator';
@@ -293,6 +294,33 @@ export default function EditBlogPage() {
 function ContentTabs({ form, update, id }: { form: Record<string, unknown>; update: (field: string, value: unknown) => void; id: string }) {
   const [activeTab, setActiveTab] = useState('el');
   const [formatting, setFormatting] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  async function handleInsertImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const supabase = createClient();
+      let blob: Blob = file;
+      try {
+        const compressed = await compressImage(file, { maxWidth: 1200, maxHeight: 800, quality: 0.72, format: 'webp' });
+        blob = compressed.blob;
+      } catch {}
+      const path = `blog-content/${id}/${Date.now()}.webp`;
+      const { error: upErr } = await supabase.storage.from('listing-images').upload(path, blob, { contentType: 'image/webp', upsert: true });
+      if (!upErr) {
+        const { data: { publicUrl } } = supabase.storage.from('listing-images').getPublicUrl(path);
+        const contentKey = `content_${activeTab}`;
+        const current = (form[contentKey] as string || '');
+        const altText = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+        const imageTag = `\n![${altText}](${publicUrl})\n`;
+        update(contentKey, current + imageTag);
+      }
+    } catch {}
+    setUploading(false);
+    e.target.value = '';
+  }
 
   async function handleAIFormat() {
     const contentKey = `content_${activeTab}`;
@@ -338,6 +366,11 @@ function ContentTabs({ form, update, id }: { form: Record<string, unknown>; upda
             {formatting ? <Loader2 className="w-3 h-3 animate-spin" /> : <span>✨</span>}
             {formatting ? 'Μορφοποίηση...' : 'AI Μορφοποίηση'}
           </button>
+          <label className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-lg text-xs font-medium cursor-pointer transition-all">
+            {uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <ImagePlus className="w-3 h-3" />}
+            {uploading ? 'Ανέβασμα...' : 'Εικόνα'}
+            <input type="file" accept="image/*" className="hidden" onChange={handleInsertImage} disabled={uploading} />
+          </label>
         </div>
         <ContentTranslator
           contentEl={form.content_el as string || ''}
