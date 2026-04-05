@@ -186,7 +186,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
           {/* Map */}
           {activity.latitude && activity.longitude && activity.latitude !== 0 && (
             <div className="mt-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-3">{t('location') || 'Τοποθεσία'}</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-3">Τοποθεσία</h2>
               <LocationMap latitude={activity.latitude} longitude={activity.longitude} name={name} />
             </div>
           )}
