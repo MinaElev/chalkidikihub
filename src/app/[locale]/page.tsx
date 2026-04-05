@@ -5,7 +5,10 @@ import { FeaturedAreas } from '@/components/layout/FeaturedAreas';
 import { HomeBeachesSection } from '@/components/layout/HomeBeachesSection';
 import { HomeBlogSection } from '@/components/layout/HomeBlogSection';
 import { HomeFeaturedListings } from '@/components/layout/HomeFeaturedListings';
+import { JsonLd } from '@/components/ui/JsonLd';
 import { Search, MapPin, Home, Star } from 'lucide-react';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -15,8 +18,39 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Chalkidiki Hub',
+    url: SITE_URL,
+    description: 'Find the best accommodation, beaches, restaurants and activities in Halkidiki, Greece',
+    inLanguage: ['el', 'en', 'de', 'bg', 'ru', 'ro'],
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${SITE_URL}/${locale}/listings?q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Chalkidiki Hub',
+    url: SITE_URL,
+    logo: `${SITE_URL}/icons/icon-512.png`,
+    description: 'The ultimate tourism platform for Halkidiki, Greece',
+    areaServed: {
+      '@type': 'Place',
+      name: 'Halkidiki, Greece',
+      geo: { '@type': 'GeoCoordinates', latitude: 40.15, longitude: 23.6 },
+    },
+    sameAs: [],
+  };
+
   return (
     <>
+      <JsonLd data={websiteSchema} />
+      <JsonLd data={organizationSchema} />
       <HeroSection />
       <FeaturedAreas />
       <HomeFeaturedListings />
