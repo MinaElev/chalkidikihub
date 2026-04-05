@@ -7,6 +7,7 @@ import { Link, useRouter } from '@/i18n/navigation';
 import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { AIHelper } from '@/components/admin/AIHelper';
+import { ContentTranslator } from '@/components/admin/ContentTranslator';
 
 const CATEGORIES = ['guides', 'beaches', 'food', 'activities', 'tips', 'culture'];
 
@@ -20,7 +21,7 @@ export default function EditBlogPage() {
   const [form, setForm] = useState({
     slug: '', title_el: '', title_en: '',
     excerpt_el: '', excerpt_en: '',
-    content_el: '', content_en: '',
+    content_el: '', content_en: '', content_de: '', content_bg: '', content_ru: '', content_ro: '',
     category: 'guides', image_url: '',
     author: 'Halkidiki Hub',
     read_time_min: 5,
@@ -46,6 +47,7 @@ export default function EditBlogPage() {
           slug: data.slug || '', title_el: data.title_el || '', title_en: data.title_en || '',
           excerpt_el: data.excerpt_el || '', excerpt_en: data.excerpt_en || '',
           content_el: data.content_el || '', content_en: data.content_en || '',
+          content_de: data.content_de || '', content_bg: data.content_bg || '', content_ru: data.content_ru || '', content_ro: data.content_ro || '',
           category: data.category || 'guides', image_url: data.image_url || '',
           author: data.author || 'Halkidiki Hub',
           read_time_min: data.read_time_min || 5,
@@ -166,6 +168,30 @@ export default function EditBlogPage() {
         <div><label className="block text-sm font-medium text-gray-700 mb-1">Content (EN)</label>
           <textarea rows={8} value={form.content_en} onChange={(e) => update('content_en', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
+
+        {/* Translate content to all languages */}
+        <ContentTranslator
+          contentEl={form.content_el}
+          onTranslated={(translations) => {
+            setForm((prev) => ({
+              ...prev,
+              content_en: translations.en || prev.content_en,
+              content_de: translations.de || '',
+              content_bg: translations.bg || '',
+              content_ru: translations.ru || '',
+              content_ro: translations.ro || '',
+            }));
+            // Save extra languages to DB immediately
+            const supabase = createClient();
+            supabase.from('blog_articles').update({
+              content_en: translations.en,
+              content_de: translations.de,
+              content_bg: translations.bg,
+              content_ru: translations.ru,
+              content_ro: translations.ro,
+            }).eq('id', id);
+          }}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Category</label>

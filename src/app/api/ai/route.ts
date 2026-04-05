@@ -101,6 +101,35 @@ IMPORTANT:
       return NextResponse.json(parsed);
     }
 
+    if (action === 'translate_content') {
+      // Translate long-form content (blog articles) to 5 languages
+      const content = body.content as string;
+      if (!content) return NextResponse.json({ error: 'No content provided' }, { status: 400 });
+
+      const prompt = `You are a professional translator. Translate the following Greek text to English, German, Bulgarian, Russian, and Romanian.
+
+IMPORTANT: Translate the ENTIRE text completely. Do NOT summarize or shorten. Every paragraph, every sentence must be translated.
+Keep the same formatting (## headings, bullet points, line breaks).
+
+Return ONLY a JSON object:
+{
+  "en": "full English translation...",
+  "de": "full German translation...",
+  "bg": "full Bulgarian translation...",
+  "ru": "full Russian translation...",
+  "ro": "full Romanian translation..."
+}
+
+No markdown wrapping, no explanation.
+
+Greek text to translate:
+${content}`;
+
+      const result = await callOpenAI(prompt, 10000);
+      const translations = JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+      return NextResponse.json(translations);
+    }
+
     // Legacy actions for backwards compatibility
     if (action === 'translate_all') {
       const prompt = `Translate the following Greek texts to English, German, Bulgarian, Russian, and Romanian.
