@@ -48,17 +48,27 @@ export default function AdminSubmissionsPage() {
     load();
   }, [filterType, filterStatus]);
 
+  const [actionError, setActionError] = useState('');
+
   async function handleAction(id: string, action: 'approve' | 'reject') {
     setActionLoading(id);
-    const res = await fetch('/api/submissions', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, action, admin_notes: rejectNotes[id] || '' }),
-    });
-    if (res.ok) {
-      setSubmissions((prev) =>
-        prev.map((s) => s.id === id ? { ...s, status: action === 'approve' ? 'approved' : 'rejected', admin_notes: rejectNotes[id] || null } : s)
-      );
+    setActionError('');
+    try {
+      const res = await fetch('/api/submissions', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, action, admin_notes: rejectNotes[id] || '' }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setSubmissions((prev) =>
+          prev.map((s) => s.id === id ? { ...s, status: action === 'approve' ? 'approved' : 'rejected', admin_notes: rejectNotes[id] || null } : s)
+        );
+      } else {
+        setActionError(data.error || `Failed to ${action}`);
+      }
+    } catch (err) {
+      setActionError(`Network error: ${(err as Error).message}`);
     }
     setActionLoading(null);
   }
@@ -73,6 +83,8 @@ export default function AdminSubmissionsPage() {
         <Shield className="w-6 h-6 text-red-600" />
         <h1 className="text-2xl font-bold text-gray-900">{t('moderationTitle')}</h1>
       </div>
+
+      {actionError && <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{actionError}</div>}
 
       {/* Filters */}
       <div className="flex items-center gap-3 mb-6">
