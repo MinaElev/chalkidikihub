@@ -33,7 +33,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: t.siteName,
       locale: locale,
       type: 'website',
-      url: '/',
     },
   };
 }

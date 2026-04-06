@@ -7,8 +7,11 @@ import { AreaBeaches, AreaRestaurants, AreaActivities, AreaChargers } from '@/co
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { AreaHero } from '@/components/layout/AreaHero';
 import { JsonLd } from '@/components/ui/JsonLd';
+import type { Metadata } from 'next';
 
 import { Area } from '@/types';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -16,6 +19,39 @@ type Props = {
 
 export function generateStaticParams() {
   return AREAS.map((area) => ({ slug: area.slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const area = AREAS.find((a) => a.slug === slug);
+  if (!area) return { title: 'Area | Chalkidiki Hub' };
+
+  const name = area.name[locale] || area.name.el;
+  const desc = area.description[locale] || area.description.el;
+
+  return {
+    title: `${name} - Χαλκιδική | Chalkidiki Hub`,
+    description: desc,
+    openGraph: {
+      title: `${name} - Χαλκιδική`,
+      description: desc,
+      type: 'website',
+      locale,
+      siteName: 'Chalkidiki Hub',
+      ...(area.image_url ? { images: [{ url: area.image_url, alt: name, width: 1200, height: 630 }] } : {}),
+    },
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/areas/${slug}`,
+      languages: {
+        el: `${SITE_URL}/el/areas/${slug}`,
+        en: `${SITE_URL}/en/areas/${slug}`,
+        de: `${SITE_URL}/de/areas/${slug}`,
+        bg: `${SITE_URL}/bg/areas/${slug}`,
+        ru: `${SITE_URL}/ru/areas/${slug}`,
+        ro: `${SITE_URL}/ro/areas/${slug}`,
+      },
+    },
+  };
 }
 
 export default async function AreaDetailPage({ params }: Props) {

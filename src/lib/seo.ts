@@ -4,6 +4,15 @@ import { createApiClient, toLocaleMap } from './api-helpers';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
 // Fetch SEO meta from DB for a specific record
+// Map DB table names to URL path segments
+const tableToPath: Record<string, string> = {
+  listings: 'listings',
+  beaches: 'beaches',
+  restaurants: 'restaurants',
+  activities: 'activities',
+  blog_articles: 'blog',
+};
+
 export async function getContentMeta(
   table: string,
   slug: string,
@@ -11,6 +20,7 @@ export async function getContentMeta(
   fallbackTitle: string,
   fallbackDescription: string,
 ): Promise<Metadata> {
+  const pathSegment = tableToPath[table] || table;
   try {
     const supabase = createApiClient();
     const titleField = table === 'blog_articles' ? 'title' : 'name';
@@ -53,14 +63,14 @@ export async function getContentMeta(
         ...(image ? { images: [image] } : {}),
       },
       alternates: {
-        canonical: `${SITE_URL}/${locale}`,
+        canonical: `${SITE_URL}/${locale}/${pathSegment}/${slug}`,
         languages: {
-          el: `${SITE_URL}/el`,
-          en: `${SITE_URL}/en`,
-          de: `${SITE_URL}/de`,
-          bg: `${SITE_URL}/bg`,
-          ru: `${SITE_URL}/ru`,
-          ro: `${SITE_URL}/ro`,
+          el: `${SITE_URL}/el/${pathSegment}/${slug}`,
+          en: `${SITE_URL}/en/${pathSegment}/${slug}`,
+          de: `${SITE_URL}/de/${pathSegment}/${slug}`,
+          bg: `${SITE_URL}/bg/${pathSegment}/${slug}`,
+          ru: `${SITE_URL}/ru/${pathSegment}/${slug}`,
+          ro: `${SITE_URL}/ro/${pathSegment}/${slug}`,
         },
       },
     };
@@ -68,6 +78,8 @@ export async function getContentMeta(
     return getDefaultMeta(fallbackTitle, fallbackDescription, locale);
   }
 }
+
+const DEFAULT_OG_IMAGE = `${SITE_URL}/icons/icon-512.png`;
 
 function getDefaultMeta(title: string, description: string, locale: string): Metadata {
   return {
@@ -79,11 +91,13 @@ function getDefaultMeta(title: string, description: string, locale: string): Met
       type: 'website',
       locale,
       siteName: 'Chalkidiki Hub',
+      images: [{ url: DEFAULT_OG_IMAGE, alt: 'Chalkidiki Hub', width: 512, height: 512 }],
     },
     twitter: {
       card: 'summary',
       title,
       description,
+      images: [DEFAULT_OG_IMAGE],
     },
   };
 }
