@@ -8,6 +8,7 @@ import { AREA_SLUGS, ALL_CUISINE_TYPES } from '@/lib/constants';
 import { Area, CuisineType } from '@/types';
 import { Loader2, Upload, X, UtensilsCrossed, CheckCircle } from 'lucide-react';
 import { compressImage } from '@/lib/image-utils';
+import { logEvent } from '@/lib/logger';
 import { LocationPicker } from '@/components/ui/LocationPicker';
 
 export default function SuggestRestaurantPage() {
@@ -76,8 +77,10 @@ export default function SuggestRestaurantPage() {
     });
 
     if (!insertError) {
+      logEvent('user_action', 'info', 'Restaurant suggestion submitted', { title: form.title_el });
       setSuccess(true);
     } else {
+      logEvent('error', 'error', 'Restaurant suggestion failed', { error: insertError.message });
       setError(insertError.message || t('submitError'));
     }
     setLoading(false);

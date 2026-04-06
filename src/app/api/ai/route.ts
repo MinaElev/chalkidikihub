@@ -167,6 +167,8 @@ ${content}`;
 
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
   } catch (error) {
+    const logClient = createApiClient();
+    await logClient.from('activity_logs').insert({ type: 'error', severity: 'error', message: 'AI API error', details: { action, error: (error as Error).message } });
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }

@@ -8,6 +8,7 @@ import { AREA_SLUGS, ALL_ACTIVITY_CATEGORIES } from '@/lib/constants';
 import { Area, ActivityCategory } from '@/types';
 import { Loader2, Upload, X, Landmark, CheckCircle } from 'lucide-react';
 import { compressImage } from '@/lib/image-utils';
+import { logEvent } from '@/lib/logger';
 import { LocationPicker } from '@/components/ui/LocationPicker';
 
 export default function SuggestActivityPage() {
@@ -76,8 +77,10 @@ export default function SuggestActivityPage() {
     });
 
     if (!insertError) {
+      logEvent('user_action', 'info', 'Activity suggestion submitted', { title: form.title_el });
       setSuccess(true);
     } else {
+      logEvent('error', 'error', 'Activity suggestion failed', { error: insertError.message });
       setError(insertError.message || t('submitError'));
     }
     setLoading(false);

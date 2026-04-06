@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Users, List, Eye, FileText, Waves, UtensilsCrossed, Landmark, Zap } from 'lucide-react';
+import { Users, List, Eye, FileText, Waves, UtensilsCrossed, Landmark, Zap, AlertTriangle } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -16,6 +17,7 @@ export default function AdminDashboard() {
     chargers: 0,
     articles: 0,
   });
+  const [recentErrors, setRecentErrors] = useState<Array<{ id: string; message: string; severity: string; created_at: string }>>([]);
 
   useEffect(() => {
     async function loadStats() {
@@ -34,6 +36,16 @@ export default function AdminDashboard() {
         const data = await res.json();
         if (Array.isArray(data)) chargerCount = data.length;
       } catch {}
+
+      // Recent errors
+      const { data: errors } = await supabase
+        .from('activity_logs')
+        .select('id, message, severity, created_at')
+        .in('severity', ['error', 'warning'])
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+      setRecentErrors(errors || []);
 
       setStats({
         totalUsers: userCount || 0,
@@ -81,6 +93,29 @@ export default function AdminDashboard() {
           </div>
         ))}
       </div>
+
+      {/* Recent Errors */}
+      {recentErrors.length > 0 && (
+        <div className="mt-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-red-500" /> Recent Issues
+            </h2>
+            <Link href="/admin/logs" className="text-sm text-red-600 hover:underline">View all →</Link>
+          </div>
+          <div className="bg-white border border-red-100 rounded-xl divide-y divide-gray-100">
+            {recentErrors.map((log) => (
+              <div key={log.id} className="flex items-center gap-3 px-4 py-3">
+                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                  log.severity === 'error' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
+                }`}>{log.severity}</span>
+                <span className="text-sm text-gray-700 flex-1 truncate">{log.message}</span>
+                <span className="text-xs text-gray-400 shrink-0">{new Date(log.created_at).toLocaleString('el')}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

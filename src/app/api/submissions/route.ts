@@ -167,6 +167,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     if (insertError) {
+      const errLogClient = createApiClient();
+      await errLogClient.from('activity_logs').insert({ type: 'error', severity: 'error', message: 'Submission approve failed', details: { id, error: insertError.message } });
       return NextResponse.json({ error: insertError.message }, { status: 500 });
     }
 
@@ -175,21 +177,36 @@ export async function PATCH(request: NextRequest) {
       .update({ status: 'approved', admin_notes: admin_notes || null, updated_at: new Date().toISOString() })
       .eq('id', id);
 
+    const logClient = createApiClient();
+    await logClient.from('activity_logs').insert({ type: 'admin_action', severity: 'info', message: 'Submission approved', details: { id, submissionType: submission.type } });
+
     return NextResponse.json({ success: true });
   }
 
   if (action === 'reject') {
+    const { data: rejSubmission } = await supabase
+      .from('user_submissions')
+      .select('type')
+      .eq('id', id)
+      .single();
+
     const { error } = await supabase
       .from('user_submissions')
       .update({ status: 'rejected', admin_notes: admin_notes || '', updated_at: new Date().toISOString() })
       .eq('id', id);
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    const logClient2 = createApiClient();
+    await logClient2.from('activity_logs').insert({ type: 'admin_action', severity: 'info', message: 'Submission rejected', details: { id, submissionType: rejSubmission?.type } });
+
     return NextResponse.json({ success: true });
   }
 
   return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (err) {
+    const catchLogClient = createApiClient();
+    await catchLogClient.from('activity_logs').insert({ type: 'error', severity: 'error', message: 'Submissions API error', details: { error: (err as Error).message } });
     return NextResponse.json({ error: (err as Error).message || 'Server error' }, { status: 500 });
   }
 }

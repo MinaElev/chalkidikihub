@@ -6,7 +6,7 @@ import { useRouter } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
 import {
   LayoutDashboard, Users, List, MapPin, Waves, UtensilsCrossed,
-  Landmark, Zap, FileText, Settings, Home, LogOut, Loader2, Shield,
+  Landmark, Zap, FileText, Settings, Home, LogOut, Loader2, Shield, ScrollText,
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -51,6 +51,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: '/admin/images', icon: FileText, label: 'Images' },
     { href: '/admin/seo', icon: FileText, label: 'SEO' },
     { href: '/admin/tools', icon: Zap, label: 'Tools' },
+    { href: '/admin/logs', icon: ScrollText, label: 'Logs' },
     { href: '/admin/settings', icon: Settings, label: 'Settings' },
   ];
 

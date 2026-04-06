@@ -6,6 +6,7 @@ import { useRouter } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Loader2, Upload, X, FileText, CheckCircle } from 'lucide-react';
 import { compressImage } from '@/lib/image-utils';
+import { logEvent } from '@/lib/logger';
 
 const BLOG_CATEGORIES = ['guides', 'beaches', 'food', 'activities', 'tips', 'culture'] as const;
 
@@ -62,8 +63,10 @@ export default function SuggestBlogPage() {
     });
 
     if (!insertError) {
+      logEvent('user_action', 'info', 'Blog suggestion submitted', { title: form.title_el });
       setSuccess(true);
     } else {
+      logEvent('error', 'error', 'Blog suggestion failed', { error: insertError.message });
       setError(insertError.message || t('submitError'));
     }
     setLoading(false);

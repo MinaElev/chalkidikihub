@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/navigation';
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { logEvent } from '@/lib/logger';
 import { Loader2, CheckCircle } from 'lucide-react';
 
 export default function RegisterPage() {
@@ -33,11 +34,13 @@ export default function RegisterPage() {
     });
 
     if (error) {
+      logEvent('error', 'error', 'Registration failed', { email, error: error.message });
       setError(error.message);
       setLoading(false);
       return;
     }
 
+    logEvent('user_action', 'info', 'New user registered', { email });
     // Auto login after register (email confirmation is OFF)
     router.push('/dashboard');
   }

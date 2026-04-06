@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/i18n/navigation';
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { logEvent } from '@/lib/logger';
 import { Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
@@ -23,11 +24,13 @@ export default function LoginPage() {
     const { error, data } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
+      logEvent('error', 'warning', 'Login failed', { email, error: error.message });
       setError(error.message);
       setLoading(false);
       return;
     }
 
+    logEvent('user_action', 'info', 'User logged in', { email });
     // Check role for redirect
     if (data.user) {
       const { data: profile } = await supabase
