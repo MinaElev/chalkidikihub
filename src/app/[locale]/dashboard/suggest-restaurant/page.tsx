@@ -6,7 +6,7 @@ import { useRouter } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { AREA_SLUGS, ALL_CUISINE_TYPES } from '@/lib/constants';
 import { Area, CuisineType } from '@/types';
-import { Loader2, Upload, X, UtensilsCrossed, CheckCircle } from 'lucide-react';
+import { Loader2, Upload, X, UtensilsCrossed, CheckCircle, Info } from 'lucide-react';
 import { compressImage } from '@/lib/image-utils';
 import { logEvent } from '@/lib/logger';
 import { LocationPicker } from '@/components/ui/LocationPicker';
@@ -22,8 +22,8 @@ export default function SuggestRestaurantPage() {
   const [image, setImage] = useState<File | null>(null);
 
   const [form, setForm] = useState({
-    title_el: '', title_en: '',
-    description_el: '', description_en: '',
+    title_el: '',
+    description_el: '',
     area: 'kassandra' as Area,
     location_name: '',
     latitude: 40.1, longitude: 23.6,
@@ -63,9 +63,9 @@ export default function SuggestRestaurantPage() {
       type: 'restaurant',
       user_id: user.id,
       title_el: form.title_el,
-      title_en: form.title_en || '',
+      title_en: '',
       description_el: form.description_el,
-      description_en: form.description_en || '',
+      description_en: '',
       area: form.area,
       location_name: form.location_name,
       latitude: form.latitude,
@@ -100,82 +100,97 @@ export default function SuggestRestaurantPage() {
 
   return (
     <div>
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-3 mb-2">
         <UtensilsCrossed className="w-6 h-6 text-red-600" />
         <h1 className="text-2xl font-bold text-gray-900">{t('suggestRestaurant')}</h1>
       </div>
+      <p className="text-sm text-gray-500 mb-6 flex items-start gap-2">
+        <Info className="w-4 h-4 mt-0.5 shrink-0 text-primary-500" />
+        Συμπληρώστε τα στοιχεία του εστιατορίου/beach bar στα Ελληνικά. Η μετάφραση σε άλλες γλώσσες γίνεται αυτόματα μετά την έγκριση.
+      </p>
 
       {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>}
 
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('titleEl')} *</label>
-            <input required value={form.title_el} onChange={(e) => setForm({ ...form, title_el: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('titleEn')}</label>
-            <input value={form.title_en} onChange={(e) => setForm({ ...form, title_en: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
-          </div>
+      <form onSubmit={handleSubmit} className="space-y-5 max-w-2xl">
+        {/* Όνομα */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Όνομα εστιατορίου / beach bar *</label>
+          <input required value={form.title_el} onChange={(e) => setForm({ ...form, title_el: e.target.value })}
+            placeholder="π.χ. Ταβέρνα ο Νίκος, Blue Lagoon Beach Bar"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+          <p className="text-xs text-gray-400 mt-1">Γράψτε το πλήρες όνομα όπως εμφανίζεται στην ταμπέλα.</p>
         </div>
 
+        {/* Περιγραφή */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t('descriptionEl')} *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Περιγραφή *</label>
           <textarea required rows={4} value={form.description_el} onChange={(e) => setForm({ ...form, description_el: e.target.value })}
+            placeholder="Περιγράψτε το μαγαζί: τι σερβίρει, ποια είναι η ατμόσφαιρα, τι το κάνει ξεχωριστό. Π.χ. Παραδοσιακή ταβέρνα με θέα θάλασσα, φρέσκα ψάρια κάθε μέρα..."
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t('descriptionEn')}</label>
-          <textarea rows={3} value={form.description_en} onChange={(e) => setForm({ ...form, description_en: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+          <p className="text-xs text-gray-400 mt-1">Όσο πιο αναλυτικά γράψετε, τόσο καλύτερα. Αναφέρετε ειδικότητες, ατμόσφαιρα, θέα.</p>
         </div>
 
+        {/* Περιοχή & Τύπος κουζίνας */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('area')} *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Περιοχή *</label>
             <select required value={form.area} onChange={(e) => setForm({ ...form, area: e.target.value as Area })}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
               {AREA_SLUGS.map((a) => <option key={a} value={a}>{areaLabels[a]}</option>)}
             </select>
+            <p className="text-xs text-gray-400 mt-1">Σε ποιο "πόδι" της Χαλκιδικής βρίσκεται;</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('cuisineType')} *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Τύπος μαγαζιού *</label>
             <select required value={form.cuisine} onChange={(e) => setForm({ ...form, cuisine: e.target.value as CuisineType })}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
               {ALL_CUISINE_TYPES.map((c) => <option key={c} value={c}>{tCuisine(c)}</option>)}
             </select>
+            <p className="text-xs text-gray-400 mt-1">Επιλέξτε τον κύριο τύπο κουζίνας ή Beach Bar.</p>
           </div>
         </div>
 
+        {/* Τοποθεσία */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t('locationName')}</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Τοποθεσία / Χωριό</label>
           <input value={form.location_name} onChange={(e) => setForm({ ...form, location_name: e.target.value })}
+            placeholder="π.χ. Χανιώτη, Νικήτη, Σάρτη"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+          <p className="text-xs text-gray-400 mt-1">Το χωριό ή η περιοχή που βρίσκεται το μαγαζί.</p>
         </div>
 
-        <LocationPicker
-          latitude={form.latitude} longitude={form.longitude}
-          onLocationChange={(lat, lng) => setForm({ ...form, latitude: lat, longitude: lng })}
-        />
+        {/* Χάρτης */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Σημείωσε στο χάρτη την ακριβή θέση</label>
+          <p className="text-xs text-gray-400 mb-2">Κάνε κλικ στο χάρτη ή ψάξε τη διεύθυνση για να βάλεις pin.</p>
+          <LocationPicker
+            latitude={form.latitude} longitude={form.longitude}
+            onLocationChange={(lat, lng) => setForm({ ...form, latitude: lat, longitude: lng })}
+          />
+        </div>
 
+        {/* Τηλέφωνο & Ωράριο */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('phone')}</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Τηλέφωνο</label>
             <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              placeholder="π.χ. 23740 12345 ή 6972 123456"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+            <p className="text-xs text-gray-400 mt-1">Προαιρετικό — αν το γνωρίζετε.</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('hours')}</label>
-            <input value={form.hours} onChange={(e) => setForm({ ...form, hours: e.target.value })} placeholder="π.χ. 12:00-23:00"
+            <label className="block text-sm font-medium text-gray-700 mb-1">Ωράριο λειτουργίας</label>
+            <input value={form.hours} onChange={(e) => setForm({ ...form, hours: e.target.value })}
+              placeholder="π.χ. 12:00-00:00, Καθημερινά"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+            <p className="text-xs text-gray-400 mt-1">Κατά προσέγγιση ωράριο.</p>
           </div>
         </div>
 
-        {/* Image upload */}
+        {/* Φωτογραφία */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t('image')}</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Φωτογραφία</label>
+          <p className="text-xs text-gray-400 mb-2">Ανεβάστε μια φωτογραφία του μαγαζιού (εξωτερική ή εσωτερική). Προαιρετικό.</p>
           {image ? (
             <div className="flex items-center gap-3">
               <span className="text-sm text-gray-600">{image.name}</span>

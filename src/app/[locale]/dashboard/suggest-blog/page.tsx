@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { Loader2, Upload, X, FileText, CheckCircle } from 'lucide-react';
+import { Loader2, Upload, X, FileText, CheckCircle, Info } from 'lucide-react';
 import { compressImage } from '@/lib/image-utils';
 import { logEvent } from '@/lib/logger';
 
@@ -20,8 +20,8 @@ export default function SuggestBlogPage() {
   const [image, setImage] = useState<File | null>(null);
 
   const [form, setForm] = useState({
-    title_el: '', title_en: '',
-    content_el: '', content_en: '',
+    title_el: '',
+    content_el: '',
     category: 'guides' as string,
     tags: '',
   });
@@ -53,9 +53,9 @@ export default function SuggestBlogPage() {
       type: 'blog',
       user_id: user.id,
       title_el: form.title_el,
-      title_en: form.title_en || '',
+      title_en: '',
       description_el: form.content_el,
-      description_en: form.content_en || '',
+      description_en: '',
       image_url: imageUrl,
       category: form.category,
       extra_data: { tags: form.tags },
@@ -86,55 +86,70 @@ export default function SuggestBlogPage() {
 
   return (
     <div>
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-3 mb-2">
         <FileText className="w-6 h-6 text-primary-600" />
         <h1 className="text-2xl font-bold text-gray-900">{t('suggestBlog')}</h1>
       </div>
+      <p className="text-sm text-gray-500 mb-6 flex items-start gap-2">
+        <Info className="w-4 h-4 mt-0.5 shrink-0 text-primary-500" />
+        Γράψτε ένα άρθρο για τη Χαλκιδική στα Ελληνικά. Μπορεί να είναι οδηγός, εμπειρία, tips ή ιστορία. Η μετάφραση γίνεται αυτόματα μετά την έγκριση.
+      </p>
 
       {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>}
 
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('titleEl')} *</label>
-            <input required value={form.title_el} onChange={(e) => setForm({ ...form, title_el: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('titleEn')}</label>
-            <input value={form.title_en} onChange={(e) => setForm({ ...form, title_en: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
-          </div>
+      <form onSubmit={handleSubmit} className="space-y-5 max-w-2xl">
+        {/* Τίτλος */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Τίτλος άρθρου *</label>
+          <input required value={form.title_el} onChange={(e) => setForm({ ...form, title_el: e.target.value })}
+            placeholder="π.χ. 10 Κρυμμένες Παραλίες στη Σιθωνία που Πρέπει να Ανακαλύψεις"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+          <p className="text-xs text-gray-400 mt-1">Ένας ελκυστικός τίτλος που τραβάει την προσοχή.</p>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t('contentEl')} *</label>
-          <textarea required rows={10} value={form.content_el} onChange={(e) => setForm({ ...form, content_el: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t('contentEn')}</label>
-          <textarea rows={6} value={form.content_en} onChange={(e) => setForm({ ...form, content_en: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
-        </div>
-
+        {/* Κατηγορία & Tags */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('category')} *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Κατηγορία *</label>
             <select required value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
               {BLOG_CATEGORIES.map((c) => <option key={c} value={c}>{tCat(c)}</option>)}
             </select>
+            <p className="text-xs text-gray-400 mt-1">Σε ποια κατηγορία ανήκει το άρθρο;</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{t('tags')}</label>
-            <input value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} placeholder="beach, travel, food"
+            <label className="block text-sm font-medium text-gray-700 mb-1">Ετικέτες (tags)</label>
+            <input value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })}
+              placeholder="π.χ. παραλίες, σιθωνία, οικογένεια, tips"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+            <p className="text-xs text-gray-400 mt-1">Λέξεις-κλειδιά χωρισμένες με κόμμα.</p>
           </div>
         </div>
 
+        {/* Περιεχόμενο */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{t('image')}</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Κείμενο άρθρου *</label>
+          <textarea required rows={12} value={form.content_el} onChange={(e) => setForm({ ...form, content_el: e.target.value })}
+            placeholder="Γράψτε το άρθρο σας εδώ...
+
+Μπορείτε να χρησιμοποιήσετε:
+## Τίτλος ενότητας
+### Υπότιτλος
+- Σημείο λίστας
+**Έντονο κείμενο**
+
+Tip: Γράψτε σαν να μιλάτε σε φίλο που ρωτάει τι να κάνει στη Χαλκιδική!"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+          <p className="text-xs text-gray-400 mt-1">
+            Γράψτε ελεύθερα — μπορείτε να χρησιμοποιήσετε ## για τίτλους, - για λίστες, **bold** για έμφαση.
+            Ιδανικό μέγεθος: 500-2000 λέξεις.
+          </p>
+        </div>
+
+        {/* Φωτογραφία */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Φωτογραφία εξωφύλλου</label>
+          <p className="text-xs text-gray-400 mb-2">Μια ωραία φωτογραφία για το εξώφυλλο του άρθρου. Προαιρετικό.</p>
           {image ? (
             <div className="flex items-center gap-3">
               <span className="text-sm text-gray-600">{image.name}</span>
