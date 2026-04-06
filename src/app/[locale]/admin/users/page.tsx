@@ -110,7 +110,7 @@ export default function AdminUsersPage() {
                   {new Date(user.created_at).toLocaleDateString()}
                 </td>
                 <td className="px-4 py-3">
-                  {user.role !== 'superadmin' && (
+                  {user.email !== 'mnc@hotmail.gr' && (
                     <div className="flex items-center gap-2">
                       <select
                         value={user.role}
