@@ -8,6 +8,7 @@ import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 import { ALL_CUISINE_TYPES, ALL_PRICE_LEVELS } from '@/lib/constants';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { AIHelper } from '@/components/admin/AIHelper';
+import { LocationPicker } from '@/components/ui/LocationPicker';
 
 const AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'];
 
@@ -171,13 +172,14 @@ export default function EditRestaurantPage() {
             /></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div><label className="block text-sm font-medium text-gray-700 mb-1">Latitude</label>
-            <input type="number" step="any" value={form.latitude} onChange={(e) => update('latitude', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
-          <div><label className="block text-sm font-medium text-gray-700 mb-1">Longitude</label>
-            <input type="number" step="any" value={form.longitude} onChange={(e) => update('longitude', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
+        {/* Location Picker Map */}
+        <LocationPicker
+          latitude={Number(form.latitude) || 40.1}
+          longitude={Number(form.longitude) || 23.6}
+          onLocationChange={(lat, lng) => { update('latitude', lat); update('longitude', lng); }}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Rating (0-5)</label>
             <input type="number" min="0" max="5" step="0.1" value={form.rating} onChange={(e) => update('rating', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
