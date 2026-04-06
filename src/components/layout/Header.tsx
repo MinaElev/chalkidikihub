@@ -99,7 +99,6 @@ export function Header() {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
-            <GlobalSearch />
             <FavoritesCounter />
             <LanguageSwitcher />
             <div className="hidden md:flex items-center gap-2">
