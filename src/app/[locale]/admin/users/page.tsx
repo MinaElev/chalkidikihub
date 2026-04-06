@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Users, Shield, User, Loader2 } from 'lucide-react';
+import { Users, Shield, User, Loader2, Trash2 } from 'lucide-react';
 
 interface Profile {
   id: string;
@@ -31,10 +31,33 @@ export default function AdminUsersPage() {
     setLoading(false);
   }
 
+  const [deleting, setDeleting] = useState<string | null>(null);
+
   async function changeRole(userId: string, newRole: string) {
     const supabase = createClient();
     await supabase.from('profiles').update({ role: newRole }).eq('id', userId);
     loadUsers();
+  }
+
+  async function deleteUser(userId: string, userName: string) {
+    if (!confirm(`Διαγραφή χρήστη "${userName}";\n\nΘα διαγραφούν και όλα τα listings, submissions και favorites του. Αυτή η ενέργεια δεν αναιρείται.`)) return;
+    setDeleting(userId);
+    try {
+      const res = await fetch('/api/admin/delete-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      });
+      if (res.ok) {
+        setUsers((prev) => prev.filter((u) => u.id !== userId));
+      } else {
+        const data = await res.json();
+        alert(`Error: ${data.error}`);
+      }
+    } catch (err) {
+      alert(`Error: ${(err as Error).message}`);
+    }
+    setDeleting(null);
   }
 
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
@@ -90,15 +113,25 @@ export default function AdminUsersPage() {
                 </td>
                 <td className="px-4 py-3">
                   {user.role !== 'superadmin' && (
-                    <select
-                      value={user.role}
-                      onChange={(e) => changeRole(user.id, e.target.value)}
-                      className="text-sm border border-gray-300 rounded-lg px-2 py-1"
-                    >
-                      <option value="owner">Owner</option>
-                      <option value="admin">Admin</option>
-                      <option value="superadmin">Super Admin</option>
-                    </select>
+                    <div className="flex items-center gap-2">
+                      <select
+                        value={user.role}
+                        onChange={(e) => changeRole(user.id, e.target.value)}
+                        className="text-sm border border-gray-300 rounded-lg px-2 py-1"
+                      >
+                        <option value="owner">Owner</option>
+                        <option value="admin">Admin</option>
+                        <option value="superadmin">Super Admin</option>
+                      </select>
+                      <button
+                        onClick={() => deleteUser(user.id, user.full_name || user.email)}
+                        disabled={deleting === user.id}
+                        className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                        title="Διαγραφή χρήστη"
+                      >
+                        {deleting === user.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                      </button>
+                    </div>
                   )}
                 </td>
               </tr>
