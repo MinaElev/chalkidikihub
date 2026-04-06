@@ -126,7 +126,7 @@ export interface BeachFilters {
 
 // Restaurant types
 
-export type CuisineType = 'seafood' | 'traditional' | 'grill' | 'mediterranean' | 'pizza' | 'cafe' | 'fineDining' | 'streetFood';
+export type CuisineType = 'seafood' | 'traditional' | 'grill' | 'mediterranean' | 'pizza' | 'cafe' | 'fineDining' | 'streetFood' | 'beachBar';
 
 export type PriceLevel = 'budget' | 'moderate' | 'upscale' | 'fineDining';
 

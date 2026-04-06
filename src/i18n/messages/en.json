@@ -24,7 +24,7 @@
     "evChargers": "EV Chargers",
     "blog": "Blog",
     "activities": "Activities",
-    "restaurants": "Restaurants",
+    "restaurants": "Restaurants & Beach Bars",
     "about": "About",
     "login": "Login",
     "register": "Register",
@@ -253,8 +253,8 @@
     "liveConditions": "Live conditions"
   },
   "restaurants": {
-    "title": "Restaurants & Tavernas",
-    "subtitle": "Taste Halkidiki - Fresh seafood and traditional recipes",
+    "title": "Restaurants & Beach Bars",
+    "subtitle": "Taste & Drink in Halkidiki",
     "viewAll": "All restaurants",
     "cuisine": "Cuisine",
     "priceLevel": "Price level",
@@ -289,7 +289,8 @@
     "pizza": "Pizza",
     "cafe": "Café",
     "fineDining": "Fine dining",
-    "streetFood": "Street food"
+    "streetFood": "Street food",
+    "beachBar": "Beach Bar"
   },
   "priceLevels": {
     "budget": "€ Budget",

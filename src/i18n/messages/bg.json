@@ -24,7 +24,7 @@
     "evChargers": "EV Зарядни",
     "blog": "Блог",
     "activities": "Забележителности",
-    "restaurants": "Ресторанти",
+    "restaurants": "Ресторанти & Beach Bars",
     "about": "За нас",
     "login": "Вход",
     "register": "Регистрация",
@@ -253,7 +253,7 @@
     "liveConditions": "Текущи условия"
   },
   "restaurants": {
-    "title": "Ресторанти & Таверни",
+    "title": "Ресторанти & Beach Bars",
     "subtitle": "Вкусове на Халкидики - Пресни морски дарове и традиционни рецепти",
     "viewAll": "Всички ресторанти",
     "cuisine": "Кухня",
@@ -289,7 +289,8 @@
     "pizza": "Пица",
     "cafe": "Кафе",
     "fineDining": "Висша кухня",
-    "streetFood": "Улична храна"
+    "streetFood": "Улична храна",
+    "beachBar": "Бийч бар"
   },
   "priceLevels": {
     "budget": "€ Бюджетно",

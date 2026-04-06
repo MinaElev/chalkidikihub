@@ -24,7 +24,7 @@
     "evChargers": "E-Ladestationen",
     "blog": "Blog",
     "activities": "Aktivitäten",
-    "restaurants": "Restaurants",
+    "restaurants": "Restaurants & Beach Bars",
     "about": "Über uns",
     "login": "Anmelden",
     "register": "Registrieren",
@@ -253,8 +253,8 @@
     "liveConditions": "Live-Bedingungen"
   },
   "restaurants": {
-    "title": "Restaurants & Tavernen",
-    "subtitle": "Chalkidiki genießen - Frische Meeresfrüchte und traditionelle Rezepte",
+    "title": "Restaurants & Beach Bars",
+    "subtitle": "Geschmack & Cocktails in Chalkidiki",
     "viewAll": "Alle Restaurants",
     "cuisine": "Küche",
     "priceLevel": "Preisniveau",
@@ -289,7 +289,8 @@
     "pizza": "Pizza",
     "cafe": "Café",
     "fineDining": "Gehobene Küche",
-    "streetFood": "Straßenküche"
+    "streetFood": "Straßenküche",
+    "beachBar": "Beach Bar"
   },
   "priceLevels": {
     "budget": "€ Günstig",
