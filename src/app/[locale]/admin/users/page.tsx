@@ -74,7 +74,6 @@ export default function AdminUsersPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">User</th>
-              <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Email</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Phone</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Role</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Joined</th>
@@ -97,7 +96,6 @@ export default function AdminUsersPage() {
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-sm text-gray-600">{user.email || '-'}</td>
                 <td className="px-4 py-3 text-sm text-gray-600">{user.phone || '-'}</td>
                 <td className="px-4 py-3">
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
