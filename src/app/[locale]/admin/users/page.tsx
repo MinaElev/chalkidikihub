@@ -69,8 +69,8 @@ export default function AdminUsersPage() {
         <h1 className="text-2xl font-bold text-gray-900">Users ({users.length})</h1>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-        <table className="w-full">
+      <div className="bg-white border border-gray-200 rounded-2xl overflow-x-auto">
+        <table className="w-full min-w-[800px]">
           <thead className="bg-gray-50">
             <tr>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">User</th>
@@ -78,7 +78,7 @@ export default function AdminUsersPage() {
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Phone</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Role</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Joined</th>
-              <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Actions</th>
+              <th className="text-left px-4 py-3 text-sm font-medium text-gray-600 min-w-[160px]">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
