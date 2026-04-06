@@ -15,6 +15,7 @@ import { DetailSkeleton } from '@/components/ui/Skeleton';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { generateLodgingLD } from '@/lib/seo';
 import { LocationMap } from '@/components/ui/LocationMap';
+import { FormattedText } from '@/components/ui/FormattedText';
 
 export function DynamicListingDetail({ slug, locale }: { slug: string; locale: string }) {
   const [listing, setListing] = useState<Listing | null>(null);
@@ -87,7 +88,7 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
 
           <div>
             <h2 className="text-xl font-semibold text-gray-900 mb-3">{t('description')}</h2>
-            <p className="text-gray-600 leading-relaxed whitespace-pre-line">{description}</p>
+            <FormattedText text={description} />
           </div>
 
           {listing.amenities.length > 0 && (

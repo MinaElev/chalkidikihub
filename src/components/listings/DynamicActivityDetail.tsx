@@ -12,6 +12,7 @@ import { ActivityCard } from './ActivityCard';
 import { BeachCard } from './BeachCard';
 import { LocationMap } from '@/components/ui/LocationMap';
 import { ShareButtons } from '@/components/ui/ShareButtons';
+import { FormattedText } from '@/components/ui/FormattedText';
 
 export function DynamicActivityDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -142,9 +143,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
 
           {/* Description with in-article CTA */}
           <div className="mt-6 space-y-4">
-            {paragraphs.slice(0, insertAt).map((p, i) => (
-              <p key={i} className="text-gray-600 leading-relaxed">{p}</p>
-            ))}
+            <FormattedText text={paragraphs.slice(0, insertAt).join('\n')} />
 
             {/* In-article CTA */}
             {ctaActivities.length > 0 && paragraphs.length > 3 && (
@@ -170,9 +169,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
               </div>
             )}
 
-            {paragraphs.slice(insertAt).map((p, i) => (
-              <p key={`rest-${i}`} className="text-gray-600 leading-relaxed">{p}</p>
-            ))}
+            <FormattedText text={paragraphs.slice(insertAt).join('\n')} />
           </div>
 
           {/* Tags */}
