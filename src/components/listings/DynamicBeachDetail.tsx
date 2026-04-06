@@ -16,7 +16,7 @@ import { RestaurantCard } from './RestaurantCard';
 import { ListingCard } from './ListingCard';
 import { LocationMap } from '@/components/ui/LocationMap';
 import { ShareButtons } from '@/components/ui/ShareButtons';
-import { FormattedText } from '@/components/ui/FormattedText';
+import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 
 export function DynamicBeachDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -128,7 +128,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
 
           {/* Description with in-article CTA */}
           <div className="mt-6 space-y-4">
-            <FormattedText text={paragraphs.slice(0, insertAt).join('\n')} />
+            <AutoLinkedContent content={paragraphs.slice(0, insertAt).join('\n')} />
 
             {/* In-article CTA */}
             {ctaBeaches.length > 0 && paragraphs.length > 3 && (
@@ -154,7 +154,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
               </div>
             )}
 
-            <FormattedText text={paragraphs.slice(insertAt).join('\n')} />
+            <AutoLinkedContent content={paragraphs.slice(insertAt).join('\n')} />
           </div>
 
           {/* Features */}

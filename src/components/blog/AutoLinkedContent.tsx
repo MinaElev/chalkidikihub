@@ -70,6 +70,9 @@ export function AutoLinkedContent({ content, className }: { content: string; cla
       if (imgMatch) {
         return { type: 'image' as const, text: imgMatch[1], url: imgMatch[2], key: idx };
       }
+      if (paragraph.startsWith('### ')) {
+        return { type: 'subheading' as const, text: paragraph.replace('### ', ''), key: idx };
+      }
       if (paragraph.startsWith('## ')) {
         return { type: 'heading' as const, text: paragraph.replace('## ', ''), key: idx };
       }
@@ -164,6 +167,7 @@ export function AutoLinkedContent({ content, className }: { content: string; cla
         {content.split('\n').map((p, i) => {
           const imgMatch = p.trim().match(imageRegex);
           if (imgMatch) return <figure key={i} className="my-6"><img src={imgMatch[2]} alt={imgMatch[1]} className="w-full rounded-xl" loading="lazy" />{imgMatch[1] && <figcaption className="text-sm text-gray-500 text-center mt-2">{imgMatch[1]}</figcaption>}</figure>;
+          if (p.startsWith('### ')) return <h3 key={i} className="text-base font-bold text-gray-800 mt-4 mb-1">{p.replace('### ', '')}</h3>;
           if (p.startsWith('## ')) return <h2 key={i} className="text-2xl font-bold text-gray-900 mt-8 mb-4">{p.replace('## ', '')}</h2>;
           if (p.startsWith('- ')) return <div key={i} className="flex gap-2 ml-4 mb-2"><span className="text-primary-600">•</span><p className="text-gray-600">{p.replace('- ', '')}</p></div>;
           if (p.trim() === '') return <div key={i} className="h-2" />;
@@ -177,6 +181,7 @@ export function AutoLinkedContent({ content, className }: { content: string; cla
     <div className={className}>
       {processedParagraphs.map((p) => {
         if (p.type === 'image') return <figure key={p.key} className="my-6"><img src={(p as { url: string }).url} alt={p.text} className="w-full rounded-xl" loading="lazy" />{p.text && <figcaption className="text-sm text-gray-500 text-center mt-2">{p.text}</figcaption>}</figure>;
+        if (p.type === 'subheading') return <h3 key={p.key} className="text-base font-bold text-gray-800 mt-4 mb-1">{renderWithLinks(p.text)}</h3>;
         if (p.type === 'heading') return <h2 key={p.key} className="text-2xl font-bold text-gray-900 mt-8 mb-4">{renderWithLinks(p.text)}</h2>;
         if (p.type === 'list') return <div key={p.key} className="flex gap-2 ml-4 mb-2"><span className="text-primary-600">•</span><p className="text-gray-600">{renderWithLinks(p.text)}</p></div>;
         if (p.type === 'space') return <div key={p.key} className="h-2" />;
