@@ -16,6 +16,8 @@ import { JsonLd } from '@/components/ui/JsonLd';
 import { generateLodgingLD } from '@/lib/seo';
 import { LocationMap } from '@/components/ui/LocationMap';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
+import { addRecentlyViewed } from '@/lib/use-recently-viewed';
+import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 
 export function DynamicListingDetail({ slug, locale }: { slug: string; locale: string }) {
   const [listing, setListing] = useState<Listing | null>(null);
@@ -31,6 +33,17 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [slug]);
+
+  useEffect(() => {
+    if (listing) {
+      addRecentlyViewed({
+        type: 'listing',
+        slug: listing.slug,
+        title: listing.title[locale] || listing.title.en,
+        image: listing.images?.[0]?.image_url,
+      });
+    }
+  }, [listing, locale]);
 
   if (loading) return <DetailSkeleton />;
 
@@ -166,6 +179,8 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
       </div>
 
       <RelatedContent area={listing.area} currentSlug={listing.slug} />
+
+      <RecentlyViewed currentSlug={slug} />
     </div>
   );
 }

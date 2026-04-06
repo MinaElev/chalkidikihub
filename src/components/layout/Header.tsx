@@ -5,6 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { UserMenu } from './UserMenu';
 import { GlobalSearch } from './GlobalSearch';
+import { FavoritesCounter } from './FavoritesCounter';
 import { useState, useRef, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
@@ -99,6 +100,7 @@ export function Header() {
           {/* Right side */}
           <div className="flex items-center gap-2">
             <GlobalSearch />
+            <FavoritesCounter />
             <LanguageSwitcher />
             <div className="hidden md:flex items-center gap-2">
               <UserMenu />

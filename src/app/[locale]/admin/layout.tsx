@@ -57,6 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [role, setRole] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [badges, setBadges] = useState<Record<string, number>>({});
   const router = useRouter();
   const pathname = usePathname();
 
@@ -67,6 +68,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       const { data } = await supabase.from('profiles').select('role').eq('id', user.id).single();
       if (data?.role !== 'superadmin') { router.push('/dashboard'); return; }
       setRole(data.role);
+      // Fetch badge counts
+      const { count: pendingSubs } = await supabase
+        .from('user_submissions')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'pending');
+      const { count: unreadMsgs } = await supabase
+        .from('contact_messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('read', false);
+      setBadges({
+        '/admin/submissions': pendingSubs || 0,
+        '/admin/messages': unreadMsgs || 0,
+      });
       setLoading(false);
     });
   }, [router]);
@@ -115,7 +129,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                           ? 'bg-red-600 text-white'
                           : 'text-gray-700 hover:bg-red-50 hover:text-red-700'
                       }`}>
-                      <item.icon className="w-4 h-4" />{item.label}
+                      <item.icon className="w-4 h-4" />
+                      <span className="flex-1">{item.label}</span>
+                      {badges[item.href] > 0 && (
+                        <span className={`min-w-[20px] h-5 flex items-center justify-center rounded-full text-[10px] font-bold ${
+                          active ? 'bg-white/30 text-white' : 'bg-red-100 text-red-700'
+                        }`}>{badges[item.href]}</span>
+                      )}
                     </Link>
                   );
                 })}
@@ -185,7 +205,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 ? 'bg-red-600 text-white'
                                 : 'text-gray-700 hover:bg-red-50 hover:text-red-700'
                             }`}>
-                            <item.icon className="w-5 h-5" />{item.label}
+                            <item.icon className="w-5 h-5" />
+                            <span className="flex-1">{item.label}</span>
+                            {badges[item.href] > 0 && (
+                              <span className={`min-w-[20px] h-5 flex items-center justify-center rounded-full text-[10px] font-bold ${
+                                active ? 'bg-white/30 text-white' : 'bg-red-100 text-red-700'
+                              }`}>{badges[item.href]}</span>
+                            )}
                           </Link>
                         );
                       })}

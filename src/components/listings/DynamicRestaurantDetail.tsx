@@ -14,6 +14,8 @@ import { ListingCard } from './ListingCard';
 import { LocationMap } from '@/components/ui/LocationMap';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
+import { addRecentlyViewed } from '@/lib/use-recently-viewed';
+import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 
 export function DynamicRestaurantDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -49,6 +51,17 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [slug]);
+
+  useEffect(() => {
+    if (restaurant) {
+      addRecentlyViewed({
+        type: 'restaurant',
+        slug: restaurant.slug,
+        title: restaurant.name[locale] || restaurant.name.en,
+        image: restaurant.image_url,
+      });
+    }
+  }, [restaurant, locale]);
 
   if (loading) return <DetailSkeleton />;
   if (!restaurant) return (
@@ -355,6 +368,8 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
           </div>
         </aside>
       </div>
+
+      <RecentlyViewed currentSlug={slug} />
     </div>
   );
 }

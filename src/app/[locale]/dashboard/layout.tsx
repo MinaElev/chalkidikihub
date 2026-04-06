@@ -12,6 +12,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [pendingCount, setPendingCount] = useState(0);
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations('nav');
@@ -19,11 +20,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(async ({ data }) => {
       if (!data.user) {
         router.push('/auth/login');
       } else {
         setUser(data.user);
+        // Fetch pending submission count
+        const { count } = await supabase
+          .from('user_submissions')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', data.user.id)
+          .eq('status', 'pending');
+        setPendingCount(count || 0);
       }
       setLoading(false);
     });
@@ -98,7 +106,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                           ? 'bg-primary-600 text-white'
                           : 'text-gray-700 hover:bg-gray-50'
                       }`}>
-                      <item.icon className="w-4 h-4" />{item.label}
+                      <item.icon className="w-4 h-4" />
+                      <span className="flex-1">{item.label}</span>
+                      {item.href === '/dashboard/submissions' && pendingCount > 0 && (
+                        <span className={`min-w-[20px] h-5 flex items-center justify-center rounded-full text-[10px] font-bold ${
+                          active ? 'bg-white/30 text-white' : 'bg-amber-100 text-amber-700'
+                        }`}>{pendingCount}</span>
+                      )}
                     </Link>
                   );
                 })}

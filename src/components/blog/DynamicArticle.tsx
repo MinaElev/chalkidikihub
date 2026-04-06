@@ -10,6 +10,8 @@ import { JsonLd } from '@/components/ui/JsonLd';
 import { generateArticleLD } from '@/lib/seo';
 import { AutoLinkedContent } from './AutoLinkedContent';
 import { BlogCard } from './BlogCard';
+import { addRecentlyViewed } from '@/lib/use-recently-viewed';
+import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 
 export function DynamicArticle({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -32,6 +34,17 @@ export function DynamicArticle({ slug }: { slug: string }) {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [slug]);
+
+  useEffect(() => {
+    if (article) {
+      addRecentlyViewed({
+        type: 'blog',
+        slug: article.slug,
+        title: article.title[locale] || article.title.en,
+        image: article.image_url,
+      });
+    }
+  }, [article, locale]);
 
   if (loading) return <DetailSkeleton />;
 
@@ -224,6 +237,8 @@ export function DynamicArticle({ slug }: { slug: string }) {
           </aside>
         )}
       </div>
+
+      <RecentlyViewed currentSlug={slug} />
     </div>
   );
 }

@@ -17,6 +17,8 @@ import { ListingCard } from './ListingCard';
 import { LocationMap } from '@/components/ui/LocationMap';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
+import { addRecentlyViewed } from '@/lib/use-recently-viewed';
+import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 
 export function DynamicBeachDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -50,6 +52,17 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [slug]);
+
+  useEffect(() => {
+    if (beach) {
+      addRecentlyViewed({
+        type: 'beach',
+        slug: beach.slug,
+        title: beach.name[locale] || beach.name.en,
+        image: beach.image_url,
+      });
+    }
+  }, [beach, locale]);
 
   if (loading) return <DetailSkeleton />;
   if (!beach) return (
@@ -290,6 +303,8 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
           </div>
         </aside>
       </div>
+
+      <RecentlyViewed currentSlug={slug} />
     </div>
   );
 }
