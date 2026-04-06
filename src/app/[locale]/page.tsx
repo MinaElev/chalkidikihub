@@ -6,7 +6,8 @@ import { HomeBeachesSection } from '@/components/layout/HomeBeachesSection';
 import { HomeBlogSection } from '@/components/layout/HomeBlogSection';
 import { HomeFeaturedListings } from '@/components/layout/HomeFeaturedListings';
 import { JsonLd } from '@/components/ui/JsonLd';
-import { Search, MapPin, Home, Star } from 'lucide-react';
+import { HeroSearchBox } from '@/components/layout/HeroSearchBox';
+import { MapPin, Home, Star } from 'lucide-react';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
@@ -78,34 +79,7 @@ function HeroSection() {
           </p>
 
           {/* Search Box */}
-          <div className="mt-8 bg-white rounded-2xl p-4 md:p-6 shadow-xl">
-            <div className="flex flex-col md:flex-row gap-3">
-              <div className="flex-1 relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder={t('searchPlaceholder')}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-              <div className="flex gap-3">
-                <input
-                  type="date"
-                  placeholder={t('checkIn')}
-                  className="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-xl text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                />
-                <input
-                  type="date"
-                  placeholder={t('checkOut')}
-                  className="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-xl text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-              <button className="flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
-                <Search className="w-5 h-5" />
-                <span>{t.raw('guestsLabel') ? tCommon('search') : 'Search'}</span>
-              </button>
-            </div>
-          </div>
+          <HeroSearchBox placeholder={t('searchPlaceholder')} buttonLabel={tCommon('search')} />
         </div>
 
         {/* Stats */}
