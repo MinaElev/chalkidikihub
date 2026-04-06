@@ -25,6 +25,36 @@ const typeConfig: Record<string, { icon: typeof Home; color: string; bgColor: st
   blog: { icon: FileText, color: 'text-indigo-600', bgColor: 'bg-indigo-50', label: 'Άρθρο' },
 };
 
+// Normalize text: Greek→Latin transliteration + remove accents for fuzzy matching
+function normalize(text: string): string {
+  const greekToLatin: Record<string, string> = {
+    'αι': 'e', 'ει': 'i', 'οι': 'i', 'ου': 'ou', 'αυ': 'av', 'ευ': 'ev',
+    'μπ': 'b', 'ντ': 'nt', 'γκ': 'gk', 'γγ': 'ng', 'τσ': 'ts', 'τζ': 'tz',
+    'α': 'a', 'β': 'v', 'γ': 'g', 'δ': 'd', 'ε': 'e', 'ζ': 'z', 'η': 'i',
+    'θ': 'th', 'ι': 'i', 'κ': 'k', 'λ': 'l', 'μ': 'm', 'ν': 'n', 'ξ': 'x',
+    'ο': 'o', 'π': 'p', 'ρ': 'r', 'σ': 's', 'ς': 's', 'τ': 't', 'υ': 'y',
+    'φ': 'f', 'χ': 'ch', 'ψ': 'ps', 'ω': 'o',
+    'ά': 'a', 'έ': 'e', 'ή': 'i', 'ί': 'i', 'ό': 'o', 'ύ': 'y', 'ώ': 'o',
+    'ϊ': 'i', 'ϋ': 'y', 'ΐ': 'i', 'ΰ': 'y',
+  };
+
+  let result = text.toLowerCase();
+  // Multi-char replacements first (sorted by length desc)
+  const sorted = Object.entries(greekToLatin).sort((a, b) => b[0].length - a[0].length);
+  for (const [gr, lat] of sorted) {
+    result = result.split(gr).join(lat);
+  }
+  // Remove remaining non-ascii accents
+  result = result.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return result;
+}
+
+function fuzzyMatch(haystack: string, needle: string): boolean {
+  const h = normalize(haystack);
+  const n = normalize(needle);
+  return h.includes(n);
+}
+
 export default function SearchPage() {
   return (
     <Suspense fallback={<div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-primary-600" /></div>}>
@@ -48,7 +78,6 @@ function SearchContent() {
 
     async function search() {
       setLoading(true);
-      const q = query.toLowerCase();
 
       const [listings, beaches, restaurants, activities, articles] = await Promise.all([
         fetch('/api/listings').then((r) => r.json()).catch(() => []),
@@ -65,7 +94,7 @@ function SearchContent() {
         const title = l.title[locale] || l.title.en || l.title.el || '';
         const desc = l.description[locale] || l.description.en || '';
         const loc = l.location_name || '';
-        if ([title, desc, loc, l.area].some((s) => s.toLowerCase().includes(q))) {
+        if ([title, desc, loc, l.area].some((s) => fuzzyMatch(s, query))) {
           matched.push({
             type: 'listing', slug: l.slug, title,
             subtitle: `${loc} · ${l.area}`,
@@ -78,7 +107,7 @@ function SearchContent() {
       (beaches as Beach[]).forEach((b) => {
         const name = b.name[locale] || b.name.en || '';
         const desc = b.description[locale] || b.description.en || '';
-        if ([name, desc, b.location_name, b.area].some((s) => s.toLowerCase().includes(q))) {
+        if ([name, desc, b.location_name, b.area].some((s) => fuzzyMatch(s, query))) {
           matched.push({
             type: 'beach', slug: b.slug, title: name,
             subtitle: `${b.location_name} · ${b.rating.toFixed(1)}★`,
@@ -91,7 +120,7 @@ function SearchContent() {
       (restaurants as Restaurant[]).forEach((r) => {
         const name = r.name[locale] || r.name.en || '';
         const desc = r.description[locale] || r.description.en || '';
-        if ([name, desc, r.location_name, r.area, ...(r.tags || [])].some((s) => s.toLowerCase().includes(q))) {
+        if ([name, desc, r.location_name, r.area, ...(r.tags || [])].some((s) => fuzzyMatch(s, query))) {
           matched.push({
             type: 'restaurant', slug: r.slug, title: name,
             subtitle: `${r.location_name} · ${r.rating.toFixed(1)}★`,
@@ -104,7 +133,7 @@ function SearchContent() {
       (activities as Activity[]).forEach((a) => {
         const name = a.name[locale] || a.name.en || '';
         const desc = a.description[locale] || a.description.en || '';
-        if ([name, desc, a.location_name, a.area, a.category, ...(a.tags || [])].some((s) => s.toLowerCase().includes(q))) {
+        if ([name, desc, a.location_name, a.area, a.category, ...(a.tags || [])].some((s) => fuzzyMatch(s, query))) {
           matched.push({
             type: 'activity', slug: a.slug, title: name,
             subtitle: `${a.location_name} · ${a.category}`,
@@ -117,7 +146,7 @@ function SearchContent() {
       (articles as BlogArticle[]).forEach((a) => {
         const title = a.title[locale] || a.title.en || a.title.el || '';
         const excerpt = a.excerpt[locale] || a.excerpt.en || '';
-        if ([title, excerpt, ...(a.tags || [])].some((s) => s.toLowerCase().includes(q))) {
+        if ([title, excerpt, ...(a.tags || [])].some((s) => fuzzyMatch(s, query))) {
           matched.push({
             type: 'blog', slug: a.slug, title,
             subtitle: `${a.author} · ${a.category}`,
