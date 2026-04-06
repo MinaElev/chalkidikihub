@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Link, useRouter } from '@/i18n/navigation';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Sparkles } from 'lucide-react';
 import { ALL_ACTIVITY_CATEGORIES } from '@/lib/constants';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { AIHelper } from '@/components/admin/AIHelper';
@@ -17,6 +17,7 @@ export default function EditActivityPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [formatting, setFormatting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [form, setForm] = useState({
@@ -57,6 +58,25 @@ export default function EditActivityPage() {
 
   function update(field: string, value: unknown) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleFormatDescription(lang: string) {
+    const key = `description_${lang}`;
+    const content = (form[key as keyof typeof form] || form.description_el || '').toString().trim();
+    if (!content) return;
+    setFormatting(true);
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'format_content', content, lang }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.formatted) update(key, data.formatted);
+      }
+    } catch {}
+    setFormatting(false);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -134,12 +154,34 @@ export default function EditActivityPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label className="block text-sm font-medium text-gray-700 mb-1">Description (EL)</label>
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-sm font-medium text-gray-700">Description (EL)</label>
+              {form.description_el && (
+                <button type="button" onClick={() => handleFormatDescription('el')} disabled={formatting}
+                  className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded text-[10px] font-medium disabled:opacity-50">
+                  {formatting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                  AI Format
+                </button>
+              )}
+            </div>
             <textarea rows={3} value={form.description_el} onChange={(e) => update('description_el', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
-          <div><label className="block text-sm font-medium text-gray-700 mb-1">Description (EN)</label>
+              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" />
+          </div>
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-sm font-medium text-gray-700">Description (EN)</label>
+              {form.description_en && (
+                <button type="button" onClick={() => handleFormatDescription('en')} disabled={formatting}
+                  className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded text-[10px] font-medium disabled:opacity-50">
+                  {formatting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                  AI Format
+                </button>
+              )}
+            </div>
             <textarea rows={3} value={form.description_en} onChange={(e) => update('description_en', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
+              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Link, useRouter } from '@/i18n/navigation';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Sparkles } from 'lucide-react';
 import { ALL_BEACH_FEATURES } from '@/lib/constants';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { LocationPicker } from '@/components/ui/LocationPicker';
@@ -60,8 +60,28 @@ export default function EditBeachPage() {
     load();
   }, [id]);
 
+  const [formatting, setFormatting] = useState(false);
+
   function update(field: string, value: unknown) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleFormatDescription(lang: string) {
+    const content = (form[`description_${lang}`] as string || '').trim();
+    if (!content) return;
+    setFormatting(true);
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'format_content', content, lang }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.formatted) update(`description_${lang}`, data.formatted);
+      }
+    } catch {}
+    setFormatting(false);
   }
 
   function toggleFeature(f: string) {
@@ -197,7 +217,16 @@ export default function EditBeachPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {LANGS.map((lang) => (
               <div key={lang}>
-                <label className="block text-xs font-medium text-gray-500 mb-1">Description ({LANG_LABELS[lang]})</label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-medium text-gray-500">Description ({LANG_LABELS[lang]})</label>
+                  {(form[`description_${lang}`] as string || '').trim() && (
+                    <button type="button" onClick={() => handleFormatDescription(lang)} disabled={formatting}
+                      className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded text-[10px] font-medium disabled:opacity-50">
+                      {formatting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                      AI Format
+                    </button>
+                  )}
+                </div>
                 <textarea rows={3} value={(form[`description_${lang}`] as string) || ''} onChange={(e) => update(`description_${lang}`, e.target.value)}
                   className={`w-full px-3 py-1.5 border rounded-lg text-sm focus:ring-2 focus:ring-primary-500 ${
                     (form[`description_${lang}`] as string) ? 'border-green-300 bg-green-50/30' : 'border-gray-300'
