@@ -14,6 +14,11 @@ export function FormattedText({ text, className }: { text: string; className?: s
         // Empty line
         if (!trimmed) return <div key={i} className="h-2" />;
 
+        // Heading ### (check first — more specific)
+        if (trimmed.startsWith('### ')) {
+          return <h4 key={i} className="text-base font-bold text-gray-800 mt-4 mb-1">{renderInline(trimmed.slice(4))}</h4>;
+        }
+
         // Heading ##
         if (trimmed.startsWith('## ')) {
           return <h3 key={i} className="text-lg font-bold text-gray-900 mt-6 mb-2">{renderInline(trimmed.slice(3))}</h3>;
