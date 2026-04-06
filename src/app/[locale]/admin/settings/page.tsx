@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Settings, Key, Globe, Cloud, Sparkles, Save, Loader2, Eye, EyeOff, CheckCircle } from 'lucide-react';
+import { Settings, Key, Globe, Cloud, Sparkles, Save, Loader2, Eye, EyeOff, CheckCircle, ImageIcon } from 'lucide-react';
 
 interface Setting {
   key: string;
@@ -49,6 +49,27 @@ const SETTINGS_CONFIG: Setting[] = [
     icon: Globe, color: 'text-primary-600 bg-primary-100',
     placeholder: 'Η πλατφόρμα ενοικιαζόμενων δωματίων της Χαλκιδικής',
     description: 'Περιγραφή site για SEO',
+    secret: false,
+  },
+  {
+    key: 'image_quality', value: '', label: 'Image Quality (%)',
+    icon: ImageIcon, color: 'text-cyan-600 bg-cyan-100',
+    placeholder: '72',
+    description: 'Ποιότητα compression εικόνων (1-100). Default: 72%. Χαμηλότερο = μικρότερο μέγεθος.',
+    secret: false,
+  },
+  {
+    key: 'image_max_width', value: '', label: 'Image Max Width (px)',
+    icon: ImageIcon, color: 'text-cyan-600 bg-cyan-100',
+    placeholder: '1200',
+    description: 'Μέγιστο πλάτος εικόνας σε pixels. Default: 1200px.',
+    secret: false,
+  },
+  {
+    key: 'image_max_height', value: '', label: 'Image Max Height (px)',
+    icon: ImageIcon, color: 'text-cyan-600 bg-cyan-100',
+    placeholder: '800',
+    description: 'Μέγιστο ύψος εικόνας σε pixels. Default: 800px.',
     secret: false,
   },
 ];

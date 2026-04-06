@@ -1,6 +1,7 @@
 /**
  * Client-side image compression and resizing
  * Runs in the browser before uploading to Supabase
+ * Settings can be configured in Admin → Settings
  */
 
 interface CompressOptions {
@@ -17,8 +18,38 @@ const DEFAULTS: CompressOptions = {
   format: 'webp',
 };
 
+// Cache settings so we don't fetch on every compress
+let cachedSettings: CompressOptions | null = null;
+
+async function getSettingsFromDB(): Promise<CompressOptions> {
+  if (cachedSettings) return cachedSettings;
+  try {
+    const { createClient } = await import('@/lib/supabase/client');
+    const supabase = createClient();
+    const { data } = await supabase
+      .from('site_settings')
+      .select('key, value')
+      .in('key', ['image_quality', 'image_max_width', 'image_max_height']);
+
+    if (data && data.length > 0) {
+      const map: Record<string, string> = {};
+      data.forEach((r) => { map[r.key] = r.value; });
+
+      cachedSettings = {
+        quality: map.image_quality ? Number(map.image_quality) / 100 : DEFAULTS.quality,
+        maxWidth: map.image_max_width ? Number(map.image_max_width) : DEFAULTS.maxWidth,
+        maxHeight: map.image_max_height ? Number(map.image_max_height) : DEFAULTS.maxHeight,
+        format: DEFAULTS.format,
+      };
+      return cachedSettings;
+    }
+  } catch {}
+  return DEFAULTS;
+}
+
 export async function compressImage(file: File, options?: CompressOptions): Promise<{ blob: Blob; width: number; height: number }> {
-  const opts = { ...DEFAULTS, ...options };
+  const dbSettings = await getSettingsFromDB();
+  const opts = { ...DEFAULTS, ...dbSettings, ...options };
 
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -71,6 +102,11 @@ export async function compressImage(file: File, options?: CompressOptions): Prom
 
     img.src = url;
   });
+}
+
+// Clear cache (call after settings change)
+export function clearImageSettingsCache() {
+  cachedSettings = null;
 }
 
 export function formatFileSize(bytes: number): string {
