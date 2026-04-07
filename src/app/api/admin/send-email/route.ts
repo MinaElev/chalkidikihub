@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     for (const recipient of recipients) {
       try {
         await resend.emails.send({
-          from: 'ChalkidikiHub <noreply@chalkidikihub.gr>',
+          from: 'ChalkidikiHub <onboarding@resend.dev>',
           to: recipient.email,
           subject,
           html: `
@@ -59,7 +59,8 @@ export async function POST(request: NextRequest) {
         sent++;
       } catch (err) {
         failed++;
-        errors.push(`${recipient.email}: ${(err as Error).message}`);
+        const errMsg = (err as Error).message || JSON.stringify(err);
+        errors.push(`${recipient.email}: ${errMsg}`);
       }
 
       // Small delay to avoid rate limiting
