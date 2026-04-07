@@ -219,10 +219,12 @@ function InquiryButton({ slug, title }: { slug: string; title: string }) {
   const [open, setOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [honeypot, setHoneypot] = useState('');
   const [form, setForm] = useState({ name: '', email: '', phone: '', checkin: '', checkout: '', guests: '2', message: '' });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (honeypot) return;
     setSending(true);
     try {
       await fetch('/api/inquiry', {
@@ -261,6 +263,9 @@ function InquiryButton({ slug, title }: { slug: string; title: string }) {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="p-4 space-y-3">
+                <div className="absolute opacity-0 -z-10" aria-hidden="true" style={{ position: 'absolute', left: '-9999px' }}>
+                  <input type="text" name="fax" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" />
+                </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">Όνομα *</label>
