@@ -24,7 +24,7 @@
     "evChargers": "E-Ladestationen",
     "blog": "Blog",
     "activities": "Aktivitäten",
-    "restaurants": "Restaurants & Beach Bars",
+    "restaurants": "Essen & Trinken",
     "about": "Über uns",
     "login": "Anmelden",
     "register": "Registrieren",
@@ -253,8 +253,8 @@
     "liveConditions": "Live-Bedingungen"
   },
   "restaurants": {
-    "title": "Restaurants & Beach Bars",
-    "subtitle": "Geschmack & Cocktails in Chalkidiki",
+    "title": "Essen & Trinken",
+    "subtitle": "Restaurants, Bars, Cafés und Beach Bars in Chalkidiki",
     "viewAll": "Alle Restaurants",
     "cuisine": "Küche",
     "priceLevel": "Preisniveau",
@@ -290,7 +290,11 @@
     "cafe": "Café",
     "fineDining": "Gehobene Küche",
     "streetFood": "Straßenküche",
-    "beachBar": "Beach Bar"
+    "beachBar": "Beach Bar",
+    "bar": "Bar",
+    "cocktailBar": "Cocktail Bar",
+    "brunch": "Brunch",
+    "cafeBar": "Café-Bar"
   },
   "priceLevels": {
     "budget": "€ Günstig",

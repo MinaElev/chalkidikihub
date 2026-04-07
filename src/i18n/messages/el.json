@@ -24,7 +24,7 @@
     "evChargers": "Φορτιστές EV",
     "blog": "Blog",
     "activities": "Αξιοθέατα",
-    "restaurants": "Εστιατόρια & Beach Bars",
+    "restaurants": "Φαγητό & Ποτό",
     "about": "Σχετικά",
     "login": "Σύνδεση",
     "register": "Εγγραφή",
@@ -253,8 +253,8 @@
     "liveConditions": "Live συνθήκες"
   },
   "restaurants": {
-    "title": "Εστιατόρια & Beach Bars",
-    "subtitle": "Γεύσεις & Κοκτέιλ Χαλκιδικής",
+    "title": "Φαγητό & Ποτό",
+    "subtitle": "Εστιατόρια, μπαρ, καφέ και beach bars στη Χαλκιδική",
     "viewAll": "Όλα τα εστιατόρια",
     "cuisine": "Κουζίνα",
     "priceLevel": "Τιμές",
@@ -290,7 +290,11 @@
     "cafe": "Καφέ",
     "fineDining": "Fine dining",
     "streetFood": "Street food",
-    "beachBar": "Beach Bar"
+    "beachBar": "Beach Bar",
+    "bar": "Μπαρ",
+    "cocktailBar": "Cocktail Bar",
+    "brunch": "Brunch",
+    "cafeBar": "Καφέ-Μπαρ"
   },
   "priceLevels": {
     "budget": "€ Οικονομικό",

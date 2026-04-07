@@ -24,7 +24,7 @@
     "evChargers": "Stații EV",
     "blog": "Blog",
     "activities": "Atracții",
-    "restaurants": "Restaurante & Beach Bars",
+    "restaurants": "Mâncare & Băuturi",
     "about": "Despre",
     "login": "Autentificare",
     "register": "Înregistrare",
@@ -253,7 +253,7 @@
     "liveConditions": "Condiții live"
   },
   "restaurants": {
-    "title": "Restaurante & Beach Bars",
+    "title": "Mâncare & Băuturi",
     "subtitle": "Gusturi din Halkidiki - Fructe de mare proaspete și rețete tradiționale",
     "viewAll": "Toate restaurantele",
     "cuisine": "Bucătărie",
@@ -290,7 +290,11 @@
     "cafe": "Cafenea",
     "fineDining": "Fine dining",
     "streetFood": "Street food",
-    "beachBar": "Beach Bar"
+    "beachBar": "Beach Bar",
+    "bar": "Bar",
+    "cocktailBar": "Cocktail Bar",
+    "brunch": "Brunch",
+    "cafeBar": "Café-Bar"
   },
   "priceLevels": {
     "budget": "€ Accesibil",

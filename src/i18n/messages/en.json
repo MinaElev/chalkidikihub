@@ -24,7 +24,7 @@
     "evChargers": "EV Chargers",
     "blog": "Blog",
     "activities": "Activities",
-    "restaurants": "Restaurants & Beach Bars",
+    "restaurants": "Food & Drink",
     "about": "About",
     "login": "Login",
     "register": "Register",
@@ -253,8 +253,8 @@
     "liveConditions": "Live conditions"
   },
   "restaurants": {
-    "title": "Restaurants & Beach Bars",
-    "subtitle": "Taste & Drink in Halkidiki",
+    "title": "Food & Drink",
+    "subtitle": "Restaurants, bars, cafés and beach bars in Halkidiki",
     "viewAll": "All restaurants",
     "cuisine": "Cuisine",
     "priceLevel": "Price level",
@@ -290,7 +290,11 @@
     "cafe": "Café",
     "fineDining": "Fine dining",
     "streetFood": "Street food",
-    "beachBar": "Beach Bar"
+    "beachBar": "Beach Bar",
+    "bar": "Bar",
+    "cocktailBar": "Cocktail Bar",
+    "brunch": "Brunch",
+    "cafeBar": "Café-Bar"
   },
   "priceLevels": {
     "budget": "€ Budget",
