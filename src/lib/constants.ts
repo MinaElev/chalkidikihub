@@ -140,7 +140,7 @@ export const ALL_ACTIVITY_CATEGORIES: ActivityCategory[] = [
 ];
 
 export const ALL_CUISINE_TYPES: CuisineType[] = [
-  'seafood', 'traditional', 'grill', 'mediterranean', 'pizza', 'cafe', 'fineDining', 'streetFood', 'beachBar', 'bar', 'cocktailBar', 'brunch', 'cafeBar',
+  'seafood', 'traditional', 'grill', 'mediterranean', 'pizza', 'cafe', 'fineDining', 'streetFood', 'beachBar', 'bar', 'cocktailBar', 'brunch', 'cafeBar', 'bakery',
 ];
 
 export const ALL_PRICE_LEVELS: PriceLevel[] = ['budget', 'moderate', 'upscale', 'fineDining'];

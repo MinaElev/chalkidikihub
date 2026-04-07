@@ -294,7 +294,8 @@
     "bar": "Μπαρ",
     "cocktailBar": "Cocktail Bar",
     "brunch": "Brunch",
-    "cafeBar": "Καφέ-Μπαρ"
+    "cafeBar": "Καφέ-Μπαρ",
+    "bakery": "Φούρνος"
   },
   "priceLevels": {
     "budget": "€ Οικονομικό",

@@ -294,7 +294,8 @@
     "bar": "Бар",
     "cocktailBar": "Коктейл бар",
     "brunch": "Бранч",
-    "cafeBar": "Кафе-бар"
+    "cafeBar": "Кафе-бар",
+    "bakery": "Пекарна"
   },
   "priceLevels": {
     "budget": "€ Бюджетно",
