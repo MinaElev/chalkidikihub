@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle, Clock, Home, Building, UserCheck } from 'lucide-react';
+import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle, Clock, Home, Building, UserCheck, AtSign } from 'lucide-react';
 
 interface Recipient {
   id: string;
@@ -12,7 +12,7 @@ interface Recipient {
   listingCount: number;
 }
 
-type ListType = 'all' | 'no_listing' | 'has_listing' | 'multi_listing' | 'manual';
+type ListType = 'all' | 'no_listing' | 'has_listing' | 'multi_listing' | 'manual' | 'external';
 
 export default function AdminEmailPage() {
   const [recipients, setRecipients] = useState<Recipient[]>([]);
@@ -26,6 +26,7 @@ export default function AdminEmailPage() {
   const [error, setError] = useState('');
   const [history, setHistory] = useState<Array<{ id: string; message: string; details: Record<string, unknown>; created_at: string }>>([]);
   const [selectedManual, setSelectedManual] = useState<Set<string>>(new Set());
+  const [externalEmails, setExternalEmails] = useState('');
 
   useEffect(() => {
     async function load() {
@@ -97,11 +98,17 @@ export default function AdminEmailPage() {
     load();
   }, []);
 
+  const parsedExternal = externalEmails
+    .split(/[,\n;]+/)
+    .map(e => e.trim())
+    .filter(e => e.includes('@'));
+
   const filtered = listType === 'all' ? recipients
     : listType === 'no_listing' ? recipients.filter(r => r.listingCount === 0)
     : listType === 'has_listing' ? recipients.filter(r => r.listingCount > 0)
     : listType === 'multi_listing' ? recipients.filter(r => r.listingCount > 1)
     : listType === 'manual' ? recipients.filter(r => selectedManual.has(r.id))
+    : listType === 'external' ? parsedExternal.map((email, i) => ({ id: `ext-${i}`, email, name: '', role: 'external', listingCount: 0 }))
     : recipients;
 
   async function handleSend() {
@@ -196,6 +203,7 @@ export default function AdminEmailPage() {
                 { type: 'multi_listing' as ListType, icon: Building, color: 'text-blue-600', label: 'Με 2+ καταλύματα', count: recipients.filter(r => r.listingCount > 1).length },
                 { type: 'no_listing' as ListType, icon: UserX, color: 'text-amber-600', label: 'Χωρίς κατάλυμα', count: recipients.filter(r => r.listingCount === 0).length },
                 { type: 'manual' as ListType, icon: UserCheck, color: 'text-purple-600', label: 'Χειροκίνητη επιλογή', count: selectedManual.size },
+                { type: 'external' as ListType, icon: AtSign, color: 'text-pink-600', label: 'Εξωτερικά emails', count: parsedExternal.length },
               ].map(opt => (
                 <label key={opt.type} className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer border transition-colors ${
                   listType === opt.type ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:bg-gray-50'
@@ -236,6 +244,18 @@ export default function AdminEmailPage() {
                     </label>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* External emails textarea */}
+            {listType === 'external' && (
+              <div className="border-t border-gray-100 pt-3 mb-3">
+                <p className="text-xs text-gray-500 mb-2">Εισάγετε emails (ένα ανά γραμμή ή χωρισμένα με κόμμα):</p>
+                <textarea rows={5} value={externalEmails}
+                  onChange={(e) => setExternalEmails(e.target.value)}
+                  placeholder="info@example.com&#10;owner@hotel.gr&#10;contact@beach-bar.com"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs font-mono focus:ring-2 focus:ring-primary-500" />
+                <p className="text-[10px] text-gray-400 mt-1">{parsedExternal.length} έγκυρα emails</p>
               </div>
             )}
 
