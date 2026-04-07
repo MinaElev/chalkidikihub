@@ -12,6 +12,7 @@ import { AutoLinkedContent } from './AutoLinkedContent';
 import { BlogCard } from './BlogCard';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
+import { ShareButtons } from '@/components/ui/ShareButtons';
 
 export function DynamicArticle({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -112,7 +113,10 @@ export function DynamicArticle({ slug }: { slug: string }) {
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">{title}</h1>
+          <div className="flex items-center justify-between gap-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">{title}</h1>
+            <ShareButtons title={title} compact />
+          </div>
 
           <div className="flex flex-wrap items-center gap-4 mt-4 text-sm text-gray-500">
             <div className="flex items-center gap-1.5"><User className="w-4 h-4" /><span>{article.author}</span></div>
@@ -168,6 +172,8 @@ export function DynamicArticle({ slug }: { slug: string }) {
               <AutoLinkedContent content={paragraphs.slice(insertAfterParagraph).join('\n')} />
             )}
           </article>
+
+          <ShareButtons title={title} description={excerpt} />
 
           {/* Prev/Next navigation */}
           {(prevArticle || nextArticle) && (
