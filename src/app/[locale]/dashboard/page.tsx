@@ -49,22 +49,15 @@ export default function DashboardPage() {
         setClickStats(counts);
       }
 
-      // Fetch inquiries for user's listings
-      const listingTitles = data?.map(l => (l as any).title_el || '') || [];
-      if (listingTitles.length > 0) {
-        const { data: msgs } = await supabase
-          .from('contact_messages')
-          .select('id, name, email, subject, message, created_at')
-          .like('subject', 'Αίτημα διαθεσιμότητας%')
-          .order('created_at', { ascending: false })
-          .limit(20);
-        // Filter inquiries matching user's listings
-        if (msgs) {
-          const userInquiries = msgs.filter(m =>
-            listingTitles.some((t: string) => t && m.subject?.includes(t))
-          );
-          setInquiries(userInquiries);
-        }
+      // Fetch inquiries for user's listings via API (bypasses RLS)
+      if (listingSlugs.length > 0) {
+        try {
+          const res = await fetch(`/api/inquiry?slugs=${listingSlugs.join(',')}`);
+          if (res.ok) {
+            const inqData = await res.json();
+            if (Array.isArray(inqData)) setInquiries(inqData);
+          }
+        } catch {}
       }
     });
   }, []);

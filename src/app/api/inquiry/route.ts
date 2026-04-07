@@ -9,6 +9,35 @@ function getAdminClient() {
   );
 }
 
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const slugs = searchParams.get('slugs')?.split(',').filter(Boolean) || [];
+    if (slugs.length === 0) return NextResponse.json([]);
+
+    const supabase = getAdminClient();
+
+    // Fetch inquiries that mention these slugs in the message
+    const { data: msgs } = await supabase
+      .from('contact_messages')
+      .select('id, name, email, subject, message, created_at')
+      .like('subject', 'Αίτημα διαθεσιμότητας%')
+      .order('created_at', { ascending: false })
+      .limit(50);
+
+    if (!msgs) return NextResponse.json([]);
+
+    // Filter to only those matching the owner's listing slugs
+    const filtered = msgs.filter(m =>
+      slugs.some(slug => m.message?.includes(slug))
+    );
+
+    return NextResponse.json(filtered.slice(0, 20));
+  } catch {
+    return NextResponse.json([]);
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
