@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, List, Eye, BarChart3, Home, UtensilsCrossed, Landmark, FileText, ClipboardList, ArrowRight, QrCode, X, Sparkles, MousePointer, Phone, Mail, ExternalLink } from 'lucide-react';
+import { Plus, List, Eye, BarChart3, Home, UtensilsCrossed, Landmark, FileText, ClipboardList, ArrowRight, QrCode, X, Sparkles, MousePointer, Phone, Mail, ExternalLink, Calendar, MessageSquare } from 'lucide-react';
 
 export default function DashboardPage() {
   const t = useTranslations('nav');
@@ -12,12 +12,13 @@ export default function DashboardPage() {
   const [stats, setStats] = useState({ total: 0, published: 0, draft: 0 });
   const [submissionCount, setSubmissionCount] = useState(0);
   const [clickStats, setClickStats] = useState<Record<string, number>>({});
+  const [inquiries, setInquiries] = useState<Array<{ id: string; name: string; email: string; subject: string; message: string; created_at: string }>>([]);
 
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) return;
-      const { data } = await supabase.from('listings').select('status, slug').eq('owner_id', user.id);
+      const { data } = await supabase.from('listings').select('status, slug, title_el').eq('owner_id', user.id);
       if (data) {
         setStats({
           total: data.length,
@@ -46,6 +47,24 @@ export default function DashboardPage() {
           }
         });
         setClickStats(counts);
+      }
+
+      // Fetch inquiries for user's listings
+      const listingTitles = data?.map(l => (l as any).title_el || '') || [];
+      if (listingTitles.length > 0) {
+        const { data: msgs } = await supabase
+          .from('contact_messages')
+          .select('id, name, email, subject, message, created_at')
+          .like('subject', 'Αίτημα διαθεσιμότητας%')
+          .order('created_at', { ascending: false })
+          .limit(20);
+        // Filter inquiries matching user's listings
+        if (msgs) {
+          const userInquiries = msgs.filter(m =>
+            listingTitles.some((t: string) => t && m.subject?.includes(t))
+          );
+          setInquiries(userInquiries);
+        }
       }
     });
   }, []);
@@ -158,6 +177,36 @@ export default function DashboardPage() {
               <div key={s.key} className={`${s.color} rounded-xl p-3 text-center`}>
                 <div className="text-2xl font-bold">{clickStats[s.key]}</div>
                 <div className="text-xs opacity-80">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Inquiries */}
+      {inquiries.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <Calendar className="w-5 h-5 text-amber-500" />
+            Αιτήματα Διαθεσιμότητας ({inquiries.length})
+          </h2>
+          <div className="space-y-2">
+            {inquiries.slice(0, 5).map((inq) => (
+              <div key={inq.id} className="bg-white border border-gray-200 rounded-xl p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-gray-900">{inq.subject.replace('Αίτημα διαθεσιμότητας: ', '')}</p>
+                    <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                      <span className="font-medium text-gray-700">{inq.name}</span>
+                      <a href={`mailto:${inq.email}`} className="text-primary-600 hover:underline">{inq.email}</a>
+                      <span>{new Date(inq.created_at).toLocaleDateString('el')}</span>
+                    </div>
+                    {inq.message && (
+                      <p className="text-xs text-gray-600 mt-2 line-clamp-2 whitespace-pre-line">{inq.message}</p>
+                    )}
+                  </div>
+                  <span className="shrink-0 px-2 py-1 bg-amber-100 text-amber-700 rounded text-[10px] font-medium">Νέο</span>
+                </div>
               </div>
             ))}
           </div>
