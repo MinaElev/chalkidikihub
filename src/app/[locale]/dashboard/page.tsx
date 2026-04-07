@@ -41,8 +41,8 @@ export default function DashboardPage() {
     {
       href: '/dashboard/suggest-restaurant',
       icon: UtensilsCrossed,
-      label: 'Πρόσθεσε εστιατόριο',
-      description: 'Πρότεινε ένα εστιατόριο ή ταβέρνα',
+      label: 'Πρόσθεσε Φαγητό & Ποτό',
+      description: 'Εστιατόριο, μπαρ, καφετέρια, beach bar κλπ',
       color: 'bg-red-600 hover:bg-red-700',
       iconBg: 'bg-red-500',
     },

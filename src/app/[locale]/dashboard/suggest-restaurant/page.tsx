@@ -102,30 +102,31 @@ export default function SuggestRestaurantPage() {
     <div>
       <div className="flex items-center gap-3 mb-2">
         <UtensilsCrossed className="w-6 h-6 text-red-600" />
-        <h1 className="text-2xl font-bold text-gray-900">{t('suggestRestaurant')}</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Πρότεινε Φαγητό & Ποτό</h1>
       </div>
-      <p className="text-sm text-gray-500 mb-6 flex items-start gap-2">
+      <p className="text-sm text-gray-500 mb-4 flex items-start gap-2">
         <Info className="w-4 h-4 mt-0.5 shrink-0 text-primary-500" />
-        Συμπληρώστε τα στοιχεία του εστιατορίου/beach bar στα Ελληνικά. Η μετάφραση σε άλλες γλώσσες γίνεται αυτόματα μετά την έγκριση.
+        Καταχωρήστε εστιατόριο, ταβέρνα, καφετέρια, beach bar, cocktail bar, brunch spot ή οτιδήποτε σχετικό με φαγητό & ποτό στη Χαλκιδική.
       </p>
+      <p className="text-xs text-gray-400 mb-6">Γράψτε στα Ελληνικά — η μετάφραση σε άλλες γλώσσες γίνεται αυτόματα μετά την έγκριση.</p>
 
       {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-5 max-w-2xl">
         {/* Όνομα */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Όνομα εστιατορίου / beach bar *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Όνομα μαγαζιού *</label>
           <input required value={form.title_el} onChange={(e) => setForm({ ...form, title_el: e.target.value })}
-            placeholder="π.χ. Ταβέρνα ο Νίκος, Blue Lagoon Beach Bar"
+            placeholder="π.χ. Ταβέρνα ο Νίκος, Blue Lagoon Beach Bar, Café Frappé"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
-          <p className="text-xs text-gray-400 mt-1">Γράψτε το πλήρες όνομα όπως εμφανίζεται στην ταμπέλα.</p>
+          <p className="text-xs text-gray-400 mt-1">Το πλήρες όνομα — εστιατόριο, μπαρ, καφετέρια, beach bar κλπ.</p>
         </div>
 
         {/* Περιγραφή */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Περιγραφή *</label>
           <textarea required rows={4} value={form.description_el} onChange={(e) => setForm({ ...form, description_el: e.target.value })}
-            placeholder="Περιγράψτε το μαγαζί: τι σερβίρει, ποια είναι η ατμόσφαιρα, τι το κάνει ξεχωριστό. Π.χ. Παραδοσιακή ταβέρνα με θέα θάλασσα, φρέσκα ψάρια κάθε μέρα..."
+            placeholder="Περιγράψτε το μαγαζί: τι σερβίρει, ποια είναι η ατμόσφαιρα, τι το κάνει ξεχωριστό. Π.χ. Παραδοσιακή ταβέρνα με θέα θάλασσα... ή Beach bar με cocktails και DJ..."
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
           <p className="text-xs text-gray-400 mt-1">Όσο πιο αναλυτικά γράψετε, τόσο καλύτερα. Αναφέρετε ειδικότητες, ατμόσφαιρα, θέα.</p>
         </div>
@@ -141,12 +142,12 @@ export default function SuggestRestaurantPage() {
             <p className="text-xs text-gray-400 mt-1">Σε ποιο "πόδι" της Χαλκιδικής βρίσκεται;</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Τύπος μαγαζιού *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Τύπος *</label>
             <select required value={form.cuisine} onChange={(e) => setForm({ ...form, cuisine: e.target.value as CuisineType })}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
               {ALL_CUISINE_TYPES.map((c) => <option key={c} value={c}>{tCuisine(c)}</option>)}
             </select>
-            <p className="text-xs text-gray-400 mt-1">Επιλέξτε τον κύριο τύπο κουζίνας ή Beach Bar.</p>
+            <p className="text-xs text-gray-400 mt-1">Εστιατόριο, μπαρ, καφετέρια, beach bar, brunch κλπ.</p>
           </div>
         </div>
 
