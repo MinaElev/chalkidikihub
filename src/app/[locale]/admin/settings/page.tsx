@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Settings, Key, Globe, Cloud, Sparkles, Save, Loader2, Eye, EyeOff, CheckCircle, ImageIcon } from 'lucide-react';
+import { Settings, Key, Globe, Cloud, Sparkles, Save, Loader2, Eye, EyeOff, CheckCircle, ImageIcon, Mail } from 'lucide-react';
 
 interface Setting {
   key: string;
@@ -35,6 +35,13 @@ const SETTINGS_CONFIG: Setting[] = [
     icon: Cloud, color: 'text-blue-600 bg-blue-100',
     placeholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     description: 'Live καιρός για Beach Crowd estimation',
+    secret: true,
+  },
+  {
+    key: 'resend_api_key', value: '', label: 'Resend API Key',
+    icon: Mail, color: 'text-pink-600 bg-pink-100',
+    placeholder: 're_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    description: 'Για μαζική αποστολή email σε χρήστες (resend.com)',
     secret: true,
   },
   {

@@ -1,0 +1,265 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle } from 'lucide-react';
+
+interface Recipient {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  hasListing: boolean;
+}
+
+type ListType = 'all' | 'no_listing';
+
+export default function AdminEmailPage() {
+  const [recipients, setRecipients] = useState<Recipient[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [listType, setListType] = useState<ListType>('all');
+  const [subject, setSubject] = useState('');
+  const [body, setBody] = useState('');
+  const [sending, setSending] = useState(false);
+  const [preview, setPreview] = useState(false);
+  const [result, setResult] = useState<{ sent: number; failed: number } | null>(null);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    async function load() {
+      const supabase = createClient();
+
+      // Fetch all profiles with email
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, full_name, role')
+        .order('created_at', { ascending: false });
+
+      // Fetch owner IDs that have listings
+      const { data: listings } = await supabase
+        .from('listings')
+        .select('owner_id');
+
+      const ownerIds = new Set(listings?.map(l => l.owner_id) || []);
+
+      // Get emails from auth (profiles don't have email, use id to match)
+      // We'll use the profiles + auth user metadata
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // For superadmin, fetch all users via profiles
+      // Email is stored in auth.users but accessible via user_metadata or we need to query differently
+      // Workaround: use the profiles table which should have email from registration
+      const enriched: Recipient[] = (profiles || []).map(p => ({
+        id: p.id,
+        email: '', // Will be filled below
+        name: p.full_name || '',
+        role: p.role || 'owner',
+        hasListing: ownerIds.has(p.id),
+      }));
+
+      // Try to get emails - profiles might have them or we get from a different query
+      // Let's check if profiles has email column
+      const { data: profilesWithEmail } = await supabase
+        .from('profiles')
+        .select('id, full_name, email, role')
+        .order('created_at', { ascending: false });
+
+      if (profilesWithEmail) {
+        const emailMap = new Map(profilesWithEmail.map(p => [p.id, p.email || '']));
+        enriched.forEach(r => {
+          r.email = emailMap.get(r.id) || '';
+          const profile = profilesWithEmail.find(p => p.id === r.id);
+          if (profile) r.name = profile.full_name || '';
+        });
+      }
+
+      // Filter out users without email
+      setRecipients(enriched.filter(r => r.email));
+      setLoading(false);
+    }
+    load();
+  }, []);
+
+  const filtered = listType === 'all'
+    ? recipients
+    : recipients.filter(r => !r.hasListing);
+
+  async function handleSend() {
+    if (!subject.trim() || !body.trim()) {
+      setError('Συμπληρώστε θέμα και μήνυμα');
+      return;
+    }
+    if (filtered.length === 0) {
+      setError('Δεν υπάρχουν παραλήπτες');
+      return;
+    }
+    if (!confirm(`Αποστολή email σε ${filtered.length} χρήστες;\n\nΘέμα: ${subject}`)) return;
+
+    setSending(true);
+    setError('');
+    setResult(null);
+
+    try {
+      const res = await fetch('/api/admin/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipients: filtered.map(r => ({ email: r.email, name: r.name })),
+          subject,
+          body,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setResult({ sent: data.sent, failed: data.failed });
+      } else {
+        setError(data.error || 'Αποτυχία αποστολής');
+      }
+    } catch (err) {
+      setError((err as Error).message);
+    }
+    setSending(false);
+  }
+
+  if (loading) return <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
+
+  return (
+    <div>
+      <div className="flex items-center gap-3 mb-6">
+        <Mail className="w-6 h-6 text-red-600" />
+        <h1 className="text-2xl font-bold text-gray-900">Mass Email</h1>
+      </div>
+
+      {error && <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{error}</div>}
+
+      {result && (
+        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
+          <div className="flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-green-600" />
+            <p className="font-semibold text-green-800">
+              Αποστολή ολοκληρώθηκε: {result.sent} επιτυχημένα
+              {result.failed > 0 && <span className="text-red-600">, {result.failed} αποτυχημένα</span>}
+            </p>
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left: Recipients */}
+        <div className="lg:col-span-1">
+          <div className="bg-white border border-gray-200 rounded-xl p-5 sticky top-24">
+            <h2 className="text-sm font-bold text-gray-900 mb-4">Παραλήπτες</h2>
+
+            {/* List type selector */}
+            <div className="space-y-2 mb-4">
+              <label className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer border transition-colors ${
+                listType === 'all' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:bg-gray-50'
+              }`}>
+                <input type="radio" name="list" checked={listType === 'all'} onChange={() => setListType('all')}
+                  className="text-primary-600 focus:ring-primary-500" />
+                <Users className="w-4 h-4 text-primary-600" />
+                <div>
+                  <p className="text-sm font-medium text-gray-900">Όλοι οι χρήστες</p>
+                  <p className="text-xs text-gray-500">{recipients.length} χρήστες</p>
+                </div>
+              </label>
+
+              <label className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer border transition-colors ${
+                listType === 'no_listing' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:bg-gray-50'
+              }`}>
+                <input type="radio" name="list" checked={listType === 'no_listing'} onChange={() => setListType('no_listing')}
+                  className="text-primary-600 focus:ring-primary-500" />
+                <UserX className="w-4 h-4 text-amber-600" />
+                <div>
+                  <p className="text-sm font-medium text-gray-900">Χωρίς κατάλυμα</p>
+                  <p className="text-xs text-gray-500">{recipients.filter(r => !r.hasListing).length} χρήστες</p>
+                </div>
+              </label>
+            </div>
+
+            {/* Recipients list */}
+            <div className="border-t border-gray-100 pt-3">
+              <p className="text-xs text-gray-500 mb-2">{filtered.length} παραλήπτες:</p>
+              <div className="max-h-64 overflow-y-auto space-y-1">
+                {filtered.map(r => (
+                  <div key={r.id} className="flex items-center gap-2 py-1 px-2 rounded text-xs">
+                    <div className={`w-1.5 h-1.5 rounded-full ${r.hasListing ? 'bg-green-500' : 'bg-gray-300'}`} />
+                    <span className="text-gray-700 truncate">{r.name || r.email}</span>
+                    {r.role === 'superadmin' && <span className="text-[9px] bg-red-100 text-red-600 px-1 rounded">admin</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Compose */}
+        <div className="lg:col-span-2 space-y-4">
+          <div className="bg-white border border-gray-200 rounded-xl p-5">
+            <h2 className="text-sm font-bold text-gray-900 mb-4">Σύνταξη Email</h2>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Θέμα *</label>
+                <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)}
+                  placeholder="π.χ. Καλωσορίσατε στο ChalkidikiHub!"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Μήνυμα * <span className="text-xs text-gray-400">(υποστηρίζει HTML)</span></label>
+                <textarea rows={10} value={body} onChange={(e) => setBody(e.target.value)}
+                  placeholder="Γράψτε το μήνυμά σας εδώ...
+
+Μπορείτε να χρησιμοποιήσετε HTML:
+<p>Παράγραφος</p>
+<strong>Bold</strong>
+<a href='https://chalkidikihub.gr'>Link</a>
+<br> για νέα γραμμή"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 font-mono text-sm" />
+              </div>
+
+              {/* Preview */}
+              <button type="button" onClick={() => setPreview(!preview)}
+                className="flex items-center gap-2 text-sm text-primary-600 hover:text-primary-700">
+                <Eye className="w-4 h-4" />
+                {preview ? 'Κλείσιμο preview' : 'Preview email'}
+              </button>
+
+              {preview && body && (
+                <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                  <p className="text-xs text-gray-500 mb-2">Preview:</p>
+                  <div className="bg-white p-4 rounded border border-gray-200">
+                    <div style={{ textAlign: 'center', padding: '12px 0', borderBottom: '2px solid #0284c7' }}>
+                      <h3 style={{ color: '#0284c7', margin: 0 }}>ChalkidikiHub</h3>
+                    </div>
+                    <div className="py-4 text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: `<p>Γεια σου <strong>Ονοματεπώνυμο</strong>,</p>${body}` }} />
+                    <div style={{ borderTop: '1px solid #eee', paddingTop: '12px', textAlign: 'center', color: '#999', fontSize: '12px' }}>
+                      ChalkidikiHub - chalkidikihub.gr
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Send */}
+              <div className="flex items-center gap-4 pt-4 border-t border-gray-200">
+                <button onClick={handleSend} disabled={sending || !subject.trim() || !body.trim() || filtered.length === 0}
+                  className="flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl disabled:opacity-50 transition-colors">
+                  {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+                  {sending ? `Αποστολή...` : `Αποστολή σε ${filtered.length} χρήστες`}
+                </button>
+                {filtered.length === 0 && (
+                  <div className="flex items-center gap-1 text-sm text-amber-600">
+                    <AlertTriangle className="w-4 h-4" />
+                    Δεν υπάρχουν παραλήπτες
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
