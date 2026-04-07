@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     // Send individually for privacy
     for (const recipient of recipients) {
       try {
-        await resend.emails.send({
+        const { data: emailData, error: emailError } = await resend.emails.send({
           from: 'ChalkidikiHub <onboarding@resend.dev>',
           to: recipient.email,
           subject,
@@ -56,11 +56,15 @@ export async function POST(request: NextRequest) {
             </div>
           `,
         });
-        sent++;
+        if (emailError) {
+          failed++;
+          errors.push(`${recipient.email}: ${emailError.message}`);
+        } else {
+          sent++;
+        }
       } catch (err) {
         failed++;
-        const errMsg = (err as Error).message || JSON.stringify(err);
-        errors.push(`${recipient.email}: ${errMsg}`);
+        errors.push(`${recipient.email}: ${(err as Error).message}`);
       }
 
       // Small delay to avoid rate limiting

@@ -22,7 +22,7 @@ export default function AdminEmailPage() {
   const [body, setBody] = useState('');
   const [sending, setSending] = useState(false);
   const [preview, setPreview] = useState(false);
-  const [result, setResult] = useState<{ sent: number; failed: number } | null>(null);
+  const [result, setResult] = useState<{ sent: number; failed: number; errors?: string[] } | null>(null);
   const [error, setError] = useState('');
   const [history, setHistory] = useState<Array<{ id: string; message: string; details: Record<string, unknown>; created_at: string }>>([]);
   const [selectedManual, setSelectedManual] = useState<Set<string>>(new Set());
@@ -131,7 +131,7 @@ export default function AdminEmailPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        setResult({ sent: data.sent, failed: data.failed });
+        setResult({ sent: data.sent, failed: data.failed, errors: data.errors });
         // Refresh history
         const supabase = createClient();
         const { data: logs } = await supabase
@@ -163,14 +163,22 @@ export default function AdminEmailPage() {
       {error && <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{error}</div>}
 
       {result && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
+        <div className={`mb-6 p-4 border rounded-xl ${result.sent > 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
           <div className="flex items-center gap-2">
-            <CheckCircle className="w-5 h-5 text-green-600" />
-            <p className="font-semibold text-green-800">
-              Αποστολή ολοκληρώθηκε: {result.sent} επιτυχημένα
+            {result.sent > 0 ? <CheckCircle className="w-5 h-5 text-green-600" /> : <AlertTriangle className="w-5 h-5 text-red-600" />}
+            <p className="font-semibold text-gray-800">
+              Αποστολή: {result.sent} επιτυχημένα
               {result.failed > 0 && <span className="text-red-600">, {result.failed} αποτυχημένα</span>}
             </p>
           </div>
+          {result.errors && result.errors.length > 0 && (
+            <div className="mt-3 p-3 bg-white rounded-lg border border-gray-200">
+              <p className="text-xs font-medium text-red-700 mb-1">Σφάλματα:</p>
+              {result.errors.map((err, i) => (
+                <p key={i} className="text-xs text-red-600 font-mono">{err}</p>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
