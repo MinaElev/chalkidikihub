@@ -158,6 +158,7 @@ export default function DashboardPage() {
 
 function NewFeatureBanner() {
   const [dismissed, setDismissed] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -173,51 +174,40 @@ function NewFeatureBanner() {
   if (dismissed) return null;
 
   return (
-    <div className="mb-6 relative overflow-hidden bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-2xl p-5 text-white">
-      <button onClick={handleDismiss} className="absolute top-3 right-3 p-1 rounded-lg hover:bg-white/20 transition-colors">
-        <X className="w-4 h-4" />
-      </button>
-
-      <div className="flex items-start gap-4">
-        <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
-          <QrCode className="w-7 h-7" />
+    <div className="mb-6 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-xl overflow-hidden">
+      {/* Compact bar */}
+      <div className="flex items-center gap-3 px-4 py-3 cursor-pointer" onClick={() => setExpanded(!expanded)}>
+        <QrCode className="w-5 h-5 text-white shrink-0" />
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <Sparkles className="w-3.5 h-3.5 text-yellow-300 shrink-0" />
+          <p className="text-sm font-semibold text-white truncate">QR Guest Guide — Δημιουργήστε QR code για τους πελάτες σας!</p>
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <Sparkles className="w-4 h-4 text-yellow-300" />
-            <span className="text-xs font-bold uppercase tracking-wider text-yellow-300">Νέο Feature</span>
-          </div>
-          <h3 className="text-lg font-bold">QR Guest Guide</h3>
-          <p className="text-sm text-white/80 mt-1 leading-relaxed">
-            Δημιουργήστε ένα QR code για το κατάλυμά σας! Ο πελάτης σκανάρει και βλέπει
-            αμέσως παραλίες, εστιατόρια και δραστηριότητες κοντά του.
+        <span className="text-white/60 text-xs shrink-0">{expanded ? '▲' : '▼'}</span>
+        <button onClick={(e) => { e.stopPropagation(); handleDismiss(); }} className="p-1 rounded hover:bg-white/20 shrink-0">
+          <X className="w-3.5 h-3.5 text-white/60" />
+        </button>
+      </div>
+
+      {/* Expanded details */}
+      {expanded && (
+        <div className="px-4 pb-4 text-white">
+          <p className="text-sm text-white/80 mb-3">
+            Ο πελάτης σκανάρει το QR στο δωμάτιο και βλέπει παραλίες, εστιατόρια και δραστηριότητες κοντά του.
           </p>
-          <div className="mt-3 space-y-1.5 text-sm text-white/70">
-            <p className="flex items-start gap-2">
-              <span className="font-bold text-white">1.</span>
-              Πηγαίνετε στα <strong className="text-white">Καταλύματά μου</strong>
-            </p>
-            <p className="flex items-start gap-2">
-              <span className="font-bold text-white">2.</span>
-              Πατήστε το μωβ <strong className="text-white">QR εικονίδιο</strong> δίπλα στο κατάλυμα
-            </p>
-            <p className="flex items-start gap-2">
-              <span className="font-bold text-white">3.</span>
-              <strong className="text-white">Κατεβάστε ή τυπώστε</strong> το QR code
-            </p>
-            <p className="flex items-start gap-2">
-              <span className="font-bold text-white">4.</span>
-              Τοποθετήστε το στο <strong className="text-white">δωμάτιο ή τη reception</strong>
-            </p>
+          <div className="space-y-1.5 text-sm text-white/70 mb-4">
+            <p><span className="font-bold text-white">1.</span> Πηγαίνετε στα <strong className="text-white">Καταλύματά μου</strong></p>
+            <p><span className="font-bold text-white">2.</span> Πατήστε το μωβ <strong className="text-white">QR εικονίδιο</strong></p>
+            <p><span className="font-bold text-white">3.</span> <strong className="text-white">Κατεβάστε ή τυπώστε</strong> το QR</p>
+            <p><span className="font-bold text-white">4.</span> Τοποθετήστε στο <strong className="text-white">δωμάτιο ή reception</strong></p>
           </div>
           <Link href="/dashboard/listings"
-            className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
             <QrCode className="w-4 h-4" />
             Δημιουργήστε το QR σας
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-      </div>
+      )}
     </div>
   );
 }
