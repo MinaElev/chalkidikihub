@@ -238,6 +238,105 @@ IMPORTANT:
       return NextResponse.json({ inserted, skipped, total: restaurants.length, errors });
     }
 
+    if (type === 'activities') {
+      const prompt = `You are an expert on Halkidiki, Greece tourism activities. Generate EXACTLY ${count || 10} REAL activities and attractions in the ${area || 'all'} area of Halkidiki.
+
+For each activity, provide accurate, real data in this EXACT JSON format (array of objects):
+[
+  {
+    "slug": "activity-name-area",
+    "name_el": "Greek name",
+    "name_en": "English name",
+    "name_de": "German name",
+    "name_bg": "Bulgarian name",
+    "name_ru": "Russian name",
+    "name_ro": "Romanian name",
+    "description_el": "Detailed Greek description (150-250 words). Include what visitors do, difficulty, best time, what to bring.",
+    "description_en": "Detailed English description (150-250 words)",
+    "description_de": "Detailed German description (150-250 words)",
+    "description_bg": "Detailed Bulgarian description (150-250 words)",
+    "description_ru": "Detailed Russian description (150-250 words)",
+    "description_ro": "Detailed Romanian description (150-250 words)",
+    "area": "${area || 'kassandra'}",
+    "location_name": "Village/area, Halkidiki",
+    "latitude": 40.xxxx,
+    "longitude": 23.xxxx,
+    "category": "nature",
+    "price_range": "Free",
+    "duration": "2-3 hours",
+    "tags": ["hiking", "family", "nature"],
+    "rating": 4.5,
+    "meta_title_el": "SEO title Greek (max 60 chars)",
+    "meta_title_en": "SEO title English (max 60 chars)",
+    "meta_description_el": "SEO desc Greek (max 155 chars)",
+    "meta_description_en": "SEO desc English (max 155 chars)",
+    "image_alt": "Descriptive alt text"
+  }
+]
+
+IMPORTANT:
+- Use ONLY real, existing activities/attractions in Halkidiki ${area ? `(${area})` : ''}
+- Mix types: historical sites, nature trails, water sports, boat trips, wellness, family activities, religious sites
+- GPS coordinates must be ACCURATE
+- category must be from: historical, nature, waterSports, boatTrips, wellness, family, nightlife, religious
+- price_range examples: "Free", "10-20€", "From 30€/person", "50-80€"
+- duration examples: "1 hour", "2-3 hours", "Half day", "Full day"
+- Rating between 3.5 and 5.0
+- Return ONLY valid JSON array`;
+
+      const result = await callOpenAI(prompt, 10000);
+      const cleaned = result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      const activities = JSON.parse(cleaned);
+
+      if (!Array.isArray(activities)) throw new Error('AI did not return array');
+
+      const supabase = getAdminClient();
+      let inserted = 0;
+      let skipped = 0;
+      const errors: string[] = [];
+
+      for (const a of activities) {
+        const { data: existing } = await supabase.from('activities').select('id').eq('slug', a.slug).single();
+        if (existing) { skipped++; continue; }
+
+        const { error } = await supabase.from('activities').insert({
+          slug: a.slug,
+          name_el: a.name_el, name_en: a.name_en,
+          name_de: a.name_de || '', name_bg: a.name_bg || '',
+          name_ru: a.name_ru || '', name_ro: a.name_ro || '',
+          description_el: a.description_el, description_en: a.description_en,
+          description_de: a.description_de || '', description_bg: a.description_bg || '',
+          description_ru: a.description_ru || '', description_ro: a.description_ro || '',
+          area: a.area,
+          location_name: a.location_name,
+          latitude: a.latitude, longitude: a.longitude,
+          category: a.category || 'nature',
+          price_range: a.price_range || '',
+          duration: a.duration || '',
+          tags: a.tags || [],
+          rating: a.rating || 4.0,
+          reviews_count: 0,
+          meta_title_el: a.meta_title_el || '', meta_title_en: a.meta_title_en || '',
+          meta_description_el: a.meta_description_el || '', meta_description_en: a.meta_description_en || '',
+          image_alt: a.image_alt || '',
+        });
+
+        if (error) {
+          errors.push(`${a.slug}: ${error.message}`);
+        } else {
+          inserted++;
+        }
+      }
+
+      await supabase.from('activity_logs').insert({
+        type: 'admin_action', severity: 'info',
+        message: `AI Import: ${inserted} activities added, ${skipped} skipped`,
+        details: { type, area, count, inserted, skipped, errors: errors.slice(0, 5) },
+      });
+
+      return NextResponse.json({ inserted, skipped, total: activities.length, errors });
+    }
+
     return NextResponse.json({ error: 'Unknown type' }, { status: 400 });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles, Loader2, Waves, UtensilsCrossed, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Sparkles, Loader2, Waves, UtensilsCrossed, Landmark, CheckCircle, AlertTriangle } from 'lucide-react';
 
 const AREAS = [
   { value: 'kassandra', label: 'Κασσάνδρα' },
@@ -92,8 +92,18 @@ export default function AIImportPage() {
               }`}>
               <UtensilsCrossed className="w-4 h-4" /> Φαγητό & Ποτό
             </button>
+            <button onClick={() => setType('activities')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                type === 'activities' ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}>
+              <Landmark className="w-4 h-4" /> Αξιοθέατα
+            </button>
           </div>
-          <p className="text-xs text-gray-400 mt-1">Μείγμα: ταβέρνες, beach bars, καφετέριες, cocktail bars, brunch spots</p>
+          <p className="text-xs text-gray-400 mt-1">
+            {type === 'beaches' && 'Πραγματικές παραλίες με GPS, χαρακτηριστικά, περιγραφές'}
+            {type === 'restaurants' && 'Μείγμα: ταβέρνες, beach bars, καφετέριες, cocktail bars, brunch spots'}
+            {type === 'activities' && 'Αρχαιολογικοί χώροι, θαλάσσια σπορ, εκδρομές, πεζοπορία, wellness'}
+          </p>
         </div>
 
         {/* Area */}
