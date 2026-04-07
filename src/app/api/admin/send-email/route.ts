@@ -48,7 +48,6 @@ export async function POST(request: NextRequest) {
                 <h2 style="color: #0284c7; margin: 0;">ChalkidikiHub</h2>
               </div>
               <div style="padding: 24px 0; line-height: 1.6; color: #333;">
-                ${recipient.name ? `<p>Γεια σου <strong>${recipient.name}</strong>,</p>` : ''}
                 ${body}
               </div>
               <div style="border-top: 1px solid #eee; padding-top: 16px; text-align: center; color: #999; font-size: 12px;">

@@ -256,7 +256,7 @@ export default function AdminEmailPage() {
                     <div style={{ textAlign: 'center', padding: '12px 0', borderBottom: '2px solid #0284c7' }}>
                       <h3 style={{ color: '#0284c7', margin: 0 }}>ChalkidikiHub</h3>
                     </div>
-                    <div className="py-4 text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: `<p>Γεια σου <strong style="color:#0284c7">[Όνομα Χρήστη]</strong>,</p>${body}<p style="color:#999;font-size:11px;margin-top:16px">* Το [Όνομα Χρήστη] αντικαθίσταται αυτόματα με το πραγματικό όνομα κάθε παραλήπτη</p>` }} />
+                    <div className="py-4 text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: body }} />
                     <div style={{ borderTop: '1px solid #eee', paddingTop: '12px', textAlign: 'center', color: '#999', fontSize: '12px' }}>
                       ChalkidikiHub - chalkidikihub.gr
                     </div>
