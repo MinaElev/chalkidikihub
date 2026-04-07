@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, List, Eye, BarChart3, Home, UtensilsCrossed, Landmark, FileText, ClipboardList, ArrowRight } from 'lucide-react';
+import { Plus, List, Eye, BarChart3, Home, UtensilsCrossed, Landmark, FileText, ClipboardList, ArrowRight, QrCode, X, Sparkles } from 'lucide-react';
 
 export default function DashboardPage() {
   const t = useTranslations('nav');
@@ -66,7 +66,10 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">{t('dashboard')}</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('dashboard')}</h1>
+
+      {/* New feature announcement */}
+      <NewFeatureBanner />
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
@@ -148,6 +151,72 @@ export default function DashboardPage() {
           className="flex items-center gap-2 px-5 py-2.5 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-xl transition-colors text-sm">
           {t('profile')}
         </Link>
+      </div>
+    </div>
+  );
+}
+
+function NewFeatureBanner() {
+  const [dismissed, setDismissed] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setDismissed(localStorage.getItem('chub_qr_banner_dismissed') === '1');
+    }
+  }, []);
+
+  function handleDismiss() {
+    setDismissed(true);
+    localStorage.setItem('chub_qr_banner_dismissed', '1');
+  }
+
+  if (dismissed) return null;
+
+  return (
+    <div className="mb-6 relative overflow-hidden bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-2xl p-5 text-white">
+      <button onClick={handleDismiss} className="absolute top-3 right-3 p-1 rounded-lg hover:bg-white/20 transition-colors">
+        <X className="w-4 h-4" />
+      </button>
+
+      <div className="flex items-start gap-4">
+        <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
+          <QrCode className="w-7 h-7" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <Sparkles className="w-4 h-4 text-yellow-300" />
+            <span className="text-xs font-bold uppercase tracking-wider text-yellow-300">Νέο Feature</span>
+          </div>
+          <h3 className="text-lg font-bold">QR Guest Guide</h3>
+          <p className="text-sm text-white/80 mt-1 leading-relaxed">
+            Δημιουργήστε ένα QR code για το κατάλυμά σας! Ο πελάτης σκανάρει και βλέπει
+            αμέσως παραλίες, εστιατόρια και δραστηριότητες κοντά του.
+          </p>
+          <div className="mt-3 space-y-1.5 text-sm text-white/70">
+            <p className="flex items-start gap-2">
+              <span className="font-bold text-white">1.</span>
+              Πηγαίνετε στα <strong className="text-white">Καταλύματά μου</strong>
+            </p>
+            <p className="flex items-start gap-2">
+              <span className="font-bold text-white">2.</span>
+              Πατήστε το μωβ <strong className="text-white">QR εικονίδιο</strong> δίπλα στο κατάλυμα
+            </p>
+            <p className="flex items-start gap-2">
+              <span className="font-bold text-white">3.</span>
+              <strong className="text-white">Κατεβάστε ή τυπώστε</strong> το QR code
+            </p>
+            <p className="flex items-start gap-2">
+              <span className="font-bold text-white">4.</span>
+              Τοποθετήστε το στο <strong className="text-white">δωμάτιο ή τη reception</strong>
+            </p>
+          </div>
+          <Link href="/dashboard/listings"
+            className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
+            <QrCode className="w-4 h-4" />
+            Δημιουργήστε το QR σας
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       </div>
     </div>
   );
