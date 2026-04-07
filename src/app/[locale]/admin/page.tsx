@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Users, List, Eye, FileText, Waves, UtensilsCrossed, Landmark, Zap, AlertTriangle } from 'lucide-react';
+import { Users, List, Eye, FileText, Waves, UtensilsCrossed, Landmark, Zap, AlertTriangle, ClipboardList, MessageSquare } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
 export default function AdminDashboard() {
@@ -18,6 +18,8 @@ export default function AdminDashboard() {
     articles: 0,
   });
   const [recentErrors, setRecentErrors] = useState<Array<{ id: string; message: string; severity: string; created_at: string }>>([]);
+  const [pendingSubs, setPendingSubs] = useState(0);
+  const [unreadMsgs, setUnreadMsgs] = useState(0);
 
   useEffect(() => {
     async function loadStats() {
@@ -46,6 +48,19 @@ export default function AdminDashboard() {
         .limit(5);
 
       setRecentErrors(errors || []);
+
+      // Pending submissions + unread messages
+      const { count: pendingCount } = await supabase
+        .from('user_submissions')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'pending');
+      setPendingSubs(pendingCount || 0);
+
+      const { count: msgCount } = await supabase
+        .from('contact_messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('read', false);
+      setUnreadMsgs(msgCount || 0);
 
       setStats({
         totalUsers: userCount || 0,
@@ -76,7 +91,39 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Admin Dashboard</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-4">Admin Dashboard</h1>
+
+      {/* Urgent notifications */}
+      {(pendingSubs > 0 || unreadMsgs > 0) && (
+        <div className="space-y-2 mb-6">
+          {pendingSubs > 0 && (
+            <Link href="/admin/submissions"
+              className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl hover:bg-amber-100 transition-colors">
+              <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center shrink-0">
+                <ClipboardList className="w-5 h-5 text-amber-600" />
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-amber-800">{pendingSubs} νέες προτάσεις περιμένουν έγκριση</p>
+                <p className="text-xs text-amber-600">Πατήστε για να τις δείτε</p>
+              </div>
+              <span className="px-3 py-1 bg-amber-200 text-amber-800 rounded-full text-sm font-bold">{pendingSubs}</span>
+            </Link>
+          )}
+          {unreadMsgs > 0 && (
+            <Link href="/admin/messages"
+              className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-colors">
+              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
+                <MessageSquare className="w-5 h-5 text-blue-600" />
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-blue-800">{unreadMsgs} αδιάβαστα μηνύματα</p>
+                <p className="text-xs text-blue-600">Πατήστε για να τα δείτε</p>
+              </div>
+              <span className="px-3 py-1 bg-blue-200 text-blue-800 rounded-full text-sm font-bold">{unreadMsgs}</span>
+            </Link>
+          )}
+        </div>
+      )}
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
         {cards.map((card) => (
