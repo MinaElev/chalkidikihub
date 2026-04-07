@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles, Loader2, Waves, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Sparkles, Loader2, Waves, UtensilsCrossed, CheckCircle, AlertTriangle } from 'lucide-react';
 
 const AREAS = [
   { value: 'kassandra', label: 'Κασσάνδρα' },
@@ -86,8 +86,14 @@ export default function AIImportPage() {
               }`}>
               <Waves className="w-4 h-4" /> Παραλίες
             </button>
+            <button onClick={() => setType('restaurants')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                type === 'restaurants' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}>
+              <UtensilsCrossed className="w-4 h-4" /> Φαγητό & Ποτό
+            </button>
           </div>
-          <p className="text-xs text-gray-400 mt-1">Περισσότεροι τύποι σύντομα (εστιατόρια, δραστηριότητες)</p>
+          <p className="text-xs text-gray-400 mt-1">Μείγμα: ταβέρνες, beach bars, καφετέριες, cocktail bars, brunch spots</p>
         </div>
 
         {/* Area */}

@@ -131,6 +131,113 @@ IMPORTANT:
       return NextResponse.json({ inserted, skipped, total: beaches.length, errors });
     }
 
+    if (type === 'restaurants') {
+      const prompt = `You are an expert on Halkidiki, Greece food & drink scene. Generate EXACTLY ${count || 10} REAL restaurants, bars, beach bars, cafés in the ${area || 'all'} area of Halkidiki.
+
+For each place, provide accurate, real data in this EXACT JSON format (array of objects):
+[
+  {
+    "slug": "place-name-area",
+    "name_el": "Greek name",
+    "name_en": "English name",
+    "name_de": "German name",
+    "name_bg": "Bulgarian name",
+    "name_ru": "Russian name",
+    "name_ro": "Romanian name",
+    "description_el": "Detailed Greek description (100-200 words). Include cuisine style, atmosphere, signature dishes, view, prices.",
+    "description_en": "Detailed English description (100-200 words)",
+    "description_de": "Detailed German description (100-200 words)",
+    "description_bg": "Detailed Bulgarian description (100-200 words)",
+    "description_ru": "Detailed Russian description (100-200 words)",
+    "description_ro": "Detailed Romanian description (100-200 words)",
+    "area": "${area || 'kassandra'}",
+    "location_name": "Village, Halkidiki",
+    "latitude": 40.xxxx,
+    "longitude": 23.xxxx,
+    "cuisine": ["traditional"],
+    "price_level": "moderate",
+    "phone": "+30 2374x xxxxx",
+    "hours": "12:00-00:00",
+    "has_sea_view": true,
+    "has_live_music": false,
+    "accepts_reservations": true,
+    "tags": ["seafood", "romantic", "family"],
+    "rating": 4.3,
+    "meta_title_el": "SEO title Greek (max 60 chars)",
+    "meta_title_en": "SEO title English (max 60 chars)",
+    "meta_description_el": "SEO desc Greek (max 155 chars)",
+    "meta_description_en": "SEO desc English (max 155 chars)",
+    "image_alt": "Descriptive alt text"
+  }
+]
+
+IMPORTANT:
+- Use ONLY real, existing places in Halkidiki ${area ? `(${area})` : ''}
+- Mix types: traditional tavernas, seafood restaurants, beach bars, cocktail bars, cafés, brunch spots, bakeries
+- GPS coordinates must be ACCURATE
+- cuisine must be from: seafood, traditional, grill, mediterranean, pizza, cafe, fineDining, streetFood, beachBar, bar, cocktailBar, brunch, cafeBar, bakery
+- price_level: budget, moderate, upscale, fineDining
+- Rating between 3.5 and 5.0
+- Phone numbers should be realistic Greek format (+30 2374x or +30 6xxx)
+- Return ONLY valid JSON array`;
+
+      const result = await callOpenAI(prompt, 10000);
+      const cleaned = result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      const restaurants = JSON.parse(cleaned);
+
+      if (!Array.isArray(restaurants)) throw new Error('AI did not return array');
+
+      const supabase = getAdminClient();
+      let inserted = 0;
+      let skipped = 0;
+      const errors: string[] = [];
+
+      for (const r of restaurants) {
+        const { data: existing } = await supabase.from('restaurants').select('id').eq('slug', r.slug).single();
+        if (existing) { skipped++; continue; }
+
+        const { error } = await supabase.from('restaurants').insert({
+          slug: r.slug,
+          name_el: r.name_el, name_en: r.name_en,
+          name_de: r.name_de || '', name_bg: r.name_bg || '',
+          name_ru: r.name_ru || '', name_ro: r.name_ro || '',
+          description_el: r.description_el, description_en: r.description_en,
+          description_de: r.description_de || '', description_bg: r.description_bg || '',
+          description_ru: r.description_ru || '', description_ro: r.description_ro || '',
+          area: r.area,
+          location_name: r.location_name,
+          latitude: r.latitude, longitude: r.longitude,
+          cuisine: r.cuisine || ['traditional'],
+          price_level: r.price_level || 'moderate',
+          phone: r.phone || '',
+          hours: r.hours || '',
+          has_sea_view: r.has_sea_view || false,
+          has_live_music: r.has_live_music || false,
+          accepts_reservations: r.accepts_reservations || false,
+          tags: r.tags || [],
+          rating: r.rating || 4.0,
+          reviews_count: 0,
+          meta_title_el: r.meta_title_el || '', meta_title_en: r.meta_title_en || '',
+          meta_description_el: r.meta_description_el || '', meta_description_en: r.meta_description_en || '',
+          image_alt: r.image_alt || '',
+        });
+
+        if (error) {
+          errors.push(`${r.slug}: ${error.message}`);
+        } else {
+          inserted++;
+        }
+      }
+
+      await supabase.from('activity_logs').insert({
+        type: 'admin_action', severity: 'info',
+        message: `AI Import: ${inserted} restaurants added, ${skipped} skipped`,
+        details: { type, area, count, inserted, skipped, errors: errors.slice(0, 5) },
+      });
+
+      return NextResponse.json({ inserted, skipped, total: restaurants.length, errors });
+    }
+
     return NextResponse.json({ error: 'Unknown type' }, { status: 400 });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
