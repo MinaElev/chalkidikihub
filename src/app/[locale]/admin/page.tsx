@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Users, List, Eye, FileText, Waves, UtensilsCrossed, Landmark, Zap, AlertTriangle, ClipboardList, MessageSquare } from 'lucide-react';
+import {
+  Users, List, Eye, FileText, Waves, UtensilsCrossed, Landmark, Zap, AlertTriangle,
+  ClipboardList, MessageSquare, MapPin, Image, BarChart3, Settings, ScrollText, Mail, Wrench,
+} from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
 export default function AdminDashboard() {
@@ -139,6 +142,39 @@ export default function AdminDashboard() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Γρήγορες Ενέργειες</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {[
+            { href: '/admin/listings', icon: List, color: 'text-purple-600 bg-purple-50 border-purple-200', label: 'Διαχείριση Καταλυμάτων', desc: 'Προβολή, έγκριση, επεξεργασία listings' },
+            { href: '/admin/beaches', icon: Waves, color: 'text-cyan-600 bg-cyan-50 border-cyan-200', label: 'Παραλίες', desc: 'Προσθήκη/επεξεργασία παραλιών' },
+            { href: '/admin/restaurants', icon: UtensilsCrossed, color: 'text-red-600 bg-red-50 border-red-200', label: 'Φαγητό & Ποτό', desc: 'Εστιατόρια, μπαρ, beach bars' },
+            { href: '/admin/activities', icon: Landmark, color: 'text-amber-600 bg-amber-50 border-amber-200', label: 'Δραστηριότητες', desc: 'Αξιοθέατα, εκδρομές, sports' },
+            { href: '/admin/blog', icon: FileText, color: 'text-indigo-600 bg-indigo-50 border-indigo-200', label: 'Blog', desc: 'Δημιουργία/επεξεργασία άρθρων' },
+            { href: '/admin/areas', icon: MapPin, color: 'text-primary-600 bg-primary-50 border-primary-200', label: 'Περιοχές', desc: 'Κασσάνδρα, Σιθωνία, Άθως' },
+            { href: '/admin/submissions', icon: ClipboardList, color: 'text-amber-600 bg-amber-50 border-amber-200', label: 'Moderation Προτάσεων', desc: 'Έγκριση/απόρριψη user submissions' },
+            { href: '/admin/messages', icon: MessageSquare, color: 'text-blue-600 bg-blue-50 border-blue-200', label: 'Μηνύματα', desc: 'Inbox φόρμας επικοινωνίας' },
+            { href: '/admin/email', icon: Mail, color: 'text-pink-600 bg-pink-50 border-pink-200', label: 'Mass Email', desc: 'Αποστολή email σε χρήστες' },
+            { href: '/admin/users', icon: Users, color: 'text-blue-600 bg-blue-50 border-blue-200', label: 'Χρήστες', desc: 'Ρόλοι, διαγραφή, προβολή' },
+            { href: '/admin/images', icon: Image, color: 'text-teal-600 bg-teal-50 border-teal-200', label: 'Εικόνες', desc: 'Gallery, bulk optimizer' },
+            { href: '/admin/seo', icon: BarChart3, color: 'text-green-600 bg-green-50 border-green-200', label: 'SEO Dashboard', desc: 'Meta tags, keywords, rankings' },
+            { href: '/admin/tools', icon: Wrench, color: 'text-gray-600 bg-gray-50 border-gray-200', label: 'Εργαλεία', desc: 'Internal links, bulk operations' },
+            { href: '/admin/logs', icon: ScrollText, color: 'text-gray-600 bg-gray-50 border-gray-200', label: 'Activity Logs', desc: 'Errors, user actions, system logs' },
+            { href: '/admin/settings', icon: Settings, color: 'text-gray-600 bg-gray-50 border-gray-200', label: 'Ρυθμίσεις', desc: 'API keys, compression, site info' },
+          ].map((action) => (
+            <Link key={action.href} href={action.href}
+              className={`flex items-center gap-3 p-3 rounded-xl border hover:shadow-sm transition-all ${action.color}`}>
+              <action.icon className="w-5 h-5 shrink-0" />
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-gray-900">{action.label}</p>
+                <p className="text-xs text-gray-500 truncate">{action.desc}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* Recent Errors */}

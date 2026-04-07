@@ -64,11 +64,10 @@ export default function AdminLogsPage() {
     return () => clearInterval(interval);
   }, [loadLogs]);
 
-  async function handleClearOld() {
-    if (!confirm('Διαγραφή logs παλαιότερων από 30 ημέρες;')) return;
+  async function handleDeleteAll() {
+    if (!confirm('Διαγραφή ΟΛΩΝ των logs; Αυτή η ενέργεια δεν αναιρείται.')) return;
     const supabase = createClient();
-    const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-    await supabase.from('activity_logs').delete().lt('created_at', cutoff);
+    await supabase.from('activity_logs').delete().gte('created_at', '2000-01-01');
     loadLogs();
   }
 
@@ -86,8 +85,8 @@ export default function AdminLogsPage() {
           <button onClick={loadLogs} className="flex items-center gap-1 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
             <RefreshCw className="w-4 h-4" /> Refresh
           </button>
-          <button onClick={handleClearOld} className="flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg">
-            <Trash2 className="w-4 h-4" /> Clear old
+          <button onClick={handleDeleteAll} className="flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg">
+            <Trash2 className="w-4 h-4" /> Delete All
           </button>
         </div>
       </div>
