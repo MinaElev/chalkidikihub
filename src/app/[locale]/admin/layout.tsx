@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation';
 import {
   LayoutDashboard, Users, List, MapPin, Waves, UtensilsCrossed,
   Landmark, Zap, FileText, Settings, Home, LogOut, Loader2, Shield,
-  ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail,
+  ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail, Sparkles,
 } from 'lucide-react';
 
 const navSections = [
@@ -42,6 +42,7 @@ const navSections = [
     items: [
       { href: '/admin/images', icon: Image, label: 'Images' },
       { href: '/admin/seo', icon: BarChart3, label: 'SEO' },
+      { href: '/admin/ai-import', icon: Sparkles, label: 'AI Import' },
       { href: '/admin/tools', icon: Zap, label: 'Tools' },
       { href: '/admin/logs', icon: ScrollText, label: 'Logs' },
     ],
