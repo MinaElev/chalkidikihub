@@ -38,10 +38,17 @@ const SETTINGS_CONFIG: Setting[] = [
     secret: true,
   },
   {
-    key: 'resend_api_key', value: '', label: 'Resend API Key',
+    key: 'gmail_address', value: '', label: 'Gmail Address',
     icon: Mail, color: 'text-pink-600 bg-pink-100',
-    placeholder: 're_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    description: 'Για μαζική αποστολή email σε χρήστες (resend.com)',
+    placeholder: 'chalkidikihub@gmail.com',
+    description: 'Gmail για αποστολή email (Mass Email feature)',
+    secret: false,
+  },
+  {
+    key: 'gmail_app_password', value: '', label: 'Gmail App Password',
+    icon: Mail, color: 'text-pink-600 bg-pink-100',
+    placeholder: 'xxxx xxxx xxxx xxxx',
+    description: 'App Password από Google Account → Security → App Passwords',
     secret: true,
   },
   {

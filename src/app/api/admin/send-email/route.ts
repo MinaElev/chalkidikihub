@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import { createClient } from '@supabase/supabase-js';
 
 function getAdminClient() {
@@ -17,29 +17,41 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing recipients, subject or body' }, { status: 400 });
     }
 
-    // Get Resend API key from DB (using service role to bypass RLS)
+    // Get Gmail credentials from DB
     const supabase = getAdminClient();
-    const { data: setting } = await supabase
+    const { data: settings } = await supabase
       .from('site_settings')
-      .select('value')
-      .eq('key', 'resend_api_key')
-      .single();
+      .select('key, value')
+      .in('key', ['gmail_address', 'gmail_app_password']);
 
-    const apiKey = setting?.value || process.env.RESEND_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: 'Resend API key not configured. Set it in Admin → Settings.' }, { status: 500 });
+    const settingsMap: Record<string, string> = {};
+    settings?.forEach(s => { settingsMap[s.key] = s.value; });
+
+    const gmailAddress = settingsMap.gmail_address || process.env.GMAIL_ADDRESS;
+    const gmailPassword = settingsMap.gmail_app_password || process.env.GMAIL_APP_PASSWORD;
+
+    if (!gmailAddress || !gmailPassword) {
+      return NextResponse.json({ error: 'Gmail credentials not configured. Set Gmail Address and App Password in Admin → Settings.' }, { status: 500 });
     }
 
-    const resend = new Resend(apiKey);
+    // Create Gmail SMTP transport
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: gmailAddress,
+        pass: gmailPassword.replace(/\s/g, ''), // Remove spaces from app password
+      },
+    });
+
     let sent = 0;
     let failed = 0;
     const errors: string[] = [];
 
-    // Send individually for privacy
+    // Send individually
     for (const recipient of recipients) {
       try {
-        const { data: emailData, error: emailError } = await resend.emails.send({
-          from: 'ChalkidikiHub <chalkidikihub@gmail.com>',
+        await transporter.sendMail({
+          from: `ChalkidikiHub <${gmailAddress}>`,
           to: recipient.email,
           subject,
           html: `
@@ -56,20 +68,15 @@ export async function POST(request: NextRequest) {
             </div>
           `,
         });
-        if (emailError) {
-          failed++;
-          errors.push(`${recipient.email}: ${emailError.message}`);
-        } else {
-          sent++;
-        }
+        sent++;
       } catch (err) {
         failed++;
         errors.push(`${recipient.email}: ${(err as Error).message}`);
       }
 
-      // Small delay to avoid rate limiting
-      if (recipients.length > 10) {
-        await new Promise(r => setTimeout(r, 100));
+      // Small delay
+      if (recipients.length > 5) {
+        await new Promise(r => setTimeout(r, 200));
       }
     }
 
