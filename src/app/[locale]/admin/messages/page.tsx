@@ -19,6 +19,7 @@ export default function AdminMessagesPage() {
   const [messages, setMessages] = useState<ContactMsg[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<string | null>(null);
+  const [tab, setTab] = useState<'messages' | 'inquiries'>('messages');
 
   useEffect(() => { loadMessages(); }, []);
 
@@ -43,31 +44,48 @@ export default function AdminMessagesPage() {
     loadMessages();
   }
 
-  const unreadCount = messages.filter((m) => !m.read).length;
+  const isInquiry = (m: ContactMsg) => m.subject?.startsWith('Αίτημα διαθεσιμότητας');
+  const filtered = tab === 'inquiries' ? messages.filter(isInquiry) : messages.filter(m => !isInquiry(m));
+  const unreadCount = messages.filter((m) => !m.read && !isInquiry(m)).length;
+  const inquiryCount = messages.filter(isInquiry).length;
   const selectedMsg = messages.find((m) => m.id === selected);
 
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
 
   return (
     <div>
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-3 mb-4">
         <MessageSquare className="w-6 h-6 text-red-600" />
-        <h1 className="text-2xl font-bold text-gray-900">Messages ({messages.length})</h1>
-        {unreadCount > 0 && (
-          <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-medium rounded-full">{unreadCount} new</span>
-        )}
+        <h1 className="text-2xl font-bold text-gray-900">Μηνύματα</h1>
       </div>
 
-      {messages.length === 0 ? (
+      {/* Tabs */}
+      <div className="flex gap-2 mb-6">
+        <button onClick={() => { setTab('messages'); setSelected(null); }}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            tab === 'messages' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}>
+          Μηνύματα ({messages.filter(m => !isInquiry(m)).length})
+          {unreadCount > 0 && <span className="px-1.5 py-0.5 bg-white/30 rounded-full text-[10px] font-bold">{unreadCount}</span>}
+        </button>
+        <button onClick={() => { setTab('inquiries'); setSelected(null); }}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            tab === 'inquiries' ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}>
+          Αιτήματα Διαθεσιμότητας ({inquiryCount})
+        </button>
+      </div>
+
+      {filtered.length === 0 ? (
         <div className="text-center py-16 bg-white border border-gray-200 rounded-xl">
           <MessageSquare className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-500">No messages yet</p>
+          <p className="text-gray-500">{tab === 'inquiries' ? 'Δεν υπάρχουν αιτήματα' : 'Δεν υπάρχουν μηνύματα'}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Message list */}
           <div className="md:col-span-1 space-y-2 max-h-[70vh] overflow-y-auto">
-            {messages.map((msg) => (
+            {filtered.map((msg) => (
               <button key={msg.id} onClick={() => { setSelected(msg.id); if (!msg.read) markRead(msg.id); }}
                 className={`w-full text-left p-3 rounded-xl border transition-colors ${
                   selected === msg.id ? 'border-red-300 bg-red-50' :

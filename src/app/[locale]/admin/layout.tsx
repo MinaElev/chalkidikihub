@@ -74,10 +74,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         .from('user_submissions')
         .select('*', { count: 'exact', head: true })
         .eq('status', 'pending');
-      const { count: unreadMsgs } = await supabase
+      const { data: unreadMsgData } = await supabase
         .from('contact_messages')
-        .select('*', { count: 'exact', head: true })
+        .select('subject')
         .eq('read', false);
+      const unreadMsgs = (unreadMsgData || []).filter(m => !m.subject?.startsWith('Αίτημα διαθεσιμότητας')).length;
       setBadges({
         '/admin/submissions': pendingSubs || 0,
         '/admin/messages': unreadMsgs || 0,

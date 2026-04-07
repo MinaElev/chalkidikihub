@@ -59,11 +59,12 @@ export default function AdminDashboard() {
         .eq('status', 'pending');
       setPendingSubs(pendingCount || 0);
 
-      const { count: msgCount } = await supabase
+      const { data: unreadMsgData } = await supabase
         .from('contact_messages')
-        .select('*', { count: 'exact', head: true })
+        .select('subject')
         .eq('read', false);
-      setUnreadMsgs(msgCount || 0);
+      const realUnread = (unreadMsgData || []).filter(m => !m.subject?.startsWith('Αίτημα διαθεσιμότητας'));
+      setUnreadMsgs(realUnread.length);
 
       setStats({
         totalUsers: userCount || 0,
