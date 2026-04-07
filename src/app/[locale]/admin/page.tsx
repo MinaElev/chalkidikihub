@@ -81,15 +81,15 @@ export default function AdminDashboard() {
   }, []);
 
   const cards = [
-    { label: 'Users', value: stats.totalUsers, icon: Users, color: 'bg-blue-100 text-blue-600' },
-    { label: 'Total Listings', value: stats.totalListings, icon: List, color: 'bg-purple-100 text-purple-600' },
-    { label: 'Published', value: stats.publishedListings, icon: Eye, color: 'bg-green-100 text-green-600' },
-    { label: 'Draft', value: stats.draftListings, icon: FileText, color: 'bg-amber-100 text-amber-600' },
-    { label: 'Beaches', value: stats.beaches, icon: Waves, color: 'bg-cyan-100 text-cyan-600' },
-    { label: 'Restaurants', value: stats.restaurants, icon: UtensilsCrossed, color: 'bg-red-100 text-red-600' },
-    { label: 'Activities', value: stats.activities, icon: Landmark, color: 'bg-orange-100 text-orange-600' },
-    { label: 'EV Chargers', value: stats.chargers, icon: Zap, color: 'bg-emerald-100 text-emerald-600' },
-    { label: 'Blog Articles', value: stats.articles, icon: FileText, color: 'bg-indigo-100 text-indigo-600' },
+    { label: 'Χρήστες', value: stats.totalUsers, icon: Users, color: 'bg-blue-100 text-blue-600' },
+    { label: 'Καταλύματα', value: stats.totalListings, icon: List, color: 'bg-purple-100 text-purple-600' },
+    { label: 'Δημοσιευμένα', value: stats.publishedListings, icon: Eye, color: 'bg-green-100 text-green-600' },
+    { label: 'Πρόχειρα', value: stats.draftListings, icon: FileText, color: 'bg-amber-100 text-amber-600' },
+    { label: 'Παραλίες', value: stats.beaches, icon: Waves, color: 'bg-cyan-100 text-cyan-600' },
+    { label: 'Φαγητό & Ποτό', value: stats.restaurants, icon: UtensilsCrossed, color: 'bg-red-100 text-red-600' },
+    { label: 'Δραστηριότητες', value: stats.activities, icon: Landmark, color: 'bg-orange-100 text-orange-600' },
+    { label: 'Φορτιστές EV', value: stats.chargers, icon: Zap, color: 'bg-emerald-100 text-emerald-600' },
+    { label: 'Άρθρα Blog', value: stats.articles, icon: FileText, color: 'bg-indigo-100 text-indigo-600' },
   ];
 
   return (

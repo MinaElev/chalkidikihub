@@ -7,7 +7,7 @@ import { HomeBlogSection } from '@/components/layout/HomeBlogSection';
 import { HomeFeaturedListings } from '@/components/layout/HomeFeaturedListings';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { HeroSearchBox } from '@/components/layout/HeroSearchBox';
-import { MapPin, Home, Star } from 'lucide-react';
+import { MapPin, Home, Star, QrCode } from 'lucide-react';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -103,6 +103,7 @@ export default async function HomePage({ params }: Props) {
       <HomeFeaturedListings />
       <HomeBeachesSection />
       <HomeBlogSection />
+      <QRFeatureSection />
       <CTASection />
     </>
   );
@@ -162,6 +163,59 @@ function HeroSection() {
 // FeaturedListingsSection moved to @/components/layout/HomeFeaturedListings (client component with DB fetch)
 
 // BlogSection moved to @/components/layout/HomeBlogSection (client component with DB fetch)
+
+function QRFeatureSection() {
+  return (
+    <section className="py-16 md:py-20 bg-gradient-to-r from-purple-50 to-indigo-50">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row items-center gap-10">
+          {/* Icon */}
+          <div className="shrink-0">
+            <div className="w-32 h-32 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-3xl flex items-center justify-center shadow-lg">
+              <QrCode className="w-16 h-16 text-white" />
+            </div>
+          </div>
+
+          {/* Text */}
+          <div className="text-center md:text-left">
+            <span className="inline-flex px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+              Digital Concierge
+            </span>
+            <h2 className="text-3xl font-bold text-gray-900">
+              QR Guest Guide για το κατάλυμά σας
+            </h2>
+            <p className="mt-3 text-lg text-gray-600 leading-relaxed max-w-xl">
+              Δημιουργήστε <strong>δωρεάν</strong> ένα QR code που οι πελάτες σας σκανάρουν στο δωμάτιο.
+              Βλέπουν αμέσως παραλίες, εστιατόρια, δραστηριότητες και χρήσιμα τηλέφωνα
+              — όλα κοντά στο κατάλυμά σας, σε 6 γλώσσες.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3 justify-center md:justify-start text-sm text-gray-500">
+              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-gray-200">
+                🏖️ Παραλίες κοντά
+              </span>
+              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-gray-200">
+                🍽️ Εστιατόρια
+              </span>
+              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-gray-200">
+                🏛️ Δραστηριότητες
+              </span>
+              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-gray-200">
+                📞 Χρήσιμα τηλέφωνα
+              </span>
+            </div>
+            <Link
+              href="/auth/register"
+              className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all shadow-md"
+            >
+              <QrCode className="w-5 h-5" />
+              Δημιουργήστε το δικό σας QR
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function CTASection() {
   const t = useTranslations('footer');
