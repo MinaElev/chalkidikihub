@@ -2,17 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle, Clock } from 'lucide-react';
+import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle, Clock, Home, Building, UserCheck } from 'lucide-react';
 
 interface Recipient {
   id: string;
   email: string;
   name: string;
   role: string;
-  hasListing: boolean;
+  listingCount: number;
 }
 
-type ListType = 'all' | 'no_listing';
+type ListType = 'all' | 'no_listing' | 'has_listing' | 'multi_listing' | 'manual';
 
 export default function AdminEmailPage() {
   const [recipients, setRecipients] = useState<Recipient[]>([]);
@@ -25,6 +25,7 @@ export default function AdminEmailPage() {
   const [result, setResult] = useState<{ sent: number; failed: number } | null>(null);
   const [error, setError] = useState('');
   const [history, setHistory] = useState<Array<{ id: string; message: string; details: Record<string, unknown>; created_at: string }>>([]);
+  const [selectedManual, setSelectedManual] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     async function load() {
@@ -36,12 +37,15 @@ export default function AdminEmailPage() {
         .select('id, full_name, role')
         .order('created_at', { ascending: false });
 
-      // Fetch owner IDs that have listings
+      // Count listings per user
       const { data: listings } = await supabase
         .from('listings')
         .select('owner_id');
 
-      const ownerIds = new Set(listings?.map(l => l.owner_id) || []);
+      const listingCounts = new Map<string, number>();
+      (listings || []).forEach(l => {
+        listingCounts.set(l.owner_id, (listingCounts.get(l.owner_id) || 0) + 1);
+      });
 
       // Get emails from auth (profiles don't have email, use id to match)
       // We'll use the profiles + auth user metadata
@@ -53,10 +57,10 @@ export default function AdminEmailPage() {
       // Workaround: use the profiles table which should have email from registration
       const enriched: Recipient[] = (profiles || []).map(p => ({
         id: p.id,
-        email: '', // Will be filled below
+        email: '',
         name: p.full_name || '',
         role: p.role || 'owner',
-        hasListing: ownerIds.has(p.id),
+        listingCount: listingCounts.get(p.id) || 0,
       }));
 
       // Try to get emails - profiles might have them or we get from a different query
@@ -93,9 +97,12 @@ export default function AdminEmailPage() {
     load();
   }, []);
 
-  const filtered = listType === 'all'
-    ? recipients
-    : recipients.filter(r => !r.hasListing);
+  const filtered = listType === 'all' ? recipients
+    : listType === 'no_listing' ? recipients.filter(r => r.listingCount === 0)
+    : listType === 'has_listing' ? recipients.filter(r => r.listingCount > 0)
+    : listType === 'multi_listing' ? recipients.filter(r => r.listingCount > 1)
+    : listType === 'manual' ? recipients.filter(r => selectedManual.has(r.id))
+    : recipients;
 
   async function handleSend() {
     if (!subject.trim() || !body.trim()) {
@@ -175,30 +182,54 @@ export default function AdminEmailPage() {
 
             {/* List type selector */}
             <div className="space-y-2 mb-4">
-              <label className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer border transition-colors ${
-                listType === 'all' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:bg-gray-50'
-              }`}>
-                <input type="radio" name="list" checked={listType === 'all'} onChange={() => setListType('all')}
-                  className="text-primary-600 focus:ring-primary-500" />
-                <Users className="w-4 h-4 text-primary-600" />
-                <div>
-                  <p className="text-sm font-medium text-gray-900">Όλοι οι χρήστες</p>
-                  <p className="text-xs text-gray-500">{recipients.length} χρήστες</p>
-                </div>
-              </label>
-
-              <label className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer border transition-colors ${
-                listType === 'no_listing' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:bg-gray-50'
-              }`}>
-                <input type="radio" name="list" checked={listType === 'no_listing'} onChange={() => setListType('no_listing')}
-                  className="text-primary-600 focus:ring-primary-500" />
-                <UserX className="w-4 h-4 text-amber-600" />
-                <div>
-                  <p className="text-sm font-medium text-gray-900">Χωρίς κατάλυμα</p>
-                  <p className="text-xs text-gray-500">{recipients.filter(r => !r.hasListing).length} χρήστες</p>
-                </div>
-              </label>
+              {[
+                { type: 'all' as ListType, icon: Users, color: 'text-primary-600', label: 'Όλοι οι χρήστες', count: recipients.length },
+                { type: 'has_listing' as ListType, icon: Home, color: 'text-green-600', label: 'Με κατάλυμα', count: recipients.filter(r => r.listingCount > 0).length },
+                { type: 'multi_listing' as ListType, icon: Building, color: 'text-blue-600', label: 'Με 2+ καταλύματα', count: recipients.filter(r => r.listingCount > 1).length },
+                { type: 'no_listing' as ListType, icon: UserX, color: 'text-amber-600', label: 'Χωρίς κατάλυμα', count: recipients.filter(r => r.listingCount === 0).length },
+                { type: 'manual' as ListType, icon: UserCheck, color: 'text-purple-600', label: 'Χειροκίνητη επιλογή', count: selectedManual.size },
+              ].map(opt => (
+                <label key={opt.type} className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer border transition-colors ${
+                  listType === opt.type ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:bg-gray-50'
+                }`}>
+                  <input type="radio" name="list" checked={listType === opt.type} onChange={() => setListType(opt.type)}
+                    className="text-primary-600 focus:ring-primary-500" />
+                  <opt.icon className={`w-4 h-4 ${opt.color}`} />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-900">{opt.label}</p>
+                    <p className="text-xs text-gray-500">{opt.count} χρήστες</p>
+                  </div>
+                </label>
+              ))}
             </div>
+
+            {/* Manual selection checkboxes */}
+            {listType === 'manual' && (
+              <div className="border-t border-gray-100 pt-3 mb-3">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs text-gray-500">Επιλέξτε χρήστες:</p>
+                  <button type="button" onClick={() => setSelectedManual(selectedManual.size === recipients.length ? new Set() : new Set(recipients.map(r => r.id)))}
+                    className="text-[10px] text-primary-600 hover:underline">
+                    {selectedManual.size === recipients.length ? 'Αποεπιλογή όλων' : 'Επιλογή όλων'}
+                  </button>
+                </div>
+                <div className="max-h-48 overflow-y-auto space-y-1">
+                  {recipients.map(r => (
+                    <label key={r.id} className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-50 cursor-pointer text-xs">
+                      <input type="checkbox" checked={selectedManual.has(r.id)}
+                        onChange={() => {
+                          const next = new Set(selectedManual);
+                          next.has(r.id) ? next.delete(r.id) : next.add(r.id);
+                          setSelectedManual(next);
+                        }}
+                        className="rounded text-primary-600 focus:ring-primary-500" />
+                      <span className="text-gray-700 truncate flex-1">{r.name || r.email}</span>
+                      {r.listingCount > 0 && <span className="text-[9px] bg-green-100 text-green-600 px-1 rounded">{r.listingCount}</span>}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Recipients list */}
             <div className="border-t border-gray-100 pt-3">
@@ -206,8 +237,9 @@ export default function AdminEmailPage() {
               <div className="max-h-64 overflow-y-auto space-y-1">
                 {filtered.map(r => (
                   <div key={r.id} className="flex items-center gap-2 py-1 px-2 rounded text-xs">
-                    <div className={`w-1.5 h-1.5 rounded-full ${r.hasListing ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <span className="text-gray-700 truncate">{r.name || r.email}</span>
+                    <div className={`w-1.5 h-1.5 rounded-full ${r.listingCount > 0 ? 'bg-green-500' : 'bg-gray-300'}`} />
+                    <span className="text-gray-700 truncate flex-1">{r.name || r.email}</span>
+                    {r.listingCount > 0 && <span className="text-[9px] bg-green-100 text-green-600 px-1 rounded">{r.listingCount}</span>}
                     {r.role === 'superadmin' && <span className="text-[9px] bg-red-100 text-red-600 px-1 rounded">admin</span>}
                   </div>
                 ))}
