@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link, useRouter } from '@/i18n/navigation';
 import { ArrowLeft, Save, Loader2, Sparkles } from 'lucide-react';
@@ -13,6 +14,8 @@ import { LocationPicker } from '@/components/ui/LocationPicker';
 const AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'];
 
 export default function EditRestaurantPage() {
+  const tCuisine = useTranslations('cuisineTypes');
+  const tPrice = useTranslations('priceLevels');
   const { id } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -234,7 +237,7 @@ export default function EditRestaurantPage() {
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Price Level</label>
             <select value={form.price_level} onChange={(e) => update('price_level', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500">
-              {ALL_PRICE_LEVELS.map((p) => <option key={p} value={p}>{p}</option>)}
+              {ALL_PRICE_LEVELS.map((p) => <option key={p} value={p}>{tPrice(p)}</option>)}
             </select></div>
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
             <input type="text" value={form.phone} onChange={(e) => update('phone', e.target.value)}
@@ -276,7 +279,7 @@ export default function EditRestaurantPage() {
               <button key={c} type="button" onClick={() => toggleCuisine(c)}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
                   form.cuisine.includes(c) ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-300 hover:border-red-300'
-                }`}>{c}</button>
+                }`}>{tCuisine(c)}</button>
             ))}
           </div>
         </div>
