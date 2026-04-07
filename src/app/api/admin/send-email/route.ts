@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     for (const recipient of recipients) {
       try {
         const { data: emailData, error: emailError } = await resend.emails.send({
-          from: 'ChalkidikiHub <onboarding@resend.dev>',
+          from: 'ChalkidikiHub <chalkidikihub@gmail.com>',
           to: recipient.email,
           subject,
           html: `
