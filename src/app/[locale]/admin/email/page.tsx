@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle, Clock } from 'lucide-react';
 
 interface Recipient {
   id: string;
@@ -24,6 +24,7 @@ export default function AdminEmailPage() {
   const [preview, setPreview] = useState(false);
   const [result, setResult] = useState<{ sent: number; failed: number } | null>(null);
   const [error, setError] = useState('');
+  const [history, setHistory] = useState<Array<{ id: string; message: string; details: Record<string, unknown>; created_at: string }>>([]);
 
   useEffect(() => {
     async function load() {
@@ -76,6 +77,17 @@ export default function AdminEmailPage() {
 
       // Filter out users without email
       setRecipients(enriched.filter(r => r.email));
+
+      // Fetch email history from activity_logs
+      const { data: logs } = await supabase
+        .from('activity_logs')
+        .select('id, message, details, created_at')
+        .eq('type', 'admin_action')
+        .like('message', 'Mass email%')
+        .order('created_at', { ascending: false })
+        .limit(20);
+      setHistory(logs || []);
+
       setLoading(false);
     }
     load();
@@ -113,6 +125,16 @@ export default function AdminEmailPage() {
       const data = await res.json();
       if (res.ok) {
         setResult({ sent: data.sent, failed: data.failed });
+        // Refresh history
+        const supabase = createClient();
+        const { data: logs } = await supabase
+          .from('activity_logs')
+          .select('id, message, details, created_at')
+          .eq('type', 'admin_action')
+          .like('message', 'Mass email%')
+          .order('created_at', { ascending: false })
+          .limit(20);
+        setHistory(logs || []);
       } else {
         setError(data.error || 'Αποτυχία αποστολής');
       }
@@ -260,6 +282,36 @@ export default function AdminEmailPage() {
           </div>
         </div>
       </div>
+
+      {/* Send History */}
+      {history.length > 0 && (
+        <div className="mt-8">
+          <div className="flex items-center gap-2 mb-4">
+            <Clock className="w-5 h-5 text-gray-400" />
+            <h2 className="text-lg font-semibold text-gray-900">Ιστορικό Αποστολών</h2>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
+            {history.map((log) => {
+              const d = log.details as { subject?: string; recipientCount?: number; sent?: number; failed?: number };
+              return (
+                <div key={log.id} className="px-4 py-3 flex items-center gap-4">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">{d.subject || 'No subject'}</p>
+                    <p className="text-xs text-gray-500">{new Date(log.created_at).toLocaleString('el')}</p>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <span className="text-xs text-gray-500">{d.recipientCount || 0} παραλήπτες</span>
+                    <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">{d.sent || 0} sent</span>
+                    {(d.failed || 0) > 0 && (
+                      <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-medium">{d.failed} failed</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
