@@ -4,19 +4,20 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, List, Eye, BarChart3, Home, UtensilsCrossed, Landmark, FileText, ClipboardList, ArrowRight, QrCode, X, Sparkles } from 'lucide-react';
+import { Plus, List, Eye, BarChart3, Home, UtensilsCrossed, Landmark, FileText, ClipboardList, ArrowRight, QrCode, X, Sparkles, MousePointer, Phone, Mail, ExternalLink } from 'lucide-react';
 
 export default function DashboardPage() {
   const t = useTranslations('nav');
   const tSub = useTranslations('submissions');
   const [stats, setStats] = useState({ total: 0, published: 0, draft: 0 });
   const [submissionCount, setSubmissionCount] = useState(0);
+  const [clickStats, setClickStats] = useState<Record<string, number>>({});
 
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) return;
-      const { data } = await supabase.from('listings').select('status').eq('owner_id', user.id);
+      const { data } = await supabase.from('listings').select('status, slug').eq('owner_id', user.id);
       if (data) {
         setStats({
           total: data.length,
@@ -26,6 +27,26 @@ export default function DashboardPage() {
       }
       const { count } = await supabase.from('user_submissions').select('*', { count: 'exact', head: true }).eq('user_id', user.id);
       setSubmissionCount(count || 0);
+
+      // Fetch booking click stats (last 30 days) for user's listings
+      const listingSlugs = data?.map(l => l.slug) || [];
+      if (listingSlugs.length > 0) {
+        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const { data: logs } = await supabase
+          .from('activity_logs')
+          .select('details')
+          .eq('message', 'Booking click')
+          .gte('created_at', thirtyDaysAgo);
+
+        const counts: Record<string, number> = {};
+        logs?.forEach(log => {
+          const d = log.details as { listing_slug?: string; type?: string };
+          if (d.listing_slug && listingSlugs.includes(d.listing_slug) && d.type) {
+            counts[d.type] = (counts[d.type] || 0) + 1;
+          }
+        });
+        setClickStats(counts);
+      }
     });
   }, []);
 
@@ -118,6 +139,30 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Click Stats */}
+      {Object.keys(clickStats).length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <MousePointer className="w-5 h-5 text-gray-400" />
+            Κλικ τελευταίων 30 ημερών
+          </h2>
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+            {[
+              { key: 'booking.com', label: 'Booking', icon: ExternalLink, color: 'bg-[#003580] text-white' },
+              { key: 'airbnb', label: 'Airbnb', icon: ExternalLink, color: 'bg-[#FF5A5F] text-white' },
+              { key: 'website', label: 'Website', icon: ExternalLink, color: 'bg-gray-800 text-white' },
+              { key: 'phone', label: 'Τηλέφωνο', icon: Phone, color: 'bg-green-600 text-white' },
+              { key: 'email', label: 'Email', icon: Mail, color: 'bg-primary-600 text-white' },
+            ].filter(s => clickStats[s.key]).map(s => (
+              <div key={s.key} className={`${s.color} rounded-xl p-3 text-center`}>
+                <div className="text-2xl font-bold">{clickStats[s.key]}</div>
+                <div className="text-xs opacity-80">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Quick Actions — prominent cards */}
       <h2 className="text-lg font-semibold text-gray-900 mb-4">Τι θέλεις να κάνεις;</h2>

@@ -5,7 +5,8 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Listing } from '@/types';
 import { AREAS } from '@/lib/constants';
 import { Link } from '@/i18n/navigation';
-import { MapPin, Users, BedDouble, Bath, Phone, Mail, Loader2, ExternalLink } from 'lucide-react';
+import { MapPin, Users, BedDouble, Bath, Phone, Mail, Loader2, ExternalLink, Calendar, MessageSquare, X, Send } from 'lucide-react';
+import { logEvent } from '@/lib/logger';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { AmenityBadge } from './AmenityBadge';
 import { ShareButtons } from '@/components/ui/ShareButtons';
@@ -135,45 +136,44 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
               <p className="text-xs text-gray-400 mt-1">* Η τελική τιμή μπορεί να διαφέρει ανάλογα την εποχή</p>
             </div>
             <hr />
-            {/* Booking buttons */}
+            {/* Booking buttons with tracking */}
             {(listing as any).website_url && (
               <a href={(listing as any).website_url} target="_blank" rel="noopener noreferrer"
+                onClick={() => logEvent('user_action', 'info', 'Booking click', { listing_slug: slug, type: 'website' })}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-900 text-white font-medium rounded-xl transition-colors">
                 <ExternalLink className="w-4 h-4" />Website
               </a>
             )}
             {bookingUrl && (
               <a href={bookingUrl} target="_blank" rel="noopener noreferrer"
+                onClick={() => logEvent('user_action', 'info', 'Booking click', { listing_slug: slug, type: 'booking.com' })}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#003580] hover:bg-[#00264d] text-white font-medium rounded-xl transition-colors">
                 <ExternalLink className="w-4 h-4" />Booking.com
               </a>
             )}
             {airbnbUrl && (
               <a href={airbnbUrl} target="_blank" rel="noopener noreferrer"
+                onClick={() => logEvent('user_action', 'info', 'Booking click', { listing_slug: slug, type: 'airbnb' })}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#FF5A5F] hover:bg-[#e04e53] text-white font-medium rounded-xl transition-colors">
                 <ExternalLink className="w-4 h-4" />Airbnb
               </a>
             )}
-            {contactPhone ? (
+            {contactPhone && (
               <a href={`tel:${contactPhone}`}
+                onClick={() => logEvent('user_action', 'info', 'Booking click', { listing_slug: slug, type: 'phone' })}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-colors">
                 <Phone className="w-4 h-4" />{contactPhone}
               </a>
-            ) : (
-              <button className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
-                <Phone className="w-4 h-4" />{tCommon('contactOwner')}
-              </button>
             )}
-            {contactEmail ? (
+            {contactEmail && (
               <a href={`mailto:${contactEmail}`}
+                onClick={() => logEvent('user_action', 'info', 'Booking click', { listing_slug: slug, type: 'email' })}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-primary-600 text-primary-600 hover:bg-primary-50 font-medium rounded-xl transition-colors">
                 <Mail className="w-4 h-4" />{contactEmail}
               </a>
-            ) : (
-              <button className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-primary-600 text-primary-600 hover:bg-primary-50 font-medium rounded-xl transition-colors">
-                <Mail className="w-4 h-4" />Email
-              </button>
             )}
+            <hr />
+            <InquiryButton slug={slug} title={title} />
           </div>
         </div>
       </div>
@@ -181,6 +181,136 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
       <RelatedContent area={listing.area} currentSlug={listing.slug} />
 
       <RecentlyViewed currentSlug={slug} />
+
+      {/* Mobile sticky booking bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white border-t border-gray-200 shadow-lg px-4 py-3">
+        <div className="flex items-center gap-3 max-w-lg mx-auto">
+          <div className="flex-1">
+            <span className="text-xl font-bold text-gray-900">&euro;{listing.price_per_night}</span>
+            <span className="text-sm text-gray-500"> {tCommon('perNight')}</span>
+          </div>
+          {bookingUrl ? (
+            <a href={bookingUrl} target="_blank" rel="noopener noreferrer"
+              onClick={() => logEvent('user_action', 'info', 'Booking click', { listing_slug: slug, type: 'booking.com' })}
+              className="px-6 py-2.5 bg-[#003580] text-white font-semibold rounded-xl text-sm">
+              Κράτηση
+            </a>
+          ) : contactPhone ? (
+            <a href={`tel:${contactPhone}`}
+              onClick={() => logEvent('user_action', 'info', 'Booking click', { listing_slug: slug, type: 'phone' })}
+              className="px-6 py-2.5 bg-green-600 text-white font-semibold rounded-xl text-sm flex items-center gap-2">
+              <Phone className="w-4 h-4" /> Κλήση
+            </a>
+          ) : (
+            <a href={`mailto:${contactEmail || ''}`}
+              className="px-6 py-2.5 bg-primary-600 text-white font-semibold rounded-xl text-sm">
+              Επικοινωνία
+            </a>
+          )}
+        </div>
+      </div>
+      {/* Spacer for mobile sticky bar */}
+      <div className="h-16 lg:hidden" />
     </div>
+  );
+}
+
+function InquiryButton({ slug, title }: { slug: string; title: string }) {
+  const [open, setOpen] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', phone: '', checkin: '', checkout: '', guests: '2', message: '' });
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSending(true);
+    try {
+      await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, listing_slug: slug, listing_title: title }),
+      });
+      logEvent('user_action', 'info', 'Inquiry submitted', { listing_slug: slug });
+      setSuccess(true);
+    } catch {}
+    setSending(false);
+  }
+
+  return (
+    <>
+      <button onClick={() => setOpen(true)}
+        className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-xl transition-colors">
+        <Calendar className="w-4 h-4" />
+        Ζητήστε Διαθεσιμότητα
+      </button>
+
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setOpen(false)}>
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h3 className="font-bold text-gray-900">Ζητήστε Διαθεσιμότητα</h3>
+              <button onClick={() => setOpen(false)} className="p-1 rounded-lg hover:bg-gray-100"><X className="w-5 h-5" /></button>
+            </div>
+
+            {success ? (
+              <div className="p-6 text-center">
+                <MessageSquare className="w-12 h-12 text-green-500 mx-auto mb-3" />
+                <h4 className="text-lg font-bold text-gray-900">Το αίτημά σας στάλθηκε!</h4>
+                <p className="text-sm text-gray-500 mt-1">Ο ιδιοκτήτης θα επικοινωνήσει μαζί σας σύντομα.</p>
+                <button onClick={() => setOpen(false)} className="mt-4 px-6 py-2 bg-primary-600 text-white rounded-lg">OK</button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="p-4 space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Όνομα *</label>
+                    <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Email *</label>
+                    <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Τηλέφωνο</label>
+                  <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Check-in</label>
+                    <input type="date" value={form.checkin} onChange={(e) => setForm({ ...form, checkin: e.target.value })}
+                      className="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Check-out</label>
+                    <input type="date" value={form.checkout} onChange={(e) => setForm({ ...form, checkout: e.target.value })}
+                      className="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Άτομα</label>
+                    <input type="number" min="1" value={form.guests} onChange={(e) => setForm({ ...form, guests: e.target.value })}
+                      className="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Μήνυμα</label>
+                  <textarea rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    placeholder="π.χ. Θα ήθελα να μάθω αν είναι διαθέσιμο..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
+                </div>
+                <button type="submit" disabled={sending}
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-xl disabled:opacity-50">
+                  {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                  {sending ? 'Αποστολή...' : 'Αποστολή'}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
