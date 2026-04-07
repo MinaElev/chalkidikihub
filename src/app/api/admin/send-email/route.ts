@@ -54,19 +54,7 @@ export async function POST(request: NextRequest) {
           from: `ChalkidikiHub <${gmailAddress}>`,
           to: recipient.email,
           subject,
-          html: `
-            <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-              <div style="text-align: center; padding: 20px 0; border-bottom: 2px solid #0284c7;">
-                <h2 style="color: #0284c7; margin: 0;">ChalkidikiHub</h2>
-              </div>
-              <div style="padding: 24px 0; line-height: 1.6; color: #333;">
-                ${body}
-              </div>
-              <div style="border-top: 1px solid #eee; padding-top: 16px; text-align: center; color: #999; font-size: 12px;">
-                <p>ChalkidikiHub - chalkidikihub.gr</p>
-              </div>
-            </div>
-          `,
+          html: `<div style="font-family: system-ui, sans-serif; line-height: 1.6; color: #333;">${body}</div>`,
         });
         sent++;
       } catch (err) {
