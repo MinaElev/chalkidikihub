@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { createApiClient } from '@/lib/api-helpers';
+import { createClient } from '@supabase/supabase-js';
+
+function getAdminClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,8 +17,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing recipients, subject or body' }, { status: 400 });
     }
 
-    // Get Resend API key from DB
-    const supabase = createApiClient();
+    // Get Resend API key from DB (using service role to bypass RLS)
+    const supabase = getAdminClient();
     const { data: setting } = await supabase
       .from('site_settings')
       .select('value')
