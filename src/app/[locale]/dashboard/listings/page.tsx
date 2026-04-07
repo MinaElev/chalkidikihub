@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, Edit, Trash2, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, EyeOff, Loader2, QrCode } from 'lucide-react';
 
 interface DbListing {
   id: string;
@@ -102,6 +102,13 @@ export default function MyListingsPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <Link
+                  href={`/dashboard/listings/${listing.id}/qr`}
+                  className="p-2 rounded-lg hover:bg-purple-50 text-purple-500"
+                  title="QR Guest Guide"
+                >
+                  <QrCode className="w-4 h-4" />
+                </Link>
                 <Link
                   href={`/dashboard/listings/${listing.id}/edit`}
                   className="p-2 rounded-lg hover:bg-blue-50 text-blue-500"
