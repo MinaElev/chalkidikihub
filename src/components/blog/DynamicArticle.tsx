@@ -24,10 +24,10 @@ export function DynamicArticle({ slug }: { slug: string }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch current article + all articles for sidebar/nav
+    // Fetch current article + recent articles for sidebar/nav
     Promise.all([
       fetch(`/api/blog?slug=${slug}`).then((r) => r.json()),
-      fetch('/api/blog').then((r) => r.json()),
+      fetch('/api/blog?limit=10').then((r) => r.json()),
     ])
       .then(([articleData, allData]) => {
         if (articleData && articleData.id) setArticle(articleData);

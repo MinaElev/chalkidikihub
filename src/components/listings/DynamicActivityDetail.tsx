@@ -28,20 +28,21 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      fetch(`/api/activities?slug=${slug}`).then((r) => r.json()),
-      fetch('/api/activities').then((r) => r.json()),
-      fetch('/api/beaches').then((r) => r.json()),
-    ])
-      .then(([actData, allData, beachesData]) => {
+    fetch(`/api/activities?slug=${slug}`)
+      .then((r) => r.json())
+      .then((actData) => {
         if (actData && actData.id) {
           setActivity(actData);
-          // Find nearby beaches in same area
-          if (Array.isArray(beachesData)) {
-            setNearbyBeaches(beachesData.filter((b: Beach) => b.area === actData.area).slice(0, 3));
-          }
+          return Promise.all([
+            fetch(`/api/activities?area=${actData.area}&limit=6`).then((r) => r.json()),
+            fetch(`/api/beaches?area=${actData.area}&limit=4`).then((r) => r.json()),
+          ]).then(([allData, beachesData]) => {
+            if (Array.isArray(allData)) setAllActivities(allData);
+            if (Array.isArray(beachesData)) {
+              setNearbyBeaches(beachesData.filter((b: Beach) => b.area === actData.area).slice(0, 3));
+            }
+          });
         }
-        if (Array.isArray(allData)) setAllActivities(allData);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
