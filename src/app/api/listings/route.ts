@@ -73,8 +73,12 @@ export async function GET(request: NextRequest) {
     if (error || !data) {
       return NextResponse.json(null);
     }
-    return NextResponse.json(transform(data as Record<string, unknown>));
+    return NextResponse.json(transform(data as Record<string, unknown>), {
+      headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' },
+    });
   }
+
+  const limit = searchParams.get('limit');
 
   // All published listings
   let query = supabase
@@ -85,6 +89,9 @@ export async function GET(request: NextRequest) {
 
   if (area) {
     query = query.eq('area', area);
+  }
+  if (limit) {
+    query = query.limit(Number(limit));
   }
 
   const { data, error } = await query;

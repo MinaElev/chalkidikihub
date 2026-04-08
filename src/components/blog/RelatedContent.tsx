@@ -16,7 +16,7 @@ export function RelatedArticles({ slugs }: { slugs: string[] }) {
 
   useEffect(() => {
     if (slugs.length === 0) return;
-    fetch('/api/blog')
+    fetch('/api/blog?limit=20')
       .then((r) => r.json())
       .then((data: BlogArticle[]) => {
         if (Array.isArray(data)) setArticles(data.filter((a) => slugs.includes(a.slug)));
@@ -44,7 +44,7 @@ export function RelatedBeaches({ slugs }: { slugs: string[] }) {
 
   useEffect(() => {
     if (slugs.length === 0) return;
-    fetch('/api/beaches')
+    fetch('/api/beaches?limit=20')
       .then((r) => r.json())
       .then((data: Beach[]) => {
         if (Array.isArray(data)) setBeaches(data.filter((b) => slugs.includes(b.slug)));
@@ -72,7 +72,7 @@ export function RelatedListings({ slugs }: { slugs: string[] }) {
 
   useEffect(() => {
     if (slugs.length === 0) return;
-    fetch('/api/listings')
+    fetch('/api/listings?limit=20')
       .then((r) => r.json())
       .then((data: Listing[]) => {
         if (Array.isArray(data)) setListings(data.filter((l) => slugs.includes(l.slug)));

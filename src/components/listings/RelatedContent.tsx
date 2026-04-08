@@ -28,35 +28,35 @@ export function RelatedContent({ area, currentSlug }: RelatedContentProps) {
   const [articles, setArticles] = useState<BlogArticle[]>([]);
 
   useEffect(() => {
-    fetch(`/api/listings?area=${area}`)
+    fetch(`/api/listings?area=${area}&limit=4`)
       .then((r) => r.json())
       .then((data: Listing[]) => {
         if (Array.isArray(data)) setListings(data.filter((l) => l.slug !== currentSlug).slice(0, 3));
       })
       .catch(() => {});
 
-    fetch(`/api/beaches?area=${area}`)
+    fetch(`/api/beaches?area=${area}&limit=4`)
       .then((r) => r.json())
       .then((data: Beach[]) => {
         if (Array.isArray(data)) setBeaches(data.slice(0, 3));
       })
       .catch(() => {});
 
-    fetch(`/api/restaurants?area=${area}`)
+    fetch(`/api/restaurants?area=${area}&limit=4`)
       .then((r) => r.json())
       .then((data: Restaurant[]) => {
         if (Array.isArray(data)) setRestaurants(data.slice(0, 3));
       })
       .catch(() => {});
 
-    fetch(`/api/activities?area=${area}`)
+    fetch(`/api/activities?area=${area}&limit=3`)
       .then((r) => r.json())
       .then((data: Activity[]) => {
         if (Array.isArray(data)) setActivities(data.slice(0, 2));
       })
       .catch(() => {});
 
-    fetch('/api/blog')
+    fetch('/api/blog?limit=5')
       .then((r) => r.json())
       .then((data: BlogArticle[]) => {
         if (Array.isArray(data)) {

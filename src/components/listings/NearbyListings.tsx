@@ -11,7 +11,7 @@ export function NearbyListings({ listingIds }: { listingIds: string[] }) {
 
   useEffect(() => {
     if (listingIds.length === 0) return;
-    fetch('/api/listings')
+    fetch('/api/listings?limit=10')
       .then((r) => r.json())
       .then((data: Listing[]) => {
         if (Array.isArray(data)) {
