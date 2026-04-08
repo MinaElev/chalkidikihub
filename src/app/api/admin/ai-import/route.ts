@@ -14,7 +14,7 @@ async function getOpenAIKey(): Promise<string> {
   return data?.value || process.env.OPENAI_API_KEY || '';
 }
 
-async function callOpenAI(prompt: string, maxTokens: number = 8000): Promise<string> {
+async function callOpenAI(prompt: string, maxTokens: number = 16000): Promise<string> {
   const apiKey = await getOpenAIKey();
   if (!apiKey) throw new Error('OpenAI API key not configured');
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -37,7 +37,15 @@ export async function POST(request: NextRequest) {
     const { type, area, count } = await request.json();
 
     if (type === 'beaches') {
-      const prompt = `You are an expert on Halkidiki, Greece beaches. Generate EXACTLY ${count || 10} REAL beaches in the ${area || 'all'} area of Halkidiki.
+      // Fetch existing slugs to avoid duplicates
+      const supabaseCheck = getAdminClient();
+      const { data: existingBeaches } = await supabaseCheck.from('beaches').select('slug, name_el');
+      const existingNames = (existingBeaches || []).map(b => b.name_el).filter(Boolean);
+      const existingList = existingNames.length > 0
+        ? `\n\nALREADY IN DATABASE (DO NOT include these beaches, find DIFFERENT ones instead):\n${existingNames.join(', ')}`
+        : '';
+
+      const prompt = `You are an expert on Halkidiki, Greece beaches. Generate EXACTLY ${count || 10} REAL beaches in the ${area || 'all'} area of Halkidiki.${existingList}
 
 For each beach, provide accurate, real data in this EXACT JSON format (array of objects):
 [
@@ -78,7 +86,7 @@ IMPORTANT:
 - Descriptions should be unique, engaging, SEO-friendly
 - Return ONLY valid JSON array, no explanation`;
 
-      const result = await callOpenAI(prompt, 10000);
+      const result = await callOpenAI(prompt, 16000);
       const cleaned = result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
       const beaches = JSON.parse(cleaned);
 
@@ -132,7 +140,14 @@ IMPORTANT:
     }
 
     if (type === 'restaurants') {
-      const prompt = `You are an expert on Halkidiki, Greece food & drink scene. Generate EXACTLY ${count || 10} REAL restaurants, bars, beach bars, cafés in the ${area || 'all'} area of Halkidiki.
+      const supabaseCheck = getAdminClient();
+      const { data: existingR } = await supabaseCheck.from('restaurants').select('name_el');
+      const existingRNames = (existingR || []).map(r => r.name_el).filter(Boolean);
+      const excludeR = existingRNames.length > 0
+        ? `\n\nALREADY IN DATABASE (DO NOT include these, find DIFFERENT ones):\n${existingRNames.join(', ')}`
+        : '';
+
+      const prompt = `You are an expert on Halkidiki, Greece food & drink scene. Generate EXACTLY ${count || 10} REAL restaurants, bars, beach bars, cafés in the ${area || 'all'} area of Halkidiki.${excludeR}
 
 For each place, provide accurate, real data in this EXACT JSON format (array of objects):
 [
@@ -181,7 +196,7 @@ IMPORTANT:
 - Phone numbers should be realistic Greek format (+30 2374x or +30 6xxx)
 - Return ONLY valid JSON array`;
 
-      const result = await callOpenAI(prompt, 10000);
+      const result = await callOpenAI(prompt, 16000);
       const cleaned = result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
       const restaurants = JSON.parse(cleaned);
 
@@ -239,7 +254,14 @@ IMPORTANT:
     }
 
     if (type === 'activities') {
-      const prompt = `You are an expert on Halkidiki, Greece tourism activities. Generate EXACTLY ${count || 10} REAL activities and attractions in the ${area || 'all'} area of Halkidiki.
+      const supabaseCheck = getAdminClient();
+      const { data: existingA } = await supabaseCheck.from('activities').select('name_el');
+      const existingANames = (existingA || []).map(a => a.name_el).filter(Boolean);
+      const excludeA = existingANames.length > 0
+        ? `\n\nALREADY IN DATABASE (DO NOT include these, find DIFFERENT ones):\n${existingANames.join(', ')}`
+        : '';
+
+      const prompt = `You are an expert on Halkidiki, Greece tourism activities. Generate EXACTLY ${count || 10} REAL activities and attractions in the ${area || 'all'} area of Halkidiki.${excludeA}
 
 For each activity, provide accurate, real data in this EXACT JSON format (array of objects):
 [
@@ -284,7 +306,7 @@ IMPORTANT:
 - Rating between 3.5 and 5.0
 - Return ONLY valid JSON array`;
 
-      const result = await callOpenAI(prompt, 10000);
+      const result = await callOpenAI(prompt, 16000);
       const cleaned = result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
       const activities = JSON.parse(cleaned);
 

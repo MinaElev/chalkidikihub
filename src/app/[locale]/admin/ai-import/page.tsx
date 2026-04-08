@@ -13,7 +13,7 @@ const AREAS = [
 export default function AIImportPage() {
   const [type, setType] = useState('beaches');
   const [area, setArea] = useState('kassandra');
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(5);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ inserted: number; skipped: number; total: number; errors: string[] } | null>(null);
   const [error, setError] = useState('');
@@ -125,7 +125,7 @@ export default function AIImportPage() {
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">Πόσα να δημιουργήσει;</label>
           <div className="flex gap-2">
-            {[5, 10, 15, 20].map(n => (
+            {[3, 5, 8, 10].map(n => (
               <button key={n} onClick={() => setCount(n)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   count === n ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'

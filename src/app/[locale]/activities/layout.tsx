@@ -5,7 +5,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   return {
-    title: 'Δραστηριότητες & Αξιοθέατα Χαλκιδικής | Chalkidiki Hub',
+    title: 'Δραστηριότητες & Αξιοθέατα Χαλκιδικής',
     description: 'Δραστηριότητες και αξιοθέατα στη Χαλκιδική — θαλάσσια σπορ, πεζοπορία, εκδρομές, κρουαζιέρες και πολιτιστικά μνημεία σε Κασσάνδρα, Σιθωνία και Άθως.',
     alternates: {
       canonical: `${SITE_URL}/${locale}/activities`,

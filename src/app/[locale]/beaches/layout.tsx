@@ -5,7 +5,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   return {
-    title: 'Παραλίες Χαλκιδικής | Chalkidiki Hub',
+    title: 'Παραλίες Χαλκιδικής',
     description: 'Ανακαλύψτε τις ομορφότερες παραλίες της Χαλκιδικής — κρυστάλλινα νερά, αμμουδιές με Γαλάζια Σημαία και κρυφοί κόλποι στην Κασσάνδρα, Σιθωνία και Άθως.',
     alternates: {
       canonical: `${SITE_URL}/${locale}/beaches`,

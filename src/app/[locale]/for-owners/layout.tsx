@@ -5,7 +5,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   return {
-    title: 'Για Ιδιοκτήτες | Chalkidiki Hub',
+    title: 'Για Ιδιοκτήτες',
     description: 'Καταχωρίστε δωρεάν την επιχείρησή σας στο Chalkidiki Hub — προβολή καταλυμάτων, εστιατορίων και δραστηριοτήτων στη Χαλκιδική σε 6 γλώσσες.',
     alternates: {
       canonical: `${SITE_URL}/${locale}/for-owners`,
