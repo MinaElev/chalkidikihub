@@ -38,6 +38,13 @@ const SETTINGS_CONFIG: Setting[] = [
     secret: true,
   },
   {
+    key: 'google_places_api_key', value: '', label: 'Google Places API Key',
+    icon: Key, color: 'text-blue-600 bg-blue-100',
+    placeholder: 'AIzaSy...',
+    description: 'Εισαγωγή εστιατορίων με πραγματικά data + φωτό (Google Cloud)',
+    secret: true,
+  },
+  {
     key: 'unsplash_access_key', value: '', label: 'Unsplash Access Key',
     icon: ImageIcon, color: 'text-gray-600 bg-gray-100',
     placeholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',

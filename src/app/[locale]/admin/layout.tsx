@@ -43,6 +43,7 @@ const navSections = [
     items: [
       { href: '/admin/images', icon: Image, label: 'Images' },
       { href: '/admin/seo', icon: BarChart3, label: 'SEO' },
+      { href: '/admin/google-import', icon: MapPin, label: 'Google Import' },
       { href: '/admin/ai-import', icon: Sparkles, label: 'AI Import' },
       { href: '/admin/tools', icon: Zap, label: 'Tools' },
       { href: '/admin/logs', icon: ScrollText, label: 'Logs' },
