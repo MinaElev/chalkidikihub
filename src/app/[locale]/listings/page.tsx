@@ -54,7 +54,7 @@ export default function ListingsPage() {
         result.sort((a, b) => b.price_per_night - a.price_per_night);
         break;
       default:
-        result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        result.sort((a, b) => b.price_per_night - a.price_per_night);
     }
 
     return result;
