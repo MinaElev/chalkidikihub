@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     }
 
     const res = await fetch(
-      `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query + ' greece')}&per_page=9&orientation=landscape`,
+      `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=12&orientation=landscape`,
       { headers: { 'Authorization': `Client-ID ${accessKey}` } }
     );
 

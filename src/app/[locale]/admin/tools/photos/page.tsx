@@ -141,7 +141,7 @@ export default function PhotoFillerPage() {
                 </div>
 
                 <UnsplashPicker
-                  defaultQuery={`${item.name} halkidiki`}
+                  defaultQuery={`${item.name} ${item.table === 'beaches' ? 'beach' : item.table === 'restaurants' ? 'restaurant' : item.table === 'activities' ? 'attraction' : ''} halkidiki greece`}
                   folder={config.folder}
                   slug={item.slug}
                   onSelect={(url) => handlePhotoSelected(item, url)}
