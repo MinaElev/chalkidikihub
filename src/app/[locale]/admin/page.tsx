@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import {
   Users, List, Eye, FileText, Waves, UtensilsCrossed, Landmark, Zap, AlertTriangle,
-  ClipboardList, MessageSquare, MapPin, Image, BarChart3, Settings, ScrollText, Mail, Wrench,
+  ClipboardList, MessageSquare, MapPin, Image, BarChart3, Settings, ScrollText, Mail, Wrench, QrCode,
 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
@@ -23,6 +23,7 @@ export default function AdminDashboard() {
   const [recentErrors, setRecentErrors] = useState<Array<{ id: string; message: string; severity: string; created_at: string }>>([]);
   const [pendingSubs, setPendingSubs] = useState(0);
   const [unreadMsgs, setUnreadMsgs] = useState(0);
+  const [qrStats, setQrStats] = useState<Array<{ slug: string; views: number }>>([]);
 
   useEffect(() => {
     async function loadStats() {
@@ -65,6 +66,23 @@ export default function AdminDashboard() {
         .eq('read', false);
       const realUnread = (unreadMsgData || []).filter(m => !m.subject?.startsWith('Αίτημα διαθεσιμότητας'));
       setUnreadMsgs(realUnread.length);
+
+      // QR Guest page views
+      const { data: qrLogs } = await supabase
+        .from('activity_logs')
+        .select('details')
+        .eq('message', 'Guest page viewed');
+      if (qrLogs) {
+        const slugCounts = new Map<string, number>();
+        qrLogs.forEach(log => {
+          const slug = (log.details as { slug?: string })?.slug;
+          if (slug) slugCounts.set(slug, (slugCounts.get(slug) || 0) + 1);
+        });
+        const sorted = [...slugCounts.entries()]
+          .map(([slug, views]) => ({ slug, views }))
+          .sort((a, b) => b.views - a.views);
+        setQrStats(sorted);
+      }
 
       setStats({
         totalUsers: userCount || 0,
@@ -177,6 +195,28 @@ export default function AdminDashboard() {
           ))}
         </div>
       </div>
+
+      {/* QR Guest Guide Stats */}
+      {qrStats.length > 0 && (
+        <div className="mt-8">
+          <div className="flex items-center gap-2 mb-4">
+            <QrCode className="w-5 h-5 text-purple-600" />
+            <h2 className="text-lg font-semibold text-gray-900">QR Guest Guide — Σκαναρίσματα</h2>
+            <span className="text-sm text-gray-500">({qrStats.reduce((s, q) => s + q.views, 0)} συνολικά)</span>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
+            {qrStats.slice(0, 10).map((q) => (
+              <div key={q.slug} className="flex items-center justify-between px-4 py-3">
+                <div className="flex items-center gap-2">
+                  <QrCode className="w-4 h-4 text-purple-400" />
+                  <span className="text-sm text-gray-900">{q.slug}</span>
+                </div>
+                <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-xs font-bold">{q.views} views</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Recent Errors */}
       {recentErrors.length > 0 && (
