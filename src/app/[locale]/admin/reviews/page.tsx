@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
 import { Star, Check, X, Loader2, Waves, UtensilsCrossed, Landmark, MessageSquare, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface PendingItem {
@@ -33,77 +32,24 @@ export default function AdminReviewsPage() {
 
   async function loadPending() {
     setLoading(true);
-    const supabase = createClient();
-    const pending: PendingItem[] = [];
-
-    // Beach reviews
-    const { data: beachR } = await supabase.from('beach_reviews').select('*, beaches(name_el)').eq('status', 'pending');
-    (beachR || []).forEach((r: any) => pending.push({
-      id: r.id, table: 'beach_reviews', type: 'beach',
-      author_name: r.author_name, rating: r.rating,
-      comment: r.comment_el || '', item_name: r.beaches?.name_el || '',
-      created_at: r.created_at,
-    }));
-
-    // Restaurant reviews
-    const { data: restR } = await supabase.from('restaurant_reviews').select('*, restaurants(name_el)').eq('status', 'pending');
-    (restR || []).forEach((r: any) => pending.push({
-      id: r.id, table: 'restaurant_reviews', type: 'restaurant',
-      author_name: r.author_name, rating: r.rating,
-      comment: r.comment_el || '', item_name: r.restaurants?.name_el || '',
-      created_at: r.created_at,
-    }));
-
-    // Activity reviews
-    const { data: actR } = await supabase.from('activity_reviews').select('*, activities(name_el)').eq('status', 'pending');
-    (actR || []).forEach((r: any) => pending.push({
-      id: r.id, table: 'activity_reviews', type: 'activity',
-      author_name: r.author_name, rating: r.rating,
-      comment: r.comment_el || '', item_name: r.activities?.name_el || '',
-      created_at: r.created_at,
-    }));
-
-    // Blog comments
-    const { data: blogC } = await supabase.from('blog_comments').select('*, blog_articles(title_el)').eq('status', 'pending');
-    (blogC || []).forEach((c: any) => pending.push({
-      id: c.id, table: 'blog_comments', type: 'comment',
-      author_name: c.author_name,
-      comment: c.comment || '', item_name: c.blog_articles?.title_el || '',
-      created_at: c.created_at,
-    }));
-
-    pending.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-    setItems(pending);
+    try {
+      const res = await fetch('/api/admin/reviews');
+      const data = await res.json();
+      if (Array.isArray(data)) setItems(data as PendingItem[]);
+    } catch {}
     setLoading(false);
   }
 
   async function handleAction(item: PendingItem, action: 'approved' | 'rejected') {
     setActionLoading(item.id);
-    const supabase = createClient();
-    await supabase.from(item.table).update({ status: action }).eq('id', item.id);
-
-    // If approved review, update parent rating
-    if (action === 'approved' && item.rating && item.table !== 'blog_comments') {
-      const parentTable = item.table === 'beach_reviews' ? 'beaches' : item.table === 'restaurant_reviews' ? 'restaurants' : 'activities';
-      const fkField = item.table === 'beach_reviews' ? 'beach_id' : item.table === 'restaurant_reviews' ? 'restaurant_id' : 'activity_id';
-
-      // Get item FK
-      const { data: review } = await supabase.from(item.table).select(fkField).eq('id', item.id).single();
-      if (review) {
-        const parentId = (review as any)[fkField];
-        // Count approved reviews + calc avg
-        const { data: allReviews } = await supabase.from(item.table).select('rating').eq(fkField, parentId).eq('status', 'approved');
-        if (allReviews && allReviews.length > 0) {
-          const avg = allReviews.reduce((s, r) => s + (r.rating || 0), 0) / allReviews.length;
-          await supabase.from(parentTable).update({
-            rating: Math.round(avg * 10) / 10,
-            reviews_count: allReviews.length,
-          }).eq('id', parentId);
-        }
-      }
-    }
-
-    setItems(prev => prev.filter(i => i.id !== item.id));
+    try {
+      await fetch('/api/admin/reviews', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: item.id, table: item.table, action }),
+      });
+      setItems(prev => prev.filter(i => i.id !== item.id));
+    } catch {}
     setActionLoading(null);
   }
 
@@ -118,7 +64,6 @@ export default function AdminReviewsPage() {
         <h1 className="text-2xl font-bold text-gray-900">Reviews & Comments ({items.length})</h1>
       </div>
 
-      {/* Filters */}
       <div className="flex gap-2 mb-6 flex-wrap">
         {[
           { key: 'all', label: `Όλα (${items.length})` },
@@ -143,7 +88,6 @@ export default function AdminReviewsPage() {
         <div className="space-y-3">
           {filtered.map(item => {
             const config = typeConfig[item.type] || typeConfig.beach;
-            const Icon = config.icon;
             const isExpanded = expanded === item.id;
             return (
               <div key={item.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
