@@ -77,7 +77,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-sm text-gray-500">{t('copyright', { year })}</p>
-          <p className="text-xs text-gray-600 mt-1">v1.3.0</p>
+          <Link href="/changelog" className="text-xs text-gray-600 hover:text-gray-400 mt-1 inline-block">v1.3.0</Link>
         </div>
       </div>
     </footer>
