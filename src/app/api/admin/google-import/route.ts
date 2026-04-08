@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     const apiKey = await getGoogleKey();
     if (!apiKey) return NextResponse.json({ error: 'Google API key not configured' }, { status: 500 });
 
-    const { place_id } = await request.json();
+    const { place_id, area_override } = await request.json();
     if (!place_id) return NextResponse.json({ error: 'Missing place_id' }, { status: 400 });
 
     // Get place details
@@ -76,13 +76,15 @@ export async function POST(request: NextRequest) {
     const lat = place.geometry?.location?.lat;
     const lng = place.geometry?.location?.lng;
 
-    // Determine area based on coordinates
-    let area = 'mainland';
-    if (lat < 40.05 && lng < 23.65) area = 'kassandra';
-    else if (lat < 40.05 && lng >= 23.65) area = 'sithonia';
-    else if (lat >= 40.05 && lat < 40.25 && lng >= 23.65 && lng < 23.9) area = 'sithonia';
-    else if (lng > 23.85) area = 'athos';
-    else if (lat < 40.15 && lng < 23.65) area = 'kassandra';
+    // Determine area — use override if provided, otherwise auto-detect from GPS
+    let area = area_override || 'mainland';
+    if (!area_override) {
+      if (lat < 40.05 && lng < 23.65) area = 'kassandra';
+      else if (lat < 40.05 && lng >= 23.65) area = 'sithonia';
+      else if (lat >= 40.05 && lat < 40.25 && lng >= 23.65 && lng < 23.9) area = 'sithonia';
+      else if (lng > 23.85) area = 'athos';
+      else if (lat < 40.15 && lng < 23.65) area = 'kassandra';
+    }
 
     // Determine cuisine type from Google types
     const googleTypes = place.types || [];

@@ -47,6 +47,7 @@ export default function GoogleImportPage() {
   const [imported, setImported] = useState<Set<string>>(new Set());
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [error, setError] = useState('');
+  const [overrideArea, setOverrideArea] = useState('auto');
 
   async function handleSearch() {
     setSearching(true); setError(''); setPlaces([]);
@@ -71,7 +72,7 @@ export default function GoogleImportPage() {
       const res = await fetch('/api/admin/google-import', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ place_id: place.place_id }),
+        body: JSON.stringify({ place_id: place.place_id, area_override: overrideArea !== 'auto' ? overrideArea : undefined }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -150,6 +151,25 @@ export default function GoogleImportPage() {
           </p>
         </div>
       </div>
+
+      {/* Area override */}
+      {places.length > 0 && (
+        <div className="mb-4 flex items-center gap-3 bg-white border border-gray-200 rounded-xl p-4">
+          <MapPin className="w-5 h-5 text-primary-600 shrink-0" />
+          <label className="text-sm font-medium text-gray-700 shrink-0">Περιοχή για import:</label>
+          <select value={overrideArea} onChange={(e) => setOverrideArea(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
+            <option value="auto">Αυτόματη (GPS)</option>
+            <option value="kassandra">Κασσάνδρα</option>
+            <option value="sithonia">Σιθωνία</option>
+            <option value="athos">Άθως</option>
+            <option value="mainland">Ενδοχώρα</option>
+          </select>
+          {overrideArea !== 'auto' && (
+            <span className="text-xs text-primary-600 font-medium">Όλα τα imports θα πάνε σε: {overrideArea}</span>
+          )}
+        </div>
+      )}
 
       {/* Results */}
       {places.length > 0 && (
