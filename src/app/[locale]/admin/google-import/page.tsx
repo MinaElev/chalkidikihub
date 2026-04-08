@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MapPin, Search, Loader2, Check, X, Star, Phone, Clock, Image, AlertTriangle } from 'lucide-react';
+import { MapPin, Search, Loader2, Check, X, Star, Phone, Clock, Image, AlertTriangle, UtensilsCrossed, Landmark } from 'lucide-react';
 
 interface GooglePlace {
   place_id: string;
@@ -29,7 +29,7 @@ const LOCATIONS = [
   { label: 'Σάρτη', lat: 40.08, lng: 23.97 },
 ];
 
-const TYPES = [
+const RESTAURANT_TYPES = [
   { value: 'restaurant', label: 'Εστιατόρια' },
   { value: 'bar', label: 'Μπαρ' },
   { value: 'cafe', label: 'Καφετέριες' },
@@ -37,7 +37,17 @@ const TYPES = [
   { value: 'night_club', label: 'Clubs' },
 ];
 
+const ACTIVITY_TYPES = [
+  { value: 'tourist_attraction', label: 'Αξιοθέατα' },
+  { value: 'museum', label: 'Μουσεία' },
+  { value: 'church', label: 'Εκκλησίες/Μοναστήρια' },
+  { value: 'park', label: 'Πάρκα/Φύση' },
+  { value: 'spa', label: 'Spa/Wellness' },
+  { value: 'amusement_park', label: 'Ψυχαγωγία' },
+];
+
 export default function GoogleImportPage() {
+  const [tab, setTab] = useState<'restaurants' | 'activities'>('restaurants');
   const [location, setLocation] = useState(LOCATIONS[0]);
   const [type, setType] = useState('restaurant');
   const [radius, setRadius] = useState(10000);
@@ -80,6 +90,7 @@ export default function GoogleImportPage() {
           area_override: overrideArea !== 'auto' ? overrideArea : undefined,
           photo_index: selectedPhotos[place.place_id] || 0,
           generate_description: generateDesc,
+          import_to: tab,
         }),
       });
       const data = await res.json();
@@ -107,9 +118,25 @@ export default function GoogleImportPage() {
         <MapPin className="w-6 h-6 text-blue-600" />
         <h1 className="text-2xl font-bold text-gray-900">Google Places Import</h1>
       </div>
-      <p className="text-sm text-gray-500 mb-6">
-        Εισαγωγή πραγματικών εστιατορίων, μπαρ, καφετεριών από Google Maps — με τηλέφωνα, ωράρια, rating και φωτογραφίες.
+      <p className="text-sm text-gray-500 mb-4">
+        Εισαγωγή πραγματικών τοποθεσιών από Google Maps — με τηλέφωνα, ωράρια, rating και φωτογραφίες.
       </p>
+
+      {/* Tabs */}
+      <div className="flex gap-2 mb-6">
+        <button onClick={() => { setTab('restaurants'); setType('restaurant'); setPlaces([]); }}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            tab === 'restaurants' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}>
+          <UtensilsCrossed className="w-4 h-4" /> Φαγητό & Ποτό
+        </button>
+        <button onClick={() => { setTab('activities'); setType('tourist_attraction'); setPlaces([]); }}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            tab === 'activities' ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}>
+          <Landmark className="w-4 h-4" /> Αξιοθέατα & Δραστηριότητες
+        </button>
+      </div>
 
       {error && <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{error}</div>}
 
@@ -130,7 +157,7 @@ export default function GoogleImportPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Τύπος</label>
             <select value={type} onChange={(e) => setType(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
-              {TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+              {(tab === 'restaurants' ? RESTAURANT_TYPES : ACTIVITY_TYPES).map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
             </select>
           </div>
           <div>

@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     const apiKey = await getGoogleKey();
     if (!apiKey) return NextResponse.json({ error: 'Google API key not configured' }, { status: 500 });
 
-    const { place_id, area_override, photo_index, generate_description } = await request.json();
+    const { place_id, area_override, photo_index, generate_description, import_to } = await request.json();
     if (!place_id) return NextResponse.json({ error: 'Missing place_id' }, { status: 400 });
 
     // Get place details
@@ -129,34 +129,67 @@ export async function POST(request: NextRequest) {
 
     // Check duplicate
     const supabase = getAdminClient();
-    const { data: existing } = await supabase.from('restaurants').select('id').eq('slug', slug).single();
+    const targetTable = import_to === 'activities' ? 'activities' : 'restaurants';
+    const { data: existing } = await supabase.from(targetTable).select('id').eq('slug', slug).single();
     if (existing) {
       return NextResponse.json({ error: 'Already exists', slug }, { status: 409 });
     }
 
+    // Determine activity category from Google types
+    const categoryMap: Record<string, string> = {
+      museum: 'historical', church: 'religious', park: 'nature',
+      spa: 'wellness', amusement_park: 'family', tourist_attraction: 'nature',
+      night_club: 'nightlife',
+    };
+    const activityCategory = googleTypes.find((t: string) => categoryMap[t]) ? categoryMap[googleTypes.find((t: string) => categoryMap[t])!] : 'nature';
+
     // Insert into DB
-    const { error: insertErr } = await supabase.from('restaurants').insert({
-      slug,
-      name_el: place.name,
-      name_en: place.name,
-      description_el: '',
-      description_en: '',
-      area,
-      location_name: place.vicinity || '',
-      latitude: lat,
-      longitude: lng,
-      image_url: imageUrl,
-      cuisine: [cuisine],
-      price_level: priceLevel,
-      rating: place.rating || 0,
-      reviews_count: place.user_ratings_total || 0,
-      phone: place.formatted_phone_number || '',
-      hours,
-      has_sea_view: false,
-      has_live_music: false,
-      accepts_reservations: false,
-      tags: [],
-    });
+    let insertErr;
+    if (import_to === 'activities') {
+      const { error } = await supabase.from('activities').insert({
+        slug,
+        name_el: place.name,
+        name_en: place.name,
+        description_el: '',
+        description_en: '',
+        area,
+        location_name: place.vicinity || '',
+        latitude: lat,
+        longitude: lng,
+        image_url: imageUrl,
+        category: activityCategory,
+        price_range: '',
+        duration: '',
+        rating: place.rating || 0,
+        reviews_count: place.user_ratings_total || 0,
+        tags: [],
+      });
+      insertErr = error;
+    } else {
+      const { error } = await supabase.from('restaurants').insert({
+        slug,
+        name_el: place.name,
+        name_en: place.name,
+        description_el: '',
+        description_en: '',
+        area,
+        location_name: place.vicinity || '',
+        latitude: lat,
+        longitude: lng,
+        image_url: imageUrl,
+        cuisine: [cuisine],
+        price_level: priceLevel,
+        rating: place.rating || 0,
+        reviews_count: place.user_ratings_total || 0,
+        phone: place.formatted_phone_number || '',
+        hours,
+        has_sea_view: false,
+        has_live_music: false,
+        accepts_reservations: false,
+        tags: [],
+      });
+      insertErr = error;
+    }
 
     if (insertErr) return NextResponse.json({ error: insertErr.message }, { status: 500 });
 
@@ -173,7 +206,10 @@ export async function POST(request: NextRequest) {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${openaiKey}` },
             body: JSON.stringify({
               model: 'gpt-4o-mini',
-              messages: [{ role: 'user', content: `Γράψε μια ελκυστική περιγραφή στα Ελληνικά (100-150 λέξεις) για το "${place.name}" που βρίσκεται στη ${place.vicinity || 'Χαλκιδική'}. Τύπος: ${cuisine}. Rating: ${place.rating || 'N/A'}. Η περιγραφή πρέπει να είναι ελκυστική για τουρίστες, να αναφέρει τον τύπο κουζίνας/ποτών, την τοποθεσία και την ατμόσφαιρα. Μην βάλεις τίτλο, μόνο κείμενο.` }],
+              messages: [{ role: 'user', content: import_to === 'activities'
+                ? `Γράψε μια ελκυστική περιγραφή στα Ελληνικά (100-150 λέξεις) για το αξιοθέατο/δραστηριότητα "${place.name}" στη ${place.vicinity || 'Χαλκιδική'}. Κατηγορία: ${activityCategory}. Rating: ${place.rating || 'N/A'}. Περίγραψε τι μπορεί να δει/κάνει ο επισκέπτης, ιστορία, ατμόσφαιρα. Μην βάλεις τίτλο.`
+                : `Γράψε μια ελκυστική περιγραφή στα Ελληνικά (100-150 λέξεις) για το "${place.name}" στη ${place.vicinity || 'Χαλκιδική'}. Τύπος: ${cuisine}. Rating: ${place.rating || 'N/A'}. Η περιγραφή πρέπει να είναι ελκυστική για τουρίστες, να αναφέρει τον τύπο κουζίνας/ποτών, την τοποθεσία και την ατμόσφαιρα. Μην βάλεις τίτλο.`
+              }],
               max_tokens: 500,
               temperature: 0.7,
             }),
@@ -182,7 +218,7 @@ export async function POST(request: NextRequest) {
             const aiData = await aiRes.json();
             const descEl = aiData.choices?.[0]?.message?.content?.trim() || '';
             if (descEl) {
-              await supabase.from('restaurants').update({ description_el: descEl }).eq('slug', slug);
+              await supabase.from(targetTable).update({ description_el: descEl }).eq('slug', slug);
             }
           }
         }
