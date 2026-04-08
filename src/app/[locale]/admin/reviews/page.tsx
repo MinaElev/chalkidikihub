@@ -1,0 +1,188 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { Star, Check, X, Loader2, Waves, UtensilsCrossed, Landmark, MessageSquare, ChevronDown, ChevronUp } from 'lucide-react';
+
+interface PendingItem {
+  id: string;
+  table: string;
+  type: string;
+  author_name: string;
+  rating?: number;
+  comment: string;
+  item_name: string;
+  created_at: string;
+}
+
+const typeConfig: Record<string, { icon: typeof Waves; color: string; label: string }> = {
+  beach: { icon: Waves, color: 'bg-cyan-100 text-cyan-700', label: 'Παραλία' },
+  restaurant: { icon: UtensilsCrossed, color: 'bg-red-100 text-red-700', label: 'Εστιατόριο' },
+  activity: { icon: Landmark, color: 'bg-amber-100 text-amber-700', label: 'Δραστηριότητα' },
+  comment: { icon: MessageSquare, color: 'bg-indigo-100 text-indigo-700', label: 'Blog Comment' },
+};
+
+export default function AdminReviewsPage() {
+  const [items, setItems] = useState<PendingItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [filter, setFilter] = useState('all');
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  useEffect(() => { loadPending(); }, []);
+
+  async function loadPending() {
+    setLoading(true);
+    const supabase = createClient();
+    const pending: PendingItem[] = [];
+
+    // Beach reviews
+    const { data: beachR } = await supabase.from('beach_reviews').select('*, beaches(name_el)').eq('status', 'pending');
+    (beachR || []).forEach((r: any) => pending.push({
+      id: r.id, table: 'beach_reviews', type: 'beach',
+      author_name: r.author_name, rating: r.rating,
+      comment: r.comment_el || '', item_name: r.beaches?.name_el || '',
+      created_at: r.created_at,
+    }));
+
+    // Restaurant reviews
+    const { data: restR } = await supabase.from('restaurant_reviews').select('*, restaurants(name_el)').eq('status', 'pending');
+    (restR || []).forEach((r: any) => pending.push({
+      id: r.id, table: 'restaurant_reviews', type: 'restaurant',
+      author_name: r.author_name, rating: r.rating,
+      comment: r.comment_el || '', item_name: r.restaurants?.name_el || '',
+      created_at: r.created_at,
+    }));
+
+    // Activity reviews
+    const { data: actR } = await supabase.from('activity_reviews').select('*, activities(name_el)').eq('status', 'pending');
+    (actR || []).forEach((r: any) => pending.push({
+      id: r.id, table: 'activity_reviews', type: 'activity',
+      author_name: r.author_name, rating: r.rating,
+      comment: r.comment_el || '', item_name: r.activities?.name_el || '',
+      created_at: r.created_at,
+    }));
+
+    // Blog comments
+    const { data: blogC } = await supabase.from('blog_comments').select('*, blog_articles(title_el)').eq('status', 'pending');
+    (blogC || []).forEach((c: any) => pending.push({
+      id: c.id, table: 'blog_comments', type: 'comment',
+      author_name: c.author_name,
+      comment: c.comment || '', item_name: c.blog_articles?.title_el || '',
+      created_at: c.created_at,
+    }));
+
+    pending.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    setItems(pending);
+    setLoading(false);
+  }
+
+  async function handleAction(item: PendingItem, action: 'approved' | 'rejected') {
+    setActionLoading(item.id);
+    const supabase = createClient();
+    await supabase.from(item.table).update({ status: action }).eq('id', item.id);
+
+    // If approved review, update parent rating
+    if (action === 'approved' && item.rating && item.table !== 'blog_comments') {
+      const parentTable = item.table === 'beach_reviews' ? 'beaches' : item.table === 'restaurant_reviews' ? 'restaurants' : 'activities';
+      const fkField = item.table === 'beach_reviews' ? 'beach_id' : item.table === 'restaurant_reviews' ? 'restaurant_id' : 'activity_id';
+
+      // Get item FK
+      const { data: review } = await supabase.from(item.table).select(fkField).eq('id', item.id).single();
+      if (review) {
+        const parentId = (review as any)[fkField];
+        // Count approved reviews + calc avg
+        const { data: allReviews } = await supabase.from(item.table).select('rating').eq(fkField, parentId).eq('status', 'approved');
+        if (allReviews && allReviews.length > 0) {
+          const avg = allReviews.reduce((s, r) => s + (r.rating || 0), 0) / allReviews.length;
+          await supabase.from(parentTable).update({
+            rating: Math.round(avg * 10) / 10,
+            reviews_count: allReviews.length,
+          }).eq('id', parentId);
+        }
+      }
+    }
+
+    setItems(prev => prev.filter(i => i.id !== item.id));
+    setActionLoading(null);
+  }
+
+  const filtered = filter === 'all' ? items : items.filter(i => i.type === filter);
+
+  if (loading) return <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
+
+  return (
+    <div>
+      <div className="flex items-center gap-3 mb-6">
+        <Star className="w-6 h-6 text-amber-500 fill-amber-500" />
+        <h1 className="text-2xl font-bold text-gray-900">Reviews & Comments ({items.length})</h1>
+      </div>
+
+      {/* Filters */}
+      <div className="flex gap-2 mb-6 flex-wrap">
+        {[
+          { key: 'all', label: `Όλα (${items.length})` },
+          { key: 'beach', label: `Παραλίες (${items.filter(i => i.type === 'beach').length})` },
+          { key: 'restaurant', label: `Εστιατόρια (${items.filter(i => i.type === 'restaurant').length})` },
+          { key: 'activity', label: `Δραστηριότητες (${items.filter(i => i.type === 'activity').length})` },
+          { key: 'comment', label: `Blog (${items.filter(i => i.type === 'comment').length})` },
+        ].map(f => (
+          <button key={f.key} onClick={() => setFilter(f.key)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium ${filter === f.key ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className="bg-white border border-gray-200 rounded-xl p-12 text-center">
+          <Star className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+          <p className="text-gray-500">Δεν υπάρχουν pending reviews/comments</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {filtered.map(item => {
+            const config = typeConfig[item.type] || typeConfig.beach;
+            const Icon = config.icon;
+            const isExpanded = expanded === item.id;
+            return (
+              <div key={item.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                <div className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-50" onClick={() => setExpanded(isExpanded ? null : item.id)}>
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${config.color}`}>{config.label}</span>
+                  {item.rating && (
+                    <div className="flex items-center gap-0.5">
+                      {[1, 2, 3, 4, 5].map(s => (
+                        <Star key={s} className={`w-3 h-3 ${s <= item.rating! ? 'text-amber-500 fill-amber-500' : 'text-gray-300'}`} />
+                      ))}
+                    </div>
+                  )}
+                  <span className="text-sm font-medium text-gray-900 flex-1 truncate">{item.author_name}</span>
+                  <span className="text-xs text-gray-400">{new Date(item.created_at).toLocaleDateString('el')}</span>
+                  {isExpanded ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                </div>
+
+                {isExpanded && (
+                  <div className="px-4 pb-4 border-t border-gray-100 pt-3">
+                    <p className="text-xs text-gray-500 mb-1">Για: <strong>{item.item_name}</strong></p>
+                    <p className="text-sm text-gray-700 mb-4">{item.comment || '(χωρίς σχόλιο)'}</p>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleAction(item, 'approved')} disabled={actionLoading === item.id}
+                        className="flex items-center gap-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium disabled:opacity-50">
+                        {actionLoading === item.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                        Έγκριση
+                      </button>
+                      <button onClick={() => handleAction(item, 'rejected')} disabled={actionLoading === item.id}
+                        className="flex items-center gap-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium disabled:opacity-50">
+                        <X className="w-4 h-4" /> Απόρριψη
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}

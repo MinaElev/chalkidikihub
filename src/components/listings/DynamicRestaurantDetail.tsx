@@ -16,6 +16,7 @@ import { ShareButtons } from '@/components/ui/ShareButtons';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
+import { ReviewForm } from '@/components/ui/ReviewForm';
 
 export function DynamicRestaurantDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -236,6 +237,8 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
               </div>
             </div>
           )}
+
+          <ReviewForm type="restaurant" itemId={restaurant.id} itemName={name} />
 
           {/* Map */}
           {restaurant.latitude && restaurant.longitude && restaurant.latitude !== 0 && (

@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation';
 import {
   LayoutDashboard, Users, List, MapPin, Waves, UtensilsCrossed,
   Landmark, Zap, FileText, Settings, Home, LogOut, Loader2, Shield,
-  ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail, Sparkles,
+  ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail, Sparkles, Star,
 } from 'lucide-react';
 
 const navSections = [
@@ -32,6 +32,7 @@ const navSections = [
   {
     title: 'Community',
     items: [
+      { href: '/admin/reviews', icon: Star, label: 'Reviews' },
       { href: '/admin/submissions', icon: ClipboardList, label: 'Submissions' },
       { href: '/admin/messages', icon: MessageSquare, label: 'Messages' },
       { href: '/admin/email', icon: Mail, label: 'Mass Email' },

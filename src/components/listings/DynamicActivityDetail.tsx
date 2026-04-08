@@ -15,6 +15,7 @@ import { ShareButtons } from '@/components/ui/ShareButtons';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
+import { ReviewForm } from '@/components/ui/ReviewForm';
 
 export function DynamicActivityDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -195,6 +196,8 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
               ))}
             </div>
           )}
+
+          <ReviewForm type="activity" itemId={activity.id} itemName={name} />
 
           {/* Map */}
           {activity.latitude && activity.longitude && activity.latitude !== 0 && (

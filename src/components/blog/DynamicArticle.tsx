@@ -13,6 +13,7 @@ import { BlogCard } from './BlogCard';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 import { ShareButtons } from '@/components/ui/ShareButtons';
+import { CommentSection } from './CommentSection';
 
 export function DynamicArticle({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -172,6 +173,8 @@ export function DynamicArticle({ slug }: { slug: string }) {
               <AutoLinkedContent content={paragraphs.slice(insertAfterParagraph).join('\n')} />
             )}
           </article>
+
+          <CommentSection articleId={article.id} articleSlug={article.slug} />
 
           <ShareButtons title={title} description={excerpt} />
 

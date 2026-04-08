@@ -19,6 +19,7 @@ import { ShareButtons } from '@/components/ui/ShareButtons';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
+import { ReviewForm } from '@/components/ui/ReviewForm';
 
 export function DynamicBeachDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -187,6 +188,8 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
               <BeachReviews reviews={beach.reviews} rating={beach.rating} count={beach.reviews_count} />
             </div>
           )}
+
+          <ReviewForm type="beach" itemId={beach.id} itemName={name} />
 
           {/* Map */}
           {beach.latitude && beach.longitude && beach.latitude !== 0 && (
