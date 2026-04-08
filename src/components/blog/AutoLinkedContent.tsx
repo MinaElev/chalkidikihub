@@ -15,47 +15,23 @@ export function AutoLinkedContent({ content, className }: { content: string; cla
   const locale = useLocale();
   const [linkables, setLinkables] = useState<LinkableItem[]>([]);
 
-  // Fetch all linkable items from DB
+  // Fetch linkable items from lightweight API (single request instead of 5)
   useEffect(() => {
-    Promise.all([
-      fetch('/api/beaches').then(r => r.json()).catch(() => []),
-      fetch('/api/restaurants').then(r => r.json()).catch(() => []),
-      fetch('/api/activities').then(r => r.json()).catch(() => []),
-      fetch('/api/blog').then(r => r.json()).catch(() => []),
-      fetch('/api/areas').then(r => r.json()).catch(() => []),
-    ]).then(([beaches, restaurants, activities, articles, areas]) => {
-      const items: LinkableItem[] = [];
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (beaches as any[]).forEach((b: any) => {
-        const name = b.name?.[locale] || b.name?.el || '';
-        if (name.length >= 3) items.push({ type: 'beach', slug: b.slug, name, href: `/beaches/${b.slug}` });
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (restaurants as any[]).forEach((r: any) => {
-        const name = r.name?.[locale] || r.name?.el || '';
-        if (name.length >= 3) items.push({ type: 'restaurant', slug: r.slug, name, href: `/restaurants/${r.slug}` });
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (activities as any[]).forEach((a: any) => {
-        const name = a.name?.[locale] || a.name?.el || '';
-        if (name.length >= 3) items.push({ type: 'activity', slug: a.slug, name, href: `/activities/${a.slug}` });
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (articles as any[]).forEach((a: any) => {
-        const title = a.title?.[locale] || a.title?.el || '';
-        if (title.length >= 5) items.push({ type: 'blog', slug: a.slug, name: title, href: `/blog/${a.slug}` });
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (areas as any[]).forEach((a: any) => {
-        const name = a.name?.[locale] || a.name?.el || '';
-        if (name.length >= 3) items.push({ type: 'area', slug: a.slug, name, href: `/areas/${a.slug}` });
-      });
-
-      // Sort by name length (longest first) to avoid partial matches
-      items.sort((a, b) => b.name.length - a.name.length);
-      setLinkables(items);
-    });
+    fetch('/api/linkables')
+      .then(r => r.json())
+      .then((data: Array<{ type: string; slug: string; name_el: string; name_en: string }>) => {
+        if (!Array.isArray(data)) return;
+        const pathMap: Record<string, string> = { beach: 'beaches', restaurant: 'restaurants', activity: 'activities', blog: 'blog', area: 'areas' };
+        const items: LinkableItem[] = data
+          .map(item => {
+            const name = locale === 'el' ? (item.name_el || item.name_en) : (item.name_en || item.name_el);
+            return { type: item.type as LinkableItem['type'], slug: item.slug, name, href: `/${pathMap[item.type] || item.type}/${item.slug}` };
+          })
+          .filter(item => item.name.length >= 3);
+        items.sort((a, b) => b.name.length - a.name.length);
+        setLinkables(items);
+      })
+      .catch(() => {});
   }, [locale]);
 
   // Regex for inline images: ![alt text](url)
