@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Wrench, ImageIcon, Loader2, CheckCircle, AlertCircle, Zap, Search, Sparkles } from 'lucide-react';
+import { Wrench, ImageIcon, Loader2, CheckCircle, AlertCircle, Zap, Search, Sparkles, BarChart3 } from 'lucide-react';
 
 interface ImageRecord {
   table: string;
@@ -196,6 +196,22 @@ export default function AdminToolsPage() {
             <div>
               <h2 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600">Internal Links Scanner</h2>
               <p className="text-sm text-gray-500">Σκανάρει articles για αναφορές σε παραλίες, εστιατόρια, αξιοθέατα → προτείνει links (SEO boost)</p>
+            </div>
+          </div>
+          <span className="text-primary-600 text-sm font-medium">Open →</span>
+        </div>
+      </Link>
+
+      {/* Interlinking Score */}
+      <Link href="/admin/tools/interlinking" className="block bg-white border border-gray-200 rounded-xl p-6 mb-6 hover:shadow-md transition-shadow group">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+              <BarChart3 className="w-5 h-5 text-purple-600" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600">Interlinking Score</h2>
+              <p className="text-sm text-gray-500">Score ανά σελίδα (inbound/outbound links) + AI βελτίωση αδύναμων περιγραφών</p>
             </div>
           </div>
           <span className="text-primary-600 text-sm font-medium">Open →</span>
