@@ -27,7 +27,7 @@ export function DynamicArticle({ slug }: { slug: string }) {
     // Fetch current article + recent articles for sidebar/nav
     Promise.all([
       fetch(`/api/blog?slug=${slug}`).then((r) => r.json()),
-      fetch('/api/blog?limit=10').then((r) => r.json()),
+      fetch('/api/blog?limit=6').then((r) => r.json()),
     ])
       .then(([articleData, allData]) => {
         if (articleData && articleData.id) setArticle(articleData);

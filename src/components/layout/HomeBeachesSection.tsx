@@ -9,7 +9,7 @@ import { Beach } from '@/types';
 export function HomeBeachesSection() {
   const tBeaches = useTranslations('beaches');
   const tCommon = useTranslations('common');
-  const { data: beaches } = useLiveData<Beach>('/api/beaches', []);
+  const { data: beaches } = useLiveData<Beach>('/api/beaches?limit=6', []);
   const featured = beaches.slice(0, 6);
 
   if (featured.length === 0) return null;

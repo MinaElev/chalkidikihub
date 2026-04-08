@@ -12,7 +12,7 @@ export function AreaListings({ area }: { area: Area }) {
   const [listings, setListings] = useState<Listing[]>([]);
 
   useEffect(() => {
-    fetch(`/api/listings?area=${area}`)
+    fetch(`/api/listings?area=${area}&limit=9`)
       .then((r) => r.json())
       .then((data: Listing[]) => {
         if (Array.isArray(data)) setListings(data);

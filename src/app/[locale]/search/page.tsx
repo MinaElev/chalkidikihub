@@ -80,11 +80,11 @@ function SearchContent() {
       setLoading(true);
 
       const [listings, beaches, restaurants, activities, articles] = await Promise.all([
-        fetch('/api/listings').then((r) => r.json()).catch(() => []),
-        fetch('/api/beaches').then((r) => r.json()).catch(() => []),
-        fetch('/api/restaurants').then((r) => r.json()).catch(() => []),
-        fetch('/api/activities').then((r) => r.json()).catch(() => []),
-        fetch('/api/blog').then((r) => r.json()).catch(() => []),
+        fetch('/api/listings?limit=30').then((r) => r.json()).catch(() => []),
+        fetch('/api/beaches?limit=30').then((r) => r.json()).catch(() => []),
+        fetch('/api/restaurants?limit=30').then((r) => r.json()).catch(() => []),
+        fetch('/api/activities?limit=30').then((r) => r.json()).catch(() => []),
+        fetch('/api/blog?limit=30').then((r) => r.json()).catch(() => []),
       ]);
 
       const matched: SearchResult[] = [];

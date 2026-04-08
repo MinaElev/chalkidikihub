@@ -9,7 +9,7 @@ import { Listing } from '@/types';
 export function HomeFeaturedListings() {
   const t = useTranslations('common');
   const tListings = useTranslations('listings');
-  const { data: listings } = useLiveData<Listing>('/api/listings', []);
+  const { data: listings } = useLiveData<Listing>('/api/listings?limit=6', []);
   const featured = listings.slice(0, 6);
 
   if (featured.length === 0) return null;

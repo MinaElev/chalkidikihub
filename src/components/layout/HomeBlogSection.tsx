@@ -8,7 +8,7 @@ import { BlogArticle } from '@/types';
 
 export function HomeBlogSection() {
   const t = useTranslations('blog');
-  const { data: articles } = useLiveData<BlogArticle>('/api/blog', []);
+  const { data: articles } = useLiveData<BlogArticle>('/api/blog?limit=4', []);
   const latest = articles.slice(0, 3);
 
   return (
