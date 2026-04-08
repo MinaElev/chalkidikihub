@@ -40,17 +40,18 @@ export default function PhotoFillerPage() {
       ];
 
       for (const t of tables) {
-        const { data } = await supabase.from(t.table).select(`id, slug, ${t.nameField}, ${t.areaField}, image_url`);
+        const { data } = await supabase.from(t.table).select('*');
         if (data) {
-          (data as Record<string, unknown>[]).forEach(row => {
-            const imageUrl = (row.image_url as string) || '';
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (data as any[]).forEach((row: any) => {
+            const imageUrl = row.image_url || '';
             if (!imageUrl || imageUrl.length < 5) {
               found.push({
                 table: t.table,
-                id: row.id as string,
-                slug: row.slug as string,
-                name: row[t.nameField] as string || '',
-                area: row[t.areaField] as string || '',
+                id: row.id,
+                slug: row.slug,
+                name: row[t.nameField] || '',
+                area: row[t.areaField] || '',
                 image_url: '',
               });
             }
