@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
       rating: p.rating || 0,
       reviews_count: p.user_ratings_total || 0,
       types: p.types || [],
-      photo_ref: p.photos?.[0]?.photo_reference || null,
+      photo_refs: (p.photos || []).slice(0, 5).map((ph: any) => ph.photo_reference),
       open_now: p.opening_hours?.open_now,
       price_level: p.price_level,
     }));
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     const apiKey = await getGoogleKey();
     if (!apiKey) return NextResponse.json({ error: 'Google API key not configured' }, { status: 500 });
 
-    const { place_id, area_override } = await request.json();
+    const { place_id, area_override, photo_index, generate_description } = await request.json();
     if (!place_id) return NextResponse.json({ error: 'Missing place_id' }, { status: 400 });
 
     // Get place details
@@ -104,9 +104,9 @@ export async function POST(request: NextRequest) {
       .replace(/^-|-$/g, '')
       .slice(0, 60);
 
-    // Download photo if available
+    // Download photo — use selected index or first
     let imageUrl = '';
-    const photoRef = place.photos?.[0]?.photo_reference;
+    const photoRef = place.photos?.[photo_index || 0]?.photo_reference;
     if (photoRef) {
       try {
         const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1200&photo_reference=${photoRef}&key=${apiKey}`;
@@ -160,11 +160,40 @@ export async function POST(request: NextRequest) {
 
     if (insertErr) return NextResponse.json({ error: insertErr.message }, { status: 500 });
 
+    // AI description generation
+    if (generate_description) {
+      try {
+        const openaiKey = await (async () => {
+          const { data } = await supabase.from('site_settings').select('value').eq('key', 'openai_api_key').single();
+          return data?.value || '';
+        })();
+        if (openaiKey) {
+          const aiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${openaiKey}` },
+            body: JSON.stringify({
+              model: 'gpt-4o-mini',
+              messages: [{ role: 'user', content: `Γράψε μια ελκυστική περιγραφή στα Ελληνικά (100-150 λέξεις) για το "${place.name}" που βρίσκεται στη ${place.vicinity || 'Χαλκιδική'}. Τύπος: ${cuisine}. Rating: ${place.rating || 'N/A'}. Η περιγραφή πρέπει να είναι ελκυστική για τουρίστες, να αναφέρει τον τύπο κουζίνας/ποτών, την τοποθεσία και την ατμόσφαιρα. Μην βάλεις τίτλο, μόνο κείμενο.` }],
+              max_tokens: 500,
+              temperature: 0.7,
+            }),
+          });
+          if (aiRes.ok) {
+            const aiData = await aiRes.json();
+            const descEl = aiData.choices?.[0]?.message?.content?.trim() || '';
+            if (descEl) {
+              await supabase.from('restaurants').update({ description_el: descEl }).eq('slug', slug);
+            }
+          }
+        }
+      } catch {}
+    }
+
     // Log
     await supabase.from('activity_logs').insert({
       type: 'admin_action', severity: 'info',
       message: `Google Import: ${place.name}`,
-      details: { place_id, slug, area, rating: place.rating, imageUrl: !!imageUrl },
+      details: { place_id, slug, area, rating: place.rating, imageUrl: !!imageUrl, aiDesc: !!generate_description },
     });
 
     return NextResponse.json({ success: true, slug, name: place.name, imageUrl: !!imageUrl });

@@ -12,7 +12,7 @@ interface GooglePlace {
   rating: number;
   reviews_count: number;
   types: string[];
-  photo_ref: string | null;
+  photo_refs: string[];
   open_now?: boolean;
   price_level?: number;
 }
@@ -48,6 +48,9 @@ export default function GoogleImportPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [error, setError] = useState('');
   const [overrideArea, setOverrideArea] = useState('auto');
+  const [generateDesc, setGenerateDesc] = useState(true);
+  const [selectedPhotos, setSelectedPhotos] = useState<Record<string, number>>({});
+  const [expandedPhotos, setExpandedPhotos] = useState<string | null>(null);
 
   async function handleSearch() {
     setSearching(true); setError(''); setPlaces([]);
@@ -72,7 +75,12 @@ export default function GoogleImportPage() {
       const res = await fetch('/api/admin/google-import', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ place_id: place.place_id, area_override: overrideArea !== 'auto' ? overrideArea : undefined }),
+        body: JSON.stringify({
+          place_id: place.place_id,
+          area_override: overrideArea !== 'auto' ? overrideArea : undefined,
+          photo_index: selectedPhotos[place.place_id] || 0,
+          generate_description: generateDesc,
+        }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -168,6 +176,12 @@ export default function GoogleImportPage() {
           {overrideArea !== 'auto' && (
             <span className="text-xs text-primary-600 font-medium">Όλα τα imports θα πάνε σε: {overrideArea}</span>
           )}
+          <div className="flex-1" />
+          <label className="flex items-center gap-2 cursor-pointer shrink-0">
+            <input type="checkbox" checked={generateDesc} onChange={(e) => setGenerateDesc(e.target.checked)}
+              className="rounded text-purple-600 focus:ring-purple-500" />
+            <span className="text-sm text-gray-700">AI Περιγραφή</span>
+          </label>
         </div>
       )}
 
@@ -186,43 +200,75 @@ export default function GoogleImportPage() {
             {places.map(place => {
               const isImported = imported.has(place.place_id);
               const placeError = errors[place.place_id];
+              const selectedIdx = selectedPhotos[place.place_id] || 0;
+              const isPhotosExpanded = expandedPhotos === place.place_id;
+              const apiKey = ''; // Photos shown via proxy
               return (
                 <div key={place.place_id}
-                  className={`flex items-center gap-4 p-4 bg-white border rounded-xl ${isImported ? 'border-green-300 bg-green-50/30' : placeError ? 'border-red-300' : 'border-gray-200'}`}>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-gray-900 truncate">{place.name}</h3>
-                      {place.rating > 0 && (
-                        <span className="flex items-center gap-0.5 text-xs text-amber-600">
-                          <Star className="w-3 h-3 fill-amber-500 text-amber-500" />{place.rating} ({place.reviews_count})
-                        </span>
-                      )}
-                      {place.photo_ref && <Image className="w-3.5 h-3.5 text-green-500" />}
+                  className={`bg-white border rounded-xl overflow-hidden ${isImported ? 'border-green-300 bg-green-50/30' : placeError ? 'border-red-300' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-4 p-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-gray-900 truncate">{place.name}</h3>
+                        {place.rating > 0 && (
+                          <span className="flex items-center gap-0.5 text-xs text-amber-600">
+                            <Star className="w-3 h-3 fill-amber-500 text-amber-500" />{place.rating} ({place.reviews_count})
+                          </span>
+                        )}
+                        {place.photo_refs.length > 0 && (
+                          <button type="button" onClick={() => setExpandedPhotos(isPhotosExpanded ? null : place.place_id)}
+                            className="flex items-center gap-0.5 text-xs text-green-600 hover:text-green-700">
+                            <Image className="w-3.5 h-3.5" /> {place.photo_refs.length} φωτό
+                          </button>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-500 truncate">{place.address}</p>
+                      <div className="flex items-center gap-3 mt-1 text-[10px] text-gray-400">
+                        <span>{place.latitude.toFixed(4)}, {place.longitude.toFixed(4)}</span>
+                        {place.types.slice(0, 3).map(t => (
+                          <span key={t} className="px-1.5 py-0.5 bg-gray-100 rounded">{t}</span>
+                        ))}
+                      </div>
                     </div>
-                    <p className="text-xs text-gray-500 truncate">{place.address}</p>
-                    <div className="flex items-center gap-3 mt-1 text-[10px] text-gray-400">
-                      <span>{place.latitude.toFixed(4)}, {place.longitude.toFixed(4)}</span>
-                      {place.types.slice(0, 3).map(t => (
-                        <span key={t} className="px-1.5 py-0.5 bg-gray-100 rounded">{t}</span>
-                      ))}
+
+                    <div className="shrink-0">
+                      {isImported ? (
+                        <span className="flex items-center gap-1 text-green-600 text-sm font-medium">
+                          <Check className="w-4 h-4" /> Imported
+                        </span>
+                      ) : placeError ? (
+                        <span className="text-xs text-red-600">{placeError}</span>
+                      ) : (
+                        <button onClick={() => handleImport(place)} disabled={importing === place.place_id}
+                          className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium disabled:opacity-50">
+                          {importing === place.place_id ? <Loader2 className="w-3 h-3 animate-spin" /> : <MapPin className="w-3 h-3" />}
+                          Import
+                        </button>
+                      )}
                     </div>
                   </div>
 
-                  <div className="shrink-0">
-                    {isImported ? (
-                      <span className="flex items-center gap-1 text-green-600 text-sm font-medium">
-                        <Check className="w-4 h-4" /> Imported
-                      </span>
-                    ) : placeError ? (
-                      <span className="text-xs text-red-600">{placeError}</span>
-                    ) : (
-                      <button onClick={() => handleImport(place)} disabled={importing === place.place_id}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium disabled:opacity-50">
-                        {importing === place.place_id ? <Loader2 className="w-3 h-3 animate-spin" /> : <MapPin className="w-3 h-3" />}
-                        Import
-                      </button>
-                    )}
-                  </div>
+                  {/* Photo selector */}
+                  {isPhotosExpanded && place.photo_refs.length > 0 && (
+                    <div className="px-4 pb-4 border-t border-gray-100 pt-3">
+                      <p className="text-xs text-gray-500 mb-2">Επιλέξτε φωτογραφία ({selectedIdx + 1}/{place.photo_refs.length}):</p>
+                      <div className="flex gap-2 overflow-x-auto pb-1">
+                        {place.photo_refs.map((ref, i) => (
+                          <button key={i} type="button" onClick={() => setSelectedPhotos(prev => ({ ...prev, [place.place_id]: i }))}
+                            className={`shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                              i === selectedIdx ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200 hover:border-gray-400'
+                            }`}>
+                            <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${ref}&key=${typeof window !== 'undefined' ? '' : ''}`}
+                              alt={`Photo ${i + 1}`}
+                              className="w-full h-full object-cover"
+                              onError={(e) => { (e.target as HTMLImageElement).src = ''; (e.target as HTMLImageElement).alt = 'No preview'; }}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                      <p className="text-[10px] text-gray-400 mt-1">Η φωτογραφία κατεβαίνει κατά το import. Preview δεν διαθέσιμο χωρίς direct API access.</p>
+                    </div>
+                  )}
                 </div>
               );
             })}
