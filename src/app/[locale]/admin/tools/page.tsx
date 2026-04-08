@@ -202,6 +202,22 @@ export default function AdminToolsPage() {
         </div>
       </Link>
 
+      {/* Photo Filler */}
+      <Link href="/admin/tools/photos" className="block bg-white border border-gray-200 rounded-xl p-6 mb-6 hover:shadow-md transition-shadow group">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <ImageIcon className="w-5 h-5 text-green-600" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600">Photo Filler</h2>
+              <p className="text-sm text-gray-500">Βρίσκει σελίδες χωρίς φωτογραφία → αναζήτηση & προσθήκη μέσω Unsplash (δωρεάν)</p>
+            </div>
+          </div>
+          <span className="text-primary-600 text-sm font-medium">Open →</span>
+        </div>
+      </Link>
+
       {/* Interlinking Score */}
       <Link href="/admin/tools/interlinking" className="block bg-white border border-gray-200 rounded-xl p-6 mb-6 hover:shadow-md transition-shadow group">
         <div className="flex items-center justify-between">

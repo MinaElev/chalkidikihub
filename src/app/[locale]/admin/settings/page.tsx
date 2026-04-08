@@ -38,6 +38,13 @@ const SETTINGS_CONFIG: Setting[] = [
     secret: true,
   },
   {
+    key: 'unsplash_access_key', value: '', label: 'Unsplash Access Key',
+    icon: ImageIcon, color: 'text-gray-600 bg-gray-100',
+    placeholder: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    description: 'Δωρεάν φωτογραφίες — unsplash.com/developers',
+    secret: true,
+  },
+  {
     key: 'gmail_address', value: '', label: 'Gmail Address',
     icon: Mail, color: 'text-pink-600 bg-pink-100',
     placeholder: 'chalkidikihub@gmail.com',
