@@ -8,6 +8,19 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v1.8.0',
+      date: '10 Απριλίου 2026',
+      highlights: 'Village Pages, Admin Restructure, Footer Upgrade',
+      features: [
+        { emoji: '🏘️', title: '39 Village Pages', desc: 'Σελίδα ανά χωριό Χαλκιδικής — Κασσάνδρα (18), Σιθωνία (15), Άθως (6) με κοντινές παραλίες, εστιατόρια, δραστηριότητες' },
+        { emoji: '🤖', title: 'AI Village Generator', desc: 'Αυτόματη δημιουργία περιγραφής + πληθυσμού ανά χωριό μέσω AI' },
+        { emoji: '🗺️', title: 'Village Admin CRUD', desc: 'Πλήρης διαχείριση χωριών: New/Edit/Delete + AI Auto-Complete σε 6 γλώσσες + SEO' },
+        { emoji: '📍', title: '~234 νέα SEO URLs', desc: '39 χωριά × 6 γλώσσες = 234 νέες σελίδες στο sitemap για Google indexing' },
+        { emoji: '🏠', title: 'Footer Upgrade', desc: '"Γιατί ChalkidikiHub;" section + CTA card + Chalkidiki Sales link στο footer' },
+        { emoji: '👁️', title: 'Admin Preview Fix', desc: 'Τα preview links σε beaches, restaurants, activities, blog, sales ανοίγουν σωστά με locale' },
+      ],
+    },
+    {
       version: 'v1.7.0',
       date: '9 Απριλίου 2026',
       highlights: 'Admin & Dashboard Redesign, Translation Matrix, Quality Checker',
