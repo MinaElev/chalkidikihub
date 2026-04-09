@@ -8,6 +8,21 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v1.7.0',
+      date: '9 Απριλίου 2026',
+      highlights: 'Admin & Dashboard Redesign, Translation Matrix, Quality Checker',
+      features: [
+        { emoji: '🎛️', title: 'Admin Panel Redesign', desc: '7 ξεκάθαρα sections αντί για 5 — Places, Properties, Editorial, Moderation, Data & Media, System' },
+        { emoji: '📊', title: 'Dashboard Redesign (Admin)', desc: 'SEO Health, Translation Coverage, Action Required banners, Recent Activity feed' },
+        { emoji: '🌍', title: 'Translation Matrix', desc: 'Νέα σελίδα — matrix 159 items × 6 γλώσσες με AI Fill button' },
+        { emoji: '🛡️', title: 'Quality Checker', desc: 'Νέα σελίδα — σκανάρει όλο το περιεχόμενο, εντοπίζει missing translations, SEO, images' },
+        { emoji: '👁️', title: 'Preview Links', desc: 'Κουμπί Preview σε κάθε admin list (beaches, restaurants, activities, blog, sales)' },
+        { emoji: '👤', title: 'User Dashboard Redesign', desc: 'Welcome message, Sales stats, compact quick actions, collapsible inquiries' },
+        { emoji: '🏠', title: 'Footer Upgrade', desc: '"Γιατί ChalkidikiHub;" section + CTA card + Chalkidiki Sales link' },
+        { emoji: '⭐', title: 'Review Badges', desc: 'Pending reviews badge count στο admin sidebar' },
+      ],
+    },
+    {
       version: 'v1.6.0',
       date: '9 Απριλίου 2026',
       highlights: 'Sales Section, SEO Ghost Pages, Admin Edit',

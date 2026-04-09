@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Building, Eye, EyeOff, Trash2, Loader2, Search, ChevronDown, ChevronUp, Pencil } from 'lucide-react';
+import { Building, Eye, EyeOff, Trash2, Loader2, Search, ChevronDown, ChevronUp, Pencil, ExternalLink } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { AREA_SLUGS } from '@/lib/constants';
 
@@ -164,6 +164,13 @@ export default function AdminSalesPage() {
                   }`}>{sale.status}</span>
 
                   <div className="flex items-center gap-1">
+                    {sale.slug && (
+                      <a href={`/sales/${sale.slug}`} target="_blank" rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-1.5 rounded hover:bg-green-50 text-green-600" title="Preview">
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
                     <Link href={`/admin/sales/${sale.id}/edit`} onClick={(e) => e.stopPropagation()}
                       className="p-1.5 rounded hover:bg-blue-50 text-blue-600" title="Επεξεργασία">
                       <Pencil className="w-4 h-4" />

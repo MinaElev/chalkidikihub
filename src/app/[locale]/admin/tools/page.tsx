@@ -183,7 +183,7 @@ export default function AdminToolsPage() {
     <div>
       <div className="flex items-center gap-3 mb-6">
         <Wrench className="w-6 h-6 text-red-600" />
-        <h1 className="text-2xl font-bold text-gray-900">Tools</h1>
+        <h1 className="text-2xl font-bold text-gray-900">SEO Tools</h1>
       </div>
 
       {/* Internal Links Tool */}

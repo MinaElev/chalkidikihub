@@ -3,10 +3,11 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, Edit, Trash2, Loader2, Waves, CheckCircle, XCircle, ImageIcon, Search } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, Waves, CheckCircle, XCircle, ImageIcon, Search, ExternalLink } from 'lucide-react';
 
 interface Beach {
   id: string;
+  slug: string;
   name_el: string;
   name_en: string;
   area: string;
@@ -28,7 +29,7 @@ export default function AdminBeachesPage() {
   async function loadBeaches() {
     const supabase = createClient();
     const { data } = await supabase.from('beaches')
-      .select('id, name_el, name_en, area, rating, reviews_count, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
+      .select('id, slug, name_el, name_en, area, rating, reviews_count, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
       .order('name_el');
     setBeaches((data as Beach[]) || []);
     setLoading(false);
@@ -115,6 +116,10 @@ export default function AdminBeachesPage() {
                   </td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex items-center justify-end gap-1">
+                      <a href={`/beaches/${b.slug || b.id}`} target="_blank" rel="noopener noreferrer"
+                        className="p-1.5 rounded hover:bg-blue-50 text-blue-500" title="Preview">
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
                       <Link href={`/admin/beaches/${b.id}/edit`}
                         className="p-1.5 rounded hover:bg-gray-100 text-gray-500">
                         <Edit className="w-4 h-4" />

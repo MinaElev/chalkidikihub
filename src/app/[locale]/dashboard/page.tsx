@@ -1,23 +1,33 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, List, Eye, BarChart3, Home, UtensilsCrossed, Landmark, FileText, ClipboardList, ArrowRight, QrCode, X, Sparkles, MousePointer, Phone, Mail, ExternalLink, Calendar, MessageSquare } from 'lucide-react';
+import {
+  List, Eye, Home, UtensilsCrossed, Landmark, FileText, ArrowRight,
+  MousePointer, Phone, Mail, ExternalLink, Calendar, Building,
+  CheckCircle, AlertTriangle, ChevronDown, ChevronUp,
+} from 'lucide-react';
 
 export default function DashboardPage() {
   const t = useTranslations('nav');
-  const tSub = useTranslations('submissions');
+  const locale = useLocale();
+  const [userName, setUserName] = useState('');
   const [stats, setStats] = useState({ total: 0, published: 0, draft: 0 });
+  const [salesStats, setSalesStats] = useState({ total: 0, published: 0 });
   const [submissionCount, setSubmissionCount] = useState(0);
   const [clickStats, setClickStats] = useState<Record<string, number>>({});
   const [inquiries, setInquiries] = useState<Array<{ id: string; name: string; email: string; subject: string; message: string; created_at: string }>>([]);
+  const [inquiriesOpen, setInquiriesOpen] = useState(true);
 
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) return;
+      setUserName(user.user_metadata?.full_name || user.email?.split('@')[0] || '');
+
+      // Listings stats
       const { data } = await supabase.from('listings').select('status, slug, title_el').eq('owner_id', user.id);
       if (data) {
         setStats({
@@ -26,13 +36,24 @@ export default function DashboardPage() {
           draft: data.filter((l) => l.status === 'draft').length,
         });
       }
+
+      // Sales stats
+      const { data: salesData } = await supabase.from('sales').select('status').eq('owner_id', user.id);
+      if (salesData) {
+        setSalesStats({
+          total: salesData.length,
+          published: salesData.filter((s) => s.status === 'published').length,
+        });
+      }
+
+      // Submissions
       const { count } = await supabase.from('user_submissions').select('*', { count: 'exact', head: true }).eq('user_id', user.id);
       setSubmissionCount(count || 0);
 
-      // Fetch booking click stats (last 30 days) for user's listings
+      // Click stats (last 30 days)
       const listingSlugs = data?.map(l => l.slug) || [];
       if (listingSlugs.length > 0) {
-        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString();
         const { data: logs } = await supabase
           .from('activity_logs')
           .select('details')
@@ -47,10 +68,8 @@ export default function DashboardPage() {
           }
         });
         setClickStats(counts);
-      }
 
-      // Fetch inquiries for user's listings via API (bypasses RLS)
-      if (listingSlugs.length > 0) {
+        // Inquiries
         try {
           const res = await fetch(`/api/inquiry?slugs=${listingSlugs.join(',')}`);
           if (res.ok) {
@@ -62,239 +81,196 @@ export default function DashboardPage() {
     });
   }, []);
 
-  const quickActions = [
-    {
-      href: '/dashboard/listings/new',
-      icon: Home,
-      label: 'Καταχώρησε το κατάλυμά σου',
-      description: 'Πρόσθεσε νέο ενοικιαζόμενο δωμάτιο ή κατάλυμα',
-      color: 'bg-primary-600 hover:bg-primary-700',
-      iconBg: 'bg-primary-500',
-    },
-    {
-      href: '/dashboard/suggest-restaurant',
-      icon: UtensilsCrossed,
-      label: 'Πρόσθεσε Φαγητό & Ποτό',
-      description: 'Εστιατόριο, μπαρ, καφετέρια, beach bar κλπ',
-      color: 'bg-red-600 hover:bg-red-700',
-      iconBg: 'bg-red-500',
-    },
-    {
-      href: '/dashboard/suggest-activity',
-      icon: Landmark,
-      label: 'Πρόσθεσε δραστηριότητα',
-      description: 'Πρότεινε αξιοθέατο ή δραστηριότητα',
-      color: 'bg-amber-600 hover:bg-amber-700',
-      iconBg: 'bg-amber-500',
-    },
-    {
-      href: '/dashboard/suggest-blog',
-      icon: FileText,
-      label: 'Πρότεινε άρθρο',
-      description: 'Γράψε ένα άρθρο για τη Χαλκιδική',
-      color: 'bg-indigo-600 hover:bg-indigo-700',
-      iconBg: 'bg-indigo-500',
-    },
-  ];
+  const totalClicks = Object.values(clickStats).reduce((s, v) => s + v, 0);
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('dashboard')}</h1>
+      {/* Welcome */}
+      <h1 className="text-2xl font-bold text-gray-900 mb-1">
+        {locale === 'el' ? `Γεια σου, ${userName}!` : `Hello, ${userName}!`}
+      </h1>
+      <p className="text-sm text-gray-500 mb-6">
+        {locale === 'el' ? 'Ο πίνακας ελέγχου σου στο ChalkidikiHub' : 'Your ChalkidikiHub dashboard'}
+      </p>
 
-      {/* New feature announcement */}
-      <NewFeatureBanner />
+      {/* Row 1: Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center"><Home className="w-4 h-4 text-primary-600" /></div>
+            <span className="text-[10px] font-medium text-gray-500 uppercase">{t('myListings')}</span>
+          </div>
+          <div className="text-2xl font-bold text-gray-900">{stats.published}<span className="text-base text-gray-400">/{stats.total}</span></div>
+          {stats.total > 0 && (
+            <div className="w-full bg-gray-200 rounded-full h-1 mt-1.5">
+              <div className="bg-primary-500 h-1 rounded-full" style={{ width: `${(stats.published / stats.total) * 100}%` }} />
+            </div>
+          )}
+        </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-primary-100 rounded-lg flex items-center justify-center shrink-0">
-              <List className="w-4 h-4 text-primary-600" />
-            </div>
-            <div>
-              <div className="text-xl font-bold text-gray-900">{stats.total}</div>
-              <div className="text-xs text-gray-500">{t('myListings')}</div>
-            </div>
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center"><Building className="w-4 h-4 text-emerald-600" /></div>
+            <span className="text-[10px] font-medium text-gray-500 uppercase">{locale === 'el' ? 'Πωλήσεις' : 'Sales'}</span>
           </div>
+          <div className="text-2xl font-bold text-gray-900">{salesStats.published}<span className="text-base text-gray-400">/{salesStats.total}</span></div>
+          {salesStats.total > 0 && (
+            <div className="w-full bg-gray-200 rounded-full h-1 mt-1.5">
+              <div className="bg-emerald-500 h-1 rounded-full" style={{ width: `${(salesStats.published / salesStats.total) * 100}%` }} />
+            </div>
+          )}
         </div>
+
         <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
-              <Eye className="w-4 h-4 text-green-600" />
-            </div>
-            <div>
-              <div className="text-xl font-bold text-gray-900">{stats.published}</div>
-              <div className="text-xs text-gray-500">Published</div>
-            </div>
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center"><Calendar className="w-4 h-4 text-amber-600" /></div>
+            <span className="text-[10px] font-medium text-gray-500 uppercase">{locale === 'el' ? 'Αιτήματα' : 'Inquiries'}</span>
           </div>
+          <div className="text-2xl font-bold text-gray-900">{inquiries.length}</div>
         </div>
+
         <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-amber-100 rounded-lg flex items-center justify-center shrink-0">
-              <BarChart3 className="w-4 h-4 text-amber-600" />
-            </div>
-            <div>
-              <div className="text-xl font-bold text-gray-900">{stats.draft}</div>
-              <div className="text-xs text-gray-500">Draft</div>
-            </div>
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center"><FileText className="w-4 h-4 text-purple-600" /></div>
+            <span className="text-[10px] font-medium text-gray-500 uppercase">{locale === 'el' ? 'Προτάσεις' : 'Submissions'}</span>
           </div>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
-              <ClipboardList className="w-4 h-4 text-purple-600" />
-            </div>
-            <div>
-              <div className="text-xl font-bold text-gray-900">{submissionCount}</div>
-              <div className="text-xs text-gray-500">Προτάσεις</div>
-            </div>
-          </div>
+          <div className="text-2xl font-bold text-gray-900">{submissionCount}</div>
         </div>
       </div>
 
-      {/* Click Stats */}
-      {Object.keys(clickStats).length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <MousePointer className="w-5 h-5 text-gray-400" />
-            Κλικ τελευταίων 30 ημερών
+      {/* Row 2: Action Required */}
+      {(inquiries.length > 0 || stats.draft > 0) && (
+        <div className="space-y-2 mb-6">
+          {inquiries.length > 0 && (
+            <Link href="#inquiries" onClick={(e) => { e.preventDefault(); setInquiriesOpen(true); document.getElementById('inquiries')?.scrollIntoView({ behavior: 'smooth' }); }}
+              className="flex items-center gap-3 p-3 bg-amber-50 border border-amber-200 rounded-xl hover:bg-amber-100 transition-colors">
+              <Calendar className="w-5 h-5 text-amber-600 shrink-0" />
+              <span className="text-sm font-medium text-amber-800 flex-1">
+                {inquiries.length} {locale === 'el' ? 'αιτήματα διαθεσιμότητας' : 'availability inquiries'}
+              </span>
+              <span className="px-2 py-0.5 bg-amber-200 text-amber-800 rounded-full text-xs font-bold">{inquiries.length}</span>
+            </Link>
+          )}
+          {stats.draft > 0 && (
+            <Link href="/dashboard/listings"
+              className="flex items-center gap-3 p-3 bg-gray-50 border border-gray-200 rounded-xl hover:bg-gray-100 transition-colors">
+              <AlertTriangle className="w-5 h-5 text-gray-500 shrink-0" />
+              <span className="text-sm font-medium text-gray-700 flex-1">
+                {stats.draft} {locale === 'el' ? 'πρόχειρα καταλύματα — δημοσίευσέ τα!' : 'draft listings — publish them!'}
+              </span>
+            </Link>
+          )}
+        </div>
+      )}
+
+      {/* Row 3: Click Stats */}
+      {totalClicks > 0 && (
+        <div className="mb-6">
+          <h2 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+            <MousePointer className="w-4 h-4 text-gray-400" />
+            {locale === 'el' ? 'Κλικ τελευταίων 30 ημερών' : 'Clicks last 30 days'}
           </h2>
           <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
             {[
               { key: 'booking.com', label: 'Booking', icon: ExternalLink, color: 'bg-[#003580] text-white' },
               { key: 'airbnb', label: 'Airbnb', icon: ExternalLink, color: 'bg-[#FF5A5F] text-white' },
               { key: 'website', label: 'Website', icon: ExternalLink, color: 'bg-gray-800 text-white' },
-              { key: 'phone', label: 'Τηλέφωνο', icon: Phone, color: 'bg-green-600 text-white' },
+              { key: 'phone', label: locale === 'el' ? 'Τηλ.' : 'Phone', icon: Phone, color: 'bg-green-600 text-white' },
               { key: 'email', label: 'Email', icon: Mail, color: 'bg-primary-600 text-white' },
             ].filter(s => clickStats[s.key]).map(s => (
-              <div key={s.key} className={`${s.color} rounded-xl p-3 text-center`}>
-                <div className="text-2xl font-bold">{clickStats[s.key]}</div>
-                <div className="text-xs opacity-80">{s.label}</div>
+              <div key={s.key} className={`${s.color} rounded-xl p-2.5 text-center`}>
+                <div className="text-xl font-bold">{clickStats[s.key]}</div>
+                <div className="text-[10px] opacity-80">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* Inquiries */}
+      {/* Row 4: Inquiries */}
       {inquiries.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-amber-500" />
-            Αιτήματα Διαθεσιμότητας ({inquiries.length})
-          </h2>
-          <div className="space-y-2">
-            {inquiries.slice(0, 5).map((inq) => (
-              <div key={inq.id} className="bg-white border border-gray-200 rounded-xl p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-gray-900">{inq.subject.replace('Αίτημα διαθεσιμότητας: ', '')}</p>
-                    <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
-                      <span className="font-medium text-gray-700">{inq.name}</span>
-                      <a href={`mailto:${inq.email}`} className="text-primary-600 hover:underline">{inq.email}</a>
-                      <span>{new Date(inq.created_at).toLocaleDateString('el')}</span>
+        <div id="inquiries" className="bg-white border border-gray-200 rounded-xl mb-6">
+          <button onClick={() => setInquiriesOpen(!inquiriesOpen)}
+            className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 rounded-xl transition-colors">
+            <span className="font-semibold text-gray-900 text-sm flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-amber-500" />
+              {locale === 'el' ? 'Αιτήματα Διαθεσιμότητας' : 'Availability Inquiries'} ({inquiries.length})
+            </span>
+            {inquiriesOpen ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+          </button>
+          {inquiriesOpen && (
+            <div className="border-t border-gray-100 divide-y divide-gray-50">
+              {inquiries.slice(0, 5).map((inq) => (
+                <div key={inq.id} className="px-4 py-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-gray-900">{inq.subject.replace('Αίτημα διαθεσιμότητας: ', '')}</p>
+                      <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                        <span className="font-medium text-gray-700">{inq.name}</span>
+                        <a href={`mailto:${inq.email}`} className="text-primary-600 hover:underline">{inq.email}</a>
+                        <span>{new Date(inq.created_at).toLocaleDateString('el')}</span>
+                      </div>
+                      {inq.message && <p className="text-xs text-gray-600 mt-1.5 line-clamp-2">{inq.message}</p>}
                     </div>
-                    {inq.message && (
-                      <p className="text-xs text-gray-600 mt-2 line-clamp-2 whitespace-pre-line">{inq.message}</p>
-                    )}
+                    <span className="shrink-0 px-2 py-0.5 bg-amber-100 text-amber-700 rounded text-[9px] font-bold">{locale === 'el' ? 'Νέο' : 'New'}</span>
                   </div>
-                  <span className="shrink-0 px-2 py-1 bg-amber-100 text-amber-700 rounded text-[10px] font-medium">Νέο</span>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
-      {/* Quick Actions — prominent cards */}
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Τι θέλεις να κάνεις;</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-        {quickActions.map((action) => (
-          <Link key={action.href} href={action.href}
-            className={`group flex items-center gap-4 p-4 rounded-2xl text-white transition-all ${action.color}`}>
-            <div className={`w-12 h-12 ${action.iconBg} rounded-xl flex items-center justify-center shrink-0`}>
-              <action.icon className="w-6 h-6 text-white" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm">{action.label}</p>
-              <p className="text-xs text-white/70 mt-0.5">{action.description}</p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
-          </Link>
-        ))}
-      </div>
+      {/* Row 5: Quick Actions */}
+      <h2 className="text-sm font-semibold text-gray-700 mb-3">
+        {locale === 'el' ? 'Τι θέλεις να κάνεις;' : 'What would you like to do?'}
+      </h2>
 
-      {/* Secondary actions */}
-      <div className="flex flex-wrap gap-3">
-        <Link href="/dashboard/listings"
-          className="flex items-center gap-2 px-5 py-2.5 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-xl transition-colors text-sm">
-          <List className="w-4 h-4" />{t('myListings')}
-        </Link>
-        <Link href="/dashboard/submissions"
-          className="flex items-center gap-2 px-5 py-2.5 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-xl transition-colors text-sm">
-          <ClipboardList className="w-4 h-4" />{tSub('mySubmissions')}
-        </Link>
-        <Link href="/dashboard/profile"
-          className="flex items-center gap-2 px-5 py-2.5 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-xl transition-colors text-sm">
-          {t('profile')}
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-function NewFeatureBanner() {
-  const [dismissed, setDismissed] = useState(false);
-  const [expanded, setExpanded] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setDismissed(localStorage.getItem('chub_qr_banner_dismissed') === '1');
-    }
-  }, []);
-
-  function handleDismiss() {
-    setDismissed(true);
-    localStorage.setItem('chub_qr_banner_dismissed', '1');
-  }
-
-  if (dismissed) return null;
-
-  return (
-    <div className="mb-6 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-xl overflow-hidden">
-      {/* Compact bar */}
-      <div className="flex items-center gap-3 px-4 py-3 cursor-pointer" onClick={() => setExpanded(!expanded)}>
-        <QrCode className="w-5 h-5 text-white shrink-0" />
-        <div className="flex items-center gap-2 flex-1 min-w-0">
-          <Sparkles className="w-3.5 h-3.5 text-yellow-300 shrink-0" />
-          <p className="text-sm font-semibold text-white truncate">QR Guest Guide — Δημιουργήστε QR code για τους πελάτες σας!</p>
-        </div>
-        <span className="text-white/60 text-xs shrink-0">{expanded ? '▲' : '▼'}</span>
-        <button onClick={(e) => { e.stopPropagation(); handleDismiss(); }} className="p-1 rounded hover:bg-white/20 shrink-0">
-          <X className="w-3.5 h-3.5 text-white/60" />
-        </button>
-      </div>
-
-      {/* Expanded details */}
-      {expanded && (
-        <div className="px-4 pb-4 text-white">
-          <p className="text-sm text-white/80 mb-3">
-            Ο πελάτης σκανάρει το QR στο δωμάτιο και βλέπει παραλίες, εστιατόρια και δραστηριότητες κοντά του.
-          </p>
-          <div className="space-y-1.5 text-sm text-white/70 mb-4">
-            <p><span className="font-bold text-white">1.</span> Πηγαίνετε στα <strong className="text-white">Καταλύματά μου</strong></p>
-            <p><span className="font-bold text-white">2.</span> Πατήστε το μωβ <strong className="text-white">QR εικονίδιο</strong></p>
-            <p><span className="font-bold text-white">3.</span> <strong className="text-white">Κατεβάστε ή τυπώστε</strong> το QR</p>
-            <p><span className="font-bold text-white">4.</span> Τοποθετήστε στο <strong className="text-white">δωμάτιο ή reception</strong></p>
+      {/* Primary CTAs */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+        <Link href="/dashboard/listings/new"
+          className="group flex items-center gap-4 p-4 rounded-2xl text-white transition-all bg-primary-600 hover:bg-primary-700">
+          <div className="w-11 h-11 bg-primary-500 rounded-xl flex items-center justify-center shrink-0">
+            <Home className="w-5 h-5 text-white" />
           </div>
-          <Link href="/dashboard/listings"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
-            <QrCode className="w-4 h-4" />
-            Δημιουργήστε το QR σας
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      )}
+          <div className="flex-1 min-w-0">
+            <p className="font-semibold text-sm">{locale === 'el' ? 'Νέο Κατάλυμα' : 'New Listing'}</p>
+            <p className="text-xs text-white/70">{locale === 'el' ? 'Ενοικιαζόμενο δωμάτιο ή κατοικία' : 'Rental room or accommodation'}</p>
+          </div>
+          <ArrowRight className="w-5 h-5 text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+        </Link>
+
+        <Link href="/dashboard/sales/new"
+          className="group flex items-center gap-4 p-4 rounded-2xl text-white transition-all bg-emerald-600 hover:bg-emerald-700">
+          <div className="w-11 h-11 bg-emerald-500 rounded-xl flex items-center justify-center shrink-0">
+            <Building className="w-5 h-5 text-white" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-semibold text-sm">{locale === 'el' ? 'Νέα Πώληση' : 'New Sale'}</p>
+            <p className="text-xs text-white/70">{locale === 'el' ? 'Κατοικία, γη, επαγγελματικό' : 'House, land, commercial'}</p>
+          </div>
+          <ArrowRight className="w-5 h-5 text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+        </Link>
+      </div>
+
+      {/* Secondary CTAs */}
+      <div className="grid grid-cols-3 gap-2">
+        <Link href="/dashboard/suggest-restaurant"
+          className="flex flex-col items-center gap-1.5 p-3 bg-white border border-gray-200 rounded-xl hover:border-red-300 hover:bg-red-50 transition-colors text-center">
+          <UtensilsCrossed className="w-5 h-5 text-red-500" />
+          <span className="text-[11px] font-medium text-gray-700">{locale === 'el' ? 'Εστιατόριο' : 'Restaurant'}</span>
+        </Link>
+        <Link href="/dashboard/suggest-activity"
+          className="flex flex-col items-center gap-1.5 p-3 bg-white border border-gray-200 rounded-xl hover:border-amber-300 hover:bg-amber-50 transition-colors text-center">
+          <Landmark className="w-5 h-5 text-amber-500" />
+          <span className="text-[11px] font-medium text-gray-700">{locale === 'el' ? 'Δραστηριότητα' : 'Activity'}</span>
+        </Link>
+        <Link href="/dashboard/suggest-blog"
+          className="flex flex-col items-center gap-1.5 p-3 bg-white border border-gray-200 rounded-xl hover:border-indigo-300 hover:bg-indigo-50 transition-colors text-center">
+          <FileText className="w-5 h-5 text-indigo-500" />
+          <span className="text-[11px] font-medium text-gray-700">{locale === 'el' ? 'Άρθρο' : 'Article'}</span>
+        </Link>
+      </div>
     </div>
   );
 }

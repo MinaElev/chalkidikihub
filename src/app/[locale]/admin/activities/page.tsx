@@ -3,10 +3,11 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, Edit, Trash2, Loader2, Landmark, CheckCircle, XCircle, ImageIcon } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, Landmark, CheckCircle, XCircle, ImageIcon, ExternalLink } from 'lucide-react';
 
 interface Activity {
   id: string;
+  slug: string;
   name_el: string;
   name_en: string;
   area: string;
@@ -29,7 +30,7 @@ export default function AdminActivitiesPage() {
   async function loadActivities() {
     const supabase = createClient();
     const { data } = await supabase.from('activities')
-      .select('id, name_el, name_en, area, category, rating, reviews_count, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
+      .select('id, slug, name_el, name_en, area, category, rating, reviews_count, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
       .order('name_el');
     setActivities(data || []);
     setLoading(false);
@@ -120,6 +121,10 @@ export default function AdminActivitiesPage() {
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-1">
+                    <a href={`/activities/${a.slug || a.id}`} target="_blank" rel="noopener noreferrer"
+                      className="p-1.5 rounded hover:bg-blue-50 text-blue-500" title="Preview">
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
                     <Link href={`/admin/activities/${a.id}/edit`}
                       className="p-1.5 rounded hover:bg-gray-100 text-gray-500">
                       <Edit className="w-4 h-4" />

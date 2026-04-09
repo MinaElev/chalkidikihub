@@ -104,7 +104,6 @@ export default async function HomePage({ params }: Props) {
       <HomeBeachesSection />
       <HomeBlogSection />
       <QRFeatureSection />
-      <CTASection />
     </>
   );
 }

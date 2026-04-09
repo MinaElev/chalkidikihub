@@ -6,33 +6,46 @@ import { useRouter, usePathname } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
 import {
   LayoutDashboard, Users, List, MapPin, Waves, UtensilsCrossed,
-  Landmark, Zap, FileText, Settings, Home, LogOut, Loader2, Shield,
-  ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail, Sparkles, Star, Building,
+  Landmark, Wrench, FileText, Settings, Home, LogOut, Loader2, Shield,
+  ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail,
+  Sparkles, Star, Building, Tag, Languages, ShieldCheck,
 } from 'lucide-react';
 
 const navSections = [
   {
-    title: 'Overview',
+    title: 'Home',
     items: [
       { href: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
-      { href: '/admin/users', icon: Users, label: 'Users' },
     ],
   },
   {
-    title: 'Content',
+    title: 'Places',
     items: [
-      { href: '/admin/listings', icon: List, label: 'Listings' },
-      { href: '/admin/areas', icon: MapPin, label: 'Areas' },
       { href: '/admin/beaches', icon: Waves, label: 'Beaches' },
       { href: '/admin/restaurants', icon: UtensilsCrossed, label: 'Restaurants' },
-      { href: '/admin/business-types', icon: List, label: 'Είδη Μαγαζιών' },
       { href: '/admin/activities', icon: Landmark, label: 'Activities' },
-      { href: '/admin/blog', icon: FileText, label: 'Blog' },
-      { href: '/admin/sales', icon: Building, label: 'Sales' },
+      { href: '/admin/areas', icon: MapPin, label: 'Areas' },
     ],
   },
   {
-    title: 'Community',
+    title: 'Properties',
+    items: [
+      { href: '/admin/listings', icon: List, label: 'Listings' },
+      { href: '/admin/sales', icon: Building, label: 'Sales' },
+      { href: '/admin/business-types', icon: Tag, label: 'Business Types' },
+    ],
+  },
+  {
+    title: 'Editorial',
+    items: [
+      { href: '/admin/blog', icon: FileText, label: 'Blog' },
+      { href: '/admin/seo', icon: BarChart3, label: 'SEO Dashboard' },
+      { href: '/admin/translations', icon: Languages, label: 'Translations' },
+      { href: '/admin/quality', icon: ShieldCheck, label: 'Quality Check' },
+    ],
+  },
+  {
+    title: 'Moderation',
     items: [
       { href: '/admin/reviews', icon: Star, label: 'Reviews' },
       { href: '/admin/submissions', icon: ClipboardList, label: 'Submissions' },
@@ -41,19 +54,19 @@ const navSections = [
     ],
   },
   {
-    title: 'Tools',
+    title: 'Data & Media',
     items: [
-      { href: '/admin/images', icon: Image, label: 'Images' },
-      { href: '/admin/seo', icon: BarChart3, label: 'SEO' },
       { href: '/admin/google-import', icon: MapPin, label: 'Google Import' },
       { href: '/admin/ai-import', icon: Sparkles, label: 'AI Import' },
-      { href: '/admin/tools', icon: Zap, label: 'Tools' },
-      { href: '/admin/logs', icon: ScrollText, label: 'Logs' },
+      { href: '/admin/images', icon: Image, label: 'Images' },
+      { href: '/admin/tools', icon: Wrench, label: 'SEO Tools' },
     ],
   },
   {
     title: 'System',
     items: [
+      { href: '/admin/users', icon: Users, label: 'Users' },
+      { href: '/admin/logs', icon: ScrollText, label: 'Logs' },
       { href: '/admin/settings', icon: Settings, label: 'Settings' },
     ],
   },
@@ -75,18 +88,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       if (data?.role !== 'superadmin') { router.push('/dashboard'); return; }
       setRole(data.role);
       // Fetch badge counts
-      const { count: pendingSubs } = await supabase
-        .from('user_submissions')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'pending');
-      const { data: unreadMsgData } = await supabase
-        .from('contact_messages')
-        .select('subject')
-        .eq('read', false);
-      const unreadMsgs = (unreadMsgData || []).filter(m => !m.subject?.startsWith('Αίτημα διαθεσιμότητας')).length;
+      const [subRes, msgRes, revBeach, revRest, revAct] = await Promise.all([
+        supabase.from('user_submissions').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+        supabase.from('contact_messages').select('subject').eq('read', false),
+        supabase.from('beach_reviews').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+        supabase.from('restaurant_reviews').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+        supabase.from('activity_reviews').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+      ]);
+      const unreadMsgs = (msgRes.data || []).filter(m => !m.subject?.startsWith('Αίτημα διαθεσιμότητας')).length;
+      const pendingReviews = (revBeach.count || 0) + (revRest.count || 0) + (revAct.count || 0);
       setBadges({
-        '/admin/submissions': pendingSubs || 0,
+        '/admin/submissions': subRes.count || 0,
         '/admin/messages': unreadMsgs || 0,
+        '/admin/reviews': pendingReviews,
       });
       setLoading(false);
     });

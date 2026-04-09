@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter, usePathname } from '@/i18n/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus } from 'lucide-react';
+import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -18,6 +18,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const t = useTranslations('nav');
   const tSales = useTranslations('sales');
   const tSub = useTranslations('submissions');
+  const locale = useLocale();
 
   useEffect(() => {
     const supabase = createClient();
@@ -65,22 +66,28 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const navSections = [
     {
-      title: t('myListings'),
+      title: '',
       items: [
         { href: '/dashboard', icon: LayoutDashboard, label: t('dashboard') },
-        { href: '/dashboard/listings', icon: List, label: t('myListings') },
         { href: '/dashboard/profile', icon: User, label: t('profile') },
       ],
     },
     {
-      title: t('sales'),
+      title: t('myListings'),
+      items: [
+        { href: '/dashboard/listings', icon: List, label: t('myListings') },
+        { href: '/dashboard/listings/new', icon: PlusCircle, label: locale === 'el' ? 'Νέο Κατάλυμα' : 'Add Listing' },
+      ],
+    },
+    {
+      title: tSales('mySales'),
       items: [
         { href: '/dashboard/sales', icon: Building, label: tSales('mySales') },
         { href: '/dashboard/sales/new', icon: Plus, label: tSales('newSale') },
       ],
     },
     {
-      title: tSub('suggestRestaurant').split(' ')[0],
+      title: locale === 'el' ? 'Κοινότητα' : 'Community',
       items: [
         { href: '/dashboard/suggest-restaurant', icon: UtensilsCrossed, label: tSub('suggestRestaurant') },
         { href: '/dashboard/suggest-activity', icon: Landmark, label: tSub('suggestActivity') },
