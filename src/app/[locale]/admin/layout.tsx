@@ -25,6 +25,7 @@ const navSections = [
       { href: '/admin/restaurants', icon: UtensilsCrossed, label: 'Restaurants' },
       { href: '/admin/activities', icon: Landmark, label: 'Activities' },
       { href: '/admin/areas', icon: MapPin, label: 'Areas' },
+      { href: '/admin/villages', icon: MapPin, label: 'Villages' },
     ],
   },
   {

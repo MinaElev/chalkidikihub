@@ -6,12 +6,13 @@ import { createApiClient } from '@/lib/api-helpers';
 export async function GET() {
   const supabase = createApiClient();
 
-  const [beaches, restaurants, activities, blogs, areas] = await Promise.all([
+  const [beaches, restaurants, activities, blogs, areas, villages] = await Promise.all([
     supabase.from('beaches').select('slug, name_el, name_en'),
     supabase.from('restaurants').select('slug, name_el, name_en'),
     supabase.from('activities').select('slug, name_el, name_en'),
     supabase.from('blog_articles').select('slug, title_el, title_en'),
     supabase.from('areas').select('slug, name_el, name_en'),
+    supabase.from('villages').select('slug, name_el, name_en'),
   ]);
 
   const items: Array<{ type: string; slug: string; name_el: string; name_en: string }> = [];
@@ -21,6 +22,7 @@ export async function GET() {
   (activities.data || []).forEach(a => items.push({ type: 'activity', slug: a.slug, name_el: a.name_el || '', name_en: a.name_en || '' }));
   (blogs.data || []).forEach(b => items.push({ type: 'blog', slug: b.slug, name_el: b.title_el || '', name_en: b.title_en || '' }));
   (areas.data || []).forEach(a => items.push({ type: 'area', slug: a.slug, name_el: a.name_el || '', name_en: a.name_en || '' }));
+  (villages.data || []).forEach(v => items.push({ type: 'village', slug: v.slug, name_el: v.name_el || '', name_en: v.name_en || '' }));
 
   return NextResponse.json(items, {
     headers: { 'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1200' },

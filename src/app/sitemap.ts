@@ -250,5 +250,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
+  // Villages / Places from DB
+  const { data: villages } = await supabase.from('villages').select('slug');
+  if (villages) {
+    for (const v of villages) {
+      for (const locale of locales) {
+        entries.push({
+          url: `${baseUrl}/${locale}/places/${v.slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+          alternates: altLanguages(`/places/${v.slug}`),
+        });
+      }
+    }
+  }
+
   return entries;
 }
