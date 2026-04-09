@@ -8,6 +8,7 @@ import { RestaurantCard } from '@/components/listings/RestaurantCard';
 import { RestaurantFilters, PriceLevel, Area } from '@/types';
 import { AREA_SLUGS, ALL_PRICE_LEVELS } from '@/lib/constants';
 import { X, Eye } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
 
 export default function RestaurantsPage() {
   const t = useTranslations('restaurants');
@@ -72,6 +73,16 @@ export default function RestaurantsPage() {
           >
             {c[`name_${locale}`] || c.name_el || c.slug}
           </button>
+        ))}
+      </div>
+
+      {/* Category page links for SEO */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {cuisineTypes.map((c) => (
+          <Link key={c.slug} href={`/restaurants/category/${c.slug}`}
+            className="text-xs text-gray-400 hover:text-primary-600 hover:underline">
+            {c[`name_${locale}`] || c.name_el || c.slug}
+          </Link>
         ))}
       </div>
 

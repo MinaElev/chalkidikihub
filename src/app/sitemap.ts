@@ -145,6 +145,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
+  // Business types (restaurant category pages)
+  const { data: businessTypes } = await supabase
+    .from('business_types')
+    .select('slug');
+  if (businessTypes) {
+    for (const bt of businessTypes) {
+      for (const locale of locales) {
+        entries.push({
+          url: `${baseUrl}/${locale}/restaurants/category/${bt.slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.7,
+          alternates: altLanguages(`/restaurants/category/${bt.slug}`),
+        });
+      }
+    }
+  }
+
   // Blog from DB
   const { data: articles } = await supabase
     .from('blog_articles')
