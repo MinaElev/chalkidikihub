@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Link, useRouter } from '@/i18n/navigation';
-import { ArrowLeft, Save, Loader2, Sparkles } from 'lucide-react';
-import { ImageUpload } from '@/components/admin/ImageUpload';
+import { ArrowLeft, Save, Loader2, Sparkles, X, Star, Upload } from 'lucide-react';
 import { AIHelper } from '@/components/admin/AIHelper';
 import { LocationPicker } from '@/components/ui/LocationPicker';
+import { compressImage } from '@/lib/image-utils';
 
 const AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'];
 const PROPERTY_TYPES = ['house', 'apartment', 'land', 'commercial', 'other'];
@@ -29,9 +29,11 @@ export default function AdminEditSalePage() {
   const [formatting, setFormatting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [images, setImages] = useState<{ id: string; image_url: string; is_cover: boolean; sort_order: number }[]>([]);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [form, setForm] = useState<Record<string, unknown>>({
     slug: '', property_type: 'house', area: 'kassandra', location_name: '',
-    latitude: 0, longitude: 0, image_url: '',
+    latitude: 0, longitude: 0,
     price: 0, size_sqm: 0, bedrooms: 0, bathrooms: 0, floor: 0, year_built: 0,
     energy_class: '', features: [] as string[],
     status: 'draft', contact_phone: '', contact_email: '',
@@ -52,7 +54,6 @@ export default function AdminEditSalePage() {
           slug: data.slug || '', property_type: data.property_type || 'house',
           area: data.area || 'kassandra', location_name: data.location_name || '',
           latitude: data.latitude || 0, longitude: data.longitude || 0,
-          image_url: data.image_url || '',
           price: data.price || 0, size_sqm: data.size_sqm || 0,
           bedrooms: data.bedrooms || 0, bathrooms: data.bathrooms || 0,
           floor: data.floor || 0, year_built: data.year_built || 0,
@@ -69,6 +70,9 @@ export default function AdminEditSalePage() {
         }
         setForm(f);
       }
+      // Load images from sale_images table
+      const { data: imgs } = await supabase.from('sale_images').select('*').eq('sale_id', id).order('sort_order');
+      if (imgs) setImages(imgs);
       setLoading(false);
     }
     load();
@@ -83,6 +87,39 @@ export default function AdminEditSalePage() {
       const features = prev.features as string[];
       return { ...prev, features: features.includes(f) ? features.filter(x => x !== f) : [...features, f] };
     });
+  }
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingImage(true);
+    try {
+      const supabase = createClient();
+      const { blob } = await compressImage(file, { maxWidth: 1200, maxHeight: 800, quality: 0.72, format: 'webp' });
+      const filePath = `sales/${Date.now()}.webp`;
+      const { error: upErr } = await supabase.storage.from('content-images').upload(filePath, blob, { contentType: 'image/webp', upsert: true });
+      if (upErr) throw upErr;
+      const { data: { publicUrl } } = supabase.storage.from('content-images').getPublicUrl(filePath);
+      const isCover = images.length === 0;
+      const { data: newImg } = await supabase.from('sale_images').insert({
+        sale_id: id, image_url: publicUrl, is_cover: isCover, sort_order: images.length,
+      }).select().single();
+      if (newImg) setImages(prev => [...prev, newImg]);
+    } catch (err) { setError((err as Error).message); }
+    setUploadingImage(false);
+  }
+
+  async function handleDeleteImage(imgId: string) {
+    const supabase = createClient();
+    await supabase.from('sale_images').delete().eq('id', imgId);
+    setImages(prev => prev.filter(i => i.id !== imgId));
+  }
+
+  async function handleSetCover(imgId: string) {
+    const supabase = createClient();
+    await supabase.from('sale_images').update({ is_cover: false }).eq('sale_id', id);
+    await supabase.from('sale_images').update({ is_cover: true }).eq('id', imgId);
+    setImages(prev => prev.map(i => ({ ...i, is_cover: i.id === imgId })));
   }
 
   async function handleFormatDescription(lang: string) {
@@ -179,18 +216,51 @@ export default function AdminEditSalePage() {
             </select></div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
             <input type="text" value={form.location_name as string} onChange={e => update('location_name', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
-          <div><label className="block text-sm font-medium text-gray-700 mb-1">Image</label>
-            <ImageUpload currentUrl={form.image_url as string} onUpload={url => update('image_url', url)} folder="sales" /></div>
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
             <input type="text" value={form.contact_phone as string} onChange={e => update('contact_phone', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input type="text" value={form.contact_email as string} onChange={e => update('contact_email', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" /></div>
+        </div>
+
+        {/* Images from sale_images */}
+        <div className="border-t border-gray-200 pt-5">
+          <label className="block text-sm font-medium text-gray-700 mb-3">Φωτογραφίες ({images.length})</label>
+          <div className="flex flex-wrap gap-3">
+            {images.map((img) => (
+              <div key={img.id} className={`relative w-32 h-24 rounded-xl overflow-hidden group border-2 ${img.is_cover ? 'border-emerald-500' : 'border-gray-200'}`}>
+                <img src={img.image_url} alt="" className="w-full h-full object-cover" />
+                {img.is_cover && <span className="absolute top-1 left-1 px-1.5 py-0.5 bg-emerald-600 text-white text-[9px] font-bold rounded">COVER</span>}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100">
+                  {!img.is_cover && (
+                    <button type="button" onClick={() => handleSetCover(img.id)}
+                      className="p-1.5 bg-white rounded-lg hover:bg-emerald-50" title="Ορισμός ως cover">
+                      <Star className="w-3.5 h-3.5 text-emerald-600" />
+                    </button>
+                  )}
+                  <button type="button" onClick={() => handleDeleteImage(img.id)}
+                    className="p-1.5 bg-white rounded-lg hover:bg-red-50" title="Διαγραφή">
+                    <X className="w-3.5 h-3.5 text-red-600" />
+                  </button>
+                </div>
+              </div>
+            ))}
+            {/* Upload new */}
+            <label className="w-32 h-24 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50/50 transition-colors">
+              {uploadingImage ? <Loader2 className="w-5 h-5 text-emerald-500 animate-spin" /> : (
+                <>
+                  <Upload className="w-5 h-5 text-gray-400" />
+                  <span className="text-[10px] text-gray-400 mt-1">Προσθήκη</span>
+                </>
+              )}
+              <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploadingImage} />
+            </label>
+          </div>
         </div>
 
         {/* Numbers */}
