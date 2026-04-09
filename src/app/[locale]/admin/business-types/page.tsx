@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Tag, Plus, Save, Trash2, Loader2, Edit, X } from 'lucide-react';
+import { Tag, Plus, Save, Trash2, Loader2, Edit, X, Sparkles } from 'lucide-react';
 
 interface BusinessType {
   id: string;
@@ -25,6 +25,7 @@ export default function BusinessTypesPage() {
   const [adding, setAdding] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [translating, setTranslating] = useState(false);
   const [form, setForm] = useState<Record<string, string>>({});
 
   useEffect(() => { loadTypes(); }, []);
@@ -83,6 +84,37 @@ export default function BusinessTypesPage() {
     loadTypes();
   }
 
+  async function handleTranslate() {
+    const nameEl = form.name_el?.trim();
+    if (!nameEl) return;
+    setTranslating(true);
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'full_auto',
+          title: nameEl,
+          description: nameEl,
+          category: 'business type',
+          location: 'Halkidiki',
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setForm(prev => ({
+          ...prev,
+          name_en: data.translations?.title_en || prev.name_en,
+          name_de: data.translations?.title_de || prev.name_de,
+          name_bg: data.translations?.title_bg || prev.name_bg,
+          name_ru: data.translations?.title_ru || prev.name_ru,
+          name_ro: data.translations?.title_ro || prev.name_ro,
+        }));
+      }
+    } catch {}
+    setTranslating(false);
+  }
+
   async function handleDelete(id: string, name: string) {
     if (!confirm(`Διαγραφή "${name}"; Αν χρησιμοποιείται σε εστιατόρια, θα παραμείνει στα δεδομένα αλλά δεν θα εμφανίζεται ως επιλογή.`)) return;
     await fetch('/api/business-types', {
@@ -130,6 +162,15 @@ export default function BusinessTypesPage() {
               <input type="number" value={form.sort_order || ''} onChange={(e) => setForm({ ...form, sort_order: e.target.value })}
                 className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
             </div>
+          </div>
+
+          <div className="flex items-center gap-3 mb-4">
+            <button type="button" onClick={handleTranslate} disabled={translating || !form.name_el?.trim()}
+              className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg text-sm font-medium disabled:opacity-50 transition-all">
+              {translating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+              {translating ? 'Μετάφραση...' : 'AI Μετάφραση σε 5 γλώσσες'}
+            </button>
+            <p className="text-xs text-gray-400">Γράψε το ελληνικό όνομα και πάτα AI</p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
