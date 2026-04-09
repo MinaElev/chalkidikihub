@@ -22,6 +22,7 @@ const TABLES = [
   { key: 'activities', label: 'Activities', titleField: 'name', descField: 'description', imgField: 'image_url', hasCoords: true, editPath: '/admin/activities' },
   { key: 'blog_articles', label: 'Blog', titleField: 'title', descField: 'content', imgField: 'image_url', hasCoords: false, editPath: '/admin/blog' },
   { key: 'sales', label: 'Sales', titleField: 'title', descField: 'description', imgField: null, hasCoords: true, editPath: '/admin/sales' },
+  { key: 'villages', label: 'Villages', titleField: 'name', descField: 'description', imgField: 'image_url', hasCoords: true, editPath: '/admin/villages' },
 ] as const;
 
 export default function QualityPage() {

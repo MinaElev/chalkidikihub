@@ -21,6 +21,7 @@ const TABLES = [
   { key: 'activities', label: 'Activities', titleField: 'name', descField: 'description', editPrefix: '/admin/activities' },
   { key: 'blog_articles', label: 'Blog', titleField: 'title', descField: 'content', editPrefix: '/admin/blog' },
   { key: 'sales', label: 'Sales', titleField: 'title', descField: 'description', editPrefix: '/admin/sales' },
+  { key: 'villages', label: 'Villages', titleField: 'name', descField: 'description', editPrefix: '/admin/villages' },
 ] as const;
 
 export default function TranslationsPage() {

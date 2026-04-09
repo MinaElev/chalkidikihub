@@ -41,6 +41,7 @@ export default function AdminSeoPage() {
       { table: 'activities', type: 'activity', nameField: 'name', editPath: '/admin/activities' },
       { table: 'blog_articles', type: 'blog', nameField: 'title', editPath: '/admin/blog' },
       { table: 'listings', type: 'listing', nameField: 'title', editPath: '/admin/listings' },
+      { table: 'villages', type: 'village', nameField: 'name', editPath: '/admin/villages' },
     ];
 
     // Get listing images count per listing

@@ -26,7 +26,7 @@ interface LogEntry {
   created_at: string;
 }
 
-const CONTENT_TABLES = ['beaches', 'restaurants', 'activities', 'blog_articles', 'sales'] as const;
+const CONTENT_TABLES = ['beaches', 'restaurants', 'activities', 'blog_articles', 'sales', 'villages'] as const;
 const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
 const LANG_FLAGS: Record<string, string> = { el: '🇬🇷', en: '🇬🇧', de: '🇩🇪', bg: '🇧🇬', ru: '🇷🇺', ro: '🇷🇴' };
 
@@ -95,9 +95,9 @@ export default function AdminDashboard() {
     const seoData = { perfect: 0, issues: 0, critical: 0, total: 0 };
     for (const table of CONTENT_TABLES) {
       const titleField = table === 'blog_articles' ? 'title_el' : 'name_el';
-      const cols = table === 'sales'
+      const cols = (table === 'sales' || table === 'blog_articles')
         ? 'meta_title_el,meta_title_en,meta_description_el,meta_description_en,title_en,title_de,title_bg,title_ru,title_ro'
-        : `meta_title_el,meta_title_en,meta_description_el,meta_description_en,${titleField}`;
+        : `meta_title_el,meta_title_en,meta_description_el,meta_description_en,name_en,name_de,name_bg,name_ru,name_ro`;
       const { data: rows } = await supabase.from(table).select(cols).limit(500);
       if (rows) {
         (rows as unknown as Record<string, unknown>[]).forEach((row) => {
@@ -122,6 +122,7 @@ export default function AdminDashboard() {
       { table: 'activities', prefix: 'name' },
       { table: 'blog_articles', prefix: 'title' },
       { table: 'sales', prefix: 'title' },
+      { table: 'villages', prefix: 'name' },
     ];
     for (const { table, prefix } of transTables) {
       const cols = LANGS.map(l => `${prefix}_${l}`).join(',');

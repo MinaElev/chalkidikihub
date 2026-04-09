@@ -347,6 +347,7 @@ function BulkSEOGenerator() {
       { table: 'activities', titleField: 'name_el', descField: 'description_el', locField: 'location_name', transField: 'name_en' },
       { table: 'blog_articles', titleField: 'title_el', descField: 'excerpt_el', locField: 'category', transField: 'title_en' },
       { table: 'listings', titleField: 'title_el', descField: 'description_el', locField: 'location_name', transField: 'title_en' },
+      { table: 'villages', titleField: 'name_el', descField: 'description_el', locField: 'name_en', transField: 'name_en' },
     ];
 
     for (const t of tables) {
