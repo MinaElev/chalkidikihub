@@ -31,7 +31,9 @@
     "dashboard": "Табло",
     "myListings": "Моите обяви",
     "profile": "Профил",
-    "logout": "Изход"
+    "logout": "Изход",
+    "sales": "Продажби",
+    "newSale": "Нов имот"
   },
   "hero": {
     "title": "Открийте Халкидики",
@@ -358,5 +360,51 @@
     "noPending": "Няма предложения в изчакване.",
     "submittedBy": "Изпратено от",
     "submittedAt": "Дата"
+  },
+  "sales": {
+    "title": "Продажби на имоти",
+    "subtitle": "Къщи, апартаменти, парцели и търговски площи в Халкидики",
+    "newSale": "Нов имот",
+    "mySales": "Моите имоти",
+    "price": "Цена",
+    "size": "Площ",
+    "bedrooms": "Спални",
+    "bathrooms": "Бани",
+    "floor": "Етаж",
+    "yearBuilt": "Година на строеж",
+    "energyClass": "Енергиен клас",
+    "features": "Характеристики",
+    "allTypes": "Всички типове",
+    "filters": {
+      "allAreas": "Всички райони",
+      "minPrice": "Мин. цена",
+      "maxPrice": "Макс. цена",
+      "minSize": "Мин. площ",
+      "sortNewest": "Най-нови",
+      "sortPriceLow": "Цена ↑",
+      "sortPriceHigh": "Цена ↓",
+      "sortSize": "Площ"
+    }
+  },
+  "propertyTypes": {
+    "house": "Къща",
+    "apartment": "Апартамент",
+    "land": "Парцел",
+    "commercial": "Търговски",
+    "other": "Друго"
+  },
+  "saleFeatures": {
+    "parking": "Паркинг",
+    "pool": "Басейн",
+    "garden": "Градина",
+    "sea_view": "Гледка към морето",
+    "furnished": "Обзаведен",
+    "elevator": "Асансьор",
+    "storage": "Мазе",
+    "fireplace": "Камина",
+    "solar": "Соларен",
+    "alarm": "Аларма",
+    "air_conditioning": "Климатик",
+    "central_heating": "Централно отопление"
   }
 }

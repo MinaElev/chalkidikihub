@@ -313,3 +313,53 @@ export interface UserSubmission {
   user_name?: string;
   user_email?: string;
 }
+
+// Sales / Real Estate
+export type PropertyType = 'house' | 'apartment' | 'land' | 'commercial' | 'other';
+export type SaleFeature = 'parking' | 'pool' | 'garden' | 'sea_view' | 'furnished' | 'elevator' | 'storage' | 'fireplace' | 'solar' | 'alarm' | 'air_conditioning' | 'central_heating';
+
+export interface Sale {
+  id: string;
+  slug: string;
+  owner_id: string;
+  property_type: PropertyType;
+  title: Record<string, string>;
+  description: Record<string, string>;
+  area: Area;
+  location_name: string;
+  latitude: number;
+  longitude: number;
+  price: number;
+  currency: string;
+  size_sqm: number;
+  bedrooms: number;
+  bathrooms: number;
+  floor: number;
+  year_built: number;
+  energy_class: string;
+  features: SaleFeature[];
+  status: ListingStatus;
+  images: SaleImage[];
+  contact_phone: string;
+  contact_email: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SaleImage {
+  id: string;
+  sale_id: string;
+  image_url: string;
+  sort_order: number;
+  is_cover: boolean;
+}
+
+export interface SaleFilters {
+  area?: Area;
+  property_type?: PropertyType;
+  minPrice?: number;
+  maxPrice?: number;
+  minSize?: number;
+  bedrooms?: number;
+  sort?: 'newest' | 'price_low' | 'price_high' | 'size';
+}

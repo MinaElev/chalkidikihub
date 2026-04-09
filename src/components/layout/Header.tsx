@@ -94,6 +94,9 @@ export function Header() {
             <Link href="/blog" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
               {t('blog')}
             </Link>
+            <Link href="/sales" className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
+              {t('sales')}
+            </Link>
           </nav>
 
           {/* Right side */}
@@ -138,6 +141,8 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(false)}>{t('restaurants')}</Link>
               <Link href="/blog" className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
                 onClick={() => setMobileMenuOpen(false)}>{t('blog')}</Link>
+              <Link href="/sales" className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}>{t('sales')}</Link>
               <hr className="my-2" />
               <Link
                 href="/auth/login"

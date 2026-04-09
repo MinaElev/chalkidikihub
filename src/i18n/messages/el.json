@@ -31,7 +31,9 @@
     "dashboard": "Πίνακας Ελέγχου",
     "myListings": "Τα Καταλύματά μου",
     "profile": "Προφίλ",
-    "logout": "Αποσύνδεση"
+    "logout": "Αποσύνδεση",
+    "sales": "Πωλήσεις",
+    "newSale": "Νέο Ακίνητο"
   },
   "hero": {
     "title": "Ανακαλύψτε τη Χαλκιδική",
@@ -358,5 +360,51 @@
     "noPending": "Δεν υπάρχουν προτάσεις σε αναμονή.",
     "submittedBy": "Υποβλήθηκε από",
     "submittedAt": "Ημερομηνία"
+  },
+  "sales": {
+    "title": "Πωλήσεις Ακινήτων",
+    "subtitle": "Σπίτια, διαμερίσματα, οικόπεδα και επαγγελματικοί χώροι στη Χαλκιδική",
+    "newSale": "Νέο Ακίνητο",
+    "mySales": "Τα Ακίνητά μου",
+    "price": "Τιμή",
+    "size": "Εμβαδόν",
+    "bedrooms": "Υπνοδωμάτια",
+    "bathrooms": "Μπάνια",
+    "floor": "Όροφος",
+    "yearBuilt": "Έτος κατασκευής",
+    "energyClass": "Ενεργειακή κλάση",
+    "features": "Χαρακτηριστικά",
+    "allTypes": "Όλοι οι τύποι",
+    "filters": {
+      "allAreas": "Όλες οι περιοχές",
+      "minPrice": "Ελάχιστη τιμή",
+      "maxPrice": "Μέγιστη τιμή",
+      "minSize": "Ελάχιστο εμβαδόν",
+      "sortNewest": "Νεότερα",
+      "sortPriceLow": "Τιμή ↑",
+      "sortPriceHigh": "Τιμή ↓",
+      "sortSize": "Εμβαδόν"
+    }
+  },
+  "propertyTypes": {
+    "house": "Κατοικία",
+    "apartment": "Διαμέρισμα",
+    "land": "Γη",
+    "commercial": "Επαγγελματικό",
+    "other": "Λοιπά"
+  },
+  "saleFeatures": {
+    "parking": "Parking",
+    "pool": "Πισίνα",
+    "garden": "Κήπος",
+    "sea_view": "Θέα Θάλασσα",
+    "furnished": "Επιπλωμένο",
+    "elevator": "Ασανσέρ",
+    "storage": "Αποθήκη",
+    "fireplace": "Τζάκι",
+    "solar": "Ηλιακός",
+    "alarm": "Συναγερμός",
+    "air_conditioning": "Κλιματισμός",
+    "central_heating": "Κεντρική Θέρμανση"
   }
 }

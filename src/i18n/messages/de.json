@@ -31,7 +31,9 @@
     "dashboard": "Dashboard",
     "myListings": "Meine Unterkünfte",
     "profile": "Profil",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "sales": "Immobilien",
+    "newSale": "Neue Immobilie"
   },
   "hero": {
     "title": "Entdecken Sie Chalkidiki",
@@ -358,5 +360,51 @@
     "noPending": "Keine ausstehenden Vorschläge.",
     "submittedBy": "Eingereicht von",
     "submittedAt": "Datum"
+  },
+  "sales": {
+    "title": "Immobilienverkauf",
+    "subtitle": "Häuser, Wohnungen, Grundstücke und Gewerbeimmobilien in Chalkidiki",
+    "newSale": "Neue Immobilie",
+    "mySales": "Meine Immobilien",
+    "price": "Preis",
+    "size": "Größe",
+    "bedrooms": "Schlafzimmer",
+    "bathrooms": "Badezimmer",
+    "floor": "Stockwerk",
+    "yearBuilt": "Baujahr",
+    "energyClass": "Energieklasse",
+    "features": "Merkmale",
+    "allTypes": "Alle Typen",
+    "filters": {
+      "allAreas": "Alle Gebiete",
+      "minPrice": "Mindestpreis",
+      "maxPrice": "Höchstpreis",
+      "minSize": "Mindestgröße",
+      "sortNewest": "Neueste",
+      "sortPriceLow": "Preis ↑",
+      "sortPriceHigh": "Preis ↓",
+      "sortSize": "Größe"
+    }
+  },
+  "propertyTypes": {
+    "house": "Haus",
+    "apartment": "Wohnung",
+    "land": "Grundstück",
+    "commercial": "Gewerbe",
+    "other": "Sonstige"
+  },
+  "saleFeatures": {
+    "parking": "Parkplatz",
+    "pool": "Pool",
+    "garden": "Garten",
+    "sea_view": "Meerblick",
+    "furnished": "Möbliert",
+    "elevator": "Aufzug",
+    "storage": "Abstellraum",
+    "fireplace": "Kamin",
+    "solar": "Solar",
+    "alarm": "Alarmanlage",
+    "air_conditioning": "Klimaanlage",
+    "central_heating": "Zentralheizung"
   }
 }

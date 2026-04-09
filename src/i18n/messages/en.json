@@ -31,7 +31,9 @@
     "dashboard": "Dashboard",
     "myListings": "My Listings",
     "profile": "Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "sales": "Sales",
+    "newSale": "New Property"
   },
   "hero": {
     "title": "Discover Halkidiki",
@@ -358,5 +360,51 @@
     "noPending": "No pending submissions.",
     "submittedBy": "Submitted by",
     "submittedAt": "Date"
+  },
+  "sales": {
+    "title": "Property Sales",
+    "subtitle": "Houses, apartments, land and commercial spaces in Halkidiki",
+    "newSale": "New Property",
+    "mySales": "My Properties",
+    "price": "Price",
+    "size": "Size",
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "floor": "Floor",
+    "yearBuilt": "Year built",
+    "energyClass": "Energy class",
+    "features": "Features",
+    "allTypes": "All types",
+    "filters": {
+      "allAreas": "All areas",
+      "minPrice": "Min price",
+      "maxPrice": "Max price",
+      "minSize": "Min size",
+      "sortNewest": "Newest",
+      "sortPriceLow": "Price ↑",
+      "sortPriceHigh": "Price ↓",
+      "sortSize": "Size"
+    }
+  },
+  "propertyTypes": {
+    "house": "House",
+    "apartment": "Apartment",
+    "land": "Land",
+    "commercial": "Commercial",
+    "other": "Other"
+  },
+  "saleFeatures": {
+    "parking": "Parking",
+    "pool": "Pool",
+    "garden": "Garden",
+    "sea_view": "Sea View",
+    "furnished": "Furnished",
+    "elevator": "Elevator",
+    "storage": "Storage",
+    "fireplace": "Fireplace",
+    "solar": "Solar",
+    "alarm": "Alarm",
+    "air_conditioning": "Air Conditioning",
+    "central_heating": "Central Heating"
   }
 }

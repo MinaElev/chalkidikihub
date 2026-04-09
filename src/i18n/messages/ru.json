@@ -31,7 +31,9 @@
     "dashboard": "Панель управления",
     "myListings": "Мои объявления",
     "profile": "Профиль",
-    "logout": "Выход"
+    "logout": "Выход",
+    "sales": "Продажа",
+    "newSale": "Новый объект"
   },
   "hero": {
     "title": "Откройте Халкидики",
@@ -358,5 +360,51 @@
     "noPending": "Нет предложений на рассмотрении.",
     "submittedBy": "Отправлено",
     "submittedAt": "Дата"
+  },
+  "sales": {
+    "title": "Продажа недвижимости",
+    "subtitle": "Дома, квартиры, участки и коммерческие помещения в Халкидики",
+    "newSale": "Новый объект",
+    "mySales": "Мои объекты",
+    "price": "Цена",
+    "size": "Площадь",
+    "bedrooms": "Спальни",
+    "bathrooms": "Ванные",
+    "floor": "Этаж",
+    "yearBuilt": "Год постройки",
+    "energyClass": "Энергокласс",
+    "features": "Характеристики",
+    "allTypes": "Все типы",
+    "filters": {
+      "allAreas": "Все районы",
+      "minPrice": "Мин. цена",
+      "maxPrice": "Макс. цена",
+      "minSize": "Мин. площадь",
+      "sortNewest": "Новые",
+      "sortPriceLow": "Цена ↑",
+      "sortPriceHigh": "Цена ↓",
+      "sortSize": "Площадь"
+    }
+  },
+  "propertyTypes": {
+    "house": "Дом",
+    "apartment": "Квартира",
+    "land": "Участок",
+    "commercial": "Коммерческая",
+    "other": "Другое"
+  },
+  "saleFeatures": {
+    "parking": "Парковка",
+    "pool": "Бассейн",
+    "garden": "Сад",
+    "sea_view": "Вид на море",
+    "furnished": "Меблированный",
+    "elevator": "Лифт",
+    "storage": "Кладовая",
+    "fireplace": "Камин",
+    "solar": "Солнечный",
+    "alarm": "Сигнализация",
+    "air_conditioning": "Кондиционер",
+    "central_heating": "Центральное отопление"
   }
 }

@@ -31,7 +31,9 @@
     "dashboard": "Panou de control",
     "myListings": "Anunțurile mele",
     "profile": "Profil",
-    "logout": "Deconectare"
+    "logout": "Deconectare",
+    "sales": "Vânzări",
+    "newSale": "Proprietate nouă"
   },
   "hero": {
     "title": "Descoperiți Halkidiki",
@@ -358,5 +360,51 @@
     "noPending": "Nu există sugestii în așteptare.",
     "submittedBy": "Trimis de",
     "submittedAt": "Data"
+  },
+  "sales": {
+    "title": "Vânzări imobiliare",
+    "subtitle": "Case, apartamente, terenuri și spații comerciale în Halkidiki",
+    "newSale": "Proprietate nouă",
+    "mySales": "Proprietățile mele",
+    "price": "Preț",
+    "size": "Suprafață",
+    "bedrooms": "Dormitoare",
+    "bathrooms": "Băi",
+    "floor": "Etaj",
+    "yearBuilt": "Anul construcției",
+    "energyClass": "Clasa energetică",
+    "features": "Caracteristici",
+    "allTypes": "Toate tipurile",
+    "filters": {
+      "allAreas": "Toate zonele",
+      "minPrice": "Preț minim",
+      "maxPrice": "Preț maxim",
+      "minSize": "Suprafață minimă",
+      "sortNewest": "Cele mai noi",
+      "sortPriceLow": "Preț ↑",
+      "sortPriceHigh": "Preț ↓",
+      "sortSize": "Suprafață"
+    }
+  },
+  "propertyTypes": {
+    "house": "Casă",
+    "apartment": "Apartament",
+    "land": "Teren",
+    "commercial": "Comercial",
+    "other": "Altele"
+  },
+  "saleFeatures": {
+    "parking": "Parcare",
+    "pool": "Piscină",
+    "garden": "Grădină",
+    "sea_view": "Vedere la mare",
+    "furnished": "Mobilat",
+    "elevator": "Lift",
+    "storage": "Debara",
+    "fireplace": "Șemineu",
+    "solar": "Solar",
+    "alarm": "Alarmă",
+    "air_conditioning": "Aer condiționat",
+    "central_heating": "Încălzire centrală"
   }
 }

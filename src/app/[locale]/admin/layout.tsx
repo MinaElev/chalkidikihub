@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation';
 import {
   LayoutDashboard, Users, List, MapPin, Waves, UtensilsCrossed,
   Landmark, Zap, FileText, Settings, Home, LogOut, Loader2, Shield,
-  ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail, Sparkles, Star,
+  ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail, Sparkles, Star, Building,
 } from 'lucide-react';
 
 const navSections = [
@@ -28,6 +28,7 @@ const navSections = [
       { href: '/admin/business-types', icon: List, label: 'Είδη Μαγαζιών' },
       { href: '/admin/activities', icon: Landmark, label: 'Activities' },
       { href: '/admin/blog', icon: FileText, label: 'Blog' },
+      { href: '/admin/sales', icon: Building, label: 'Sales' },
     ],
   },
   {

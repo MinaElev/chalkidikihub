@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -16,6 +16,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations('nav');
+  const tSales = useTranslations('sales');
   const tSub = useTranslations('submissions');
 
   useEffect(() => {
@@ -69,6 +70,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         { href: '/dashboard', icon: LayoutDashboard, label: t('dashboard') },
         { href: '/dashboard/listings', icon: List, label: t('myListings') },
         { href: '/dashboard/profile', icon: User, label: t('profile') },
+      ],
+    },
+    {
+      title: t('sales'),
+      items: [
+        { href: '/dashboard/sales', icon: Building, label: tSales('mySales') },
+        { href: '/dashboard/sales/new', icon: Plus, label: tSales('newSale') },
       ],
     },
     {

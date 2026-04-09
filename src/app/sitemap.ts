@@ -39,6 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: 'activities', priority: 0.8, freq: 'weekly' as const },
     { path: 'ev-chargers', priority: 0.7, freq: 'weekly' as const },
     { path: 'blog', priority: 0.8, freq: 'daily' as const },
+    { path: 'sales', priority: 0.9, freq: 'daily' as const },
     { path: 'areas', priority: 0.8, freq: 'weekly' as const },
     { path: 'map', priority: 0.6, freq: 'weekly' as const },
     { path: 'contact', priority: 0.5, freq: 'monthly' as const },
@@ -196,6 +197,38 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const cat of blogCategories) {
     for (const locale of locales) {
       entries.push({ url: `${baseUrl}/${locale}/blog/category/${cat}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/blog/category/${cat}`) });
+    }
+  }
+
+  // Sales from DB
+  const { data: sales } = await supabase
+    .from('sales')
+    .select('slug, updated_at')
+    .eq('status', 'published');
+  if (sales) {
+    for (const item of sales) {
+      for (const locale of locales) {
+        entries.push({
+          url: `${baseUrl}/${locale}/sales/${item.slug}`,
+          lastModified: item.updated_at ? new Date(item.updated_at) : new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+          alternates: altLanguages(`/sales/${item.slug}`),
+        });
+      }
+    }
+  }
+
+  // Sales ghost pages
+  const propertyTypes = ['house', 'apartment', 'land', 'commercial', 'other'];
+  for (const pt of propertyTypes) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/sales/category/${pt}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/sales/category/${pt}`) });
+    }
+  }
+  for (const area of areaSlugs) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/sales/area/${area}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/sales/area/${area}`) });
     }
   }
 
