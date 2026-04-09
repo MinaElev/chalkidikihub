@@ -384,7 +384,24 @@
       "sortPriceLow": "Preis ↑",
       "sortPriceHigh": "Preis ↓",
       "sortSize": "Größe"
-    }
+    },
+    "heroTitle": "Immobilien zum Verkauf",
+    "heroHighlight": "in Chalkidiki",
+    "heroSubtitle": "Häuser, Wohnungen, Grundstücke und Gewerbeimmobilien in der schönsten Ecke Griechenlands.",
+    "latestProperties": "Neueste Immobilien",
+    "properties": "Immobilien",
+    "noProperties": "Keine Immobilien gefunden",
+    "viewAll": "Alle anzeigen",
+    "sellCTA": "Möchten Sie eine Immobilie verkaufen?",
+    "sellCTADesc": "Listen Sie Ihre Immobilie kostenlos auf ChalkidikiHub",
+    "listProperty": "Immobilie listen",
+    "backToRentals": "Zurück zu Vermietungen",
+    "rentals": "Vermietungen",
+    "contact": "Kontakt",
+    "home": "Startseite",
+    "sqm": "qm",
+    "pricePerSqm": "€/qm",
+    "terms": "AGB"
   },
   "propertyTypes": {
     "house": "Haus",

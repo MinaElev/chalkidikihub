@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useLiveData } from '@/lib/use-live-data';
 import { Sale, SaleFilters, PropertyType, Area } from '@/types';
@@ -9,17 +9,17 @@ import { AREA_SLUGS } from '@/lib/constants';
 import { Link } from '@/i18n/navigation';
 import { Search, X, MapPin, Building, ChevronLeft, ChevronRight, Home, Landmark, TreePine, Briefcase } from 'lucide-react';
 
-const PROPERTY_TYPES: { value: PropertyType; label_el: string; label_en: string; icon: typeof Home }[] = [
-  { value: 'house', label_el: 'Κατοικίες', label_en: 'Houses', icon: Home },
-  { value: 'apartment', label_el: 'Διαμερίσματα', label_en: 'Apartments', icon: Building },
-  { value: 'land', label_el: 'Γη / Οικόπεδα', label_en: 'Land', icon: TreePine },
-  { value: 'commercial', label_el: 'Επαγγελματικά', label_en: 'Commercial', icon: Briefcase },
-  { value: 'other', label_el: 'Λοιπά', label_en: 'Other', icon: Landmark },
+const PROPERTY_TYPES: { value: PropertyType; icon: typeof Home }[] = [
+  { value: 'house', icon: Home },
+  { value: 'apartment', icon: Building },
+  { value: 'land', icon: TreePine },
+  { value: 'commercial', icon: Briefcase },
+  { value: 'other', icon: Landmark },
 ];
 
 export default function SalesPage() {
-  const locale = useLocale();
   const t = useTranslations('sales');
+  const tProp = useTranslations('propertyTypes');
   const tAreas = useTranslations('areas');
   const [filters, setFilters] = useState<SaleFilters>({});
   const { data: sales } = useLiveData<Sale>('/api/sales', []);
@@ -62,14 +62,12 @@ export default function SalesPage() {
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-            {locale === 'el' ? 'Ακίνητα προς Πώληση' : 'Properties for Sale'}
+            {t('heroTitle')}
             <br />
-            <span className="text-emerald-300">{locale === 'el' ? 'στη Χαλκιδική' : 'in Halkidiki'}</span>
+            <span className="text-emerald-300">{t('heroHighlight')}</span>
           </h1>
           <p className="mt-4 text-lg text-emerald-100 max-w-2xl">
-            {locale === 'el'
-              ? 'Σπίτια, διαμερίσματα, οικόπεδα και επαγγελματικοί χώροι στην πιο όμορφη γωνιά της Ελλάδας.'
-              : 'Houses, apartments, land and commercial properties in the most beautiful corner of Greece.'}
+            {t('heroSubtitle')}
           </p>
 
           {/* Property type cards */}
@@ -87,8 +85,8 @@ export default function SalesPage() {
                   }`}>
                   <Icon className="w-5 h-5 shrink-0" />
                   <div className="text-left">
-                    <p className="text-sm font-semibold">{locale === 'el' ? pt.label_el : pt.label_en}</p>
-                    <p className="text-xs opacity-70">{count} {locale === 'el' ? 'ακίνητα' : 'properties'}</p>
+                    <p className="text-sm font-semibold">{tProp(pt.value)}</p>
+                    <p className="text-xs opacity-70">{count} {t('properties')}</p>
                   </div>
                 </button>
               );
@@ -103,7 +101,7 @@ export default function SalesPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                {locale === 'el' ? 'Νέες Καταχωρήσεις' : 'Latest Properties'}
+                {t('latestProperties')}
               </h2>
               <div className="flex gap-2">
                 <button onClick={() => scrollCarousel(-1)} className="p-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
@@ -159,7 +157,7 @@ export default function SalesPage() {
             </button>
           )}
 
-          <span className="text-sm text-gray-500 ml-auto">{filtered.length} {locale === 'el' ? 'ακίνητα' : 'properties'}</span>
+          <span className="text-sm text-gray-500 ml-auto">{filtered.length} {t('properties')}</span>
         </div>
 
         {/* Results */}
@@ -172,7 +170,7 @@ export default function SalesPage() {
               <div className="text-center mt-8">
                 <button onClick={() => setShowAll(true)}
                   className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-colors">
-                  {locale === 'el' ? `Δείτε όλα (${filtered.length})` : `View all (${filtered.length})`}
+                  {`${t('viewAll')} (${filtered.length})`}
                 </button>
               </div>
             )}
@@ -180,7 +178,7 @@ export default function SalesPage() {
         ) : (
           <div className="text-center py-16">
             <Building className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-lg text-gray-500">{locale === 'el' ? 'Δεν βρέθηκαν ακίνητα' : 'No properties found'}</p>
+            <p className="text-lg text-gray-500">{t('noProperties')}</p>
           </div>
         )}
       </section>
@@ -188,11 +186,11 @@ export default function SalesPage() {
       {/* CTA */}
       <section className="py-12 bg-emerald-600">
         <div className="max-w-4xl mx-auto px-4 text-center text-white">
-          <h2 className="text-2xl font-bold">{locale === 'el' ? 'Θέλετε να πουλήσετε ακίνητο;' : 'Want to sell a property?'}</h2>
-          <p className="mt-2 text-emerald-100">{locale === 'el' ? 'Καταχωρήστε δωρεάν το ακίνητό σας στο ChalkidikiHub' : 'List your property for free on ChalkidikiHub'}</p>
+          <h2 className="text-2xl font-bold">{t('sellCTA')}</h2>
+          <p className="mt-2 text-emerald-100">{t('sellCTADesc')}</p>
           <Link href="/dashboard/sales/new"
             className="inline-flex mt-6 px-8 py-3 bg-white text-emerald-700 font-semibold rounded-xl hover:bg-emerald-50 transition-colors">
-            {locale === 'el' ? 'Καταχώρηση Ακινήτου' : 'List Property'}
+            {t('listProperty')}
           </Link>
         </div>
       </section>

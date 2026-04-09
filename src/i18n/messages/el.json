@@ -384,7 +384,24 @@
       "sortPriceLow": "Τιμή ↑",
       "sortPriceHigh": "Τιμή ↓",
       "sortSize": "Εμβαδόν"
-    }
+    },
+    "heroTitle": "Ακίνητα προς Πώληση",
+    "heroHighlight": "στη Χαλκιδική",
+    "heroSubtitle": "Σπίτια, διαμερίσματα, οικόπεδα και επαγγελματικοί χώροι στην πιο όμορφη γωνιά της Ελλάδας.",
+    "latestProperties": "Νέες Καταχωρήσεις",
+    "properties": "ακίνητα",
+    "noProperties": "Δεν βρέθηκαν ακίνητα",
+    "viewAll": "Δείτε όλα",
+    "sellCTA": "Θέλετε να πουλήσετε ακίνητο;",
+    "sellCTADesc": "Καταχωρήστε δωρεάν το ακίνητό σας στο ChalkidikiHub",
+    "listProperty": "Καταχώρηση Ακινήτου",
+    "backToRentals": "Πίσω στα Καταλύματα",
+    "rentals": "Καταλύματα",
+    "contact": "Επικοινωνία",
+    "home": "Αρχική",
+    "sqm": "τ.μ.",
+    "pricePerSqm": "€/τ.μ.",
+    "terms": "Όροι"
   },
   "propertyTypes": {
     "house": "Κατοικία",

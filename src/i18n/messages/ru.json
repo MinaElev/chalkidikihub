@@ -384,7 +384,24 @@
       "sortPriceLow": "Цена ↑",
       "sortPriceHigh": "Цена ↓",
       "sortSize": "Площадь"
-    }
+    },
+    "heroTitle": "Недвижимость на продажу",
+    "heroHighlight": "в Халкидики",
+    "heroSubtitle": "Дома, квартиры, участки и коммерческая недвижимость в самом красивом уголке Греции.",
+    "latestProperties": "Новые объявления",
+    "properties": "объектов",
+    "noProperties": "Недвижимость не найдена",
+    "viewAll": "Показать все",
+    "sellCTA": "Хотите продать недвижимость?",
+    "sellCTADesc": "Разместите объявление бесплатно на ChalkidikiHub",
+    "listProperty": "Разместить объявление",
+    "backToRentals": "Назад к аренде",
+    "rentals": "Аренда",
+    "contact": "Контакт",
+    "home": "Главная",
+    "sqm": "кв.м.",
+    "pricePerSqm": "€/кв.м.",
+    "terms": "Условия"
   },
   "propertyTypes": {
     "house": "Дом",

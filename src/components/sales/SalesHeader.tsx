@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher';
 import { UserMenu } from '@/components/layout/UserMenu';
@@ -9,18 +9,16 @@ import { Menu, X, Building } from 'lucide-react';
 
 export function SalesHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const locale = useLocale();
   const t = useTranslations('sales');
-  const tNav = useTranslations('nav');
   const tProp = useTranslations('propertyTypes');
 
   const navItems = [
-    { href: '/sales', label: locale === 'el' ? 'Αρχική' : 'Home' },
+    { href: '/sales', label: t('home') },
     { href: '/sales?type=house', label: tProp('house') },
     { href: '/sales?type=apartment', label: tProp('apartment') },
     { href: '/sales?type=land', label: tProp('land') },
     { href: '/sales?type=commercial', label: tProp('commercial') },
-    { href: '/contact', label: locale === 'el' ? 'Επικοινωνία' : 'Contact' },
+    { href: '/contact', label: t('contact') },
   ];
 
   return (
@@ -51,7 +49,7 @@ export function SalesHeader() {
           {/* Right side */}
           <div className="flex items-center gap-2">
             <Link href="/" className="hidden md:inline-flex text-xs text-gray-400 hover:text-primary-600 mr-2">
-              ← {locale === 'el' ? 'Καταλύματα' : 'Rentals'}
+              ← {t('rentals')}
             </Link>
             <LanguageSwitcher />
             <div className="hidden md:flex items-center gap-2">
@@ -76,7 +74,7 @@ export function SalesHeader() {
             <hr className="my-2" />
             <Link href="/" onClick={() => setMobileOpen(false)}
               className="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-50 rounded-lg">
-              ← {locale === 'el' ? 'Πίσω στα Καταλύματα' : 'Back to Rentals'}
+              ← {t('backToRentals')}
             </Link>
           </div>
         )}

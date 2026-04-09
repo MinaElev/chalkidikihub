@@ -1,11 +1,11 @@
 'use client';
 
-import { useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Building } from 'lucide-react';
 
 export function SalesFooter() {
-  const locale = useLocale();
+  const t = useTranslations('sales');
   const year = new Date().getFullYear();
 
   return (
@@ -19,10 +19,10 @@ export function SalesFooter() {
             <span className="font-bold text-white">Chalkidiki Sales</span>
           </div>
           <div className="flex flex-wrap gap-6 text-sm">
-            <Link href="/sales" className="hover:text-white">{locale === 'el' ? 'Αρχική' : 'Home'}</Link>
-            <Link href="/contact" className="hover:text-white">{locale === 'el' ? 'Επικοινωνία' : 'Contact'}</Link>
-            <Link href="/" className="hover:text-white">{locale === 'el' ? 'Καταλύματα' : 'Rentals'}</Link>
-            <Link href="/terms" className="hover:text-white">{locale === 'el' ? 'Όροι' : 'Terms'}</Link>
+            <Link href="/sales" className="hover:text-white">{t('home')}</Link>
+            <Link href="/contact" className="hover:text-white">{t('contact')}</Link>
+            <Link href="/" className="hover:text-white">{t('rentals')}</Link>
+            <Link href="/terms" className="hover:text-white">{t('terms')}</Link>
           </div>
         </div>
         <div className="border-t border-gray-800 mt-6 pt-6 text-center text-xs">

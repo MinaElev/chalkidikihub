@@ -384,7 +384,24 @@
       "sortPriceLow": "Price ↑",
       "sortPriceHigh": "Price ↓",
       "sortSize": "Size"
-    }
+    },
+    "heroTitle": "Properties for Sale",
+    "heroHighlight": "in Halkidiki",
+    "heroSubtitle": "Houses, apartments, land and commercial properties in the most beautiful corner of Greece.",
+    "latestProperties": "Latest Properties",
+    "properties": "properties",
+    "noProperties": "No properties found",
+    "viewAll": "View all",
+    "sellCTA": "Want to sell a property?",
+    "sellCTADesc": "List your property for free on ChalkidikiHub",
+    "listProperty": "List Property",
+    "backToRentals": "Back to Rentals",
+    "rentals": "Rentals",
+    "contact": "Contact",
+    "home": "Home",
+    "sqm": "sqm",
+    "pricePerSqm": "€/sqm",
+    "terms": "Terms"
   },
   "propertyTypes": {
     "house": "House",

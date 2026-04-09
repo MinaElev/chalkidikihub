@@ -384,7 +384,24 @@
       "sortPriceLow": "Цена ↑",
       "sortPriceHigh": "Цена ↓",
       "sortSize": "Площ"
-    }
+    },
+    "heroTitle": "Имоти за продажба",
+    "heroHighlight": "в Халкидики",
+    "heroSubtitle": "Къщи, апартаменти, парцели и търговски имоти в най-красивия кът на Гърция.",
+    "latestProperties": "Нови обяви",
+    "properties": "имоти",
+    "noProperties": "Не са намерени имоти",
+    "viewAll": "Вижте всички",
+    "sellCTA": "Искате да продадете имот?",
+    "sellCTADesc": "Публикувайте имота си безплатно в ChalkidikiHub",
+    "listProperty": "Публикуване на имот",
+    "backToRentals": "Обратно към наеми",
+    "rentals": "Наеми",
+    "contact": "Контакт",
+    "home": "Начало",
+    "sqm": "кв.м.",
+    "pricePerSqm": "€/кв.м.",
+    "terms": "Условия"
   },
   "propertyTypes": {
     "house": "Къща",

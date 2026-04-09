@@ -384,7 +384,24 @@
       "sortPriceLow": "Preț ↑",
       "sortPriceHigh": "Preț ↓",
       "sortSize": "Suprafață"
-    }
+    },
+    "heroTitle": "Proprietăți de vânzare",
+    "heroHighlight": "în Halkidiki",
+    "heroSubtitle": "Case, apartamente, terenuri și spații comerciale în cel mai frumos colț al Greciei.",
+    "latestProperties": "Cele mai noi proprietăți",
+    "properties": "proprietăți",
+    "noProperties": "Nu au fost găsite proprietăți",
+    "viewAll": "Vezi toate",
+    "sellCTA": "Doriți să vindeți o proprietate?",
+    "sellCTADesc": "Listați proprietatea gratuit pe ChalkidikiHub",
+    "listProperty": "Listare proprietate",
+    "backToRentals": "Înapoi la închirieri",
+    "rentals": "Închirieri",
+    "contact": "Contact",
+    "home": "Acasă",
+    "sqm": "mp",
+    "pricePerSqm": "€/mp",
+    "terms": "Termeni"
   },
   "propertyTypes": {
     "house": "Casă",
