@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Building, Eye, EyeOff, Trash2, Loader2, Search, ChevronDown, ChevronUp, Pencil, ExternalLink } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
@@ -35,6 +36,7 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 export default function AdminSalesPage() {
+  const locale = useLocale();
   const [sales, setSales] = useState<AdminSale[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -165,7 +167,7 @@ export default function AdminSalesPage() {
 
                   <div className="flex items-center gap-1">
                     {sale.slug && (
-                      <a href={`/sales/${sale.slug}`} target="_blank" rel="noopener noreferrer"
+                      <a href={`/${locale}/sales/${sale.slug}`} target="_blank" rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         className="p-1.5 rounded hover:bg-green-50 text-green-600" title="Preview">
                         <ExternalLink className="w-4 h-4" />

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import { Plus, Edit, Trash2, Loader2, Waves, CheckCircle, XCircle, ImageIcon, Search, ExternalLink } from 'lucide-react';
@@ -21,6 +22,7 @@ interface Beach {
 }
 
 export default function AdminBeachesPage() {
+  const locale = useLocale();
   const [beaches, setBeaches] = useState<Beach[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -116,7 +118,7 @@ export default function AdminBeachesPage() {
                   </td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex items-center justify-end gap-1">
-                      <a href={`/beaches/${b.slug || b.id}`} target="_blank" rel="noopener noreferrer"
+                      <a href={`/${locale}/beaches/${b.slug || b.id}`} target="_blank" rel="noopener noreferrer"
                         className="p-1.5 rounded hover:bg-blue-50 text-blue-500" title="Preview">
                         <ExternalLink className="w-4 h-4" />
                       </a>
