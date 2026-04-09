@@ -8,6 +8,17 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v2.0.0',
+      date: '10 Απριλίου 2026',
+      highlights: 'Mount Athos Guide, 6-Language Translations, Area Banner',
+      features: [
+        { emoji: '⛪', title: 'Οδηγός Αγίου Όρους', desc: '8 σελίδες: μοναστήρια, κανόνες, μεταφορές, διαμονή, ζωή, πεζοπορία, ιστορία — πλήρης μετάφραση 6 γλωσσών' },
+        { emoji: '🌍', title: '48 SEO URLs', desc: '8 σελίδες × 6 γλώσσες με meta titles, descriptions, hreflang, JSON-LD schemas' },
+        { emoji: '🏷️', title: 'Athos Area Banner', desc: 'Ωραίο banner στη σελίδα /areas/athos που οδηγεί στον πλήρη οδηγό Αγίου Όρους' },
+        { emoji: '📝', title: 'JSON-LD Schemas', desc: 'TouristAttraction, Article, FAQPage, ItemList — πλούσια δεδομένα για Google' },
+      ],
+    },
+    {
       version: 'v1.9.0',
       date: '10 Απριλίου 2026',
       highlights: 'Live Weather, AI Formatted Descriptions, SEO Tools Update',

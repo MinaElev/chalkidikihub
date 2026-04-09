@@ -8,7 +8,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { AreaHero } from '@/components/layout/AreaHero';
 import { JsonLd } from '@/components/ui/JsonLd';
 import type { Metadata } from 'next';
-
+import { Link } from '@/i18n/navigation';
+import { Church, ChevronRight } from 'lucide-react';
 import { Area } from '@/types';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -155,6 +156,25 @@ function AreaDetail({
 
       {/* Area Hero - fetches live from DB */}
       <AreaHero slug={areaSlug} />
+
+      {/* Mount Athos banner — only for athos area */}
+      {areaSlug === 'athos' && (
+        <Link href="/mount-athos"
+          className="group flex items-center gap-5 mt-8 p-5 md:p-6 bg-gradient-to-r from-amber-900 via-amber-800 to-amber-700 rounded-2xl text-white hover:shadow-lg hover:shadow-amber-900/20 transition-all">
+          <div className="w-14 h-14 bg-amber-600/50 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-amber-600/70 transition-colors">
+            <Church className="w-7 h-7" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg font-bold">
+              {locale === 'el' ? 'Οδηγός Αγίου Όρους' : locale === 'de' ? 'Berg Athos Reiseführer' : locale === 'bg' ? 'Пътеводител за Света гора' : locale === 'ru' ? 'Путеводитель по Святой Горе' : locale === 'ro' ? 'Ghid Muntele Athos' : 'Mount Athos Guide'}
+            </h3>
+            <p className="text-sm text-amber-200 mt-0.5">
+              {locale === 'el' ? 'Μοναστήρια, κανόνες επίσκεψης, μεταφορές, διαμονή, ιστορία — ο πλήρης οδηγός' : locale === 'de' ? 'Klöster, Besuchsregeln, Transport, Unterkunft, Geschichte — der vollständige Reiseführer' : locale === 'bg' ? 'Манастири, правила за посещение, транспорт, настаняване, история — пълен пътеводител' : locale === 'ru' ? 'Монастыри, правила посещения, транспорт, проживание, история — полный путеводитель' : locale === 'ro' ? 'Mănăstiri, reguli de vizitare, transport, cazare, istorie — ghid complet' : 'Monasteries, visiting rules, transport, accommodation, history — the complete guide'}
+            </p>
+          </div>
+          <ChevronRight className="w-6 h-6 text-amber-300 group-hover:translate-x-1 transition-transform shrink-0" />
+        </Link>
+      )}
 
       {/* Listings - fetches from DB */}
       <AreaListings area={areaSlug} />
