@@ -101,6 +101,35 @@ IMPORTANT:
       return NextResponse.json(parsed);
     }
 
+    if (action === 'village_generate') {
+      const villageName = body.village_name || '';
+      const area = body.area || '';
+      if (!villageName) return NextResponse.json({ error: 'Village name required' }, { status: 400 });
+
+      const prompt = `You are an expert on Halkidiki, Greece tourism. Generate content for the village/town "${villageName}" in the ${area} area of Halkidiki.
+
+Write a rich, informative description in Greek (200-300 words) about this village. Include:
+- What the village is known for (beaches, history, nightlife, nature, etc.)
+- What visitors can do there
+- Character/atmosphere of the village
+- Best time to visit
+- Any notable landmarks or features
+
+Also provide the approximate population of this village.
+
+Return ONLY a JSON object:
+{
+  "description_el": "Ελληνική περιγραφή 200-300 λέξεις...",
+  "population": 1234
+}
+
+IMPORTANT: Write natural, engaging Greek text. The description should make someone want to visit. If you don't know the exact population, give your best estimate. No markdown, ONLY JSON.`;
+
+      const result = await callOpenAI(prompt, 2000);
+      const parsed = JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+      return NextResponse.json(parsed);
+    }
+
     if (action === 'translate_content') {
       // Translate long-form content (blog articles) to 5 languages
       const rawContent = (body.content as string || '').trim();

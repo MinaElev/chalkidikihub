@@ -27,7 +27,9 @@ function slugify(text: string): string {
 export default function AdminNewVillagePage() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [form, setForm] = useState<Record<string, unknown>>({
     slug: '', area: 'kassandra', latitude: 40.1, longitude: 23.5,
     image_url: '', image_alt: '', population: 0,
@@ -43,6 +45,25 @@ export default function AdminNewVillagePage() {
       if (field === 'name_el' && !prev.slug) next.slug = slugify(value as string);
       return next;
     });
+  }
+
+  async function handleAiGenerate() {
+    const name = (form.name_el as string || '').trim();
+    if (!name) { setError('Fill in Name EL first'); return; }
+    setGenerating(true); setError('');
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'village_generate', village_name: name, area: form.area }),
+      });
+      if (!res.ok) throw new Error('AI request failed');
+      const data = await res.json();
+      if (data.description_el) update('description_el', data.description_el);
+      if (data.population) update('population', data.population);
+      setSuccess('AI generated description + population!');
+    } catch (err) { setError((err as Error).message); }
+    setGenerating(false);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -88,6 +109,22 @@ export default function AdminNewVillagePage() {
               image_alt: data.seo.image_alt,
             }));
           }} />
+
+        {/* AI Generate Description + Population */}
+        <div className="flex items-center gap-3 p-3 bg-purple-50 border border-purple-200 rounded-xl">
+          <Sparkles className="w-5 h-5 text-purple-600 shrink-0" />
+          <div className="flex-1">
+            <p className="text-sm font-medium text-purple-900">AI Generate</p>
+            <p className="text-xs text-purple-600">Γράφει περιγραφή (EL) + πληθυσμό αυτόματα</p>
+          </div>
+          <button type="button" onClick={handleAiGenerate} disabled={generating}
+            className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium disabled:opacity-50 shrink-0">
+            {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {generating ? 'Generating...' : 'AI Description + Population'}
+          </button>
+        </div>
+
+        {success && <div className="p-2 bg-green-50 border border-green-200 rounded-lg text-green-700 text-xs">{success}</div>}
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Slug</label>

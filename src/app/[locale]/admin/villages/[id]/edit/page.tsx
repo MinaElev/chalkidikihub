@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Sparkles } from 'lucide-react';
 import { AIHelper } from '@/components/admin/AIHelper';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { LocationPicker } from '@/components/ui/LocationPicker';
@@ -17,6 +17,7 @@ export default function AdminEditVillagePage() {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [form, setForm] = useState<Record<string, unknown>>({});
@@ -47,6 +48,25 @@ export default function AdminEditVillagePage() {
 
   function update(field: string, value: unknown) {
     setForm(prev => ({ ...prev, [field]: value }));
+  }
+
+  async function handleAiGenerate() {
+    const name = (form.name_el as string || '').trim();
+    if (!name) { setError('Fill in Name EL first'); return; }
+    setGenerating(true); setError('');
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'village_generate', village_name: name, area: form.area }),
+      });
+      if (!res.ok) throw new Error('AI request failed');
+      const data = await res.json();
+      if (data.description_el) update('description_el', data.description_el);
+      if (data.population) update('population', data.population);
+      setSuccess('AI generated description + population!');
+    } catch (err) { setError((err as Error).message); }
+    setGenerating(false);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -93,6 +113,20 @@ export default function AdminEditVillagePage() {
               image_alt: data.seo.image_alt,
             }));
           }} />
+
+        {/* AI Generate Description + Population */}
+        <div className="flex items-center gap-3 p-3 bg-purple-50 border border-purple-200 rounded-xl">
+          <Sparkles className="w-5 h-5 text-purple-600 shrink-0" />
+          <div className="flex-1">
+            <p className="text-sm font-medium text-purple-900">AI Generate</p>
+            <p className="text-xs text-purple-600">Γράφει περιγραφή (EL) + πληθυσμό αυτόματα. Μετά πάτα AI Auto-Complete για μεταφράσεις + SEO.</p>
+          </div>
+          <button type="button" onClick={handleAiGenerate} disabled={generating}
+            className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium disabled:opacity-50 shrink-0">
+            {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {generating ? 'Generating...' : 'AI Description + Population'}
+          </button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Slug</label>
