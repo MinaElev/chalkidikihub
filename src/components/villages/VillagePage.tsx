@@ -119,12 +119,24 @@ export function VillagePage({ slug }: { slug: string }) {
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{name}</h1>
-          {description && <p className="text-lg text-white/80 max-w-3xl">{description}</p>}
+          {description && !description.includes('<') && <p className="text-lg text-white/80 max-w-3xl">{description}</p>}
         </div>
       </div>
 
       {/* Content sections */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+        {/* Description */}
+        {description && (
+          <div className="bg-white border border-gray-200 rounded-xl p-6">
+            {description.includes('<') ? (
+              <div className="prose prose-gray max-w-none prose-headings:text-gray-900 prose-h3:text-lg prose-h3:font-bold prose-h3:mt-4 prose-h3:mb-2 prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:text-gray-900 prose-ul:my-2"
+                dangerouslySetInnerHTML={{ __html: description }} />
+            ) : (
+              <p className="text-gray-700 leading-relaxed">{description}</p>
+            )}
+          </div>
+        )}
+
         {/* Quick stats */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
           {sections.map(s => (

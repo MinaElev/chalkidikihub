@@ -108,22 +108,30 @@ IMPORTANT:
 
       const prompt = `You are an expert on Halkidiki, Greece tourism. Generate content for the village/town "${villageName}" in the ${area} area of Halkidiki.
 
-Write a rich, informative description in Greek (200-300 words) about this village. Include:
-- What the village is known for (beaches, history, nightlife, nature, etc.)
-- What visitors can do there
-- Character/atmosphere of the village
-- Best time to visit
-- Any notable landmarks or features
+Write a rich, informative, well-formatted description in Greek (250-400 words) about this village.
+
+FORMAT THE TEXT with HTML for beautiful reading:
+- Use <h3> for section headings (e.g. "Τι να δείτε", "Παραλίες", "Νυχτερινή ζωή")
+- Use <p> for paragraphs
+- Use <strong> for emphasis on key words
+- Use <ul><li> for lists of things to do or see
+- Break content into 3-4 clear sections
+
+CONTENT to include:
+- Opening paragraph: atmosphere, character, location
+- What the village is known for (beaches, history, nightlife, nature)
+- Things to do and see (specific places, beaches, landmarks)
+- Best time to visit, tips for visitors
 
 Also provide the approximate population of this village.
 
 Return ONLY a JSON object:
 {
-  "description_el": "Ελληνική περιγραφή 200-300 λέξεις...",
+  "description_el": "<h3>Heading</h3><p>Formatted HTML content...</p>",
   "population": 1234
 }
 
-IMPORTANT: Write natural, engaging Greek text. The description should make someone want to visit. If you don't know the exact population, give your best estimate. No markdown, ONLY JSON.`;
+IMPORTANT: Write natural, engaging Greek text that makes someone want to visit. Use HTML tags for formatting — NOT markdown. If you don't know the exact population, give your best estimate. No markdown, ONLY JSON.`;
 
       const result = await callOpenAI(prompt, 2000);
       const parsed = JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
