@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link, useRouter } from '@/i18n/navigation';
 import { ArrowLeft, Save, Loader2, Sparkles } from 'lucide-react';
-import { ALL_CUISINE_TYPES, ALL_PRICE_LEVELS } from '@/lib/constants';
+import { ALL_PRICE_LEVELS } from '@/lib/constants';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { AIHelper } from '@/components/admin/AIHelper';
 import { LocationPicker } from '@/components/ui/LocationPicker';
@@ -16,9 +16,13 @@ const LANG_LABELS: Record<string, string> = { el: 'EL 🇬🇷', en: 'EN 🇬�
 
 export default function NewRestaurantPage() {
   const router = useRouter();
-  const tCuisine = useTranslations('cuisineTypes');
   const tPrice = useTranslations('priceLevels');
   const [saving, setSaving] = useState(false);
+  const [cuisineTypes, setCuisineTypes] = useState<Array<{slug: string; [key: string]: string}>>([]);
+
+  useEffect(() => {
+    fetch('/api/business-types').then(r => r.json()).then(d => { if (Array.isArray(d)) setCuisineTypes(d); }).catch(() => {});
+  }, []);
   const [error, setError] = useState('');
   const [formatting, setFormatting] = useState(false);
   const [form, setForm] = useState<Record<string, unknown>>({
@@ -173,11 +177,11 @@ export default function NewRestaurantPage() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Cuisine</label>
           <div className="flex flex-wrap gap-2">
-            {ALL_CUISINE_TYPES.map((c) => (
-              <button key={c} type="button" onClick={() => toggleCuisine(c)}
+            {cuisineTypes.map((c) => (
+              <button key={c.slug} type="button" onClick={() => toggleCuisine(c.slug)}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-                  (form.cuisine as string[]).includes(c) ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-300 hover:border-red-300'
-                }`}>{tCuisine(c)}</button>
+                  (form.cuisine as string[]).includes(c.slug) ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-300 hover:border-red-300'
+                }`}>{c.name_el || c.slug}</button>
             ))}
           </div>
         </div>

@@ -126,7 +126,8 @@ export interface BeachFilters {
 
 // Restaurant types
 
-export type CuisineType = 'seafood' | 'traditional' | 'grill' | 'mediterranean' | 'pizza' | 'cafe' | 'fineDining' | 'streetFood' | 'beachBar' | 'bar' | 'cocktailBar' | 'brunch' | 'cafeBar' | 'bakery';
+// Dynamic — managed in DB table business_types
+export type CuisineType = string;
 
 export type PriceLevel = 'budget' | 'moderate' | 'upscale' | 'fineDining';
 

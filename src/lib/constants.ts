@@ -139,8 +139,8 @@ export const ALL_ACTIVITY_CATEGORIES: ActivityCategory[] = [
   'historical', 'nature', 'waterSports', 'boatTrips', 'wellness', 'family', 'nightlife', 'religious',
 ];
 
-export const ALL_CUISINE_TYPES: CuisineType[] = [
-  'seafood', 'traditional', 'grill', 'mediterranean', 'pizza', 'cafe', 'fineDining', 'streetFood', 'beachBar', 'bar', 'cocktailBar', 'brunch', 'cafeBar', 'bakery',
-];
+// Cuisine types are now dynamic — fetched from /api/business-types
+// Keeping empty array for backward compatibility with any imports
+export const ALL_CUISINE_TYPES: CuisineType[] = [];
 
 export const ALL_PRICE_LEVELS: PriceLevel[] = ['budget', 'moderate', 'upscale', 'fineDining'];

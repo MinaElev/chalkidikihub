@@ -1,21 +1,26 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { useState, useMemo } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
+import { useState, useEffect, useMemo } from 'react';
 import { useLiveData } from '@/lib/use-live-data';
 import { Restaurant } from '@/types';
 import { RestaurantCard } from '@/components/listings/RestaurantCard';
-import { RestaurantFilters, CuisineType, PriceLevel, Area } from '@/types';
-import { AREA_SLUGS, ALL_CUISINE_TYPES, ALL_PRICE_LEVELS } from '@/lib/constants';
+import { RestaurantFilters, PriceLevel, Area } from '@/types';
+import { AREA_SLUGS, ALL_PRICE_LEVELS } from '@/lib/constants';
 import { X, Eye } from 'lucide-react';
 
 export default function RestaurantsPage() {
   const t = useTranslations('restaurants');
-  const tCuisine = useTranslations('cuisineTypes');
   const tPrice = useTranslations('priceLevels');
   const tAreas = useTranslations('areas');
   const tCommon = useTranslations('common');
+  const locale = useLocale();
   const [filters, setFilters] = useState<RestaurantFilters>({});
+  const [cuisineTypes, setCuisineTypes] = useState<Array<{slug: string; [key: string]: string}>>([]);
+
+  useEffect(() => {
+    fetch('/api/business-types').then(r => r.json()).then(d => { if (Array.isArray(d)) setCuisineTypes(d); }).catch(() => {});
+  }, []);
   const { data: restaurants } = useLiveData<Restaurant>('/api/restaurants', []);
 
   const areaLabels: Record<Area, string> = {
@@ -57,15 +62,15 @@ export default function RestaurantsPage() {
         >
           {t('filters.allCuisines')}
         </button>
-        {ALL_CUISINE_TYPES.map((c) => (
+        {cuisineTypes.map((c) => (
           <button
-            key={c}
-            onClick={() => setFilters({ ...filters, cuisine: c })}
+            key={c.slug}
+            onClick={() => setFilters({ ...filters, cuisine: c.slug as RestaurantFilters['cuisine'] })}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              filters.cuisine === c ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              filters.cuisine === c.slug ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            {tCuisine(c)}
+            {c[`name_${locale}`] || c.name_el || c.slug}
           </button>
         ))}
       </div>

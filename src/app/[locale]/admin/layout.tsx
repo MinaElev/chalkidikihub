@@ -25,6 +25,7 @@ const navSections = [
       { href: '/admin/areas', icon: MapPin, label: 'Areas' },
       { href: '/admin/beaches', icon: Waves, label: 'Beaches' },
       { href: '/admin/restaurants', icon: UtensilsCrossed, label: 'Restaurants' },
+      { href: '/admin/business-types', icon: List, label: 'Είδη Μαγαζιών' },
       { href: '/admin/activities', icon: Landmark, label: 'Activities' },
       { href: '/admin/blog', icon: FileText, label: 'Blog' },
     ],

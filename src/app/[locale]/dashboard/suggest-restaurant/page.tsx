@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { AREA_SLUGS, ALL_CUISINE_TYPES } from '@/lib/constants';
-import { Area, CuisineType } from '@/types';
+import { AREA_SLUGS } from '@/lib/constants';
+import { Area } from '@/types';
 import { Loader2, Upload, X, UtensilsCrossed, CheckCircle, Info } from 'lucide-react';
 import { compressImage } from '@/lib/image-utils';
 import { logEvent } from '@/lib/logger';
@@ -14,12 +14,16 @@ import { LocationPicker } from '@/components/ui/LocationPicker';
 export default function SuggestRestaurantPage() {
   const t = useTranslations('submissions');
   const tAreas = useTranslations('areas');
-  const tCuisine = useTranslations('cuisineTypes');
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [image, setImage] = useState<File | null>(null);
+  const [cuisineTypes, setCuisineTypes] = useState<Array<{slug: string; [key: string]: string}>>([]);
+
+  useEffect(() => {
+    fetch('/api/business-types').then(r => r.json()).then(d => { if (Array.isArray(d)) setCuisineTypes(d); }).catch(() => {});
+  }, []);
 
   const [form, setForm] = useState({
     title_el: '',
@@ -27,7 +31,7 @@ export default function SuggestRestaurantPage() {
     area: 'kassandra' as Area,
     location_name: '',
     latitude: 40.1, longitude: 23.6,
-    cuisine: 'traditional' as CuisineType,
+    cuisine: 'traditional' as string,
     phone: '', hours: '',
   });
 
@@ -143,9 +147,9 @@ export default function SuggestRestaurantPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Τύπος *</label>
-            <select required value={form.cuisine} onChange={(e) => setForm({ ...form, cuisine: e.target.value as CuisineType })}
+            <select required value={form.cuisine} onChange={(e) => setForm({ ...form, cuisine: e.target.value })}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
-              {ALL_CUISINE_TYPES.map((c) => <option key={c} value={c}>{tCuisine(c)}</option>)}
+              {cuisineTypes.map((c) => <option key={c.slug} value={c.slug}>{c.name_el || c.slug}</option>)}
             </select>
             <p className="text-xs text-gray-400 mt-1">Εστιατόριο, μπαρ, καφετέρια, beach bar, brunch κλπ.</p>
           </div>
