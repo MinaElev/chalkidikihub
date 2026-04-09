@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useLiveData } from '@/lib/use-live-data';
 import { Sale, SaleFilters, PropertyType, Area } from '@/types';
@@ -18,6 +18,7 @@ const PROPERTY_TYPES: { value: PropertyType; icon: typeof Home }[] = [
 ];
 
 export default function SalesPage() {
+  const locale = useLocale();
   const t = useTranslations('sales');
   const tProp = useTranslations('propertyTypes');
   const tAreas = useTranslations('areas');
@@ -181,6 +182,91 @@ export default function SalesPage() {
             <p className="text-lg text-gray-500">{t('noProperties')}</p>
           </div>
         )}
+      </section>
+
+      {/* How it works */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">
+            {locale === 'el' ? 'Πώς να καταχωρήσετε το ακίνητό σας' : 'How to list your property'}
+          </h2>
+          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            {locale === 'el'
+              ? 'Απλή διαδικασία, 100% δωρεάν. Εσείς καταχωρείτε, εμείς φροντίζουμε να σας βρουν.'
+              : 'Simple process, 100% free. You list, we make sure buyers find you.'}
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <div className="text-center">
+              <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-emerald-600">1</span>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                {locale === 'el' ? 'Εγγραφή & Καταχώρηση' : 'Register & List'}
+              </h3>
+              <p className="text-sm text-gray-600">
+                {locale === 'el'
+                  ? 'Δημιουργήστε δωρεάν λογαριασμό και συμπληρώστε τα στοιχεία του ακινήτου σας: φωτογραφίες, περιγραφή, τιμή, χαρακτηριστικά, τοποθεσία στο χάρτη.'
+                  : 'Create a free account and fill in your property details: photos, description, price, features, map location.'}
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center">
+              <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-emerald-600">2</span>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                {locale === 'el' ? 'Εμείς αναλαμβάνουμε' : 'We take care of the rest'}
+              </h3>
+              <p className="text-sm text-gray-600">
+                {locale === 'el'
+                  ? 'Η ομάδα μας μεταφράζει αυτόματα σε 6 γλώσσες, βελτιστοποιεί για SEO, προσθέτει στο Google και φροντίζει το ακίνητό σας να εμφανίζεται σε αγοραστές από Ελλάδα, Γερμανία, Βουλγαρία, Ρωσία, Ρουμανία.'
+                  : 'Our team auto-translates to 6 languages, optimizes for SEO, submits to Google, and ensures your property reaches buyers from Greece, Germany, Bulgaria, Russia, Romania.'}
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center">
+              <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-emerald-600">3</span>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                {locale === 'el' ? 'Λαμβάνετε ενδιαφερόμενους' : 'Receive interested buyers'}
+              </h3>
+              <p className="text-sm text-gray-600">
+                {locale === 'el'
+                  ? 'Οι ενδιαφερόμενοι αγοραστές επικοινωνούν απευθείας μαζί σας μέσω τηλεφώνου ή email. Χωρίς μεσάζοντες, χωρίς προμήθειες.'
+                  : 'Interested buyers contact you directly via phone or email. No middlemen, no commissions.'}
+              </p>
+            </div>
+          </div>
+
+          {/* What we do behind the scenes */}
+          <div className="mt-16 bg-white rounded-2xl border border-gray-200 p-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-6 text-center">
+              {locale === 'el' ? 'Τι κάνουμε εμείς στο παρασκήνιο' : 'What we do behind the scenes'}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { emoji: '🌍', el: 'Αυτόματη μετάφραση σε 6 γλώσσες μέσω AI', en: 'Auto-translate to 6 languages via AI' },
+                { emoji: '🔍', el: 'SEO βελτιστοποίηση — meta titles, descriptions, JSON-LD schema', en: 'SEO optimization — meta titles, descriptions, JSON-LD schema' },
+                { emoji: '🗺️', el: 'Ενσωμάτωση στο Google Maps με ακριβείς συντεταγμένες', en: 'Google Maps integration with precise coordinates' },
+                { emoji: '📊', el: 'Καταχώρηση στο sitemap για γρήγορη ευρετηρίαση Google', en: 'Sitemap submission for fast Google indexing' },
+                { emoji: '🔗', el: 'Internal linking με παραλίες, εστιατόρια και δραστηριότητες κοντά', en: 'Internal linking with nearby beaches, restaurants, activities' },
+                { emoji: '📱', el: 'Mobile-first σχεδιασμός — τέλεια εμφάνιση σε κινητό', en: 'Mobile-first design — perfect display on phones' },
+                { emoji: '📈', el: 'Προβολή σε 6 αγορές: Ελλάδα, Γερμανία, Βουλγαρία, Ρωσία, Ρουμανία, Αγγλία', en: 'Exposure to 6 markets: Greece, Germany, Bulgaria, Russia, Romania, UK' },
+                { emoji: '🛡️', el: 'Ασφαλής πλατφόρμα με moderation — μόνο αληθινά ακίνητα', en: 'Secure platform with moderation — only real properties' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50">
+                  <span className="text-xl shrink-0">{item.emoji}</span>
+                  <p className="text-sm text-gray-700">{locale === 'el' ? item.el : item.en}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* CTA */}
