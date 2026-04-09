@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Building, Eye, EyeOff, Trash2, Loader2, Search, ChevronDown, ChevronUp } from 'lucide-react';
+import { Building, Eye, EyeOff, Trash2, Loader2, Search, ChevronDown, ChevronUp, Pencil } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { AREA_SLUGS } from '@/lib/constants';
 
@@ -21,7 +21,7 @@ interface AdminSale {
   created_at: string;
   updated_at: string;
   owner_id: string;
-  profiles: { full_name: string; phone: string; role: string } | null;
+  owner: { full_name: string; phone: string; role: string } | null;
   sale_images: { id: string; image_url: string; is_cover: boolean }[];
 }
 
@@ -81,7 +81,7 @@ export default function AdminSalesPage() {
       const q = searchQuery.toLowerCase();
       return s.title_el?.toLowerCase().includes(q) ||
         s.title_en?.toLowerCase().includes(q) ||
-        s.profiles?.full_name?.toLowerCase().includes(q);
+        s.owner?.full_name?.toLowerCase().includes(q);
     }
     return true;
   });
@@ -155,8 +155,8 @@ export default function AdminSalesPage() {
 
                 <div className="flex items-center gap-3 shrink-0">
                   <div className="text-right hidden md:block">
-                    <div className="text-sm font-medium text-gray-700">{sale.profiles?.full_name || 'Unknown'}</div>
-                    <div className="text-xs text-gray-400">{sale.profiles?.role || 'owner'}</div>
+                    <div className="text-sm font-medium text-gray-700">{sale.owner?.full_name || 'Unknown'}</div>
+                    <div className="text-xs text-gray-400">{sale.owner?.role || 'owner'}</div>
                   </div>
 
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
@@ -164,6 +164,10 @@ export default function AdminSalesPage() {
                   }`}>{sale.status}</span>
 
                   <div className="flex items-center gap-1">
+                    <Link href={`/admin/sales/${sale.id}/edit`} onClick={(e) => e.stopPropagation()}
+                      className="p-1.5 rounded hover:bg-blue-50 text-blue-600" title="Επεξεργασία">
+                      <Pencil className="w-4 h-4" />
+                    </Link>
                     <button onClick={(e) => { e.stopPropagation(); toggleStatus(sale.id); }}
                       className="p-1.5 rounded hover:bg-gray-100 text-gray-500"
                       title={sale.status === 'published' ? 'Unpublish' : 'Publish'}>
@@ -202,10 +206,10 @@ export default function AdminSalesPage() {
                     <div>
                       <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">Ιδιοκτήτης</h3>
                       <div className="space-y-2 text-sm">
-                        <div><span className="text-gray-500">Όνομα:</span> <span className="font-medium">{sale.profiles?.full_name || 'Δεν συμπληρώθηκε'}</span></div>
+                        <div><span className="text-gray-500">Όνομα:</span> <span className="font-medium">{sale.owner?.full_name || 'Δεν συμπληρώθηκε'}</span></div>
                         <div><span className="text-gray-500">User ID:</span> <span className="font-mono text-xs">{sale.owner_id}</span></div>
-                        <div><span className="text-gray-500">Ρόλος:</span> <span className="capitalize">{sale.profiles?.role || 'owner'}</span></div>
-                        <div><span className="text-gray-500">Τηλ:</span> {sale.profiles?.phone || '-'}</div>
+                        <div><span className="text-gray-500">Ρόλος:</span> <span className="capitalize">{sale.owner?.role || 'owner'}</span></div>
+                        <div><span className="text-gray-500">Τηλ:</span> {sale.owner?.phone || '-'}</div>
                       </div>
                     </div>
 

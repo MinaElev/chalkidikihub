@@ -8,6 +8,43 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v1.6.0',
+      date: '9 Απριλίου 2026',
+      highlights: 'Sales Section, SEO Ghost Pages, Admin Edit',
+      features: [
+        { emoji: '🏡', title: 'Πωλήσεις Ακινήτων', desc: 'Ολοκληρωμένο section πωλήσεων — κατοικίες, διαμερίσματα, γη, επαγγελματικά χώροι' },
+        { emoji: '🎨', title: 'Sales Custom Layout', desc: 'Ανεξάρτητη αρχική, header, footer με emerald branding για τις πωλήσεις' },
+        { emoji: '📝', title: 'Admin Edit Sales', desc: 'Επεξεργασία ακινήτων σε 6 γλώσσες + AI Auto-Complete + AI Format' },
+        { emoji: '🌍', title: 'Sales 6 Γλώσσες', desc: 'Πλήρης μετάφραση sales section σε EL, EN, DE, BG, RU, RO' },
+        { emoji: '👻', title: '156 SEO Ghost Pages', desc: 'Κρυφές σελίδες ανά περιοχή/κατηγορία — μόνο στο sitemap για Google ranking' },
+        { emoji: '🍽️', title: 'Restaurant Category Pages', desc: 'SEO σελίδες ανά τύπο εστιατορίου (/restaurants/category/[type])' },
+        { emoji: '🏗️', title: 'Sales Dashboard', desc: 'Χρήστες δημιουργούν/διαχειρίζονται τις αγγελίες τους' },
+        { emoji: '🛡️', title: 'Admin Sales Moderation', desc: 'Publish/unpublish, delete, edit ακινήτων από admin panel' },
+        { emoji: '📊', title: 'Sales Homepage', desc: 'Hero, carousel, property types, οδηγίες καταχώρησης, "Τι κάνουμε στο παρασκήνιο"' },
+      ],
+    },
+    {
+      version: 'v1.5.0',
+      date: '8 Απριλίου 2026',
+      highlights: 'Dynamic Business Types, Google Import Activities',
+      features: [
+        { emoji: '🏷️', title: 'Dynamic Business Types', desc: 'Οι κατηγορίες εστιατορίων αποθηκεύονται στη DB — ο admin προσθέτει νέες χωρίς κώδικα' },
+        { emoji: '🤖', title: 'AI Translate Types', desc: 'Μετάφραση κατηγοριών σε 6 γλώσσες με ένα κλικ' },
+        { emoji: '🏛️', title: 'Google Import Activities', desc: 'Import δραστηριοτήτων από Google Places API με φωτογραφίες + AI περιγραφή' },
+      ],
+    },
+    {
+      version: 'v1.4.0',
+      date: '8 Απριλίου 2026',
+      highlights: 'Performance Optimization, Image Compression',
+      features: [
+        { emoji: '⚡', title: 'Performance Limits', desc: 'Όλα τα API calls έχουν πλέον ?limit= — ~80% μείωση μεταφοράς δεδομένων' },
+        { emoji: '📸', title: 'Image Compression', desc: 'Αυτόματη συμπίεση εικόνων κατά το upload' },
+        { emoji: '🔍', title: 'Google Import Photos', desc: 'Επιλογή φωτογραφιών + AI περιγραφή στο Google Import εστιατορίων' },
+        { emoji: '🗺️', title: 'Area Override', desc: 'Επιλογή περιοχής κατά το Google Import' },
+      ],
+    },
+    {
       version: 'v1.3.0',
       date: '7 Απριλίου 2026',
       highlights: 'User Reviews, Blog Comments, Performance Boost',
