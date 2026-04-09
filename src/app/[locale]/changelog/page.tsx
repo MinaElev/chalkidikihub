@@ -8,6 +8,17 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v1.9.0',
+      date: '10 Απριλίου 2026',
+      highlights: 'Live Weather, AI Formatted Descriptions, SEO Tools Update',
+      features: [
+        { emoji: '🌤️', title: 'Live Weather Badge', desc: 'Τρέχων καιρός (θερμοκρασία + icon) στο hero κάθε χωριού μέσω OpenWeatherMap' },
+        { emoji: '📝', title: 'AI Formatted Descriptions', desc: 'Το AI Generate γράφει μορφοποιημένο HTML (headings, lists, bold) για ωραία ανάγνωση' },
+        { emoji: '🔍', title: 'Villages στα SEO Tools', desc: 'Τα χωριά συμπεριλαμβάνονται σε Quality Checker, Translation Matrix, SEO Dashboard, AI Bulk SEO' },
+        { emoji: '🏘️', title: '39 Χωριά Updated', desc: 'Κασσάνδρα (18), Σιθωνία (15), Άθως (6) — σωστή λίστα με νέα χωριά' },
+      ],
+    },
+    {
       version: 'v1.8.0',
       date: '10 Απριλίου 2026',
       highlights: 'Village Pages, Admin Restructure, Footer Upgrade',
