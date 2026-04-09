@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { SalesHeader } from '@/components/sales/SalesHeader';
+import { SalesFooter } from '@/components/sales/SalesFooter';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
@@ -18,6 +20,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default function SalesLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: '#main-header, #main-footer { display: none !important; }' }} />
+      <SalesHeader />
+      <div className="flex-1">{children}</div>
+      <SalesFooter />
+    </>
+  );
 }

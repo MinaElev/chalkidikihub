@@ -49,10 +49,10 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <div lang={locale} className="min-h-screen flex flex-col bg-white text-gray-900">
-        <Header />
+      <div lang={locale} className="min-h-screen flex flex-col bg-white text-gray-900" id="app-shell">
+        <div id="main-header"><Header /></div>
         <main className="flex-1">{children}</main>
-        <Footer />
+        <div id="main-footer"><Footer /></div>
         <BackToTop />
         <CookieConsent />
       </div>
