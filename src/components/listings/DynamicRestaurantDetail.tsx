@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Restaurant, Beach, Listing } from '@/types';
+import { useCuisineLabel } from '@/lib/use-business-types';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, ArrowRight, MapPin, Star, Clock, Phone, Eye, Music, CalendarCheck, Tag, UtensilsCrossed } from 'lucide-react';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
@@ -21,7 +22,7 @@ import { ReviewForm } from '@/components/ui/ReviewForm';
 export function DynamicRestaurantDetail({ slug }: { slug: string }) {
   const locale = useLocale();
   const t = useTranslations('restaurants');
-  const tCuisine = useTranslations('cuisineTypes');
+  const getCuisineLabel = useCuisineLabel(locale);
   const tPrice = useTranslations('priceLevels');
   const tBeaches = useTranslations('beaches');
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
@@ -118,7 +119,7 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
           {/* Cuisine badges */}
           <div className="flex flex-wrap gap-2 mb-3">
             {restaurant.cuisine.map((c) => (
-              <span key={c} className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">{tCuisine(c)}</span>
+              <span key={c} className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">{getCuisineLabel(c)}</span>
             ))}
           </div>
 
@@ -195,7 +196,7 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
                           {r.name[locale] || r.name.en}
                         </p>
                         <p className="text-xs text-gray-500">
-                          {r.cuisine.map((c) => tCuisine(c)).join(', ')} · {r.rating.toFixed(1)}★
+                          {r.cuisine.map((c) => getCuisineLabel(c)).join(', ')} · {r.rating.toFixed(1)}★
                         </p>
                       </div>
                     </Link>
@@ -354,7 +355,7 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
                       )}
                       <div className="flex flex-wrap gap-1 mb-1">
                         {r.cuisine.slice(0, 2).map((c) => (
-                          <span key={c} className="inline-flex px-2 py-0.5 bg-red-50 text-red-700 rounded text-[10px] font-medium">{tCuisine(c)}</span>
+                          <span key={c} className="inline-flex px-2 py-0.5 bg-red-50 text-red-700 rounded text-[10px] font-medium">{getCuisineLabel(c)}</span>
                         ))}
                       </div>
                       <h4 className="text-sm font-semibold text-gray-900 group-hover:text-red-700 transition-colors line-clamp-2 leading-snug">

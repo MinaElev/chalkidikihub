@@ -4,11 +4,12 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Restaurant } from '@/types';
 import { MapPin, Star, Euro, Eye, Music, Phone } from 'lucide-react';
+import { useCuisineLabel } from '@/lib/use-business-types';
 
 export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
   const locale = useLocale();
   const t = useTranslations('restaurants');
-  const tCuisine = useTranslations('cuisineTypes');
+  const getCuisineLabel = useCuisineLabel(locale);
   const tPrice = useTranslations('priceLevels');
 
   const name = restaurant.name[locale] || restaurant.name.en;
@@ -30,7 +31,7 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
             </div>
           )}
           <div className="absolute top-3 left-3 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-medium">
-            {tCuisine(restaurant.cuisine[0])}
+            {getCuisineLabel(restaurant.cuisine[0])}
           </div>
           <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full flex items-center gap-1">
             <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
@@ -64,7 +65,7 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
             <div className="flex flex-wrap gap-1.5">
               {restaurant.cuisine.slice(0, 2).map((c) => (
                 <span key={c} className="px-2 py-0.5 bg-red-50 text-red-700 rounded-full text-xs font-medium">
-                  {tCuisine(c)}
+                  {getCuisineLabel(c)}
                 </span>
               ))}
             </div>
