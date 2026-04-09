@@ -266,5 +266,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
+  // Mount Athos guide pages
+  const mountAthosPages = ['', '/monasteries', '/how-to-visit', '/getting-there', '/accommodation', '/daily-life', '/hiking', '/history'];
+  for (const page of mountAthosPages) {
+    for (const locale of locales) {
+      entries.push({
+        url: `${baseUrl}/${locale}/mount-athos${page}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.8,
+        alternates: altLanguages(`/mount-athos${page}`),
+      });
+    }
+  }
+
   return entries;
 }
