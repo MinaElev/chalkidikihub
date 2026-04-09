@@ -163,6 +163,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
+  // SEO ghost pages — area-based and category-based
+  const areaSlugs = ['kassandra', 'sithonia', 'athos', 'mainland'];
+  const activityCategories = ['historical', 'nature', 'waterSports', 'boatTrips', 'wellness', 'family', 'nightlife', 'religious'];
+  const blogCategories = ['guides', 'beaches', 'food', 'activities', 'tips', 'culture'];
+
+  // Beaches by area
+  for (const area of areaSlugs) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/beaches/area/${area}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/beaches/area/${area}`) });
+    }
+  }
+  // Restaurants by area
+  for (const area of areaSlugs) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/restaurants/area/${area}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/restaurants/area/${area}`) });
+    }
+  }
+  // Activities by category
+  for (const cat of activityCategories) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/activities/category/${cat}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/activities/category/${cat}`) });
+    }
+  }
+  // Activities by area
+  for (const area of areaSlugs) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/activities/area/${area}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/activities/area/${area}`) });
+    }
+  }
+  // Blog by category
+  for (const cat of blogCategories) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/blog/category/${cat}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/blog/category/${cat}`) });
+    }
+  }
+
   // Blog from DB
   const { data: articles } = await supabase
     .from('blog_articles')
