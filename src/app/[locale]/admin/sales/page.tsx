@@ -46,32 +46,30 @@ export default function AdminSalesPage() {
   useEffect(() => { loadSales(); }, []);
 
   async function loadSales() {
-    const supabase = createClient();
-    const { data } = await supabase
-      .from('sales')
-      .select(`
-        id, slug, title_el, title_en, area, price, size_sqm, property_type,
-        bedrooms, bathrooms, status, created_at, updated_at, owner_id,
-        profiles(full_name, phone, role),
-        sale_images(id, image_url, is_cover)
-      `)
-      .order('created_at', { ascending: false })
-      .limit(500);
-    setSales((data as unknown as AdminSale[]) || []);
+    try {
+      const res = await fetch('/api/admin/sales');
+      const data = await res.json();
+      if (Array.isArray(data)) setSales(data as AdminSale[]);
+    } catch {}
     setLoading(false);
   }
 
-  async function toggleStatus(id: string, current: string) {
-    const supabase = createClient();
-    await supabase.from('sales').update({ status: current === 'published' ? 'draft' : 'published' }).eq('id', id);
+  async function toggleStatus(id: string) {
+    await fetch('/api/admin/sales', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, action: 'toggle' }),
+    });
     loadSales();
   }
 
   async function deleteSale(id: string) {
     if (!confirm('Διαγραφή αυτού του ακινήτου ΜΟΝΙΜΑ;')) return;
-    const supabase = createClient();
-    await supabase.from('sale_images').delete().eq('sale_id', id);
-    await supabase.from('sales').delete().eq('id', id);
+    await fetch('/api/admin/sales', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, action: 'delete' }),
+    });
     loadSales();
   }
 
@@ -166,7 +164,7 @@ export default function AdminSalesPage() {
                   }`}>{sale.status}</span>
 
                   <div className="flex items-center gap-1">
-                    <button onClick={(e) => { e.stopPropagation(); toggleStatus(sale.id, sale.status); }}
+                    <button onClick={(e) => { e.stopPropagation(); toggleStatus(sale.id); }}
                       className="p-1.5 rounded hover:bg-gray-100 text-gray-500"
                       title={sale.status === 'published' ? 'Unpublish' : 'Publish'}>
                       {sale.status === 'published' ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
