@@ -9,6 +9,7 @@ import { RestaurantCard } from '@/components/listings/RestaurantCard';
 import { ActivityCard } from '@/components/listings/ActivityCard';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { SaleCard } from '@/components/sales/SaleCard';
+import { WeatherBadge } from '@/components/ui/WeatherBadge';
 import { AREAS } from '@/lib/constants';
 
 interface Village {
@@ -115,6 +116,9 @@ export function VillagePage({ slug }: { slug: string }) {
               <span className="flex items-center gap-1 px-3 py-1 bg-white/20 rounded-full text-sm">
                 <Users className="w-3.5 h-3.5" /> {village.population.toLocaleString()}
               </span>
+            )}
+            {village.latitude && village.longitude && (
+              <WeatherBadge latitude={village.latitude} longitude={village.longitude} variant="hero" />
             )}
           </div>
 
