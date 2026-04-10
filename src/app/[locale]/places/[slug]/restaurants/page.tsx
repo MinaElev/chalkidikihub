@@ -1,0 +1,18 @@
+import { setRequestLocale } from 'next-intl/server';
+import type { Metadata } from 'next';
+import { getVillageContentMeta } from '../meta-helper';
+import { VillageContentPage } from '@/components/villages/VillageContentPage';
+
+type Props = { params: Promise<{ locale: string; slug: string }> };
+export function generateStaticParams() { return []; }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+  return getVillageContentMeta(slug, locale, 'restaurants');
+}
+
+export default async function VillageRestaurantsPage({ params }: Props) {
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
+  return <VillageContentPage slug={slug} contentType="restaurants" />;
+}
