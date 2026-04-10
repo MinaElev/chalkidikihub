@@ -9,11 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: 'Ανακαλύψτε τις ομορφότερες παραλίες της Χαλκιδικής — κρυστάλλινα νερά, αμμουδιές με Γαλάζια Σημαία και κρυφοί κόλποι στην Κασσάνδρα, Σιθωνία και Άθως.',
     alternates: {
       canonical: `${SITE_URL}/${locale}/beaches`,
-      languages: {
-        el: `${SITE_URL}/el/beaches`, en: `${SITE_URL}/en/beaches`,
-        de: `${SITE_URL}/de/beaches`, bg: `${SITE_URL}/bg/beaches`,
-        ru: `${SITE_URL}/ru/beaches`, ro: `${SITE_URL}/ro/beaches`,
-      },
+      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/beaches`])),
     },
   };
 }

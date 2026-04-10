@@ -11,11 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: 'Βρείτε ακίνητα προς πώληση στη Χαλκιδική — κατοικίες, διαμερίσματα, οικόπεδα και επαγγελματικούς χώρους σε Κασσάνδρα, Σιθωνία και Άθως.',
     alternates: {
       canonical: `${SITE_URL}/${locale}/sales`,
-      languages: {
-        el: `${SITE_URL}/el/sales`, en: `${SITE_URL}/en/sales`,
-        de: `${SITE_URL}/de/sales`, bg: `${SITE_URL}/bg/sales`,
-        ru: `${SITE_URL}/ru/sales`, ro: `${SITE_URL}/ro/sales`,
-      },
+      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/sales`])),
     },
   };
 }

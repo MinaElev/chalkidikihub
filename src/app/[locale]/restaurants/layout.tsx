@@ -9,11 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: 'Εστιατόρια, ταβέρνες, καφετέριες και beach bars στη Χαλκιδική — ελληνική κουζίνα, θαλασσινά και τοπικές γεύσεις σε Κασσάνδρα, Σιθωνία και Άθως.',
     alternates: {
       canonical: `${SITE_URL}/${locale}/restaurants`,
-      languages: {
-        el: `${SITE_URL}/el/restaurants`, en: `${SITE_URL}/en/restaurants`,
-        de: `${SITE_URL}/de/restaurants`, bg: `${SITE_URL}/bg/restaurants`,
-        ru: `${SITE_URL}/ru/restaurants`, ro: `${SITE_URL}/ro/restaurants`,
-      },
+      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/restaurants`])),
     },
   };
 }

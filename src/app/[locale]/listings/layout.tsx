@@ -9,11 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: 'Βρείτε τα καλύτερα καταλύματα στη Χαλκιδική — ξενοδοχεία, ενοικιαζόμενα δωμάτια, βίλες και διαμερίσματα σε Κασσάνδρα, Σιθωνία και Άθως.',
     alternates: {
       canonical: `${SITE_URL}/${locale}/listings`,
-      languages: {
-        el: `${SITE_URL}/el/listings`, en: `${SITE_URL}/en/listings`,
-        de: `${SITE_URL}/de/listings`, bg: `${SITE_URL}/bg/listings`,
-        ru: `${SITE_URL}/ru/listings`, ro: `${SITE_URL}/ro/listings`,
-      },
+      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/listings`])),
     },
   };
 }

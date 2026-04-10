@@ -44,14 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: `${SITE_URL}/${locale}/areas/${slug}`,
-      languages: {
-        el: `${SITE_URL}/el/areas/${slug}`,
-        en: `${SITE_URL}/en/areas/${slug}`,
-        de: `${SITE_URL}/de/areas/${slug}`,
-        bg: `${SITE_URL}/bg/areas/${slug}`,
-        ru: `${SITE_URL}/ru/areas/${slug}`,
-        ro: `${SITE_URL}/ro/areas/${slug}`,
-      },
+      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/areas/${slug}`])),
     },
   };
 }

@@ -9,11 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: 'Δραστηριότητες και αξιοθέατα στη Χαλκιδική — θαλάσσια σπορ, πεζοπορία, εκδρομές, κρουαζιέρες και πολιτιστικά μνημεία σε Κασσάνδρα, Σιθωνία και Άθως.',
     alternates: {
       canonical: `${SITE_URL}/${locale}/activities`,
-      languages: {
-        el: `${SITE_URL}/el/activities`, en: `${SITE_URL}/en/activities`,
-        de: `${SITE_URL}/de/activities`, bg: `${SITE_URL}/bg/activities`,
-        ru: `${SITE_URL}/ru/activities`, ro: `${SITE_URL}/ro/activities`,
-      },
+      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/activities`])),
     },
   };
 }

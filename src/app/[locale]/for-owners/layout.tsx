@@ -9,11 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: 'Καταχωρίστε δωρεάν την επιχείρησή σας στο Chalkidiki Hub — προβολή καταλυμάτων, εστιατορίων και δραστηριοτήτων στη Χαλκιδική σε 6 γλώσσες.',
     alternates: {
       canonical: `${SITE_URL}/${locale}/for-owners`,
-      languages: {
-        el: `${SITE_URL}/el/for-owners`, en: `${SITE_URL}/en/for-owners`,
-        de: `${SITE_URL}/de/for-owners`, bg: `${SITE_URL}/bg/for-owners`,
-        ru: `${SITE_URL}/ru/for-owners`, ro: `${SITE_URL}/ro/for-owners`,
-      },
+      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/for-owners`])),
     },
   };
 }
