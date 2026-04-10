@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/api-helpers';
-import { requireSuperAdmin } from '@/lib/admin-auth';
+import { createAdminClient, createApiClient } from '@/lib/api-helpers';
 
 interface BrokenLink {
   source: string; // e.g. "blog: Οι καλύτερες παραλίες"
@@ -32,8 +31,16 @@ function extractSlugRefs(text: string, existingSlugs: Set<string>): string[] {
 }
 
 export async function GET(request: Request) {
-  const auth = await requireSuperAdmin();
-  if (auth instanceof NextResponse) return auth;
+  // Auth via Bearer token
+  const authHeader = request.headers.get('authorization');
+  const token = authHeader?.replace('Bearer ', '');
+  if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const supabaseAuth = createApiClient();
+  const { data: { user }, error: authErr } = await supabaseAuth.auth.getUser(token);
+  if (authErr || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const adminDb = createAdminClient();
+  const { data: profile } = await adminDb.from('profiles').select('role').eq('id', user.id).single();
+  if (profile?.role !== 'superadmin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   try {
     const supabase = createAdminClient();

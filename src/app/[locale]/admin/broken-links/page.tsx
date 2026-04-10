@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import { LinkIcon, Loader2, AlertTriangle, CheckCircle, Search, ExternalLink } from 'lucide-react';
 
@@ -27,7 +28,11 @@ export default function BrokenLinksPage() {
   async function handleScan() {
     setLoading(true); setError(''); setResult(null);
     try {
-      const res = await fetch('/api/admin/broken-links');
+      const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch('/api/admin/broken-links', {
+        headers: { 'Authorization': `Bearer ${session?.access_token || ''}` },
+      });
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setResult(data);
