@@ -88,7 +88,10 @@ export function DynamicArticle({ slug }: { slug: string }) {
     ctaArticles.push(...allArticles.filter((a) => a.slug !== slug).slice(0, 2));
   }
 
-  // Split content into paragraphs for in-article CTA injection
+  // Detect if content is HTML (from AI) or markdown (manual)
+  const isHtmlContent = (content || '').includes('<h2') || (content || '').includes('<p>') || (content || '').includes('<ul');
+
+  // Split content into paragraphs for in-article CTA injection (markdown only)
   const paragraphs = (content || excerpt || '').split('\n');
   const insertAfterParagraph = Math.min(Math.max(Math.floor(paragraphs.length * 0.3), 3), 8);
 
@@ -137,40 +140,75 @@ export function DynamicArticle({ slug }: { slug: string }) {
 
           <hr className="my-8" />
 
-          {/* Article content with in-article CTA */}
-          <article className="prose prose-lg max-w-none">
-            {/* First part of content */}
-            <AutoLinkedContent content={paragraphs.slice(0, insertAfterParagraph).join('\n')} />
+          {/* Article content */}
+          <article className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-lg prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:text-gray-900 prose-ul:my-3 prose-blockquote:border-primary-500 prose-blockquote:text-gray-600">
+            {isHtmlContent ? (
+              <>
+                {/* HTML content from AI — render directly */}
+                <div dangerouslySetInnerHTML={{ __html: content }} />
 
-            {/* In-article CTA banner */}
-            {ctaArticles.length > 0 && (
-              <div className="not-prose my-8 p-5 bg-gradient-to-r from-primary-50 to-blue-50 border border-primary-100 rounded-2xl">
-                <div className="flex items-center gap-2 mb-3">
-                  <BookOpen className="w-5 h-5 text-primary-600" />
-                  <h3 className="text-sm font-bold text-primary-800">Μπορεί να σας ενδιαφέρει</h3>
-                </div>
-                <div className="space-y-2">
-                  {ctaArticles.slice(0, 2).map((a) => (
-                    <Link key={a.slug} href={`/blog/${a.slug}`}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
-                      {a.image_url && (
-                        <img src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} className="w-14 h-14 rounded-lg object-cover shrink-0" />
-                      )}
-                      <div className="min-w-0">
-                        <p className="text-sm font-semibold text-gray-900 group-hover:text-primary-700 truncate">
-                          {a.title[locale] || a.title.en || a.title.el}
-                        </p>
-                        <p className="text-xs text-gray-500">{t('readTime', { min: a.read_time_min })}</p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
+                {/* In-article CTA banner */}
+                {ctaArticles.length > 0 && (
+                  <div className="not-prose my-8 p-5 bg-gradient-to-r from-primary-50 to-blue-50 border border-primary-100 rounded-2xl">
+                    <div className="flex items-center gap-2 mb-3">
+                      <BookOpen className="w-5 h-5 text-primary-600" />
+                      <h3 className="text-sm font-bold text-primary-800">Μπορεί να σας ενδιαφέρει</h3>
+                    </div>
+                    <div className="space-y-2">
+                      {ctaArticles.slice(0, 2).map((a) => (
+                        <Link key={a.slug} href={`/blog/${a.slug}`}
+                          className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
+                          {a.image_url && (
+                            <img src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} className="w-14 h-14 rounded-lg object-cover shrink-0" />
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-gray-900 group-hover:text-primary-700 truncate">
+                              {a.title[locale] || a.title.en || a.title.el}
+                            </p>
+                            <p className="text-xs text-gray-500">{t('readTime', { min: a.read_time_min })}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {/* Markdown content — use AutoLinkedContent */}
+                <AutoLinkedContent content={paragraphs.slice(0, insertAfterParagraph).join('\n')} />
 
-            {/* Rest of content */}
-            {paragraphs.length > insertAfterParagraph && (
-              <AutoLinkedContent content={paragraphs.slice(insertAfterParagraph).join('\n')} />
+                {/* In-article CTA banner */}
+                {ctaArticles.length > 0 && (
+                  <div className="not-prose my-8 p-5 bg-gradient-to-r from-primary-50 to-blue-50 border border-primary-100 rounded-2xl">
+                    <div className="flex items-center gap-2 mb-3">
+                      <BookOpen className="w-5 h-5 text-primary-600" />
+                      <h3 className="text-sm font-bold text-primary-800">Μπορεί να σας ενδιαφέρει</h3>
+                    </div>
+                    <div className="space-y-2">
+                      {ctaArticles.slice(0, 2).map((a) => (
+                        <Link key={a.slug} href={`/blog/${a.slug}`}
+                          className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
+                          {a.image_url && (
+                            <img src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} className="w-14 h-14 rounded-lg object-cover shrink-0" />
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-gray-900 group-hover:text-primary-700 truncate">
+                              {a.title[locale] || a.title.en || a.title.el}
+                            </p>
+                            <p className="text-xs text-gray-500">{t('readTime', { min: a.read_time_min })}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Rest of content */}
+                {paragraphs.length > insertAfterParagraph && (
+                  <AutoLinkedContent content={paragraphs.slice(insertAfterParagraph).join('\n')} />
+                )}
+              </>
             )}
           </article>
 

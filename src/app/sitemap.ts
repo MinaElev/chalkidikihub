@@ -180,6 +180,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       entries.push({ url: `${baseUrl}/${locale}/beaches/feature/${feat}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/beaches/feature/${feat}`) });
     }
   }
+  // Seasonal/thematic guides
+  const guideSlugs = ['summer', 'easter', 'honeymoon', 'families', 'budget', 'winter', 'nightlife'];
+  for (const g of guideSlugs) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/guide/${g}`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.8, alternates: altLanguages(`/guide/${g}`) });
+    }
+  }
+  // Listing type pages
+  const listingTypes = ['with-pool', 'sea-view', 'pet-friendly', 'family', 'budget', 'luxury'];
+  for (const t of listingTypes) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/listings/type/${t}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/listings/type/${t}`) });
+    }
+  }
   // Best of guides
   const bestGuides = ['beaches-kassandra', 'beaches-sithonia', 'family-beaches', 'quiet-beaches', 'seafood-restaurants', 'beach-bars', 'romantic-restaurants', 'hiking-trails', 'historical-sites', 'water-sports', 'restaurants-kassandra', 'restaurants-sithonia'];
   for (const g of bestGuides) {
