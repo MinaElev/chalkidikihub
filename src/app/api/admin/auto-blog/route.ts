@@ -76,13 +76,17 @@ export async function POST(request: Request) {
 
     const supabase = createAdminClient();
 
-    // 1. Pick topic based on day
-    const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
-    const topicIdx = dayOfYear % TOPICS.length;
+    // 1. Pick topic — count existing AI articles to always pick NEXT topic
+    const { count: aiArticleCount } = await supabase
+      .from('blog_articles')
+      .select('*', { count: 'exact', head: true })
+      .eq('author', 'ChalkidikiHub AI');
+    const articleNum = aiArticleCount || 0;
+    const topicIdx = articleNum % TOPICS.length;
     const topic = TOPICS[topicIdx];
 
-    // 2. Pick random area and village
-    const area = AREAS[dayOfYear % AREAS.length];
+    // 2. Pick area — rotate based on article count (different each time)
+    const area = AREAS[articleNum % AREAS.length];
     const areaEl = AREA_NAMES_EL[area];
 
     // Fetch real data
@@ -98,8 +102,8 @@ export async function POST(request: Request) {
     const villages = (villagesRes.data || []) as Array<{ name_el: string; slug: string }>;
     const activities = (activitiesRes.data || []) as Array<{ name_el: string; slug: string; category: string }>;
 
-    // Pick a random village for village-specific topics
-    const randomVillage = villages[dayOfYear % Math.max(villages.length, 1)];
+    // Pick a different village each time
+    const randomVillage = villages[articleNum % Math.max(villages.length, 1)];
     const villageName = randomVillage?.name_el || 'Χανιώτη';
 
     // Build context strings
@@ -108,8 +112,9 @@ export async function POST(request: Request) {
     const villageNames = villages.map(v => v.name_el).join(', ') || 'τοπικά χωριά';
     const activityNames = activities.map(a => a.name_el).join(', ') || 'αξιοθέατα περιοχής';
 
-    // 3. Generate Greek article
+    // 3. Generate Greek article — unique every time
     const articlePrompt = `Είσαι ένας έμπειρος ταξιδιωτικός blogger που γράφει για τη Χαλκιδική, Ελλάδα.
+Αυτό είναι το άρθρο #${articleNum + 1} που γράφεις. Γράψε ΕΝΤΕΛΩΣ ΔΙΑΦΟΡΕΤΙΚΟ κείμενο από προηγούμενα — νέα γωνία, νέες λέξεις, νέα δομή.
 
 ${topic.promptEl
   .replace(/{areaEl}/g, areaEl)
@@ -170,7 +175,7 @@ ${topic.promptEl
           const photos = uData.results || [];
           if (photos.length > 0) {
             // Pick a random photo from top 5 for variety
-            const photo = photos[dayOfYear % photos.length];
+            const photo = photos[articleNum % photos.length];
             imageUrl = photo.urls?.regular || photo.urls?.small || '';
             imageAlt = photo.alt_description || photo.description || unsplashQuery;
             // Trigger Unsplash download tracking (required by their API terms)
@@ -234,8 +239,8 @@ IMPORTANT: Translate naturally, keep EXACT same HTML structure, translate ALL co
     const translationsRaw = await callOpenAI(translatePrompt, 8000);
     const translations = JSON.parse(translationsRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
 
-    // 6. Generate slug
-    const slug = slugify(article.title_el) + '-' + Date.now().toString(36).slice(-4);
+    // 6. Generate unique slug
+    const slug = slugify(article.title_el) + '-' + Date.now().toString(36).slice(-6);
 
     // 8. Insert article
     const { error: insertError } = await supabase.from('blog_articles').insert({
@@ -275,7 +280,7 @@ IMPORTANT: Translate naturally, keep EXACT same HTML structure, translate ALL co
     await supabase.from('activity_logs').insert({
       type: 'admin_action', severity: 'info',
       message: `Auto-blog: "${article.title_el}" (${topic.category})`,
-      details: { slug, topic: topic.template, area, dayOfYear },
+      details: { slug, topic: topic.template, area, articleNum },
     });
 
     return NextResponse.json({
