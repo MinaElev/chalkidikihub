@@ -16,8 +16,10 @@ export async function GET(request: NextRequest) {
   }
 
   const limit = searchParams.get('limit');
+  const feature = searchParams.get('feature');
   let query = supabase.from('beaches').select('*, beach_reviews(*)').order('rating', { ascending: false });
   if (area) query = query.eq('area', area);
+  if (feature) query = query.contains('features', [feature]);
   if (limit) query = query.limit(Number(limit));
   const { data } = await query;
 

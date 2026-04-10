@@ -173,6 +173,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       entries.push({ url: `${baseUrl}/${locale}/beaches/area/${area}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/beaches/area/${area}`) });
     }
   }
+  // Beaches by feature
+  const beachFeatures = ['sandy', 'pebble', 'organized', 'free', 'shallowWater', 'waterSports', 'accessible', 'beachBar', 'sunbeds', 'lifeguard', 'nudist', 'parking'];
+  for (const feat of beachFeatures) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/beaches/feature/${feat}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/beaches/feature/${feat}`) });
+    }
+  }
   // Restaurants by area
   for (const area of areaSlugs) {
     for (const locale of locales) {
