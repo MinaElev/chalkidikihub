@@ -68,7 +68,9 @@ export async function POST(request: Request) {
       const { data: { user }, error } = await supabaseAuth.auth.getUser(token);
       if (error || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-      const { data: profile } = await supabaseAuth.from('profiles').select('role').eq('id', user.id).single();
+      // Use admin client to bypass RLS on profiles
+      const adminDb = createAdminClient();
+      const { data: profile } = await adminDb.from('profiles').select('role').eq('id', user.id).single();
       if (profile?.role !== 'superadmin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
