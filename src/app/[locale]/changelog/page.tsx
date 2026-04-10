@@ -8,6 +8,19 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v2.1.0',
+      date: '10 Απριλίου 2026',
+      highlights: 'Monastery Admin, Village Filters, Security Hardening, 68 Villages',
+      features: [
+        { emoji: '⛪', title: 'Monasteries Admin CRUD', desc: 'Επεξεργασία μονών Αγίου Όρους: 6 γλώσσες, AI Generate description + highlights, AI Auto-Complete SEO' },
+        { emoji: '🏘️', title: '68 Χωριά (29 Ενδοχώρα)', desc: '29 νέα χωριά Ενδοχώρας — Πολύγυρος, Αρναία, Ολυμπιάδα, Γερακινή κ.α. Σύνολο 408 SEO URLs' },
+        { emoji: '🔍', title: 'Village Filters & Sorting', desc: 'Αναζήτηση, φίλτρα (area, image, SEO, population), sortable columns, stats bar' },
+        { emoji: '🔒', title: 'Security Hardening', desc: 'Auth checks σε όλα τα admin API, input validation, XSS sanitization, service role key protection' },
+        { emoji: '⚡', title: 'Performance Fixes', desc: 'Sitemap ISR, map page limits, comments/inquiry caching' },
+        { emoji: '⛪', title: '20 Monastery Pages', desc: 'Κάθε μονή δική της σελίδα — 120 SEO URLs, prev/next navigation, JSON-LD, 6 γλώσσες' },
+      ],
+    },
+    {
       version: 'v2.0.0',
       date: '10 Απριλίου 2026',
       highlights: 'Mount Athos Guide, 6-Language Translations, Area Banner',
