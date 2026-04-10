@@ -70,9 +70,8 @@ export default function TranslationsPage() {
       const tableConfig = TABLES.find(t => t.key === item.table);
       if (!tableConfig) return;
 
-      // Fetch full record
       const { data: record } = await supabase.from(item.table).select('*').eq('id', item.id).single();
-      if (!record) return;
+      if (!record) { setFilling(null); return; }
 
       const titleEl = record[`${tableConfig.titleField}_el`] || '';
       const descEl = record[`${tableConfig.descField}_el`] || '';
@@ -92,27 +91,74 @@ export default function TranslationsPage() {
       if (res.ok) {
         const data = await res.json();
         const updates: Record<string, string> = {};
+
+        // Map AI response keys to DB column names
+        // AI returns title_en/description_en, but DB may use name_en/description_en
+        const titlePrefix = tableConfig.titleField; // 'name' or 'title'
+        const descPrefix = tableConfig.descField; // 'description' or 'content'
+
         if (data.translations) {
           Object.entries(data.translations).forEach(([key, val]) => {
-            if (val && (val as string).length > 0) updates[key] = val as string;
+            if (!val || !(val as string).length) return;
+            // Map title_XX → name_XX or title_XX based on table
+            let dbKey = key;
+            if (key.startsWith('title_')) {
+              dbKey = `${titlePrefix}_${key.replace('title_', '')}`;
+            } else if (key.startsWith('description_')) {
+              dbKey = `${descPrefix}_${key.replace('description_', '')}`;
+            }
+            updates[dbKey] = val as string;
           });
         }
+
+        // Also add SEO if available
+        if (data.seo) {
+          Object.entries(data.seo).forEach(([key, val]) => {
+            if (val && (val as string).length > 0 && key.startsWith('meta_')) {
+              updates[key] = val as string;
+            }
+            if (key === 'image_alt' && val) updates.image_alt = val as string;
+          });
+        }
+
         if (Object.keys(updates).length > 0) {
-          await supabase.from(item.table).update(updates).eq('id', item.id);
-          // Refresh
-          setItems(prev => prev.map(i => {
-            if (i.id !== item.id) return i;
-            const newT = { ...i.translations };
-            Object.keys(updates).forEach(k => {
-              const lang = k.split('_').pop() as string;
-              if (LANGS.includes(lang as typeof LANGS[number])) newT[lang] = true;
-            });
-            return { ...i, translations: newT };
-          }));
+          const { error } = await supabase.from(item.table).update(updates).eq('id', item.id);
+          if (!error) {
+            setItems(prev => prev.map(i => {
+              if (i.id !== item.id) return i;
+              const newT = { ...i.translations };
+              Object.keys(updates).forEach(k => {
+                const lang = k.split('_').pop() as string;
+                if (LANGS.includes(lang as typeof LANGS[number])) newT[lang] = true;
+              });
+              return { ...i, translations: newT };
+            }));
+          }
         }
       }
     } catch {}
     setFilling(null);
+  }
+
+  const [bulkRunning, setBulkRunning] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState({ done: 0, total: 0 });
+
+  async function handleBulkFill() {
+    const incomplete = filtered.filter(i => Object.values(i.translations).some(v => !v));
+    if (incomplete.length === 0) return;
+    if (!confirm(`AI Fill ${incomplete.length} items? This will use OpenAI credits.`)) return;
+
+    setBulkRunning(true);
+    setBulkProgress({ done: 0, total: incomplete.length });
+
+    for (let idx = 0; idx < incomplete.length; idx++) {
+      await handleAiFill(incomplete[idx]);
+      setBulkProgress({ done: idx + 1, total: incomplete.length });
+      // Small delay to avoid rate limiting
+      await new Promise(r => setTimeout(r, 500));
+    }
+
+    setBulkRunning(false);
   }
 
   const filtered = items.filter(i => {
@@ -150,7 +196,7 @@ export default function TranslationsPage() {
         </div>
       </div>
 
-      {/* Filters */}
+      {/* Filters + Bulk button */}
       <div className="flex flex-wrap items-center gap-3 mb-4 bg-white border border-gray-200 rounded-xl p-3">
         <Filter className="w-4 h-4 text-gray-400" />
         <select value={filterTable} onChange={e => setFilterTable(e.target.value)}
@@ -165,7 +211,25 @@ export default function TranslationsPage() {
           <option value="complete">Complete only</option>
         </select>
         <span className="text-xs text-gray-400 ml-auto">{filtered.length} results</span>
+        <button onClick={handleBulkFill} disabled={bulkRunning || totalIncomplete === 0}
+          className="flex items-center gap-2 px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-medium disabled:opacity-50">
+          {bulkRunning ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+          {bulkRunning ? `${bulkProgress.done}/${bulkProgress.total}` : `Bulk Fill (${totalIncomplete})`}
+        </button>
       </div>
+
+      {/* Bulk progress */}
+      {bulkRunning && (
+        <div className="mb-4 bg-purple-50 border border-purple-200 rounded-xl p-3">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium text-purple-800">AI Bulk Translation in progress...</span>
+            <span className="text-xs text-purple-600">{bulkProgress.done}/{bulkProgress.total}</span>
+          </div>
+          <div className="w-full bg-purple-200 rounded-full h-2">
+            <div className="bg-purple-600 h-2 rounded-full transition-all" style={{ width: `${bulkProgress.total > 0 ? (bulkProgress.done / bulkProgress.total) * 100 : 0}%` }} />
+          </div>
+        </div>
+      )}
 
       {/* Matrix Table */}
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
