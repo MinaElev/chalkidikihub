@@ -19,13 +19,13 @@ type Props = {
 };
 
 const descriptions: Record<string, string> = {
-  el: 'Ανακαλύψτε τα καλύτερα ενοικιαζόμενα δωμάτια, παραλίες, εστιατόρια και δραστηριότητες στη Χαλκιδική. Κρατήσεις, χάρτες και οδηγοί σε 7 γλώσσες.',
-  en: 'Discover the best accommodation, beaches, restaurants and activities in Halkidiki, Greece. Bookings, maps and guides in 7 languages.',
-  de: 'Entdecken Sie die besten Unterkünfte, Strände, Restaurants und Aktivitäten in Chalkidiki, Griechenland.',
-  bg: 'Открийте най-добрите квартири, плажове, ресторанти и дейности в Халкидики, Гърция.',
-  ru: 'Откройте лучшее жильё, пляжи, рестораны и развлечения в Халкидики, Греция.',
-  ro: 'Descoperiți cele mai bune cazări, plaje, restaurante și activități din Halkidiki, Grecia.',
-  sr: 'Otkrijte najbolji smeštaj, plaže, restorane i aktivnosti u Halkidikiju, Grčka. Rezervacije, mape i vodiči na 7 jezika.',
+  el: 'Βρείτε το τέλειο κατάλυμα για τις διακοπές σας στο πιο όμορφο μέρος της Ελλάδας. Παραλίες, εστιατόρια, χωριά και οδηγοί σε 7 γλώσσες.',
+  en: 'Find the perfect accommodation for your holidays in the most beautiful part of Greece. Beaches, restaurants, villages and guides in 7 languages.',
+  de: 'Finden Sie die perfekte Unterkunft für Ihren Urlaub im schönsten Teil Griechenlands. Strände, Restaurants, Dörfer und Reiseführer.',
+  bg: 'Намерете перфектното настаняване за вашата ваканция в най-красивата част на Гърция. Плажове, ресторанти, села и пътеводители.',
+  ru: 'Найдите идеальное жильё для отпуска в самой красивой части Греции. Пляжи, рестораны, деревни и путеводители.',
+  ro: 'Găsiți cazarea perfectă pentru vacanța dumneavoastră în cea mai frumoasă parte a Greciei. Plaje, restaurante, sate și ghiduri.',
+  sr: 'Pronađite savršen smeštaj za vaš odmor u najlepšem delu Grčke. Plaže, restorani, sela i vodiči na 7 jezika.',
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -35,13 +35,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const desc = descriptions[locale] || descriptions.el;
 
   const titles: Record<string, string> = {
-    el: 'ChalkidikiHub — Ανακαλύψτε τη Χαλκιδική',
-    en: 'ChalkidikiHub — Discover Halkidiki, Greece',
-    de: 'ChalkidikiHub — Chalkidiki entdecken',
-    bg: 'ChalkidikiHub — Открийте Халкидики',
-    ru: 'ChalkidikiHub — Откройте Халкидики',
-    ro: 'ChalkidikiHub — Descoperiți Halkidiki',
-    sr: 'ChalkidikiHub — Otkrijte Halkidiki',
+    el: 'ChalkidikiHub | Ανακαλύψτε τη Χαλκιδική',
+    en: 'ChalkidikiHub | Discover Halkidiki, Greece',
+    de: 'ChalkidikiHub | Chalkidiki entdecken',
+    bg: 'ChalkidikiHub | Открийте Халкидики',
+    ru: 'ChalkidikiHub | Откройте Халкидики',
+    ro: 'ChalkidikiHub | Descoperiți Halkidiki',
+    sr: 'ChalkidikiHub | Otkrijte Halkidiki',
   };
 
   return {
