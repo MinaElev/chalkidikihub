@@ -9,8 +9,9 @@ import { AreaHero } from '@/components/layout/AreaHero';
 import { JsonLd } from '@/components/ui/JsonLd';
 import type { Metadata } from 'next';
 import { Link } from '@/i18n/navigation';
-import { Church, ChevronRight } from 'lucide-react';
+import { Church, ChevronRight, MapPin } from 'lucide-react';
 import { Area } from '@/types';
+import { AreaVillages } from '@/components/listings/AreaVillages';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
@@ -175,6 +176,9 @@ function AreaDetail({
           <ChevronRight className="w-6 h-6 text-amber-300 group-hover:translate-x-1 transition-transform shrink-0" />
         </Link>
       )}
+
+      {/* Villages in this area */}
+      <AreaVillages area={areaSlug} />
 
       {/* Listings - fetches from DB */}
       <AreaListings area={areaSlug} />
