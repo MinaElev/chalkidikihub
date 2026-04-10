@@ -28,13 +28,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ skipped: true, reason: 'Auto-blog disabled in settings' });
     }
 
-    // Check hour (default: 8 UTC)
-    const targetHour = parseInt(settings.autoblog_hour_utc || '8');
-    const currentHourUTC = new Date().getUTCHours();
-    if (currentHourUTC !== targetHour) {
-      return NextResponse.json({ skipped: true, reason: `Not the right hour (current: ${currentHourUTC}, target: ${targetHour})` });
-    }
-
     // Check frequency — was the last article created too recently?
     const frequencyHours = parseInt(settings.autoblog_frequency_hours || '24');
     const { data: lastArticle } = await supabase
