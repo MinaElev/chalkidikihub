@@ -26,11 +26,11 @@ export default function NewBlogPage() {
     published_at: '',
     image_alt: '',
     // Per-language
-    title_el: '', title_en: '', title_de: '', title_bg: '', title_ru: '', title_ro: '',
+    title_el: '', title_en: '', title_de: '', title_bg: '', title_ru: '', title_ro: '', title_sr: '',
     excerpt_el: '', excerpt_en: '', excerpt_de: '', excerpt_bg: '', excerpt_ru: '', excerpt_ro: '',
     content_el: '', content_en: '', content_de: '', content_bg: '', content_ru: '', content_ro: '',
-    meta_title_el: '', meta_title_en: '', meta_title_de: '', meta_title_bg: '', meta_title_ru: '', meta_title_ro: '',
-    meta_description_el: '', meta_description_en: '', meta_description_de: '', meta_description_bg: '', meta_description_ru: '', meta_description_ro: '',
+    meta_title_el: '', meta_title_en: '', meta_title_de: '', meta_title_bg: '', meta_title_ru: '', meta_title_ro: '', meta_title_sr: '',
+    meta_description_el: '', meta_description_en: '', meta_description_de: '', meta_description_bg: '', meta_description_ru: '', meta_description_ro: '', meta_description_sr: '',
   });
 
   function update(field: string, value: unknown) {
@@ -82,16 +82,16 @@ export default function NewBlogPage() {
               ...prev,
               title_en: data.translations.title_en,
               title_de: data.translations.title_de, title_bg: data.translations.title_bg,
-              title_ru: data.translations.title_ru, title_ro: data.translations.title_ro,
+              title_ru: data.translations.title_ru, title_ro: data.translations.title_ro, title_sr: data.translations.title_sr || "",
               excerpt_en: data.translations.description_en,
               excerpt_de: data.translations.description_de, excerpt_bg: data.translations.description_bg,
               excerpt_ru: data.translations.description_ru, excerpt_ro: data.translations.description_ro,
               meta_title_el: data.seo.meta_title_el, meta_title_en: data.seo.meta_title_en,
               meta_title_de: data.seo.meta_title_de, meta_title_bg: data.seo.meta_title_bg,
-              meta_title_ru: data.seo.meta_title_ru, meta_title_ro: data.seo.meta_title_ro,
+              meta_title_ru: data.seo.meta_title_ru, meta_title_ro: data.seo.meta_title_ro, meta_title_sr: data.seo.meta_title_sr || "",
               meta_description_el: data.seo.meta_description_el, meta_description_en: data.seo.meta_description_en,
               meta_description_de: data.seo.meta_description_de, meta_description_bg: data.seo.meta_description_bg,
-              meta_description_ru: data.seo.meta_description_ru, meta_description_ro: data.seo.meta_description_ro,
+              meta_description_ru: data.seo.meta_description_ru, meta_description_ro: data.seo.meta_description_ro, meta_description_sr: data.seo.meta_description_sr || "",
               image_alt: data.seo.image_alt,
             }));
           }}

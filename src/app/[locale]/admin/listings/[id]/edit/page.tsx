@@ -18,14 +18,14 @@ export default function AdminEditListingPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [form, setForm] = useState({
-    slug: '', title_el: '', title_en: '', title_de: '', title_bg: '', title_ru: '', title_ro: '',
-    description_el: '', description_en: '', description_de: '', description_bg: '', description_ru: '', description_ro: '',
+    slug: '', title_el: '', title_en: '', title_de: '', title_bg: '', title_ru: '', title_ro: '', title_sr: '',
+    description_el: '', description_en: '', description_de: '', description_bg: '', description_ru: '', description_ro: '', description_sr: '',
     area: 'kassandra', location_name: '', latitude: 0, longitude: 0,
     price_per_night: 0, currency: 'EUR', guests_max: 2, bedrooms: 1, bathrooms: 1,
     amenities: [] as string[], status: 'draft',
     contact_phone: '', contact_email: '', booking_url: '', airbnb_url: '', website_url: '',
-    meta_title_el: '', meta_title_en: '', meta_title_de: '', meta_title_bg: '', meta_title_ru: '', meta_title_ro: '',
-    meta_description_el: '', meta_description_en: '', meta_description_de: '', meta_description_bg: '', meta_description_ru: '', meta_description_ro: '',
+    meta_title_el: '', meta_title_en: '', meta_title_de: '', meta_title_bg: '', meta_title_ru: '', meta_title_ro: '', meta_title_sr: '',
+    meta_description_el: '', meta_description_en: '', meta_description_de: '', meta_description_bg: '', meta_description_ru: '', meta_description_ro: '', meta_description_sr: '',
     image_alt: '',
   });
   const [ownerInfo, setOwnerInfo] = useState({ name: '', email: '', id: '' });
@@ -141,15 +141,15 @@ export default function AdminEditListingPage() {
             setForm((prev) => ({
               ...prev,
               title_en: data.translations.title_en, title_de: data.translations.title_de,
-              title_bg: data.translations.title_bg, title_ru: data.translations.title_ru, title_ro: data.translations.title_ro,
+              title_bg: data.translations.title_bg, title_ru: data.translations.title_ru, title_ro: data.translations.title_ro, title_sr: data.translations.title_sr || "",
               description_en: data.translations.description_en, description_de: data.translations.description_de,
-              description_bg: data.translations.description_bg, description_ru: data.translations.description_ru, description_ro: data.translations.description_ro,
+              description_bg: data.translations.description_bg, description_ru: data.translations.description_ru, description_ro: data.translations.description_ro, description_sr: data.translations.description_sr || "",
               meta_title_el: data.seo.meta_title_el, meta_title_en: data.seo.meta_title_en,
               meta_title_de: data.seo.meta_title_de, meta_title_bg: data.seo.meta_title_bg,
-              meta_title_ru: data.seo.meta_title_ru, meta_title_ro: data.seo.meta_title_ro,
+              meta_title_ru: data.seo.meta_title_ru, meta_title_ro: data.seo.meta_title_ro, meta_title_sr: data.seo.meta_title_sr || "",
               meta_description_el: data.seo.meta_description_el, meta_description_en: data.seo.meta_description_en,
               meta_description_de: data.seo.meta_description_de, meta_description_bg: data.seo.meta_description_bg,
-              meta_description_ru: data.seo.meta_description_ru, meta_description_ro: data.seo.meta_description_ro,
+              meta_description_ru: data.seo.meta_description_ru, meta_description_ro: data.seo.meta_description_ro, meta_description_sr: data.seo.meta_description_sr || "",
               image_alt: data.seo.image_alt,
             }));
           }}

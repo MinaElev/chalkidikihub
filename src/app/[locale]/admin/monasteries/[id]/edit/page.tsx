@@ -101,15 +101,15 @@ export default function AdminEditMonasteryPage() {
             setForm(prev => ({
               ...prev,
               name_en: data.translations.title_en, name_de: data.translations.title_de,
-              name_bg: data.translations.title_bg, name_ru: data.translations.title_ru, name_ro: data.translations.title_ro,
+              name_bg: data.translations.title_bg, name_ru: data.translations.title_ru, name_ro: data.translations.title_ro, name_sr: data.translations.title_sr || "",
               description_en: data.translations.description_en, description_de: data.translations.description_de,
-              description_bg: data.translations.description_bg, description_ru: data.translations.description_ru, description_ro: data.translations.description_ro,
+              description_bg: data.translations.description_bg, description_ru: data.translations.description_ru, description_ro: data.translations.description_ro, description_sr: data.translations.description_sr || "",
               meta_title_el: data.seo.meta_title_el, meta_title_en: data.seo.meta_title_en,
               meta_title_de: data.seo.meta_title_de, meta_title_bg: data.seo.meta_title_bg,
-              meta_title_ru: data.seo.meta_title_ru, meta_title_ro: data.seo.meta_title_ro,
+              meta_title_ru: data.seo.meta_title_ru, meta_title_ro: data.seo.meta_title_ro, meta_title_sr: data.seo.meta_title_sr || "",
               meta_description_el: data.seo.meta_description_el, meta_description_en: data.seo.meta_description_en,
               meta_description_de: data.seo.meta_description_de, meta_description_bg: data.seo.meta_description_bg,
-              meta_description_ru: data.seo.meta_description_ru, meta_description_ro: data.seo.meta_description_ro,
+              meta_description_ru: data.seo.meta_description_ru, meta_description_ro: data.seo.meta_description_ro, meta_description_sr: data.seo.meta_description_sr || "",
               image_alt: data.seo.image_alt,
             }));
           }} />

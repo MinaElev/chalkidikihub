@@ -23,7 +23,7 @@ export default function NewBeachPage() {
     image_url: '', features: [] as string[],
     rating: 0, reviews_count: 0,
     meta_title_el: '', meta_title_en: '', meta_description_el: '', meta_description_en: '', image_alt: '',
-    name_de: '', name_bg: '', name_ru: '', name_ro: '', tags: '',
+    name_de: '', name_bg: '', name_ru: '', name_ro: '', name_sr: '', tags: '',
   });
 
   function update(field: string, value: unknown) {
@@ -77,7 +77,7 @@ export default function NewBeachPage() {
               name_de: data.translations.title_de,
               name_bg: data.translations.title_bg,
               name_ru: data.translations.title_ru,
-              name_ro: data.translations.title_ro,
+              name_ro: data.translations.title_ro, name_sr: data.translations.title_sr || "",
               description_en: data.translations.description_en,
               meta_title_el: data.seo.meta_title_el, meta_title_en: data.seo.meta_title_en,
               meta_description_el: data.seo.meta_description_el, meta_description_en: data.seo.meta_description_en,
