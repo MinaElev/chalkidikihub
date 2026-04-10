@@ -8,6 +8,18 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v2.5.0',
+      date: '10 Απριλίου 2026',
+      highlights: 'Seasonal Guides, Listing Types, Broken Links Scanner, Blog Fix',
+      features: [
+        { emoji: '🗺️', title: 'Seasonal Guides', desc: '7 θεματικοί οδηγοί (summer, easter, honeymoon, families, budget, winter, nightlife) × 6 γλώσσες = 42 URLs' },
+        { emoji: '🏠', title: 'Listing Type Pages', desc: '6 τύποι καταλυμάτων (pool, sea-view, pet-friendly, family, budget, luxury) × 6 γλώσσες = 36 URLs' },
+        { emoji: '🔗', title: 'Broken Links Scanner', desc: 'Νέο εργαλείο στο admin — σκανάρει εσωτερικούς links σε όλο το content, βρίσκει broken' },
+        { emoji: '📝', title: 'Blog HTML Fix', desc: 'AI articles τώρα renderάρονται σωστά με HTML formatting αντί raw tags' },
+        { emoji: '🤖', title: 'Auto-Blog Fix', desc: 'Κάθε κλικ = διαφορετικό άρθρο (topic rotation βάσει count), Unsplash photos' },
+      ],
+    },
+    {
       version: 'v2.4.0',
       date: '10 Απριλίου 2026',
       highlights: 'Best Of Guides, Auto-Blog Settings, Unsplash Photos',
