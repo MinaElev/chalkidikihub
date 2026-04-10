@@ -97,7 +97,7 @@ export default function AdminEditMonasteryPage() {
         {/* AI Auto-Complete (translations + SEO) */}
         <AIHelper titleEl={form.name_el as string} descriptionEl={form.description_el as string}
           category="monastery" location={`${form.name_el}, Άγιο Όρος`}
-          onComplete={(data) => {
+          onComplete={async (data) => {
             setForm(prev => ({
               ...prev,
               name_en: data.translations.title_en, name_de: data.translations.title_de,
@@ -112,6 +112,29 @@ export default function AdminEditMonasteryPage() {
               meta_description_ru: data.seo.meta_description_ru, meta_description_ro: data.seo.meta_description_ro, meta_description_sr: data.seo.meta_description_sr && data.seo.meta_description_sr !== 'undefined' ? data.seo.meta_description_sr : '',
               image_alt: data.seo.image_alt,
             }));
+            // Also translate highlights if available
+            const hlEl = form.highlights_el as string;
+            if (hlEl && hlEl.trim()) {
+              try {
+                const hlRes = await fetch('/api/ai', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ action: 'translate_content', content: hlEl }),
+                });
+                if (hlRes.ok) {
+                  const hlData = await hlRes.json();
+                  setForm(prev => ({
+                    ...prev,
+                    highlights_en: hlData.en || prev.highlights_en,
+                    highlights_de: hlData.de || prev.highlights_de,
+                    highlights_bg: hlData.bg || prev.highlights_bg,
+                    highlights_ru: hlData.ru || prev.highlights_ru,
+                    highlights_ro: hlData.ro || prev.highlights_ro,
+                    highlights_sr: hlData.sr || prev.highlights_sr,
+                  }));
+                }
+              } catch {}
+            }
           }} />
 
         {/* AI Generate Description */}
