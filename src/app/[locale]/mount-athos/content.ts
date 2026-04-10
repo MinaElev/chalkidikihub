@@ -22,7 +22,7 @@ export const t = {
     ru: 'Полный путеводитель по Афонскому государству — важнейший центр православного монашества в мире',
     ro: 'Ghidul complet al Statului Athonit — cel mai important centru al monahismului ortodox din lume',
   } as L,
-  landingLocation: { el: 'Χερσόνησος Άθω, Χαλκιδική', en: 'Athos Peninsula, Halkidiki', de: 'Athos-Halbinsel, Chalkidiki', bg: 'Полуостров Атос, Халкидики', ru: 'Полуостров Афон, Халкидики', ro: 'Peninsula Athos, Halkidiki' } as L,
+  landingLocation: { el: 'Χερσόνησος Άθω, Χαλκιδική', en: 'Athos Peninsula, Halkidiki', de: 'Athos-Halbinsel, Chalkidiki', bg: 'Полуостров Атос, Халкидики', ru: 'Полуостров Афон, Халкидики', ro: 'Peninsula Athos, Halkidiki' , sr: 'Poluostrvo Atos, Halkidiki' } as L,
   landingIntro: {
     el: 'Το Άγιο Όρος αποτελεί έναν από τους πιο ιδιαίτερους και πνευματικά σημαντικούς τόπους στον κόσμο. Πρόκειται για μια μοναστική πολιτεία με ιστορία άνω των 1.000 ετών, η οποία βρίσκεται στην τρίτη χερσόνησο της Χαλκιδικής.',
     en: 'Mount Athos is one of the most unique and spiritually significant places in the world. It is a monastic state with a history spanning over 1,000 years, located on the third peninsula of Halkidiki.',
@@ -39,7 +39,7 @@ export const t = {
     ru: 'Часто называемая «Садом Богородицы», она функционирует как Автономное монашеское государство согласно греческой конституции. Территория охватывает 335 квадратных километров, а вершина достигает 2033 метров. Сегодня здесь проживают около 2000 монахов.',
     ro: 'Adesea numit „Grădina Maicii Domnului", funcționează ca Stat Monastic Autonom conform Constituției grecești. Zona acoperă 335 de kilometri pătrați, cu vârful la 2.033 de metri. Astăzi găzduiește aproximativ 2.000 de călugări.',
   } as L,
-  guideTitle: { el: 'Οδηγός Αγίου Όρους', en: 'Mount Athos Guide', de: 'Berg Athos Reiseführer', bg: 'Пътеводител', ru: 'Путеводитель', ro: 'Ghid' } as L,
+  guideTitle: { el: 'Οδηγός Αγίου Όρους', en: 'Mount Athos Guide', de: 'Berg Athos Reiseführer', bg: 'Пътеводител', ru: 'Путеводитель', ro: 'Ghid', sr: 'Vodič' } as L,
 
   // Nav items
   navMonasteries: { el: 'Οι 20 Μονές', en: 'The 20 Monasteries', de: 'Die 20 Klöster', bg: '20-те манастира', ru: '20 монастырей', ro: 'Cele 20 de mănăstiri', sr: '20 manastira' } as L,
@@ -109,13 +109,13 @@ export const t = {
   } as L,
 
   // Nationality labels
-  nationGreek: { el: 'Ελληνική', en: 'Greek', de: 'Griechisch', bg: 'Гръцки', ru: 'Греческий', ro: 'Greacă' } as L,
-  nationSerbian: { el: 'Σερβική', en: 'Serbian', de: 'Serbisch', bg: 'Сръбски', ru: 'Сербский', ro: 'Sârbă' } as L,
-  nationBulgarian: { el: 'Βουλγαρική', en: 'Bulgarian', de: 'Bulgarisch', bg: 'Български', ru: 'Болгарский', ro: 'Bulgară' } as L,
-  nationRussian: { el: 'Ρωσική', en: 'Russian', de: 'Russisch', bg: 'Руски', ru: 'Русский', ro: 'Rusă' } as L,
+  nationGreek: { el: 'Ελληνική', en: 'Greek', de: 'Griechisch', bg: 'Гръцки', ru: 'Греческий', ro: 'Greacă', sr: 'Grčki' } as L,
+  nationSerbian: { el: 'Σερβική', en: 'Serbian', de: 'Serbisch', bg: 'Сръбски', ru: 'Сербский', ro: 'Sârbă', sr: 'Srpski' } as L,
+  nationBulgarian: { el: 'Βουλγαρική', en: 'Bulgarian', de: 'Bulgarisch', bg: 'Български', ru: 'Болгарский', ro: 'Bulgară', sr: 'Bugarski' } as L,
+  nationRussian: { el: 'Ρωσική', en: 'Russian', de: 'Russisch', bg: 'Руски', ru: 'Русский', ro: 'Rusă', sr: 'Ruski' } as L,
 
   // Important note
-  importantNote: { el: 'Σημαντική Σημείωση', en: 'Important Note', de: 'Wichtiger Hinweis', bg: 'Важна забележка', ru: 'Важное примечание', ro: 'Notă importantă' } as L,
+  importantNote: { el: 'Σημαντική Σημείωση', en: 'Important Note', de: 'Wichtiger Hinweis', bg: 'Важна забележка', ru: 'Важное примечание', ro: 'Notă importantă', sr: 'Važna napomena' } as L,
 
   // SEO meta
   metaLandingTitle: {
