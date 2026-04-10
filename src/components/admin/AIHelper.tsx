@@ -10,14 +10,14 @@ interface AIHelperProps {
   location?: string;
   onComplete: (data: {
     translations: {
-      title_en: string; title_de: string; title_bg: string; title_ru: string; title_ro: string;
-      description_en: string; description_de: string; description_bg: string; description_ru: string; description_ro: string;
+      title_en: string; title_de: string; title_bg: string; title_ru: string; title_ro: string; title_sr: string;
+      description_en: string; description_de: string; description_bg: string; description_ru: string; description_ro: string; description_sr: string;
     };
     seo: {
       meta_title_el: string; meta_title_en: string; meta_title_de: string;
-      meta_title_bg: string; meta_title_ru: string; meta_title_ro: string;
+      meta_title_bg: string; meta_title_ru: string; meta_title_ro: string; meta_title_sr: string;
       meta_description_el: string; meta_description_en: string; meta_description_de: string;
-      meta_description_bg: string; meta_description_ru: string; meta_description_ro: string;
+      meta_description_bg: string; meta_description_ru: string; meta_description_ro: string; meta_description_sr: string;
       tags: string[];
       image_alt: string;
     };
@@ -71,7 +71,7 @@ export function AIHelper({ titleEl, descriptionEl, category, location, onComplet
             <h3 className="font-semibold text-purple-900">AI Auto-Complete</h3>
           </div>
           <p className="text-sm text-purple-700">
-            Γράψε τίτλο & περιγραφή στα ελληνικά → ΕΝΑ κλικ → γεμίζουν ΟΛΑ σε 6 γλώσσες + SEO
+            Γράψε τίτλο & περιγραφή στα ελληνικά → ΕΝΑ κλικ → μεταφράσεις 6 γλωσσών + SEO 7 γλωσσών + Tags
           </p>
         </div>
 
@@ -92,7 +92,7 @@ export function AIHelper({ titleEl, descriptionEl, category, location, onComplet
       </div>
 
       {error && <p className="text-sm text-red-600 mt-3 bg-red-50 p-2 rounded-lg">{error}</p>}
-      {done && <p className="text-sm text-green-600 mt-3 bg-green-50 p-2 rounded-lg flex items-center gap-2"><CheckCircle className="w-4 h-4" />Μεταφράσεις (5 γλώσσες) + SEO (6 γλώσσες) + Tags + Image Alt → Ολοκληρώθηκε!</p>}
+      {done && <p className="text-sm text-green-600 mt-3 bg-green-50 p-2 rounded-lg flex items-center gap-2"><CheckCircle className="w-4 h-4" />Μεταφράσεις (6 γλώσσες) + SEO (7 γλώσσες) + Tags + Image Alt → Ολοκληρώθηκε!</p>}
     </div>
   );
 }

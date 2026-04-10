@@ -416,49 +416,57 @@ function BulkSEOGenerator() {
           meta_title_bg: data.seo.meta_title_bg,
           meta_title_ru: data.seo.meta_title_ru,
           meta_title_ro: data.seo.meta_title_ro,
+          meta_title_sr: data.seo.meta_title_sr || '',
           meta_description_el: data.seo.meta_description_el,
           meta_description_en: data.seo.meta_description_en,
           meta_description_de: data.seo.meta_description_de,
           meta_description_bg: data.seo.meta_description_bg,
           meta_description_ru: data.seo.meta_description_ru,
           meta_description_ro: data.seo.meta_description_ro,
+          meta_description_sr: data.seo.meta_description_sr || '',
           image_alt: data.seo.image_alt || '',
         };
 
-        // Add translations based on table
+        // Add translations based on table (7 languages)
         if (item.table === 'blog_articles') {
           updateObj.title_en = data.translations.title_en;
           updateObj.title_de = data.translations.title_de;
           updateObj.title_bg = data.translations.title_bg;
           updateObj.title_ru = data.translations.title_ru;
           updateObj.title_ro = data.translations.title_ro;
+          updateObj.title_sr = data.translations.title_sr || '';
           updateObj.excerpt_en = data.translations.description_en;
           updateObj.excerpt_de = data.translations.description_de;
           updateObj.excerpt_bg = data.translations.description_bg;
           updateObj.excerpt_ru = data.translations.description_ru;
           updateObj.excerpt_ro = data.translations.description_ro;
+          updateObj.excerpt_sr = data.translations.description_sr || '';
         } else if (item.table === 'listings') {
           updateObj.title_en = data.translations.title_en;
           updateObj.title_de = data.translations.title_de;
           updateObj.title_bg = data.translations.title_bg;
           updateObj.title_ru = data.translations.title_ru;
           updateObj.title_ro = data.translations.title_ro;
+          updateObj.title_sr = data.translations.title_sr || '';
           updateObj.description_en = data.translations.description_en;
           updateObj.description_de = data.translations.description_de;
           updateObj.description_bg = data.translations.description_bg;
           updateObj.description_ru = data.translations.description_ru;
           updateObj.description_ro = data.translations.description_ro;
+          updateObj.description_sr = data.translations.description_sr || '';
         } else {
           updateObj.name_en = data.translations.title_en;
           updateObj.name_de = data.translations.title_de;
           updateObj.name_bg = data.translations.title_bg;
           updateObj.name_ru = data.translations.title_ru;
           updateObj.name_ro = data.translations.title_ro;
+          updateObj.name_sr = data.translations.title_sr || '';
           updateObj.description_en = data.translations.description_en;
           updateObj.description_de = data.translations.description_de;
           updateObj.description_bg = data.translations.description_bg;
           updateObj.description_ru = data.translations.description_ru;
           updateObj.description_ro = data.translations.description_ro;
+          updateObj.description_sr = data.translations.description_sr || '';
         }
 
         const supabase = createClient();

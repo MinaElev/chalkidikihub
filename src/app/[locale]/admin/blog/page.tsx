@@ -11,6 +11,8 @@ interface BlogArticle {
   slug: string;
   title_el: string;
   title_en: string;
+  title_de: string;
+  title_sr: string;
   category: string;
   author: string;
   published_at: string;
@@ -53,7 +55,7 @@ export default function AdminBlogPage() {
   async function loadArticles() {
     const supabase = createClient();
     const { data } = await supabase.from('blog_articles')
-      .select('id, slug, title_el, title_en, category, author, published_at, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
+      .select('id, slug, title_el, title_en, title_de, title_sr, category, author, published_at, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
       .order('published_at', { ascending: false });
     setArticles(data || []);
     setLoading(false);
@@ -70,10 +72,12 @@ export default function AdminBlogPage() {
     const issues: string[] = [];
     if (!a.image_url) issues.push('Image');
     if (!a.image_alt) issues.push('Alt');
-    if (!a.meta_title_el) issues.push('Title EL');
-    if (!a.meta_title_en) issues.push('Title EN');
+    if (!a.meta_title_el) issues.push('Meta EL');
+    if (!a.meta_title_en) issues.push('Meta EN');
     if (!a.meta_description_el) issues.push('Desc EL');
-    if (!a.title_en) issues.push('Title EN (content)');
+    if (!a.title_en) issues.push('Title EN');
+    if (!a.title_sr) issues.push('Title SR');
+    if (!a.title_de) issues.push('Title DE');
     return issues;
   }
 

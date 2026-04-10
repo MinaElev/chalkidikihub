@@ -180,7 +180,7 @@ IMPORTANT: Write engaging Greek text. Highlights separated by |. No markdown, ON
       // Sanitize content - remove problematic characters
       const content = rawContent.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 
-      const prompt = 'You are a professional translator. Translate the following Greek text to English, German, Bulgarian, Russian, and Romanian.\n\nIMPORTANT: Translate the ENTIRE text completely. Do NOT summarize or shorten. Every paragraph, every sentence must be translated.\nKeep the same formatting (## headings, bullet points, line breaks).\n\nReturn ONLY a JSON object:\n{\n  "en": "full English translation...",\n  "de": "full German translation...",\n  "bg": "full Bulgarian translation...",\n  "ru": "full Russian translation...",\n  "ro": "full Romanian translation..."\n}\n\nNo markdown wrapping, no explanation.\n\nGreek text to translate:\n' + rawContent;
+      const prompt = 'You are a professional translator. Translate the following Greek text to English, German, Bulgarian, Russian, Romanian, and Serbian.\n\nIMPORTANT: Translate the ENTIRE text completely. Do NOT summarize or shorten. Every paragraph, every sentence must be translated.\nKeep the same formatting (## headings, bullet points, line breaks).\n\nReturn ONLY a JSON object:\n{\n  "en": "full English translation...",\n  "de": "full German translation...",\n  "bg": "full Bulgarian translation...",\n  "ru": "full Russian translation...",\n  "ro": "full Romanian translation...",\n  "sr": "full Serbian translation..."\n}\n\nNo markdown wrapping, no explanation.\n\nGreek text to translate:\n' + rawContent;
 
       const result = await callOpenAI(prompt, 10000);
       const translations = JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
@@ -189,8 +189,8 @@ IMPORTANT: Write engaging Greek text. Highlights separated by |. No markdown, ON
 
     // Legacy actions for backwards compatibility
     if (action === 'translate_all') {
-      const prompt = `Translate the following Greek texts to English, German, Bulgarian, Russian, and Romanian.
-Return ONLY a JSON object: { "title": { "en": "...", "de": "...", "bg": "...", "ru": "...", "ro": "..." }, "description": { "en": "...", "de": "...", "bg": "...", "ru": "...", "ro": "..." } }
+      const prompt = `Translate the following Greek texts to English, German, Bulgarian, Russian, Romanian, and Serbian.
+Return ONLY a JSON object: { "title": { "en": "...", "de": "...", "bg": "...", "ru": "...", "ro": "...", "sr": "..." }, "description": { "en": "...", "de": "...", "bg": "...", "ru": "...", "ro": "...", "sr": "..." } }
 No markdown.
 Title: "${title}"
 Description: "${description}"`;
@@ -199,9 +199,9 @@ Description: "${description}"`;
     }
 
     if (action === 'seo') {
-      const prompt = `SEO expert for Halkidiki tourism. Generate meta titles/descriptions in 6 languages (el,en,de,bg,ru,ro) + tags + image_alt.
+      const prompt = `SEO expert for Halkidiki tourism. Generate meta titles/descriptions in 7 languages (el,en,de,bg,ru,ro,sr) + tags + image_alt.
 Title: "${title}" Description: "${description}" Category: ${category} Location: ${location}
-Return JSON only: { meta_title_el, meta_title_en, meta_title_de, meta_title_bg, meta_title_ru, meta_title_ro, meta_description_el, meta_description_en, meta_description_de, meta_description_bg, meta_description_ru, meta_description_ro, tags: [...], image_alt }`;
+Return JSON only: { meta_title_el, meta_title_en, meta_title_de, meta_title_bg, meta_title_ru, meta_title_ro, meta_title_sr, meta_description_el, meta_description_en, meta_description_de, meta_description_bg, meta_description_ru, meta_description_ro, meta_description_sr, tags: [...], image_alt }`;
       const result = await callOpenAI(prompt, 1000);
       return NextResponse.json(JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()));
     }
@@ -210,7 +210,7 @@ Return JSON only: { meta_title_el, meta_title_en, meta_title_de, meta_title_bg, 
       const { content, lang } = body;
       if (!content) return NextResponse.json({ error: 'No content provided' }, { status: 400 });
 
-      const langMap: Record<string, string> = { el: 'Greek', en: 'English', de: 'German', bg: 'Bulgarian', ru: 'Russian', ro: 'Romanian' };
+      const langMap: Record<string, string> = { el: 'Greek', en: 'English', de: 'German', bg: 'Bulgarian', ru: 'Russian', ro: 'Romanian', sr: 'Serbian' };
       const langName = langMap[lang || 'el'] || 'Greek';
 
       const prompt = `You are an expert content editor for a tourism blog about Halkidiki, Greece.
