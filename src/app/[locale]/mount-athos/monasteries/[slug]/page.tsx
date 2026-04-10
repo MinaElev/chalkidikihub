@@ -30,6 +30,7 @@ async function getMonastery(slug: string): Promise<Monastery | undefined> {
       return {
         slug: data.slug, rank: data.rank, founded: data.founded || hardcoded.founded, nation: data.nation || hardcoded.nation,
         lat: data.latitude || hardcoded.lat, lng: data.longitude || hardcoded.lng,
+        image_url: data.image_url || hardcoded.image_url || '',
         name: mergeLocaleMap(toLocaleMap(data, 'name'), hardcoded.name),
         description: mergeLocaleMap(toLocaleMap(data, 'description'), hardcoded.description),
         highlights: mergeLocaleMap(toLocaleMap(data, 'highlights'), hardcoded.highlights),
@@ -99,17 +100,29 @@ export default async function MonasteryDetailPage({ params }: Props) {
       </nav>
 
       {/* Hero */}
-      <div className="bg-gradient-to-br from-amber-900 via-amber-800 to-amber-700 rounded-2xl p-8 md:p-10 text-white mb-8">
-        <div className="flex items-center gap-2 mb-2 text-amber-200 text-sm">
-          <span className="px-2 py-0.5 bg-amber-600/50 rounded-full text-xs font-bold">#{m.rank}</span>
-          <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {m.founded}</span>
-          <span className="flex items-center gap-1"><Flag className="w-3.5 h-3.5" /> {nationLabel}</span>
+      <div className="relative bg-gradient-to-br from-amber-900 via-amber-800 to-amber-700 rounded-2xl overflow-hidden text-white mb-8">
+        {m.image_url && (
+          <img src={m.image_url} alt={name} className="absolute inset-0 w-full h-full object-cover opacity-30" />
+        )}
+        <div className="relative p-8 md:p-10">
+          <div className="flex items-center gap-2 mb-2 text-amber-200 text-sm">
+            <span className="px-2 py-0.5 bg-amber-600/50 rounded-full text-xs font-bold">#{m.rank}</span>
+            <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {m.founded}</span>
+            <span className="flex items-center gap-1"><Flag className="w-3.5 h-3.5" /> {nationLabel}</span>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">{name}</h1>
+          <p className="text-amber-200 text-sm flex items-center gap-1">
+            <MapPin className="w-4 h-4" /> {tr('mountAthos', locale)}, {tr('landingLocation', locale)}
+          </p>
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-2">{name}</h1>
-        <p className="text-amber-200 text-sm flex items-center gap-1">
-          <MapPin className="w-4 h-4" /> {tr('mountAthos', locale)}, {tr('landingLocation', locale)}
-        </p>
       </div>
+
+      {/* Image */}
+      {m.image_url && (
+        <div className="rounded-2xl overflow-hidden mb-8">
+          <img src={m.image_url} alt={name} className="w-full h-64 md:h-80 object-cover" loading="lazy" />
+        </div>
+      )}
 
       {/* Description */}
       <div className="prose prose-gray max-w-none mb-8">

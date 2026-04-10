@@ -10,6 +10,7 @@ export interface Monastery {
   highlights: L;
   lat: number;
   lng: number;
+  image_url?: string;
   metaTitle: L;
   metaDesc: L;
 }
