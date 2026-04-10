@@ -8,6 +8,19 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.0.0',
+      date: '11 Απριλίου 2026',
+      highlights: 'Serbian Language, Hero Image, Full SEO Audit, 4,000+ URLs',
+      features: [
+        { emoji: '🇷🇸', title: 'Σερβικά (7η γλώσσα)', desc: 'Πλήρης υποστήριξη Σερβικών: UI, DB columns, AI translations, SEO meta, sitemap — 573 νέα URLs' },
+        { emoji: '🖼️', title: 'Hero Background Image', desc: 'Ρυθμιζόμενη background εικόνα στο hero section της αρχικής σελίδας μέσω admin Settings' },
+        { emoji: '🔍', title: 'Full SEO Audit & Fix', desc: 'Hreflang 7 γλωσσών σε ΟΛΕΣ τις σελίδες, canonical URLs, meta titles σε SR, terms/privacy/map metadata' },
+        { emoji: '⛪', title: 'Mount Athos SR', desc: 'Πλήρης μετάφραση οδηγού Αγίου Όρους στα Σερβικά — 8 σελίδες + 20 μονές' },
+        { emoji: '🤖', title: 'AI 7 Languages', desc: 'AI Auto-Complete, Bulk Fill, Auto-Blog — όλα υποστηρίζουν 7 γλώσσες + undefined guard' },
+        { emoji: '📊', title: '4,011 Sitemap URLs', desc: '573 σελίδες × 7 γλώσσες = 4,011 URLs στο sitemap, 0 errors' },
+      ],
+    },
+    {
       version: 'v2.5.0',
       date: '10 Απριλίου 2026',
       highlights: 'Seasonal Guides, Listing Types, Broken Links Scanner, Blog Fix',
