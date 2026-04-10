@@ -12,22 +12,33 @@ const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-// Try DB first, fallback to hardcoded
+// Merge DB data with hardcoded fallback (DB may have empty fields)
+function mergeLocaleMap(db: Record<string, string>, fallback: Record<string, string>): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const key of ['el', 'en', 'de', 'bg', 'ru', 'ro']) {
+    result[key] = (db[key] && db[key].length > 0) ? db[key] : (fallback[key] || '');
+  }
+  return result;
+}
+
 async function getMonastery(slug: string): Promise<Monastery | undefined> {
+  const hardcoded = getMonasteryBySlug(slug);
   try {
     const supabase = createApiClient();
     const { data } = await supabase.from('monasteries').select('*').eq('slug', slug).single();
-    if (data) {
+    if (data && hardcoded) {
       return {
-        slug: data.slug, rank: data.rank, founded: data.founded, nation: data.nation,
-        lat: data.latitude || 0, lng: data.longitude || 0,
-        name: toLocaleMap(data, 'name'), description: toLocaleMap(data, 'description'),
-        highlights: toLocaleMap(data, 'highlights'),
-        metaTitle: toLocaleMap(data, 'meta_title'), metaDesc: toLocaleMap(data, 'meta_description'),
+        slug: data.slug, rank: data.rank, founded: data.founded || hardcoded.founded, nation: data.nation || hardcoded.nation,
+        lat: data.latitude || hardcoded.lat, lng: data.longitude || hardcoded.lng,
+        name: mergeLocaleMap(toLocaleMap(data, 'name'), hardcoded.name),
+        description: mergeLocaleMap(toLocaleMap(data, 'description'), hardcoded.description),
+        highlights: mergeLocaleMap(toLocaleMap(data, 'highlights'), hardcoded.highlights),
+        metaTitle: mergeLocaleMap(toLocaleMap(data, 'meta_title'), hardcoded.metaTitle),
+        metaDesc: mergeLocaleMap(toLocaleMap(data, 'meta_description'), hardcoded.metaDesc),
       };
     }
   } catch {}
-  return getMonasteryBySlug(slug);
+  return hardcoded;
 }
 
 export function generateStaticParams() {
