@@ -5,15 +5,15 @@ type L = Record<string, string>;
 
 export const t = {
   // Common
-  home: { el: 'Αρχική', en: 'Home', de: 'Startseite', bg: 'Начало', ru: 'Главная', ro: 'Acasă' } as L,
-  mountAthos: { el: 'Άγιο Όρος', en: 'Mount Athos', de: 'Berg Athos', bg: 'Света гора', ru: 'Святая Гора', ro: 'Muntele Athos' } as L,
-  guide: { el: 'Οδηγός Αγίου Όρους', en: 'Mount Athos Guide', de: 'Berg Athos Reiseführer', bg: 'Пътеводител за Света гора', ru: 'Путеводитель по Святой Горе', ro: 'Ghid Muntele Athos' } as L,
-  areaAthos: { el: 'Περιοχή Άθως', en: 'Athos Area', de: 'Region Athos', bg: 'Район Атос', ru: 'Район Афон', ro: 'Zona Athos' } as L,
-  monasteries: { el: 'Μοναστήρια', en: 'Monasteries', de: 'Klöster', bg: 'Манастири', ru: 'Монастыри', ro: 'Mănăstiri' } as L,
-  monks: { el: 'Μοναχοί', en: 'Monks', de: 'Mönche', bg: 'Монаси', ru: 'Монахи', ro: 'Călugări' } as L,
+  home: { el: 'Αρχική', en: 'Home', de: 'Startseite', bg: 'Начало', ru: 'Главная', ro: 'Acasă', sr: 'Početna' } as L,
+  mountAthos: { el: 'Άγιο Όρος', en: 'Mount Athos', de: 'Berg Athos', bg: 'Света гора', ru: 'Святая Гора', ro: 'Muntele Athos', sr: 'Sveta Gora' } as L,
+  guide: { el: 'Οδηγός Αγίου Όρους', en: 'Mount Athos Guide', de: 'Berg Athos Reiseführer', bg: 'Пътеводител за Света гора', ru: 'Путеводитель по Святой Горе', ro: 'Ghid Muntele Athos', sr: 'Vodič za Svetu Goru' } as L,
+  areaAthos: { el: 'Περιοχή Άθως', en: 'Athos Area', de: 'Region Athos', bg: 'Район Атос', ru: 'Район Афон', ro: 'Zona Athos', sr: 'Oblast Atos' } as L,
+  monasteries: { el: 'Μοναστήρια', en: 'Monasteries', de: 'Klöster', bg: 'Манастири', ru: 'Монастыри', ro: 'Mănăstiri', sr: 'Manastiri' } as L,
+  monks: { el: 'Μοναχοί', en: 'Monks', de: 'Mönche', bg: 'Монаси', ru: 'Монахи', ro: 'Călugări', sr: 'Monasi' } as L,
 
   // Landing page
-  landingTitle: { el: 'Το Άγιο Όρος', en: 'Mount Athos', de: 'Der Berg Athos', bg: 'Света гора', ru: 'Святая Гора Афон', ro: 'Muntele Athos' } as L,
+  landingTitle: { el: 'Το Άγιο Όρος', en: 'Mount Athos', de: 'Der Berg Athos', bg: 'Света гора', ru: 'Святая Гора Афон', ro: 'Muntele Athos', sr: 'Sveta Gora' } as L,
   landingSubtitle: {
     el: 'Ο πλήρης οδηγός για την Αθωνική Πολιτεία — το σημαντικότερο κέντρο του ορθόδοξου μοναχισμού παγκοσμίως',
     en: 'The complete guide to the Athonite State — the most important center of Orthodox monasticism worldwide',
@@ -42,13 +42,13 @@ export const t = {
   guideTitle: { el: 'Οδηγός Αγίου Όρους', en: 'Mount Athos Guide', de: 'Berg Athos Reiseführer', bg: 'Пътеводител', ru: 'Путеводитель', ro: 'Ghid' } as L,
 
   // Nav items
-  navMonasteries: { el: 'Οι 20 Μονές', en: 'The 20 Monasteries', de: 'Die 20 Klöster', bg: '20-те манастира', ru: '20 монастырей', ro: 'Cele 20 de mănăstiri' } as L,
-  navHowToVisit: { el: 'Πώς να Επισκεφθείτε', en: 'How to Visit', de: 'Besuch planen', bg: 'Как да посетите', ru: 'Как посетить', ro: 'Cum să vizitați' } as L,
-  navGettingThere: { el: 'Πώς να Πάτε', en: 'Getting There', de: 'Anreise', bg: 'Как да стигнете', ru: 'Как добраться', ro: 'Cum ajungeți' } as L,
-  navAccommodation: { el: 'Διαμονή', en: 'Accommodation', de: 'Unterkunft', bg: 'Настаняване', ru: 'Проживание', ro: 'Cazare' } as L,
-  navDailyLife: { el: 'Καθημερινή Ζωή', en: 'Daily Life', de: 'Tägliches Leben', bg: 'Ежедневие', ru: 'Повседневная жизнь', ro: 'Viața zilnică' } as L,
-  navHiking: { el: 'Ανάβαση στον Άθω', en: 'Hiking to the Peak', de: 'Wanderung zum Gipfel', bg: 'Изкачване на върха', ru: 'Восхождение на вершину', ro: 'Drumeție la vârf' } as L,
-  navHistory: { el: 'Ιστορία & Θρύλοι', en: 'History & Legends', de: 'Geschichte & Legenden', bg: 'История и легенди', ru: 'История и легенды', ro: 'Istorie și legende' } as L,
+  navMonasteries: { el: 'Οι 20 Μονές', en: 'The 20 Monasteries', de: 'Die 20 Klöster', bg: '20-те манастира', ru: '20 монастырей', ro: 'Cele 20 de mănăstiri', sr: '20 manastira' } as L,
+  navHowToVisit: { el: 'Πώς να Επισκεφθείτε', en: 'How to Visit', de: 'Besuch planen', bg: 'Как да посетите', ru: 'Как посетить', ro: 'Cum să vizitați', sr: 'Kako posetiti' } as L,
+  navGettingThere: { el: 'Πώς να Πάτε', en: 'Getting There', de: 'Anreise', bg: 'Как да стигнете', ru: 'Как добраться', ro: 'Cum ajungeți', sr: 'Kako stići' } as L,
+  navAccommodation: { el: 'Διαμονή', en: 'Accommodation', de: 'Unterkunft', bg: 'Настаняване', ru: 'Проживание', ro: 'Cazare', sr: 'Smeštaj' } as L,
+  navDailyLife: { el: 'Καθημερινή Ζωή', en: 'Daily Life', de: 'Tägliches Leben', bg: 'Ежедневие', ru: 'Повседневная жизнь', ro: 'Viața zilnică', sr: 'Svakodnevni život' } as L,
+  navHiking: { el: 'Ανάβαση στον Άθω', en: 'Hiking to the Peak', de: 'Wanderung zum Gipfel', bg: 'Изкачване на върха', ru: 'Восхождение на вершину', ro: 'Drumeție la vârf', sr: 'Penjanje na vrh' } as L,
+  navHistory: { el: 'Ιστορία & Θρύλοι', en: 'History & Legends', de: 'Geschichte & Legenden', bg: 'История и легенди', ru: 'История и легенды', ro: 'Istorie și legende', sr: 'Istorija i legende' } as L,
 
   // Section card descriptions (landing page)
   descMonasteries: {
@@ -124,7 +124,7 @@ export const t = {
     de: 'Berg Athos - Vollständiger Reiseführer | Chalkidiki',
     bg: 'Света гора - Пълен пътеводител | Халкидики',
     ru: 'Святая Гора Афон - Полный путеводитель | Халкидики',
-    ro: 'Muntele Athos - Ghid complet | Halkidiki',
+    ro: 'Muntele Athos - Ghid complet | Halkidiki', sr: 'Sveta Gora - Kompletan vodič | Halkidiki',
   } as L,
   metaLandingDesc: {
     el: 'Όλα όσα πρέπει να ξέρετε για το Άγιο Όρος: μοναστήρια, πώς να πάτε, κανόνες επίσκεψης, διαμονή, ιστορία.',
@@ -133,6 +133,7 @@ export const t = {
     bg: 'Всичко, което трябва да знаете за Света гора: манастири, как да посетите, правила, настаняване, история.',
     ru: 'Всё, что нужно знать о Святой Горе Афон: монастыри, как посетить, правила, проживание, история.',
     ro: 'Tot ce trebuie să știți despre Muntele Athos: mănăstiri, cum să vizitați, reguli, cazare, istorie.',
+    sr: 'Sve što treba da znate o Svetoj Gori: manastiri, kako posetiti, pravila, smeštaj, istorija.',
   } as L,
   metaMonasteriesTitle: {
     el: 'Οι 20 Μονές του Αγίου Όρους | Χαλκιδική',
@@ -140,7 +141,7 @@ export const t = {
     de: 'Die 20 Klöster des Berg Athos | Chalkidiki',
     bg: '20-те манастира на Света гора | Халкидики',
     ru: '20 монастырей Святой Горы Афон | Халкидики',
-    ro: 'Cele 20 de mănăstiri din Muntele Athos | Halkidiki',
+    ro: 'Cele 20 de mănăstiri din Muntele Athos | Halkidiki', sr: '20 manastira Svete Gore | Halkidiki',
   } as L,
   metaMonasteriesDesc: {
     el: 'Πλήρης λίστα και των 20 μοναστηριών του Αγίου Όρους κατά σειρά ιεραρχίας, με πληροφορίες για σκήτες, κελιά και καλύβες.',
@@ -156,7 +157,7 @@ export const t = {
     de: 'Berg Athos besuchen | Chalkidiki',
     bg: 'Как да посетите Света гора | Халкидики',
     ru: 'Как посетить Святую Гору Афон | Халкидики',
-    ro: 'Cum să vizitați Muntele Athos | Halkidiki',
+    ro: 'Cum să vizitați Muntele Athos | Halkidiki', sr: 'Kako posetiti Svetu Goru | Halkidiki',
   } as L,
   metaHowToVisitDesc: {
     el: 'Κανόνες επίσκεψης Αγίου Όρους: Άβατον, διαμονητήριο, ποιος μπορεί να μπει, πρόσβαση μέσω Ουρανούπολης.',
@@ -172,7 +173,7 @@ export const t = {
     de: 'Anreise zum Berg Athos | Chalkidiki',
     bg: 'Как да стигнете до Света гора | Халкидики',
     ru: 'Как добраться до Святой Горы Афон | Халкидики',
-    ro: 'Cum ajungeți la Muntele Athos | Halkidiki',
+    ro: 'Cum ajungeți la Muntele Athos | Halkidiki', sr: 'Kako stići do Svete Gore | Halkidiki',
   } as L,
   metaAccommodationTitle: {
     el: 'Διαμονή στο Άγιο Όρος | Χαλκιδική',
@@ -180,7 +181,7 @@ export const t = {
     de: 'Unterkunft auf dem Berg Athos | Chalkidiki',
     bg: 'Настаняване на Света гора | Халкидики',
     ru: 'Проживание на Святой Горе Афон | Халкидики',
-    ro: 'Cazare pe Muntele Athos | Halkidiki',
+    ro: 'Cazare pe Muntele Athos | Halkidiki', sr: 'Smeštaj na Svetoj Gori | Halkidiki',
   } as L,
   metaDailyLifeTitle: {
     el: 'Καθημερινή Ζωή στο Άγιο Όρος | Χαλκιδική',
@@ -188,7 +189,7 @@ export const t = {
     de: 'Tägliches Leben auf dem Berg Athos | Chalkidiki',
     bg: 'Ежедневие на Света гора | Халкидики',
     ru: 'Повседневная жизнь на Святой Горе Афон | Халкидики',
-    ro: 'Viața zilnică pe Muntele Athos | Halkidiki',
+    ro: 'Viața zilnică pe Muntele Athos | Halkidiki', sr: 'Svakodnevni život na Svetoj Gori | Halkidiki',
   } as L,
   metaHikingTitle: {
     el: 'Ανάβαση στην Κορυφή του Άθω | Χαλκιδική',
@@ -196,7 +197,7 @@ export const t = {
     de: 'Wanderung zum Gipfel des Berg Athos | Chalkidiki',
     bg: 'Изкачване на връх Атос | Халкидики',
     ru: 'Восхождение на вершину Афон | Халкидики',
-    ro: 'Drumeție la vârful Muntelui Athos | Halkidiki',
+    ro: 'Drumeție la vârful Muntelui Athos | Halkidiki', sr: 'Penjanje na vrh Atosa | Halkidiki',
   } as L,
   metaHistoryTitle: {
     el: 'Ιστορία & Θρύλοι του Αγίου Όρους | Χαλκιδική',
@@ -204,7 +205,7 @@ export const t = {
     de: 'Geschichte & Legenden des Berg Athos | Chalkidiki',
     bg: 'История и легенди на Света гора | Халкидики',
     ru: 'История и легенды Святой Горы Афон | Халкидики',
-    ro: 'Istorie și legende ale Muntelui Athos | Halkidiki',
+    ro: 'Istorie și legende ale Muntelui Athos | Halkidiki', sr: 'Istorija i legende Svete Gore | Halkidiki',
   } as L,
   metaGettingThereDesc: {
     el: 'Αναλυτικές οδηγίες μετακίνησης προς το Άγιο Όρος: από Θεσσαλονίκη στην Ουρανούπολη, πλοίο προς Δάφνη, εναλλακτική είσοδος από Ιερισσό.',

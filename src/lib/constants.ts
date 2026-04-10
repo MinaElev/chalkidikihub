@@ -10,7 +10,7 @@ export const AREAS: AreaInfo[] = [
       de: 'Kassandra',
       bg: 'Касандра',
       ru: 'Кассандра',
-      ro: 'Kassandra',
+      ro: 'Kassandra', sr: 'Kasandra',
     },
     description: {
       el: 'Το πρώτο πόδι της Χαλκιδικής. Ζωντανή ατμόσφαιρα, όμορφες παραλίες και πλούσια νυχτερινή ζωή.',
@@ -34,7 +34,7 @@ export const AREAS: AreaInfo[] = [
       de: 'Sithonia',
       bg: 'Ситония',
       ru: 'Ситония',
-      ro: 'Sithonia',
+      ro: 'Sithonia', sr: 'Sitonija',
     },
     description: {
       el: 'Το δεύτερο πόδι της Χαλκιδικής. Εξωτικές παραλίες, καταπράσινη φύση και ηρεμία.',
@@ -58,7 +58,7 @@ export const AREAS: AreaInfo[] = [
       de: 'Athos',
       bg: 'Атон',
       ru: 'Афон',
-      ro: 'Athos',
+      ro: 'Athos', sr: 'Atos',
     },
     description: {
       el: 'Το τρίτο πόδι της Χαλκιδικής. Πνευματικότητα, ιστορία και ανέγγιχτη φύση.',

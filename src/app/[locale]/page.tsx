@@ -11,18 +11,20 @@ import { MapPin, Home, Star, QrCode } from 'lucide-react';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
+const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 type Props = {
   params: Promise<{ locale: string }>;
 };
 
 const descriptions: Record<string, string> = {
-  el: 'Ανακαλύψτε τα καλύτερα ενοικιαζόμενα δωμάτια, παραλίες, εστιατόρια και δραστηριότητες στη Χαλκιδική. Κρατήσεις, χάρτες και οδηγοί σε 6 γλώσσες.',
-  en: 'Discover the best accommodation, beaches, restaurants and activities in Halkidiki, Greece. Bookings, maps and guides in 6 languages.',
+  el: 'Ανακαλύψτε τα καλύτερα ενοικιαζόμενα δωμάτια, παραλίες, εστιατόρια και δραστηριότητες στη Χαλκιδική. Κρατήσεις, χάρτες και οδηγοί σε 7 γλώσσες.',
+  en: 'Discover the best accommodation, beaches, restaurants and activities in Halkidiki, Greece. Bookings, maps and guides in 7 languages.',
   de: 'Entdecken Sie die besten Unterkünfte, Strände, Restaurants und Aktivitäten in Chalkidiki, Griechenland.',
   bg: 'Открийте най-добрите квартири, плажове, ресторанти и дейности в Халкидики, Гърция.',
   ru: 'Откройте лучшее жильё, пляжи, рестораны и развлечения в Халкидики, Греция.',
   ro: 'Descoperiți cele mai bune cazări, plaje, restaurante și activități din Halkidiki, Grecia.',
+  sr: 'Otkrijte najbolji smeštaj, plaže, restorane i aktivnosti u Halkidikiju, Grčka. Rezervacije, mape i vodiči na 7 jezika.',
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -49,14 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: `${SITE_URL}/${locale}`,
-      languages: {
-        el: `${SITE_URL}/el`,
-        en: `${SITE_URL}/en`,
-        de: `${SITE_URL}/de`,
-        bg: `${SITE_URL}/bg`,
-        ru: `${SITE_URL}/ru`,
-        ro: `${SITE_URL}/ro`,
-      },
+      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}`])),
     },
   };
 }
