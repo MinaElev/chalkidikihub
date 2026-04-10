@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Settings, Key, Globe, Cloud, Sparkles, Save, Loader2, Eye, EyeOff, CheckCircle, ImageIcon, Mail } from 'lucide-react';
+import { Settings, Key, Globe, Cloud, Sparkles, Save, Loader2, Eye, EyeOff, CheckCircle, ImageIcon, Mail, Bot } from 'lucide-react';
 
 interface Setting {
   key: string;
@@ -98,6 +98,27 @@ const SETTINGS_CONFIG: Setting[] = [
     icon: ImageIcon, color: 'text-cyan-600 bg-cyan-100',
     placeholder: '800',
     description: 'Μέγιστο ύψος εικόνας σε pixels. Default: 800px.',
+    secret: false,
+  },
+  {
+    key: 'autoblog_enabled', value: '', label: 'Auto-Blog On/Off',
+    icon: Bot, color: 'text-purple-600 bg-purple-100',
+    placeholder: 'true',
+    description: 'Ενεργοποίηση αυτόματης δημιουργίας blog articles. Τιμές: true / false',
+    secret: false,
+  },
+  {
+    key: 'autoblog_frequency_hours', value: '', label: 'Auto-Blog Frequency (hours)',
+    icon: Bot, color: 'text-purple-600 bg-purple-100',
+    placeholder: '24',
+    description: 'Κάθε πόσες ώρες δημιουργείται νέο άρθρο. Default: 24 (1/ημέρα). Π.χ. 12 = 2/ημέρα, 48 = κάθε 2 μέρες.',
+    secret: false,
+  },
+  {
+    key: 'autoblog_hour_utc', value: '', label: 'Auto-Blog Hour (UTC)',
+    icon: Bot, color: 'text-purple-600 bg-purple-100',
+    placeholder: '8',
+    description: 'Ώρα εκτέλεσης σε UTC. Π.χ. 8 = 11:00 Ελλάδα, 6 = 09:00 Ελλάδα. Default: 8.',
     secret: false,
   },
 ];
