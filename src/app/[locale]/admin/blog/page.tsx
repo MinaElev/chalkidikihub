@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, Edit, Trash2, Loader2, FileText, CheckCircle, XCircle, ImageIcon, ExternalLink } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, FileText, CheckCircle, XCircle, ImageIcon, ExternalLink, Sparkles } from 'lucide-react';
 
 interface BlogArticle {
   id: string;
@@ -25,8 +25,25 @@ export default function AdminBlogPage() {
   const locale = useLocale();
   const [articles, setArticles] = useState<BlogArticle[]>([]);
   const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [genResult, setGenResult] = useState('');
 
   useEffect(() => { loadArticles(); }, []);
+
+  async function handleAutoGenerate() {
+    setGenerating(true); setGenResult('');
+    try {
+      const res = await fetch('/api/admin/auto-blog', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        setGenResult(`AI created: "${data.title}" (${data.category}) — ${data.wordCount} words`);
+        loadArticles();
+      } else {
+        setGenResult(`Error: ${data.error}`);
+      }
+    } catch (err) { setGenResult(`Error: ${(err as Error).message}`); }
+    setGenerating(false);
+  }
 
   async function loadArticles() {
     const supabase = createClient();
@@ -69,11 +86,24 @@ export default function AdminBlogPage() {
             SEO: {totalComplete}/{articles.length}
           </span>
         </div>
-        <Link href="/admin/blog/new"
-          className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 text-sm font-medium">
-          <Plus className="w-4 h-4" />Add New
-        </Link>
+        <div className="flex items-center gap-2">
+          <button onClick={handleAutoGenerate} disabled={generating}
+            className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 text-sm font-medium disabled:opacity-50">
+            {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {generating ? 'Generating...' : 'AI Article'}
+          </button>
+          <Link href="/admin/blog/new"
+            className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 text-sm font-medium">
+            <Plus className="w-4 h-4" />Add New
+          </Link>
+        </div>
       </div>
+
+      {genResult && (
+        <div className={`mb-4 p-3 rounded-xl text-sm ${genResult.startsWith('Error') ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700'}`}>
+          {genResult}
+        </div>
+      )}
 
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <table className="w-full text-sm">
