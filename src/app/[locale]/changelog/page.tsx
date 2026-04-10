@@ -8,6 +8,18 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v2.3.0',
+      date: '10 Απριλίου 2026',
+      highlights: 'Auto-Blog AI, Beach Features, Village Combos, 3,300 SEO URLs',
+      features: [
+        { emoji: '🤖', title: 'Auto-Blog Generator', desc: 'AI γράφει 1 άρθρο/ημέρα αυτόματα — 14 rotating topics, πραγματικά data, 6 γλώσσες, SEO, δημοσίευση' },
+        { emoji: '🏖️', title: 'Beach Feature Pages', desc: '12 χαρακτηριστικά παραλιών (sandy, organized, nudist κλπ) × 6 γλώσσες = 72 SEO URLs' },
+        { emoji: '🏘️', title: 'Village Content Combos', desc: '68 χωριά × 3 types (beaches/restaurants/activities) × 6 γλώσσες = 1,224 SEO URLs' },
+        { emoji: '📍', title: 'Village Pills σε Areas', desc: 'Κάθε area page δείχνει τα χωριά της ως clickable pills με πληθυσμό' },
+        { emoji: '📊', title: '3,300 Sitemap URLs', desc: 'Σύνολο σελίδων στο sitemap — 0 errors σε full crawl' },
+      ],
+    },
+    {
       version: 'v2.2.0',
       date: '10 Απριλίου 2026',
       highlights: 'Sun & Sea Logo, Monastery Images, Brand Identity',
