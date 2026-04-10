@@ -118,8 +118,8 @@ export default function AdminEditMonasteryPage() {
         <div className="flex items-center gap-3 p-3 bg-purple-50 border border-purple-200 rounded-xl">
           <Sparkles className="w-5 h-5 text-purple-600 shrink-0" />
           <div className="flex-1">
-            <p className="text-sm font-medium text-purple-900">AI Generate</p>
-            <p className="text-xs text-purple-600">Γράφει περιγραφή (EL) + highlights. Μετά πάτα AI Auto-Complete για μεταφράσεις + SEO.</p>
+            <p className="text-sm font-medium text-purple-900">🤖 AI Generate — Βήμα 1</p>
+            <p className="text-xs text-purple-600">Γράφει <strong>περιγραφή EL</strong> + <strong>highlights</strong> βάσει ονόματος μονής. Μετά πατήστε AI Auto-Complete (Βήμα 2) για μεταφράσεις + SEO.</p>
           </div>
           <button type="button" onClick={handleAiGenerate} disabled={generating}
             className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium disabled:opacity-50 shrink-0">

@@ -97,7 +97,8 @@ export default function AdminBlogPage() {
         </div>
         <div className="flex items-center gap-2">
           <button onClick={handleAutoGenerate} disabled={generating}
-            className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 text-sm font-medium disabled:opacity-50">
+            className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 text-sm font-medium disabled:opacity-50"
+            title="Δημιουργεί πλήρες article: κείμενο EL → μετάφραση 6 γλώσσες → SEO 7 γλώσσες → Unsplash photo → δημοσίευση. Κόστος: ~$0.05. Rotating θεματολογία.">
             {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
             {generating ? 'Generating...' : 'AI Article'}
           </button>

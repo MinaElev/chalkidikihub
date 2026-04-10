@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import {
   Users, List, FileText, Waves, UtensilsCrossed, Landmark, AlertTriangle,
   ClipboardList, MessageSquare, QrCode, Building, Star, ChevronDown, ChevronUp,
-  CheckCircle, Globe,
+  CheckCircle, Globe, Sparkles,
 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
@@ -175,7 +175,35 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-4">Dashboard</h1>
+
+      {/* Quick Actions */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        <Link href="/admin/blog" className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-medium transition-colors">
+          <Sparkles className="w-3 h-3" /> AI Article
+        </Link>
+        <Link href="/admin/beaches/new" className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-xs font-medium transition-colors">
+          + Beach
+        </Link>
+        <Link href="/admin/restaurants/new" className="flex items-center gap-1.5 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-medium transition-colors">
+          + Restaurant
+        </Link>
+        <Link href="/admin/activities/new" className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-medium transition-colors">
+          + Activity
+        </Link>
+        <Link href="/admin/villages/new" className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-xs font-medium transition-colors">
+          + Village
+        </Link>
+        <Link href="/admin/broken-links" className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-xs font-medium transition-colors">
+          🔗 Broken Links
+        </Link>
+        <Link href="/admin/seo" className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-xs font-medium transition-colors">
+          📊 SEO Audit
+        </Link>
+        <Link href="/admin/translations" className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-xs font-medium transition-colors">
+          🌍 Translations
+        </Link>
+      </div>
 
       {/* Row 1: Action Required */}
       {actions.length > 0 ? (
