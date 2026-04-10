@@ -1,15 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-function getAdminClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-}
+import { createAdminClient } from '@/lib/api-helpers';
+import { requireSuperAdmin } from '@/lib/admin-auth';
 
 async function getOpenAIKey(): Promise<string> {
-  const supabase = getAdminClient();
+  const supabase = createAdminClient();
   const { data } = await supabase.from('site_settings').select('value').eq('key', 'openai_api_key').single();
   return data?.value || process.env.OPENAI_API_KEY || '';
 }
@@ -34,11 +28,14 @@ async function callOpenAI(prompt: string, maxTokens: number = 16000): Promise<st
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireSuperAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const { type, area, count } = await request.json();
 
     if (type === 'beaches') {
       // Fetch existing slugs to avoid duplicates
-      const supabaseCheck = getAdminClient();
+      const supabaseCheck = createAdminClient();
       const { data: existingBeaches } = await supabaseCheck.from('beaches').select('slug, name_el');
       const existingNames = (existingBeaches || []).map(b => b.name_el).filter(Boolean);
       const existingList = existingNames.length > 0
@@ -93,7 +90,7 @@ IMPORTANT:
       if (!Array.isArray(beaches)) throw new Error('AI did not return array');
 
       // Insert into DB
-      const supabase = getAdminClient();
+      const supabase = createAdminClient();
       let inserted = 0;
       let skipped = 0;
       const errors: string[] = [];
@@ -140,7 +137,7 @@ IMPORTANT:
     }
 
     if (type === 'restaurants') {
-      const supabaseCheck = getAdminClient();
+      const supabaseCheck = createAdminClient();
       const { data: existingR } = await supabaseCheck.from('restaurants').select('name_el');
       const existingRNames = (existingR || []).map(r => r.name_el).filter(Boolean);
       const excludeR = existingRNames.length > 0
@@ -202,7 +199,7 @@ IMPORTANT:
 
       if (!Array.isArray(restaurants)) throw new Error('AI did not return array');
 
-      const supabase = getAdminClient();
+      const supabase = createAdminClient();
       let inserted = 0;
       let skipped = 0;
       const errors: string[] = [];
@@ -254,7 +251,7 @@ IMPORTANT:
     }
 
     if (type === 'activities') {
-      const supabaseCheck = getAdminClient();
+      const supabaseCheck = createAdminClient();
       const { data: existingA } = await supabaseCheck.from('activities').select('name_el');
       const existingANames = (existingA || []).map(a => a.name_el).filter(Boolean);
       const excludeA = existingANames.length > 0
@@ -312,7 +309,7 @@ IMPORTANT:
 
       if (!Array.isArray(activities)) throw new Error('AI did not return array');
 
-      const supabase = getAdminClient();
+      const supabase = createAdminClient();
       let inserted = 0;
       let skipped = 0;
       const errors: string[] = [];

@@ -12,6 +12,20 @@ import { SaleCard } from '@/components/sales/SaleCard';
 import { WeatherBadge } from '@/components/ui/WeatherBadge';
 import { AREAS } from '@/lib/constants';
 
+// Sanitize HTML — only allow safe tags for formatted descriptions
+function sanitizeHtml(html: string): string {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
+    .replace(/<object[\s\S]*?<\/object>/gi, '')
+    .replace(/<embed[\s\S]*?>/gi, '')
+    .replace(/<form[\s\S]*?<\/form>/gi, '')
+    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+    .replace(/javascript\s*:/gi, '')
+    .replace(/<link[\s\S]*?>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '');
+}
+
 interface Village {
   id: string;
   slug: string;
@@ -134,7 +148,7 @@ export function VillagePage({ slug }: { slug: string }) {
           <div className="bg-white border border-gray-200 rounded-xl p-6">
             {description.includes('<') ? (
               <div className="prose prose-gray max-w-none prose-headings:text-gray-900 prose-h3:text-lg prose-h3:font-bold prose-h3:mt-4 prose-h3:mb-2 prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:text-gray-900 prose-ul:my-2"
-                dangerouslySetInnerHTML={{ __html: description }} />
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }} />
             ) : (
               <p className="text-gray-700 leading-relaxed">{description}</p>
             )}

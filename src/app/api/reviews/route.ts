@@ -1,27 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/api-helpers';
 
-function getAdminClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-}
+const VALID_TYPES = ['beach', 'restaurant', 'activity'];
 
 export async function POST(request: NextRequest) {
   try {
     const { type, itemId, rating, comment, authorName } = await request.json();
     if (!type || !itemId || !rating) return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
 
-    const supabase = getAdminClient();
+    // Input validation
+    if (!VALID_TYPES.includes(type)) return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
+    const numRating = Number(rating);
+    if (isNaN(numRating) || numRating < 1 || numRating > 5) return NextResponse.json({ error: 'Rating must be 1-5' }, { status: 400 });
+    const cleanComment = (comment || '').slice(0, 2000); // Max 2000 chars
+    const cleanName = (authorName || 'Anonymous').slice(0, 100);
+
+    const supabase = createAdminClient();
     const table = type === 'beach' ? 'beach_reviews' : type === 'restaurant' ? 'restaurant_reviews' : 'activity_reviews';
     const fkField = type === 'beach' ? 'beach_id' : type === 'restaurant' ? 'restaurant_id' : 'activity_id';
 
     const { error } = await supabase.from(table).insert({
       [fkField]: itemId,
-      author_name: authorName || 'Anonymous',
-      rating: Number(rating),
-      comment_el: comment || '',
+      author_name: cleanName,
+      rating: numRating,
+      comment_el: cleanComment,
       status: 'pending',
     });
 
@@ -30,7 +32,7 @@ export async function POST(request: NextRequest) {
     await supabase.from('activity_logs').insert({
       type: 'user_action', severity: 'info',
       message: `Review submitted (${type})`,
-      details: { type, itemId, rating, authorName },
+      details: { type, itemId, rating: numRating, authorName: cleanName },
     });
 
     return NextResponse.json({ success: true }, { status: 201 });

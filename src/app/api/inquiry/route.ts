@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/api-helpers';
 
-function getAdminClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+function escapeHtml(str: string): string {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 export async function GET(request: NextRequest) {
@@ -15,7 +12,7 @@ export async function GET(request: NextRequest) {
     const slugs = searchParams.get('slugs')?.split(',').filter(Boolean) || [];
     if (slugs.length === 0) return NextResponse.json([]);
 
-    const supabase = getAdminClient();
+    const supabase = createAdminClient();
 
     // Fetch inquiries that mention these slugs in the message
     const { data: msgs } = await supabase
@@ -32,7 +29,9 @@ export async function GET(request: NextRequest) {
       slugs.some(slug => m.message?.includes(slug))
     );
 
-    return NextResponse.json(filtered.slice(0, 20));
+    return NextResponse.json(filtered.slice(0, 20), {
+      headers: { 'Cache-Control': 'private, s-maxage=60, stale-while-revalidate=120' },
+    });
   } catch {
     return NextResponse.json([]);
   }
@@ -47,20 +46,28 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing name or email' }, { status: 400 });
     }
 
-    const supabase = getAdminClient();
+    // Validate + sanitize inputs
+    const cleanName = escapeHtml((name || '').slice(0, 200));
+    const cleanEmail = (email || '').slice(0, 200).replace(/[\n\r]/g, ''); // prevent header injection
+    const cleanPhone = escapeHtml((phone || '').slice(0, 30));
+    const cleanMessage = escapeHtml((message || '').slice(0, 2000));
+    const cleanTitle = escapeHtml((listing_title || '').slice(0, 300));
+    const cleanSlug = (listing_slug || '').slice(0, 200).replace(/[^a-z0-9-]/g, '');
+
+    const supabase = createAdminClient();
 
     // Save to contact_messages
     await supabase.from('contact_messages').insert({
-      name,
-      email,
-      subject: `Αίτημα διαθεσιμότητας: ${listing_title}`,
-      message: `Κατάλυμα: ${listing_title} (${listing_slug})
+      name: cleanName,
+      email: cleanEmail,
+      subject: `Αίτημα διαθεσιμότητας: ${cleanTitle}`,
+      message: `Κατάλυμα: ${cleanTitle} (${cleanSlug})
 Check-in: ${checkin || '-'}
 Check-out: ${checkout || '-'}
 Άτομα: ${guests || '-'}
-Τηλέφωνο: ${phone || '-'}
+Τηλέφωνο: ${cleanPhone}
 
-${message || ''}`,
+${cleanMessage}`,
       locale: 'el',
     });
 

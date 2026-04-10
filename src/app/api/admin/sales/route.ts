@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-function getAdminClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-}
+import { createAdminClient } from '@/lib/api-helpers';
+import { requireSuperAdmin } from '@/lib/admin-auth';
 
 export async function GET() {
   try {
-    const supabase = getAdminClient();
+    const auth = await requireSuperAdmin();
+    if (auth instanceof NextResponse) return auth;
+
+    const supabase = createAdminClient();
     const { data } = await supabase
       .from('sales')
       .select('*, sale_images(id, image_url, is_cover)')
@@ -36,8 +33,11 @@ export async function GET() {
 
 export async function PATCH(request: NextRequest) {
   try {
+    const auth = await requireSuperAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const { id, action } = await request.json();
-    const supabase = getAdminClient();
+    const supabase = createAdminClient();
 
     if (action === 'toggle') {
       const { data: sale } = await supabase.from('sales').select('status').eq('id', id).single();

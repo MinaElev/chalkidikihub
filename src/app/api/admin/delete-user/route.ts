@@ -1,19 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { createApiClient } from '@/lib/api-helpers';
+import { createApiClient, createAdminClient } from '@/lib/api-helpers';
+import { requireSuperAdmin } from '@/lib/admin-auth';
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireSuperAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const { userId } = await request.json();
     if (!userId) return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
 
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (!serviceKey) return NextResponse.json({ error: 'Service role key not configured' }, { status: 500 });
-
-    const adminClient = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      serviceKey
-    );
+    const adminClient = createAdminClient();
 
     // Delete user data first (cascading won't handle all tables)
     const dbClient = createApiClient();

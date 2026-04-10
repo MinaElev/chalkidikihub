@@ -38,10 +38,10 @@ export default function MapPage() {
   // Fetch all data
   useEffect(() => {
     Promise.all([
-      fetch('/api/listings').then(r => r.json()).catch(() => []),
-      fetch('/api/beaches').then(r => r.json()).catch(() => []),
-      fetch('/api/restaurants').then(r => r.json()).catch(() => []),
-      fetch('/api/activities').then(r => r.json()).catch(() => []),
+      fetch('/api/listings?limit=100').then(r => r.json()).catch(() => []),
+      fetch('/api/beaches?limit=100').then(r => r.json()).catch(() => []),
+      fetch('/api/restaurants?limit=100').then(r => r.json()).catch(() => []),
+      fetch('/api/activities?limit=100').then(r => r.json()).catch(() => []),
     ]).then(([listings, beaches, restaurants, activities]) => {
       const all: MapItem[] = [];
 

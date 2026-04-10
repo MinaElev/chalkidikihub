@@ -1,15 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-function getAdminClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-}
+import { createAdminClient } from '@/lib/api-helpers';
+import { requireSuperAdmin } from '@/lib/admin-auth';
 
 async function getGoogleKey(): Promise<string> {
-  const supabase = getAdminClient();
+  const supabase = createAdminClient();
   const { data } = await supabase.from('site_settings').select('value').eq('key', 'google_places_api_key').single();
   return data?.value || process.env.GOOGLE_PLACES_API_KEY || '';
 }
@@ -17,6 +11,9 @@ async function getGoogleKey(): Promise<string> {
 // Search nearby places
 export async function GET(request: NextRequest) {
   try {
+    const auth = await requireSuperAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const apiKey = await getGoogleKey();
     if (!apiKey) return NextResponse.json({ error: 'Google Places API key not configured' }, { status: 500 });
 
@@ -57,6 +54,9 @@ export async function GET(request: NextRequest) {
 // Import a specific place
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireSuperAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const apiKey = await getGoogleKey();
     if (!apiKey) return NextResponse.json({ error: 'Google API key not configured' }, { status: 500 });
 
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
         const photoRes = await fetch(photoUrl);
         if (photoRes.ok) {
           const photoBlob = await photoRes.blob();
-          const supabase = getAdminClient();
+          const supabase = createAdminClient();
           const path = `restaurants/${slug}-${Date.now()}.jpg`;
           const { error: upErr } = await supabase.storage.from('content-images').upload(path, photoBlob, { contentType: 'image/jpeg', upsert: true });
           if (!upErr) {
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
     const hours = place.opening_hours?.weekday_text?.join(', ')?.slice(0, 100) || '';
 
     // Check duplicate
-    const supabase = getAdminClient();
+    const supabase = createAdminClient();
     const targetTable = import_to === 'activities' ? 'activities' : 'restaurants';
     const { data: existing } = await supabase.from(targetTable).select('id').eq('slug', slug).single();
     if (existing) {

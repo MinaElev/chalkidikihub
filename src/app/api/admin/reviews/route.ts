@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-function getAdminClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-}
+import { createAdminClient } from '@/lib/api-helpers';
+import { requireSuperAdmin } from '@/lib/admin-auth';
 
 export async function GET() {
   try {
-    const supabase = getAdminClient();
+    const auth = await requireSuperAdmin();
+    if (auth instanceof NextResponse) return auth;
+
+    const supabase = createAdminClient();
     const pending: Array<Record<string, unknown>> = [];
 
     // Beach reviews
@@ -58,10 +55,13 @@ export async function GET() {
 
 export async function PATCH(request: NextRequest) {
   try {
+    const auth = await requireSuperAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const { id, table, action } = await request.json();
     if (!id || !table || !action) return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
 
-    const supabase = getAdminClient();
+    const supabase = createAdminClient();
     await supabase.from(table).update({ status: action }).eq('id', id);
 
     // Recalculate rating if approved review

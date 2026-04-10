@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/api-helpers';
 
+const VALID_TYPES = ['user_action', 'admin_action', 'system', 'error'];
+const VALID_SEVERITIES = ['info', 'warning', 'error'];
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -10,11 +13,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing type or message' }, { status: 400 });
     }
 
+    // Validate enums + length
+    const cleanType = VALID_TYPES.includes(type) ? type : 'system';
+    const cleanSeverity = VALID_SEVERITIES.includes(severity) ? severity : 'info';
+    const cleanMessage = (message || '').slice(0, 500);
+
     const supabase = createApiClient();
     await supabase.from('activity_logs').insert({
-      type,
-      severity: severity || 'info',
-      message,
+      type: cleanType,
+      severity: cleanSeverity,
+      message: cleanMessage,
       details: details || {},
     });
 

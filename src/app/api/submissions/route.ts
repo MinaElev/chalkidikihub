@@ -1,18 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { createApiClient } from '@/lib/api-helpers';
-
-// Admin-level client for approve actions (bypasses RLS)
-function createAdminClient() {
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!serviceKey) {
-    throw new Error('SUPABASE_SERVICE_ROLE_KEY is not configured in environment variables');
-  }
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    serviceKey
-  );
-}
+import { createApiClient, createAdminClient } from '@/lib/api-helpers';
+import { requireSuperAdmin } from '@/lib/admin-auth';
 
 // GET: list submissions (public - filtered by RLS)
 export async function GET(request: NextRequest) {
@@ -52,6 +40,9 @@ export async function GET(request: NextRequest) {
 // PATCH: approve/reject/delete (admin only - uses service role)
 export async function PATCH(request: NextRequest) {
   try {
+  const auth = await requireSuperAdmin();
+  if (auth instanceof NextResponse) return auth;
+
   const body = await request.json();
   const { id, action, admin_notes, user_id } = body;
 

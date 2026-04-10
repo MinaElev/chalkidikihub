@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { createClient } from '@supabase/supabase-js';
-
-function getAdminClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-}
+import { createAdminClient } from '@/lib/api-helpers';
+import { requireSuperAdmin } from '@/lib/admin-auth';
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireSuperAdmin();
+    if (auth instanceof NextResponse) return auth;
+
     const { recipients, subject, body } = await request.json();
 
     if (!recipients?.length || !subject || !body) {
@@ -18,7 +15,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get Gmail credentials from DB
-    const supabase = getAdminClient();
+    const supabase = createAdminClient();
     const { data: settings } = await supabase
       .from('site_settings')
       .select('key, value')
