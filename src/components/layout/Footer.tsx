@@ -3,6 +3,7 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { MapPin, Waves, UtensilsCrossed, Landmark, Zap, FileText, Building, ChevronRight, Home } from 'lucide-react';
+import { BrandIcon } from '@/components/ui/BrandLogo';
 
 export function Footer() {
   const t = useTranslations('footer');
@@ -66,9 +67,7 @@ export function Footer() {
           {/* Brand + Sales link */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">H</span>
-              </div>
+              <BrandIcon size={32} />
               <span className="font-bold text-xl text-white">
                 Chalkidiki<span className="text-primary-400">Hub</span>
               </span>

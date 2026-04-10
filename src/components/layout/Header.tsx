@@ -6,6 +6,7 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 import { UserMenu } from './UserMenu';
 import { FavoritesCounter } from './FavoritesCounter';
 import { useState, useRef, useEffect } from 'react';
+import { BrandIcon } from '@/components/ui/BrandLogo';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
 function DropdownMenu({ label, items }: { label: string; items: Array<{ href: string; label: string }> }) {
@@ -62,9 +63,7 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">H</span>
-            </div>
+            <BrandIcon size={32} />
             <span className="font-bold text-xl text-gray-900">
               Chalkidiki<span className="text-primary-600">Hub</span>
             </span>
