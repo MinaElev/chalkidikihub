@@ -138,6 +138,36 @@ IMPORTANT: Write natural, engaging Greek text that makes someone want to visit. 
       return NextResponse.json(parsed);
     }
 
+    if (action === 'monastery_generate') {
+      const monasteryName = body.monastery_name || '';
+      const founded = body.founded || '';
+      const nation = body.nation || 'el';
+      if (!monasteryName) return NextResponse.json({ error: 'Monastery name required' }, { status: 400 });
+
+      const nationMap: Record<string, string> = { el: 'Greek', rs: 'Serbian', bg: 'Bulgarian', ru: 'Russian' };
+      const prompt = `You are an expert on Mount Athos monasteries. Generate content for "${monasteryName}" monastery (founded ${founded}, ${nationMap[nation] || 'Greek'} monastery).
+
+Write a rich description in Greek (150-250 words) about this monastery. Include:
+- Historical significance and founding story
+- Notable icons, relics, or treasures
+- Architectural features
+- What makes this monastery unique
+
+Also provide 4 highlights (short phrases for what visitors should see).
+
+Return ONLY a JSON object:
+{
+  "description_el": "Ελληνική περιγραφή...",
+  "highlights_el": "Highlight 1|Highlight 2|Highlight 3|Highlight 4"
+}
+
+IMPORTANT: Write engaging Greek text. Highlights separated by |. No markdown, ONLY JSON.`;
+
+      const result = await callOpenAI(prompt, 2000);
+      const parsed = JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+      return NextResponse.json(parsed);
+    }
+
     if (action === 'translate_content') {
       // Translate long-form content (blog articles) to 5 languages
       const rawContent = (body.content as string || '').trim();

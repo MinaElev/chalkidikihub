@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Users, List, MapPin, Waves, UtensilsCrossed,
   Landmark, Wrench, FileText, Settings, Home, LogOut, Loader2, Shield,
   ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail,
-  Sparkles, Star, Building, Tag, Languages, ShieldCheck,
+  Sparkles, Star, Building, Tag, Languages, ShieldCheck, Church,
 } from 'lucide-react';
 
 const navSections = [
@@ -26,6 +26,7 @@ const navSections = [
       { href: '/admin/activities', icon: Landmark, label: 'Activities' },
       { href: '/admin/areas', icon: MapPin, label: 'Areas' },
       { href: '/admin/villages', icon: MapPin, label: 'Villages' },
+      { href: '/admin/monasteries', icon: Church, label: 'Monasteries' },
     ],
   },
   {

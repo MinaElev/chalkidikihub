@@ -3,13 +3,32 @@ import { Link } from '@/i18n/navigation';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ChevronRight, ChevronLeft, MapPin, Calendar, Flag, Star } from 'lucide-react';
-import { MONASTERIES, getMonasteryBySlug } from '../../monastery-data';
+import { MONASTERIES, getMonasteryBySlug, type Monastery } from '../../monastery-data';
 import { tr } from '../../content';
+import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
+
+// Try DB first, fallback to hardcoded
+async function getMonastery(slug: string): Promise<Monastery | undefined> {
+  try {
+    const supabase = createApiClient();
+    const { data } = await supabase.from('monasteries').select('*').eq('slug', slug).single();
+    if (data) {
+      return {
+        slug: data.slug, rank: data.rank, founded: data.founded, nation: data.nation,
+        lat: data.latitude || 0, lng: data.longitude || 0,
+        name: toLocaleMap(data, 'name'), description: toLocaleMap(data, 'description'),
+        highlights: toLocaleMap(data, 'highlights'),
+        metaTitle: toLocaleMap(data, 'meta_title'), metaDesc: toLocaleMap(data, 'meta_description'),
+      };
+    }
+  } catch {}
+  return getMonasteryBySlug(slug);
+}
 
 export function generateStaticParams() {
   return MONASTERIES.map(m => ({ slug: m.slug }));
@@ -17,7 +36,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const m = getMonasteryBySlug(slug);
+  const m = await getMonastery(slug);
   if (!m) return { title: 'Monastery | Mount Athos' };
   const title = m.metaTitle[locale] || m.metaTitle.el;
   const description = m.metaDesc[locale] || m.metaDesc.el;
@@ -42,7 +61,7 @@ export default async function MonasteryDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const m = getMonasteryBySlug(slug);
+  const m = await getMonastery(slug);
   if (!m) notFound();
 
   const name = m.name[locale] || m.name.el;
