@@ -119,23 +119,32 @@ ${topic.promptEl
   .replace(/{villageNames}/g, villageNames)
   .replace(/{activityNames}/g, activityNames)}
 
-ΚΑΝΟΝΕΣ:
+ΚΑΝΟΝΕΣ ΜΟΡΦΟΠΟΙΗΣΗΣ:
 - Γράψε 800-1200 λέξεις στα Ελληνικά
-- Χρησιμοποίησε HTML formatting: <h2>, <h3>, <p>, <ul><li>, <strong>
-- Χώρισε σε 4-5 ενότητες με headings
-- Γράψε φυσικό, engaging κείμενο σαν travel blog
+- ΥΠΟΧΡΕΩΤΙΚΑ χρησιμοποίησε ΟΛΕΣ αυτές τις HTML δομές:
+  * <h2> για κύριες ενότητες (4-5 ενότητες)
+  * <h3> για υπο-ενότητες
+  * <p> για παραγράφους (2-3 προτάσεις ανά παράγραφο)
+  * <ul><li> για λίστες με tips ή σημεία ενδιαφέροντος
+  * <strong> για emphasis σε ονόματα τοποθεσιών και keywords
+  * <blockquote> για 1 travel tip ή quote
+- Ξεκίνα με ένα εισαγωγικό <p> πριν το πρώτο <h2>
+- Τέλειωσε με ενότητα "Πρακτικές Πληροφορίες" με <ul><li> (πώς πας, πόσο κοστίζει, tips)
+- Γράψε φυσικό, ζωντανό κείμενο σαν travel blog — ΟΧΙ ξερό ή Wikipedia style
 - Ανέφερε ΠΡΑΓΜΑΤΙΚΑ ονόματα τοπίων που σου δίνω
-- Πρόσθεσε πρακτικές πληροφορίες (πώς πας, τιμές, tips)
-- Μην χρησιμοποιείς markdown — ΜΟΝΟ HTML tags
+- ΟΧΙ markdown — ΜΟΝΟ HTML tags
 
 Επίστρεψε ΜΟΝΟ JSON:
 {
-  "title_el": "Τίτλος στα ελληνικά (μέχρι 70 χαρακτήρες)",
-  "excerpt_el": "Σύντομη περίληψη 1-2 προτάσεις (μέχρι 200 χαρακτήρες)",
-  "content_el": "<h2>Heading</h2><p>Content...</p>...",
+  "title_el": "Ελκυστικός τίτλος (μέχρι 70 χαρακτήρες)",
+  "excerpt_el": "Σύντομη, δελεαστική περίληψη 1-2 προτάσεις (μέχρι 200 χαρακτήρες)",
+  "content_el": "<p>Εισαγωγή...</p><h2>Ενότητα</h2><p>Κείμενο...</p>...",
   "read_time_min": 6,
-  "tags": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
-}`;
+  "tags": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"],
+  "unsplash_query": "Halkidiki beach turquoise water Greece"
+}
+
+ΣΗΜΑΝΤΙΚΟ: Το unsplash_query πρέπει να είναι στα αγγλικά, 3-5 λέξεις, σχετικό με το θέμα (π.χ. "Halkidiki beach sunset", "Greek tavern seafood sea view", "hiking trail forest Greece").`;
 
     const articleRaw = await callOpenAI(articlePrompt, 4000);
     const article = JSON.parse(articleRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
@@ -144,7 +153,38 @@ ${topic.promptEl
       throw new Error('AI did not return valid article');
     }
 
-    // 4. Get translations + SEO
+    // 4. Fetch Unsplash photo
+    let imageUrl = '';
+    let imageAlt = '';
+    try {
+      const unsplashQuery = article.unsplash_query || `Halkidiki ${topic.category} Greece`;
+      const { data: unsplashSetting } = await supabase.from('site_settings').select('value').eq('key', 'unsplash_access_key').single();
+      const unsplashKey = unsplashSetting?.value || process.env.UNSPLASH_ACCESS_KEY;
+      if (unsplashKey) {
+        const uRes = await fetch(
+          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(unsplashQuery)}&per_page=5&orientation=landscape`,
+          { headers: { Authorization: `Client-ID ${unsplashKey}` } }
+        );
+        if (uRes.ok) {
+          const uData = await uRes.json();
+          const photos = uData.results || [];
+          if (photos.length > 0) {
+            // Pick a random photo from top 5 for variety
+            const photo = photos[dayOfYear % photos.length];
+            imageUrl = photo.urls?.regular || photo.urls?.small || '';
+            imageAlt = photo.alt_description || photo.description || unsplashQuery;
+            // Trigger Unsplash download tracking (required by their API terms)
+            if (photo.links?.download_location) {
+              fetch(photo.links.download_location, {
+                headers: { Authorization: `Client-ID ${unsplashKey}` },
+              }).catch(() => {});
+            }
+          }
+        }
+      }
+    } catch {}
+
+    // 5. Get translations + SEO (all 6 languages)
     const seoPrompt = `You are an expert translator and SEO specialist for a tourism website about Halkidiki, Greece.
 
 Given the following Greek content, do TWO things:
@@ -197,7 +237,7 @@ IMPORTANT: Translate naturally, keep EXACT same HTML structure, translate ALL co
     // 6. Generate slug
     const slug = slugify(article.title_el) + '-' + Date.now().toString(36).slice(-4);
 
-    // 7. Insert article
+    // 8. Insert article
     const { error: insertError } = await supabase.from('blog_articles').insert({
       slug,
       category: topic.category,
@@ -207,6 +247,8 @@ IMPORTANT: Translate naturally, keep EXACT same HTML structure, translate ALL co
       related_area_slugs: [area],
       related_beach_slugs: beaches.slice(0, 3).map(b => b.slug),
       published_at: new Date().toISOString(),
+      image_url: imageUrl,
+      image_alt: imageAlt || seo.seo.image_alt || '',
       // Greek
       title_el: article.title_el,
       excerpt_el: article.excerpt_el,
@@ -225,12 +267,11 @@ IMPORTANT: Translate naturally, keep EXACT same HTML structure, translate ALL co
       meta_description_el: seo.seo.meta_description_el, meta_description_en: seo.seo.meta_description_en,
       meta_description_de: seo.seo.meta_description_de, meta_description_bg: seo.seo.meta_description_bg,
       meta_description_ru: seo.seo.meta_description_ru, meta_description_ro: seo.seo.meta_description_ro,
-      image_alt: seo.seo.image_alt || '',
     });
 
     if (insertError) throw new Error(`DB insert failed: ${insertError.message}`);
 
-    // 8. Log
+    // 9. Log
     await supabase.from('activity_logs').insert({
       type: 'admin_action', severity: 'info',
       message: `Auto-blog: "${article.title_el}" (${topic.category})`,
@@ -244,6 +285,7 @@ IMPORTANT: Translate naturally, keep EXACT same HTML structure, translate ALL co
       category: topic.category,
       area,
       wordCount: article.content_el.split(/\s+/).length,
+      hasImage: !!imageUrl,
     });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
