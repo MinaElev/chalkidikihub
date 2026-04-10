@@ -80,16 +80,16 @@ export default function SeoAuditPage() {
         }
 
         if (t.key !== 'business_types') {
-          // Check meta titles (at least EL + EN + SR)
-          for (const l of ['el', 'en', 'sr'] as const) {
+          // Check meta titles in ALL 7 languages
+          for (const l of LANGS) {
             checks++;
             const val = row[`meta_title_${l}`] as string;
             if (val && val.length > 0) passed++;
             else issues.push(`meta_title_${l} missing`);
           }
 
-          // Check meta descriptions (at least EL + EN)
-          for (const l of ['el', 'en'] as const) {
+          // Check meta descriptions in ALL 7 languages
+          for (const l of LANGS) {
             checks++;
             const val = row[`meta_description_${l}`] as string;
             if (val && val.length > 0) passed++;
