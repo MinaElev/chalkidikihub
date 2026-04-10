@@ -266,6 +266,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Mount Athos guide pages
   const mountAthosPages = ['', '/monasteries', '/how-to-visit', '/getting-there', '/accommodation', '/daily-life', '/hiking', '/history'];
+  // Individual monastery pages
+  const monasterySlugs = ['megisti-lavra', 'vatopedi', 'iviron', 'chilandariou', 'dionysiou', 'koutloumousiou', 'pantokratoros', 'xeropotamou', 'zografou', 'dochiariou', 'karakalou', 'philotheou', 'simonos-petras', 'agiou-pavlou', 'stavronikita', 'xenofontos', 'gregoriou', 'esphigmenou', 'agiou-panteleimonos', 'konstamonitou'];
+  for (const slug of monasterySlugs) {
+    mountAthosPages.push(`/monasteries/${slug}`);
+  }
   for (const page of mountAthosPages) {
     for (const locale of locales) {
       entries.push({

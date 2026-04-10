@@ -3,6 +3,7 @@ import { Link } from '@/i18n/navigation';
 import type { Metadata } from 'next';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { tr } from '../content';
+import { MONASTERIES as MONASTERY_DATA } from '../monastery-data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
@@ -241,11 +242,13 @@ export default async function MonasteriesPage({ params }: Props) {
             </tr>
           </thead>
           <tbody>
-            {MONASTERIES.map((m) => (
+            {MONASTERY_DATA.map((m) => (
               <tr key={m.rank} className="border-t border-gray-100 hover:bg-amber-50/50 transition-colors">
                 <td className="px-4 py-3 text-gray-500 font-medium">{m.rank}</td>
                 <td className="px-4 py-3">
-                  <div className="font-medium text-gray-900">{locale === 'el' ? m.el : m.en}</div>
+                  <Link href={`/mount-athos/monasteries/${m.slug}`} className="font-medium text-amber-800 hover:text-amber-600 hover:underline">
+                    {m.name[locale] || m.name.el}
+                  </Link>
                   <div className="text-xs text-gray-400 sm:hidden">
                     {m.founded} &middot; {nationLabel(m.nation, locale)}
                   </div>
@@ -297,12 +300,13 @@ export default async function MonasteriesPage({ params }: Props) {
         name: c.heading,
         description: tr('metaMonasteriesDesc', locale),
         numberOfItems: 20,
-        itemListElement: MONASTERIES.map(m => ({
+        itemListElement: MONASTERY_DATA.map(m => ({
           '@type': 'ListItem',
           position: m.rank,
+          url: `${SITE_URL}/${locale}/mount-athos/monasteries/${m.slug}`,
           item: {
-            '@type': 'Monastery',
-            name: locale === 'el' ? m.el : m.en,
+            '@type': 'Place',
+            name: m.name[locale] || m.name.el,
             foundingDate: String(m.founded),
           },
         })),
