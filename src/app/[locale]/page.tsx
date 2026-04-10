@@ -34,11 +34,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = (messages as Record<string, Record<string, string>>).common;
   const desc = descriptions[locale] || descriptions.el;
 
+  const titles: Record<string, string> = {
+    el: 'ChalkidikiHub — Ανακαλύψτε τη Χαλκιδική',
+    en: 'ChalkidikiHub — Discover Halkidiki, Greece',
+    de: 'ChalkidikiHub — Chalkidiki entdecken',
+    bg: 'ChalkidikiHub — Открийте Халкидики',
+    ru: 'ChalkidikiHub — Откройте Халкидики',
+    ro: 'ChalkidikiHub — Descoperiți Halkidiki',
+    sr: 'ChalkidikiHub — Otkrijte Halkidiki',
+  };
+
   return {
-    title: `${t.siteName} - ${desc.slice(0, 60)}`,
+    title: titles[locale] || titles.en,
     description: desc,
     openGraph: {
-      title: `${t.siteName} - Χαλκιδική`,
+      title: titles[locale] || titles.en,
       description: desc,
       type: 'website',
       locale,
