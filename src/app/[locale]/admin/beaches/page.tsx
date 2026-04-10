@@ -11,6 +11,8 @@ interface Beach {
   slug: string;
   name_el: string;
   name_en: string;
+  name_de: string;
+  name_sr: string;
   area: string;
   rating: number;
   reviews_count: number;
@@ -31,7 +33,7 @@ export default function AdminBeachesPage() {
   async function loadBeaches() {
     const supabase = createClient();
     const { data } = await supabase.from('beaches')
-      .select('id, slug, name_el, name_en, area, rating, reviews_count, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
+      .select('id, slug, name_el, name_en, name_de, name_sr, area, rating, reviews_count, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
       .order('name_el');
     setBeaches((data as Beach[]) || []);
     setLoading(false);
@@ -52,6 +54,8 @@ export default function AdminBeachesPage() {
     if (!b.meta_title_en) issues.push('Title EN');
     if (!b.meta_description_el) issues.push('Desc EL');
     if (!b.name_en) issues.push('Name EN');
+    if (!b.name_sr) issues.push('Name SR');
+    if (!b.name_de) issues.push('Name DE');
     return issues;
   }
 

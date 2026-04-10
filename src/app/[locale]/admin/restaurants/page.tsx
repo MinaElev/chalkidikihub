@@ -11,6 +11,8 @@ interface Restaurant {
   slug: string;
   name_el: string;
   name_en: string;
+  name_de: string;
+  name_sr: string;
   area: string;
   cuisine: string[];
   price_level: string;
@@ -32,7 +34,7 @@ export default function AdminRestaurantsPage() {
   async function loadRestaurants() {
     const supabase = createClient();
     const { data } = await supabase.from('restaurants')
-      .select('id, slug, name_el, name_en, area, cuisine, price_level, rating, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
+      .select('id, slug, name_el, name_en, name_de, name_sr, area, cuisine, price_level, rating, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
       .order('name_el');
     setRestaurants(data || []);
     setLoading(false);
@@ -53,6 +55,8 @@ export default function AdminRestaurantsPage() {
     if (!r.meta_title_en) issues.push('Title EN');
     if (!r.meta_description_el) issues.push('Desc EL');
     if (!r.name_en) issues.push('Name EN');
+    if (!r.name_sr) issues.push('Name SR');
+    if (!r.name_de) issues.push('Name DE');
     return issues;
   }
 

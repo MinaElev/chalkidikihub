@@ -14,6 +14,7 @@ interface Monastery {
   nation: string;
   name_el: string;
   name_en: string;
+  name_sr: string;
   image_url: string;
   meta_title_el: string;
   meta_title_en: string;
@@ -33,6 +34,7 @@ function getSeoStatus(m: Monastery) {
   if (!m.meta_title_en) issues.push('Title EN');
   if (!m.meta_description_el) issues.push('Desc SEO');
   if (!m.name_en) issues.push('Name EN');
+  if (!m.name_sr) issues.push('Name SR');
   return issues;
 }
 
@@ -50,7 +52,7 @@ export default function AdminMonasteriesPage() {
   async function loadData() {
     const supabase = createClient();
     const { data } = await supabase.from('monasteries')
-      .select('id, slug, rank, founded, nation, name_el, name_en, image_url, meta_title_el, meta_title_en, meta_description_el, description_el')
+      .select('id, slug, rank, founded, nation, name_el, name_en, name_sr, image_url, meta_title_el, meta_title_en, meta_description_el, description_el')
       .order('rank');
     setMonasteries((data as Monastery[]) || []);
     setLoading(false);

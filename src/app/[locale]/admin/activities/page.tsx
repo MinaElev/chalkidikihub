@@ -11,6 +11,8 @@ interface Activity {
   slug: string;
   name_el: string;
   name_en: string;
+  name_de: string;
+  name_sr: string;
   area: string;
   category: string;
   rating: number;
@@ -32,7 +34,7 @@ export default function AdminActivitiesPage() {
   async function loadActivities() {
     const supabase = createClient();
     const { data } = await supabase.from('activities')
-      .select('id, slug, name_el, name_en, area, category, rating, reviews_count, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
+      .select('id, slug, name_el, name_en, name_de, name_sr, area, category, rating, reviews_count, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
       .order('name_el');
     setActivities(data || []);
     setLoading(false);
@@ -53,6 +55,8 @@ export default function AdminActivitiesPage() {
     if (!a.meta_title_en) issues.push('Title EN');
     if (!a.meta_description_el) issues.push('Desc EL');
     if (!a.name_en) issues.push('Name EN');
+    if (!a.name_sr) issues.push('Name SR');
+    if (!a.name_de) issues.push('Name DE');
     return issues;
   }
 

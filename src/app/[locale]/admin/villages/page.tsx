@@ -11,6 +11,8 @@ interface Village {
   slug: string;
   name_el: string;
   name_en: string;
+  name_de: string;
+  name_sr: string;
   area: string;
   population: number;
   image_url: string;
@@ -35,6 +37,8 @@ function getSeoStatus(v: Village) {
   if (!v.meta_title_en) issues.push('Title EN');
   if (!v.meta_description_el) issues.push('Desc EL');
   if (!v.name_en) issues.push('Name EN');
+  if (!v.name_sr) issues.push('Name SR');
+  if (!v.name_de) issues.push('Name DE');
   return issues;
 }
 
@@ -59,7 +63,7 @@ export default function AdminVillagesPage() {
   async function loadVillages() {
     const supabase = createClient();
     const { data } = await supabase.from('villages')
-      .select('id, slug, name_el, name_en, area, population, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
+      .select('id, slug, name_el, name_en, name_de, name_sr, area, population, image_url, image_alt, meta_title_el, meta_title_en, meta_description_el')
       .order('sort_order');
     setVillages((data as Village[]) || []);
     setLoading(false);
