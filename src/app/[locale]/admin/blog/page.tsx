@@ -33,7 +33,12 @@ export default function AdminBlogPage() {
   async function handleAutoGenerate() {
     setGenerating(true); setGenResult('');
     try {
-      const res = await fetch('/api/admin/auto-blog', { method: 'POST' });
+      const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch('/api/admin/auto-blog', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session?.access_token || ''}` },
+      });
       const data = await res.json();
       if (data.success) {
         setGenResult(`AI created: "${data.title}" (${data.category}) — ${data.wordCount} words`);

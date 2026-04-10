@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient, createApiClient } from '@/lib/api-helpers';
-import { requireSuperAdmin } from '@/lib/admin-auth';
 
 async function getOpenAIKey(): Promise<string> {
   try {
@@ -58,11 +57,19 @@ const AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'];
 
 export async function POST(request: Request) {
   try {
-    // Auth check - skip if called from cron (checked by cron route)
+    // Auth: check cron secret OR Bearer token
     const isCron = request.headers.get('x-cron-secret') === process.env.CRON_SECRET;
     if (!isCron) {
-      const auth = await requireSuperAdmin();
-      if (auth instanceof NextResponse) return auth;
+      const authHeader = request.headers.get('authorization');
+      const token = authHeader?.replace('Bearer ', '');
+      if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+      const supabaseAuth = createApiClient();
+      const { data: { user }, error } = await supabaseAuth.auth.getUser(token);
+      if (error || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+      const { data: profile } = await supabaseAuth.from('profiles').select('role').eq('id', user.id).single();
+      if (profile?.role !== 'superadmin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const supabase = createAdminClient();
