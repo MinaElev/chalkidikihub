@@ -180,6 +180,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       entries.push({ url: `${baseUrl}/${locale}/beaches/feature/${feat}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7, alternates: altLanguages(`/beaches/feature/${feat}`) });
     }
   }
+  // Best of guides
+  const bestGuides = ['beaches-kassandra', 'beaches-sithonia', 'family-beaches', 'quiet-beaches', 'seafood-restaurants', 'beach-bars', 'romantic-restaurants', 'hiking-trails', 'historical-sites', 'water-sports', 'restaurants-kassandra', 'restaurants-sithonia'];
+  for (const g of bestGuides) {
+    for (const locale of locales) {
+      entries.push({ url: `${baseUrl}/${locale}/best/${g}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8, alternates: altLanguages(`/best/${g}`) });
+    }
+  }
   // Restaurants by area
   for (const area of areaSlugs) {
     for (const locale of locales) {
