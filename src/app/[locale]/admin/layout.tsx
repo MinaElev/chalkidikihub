@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Users, List, MapPin, Waves, UtensilsCrossed,
   Landmark, Wrench, FileText, Settings, Home, LogOut, Loader2, Shield,
   ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail,
-  Sparkles, Star, Building, Tag, Languages, ShieldCheck, Church,
+  Sparkles, Star, Building, Tag, Languages, ShieldCheck, Church, Link2,
 } from 'lucide-react';
 
 const navSections = [
@@ -62,6 +62,7 @@ const navSections = [
       { href: '/admin/ai-import', icon: Sparkles, label: 'AI Import' },
       { href: '/admin/images', icon: Image, label: 'Images' },
       { href: '/admin/tools', icon: Wrench, label: 'SEO Tools' },
+      { href: '/admin/broken-links', icon: Link2, label: 'Broken Links' },
     ],
   },
   {
