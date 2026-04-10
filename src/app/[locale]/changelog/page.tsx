@@ -8,6 +8,16 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v2.2.0',
+      date: '10 Απριλίου 2026',
+      highlights: 'Sun & Sea Logo, Monastery Images, Brand Identity',
+      features: [
+        { emoji: '☀️', title: 'Sun & Sea Logo', desc: 'Νέο brand logo — ήλιος + κύματα σε cyan φόντο. Εφαρμογή σε header, footer, favicon, PWA manifest' },
+        { emoji: '🖼️', title: 'Monastery Images', desc: 'Κάθε μονή δείχνει φωτογραφία στο hero + full image section στη σελίδα της' },
+        { emoji: '🎨', title: 'Brand Identity', desc: 'Reusable BrandIcon component, updated theme-color #0891B2, SVG favicons' },
+      ],
+    },
+    {
       version: 'v2.1.0',
       date: '10 Απριλίου 2026',
       highlights: 'Monastery Admin, Village Filters, Security Hardening, 68 Villages',
