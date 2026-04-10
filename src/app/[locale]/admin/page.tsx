@@ -27,8 +27,8 @@ interface LogEntry {
 }
 
 const CONTENT_TABLES = ['beaches', 'restaurants', 'activities', 'blog_articles', 'sales', 'villages'] as const;
-const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
-const LANG_FLAGS: Record<string, string> = { el: '🇬🇷', en: '🇬🇧', de: '🇩🇪', bg: '🇧🇬', ru: '🇷🇺', ro: '🇷🇴' };
+const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LANG_FLAGS: Record<string, string> = { el: '🇬🇷', en: '🇬🇧', de: '🇩🇪', bg: '🇧🇬', ru: '🇷🇺', ro: '🇷🇴', sr: '🇷🇸' };
 
 export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);

@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
 Given the following Greek content, do TWO things:
 
-1. TRANSLATE the title and description to: English (en), German (de), Bulgarian (bg), Russian (ru), Romanian (ro)
+1. TRANSLATE the title and description to: English (en), German (de), Bulgarian (bg), Russian (ru), Romanian (ro), Serbian (sr)
 2. GENERATE SEO-optimized meta titles and meta descriptions in ALL 6 languages (including Greek)
 
 Content:
@@ -64,11 +64,13 @@ Return ONLY a JSON object with this EXACT structure:
     "title_bg": "Bulgarian title",
     "title_ru": "Russian title",
     "title_ro": "Romanian title",
+    "title_sr": "Serbian title",
     "description_en": "English description (keep same length as Greek)",
     "description_de": "German description",
     "description_bg": "Bulgarian description",
     "description_ru": "Russian description",
-    "description_ro": "Romanian description"
+    "description_ro": "Romanian description",
+    "description_sr": "Serbian description"
   },
   "seo": {
     "meta_title_el": "SEO τίτλος ελληνικά (max 60 chars, include Χαλκιδική)",
@@ -77,12 +79,14 @@ Return ONLY a JSON object with this EXACT structure:
     "meta_title_bg": "SEO заглавие български (max 60 chars, include Халкидики)",
     "meta_title_ru": "SEO заголовок русский (max 60 chars, include Халкидики)",
     "meta_title_ro": "Titlu SEO română (max 60 chars, include Halkidiki)",
+    "meta_title_sr": "SEO naslov srpski (max 60 chars, include Halkidiki)",
     "meta_description_el": "SEO περιγραφή ελληνικά (max 155 chars, compelling, call to action)",
     "meta_description_en": "SEO description English (max 155 chars, compelling)",
     "meta_description_de": "SEO Beschreibung Deutsch (max 155 chars)",
     "meta_description_bg": "SEO описание български (max 155 chars)",
     "meta_description_ru": "SEO описание русский (max 155 chars)",
     "meta_description_ro": "Descriere SEO română (max 155 chars)",
+    "meta_description_sr": "SEO opis srpski (max 155 chars)",
     "tags": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5", "keyword6", "keyword7", "keyword8"],
     "image_alt": "Descriptive alt text in English for the main image"
   }

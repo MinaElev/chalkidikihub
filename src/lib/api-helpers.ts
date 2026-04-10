@@ -23,5 +23,6 @@ export function toLocaleMap(row: Record<string, unknown>, prefix: string): Recor
     bg: (row[`${prefix}_bg`] as string) || '',
     ru: (row[`${prefix}_ru`] as string) || '',
     ro: (row[`${prefix}_ro`] as string) || '',
+    sr: (row[`${prefix}_sr`] as string) || '',
   };
 }

@@ -2,7 +2,7 @@ import { createApiClient } from '@/lib/api-helpers';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
+const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 type ContentType = 'beaches' | 'restaurants' | 'activities';
 

@@ -5,7 +5,7 @@ import { Church, MapPin, Users, Bus, BedDouble, Clock, Mountain, BookOpen, Chevr
 import { tr } from './content';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
+const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 type Props = { params: Promise<{ locale: string }> };
 

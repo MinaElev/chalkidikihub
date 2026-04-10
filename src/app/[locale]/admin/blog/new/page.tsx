@@ -201,7 +201,7 @@ export default function NewBlogPage() {
 
           <h4 className="text-sm font-semibold text-gray-700 mb-2">Meta Titles</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-            {(['el', 'en', 'de', 'bg', 'ru', 'ro'] as const).map((lang) => (
+            {(['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const).map((lang) => (
               <div key={lang}>
                 <label className="block text-xs font-medium text-gray-500 mb-1">
                   Meta Title ({lang.toUpperCase()}) <span className="text-gray-400">({((form[`meta_title_${lang}`] as string) || '').length}/60)</span>
@@ -214,7 +214,7 @@ export default function NewBlogPage() {
 
           <h4 className="text-sm font-semibold text-gray-700 mb-2">Meta Descriptions</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-            {(['el', 'en', 'de', 'bg', 'ru', 'ro'] as const).map((lang) => (
+            {(['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const).map((lang) => (
               <div key={lang}>
                 <label className="block text-xs font-medium text-gray-500 mb-1">
                   Meta Desc ({lang.toUpperCase()}) <span className="text-gray-400">({((form[`meta_description_${lang}`] as string) || '').length}/155)</span>

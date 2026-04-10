@@ -1,4 +1,4 @@
-export const locales = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
+export const locales = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr', 'sr'] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'el';
 
@@ -9,6 +9,7 @@ export const localeNames: Record<Locale, string> = {
   bg: 'Български',
   ru: 'Русский',
   ro: 'Română',
+  sr: 'Srpski',
 };
 
 export const localeFlags: Record<Locale, string> = {
@@ -18,4 +19,5 @@ export const localeFlags: Record<Locale, string> = {
   bg: '🇧🇬',
   ru: '🇷🇺',
   ro: '🇷🇴',
+  sr: '🇷🇸',
 };

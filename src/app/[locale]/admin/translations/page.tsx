@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Languages, Loader2, Sparkles, CheckCircle, XCircle, Filter } from 'lucide-react';
 
-const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
-const LANG_FLAGS: Record<string, string> = { el: '🇬🇷', en: '🇬🇧', de: '🇩🇪', bg: '🇧🇬', ru: '🇷🇺', ro: '🇷🇴' };
+const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LANG_FLAGS: Record<string, string> = { el: '🇬🇷', en: '🇬🇧', de: '🇩🇪', bg: '🇧🇬', ru: '🇷🇺', ro: '🇷🇴', sr: '🇷🇸' };
 
 interface ContentItem {
   id: string;

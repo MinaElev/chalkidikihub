@@ -71,7 +71,7 @@ export default async function HomePage({ params }: Props) {
     name: 'Chalkidiki Hub',
     url: SITE_URL,
     description: 'Find the best accommodation, beaches, restaurants and activities in Halkidiki, Greece',
-    inLanguage: ['el', 'en', 'de', 'bg', 'ru', 'ro'],
+    inLanguage: ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'],
     potentialAction: {
       '@type': 'SearchAction',
       target: `${SITE_URL}/${locale}/listings?q={search_term_string}`,

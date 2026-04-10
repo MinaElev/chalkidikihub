@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
+const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 const TYPE_META: Record<string, Record<string, { title: string; desc: string }>> = {
   'with-pool': {

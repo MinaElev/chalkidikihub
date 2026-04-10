@@ -5,7 +5,7 @@ import { ChevronRight, ChevronLeft, Bus, Ship, MapPin, Clock, AlertTriangle } fr
 import { tr } from '../content';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
+const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 type Props = { params: Promise<{ locale: string }> };
 

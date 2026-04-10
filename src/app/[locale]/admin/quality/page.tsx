@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { ShieldCheck, Loader2, AlertTriangle, CheckCircle, ExternalLink, Filter } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
-const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
+const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 interface QualityItem {
   id: string;

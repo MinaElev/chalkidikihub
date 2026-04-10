@@ -92,7 +92,7 @@ export default function EditAreaPage() {
         <div>
           <h3 className="text-sm font-semibold text-gray-700 mb-2">Ονόματα</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {(['el', 'en', 'de', 'bg', 'ru', 'ro'] as const).map((lang) => (
+            {(['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const).map((lang) => (
               <div key={lang}>
                 <label className="block text-xs font-medium text-gray-500 mb-1">Name ({lang.toUpperCase()})</label>
                 <input type="text" value={(form as unknown as Record<string, string>)[`name_${lang}`] || ''} onChange={(e) => update(`name_${lang}`, e.target.value)}
@@ -106,7 +106,7 @@ export default function EditAreaPage() {
         <div>
           <h3 className="text-sm font-semibold text-gray-700 mb-2">Περιγραφές</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {(['el', 'en', 'de', 'bg', 'ru', 'ro'] as const).map((lang) => (
+            {(['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const).map((lang) => (
               <div key={lang}>
                 <label className="block text-xs font-medium text-gray-500 mb-1">Description ({lang.toUpperCase()})</label>
                 <textarea rows={3} value={(form as unknown as Record<string, string>)[`description_${lang}`] || ''} onChange={(e) => update(`description_${lang}`, e.target.value)}
@@ -149,7 +149,7 @@ export default function EditAreaPage() {
 
           <h4 className="text-sm font-semibold text-gray-700 mb-2">Meta Titles</h4>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
-            {(['el', 'en', 'de', 'bg', 'ru', 'ro'] as const).map((lang) => (
+            {(['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const).map((lang) => (
               <div key={lang}>
                 <label className="block text-xs font-medium text-gray-500 mb-1">({lang.toUpperCase()}) <span className="text-gray-400">({((form as unknown as Record<string, string>)[`meta_title_${lang}`] || '').length}/60)</span></label>
                 <input type="text" maxLength={70} value={(form as unknown as Record<string, string>)[`meta_title_${lang}`] || ''} onChange={(e) => update(`meta_title_${lang}`, e.target.value)}
@@ -160,7 +160,7 @@ export default function EditAreaPage() {
 
           <h4 className="text-sm font-semibold text-gray-700 mb-2">Meta Descriptions</h4>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
-            {(['el', 'en', 'de', 'bg', 'ru', 'ro'] as const).map((lang) => (
+            {(['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const).map((lang) => (
               <div key={lang}>
                 <label className="block text-xs font-medium text-gray-500 mb-1">({lang.toUpperCase()}) <span className="text-gray-400">({((form as unknown as Record<string, string>)[`meta_description_${lang}`] || '').length}/155)</span></label>
                 <textarea rows={2} maxLength={170} value={(form as unknown as Record<string, string>)[`meta_description_${lang}`] || ''} onChange={(e) => update(`meta_description_${lang}`, e.target.value)}

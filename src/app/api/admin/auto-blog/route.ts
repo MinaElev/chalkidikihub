@@ -211,7 +211,7 @@ Return ONLY JSON:
   },
   "seo": {
     "meta_title_el": "max 60 chars", "meta_title_en": "", "meta_title_de": "", "meta_title_bg": "", "meta_title_ru": "", "meta_title_ro": "",
-    "meta_description_el": "max 155 chars", "meta_description_en": "", "meta_description_de": "", "meta_description_bg": "", "meta_description_ru": "", "meta_description_ro": "",
+    "meta_description_el": "max 155 chars", "meta_description_en": "", "meta_description_de": "", "meta_description_bg": "", "meta_description_ru": "", "meta_description_ro": "", "meta_title_sr": "", "meta_description_sr": "",
     "image_alt": "English alt text"
   }
 }`;
@@ -231,7 +231,7 @@ Return ONLY JSON:
   "content_de": "German HTML...",
   "content_bg": "Bulgarian HTML...",
   "content_ru": "Russian HTML...",
-  "content_ro": "Romanian HTML..."
+  "content_ro": "Romanian HTML...", "content_sr": "Serbian HTML..."
 }
 
 IMPORTANT: Translate naturally, keep EXACT same HTML structure, translate ALL content.`;
@@ -260,18 +260,18 @@ IMPORTANT: Translate naturally, keep EXACT same HTML structure, translate ALL co
       content_el: article.content_el,
       // Translations
       title_en: seo.translations.title_en, title_de: seo.translations.title_de,
-      title_bg: seo.translations.title_bg, title_ru: seo.translations.title_ru, title_ro: seo.translations.title_ro,
+      title_bg: seo.translations.title_bg, title_ru: seo.translations.title_ru, title_ro: seo.translations.title_ro, title_sr: seo.translations.title_sr || "",
       excerpt_en: seo.translations.excerpt_en, excerpt_de: seo.translations.excerpt_de,
-      excerpt_bg: seo.translations.excerpt_bg, excerpt_ru: seo.translations.excerpt_ru, excerpt_ro: seo.translations.excerpt_ro,
+      excerpt_bg: seo.translations.excerpt_bg, excerpt_ru: seo.translations.excerpt_ru, excerpt_ro: seo.translations.excerpt_ro, excerpt_sr: seo.translations.excerpt_sr || "",
       content_en: translations.content_en, content_de: translations.content_de,
-      content_bg: translations.content_bg, content_ru: translations.content_ru, content_ro: translations.content_ro,
+      content_bg: translations.content_bg, content_ru: translations.content_ru, content_ro: translations.content_ro, content_sr: translations.content_sr || "",
       // SEO
       meta_title_el: seo.seo.meta_title_el, meta_title_en: seo.seo.meta_title_en,
       meta_title_de: seo.seo.meta_title_de, meta_title_bg: seo.seo.meta_title_bg,
-      meta_title_ru: seo.seo.meta_title_ru, meta_title_ro: seo.seo.meta_title_ro,
+      meta_title_ru: seo.seo.meta_title_ru, meta_title_ro: seo.seo.meta_title_ro, meta_title_sr: seo.seo.meta_title_sr || "",
       meta_description_el: seo.seo.meta_description_el, meta_description_en: seo.seo.meta_description_en,
       meta_description_de: seo.seo.meta_description_de, meta_description_bg: seo.seo.meta_description_bg,
-      meta_description_ru: seo.seo.meta_description_ru, meta_description_ro: seo.seo.meta_description_ro,
+      meta_description_ru: seo.seo.meta_description_ru, meta_description_ro: seo.seo.meta_description_ro, meta_description_sr: seo.seo.meta_description_sr || "",
     });
 
     if (insertError) throw new Error(`DB insert failed: ${insertError.message}`);

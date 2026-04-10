@@ -15,7 +15,7 @@ interface BusinessType {
   sort_order: number;
 }
 
-const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
+const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 const LANG_LABELS: Record<string, string> = { el: '🇬🇷 EL', en: '🇬🇧 EN', de: '🇩🇪 DE', bg: '🇧🇬 BG', ru: '🇷🇺 RU', ro: '🇷🇴 RO' };
 
 export default function BusinessTypesPage() {

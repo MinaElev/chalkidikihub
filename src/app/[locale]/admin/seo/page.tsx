@@ -18,7 +18,7 @@ interface SeoRecord {
   issues: string[];
 }
 
-const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro'];
+const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'];
 
 export default function AdminSeoPage() {
   const [records, setRecords] = useState<SeoRecord[]>([]);

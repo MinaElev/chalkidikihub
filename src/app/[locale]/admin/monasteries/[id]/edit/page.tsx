@@ -8,8 +8,8 @@ import { ArrowLeft, Save, Loader2, Sparkles } from 'lucide-react';
 import { AIHelper } from '@/components/admin/AIHelper';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 
-const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
-const LANG_LABELS: Record<string, string> = { el: 'EL 🇬🇷', en: 'EN 🇬🇧', de: 'DE 🇩🇪', bg: 'BG 🇧🇬', ru: 'RU 🇷🇺', ro: 'RO 🇷🇴' };
+const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LANG_LABELS: Record<string, string> = { el: 'EL 🇬🇷', en: 'EN 🇬🇧', de: 'DE 🇩🇪', bg: 'BG 🇧🇬', ru: 'RU 🇷🇺', ro: 'RO 🇷🇴', sr: 'SR 🇷🇸' };
 const NATIONS = [{ v: 'el', l: 'Ελληνική' }, { v: 'rs', l: 'Σερβική' }, { v: 'bg', l: 'Βουλγαρική' }, { v: 'ru', l: 'Ρωσική' }];
 
 export default function AdminEditMonasteryPage() {

@@ -12,8 +12,8 @@ import { compressImage } from '@/lib/image-utils';
 const AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'];
 const PROPERTY_TYPES = ['house', 'apartment', 'land', 'commercial', 'other'];
 const ALL_SALE_FEATURES = ['parking', 'pool', 'garden', 'sea_view', 'furnished', 'elevator', 'storage', 'fireplace', 'solar', 'alarm', 'air_conditioning', 'central_heating'];
-const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
-const LANG_LABELS: Record<string, string> = { el: 'EL 🇬🇷', en: 'EN 🇬🇧', de: 'DE 🇩🇪', bg: 'BG 🇧🇬', ru: 'RU 🇷🇺', ro: 'RO 🇷🇴' };
+const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LANG_LABELS: Record<string, string> = { el: 'EL 🇬🇷', en: 'EN 🇬🇧', de: 'DE 🇩🇪', bg: 'BG 🇧🇬', ru: 'RU 🇷🇺', ro: 'RO 🇷🇴', sr: 'SR 🇷🇸' };
 
 const FEATURE_LABELS: Record<string, string> = {
   parking: 'Parking', pool: 'Πισίνα', garden: 'Κήπος', sea_view: 'Θέα Θάλασσα',

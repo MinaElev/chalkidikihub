@@ -8,14 +8,14 @@ import { tr } from '../../content';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro'] as const;
+const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
 // Merge DB data with hardcoded fallback (DB may have empty fields)
 function mergeLocaleMap(db: Record<string, string>, fallback: Record<string, string>): Record<string, string> {
   const result: Record<string, string> = {};
-  for (const key of ['el', 'en', 'de', 'bg', 'ru', 'ro']) {
+  for (const key of ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr']) {
     result[key] = (db[key] && db[key].length > 0) ? db[key] : (fallback[key] || '');
   }
   return result;
