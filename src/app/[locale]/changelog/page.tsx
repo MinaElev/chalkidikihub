@@ -8,6 +8,18 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v2.4.0',
+      date: '10 Απριλίου 2026',
+      highlights: 'Best Of Guides, Auto-Blog Settings, Unsplash Photos',
+      features: [
+        { emoji: '🏆', title: 'Best Of Guide Pages', desc: '12 οδηγοί (beaches, restaurants, activities per area/theme) × 6 γλώσσες = 72 SEO URLs' },
+        { emoji: '⚙️', title: 'Auto-Blog Settings', desc: 'On/Off, συχνότητα (ώρες), ώρα εκτέλεσης — ρυθμιζόμενα από admin Settings' },
+        { emoji: '📸', title: 'Unsplash Photos', desc: 'AI articles αυτόματα βρίσκουν σχετική φωτογραφία μέσω Unsplash API' },
+        { emoji: '✍️', title: 'Rich Formatting', desc: 'AI articles με h2/h3/lists/blockquote/bold — travel blog style' },
+        { emoji: '🔒', title: 'Auth Fix', desc: 'Auto-blog auth μέσω Bearer token + admin client role check' },
+      ],
+    },
+    {
       version: 'v2.3.0',
       date: '10 Απριλίου 2026',
       highlights: 'Auto-Blog AI, Beach Features, Village Combos, 3,300 SEO URLs',
