@@ -101,6 +101,13 @@ const SETTINGS_CONFIG: Setting[] = [
     secret: false,
   },
   {
+    key: 'hero_image_url', value: '', label: 'Hero Background Image URL',
+    icon: ImageIcon, color: 'text-cyan-600 bg-cyan-100',
+    placeholder: 'https://images.unsplash.com/photo-...',
+    description: 'URL φωτογραφίας για background στο hero section της αρχικής σελίδας. Ιδανική: aerial/landscape Χαλκιδική. Κενό = gradient χωρίς φωτό.',
+    secret: false,
+  },
+  {
     key: 'autoblog_enabled', value: '', label: 'Auto-Blog On/Off',
     icon: Bot, color: 'text-purple-600 bg-purple-100',
     placeholder: 'true',
