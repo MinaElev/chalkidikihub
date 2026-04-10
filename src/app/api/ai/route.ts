@@ -42,13 +42,13 @@ export async function POST(request: NextRequest) {
 
   try {
     if (action === 'full_auto') {
-      // ONE CLICK = translate ALL content + generate SEO in ALL 6 languages
+      // ONE CLICK = translate ALL content + generate SEO in ALL 7 languages
       const prompt = `You are an expert translator and SEO specialist for a tourism website about Halkidiki, Greece.
 
 Given the following Greek content, do TWO things:
 
 1. TRANSLATE the title and description to: English (en), German (de), Bulgarian (bg), Russian (ru), Romanian (ro), Serbian (sr)
-2. GENERATE SEO-optimized meta titles and meta descriptions in ALL 6 languages (including Greek)
+2. GENERATE SEO-optimized meta titles and meta descriptions in ALL 7 languages (including Greek and Serbian)
 
 Content:
 - Title (Greek): "${title}"

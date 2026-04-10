@@ -99,7 +99,7 @@ export default function TranslationsPage() {
 
         if (data.translations) {
           Object.entries(data.translations).forEach(([key, val]) => {
-            if (!val || !(val as string).length) return;
+            if (val === undefined || val === null || val === 'undefined' || !(val as string).length) return;
             // Map title_XX → name_XX or title_XX based on table
             let dbKey = key;
             if (key.startsWith('title_')) {
@@ -114,10 +114,10 @@ export default function TranslationsPage() {
         // Also add SEO if available
         if (data.seo) {
           Object.entries(data.seo).forEach(([key, val]) => {
-            if (val && (val as string).length > 0 && key.startsWith('meta_')) {
+            if (val && val !== 'undefined' && (val as string).length > 0 && key.startsWith('meta_')) {
               updates[key] = val as string;
             }
-            if (key === 'image_alt' && val) updates.image_alt = val as string;
+            if (key === 'image_alt' && val && val !== 'undefined') updates.image_alt = val as string;
           });
         }
 
