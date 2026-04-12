@@ -25,6 +25,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://bvwiwxmgbtklztgapxyp.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://bvwiwxmgbtklztgapxyp.supabase.co" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        {/* Google AdSense */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9694572418424066" crossOrigin="anonymous" />
         {/* Defer Google Analytics to not block rendering */}
         <script dangerouslySetInnerHTML={{ __html: `
           window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
