@@ -1,68 +1,37 @@
-'use client';
+import type { Metadata } from 'next';
+import { setRequestLocale } from 'next-intl/server';
+import { collectionMeta } from '@/lib/seo';
+import PageClient from './_client';
 
-import { useEffect, useState } from 'react';
-import { useTranslations, useLocale } from 'next-intl';
-import { Link } from '@/i18n/navigation';
-import { AREAS } from '@/lib/constants';
-import { AreaInfo } from '@/types';
-import { MapPin } from 'lucide-react';
+const titles: Record<string, string> = {
+  el: 'Περιοχές Χαλκιδικής | ChalkidikiHub',
+  en: 'Halkidiki Areas | ChalkidikiHub',
+  de: 'Regionen Chalkidiki | ChalkidikiHub',
+  bg: 'Региони Халкидики | ChalkidikiHub',
+  ru: 'Районы Халкидики | ChalkidikiHub',
+  ro: 'Zone Halkidiki | ChalkidikiHub',
+  sr: 'Oblasti Halkidikija | ChalkidikiHub',
+};
 
-export default function AreasPage() {
-  const locale = useLocale();
-  const t = useTranslations('areas');
-  const [areas, setAreas] = useState<AreaInfo[]>(AREAS);
+const descriptions: Record<string, string> = {
+  el: 'Εξερευνήστε τις 4 περιοχές της Χαλκιδικής: Κασσάνδρα, Σιθωνία, Άθως και Ενδοχώρα.',
+  en: 'Explore the 4 areas of Halkidiki: Kassandra, Sithonia, Athos and Mainland.',
+  de: 'Entdecken Sie die 4 Regionen von Chalkidiki: Kassandra, Sithonia, Athos und Hinterland.',
+  bg: 'Разгледайте 4-те региона на Халкидики: Касандра, Ситония, Атос и вътрешността.',
+  ru: 'Исследуйте 4 района Халкидики: Кассандра, Ситония, Афон и материк.',
+  ro: 'Explorați cele 4 zone ale Halkidikiului: Kassandra, Sithonia, Athos și interior.',
+  sr: 'Istražite 4 oblasti Halkidikija: Kasandra, Sitonija, Atos i unutrašnjost.',
+};
 
-  useEffect(() => {
-    fetch('/api/areas')
-      .then((r) => r.json())
-      .then((data: AreaInfo[]) => {
-        if (Array.isArray(data) && data.length > 0) setAreas(data);
-      })
-      .catch(() => {});
-  }, []);
+type Props = { params: Promise<{ locale: string }> };
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-12 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{t('title')}</h1>
-        <p className="mt-3 text-lg text-gray-600">{t('subtitle')}</p>
-      </div>
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return collectionMeta({ titles, descriptions, path: 'areas', locale, ogType: 'area' });
+}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {areas.map((area) => (
-          <Link
-            key={area.slug}
-            href={`/areas/${area.slug}`}
-            className="group block"
-          >
-            <div className="relative overflow-hidden rounded-2xl aspect-[16/9] bg-gray-300">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10" />
-              {area.image_url ? (
-                <img
-                  src={area.image_url}
-                  alt={area.name[locale] || area.name.el || ''}
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700 group-hover:scale-105 transition-transform duration-300" />
-              )}
-              <div className="absolute inset-0 bg-primary-900/20" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-                <h2 className="text-2xl font-bold text-white">{area.name[locale] || area.name.el}</h2>
-                <p className="mt-2 text-sm text-gray-200 line-clamp-2">
-                  {area.description[locale] || area.description.el}
-                </p>
-                <div className="mt-3 flex items-center gap-4">
-                  <span className="text-sm font-medium text-primary-300 group-hover:text-primary-200 transition-colors">
-                    {t('viewListings')} &rarr;
-                  </span>
-                </div>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
+export default async function Page({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  return <PageClient />;
 }

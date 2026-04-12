@@ -2,6 +2,51 @@ import type { Metadata } from 'next';
 import { createApiClient, toLocaleMap } from './api-helpers';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
+const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+
+/** Build OG image URL for the /api/og route */
+export function ogImageUrl(title: string, type?: string, subtitle?: string): string {
+  const params = new URLSearchParams({ title });
+  if (type) params.set('type', type);
+  if (subtitle) params.set('subtitle', subtitle);
+  return `${SITE_URL}/api/og?${params.toString()}`;
+}
+
+/** Generate metadata for a collection page with OG image */
+export function collectionMeta(opts: {
+  titles: Record<string, string>;
+  descriptions: Record<string, string>;
+  path: string;
+  locale: string;
+  ogType?: string;
+}): Metadata {
+  const { titles, descriptions, path, locale, ogType } = opts;
+  const title = titles[locale] || titles.en;
+  const desc = descriptions[locale] || descriptions.en;
+  const image = ogImageUrl(title, ogType);
+  return {
+    title,
+    description: desc,
+    openGraph: {
+      title,
+      description: desc,
+      type: 'website',
+      locale,
+      siteName: 'Chalkidiki Hub',
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: desc,
+      images: [image],
+    },
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/${path}`,
+      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/${path}`])),
+    },
+  };
+}
 
 // Fetch SEO meta from DB for a specific record
 // Map DB table names to URL path segments
@@ -11,6 +56,7 @@ const tableToPath: Record<string, string> = {
   restaurants: 'restaurants',
   activities: 'activities',
   blog_articles: 'blog',
+  sales: 'sales',
 };
 
 export async function getContentMeta(
@@ -42,8 +88,19 @@ export async function getContentMeta(
     const row = data as any;
     const title = row[`meta_title_${locale}`] || row.meta_title_el || row.meta_title_en || row[`${titleField}_${locale}`] || row[`${titleField}_el`] || fallbackTitle;
     const description = row[`meta_description_${locale}`] || row.meta_description_el || row.meta_description_en || fallbackDescription;
-    const image = row.image_url || '';
     const imageAlt = row.image_alt || title;
+
+    // Map path segments to OG image types
+    const segmentToOgType: Record<string, string> = {
+      listings: 'listing',
+      beaches: 'beach',
+      restaurants: 'restaurant',
+      activities: 'activity',
+      blog: 'blog',
+      sales: 'sales',
+    };
+
+    const image = row.image_url || ogImageUrl(title, segmentToOgType[pathSegment] || pathSegment);
 
     return {
       title,
@@ -54,24 +111,19 @@ export async function getContentMeta(
         type: 'website',
         locale,
         siteName: 'Chalkidiki Hub',
-        ...(image ? { images: [{ url: image, alt: imageAlt, width: 1200, height: 630 }] } : {}),
+        images: [{ url: image, alt: imageAlt, width: 1200, height: 630 }],
       },
       twitter: {
-        card: image ? 'summary_large_image' : 'summary',
+        card: 'summary_large_image',
         title,
         description,
-        ...(image ? { images: [image] } : {}),
+        images: [image],
       },
       alternates: {
         canonical: `${SITE_URL}/${locale}/${pathSegment}/${slug}`,
-        languages: {
-          el: `${SITE_URL}/el/${pathSegment}/${slug}`,
-          en: `${SITE_URL}/en/${pathSegment}/${slug}`,
-          de: `${SITE_URL}/de/${pathSegment}/${slug}`,
-          bg: `${SITE_URL}/bg/${pathSegment}/${slug}`,
-          ru: `${SITE_URL}/ru/${pathSegment}/${slug}`,
-          ro: `${SITE_URL}/ro/${pathSegment}/${slug}`,
-        },
+        languages: Object.fromEntries(
+          ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, `${SITE_URL}/${l}/${pathSegment}/${slug}`])
+        ),
       },
     };
   } catch {
@@ -79,9 +131,8 @@ export async function getContentMeta(
   }
 }
 
-const DEFAULT_OG_IMAGE = `${SITE_URL}/icons/icon-512.png`;
-
 function getDefaultMeta(title: string, description: string, locale: string): Metadata {
+  const image = ogImageUrl(title);
   return {
     title,
     description,
@@ -91,13 +142,13 @@ function getDefaultMeta(title: string, description: string, locale: string): Met
       type: 'website',
       locale,
       siteName: 'Chalkidiki Hub',
-      images: [{ url: DEFAULT_OG_IMAGE, alt: 'Chalkidiki Hub', width: 512, height: 512 }],
+      images: [{ url: image, alt: title, width: 1200, height: 630 }],
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title,
       description,
-      images: [DEFAULT_OG_IMAGE],
+      images: [image],
     },
   };
 }

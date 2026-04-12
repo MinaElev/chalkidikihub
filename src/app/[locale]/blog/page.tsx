@@ -1,111 +1,37 @@
-'use client';
+import type { Metadata } from 'next';
+import { setRequestLocale } from 'next-intl/server';
+import { collectionMeta } from '@/lib/seo';
+import PageClient from './_client';
 
-import { useTranslations } from 'next-intl';
-import { useState, useMemo } from 'react';
-import { useLiveData } from '@/lib/use-live-data';
-import { BlogArticle } from '@/types';
-import { BlogCard } from '@/components/blog/BlogCard';
-import { BlogFilters, BlogCategory, Area } from '@/types';
-import { AREA_SLUGS } from '@/lib/constants';
-import { X } from 'lucide-react';
+const titles: Record<string, string> = {
+  el: 'Blog Χαλκιδική | ChalkidikiHub',
+  en: 'Halkidiki Travel Blog | ChalkidikiHub',
+  de: 'Chalkidiki Reiseblog | ChalkidikiHub',
+  bg: 'Блог Халкидики | ChalkidikiHub',
+  ru: 'Блог Халкидики | ChalkidikiHub',
+  ro: 'Blog Halkidiki | ChalkidikiHub',
+  sr: 'Blog Halkidiki | ChalkidikiHub',
+};
 
-const CATEGORIES: BlogCategory[] = ['guides', 'beaches', 'food', 'activities', 'tips', 'culture'];
+const descriptions: Record<string, string> = {
+  el: 'Οδηγοί, συμβουλές και άρθρα για τη Χαλκιδική. Παραλίες, φαγητό, αξιοθέατα και ταξιδιωτικές συμβουλές.',
+  en: 'Guides, tips and articles about Halkidiki. Beaches, food, attractions and travel advice.',
+  de: 'Reiseführer, Tipps und Artikel über Chalkidiki. Strände, Essen und Sehenswürdigkeiten.',
+  bg: 'Пътеводители, съвети и статии за Халкидики. Плажове, храна и забележителности.',
+  ru: 'Путеводители, советы и статьи о Халкидики. Пляжи, еда и достопримечательности.',
+  ro: 'Ghiduri, sfaturi și articole despre Halkidiki. Plaje, mâncare și atracții turistice.',
+  sr: 'Vodiči, saveti i članci o Halkidikiju. Plaže, hrana i znamenitosti.',
+};
 
-export default function BlogPage() {
-  const t = useTranslations('blog');
-  const tCat = useTranslations('blogCategories');
-  const tAreas = useTranslations('areas');
-  const tCommon = useTranslations('common');
-  const [filters, setFilters] = useState<BlogFilters>({});
-  const { data: articles } = useLiveData<BlogArticle>('/api/blog', []);
+type Props = { params: Promise<{ locale: string }> };
 
-  const areaLabels: Record<Area, string> = {
-    kassandra: tAreas('kassandra.name'),
-    sithonia: tAreas('sithonia.name'),
-    athos: tAreas('athos.name'),
-    mainland: tAreas('mainlandHalkidiki.name'),
-  };
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return collectionMeta({ titles, descriptions, path: 'blog', locale, ogType: 'blog' });
+}
 
-  const filtered = useMemo(() => {
-    let result = [...articles];
-
-    if (filters.category) {
-      result = result.filter((a) => a.category === filters.category);
-    }
-    if (filters.area) {
-      result = result.filter((a) => a.related_area_slugs.includes(filters.area!));
-    }
-
-    result.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
-    return result;
-  }, [filters, articles]);
-
-  const hasActive = filters.category || filters.area;
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
-        <p className="mt-1 text-gray-600">{t('subtitle')}</p>
-      </div>
-
-      {/* Category pills */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        <button
-          onClick={() => setFilters({ ...filters, category: undefined })}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-            !filters.category ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          {t('allArticles')}
-        </button>
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setFilters({ ...filters, category: cat })}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              filters.category === cat ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            {tCat(cat)}
-          </button>
-        ))}
-      </div>
-
-      {/* Area filter */}
-      <div className="flex items-center gap-3 mb-8">
-        <select
-          value={filters.area || ''}
-          onChange={(e) => setFilters({ ...filters, area: e.target.value as Area || undefined })}
-          className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500"
-        >
-          <option value="">{t('filters.allAreas')}</option>
-          {AREA_SLUGS.map((a) => <option key={a} value={a}>{areaLabels[a]}</option>)}
-        </select>
-
-        {hasActive && (
-          <button
-            onClick={() => setFilters({})}
-            className="flex items-center gap-1 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg"
-          >
-            <X className="w-4 h-4" />
-            {t('filters.clearFilters')}
-          </button>
-        )}
-      </div>
-
-      {/* Articles grid */}
-      {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((article) => (
-            <BlogCard key={article.id} article={article} />
-          ))}
-        </div>
-      ) : (
-        <div className="mt-16 text-center">
-          <p className="text-lg text-gray-500">{t('noResults')}</p>
-        </div>
-      )}
-    </div>
-  );
+export default async function Page({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  return <PageClient />;
 }

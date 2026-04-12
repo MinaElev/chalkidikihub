@@ -1,13 +1,36 @@
+import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { ChevronRight } from 'lucide-react';
 import { getGuide, GUIDES } from './guide-data';
 import { notFound } from 'next/navigation';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
+const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export function generateStaticParams() {
   return GUIDES.map(g => ({ slug: g.slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const guide = getGuide(slug);
+  if (!guide) return { title: 'Not Found' };
+
+  const title = guide.metaTitle[locale] || guide.metaTitle.en;
+  const desc = guide.metaDesc[locale] || guide.metaDesc.en;
+  return {
+    title,
+    description: desc,
+    openGraph: { title, description: desc, type: 'website', locale, siteName: 'Chalkidiki Hub' },
+    twitter: { card: 'summary', title, description: desc },
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/guide/${slug}`,
+      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/guide/${slug}`])),
+    },
+  };
 }
 
 export default async function GuidePage({ params }: Props) {

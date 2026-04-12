@@ -1,4 +1,18 @@
+import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
+const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+
+const titles: Record<string, string> = {
+  el: 'Πολιτική Απορρήτου | ChalkidikiHub',
+  en: 'Privacy Policy | ChalkidikiHub',
+  de: 'Datenschutz | ChalkidikiHub',
+  bg: 'Политика за поверителност | ChalkidikiHub',
+  ru: 'Политика конфиденциальности | ChalkidikiHub',
+  ro: 'Politica de confidențialitate | ChalkidikiHub',
+  sr: 'Politika privatnosti | ChalkidikiHub',
+};
 
 type Section = {
   heading: string;
@@ -453,6 +467,22 @@ const content: Record<string, PrivacyContent> = {
 };
 
 type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const title = titles[locale] || titles.en;
+  const desc = 'Privacy Policy for ChalkidikiHub.';
+  return {
+    title,
+    description: desc,
+    openGraph: { title, description: desc, type: 'website', locale, siteName: 'Chalkidiki Hub' },
+    twitter: { card: 'summary', title, description: desc },
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/privacy`,
+      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/privacy`])),
+    },
+  };
+}
 
 export default async function PrivacyPage({ params }: Props) {
   const { locale } = await params;

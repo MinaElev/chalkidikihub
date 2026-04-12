@@ -1,85 +1,37 @@
-'use client';
+import type { Metadata } from 'next';
+import { setRequestLocale } from 'next-intl/server';
+import { collectionMeta } from '@/lib/seo';
+import PageClient from './_client';
 
-import { useTranslations } from 'next-intl';
-import { useState, useMemo, useEffect } from 'react';
-import { ListingCard } from '@/components/listings/ListingCard';
-import { SearchFilters } from '@/components/listings/SearchFilters';
-import { SearchFilters as SearchFiltersType, Listing } from '@/types';
+const titles: Record<string, string> = {
+  el: 'Ενοικιαζόμενα Καταλύματα Χαλκιδική | ChalkidikiHub',
+  en: 'Vacation Rentals Halkidiki | ChalkidikiHub',
+  de: 'Ferienwohnungen Chalkidiki | ChalkidikiHub',
+  bg: 'Настаняване Халкидики | ChalkidikiHub',
+  ru: 'Аренда жилья Халкидики | ChalkidikiHub',
+  ro: 'Cazare Halkidiki | ChalkidikiHub',
+  sr: 'Smeštaj Halkidiki | ChalkidikiHub',
+};
 
-export default function ListingsPage() {
-  const t = useTranslations('listings');
-  const tCommon = useTranslations('common');
-  const [filters, setFilters] = useState<SearchFiltersType>({});
-  const [dbListings, setDbListings] = useState<Listing[]>([]);
+const descriptions: Record<string, string> = {
+  el: 'Βρείτε το ιδανικό κατάλυμα στη Χαλκιδική. Σπίτια, διαμερίσματα και βίλες κοντά στη θάλασσα.',
+  en: 'Find the perfect vacation rental in Halkidiki. Houses, apartments, and villas near the sea.',
+  de: 'Finden Sie die perfekte Ferienunterkunft in Chalkidiki. Häuser, Wohnungen und Villen am Meer.',
+  bg: 'Намерете перфектното настаняване в Халкидики. Къщи, апартаменти и вили близо до морето.',
+  ru: 'Найдите идеальное жильё в Халкидики. Дома, квартиры и виллы у моря.',
+  ro: 'Găsiți cazarea perfectă în Halkidiki. Case, apartamente și vile lângă mare.',
+  sr: 'Pronađite savršen smeštaj u Halkidikiju. Kuće, stanovi i vile pored mora.',
+};
 
-  // Fetch real listings from Supabase
-  useEffect(() => {
-    fetch('/api/listings')
-      .then((r) => r.json())
-      .then((data: Listing[]) => {
-        if (Array.isArray(data)) setDbListings(data);
-      })
-      .catch(() => {});
-  }, []);
+type Props = { params: Promise<{ locale: string }> };
 
-  // Only DB listings - no seed data
-  const allListings = dbListings;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return collectionMeta({ titles, descriptions, path: 'listings', locale, ogType: 'listing' });
+}
 
-  const filteredListings = useMemo(() => {
-    let result = [...allListings];
-
-    if (filters.area) {
-      result = result.filter((l) => l.area === filters.area);
-    }
-    if (filters.minPrice) {
-      result = result.filter((l) => l.price_per_night >= filters.minPrice!);
-    }
-    if (filters.maxPrice) {
-      result = result.filter((l) => l.price_per_night <= filters.maxPrice!);
-    }
-    if (filters.guests) {
-      result = result.filter((l) => l.guests_max >= filters.guests!);
-    }
-    if (filters.amenities && filters.amenities.length > 0) {
-      result = result.filter((l) =>
-        filters.amenities!.every((a) => l.amenities.includes(a))
-      );
-    }
-
-    switch (filters.sort) {
-      case 'price_low':
-        result.sort((a, b) => a.price_per_night - b.price_per_night);
-        break;
-      case 'price_high':
-        result.sort((a, b) => b.price_per_night - a.price_per_night);
-        break;
-      default:
-        result.sort((a, b) => b.price_per_night - a.price_per_night);
-    }
-
-    return result;
-  }, [filters, allListings]);
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
-        <p className="mt-1 text-gray-600">{t('subtitle')}</p>
-      </div>
-
-      <SearchFilters filters={filters} onFiltersChange={setFilters} />
-
-      {filteredListings.length > 0 ? (
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredListings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
-          ))}
-        </div>
-      ) : (
-        <div className="mt-16 text-center">
-          <p className="text-lg text-gray-500">{tCommon('noResults')}</p>
-        </div>
-      )}
-    </div>
-  );
+export default async function Page({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  return <PageClient />;
 }

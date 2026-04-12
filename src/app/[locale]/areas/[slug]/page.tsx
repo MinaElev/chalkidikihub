@@ -42,6 +42,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: 'Chalkidiki Hub',
       ...(area.image_url ? { images: [{ url: area.image_url, alt: name, width: 1200, height: 630 }] } : {}),
     },
+    twitter: {
+      card: area.image_url ? 'summary_large_image' : 'summary',
+      title: `${name} - Χαλκιδική`,
+      description: desc,
+      ...(area.image_url ? { images: [area.image_url] } : {}),
+    },
     alternates: {
       canonical: `${SITE_URL}/${locale}/areas/${slug}`,
       languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/areas/${slug}`])),
