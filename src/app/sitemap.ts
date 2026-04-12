@@ -45,7 +45,8 @@ export async function generateSitemaps() {
   ];
 }
 
-export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
+export default async function sitemap(props: { id: Promise<string> }): Promise<MetadataRoute.Sitemap> {
+  const id = Number(await props.id);
   const supabase = createApiClient();
 
   switch (id) {
