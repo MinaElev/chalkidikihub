@@ -10,6 +10,7 @@ import { AIHelper } from '@/components/admin/AIHelper';
 import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity } from '@/types';
 import { LocationPicker } from '@/components/ui/LocationPicker';
+import { ImportFromUrl } from '@/components/listings/ImportFromUrl';
 
 export default function AdminEditListingPage() {
   const { id } = useParams();
@@ -127,6 +128,28 @@ export default function AdminEditListingPage() {
           <strong>Ιδιοκτήτης:</strong> {ownerInfo.name || 'Unknown'} | <strong>ID:</strong> {ownerInfo.id.slice(0, 8)}...
         </p>
       </div>
+
+      {/* Import from Airbnb/Booking */}
+      <ImportFromUrl onImport={(data) => {
+        setForm((prev) => ({
+          ...prev,
+          title_el: data.title || prev.title_el,
+          title_en: data.title_en || prev.title_en,
+          description_el: data.description || prev.description_el,
+          description_en: data.description_en || prev.description_en,
+          area: data.area || prev.area,
+          location_name: data.location_name || prev.location_name,
+          latitude: data.latitude || prev.latitude,
+          longitude: data.longitude || prev.longitude,
+          price_per_night: data.price_per_night || prev.price_per_night,
+          guests_max: data.guests_max || prev.guests_max,
+          bedrooms: data.bedrooms ?? prev.bedrooms,
+          bathrooms: data.bathrooms ?? prev.bathrooms,
+          amenities: data.amenities?.length ? data.amenities : prev.amenities,
+          booking_url: data.source_platform === 'Booking.com' ? (data.source_url || prev.booking_url) : prev.booking_url,
+          airbnb_url: data.source_platform === 'Airbnb' ? (data.source_url || prev.airbnb_url) : prev.airbnb_url,
+        }));
+      }} />
 
       {error && <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{error}</div>}
       {success && <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm">{success}</div>}
