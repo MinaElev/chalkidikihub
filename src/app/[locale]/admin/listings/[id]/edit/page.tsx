@@ -32,6 +32,9 @@ export default function AdminEditListingPage() {
   });
   const [ownerInfo, setOwnerInfo] = useState({ name: '', email: '', id: '' });
   const [images, setImages] = useState<Array<{ id: string; image_url: string; sort_order: number; is_cover: boolean }>>([]);
+  const [allUsers, setAllUsers] = useState<Array<{ id: string; full_name: string; email: string; role: string }>>([]);
+  const [transferring, setTransferring] = useState(false);
+  const [transferSuccess, setTransferSuccess] = useState('');
 
   useEffect(() => {
     async function load() {
@@ -56,12 +59,36 @@ export default function AdminEditListingPage() {
       const { data: imgs } = await supabase.from('listing_images').select('*').eq('listing_id', id).order('sort_order');
       if (imgs) setImages(imgs as typeof images);
 
+      // Load all users for transfer dropdown
+      const { data: users } = await supabase.from('profiles').select('id, full_name, email, role').order('full_name');
+      if (users) setAllUsers(users);
+
       setLoading(false);
     }
     load();
   }, [id]);
 
   function update(field: string, value: unknown) { setForm((prev) => ({ ...prev, [field]: value })); }
+
+  async function handleTransfer(newOwnerId: string) {
+    if (!newOwnerId || newOwnerId === ownerInfo.id) return;
+    const targetUser = allUsers.find(u => u.id === newOwnerId);
+    if (!targetUser) return;
+    if (!confirm(`Μεταβίβαση listing σε "${targetUser.full_name || targetUser.email}";\n\nΟ νέος ιδιοκτήτης θα μπορεί να επεξεργαστεί αυτό το listing.`)) return;
+
+    setTransferring(true);
+    setTransferSuccess('');
+    setError('');
+    const supabase = createClient();
+    const { error: err } = await supabase.from('listings').update({ owner_id: newOwnerId }).eq('id', id);
+    if (err) {
+      setError(`Αποτυχία μεταβίβασης: ${err.message}`);
+    } else {
+      setOwnerInfo({ name: targetUser.full_name || '', email: targetUser.email || '', id: newOwnerId });
+      setTransferSuccess(`Μεταβιβάστηκε σε ${targetUser.full_name || targetUser.email}!`);
+    }
+    setTransferring(false);
+  }
 
   function toggleAmenity(amenity: string) {
     setForm((prev) => ({
@@ -123,11 +150,32 @@ export default function AdminEditListingPage() {
         </Link>
       </div>
 
-      {/* Owner info */}
+      {/* Owner info & Transfer */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
-        <p className="text-sm text-blue-800">
-          <strong>Ιδιοκτήτης:</strong> {ownerInfo.name || 'Unknown'} | <strong>ID:</strong> {ownerInfo.id.slice(0, 8)}...
-        </p>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex-1">
+            <p className="text-sm text-blue-800">
+              <strong>Ιδιοκτήτης:</strong> {ownerInfo.name || 'Unknown'} ({ownerInfo.email}) | <strong>ID:</strong> {ownerInfo.id.slice(0, 8)}...
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <select
+              defaultValue=""
+              onChange={(e) => handleTransfer(e.target.value)}
+              disabled={transferring}
+              className="px-3 py-1.5 border border-blue-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-blue-500 max-w-[250px]"
+            >
+              <option value="" disabled>Μεταβίβαση σε...</option>
+              {allUsers.filter(u => u.id !== ownerInfo.id).map(u => (
+                <option key={u.id} value={u.id}>
+                  {u.full_name || u.email} {u.role === 'admin' || u.role === 'superadmin' ? `(${u.role})` : ''}
+                </option>
+              ))}
+            </select>
+            {transferring && <Loader2 className="w-4 h-4 animate-spin text-blue-600" />}
+          </div>
+        </div>
+        {transferSuccess && <p className="text-sm text-green-700 mt-2 font-medium">{transferSuccess}</p>}
       </div>
 
       {/* Import from Airbnb/Booking */}
