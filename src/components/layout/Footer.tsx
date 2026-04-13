@@ -24,7 +24,7 @@ export function Footer() {
               <ul className="space-y-3 text-sm">
                 <li className="flex items-start gap-2">
                   <ChevronRight className="w-4 h-4 text-primary-500 mt-0.5 shrink-0" />
-                  <span>{locale === 'el' ? 'Δωρεάν καταχώρηση καταλύματος σε 6 γλώσσες' : 'Free accommodation listing in 6 languages'}</span>
+                  <span>{locale === 'el' ? 'Δωρεάν καταχώρηση καταλύματος σε 7 γλώσσες' : 'Free accommodation listing in 7 languages'}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <ChevronRight className="w-4 h-4 text-primary-500 mt-0.5 shrink-0" />
@@ -49,7 +49,7 @@ export function Footer() {
                 {locale === 'el' ? 'Καταχωρήστε το κατάλυμά σας' : 'List your property'}
               </h3>
               <p className="text-sm text-primary-300 mb-4">
-                {locale === 'el' ? 'Δωρεάν, σε 5 λεπτά, σε 6 γλώσσες' : 'Free, in 5 minutes, in 6 languages'}
+                {locale === 'el' ? 'Δωρεάν, σε 5 λεπτά, σε 7 γλώσσες' : 'Free, in 5 minutes, in 7 languages'}
               </p>
               <Link href="/auth/register"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors">
@@ -132,7 +132,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-6 text-center text-xs">
           <p className="text-gray-500">{t('copyright', { year })}</p>
-          <Link href="/changelog" className="text-gray-600 hover:text-gray-400 mt-1 inline-block">v3.0.0</Link>
+          <Link href="/changelog" className="text-gray-600 hover:text-gray-400 mt-1 inline-block">v3.1.0</Link>
         </div>
       </div>
     </footer>

@@ -183,9 +183,9 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mega Menu - Areas */}
+        {/* Mega Menu - Areas (desktop only, mobile has inline areas) */}
         {megaOpen && (
-          <div ref={megaRef} onMouseEnter={handleMegaEnter} onMouseLeave={handleMegaLeave}>
+          <div className="hidden md:block" ref={megaRef} onMouseEnter={handleMegaEnter} onMouseLeave={handleMegaLeave}>
             <MegaMenuAreas onClose={() => setMegaOpen(false)} />
           </div>
         )}
@@ -200,10 +200,15 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(false)}>{t('listings')}</Link>
 
               <div className="px-4 py-1 text-xs font-semibold text-gray-400 uppercase tracking-wide mt-2">{t('areas')}</div>
-              {['kassandra', 'sithonia', 'athos', 'mainland'].map(area => (
-                <Link key={area} href={`/areas/${area}`} className="px-6 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-lg"
+              {([
+                { slug: 'kassandra', icon: '🔵', el: 'Κασσάνδρα', de: 'Kassandra', bg: 'Касандра', ru: 'Кассандра', ro: 'Kassandra', sr: 'Kasandra', en: 'Kassandra' },
+                { slug: 'sithonia', icon: '🟢', el: 'Σιθωνία', de: 'Sithonia', bg: 'Ситония', ru: 'Ситония', ro: 'Sithonia', sr: 'Sitonija', en: 'Sithonia' },
+                { slug: 'athos', icon: '🟡', el: 'Άθως', de: 'Athos', bg: 'Атос', ru: 'Афон', ro: 'Athos', sr: 'Atos', en: 'Athos' },
+                { slug: 'mainland', icon: '⚪', el: 'Ενδοχώρα', de: 'Hinterland', bg: 'Вътрешност', ru: 'Материк', ro: 'Interior', sr: 'Unutrašnjost', en: 'Mainland' },
+              ] as const).map(area => (
+                <Link key={area.slug} href={`/areas/${area.slug}`} className="px-6 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}>
-                  {area === 'kassandra' ? '🔵' : area === 'sithonia' ? '🟢' : area === 'athos' ? '🟡' : '⚪'} {area.charAt(0).toUpperCase() + area.slice(1)}
+                  {area.icon} {area[locale as keyof typeof area] || area.en}
                 </Link>
               ))}
               <Link href="/beaches" className="px-6 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-lg"
