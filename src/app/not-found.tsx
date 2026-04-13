@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { headers } from 'next/headers';
 
 const translations: Record<string, {
   subtitle: string; hint: string; cta: string;
@@ -14,13 +13,10 @@ const translations: Record<string, {
   sr: { subtitle: 'Naš tim trenutno uživa u moru...', hint: 'Ne gubite vreme — pronađite šta vam treba:', cta: 'Kontakt', home: 'Početna', listings: 'Smeštaj', beaches: 'Plaže', restaurants: 'Restorani', activities: 'Aktivnosti', blog: 'Blog', contact: 'Kontakt' },
 };
 
-export default async function NotFound() {
-  // Try to detect locale from the URL
-  const headersList = await headers();
-  const url = headersList.get('x-next-url') || headersList.get('referer') || '';
-  const match = url.match(/\/(el|en|de|bg|ru|ro|sr)(\/|$)/);
-  const locale = match?.[1] || 'el';
-  const t = translations[locale] || translations.el;
+export default function NotFound() {
+  // Default to Greek — locale detection without headers() to avoid breaking SSG pages
+  const locale = 'el';
+  const t = translations[locale];
 
   const btnStyle = { padding: '12px 20px', background: '#0284c7', color: 'white', fontWeight: 500, borderRadius: '12px', textDecoration: 'none', fontSize: '14px' } as const;
   const outlineStyle = { ...btnStyle, background: 'transparent', border: '2px solid #0284c7', color: '#0284c7' } as const;
