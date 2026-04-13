@@ -13,6 +13,7 @@ interface Village { slug: string; name: Record<string, string>; area: string }
 
 function MegaMenuAreas({ onClose }: { onClose: () => void }) {
   const locale = useLocale();
+  const tAreas = useTranslations('areas');
   const [villages, setVillages] = useState<Village[]>([]);
 
   useEffect(() => {
@@ -23,10 +24,10 @@ function MegaMenuAreas({ onClose }: { onClose: () => void }) {
   }, []);
 
   const areas = [
-    { slug: 'kassandra', label: locale === 'el' ? 'Κασσάνδρα' : locale === 'sr' ? 'Kasandra' : 'Kassandra', color: 'bg-blue-500' },
-    { slug: 'sithonia', label: locale === 'el' ? 'Σιθωνία' : locale === 'sr' ? 'Sitonija' : 'Sithonia', color: 'bg-green-500' },
-    { slug: 'athos', label: locale === 'el' ? 'Άθως' : locale === 'sr' ? 'Atos' : 'Athos', color: 'bg-amber-500' },
-    { slug: 'mainland', label: locale === 'el' ? 'Ενδοχώρα' : locale === 'sr' ? 'Kontinentalni' : 'Mainland', color: 'bg-gray-400' },
+    { slug: 'kassandra', label: tAreas('kassandra.name'), color: 'bg-blue-500' },
+    { slug: 'sithonia', label: tAreas('sithonia.name'), color: 'bg-green-500' },
+    { slug: 'athos', label: tAreas('athos.name'), color: 'bg-amber-500' },
+    { slug: 'mainland', label: tAreas('mainlandHalkidiki.name'), color: 'bg-gray-400' },
   ];
 
   return (
@@ -142,6 +143,8 @@ export function Header() {
             <div ref={megaRef} onMouseEnter={handleMegaEnter} onMouseLeave={handleMegaLeave}>
               <button
                 onClick={() => setMegaOpen(!megaOpen)}
+                aria-expanded={megaOpen}
+                aria-label="Areas menu"
                 className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${megaOpen ? 'text-primary-600 bg-primary-50' : 'text-gray-600 hover:text-primary-600 hover:bg-gray-50'}`}
               >
                 {t('areas')}

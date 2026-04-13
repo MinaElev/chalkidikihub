@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
   if (slug) {
     const { data } = await supabase.from('restaurants').select('*, restaurant_reviews(*)').eq('slug', slug).single();
-    if (!data) return NextResponse.json(null);
+    if (!data) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(transformRestaurant(data), {
       headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
     });

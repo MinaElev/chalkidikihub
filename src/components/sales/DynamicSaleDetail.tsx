@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { Sale, PropertyType, SaleFeature } from '@/types';
+import { Sale } from '@/types';
 import { AREAS } from '@/lib/constants';
 import { Link } from '@/i18n/navigation';
 import { MapPin, BedDouble, Bath, Phone, Mail, Maximize, Building, Calendar, Zap, Layers } from 'lucide-react';
@@ -16,32 +16,9 @@ import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 
-const PROPERTY_TYPE_LABELS: Record<PropertyType, string> = {
-  house: 'Κατοικία',
-  apartment: 'Διαμέρισμα',
-  land: 'Γη',
-  commercial: 'Επαγγελματικό',
-  other: 'Λοιπά',
-};
-
 const TYPE_COLORS: Record<string, string> = {
   house: 'bg-emerald-600', apartment: 'bg-blue-600', land: 'bg-amber-600',
   commercial: 'bg-purple-600', other: 'bg-gray-600',
-};
-
-const FEATURE_LABELS: Record<SaleFeature, string> = {
-  parking: 'Parking',
-  pool: 'Πισίνα',
-  garden: 'Κήπος',
-  sea_view: 'Θέα Θάλασσα',
-  furnished: 'Επιπλωμένο',
-  elevator: 'Ασανσέρ',
-  storage: 'Αποθήκη',
-  fireplace: 'Τζάκι',
-  solar: 'Ηλιακός',
-  alarm: 'Συναγερμός',
-  air_conditioning: 'Κλιματισμός',
-  central_heating: 'Κεντρική Θέρμανση',
 };
 
 export function DynamicSaleDetail({ slug }: { slug: string }) {
@@ -50,6 +27,10 @@ export function DynamicSaleDetail({ slug }: { slug: string }) {
   const locale = useLocale();
   const tCommon = useTranslations('common');
   const tNav = useTranslations('nav');
+  const tDetail = useTranslations('detail');
+  const tTypes = useTranslations('propertyTypes');
+  const tFeatures = useTranslations('saleFeatures');
+  const tInquiry = useTranslations('inquiry');
 
   useEffect(() => {
     fetch(`/api/sales?slug=${slug}`)
@@ -86,7 +67,7 @@ export function DynamicSaleDetail({ slug }: { slug: string }) {
   const area = AREAS.find((a) => a.slug === sale.area);
   const title = sale.title[locale] || sale.title.en || sale.title.el;
   const description = sale.description[locale] || sale.description.en || sale.description.el;
-  const typeLabel = PROPERTY_TYPE_LABELS[sale.property_type] || sale.property_type;
+  const typeLabel = tTypes(sale.property_type);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -118,7 +99,7 @@ export function DynamicSaleDetail({ slug }: { slug: string }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <JsonLd data={jsonLd} />
-      <Breadcrumbs items={[{ label: 'Πωλήσεις', href: '/sales' }, { label: title }]} />
+      <Breadcrumbs items={[{ label: tDetail('salesBreadcrumb'), href: '/sales' }, { label: title }]} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
@@ -144,39 +125,39 @@ export function DynamicSaleDetail({ slug }: { slug: string }) {
           {/* Key specs */}
           <div className="flex items-center gap-6 py-4 border-y border-gray-200 flex-wrap">
             {sale.size_sqm > 0 && (
-              <div className="flex items-center gap-2"><Maximize className="w-5 h-5 text-gray-400" /><span className="text-sm">{sale.size_sqm} τ.μ.</span></div>
+              <div className="flex items-center gap-2"><Maximize className="w-5 h-5 text-gray-400" /><span className="text-sm">{sale.size_sqm} {tDetail('sqm')}</span></div>
             )}
             {sale.bedrooms > 0 && (
-              <div className="flex items-center gap-2"><BedDouble className="w-5 h-5 text-gray-400" /><span className="text-sm">{sale.bedrooms} Υπνοδωμάτια</span></div>
+              <div className="flex items-center gap-2"><BedDouble className="w-5 h-5 text-gray-400" /><span className="text-sm">{sale.bedrooms} {tDetail('bedrooms')}</span></div>
             )}
             {sale.bathrooms > 0 && (
-              <div className="flex items-center gap-2"><Bath className="w-5 h-5 text-gray-400" /><span className="text-sm">{sale.bathrooms} Μπάνια</span></div>
+              <div className="flex items-center gap-2"><Bath className="w-5 h-5 text-gray-400" /><span className="text-sm">{sale.bathrooms} {tDetail('bathrooms')}</span></div>
             )}
             {sale.floor > 0 && (
-              <div className="flex items-center gap-2"><Layers className="w-5 h-5 text-gray-400" /><span className="text-sm">{sale.floor}ος όροφος</span></div>
+              <div className="flex items-center gap-2"><Layers className="w-5 h-5 text-gray-400" /><span className="text-sm">{sale.floor}{tDetail('floor')}</span></div>
             )}
             {sale.year_built > 0 && (
-              <div className="flex items-center gap-2"><Calendar className="w-5 h-5 text-gray-400" /><span className="text-sm">Κατ. {sale.year_built}</span></div>
+              <div className="flex items-center gap-2"><Calendar className="w-5 h-5 text-gray-400" /><span className="text-sm">{tDetail('built')} {sale.year_built}</span></div>
             )}
             {sale.energy_class && (
-              <div className="flex items-center gap-2"><Zap className="w-5 h-5 text-gray-400" /><span className="text-sm">ΕΠΑ: {sale.energy_class}</span></div>
+              <div className="flex items-center gap-2"><Zap className="w-5 h-5 text-gray-400" /><span className="text-sm">{tDetail('energyClass')} {sale.energy_class}</span></div>
             )}
           </div>
 
           {/* Description */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-3">Περιγραφή</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-3">{tDetail('description')}</h2>
             <AutoLinkedContent content={description} />
           </div>
 
           {/* Features */}
           {sale.features && sale.features.length > 0 && (
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Χαρακτηριστικά</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">{tDetail('features')}</h2>
               <div className="flex flex-wrap gap-2">
                 {sale.features.map((feature) => (
                   <span key={feature} className="px-3 py-1.5 rounded-full text-sm border border-emerald-200 bg-emerald-50 text-emerald-700">
-                    {FEATURE_LABELS[feature] || feature}
+                    {tFeatures(feature)}
                   </span>
                 ))}
               </div>
@@ -186,7 +167,7 @@ export function DynamicSaleDetail({ slug }: { slug: string }) {
           {/* Map */}
           {sale.latitude && sale.longitude && sale.latitude !== 0 && (
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-3">Τοποθεσία</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-3">{tDetail('location')}</h2>
               <LocationMap latitude={sale.latitude} longitude={sale.longitude} name={title} />
             </div>
           )}
@@ -198,12 +179,12 @@ export function DynamicSaleDetail({ slug }: { slug: string }) {
         <div className="lg:col-span-1">
           <div className="sticky top-24 bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-6">
             <div>
-              <div className="text-sm text-gray-500">Τιμή πώλησης</div>
+              <div className="text-sm text-gray-500">{tDetail('sellingPrice')}</div>
               <div className="text-3xl font-bold text-gray-900">
                 &euro;{sale.price.toLocaleString()}
               </div>
               {sale.size_sqm > 0 && (
-                <p className="text-sm text-gray-400 mt-1">{Math.round(sale.price / sale.size_sqm)}&euro;/τ.μ.</p>
+                <p className="text-sm text-gray-400 mt-1">{Math.round(sale.price / sale.size_sqm)}{tDetail('pricePerSqm')}</p>
               )}
             </div>
             <hr />
@@ -234,12 +215,12 @@ export function DynamicSaleDetail({ slug }: { slug: string }) {
           {sale.contact_phone ? (
             <a href={`tel:${sale.contact_phone}`}
               className="px-6 py-2.5 bg-green-600 text-white font-semibold rounded-xl text-sm flex items-center gap-2">
-              <Phone className="w-4 h-4" /> Κλήση
+              <Phone className="w-4 h-4" /> {tInquiry('call')}
             </a>
           ) : sale.contact_email ? (
             <a href={`mailto:${sale.contact_email}`}
               className="px-6 py-2.5 bg-primary-600 text-white font-semibold rounded-xl text-sm">
-              Επικοινωνία
+              {tInquiry('contact')}
             </a>
           ) : null}
         </div>

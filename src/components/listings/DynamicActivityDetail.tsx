@@ -20,8 +20,8 @@ import { ReviewForm } from '@/components/ui/ReviewForm';
 export function DynamicActivityDetail({ slug }: { slug: string }) {
   const locale = useLocale();
   const t = useTranslations('activities');
+  const tDetail = useTranslations('detail');
   const tCat = useTranslations('activityCategories');
-  const tBeaches = useTranslations('beaches');
   const [activity, setActivity] = useState<Activity | null>(null);
   const [allActivities, setAllActivities] = useState<Activity[]>([]);
   const [nearbyBeaches, setNearbyBeaches] = useState<Beach[]>([]);
@@ -62,7 +62,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
   if (loading) return <DetailSkeleton />;
   if (!activity) return (
     <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-      <p className="text-lg text-gray-500">Not found</p>
+      <p className="text-lg text-gray-500">{tDetail('notFound')}</p>
       <Link href="/activities" className="mt-4 inline-flex text-primary-600 hover:underline">{t('title')}</Link>
     </div>
   );
@@ -165,7 +165,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
               <div className="my-6 p-5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100 rounded-2xl">
                 <div className="flex items-center gap-2 mb-3">
                   <Compass className="w-5 h-5 text-amber-600" />
-                  <h3 className="text-sm font-bold text-amber-800">Δραστηριότητες κοντά σας</h3>
+                  <h3 className="text-sm font-bold text-amber-800">{tDetail('nearbyActivities')}</h3>
                 </div>
                 <div className="space-y-2">
                   {ctaActivities.map((a) => (
@@ -203,7 +203,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
           {/* Map */}
           {activity.latitude && activity.longitude && activity.latitude !== 0 && (
             <div className="mt-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-3">Τοποθεσία</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-3">{tDetail('location')}</h2>
               <LocationMap latitude={activity.latitude} longitude={activity.longitude} name={name} />
             </div>
           )}
@@ -211,7 +211,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
           {/* Nearby beaches */}
           {nearbyBeaches.length > 0 && (
             <div className="mt-10">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">{tBeaches('title')} στην περιοχή</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">{tDetail('nearbyBeaches')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {nearbyBeaches.map((b) => <BeachCard key={b.id} beach={b} />)}
               </div>
@@ -229,7 +229,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
                     className="group flex items-start gap-3 p-4 rounded-xl border border-gray-200 hover:border-amber-300 hover:bg-amber-50/50 transition-all">
                     <ArrowLeft className="w-5 h-5 text-gray-400 group-hover:text-amber-600 mt-0.5 shrink-0" />
                     <div className="min-w-0">
-                      <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Προηγούμενο</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">{tDetail('previous')}</p>
                       <p className="text-sm font-semibold text-gray-900 group-hover:text-amber-700 line-clamp-2">
                         {prevActivity.name[locale] || prevActivity.name.en}
                       </p>
@@ -241,7 +241,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
                     className="group flex items-start gap-3 p-4 rounded-xl border border-gray-200 hover:border-amber-300 hover:bg-amber-50/50 transition-all text-right md:flex-row-reverse">
                     <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-amber-600 mt-0.5 shrink-0" />
                     <div className="min-w-0">
-                      <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Επόμενο</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">{tDetail('next')}</p>
                       <p className="text-sm font-semibold text-gray-900 group-hover:text-amber-700 line-clamp-2">
                         {nextActivity.name[locale] || nextActivity.name.en}
                       </p>
@@ -293,7 +293,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
               <div>
                 <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide flex items-center gap-2 mb-3">
                   <Compass className="w-4 h-4 text-amber-600" />
-                  Δείτε επίσης
+                  {tDetail('seeAlso')}
                 </h3>
                 <div className="space-y-3">
                   {sidebarActivities.map((a) => (
@@ -315,7 +315,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
                 </div>
                 <Link href="/activities"
                   className="block text-center py-2.5 px-4 bg-amber-50 text-amber-700 rounded-xl text-sm font-medium hover:bg-amber-100 transition-colors mt-4">
-                  {t('viewAll') || 'Όλες οι δραστηριότητες'} →
+                  {tDetail('allActivities')} →
                 </Link>
               </div>
             )}

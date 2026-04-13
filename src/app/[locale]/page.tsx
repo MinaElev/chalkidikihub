@@ -117,6 +117,7 @@ export default async function HomePage({ params }: Props) {
 function HeroSection() {
   const t = useTranslations('hero');
   const tCommon = useTranslations('common');
+  const tHome = useTranslations('homepage');
   return (
     <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white overflow-hidden">
       <HeroBackground />
@@ -139,21 +140,21 @@ function HeroSection() {
             <Home className="w-8 h-8 text-primary-300" />
             <div>
               <div className="text-2xl font-bold">500+</div>
-              <div className="text-sm text-primary-200">Properties</div>
+              <div className="text-sm text-primary-200">{tHome('properties')}</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <Star className="w-8 h-8 text-primary-300" />
             <div>
               <div className="text-2xl font-bold">4.8</div>
-              <div className="text-sm text-primary-200">Average rating</div>
+              <div className="text-sm text-primary-200">{tHome('avgRating')}</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <MapPin className="w-8 h-8 text-primary-300" />
             <div>
               <div className="text-2xl font-bold">50+</div>
-              <div className="text-sm text-primary-200">Locations</div>
+              <div className="text-sm text-primary-200">{tHome('locations')}</div>
             </div>
           </div>
         </div>
@@ -169,6 +170,7 @@ function HeroSection() {
 // BlogSection moved to @/components/layout/HomeBlogSection (client component with DB fetch)
 
 function QRFeatureSection() {
+  const tHome = useTranslations('homepage');
   return (
     <section className="py-16 md:py-20 bg-gradient-to-r from-purple-50 to-indigo-50">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -183,28 +185,26 @@ function QRFeatureSection() {
           {/* Text */}
           <div className="text-center md:text-left">
             <span className="inline-flex px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
-              Digital Concierge
+              {tHome('digitalConcierge')}
             </span>
             <h2 className="text-3xl font-bold text-gray-900">
-              QR Guest Guide για το κατάλυμά σας
+              {tHome('qrGuideTitle')}
             </h2>
             <p className="mt-3 text-lg text-gray-600 leading-relaxed max-w-xl">
-              Δημιουργήστε <strong>δωρεάν</strong> ένα QR code που οι πελάτες σας σκανάρουν στο δωμάτιο.
-              Βλέπουν αμέσως παραλίες, εστιατόρια, δραστηριότητες και χρήσιμα τηλέφωνα
-              — όλα κοντά στο κατάλυμά σας, σε 6 γλώσσες.
+              {tHome('qrGuideDesc')}
             </p>
             <div className="mt-4 flex flex-wrap gap-3 justify-center md:justify-start text-sm text-gray-500">
               <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-gray-200">
-                🏖️ Παραλίες κοντά
+                {tHome('qrBeaches')}
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-gray-200">
-                🍽️ Εστιατόρια
+                {tHome('qrRestaurants')}
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-gray-200">
-                🏛️ Δραστηριότητες
+                {tHome('qrActivities')}
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-gray-200">
-                📞 Χρήσιμα τηλέφωνα
+                {tHome('qrPhones')}
               </span>
             </div>
             <Link
@@ -212,7 +212,7 @@ function QRFeatureSection() {
               className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all shadow-md"
             >
               <QrCode className="w-5 h-5" />
-              Δημιουργήστε το δικό σας QR
+              {tHome('createQR')}
             </Link>
           </div>
         </div>

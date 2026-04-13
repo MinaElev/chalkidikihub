@@ -26,6 +26,8 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
   const t = useTranslations('listings.details');
   const tCommon = useTranslations('common');
   const tNav = useTranslations('nav');
+  const tDetail = useTranslations('detail');
+  const tInquiry = useTranslations('inquiry');
 
   useEffect(() => {
     fetch(`/api/listings?slug=${slug}`)
@@ -133,7 +135,7 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
                 &euro;{listing.price_per_night}
                 <span className="text-lg font-normal text-gray-500">{tCommon('perNight')}</span>
               </div>
-              <p className="text-xs text-gray-400 mt-1">* Η τελική τιμή μπορεί να διαφέρει ανάλογα την εποχή</p>
+              <p className="text-xs text-gray-400 mt-1">{tDetail('priceNote')}</p>
             </div>
             <hr />
             {/* Booking buttons with tracking */}
@@ -193,18 +195,18 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
             <a href={bookingUrl} target="_blank" rel="noopener noreferrer"
               onClick={() => logEvent('user_action', 'info', 'Booking click', { listing_slug: slug, type: 'booking.com' })}
               className="px-6 py-2.5 bg-[#003580] text-white font-semibold rounded-xl text-sm">
-              Κράτηση
+              {tInquiry('booking')}
             </a>
           ) : contactPhone ? (
             <a href={`tel:${contactPhone}`}
               onClick={() => logEvent('user_action', 'info', 'Booking click', { listing_slug: slug, type: 'phone' })}
               className="px-6 py-2.5 bg-green-600 text-white font-semibold rounded-xl text-sm flex items-center gap-2">
-              <Phone className="w-4 h-4" /> Κλήση
+              <Phone className="w-4 h-4" /> {tInquiry('call')}
             </a>
           ) : (
             <a href={`mailto:${contactEmail || ''}`}
               className="px-6 py-2.5 bg-primary-600 text-white font-semibold rounded-xl text-sm">
-              Επικοινωνία
+              {tInquiry('contact')}
             </a>
           )}
         </div>
@@ -216,6 +218,7 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
 }
 
 function InquiryButton({ slug, title }: { slug: string; title: string }) {
+  const tInquiry = useTranslations('inquiry');
   const [open, setOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -243,22 +246,22 @@ function InquiryButton({ slug, title }: { slug: string; title: string }) {
       <button onClick={() => setOpen(true)}
         className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-xl transition-colors">
         <Calendar className="w-4 h-4" />
-        Ζητήστε Διαθεσιμότητα
+        {tInquiry('requestAvailability')}
       </button>
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setOpen(false)}>
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <h3 className="font-bold text-gray-900">Ζητήστε Διαθεσιμότητα</h3>
+              <h3 className="font-bold text-gray-900">{tInquiry('requestAvailability')}</h3>
               <button onClick={() => setOpen(false)} className="p-1 rounded-lg hover:bg-gray-100"><X className="w-5 h-5" /></button>
             </div>
 
             {success ? (
               <div className="p-6 text-center">
                 <MessageSquare className="w-12 h-12 text-green-500 mx-auto mb-3" />
-                <h4 className="text-lg font-bold text-gray-900">Το αίτημά σας στάλθηκε!</h4>
-                <p className="text-sm text-gray-500 mt-1">Ο ιδιοκτήτης θα επικοινωνήσει μαζί σας σύντομα.</p>
+                <h4 className="text-lg font-bold text-gray-900">{tInquiry('requestSent')}</h4>
+                <p className="text-sm text-gray-500 mt-1">{tInquiry('ownerWillContact')}</p>
                 <button onClick={() => setOpen(false)} className="mt-4 px-6 py-2 bg-primary-600 text-white rounded-lg">OK</button>
               </div>
             ) : (
@@ -268,48 +271,48 @@ function InquiryButton({ slug, title }: { slug: string; title: string }) {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Όνομα *</label>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">{tInquiry('name')}</label>
                     <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Email *</label>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">{tInquiry('email')}</label>
                     <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Τηλέφωνο</label>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">{tInquiry('phone')}</label>
                   <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Check-in</label>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">{tInquiry('checkIn')}</label>
                     <input type="date" value={form.checkin} onChange={(e) => setForm({ ...form, checkin: e.target.value })}
                       className="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Check-out</label>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">{tInquiry('checkOut')}</label>
                     <input type="date" value={form.checkout} onChange={(e) => setForm({ ...form, checkout: e.target.value })}
                       className="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Άτομα</label>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">{tInquiry('guests')}</label>
                     <input type="number" min="1" value={form.guests} onChange={(e) => setForm({ ...form, guests: e.target.value })}
                       className="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Μήνυμα</label>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">{tInquiry('message')}</label>
                   <textarea rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="π.χ. Θα ήθελα να μάθω αν είναι διαθέσιμο..."
+                    placeholder={tInquiry('messagePlaceholder')}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500" />
                 </div>
                 <button type="submit" disabled={sending}
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-xl disabled:opacity-50">
                   {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                  {sending ? 'Αποστολή...' : 'Αποστολή'}
+                  {sending ? tInquiry('sending') : tInquiry('send')}
                 </button>
               </form>
             )}

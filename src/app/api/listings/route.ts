@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
       .single();
 
     if (error || !data) {
-      return NextResponse.json(null);
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
     return NextResponse.json(transform(data as Record<string, unknown>), {
       headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' },

@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   // Single village by slug
   if (slug) {
     const { data } = await supabase.from('villages').select('*').eq('slug', slug).single();
-    if (!data) return NextResponse.json(null, { status: 404 });
+    if (!data) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
     const village = {
       id: data.id,

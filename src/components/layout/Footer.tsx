@@ -8,6 +8,7 @@ import { BrandIcon } from '@/components/ui/BrandLogo';
 export function Footer() {
   const t = useTranslations('footer');
   const tNav = useTranslations('nav');
+  const tAreas = useTranslations('areas');
   const locale = useLocale();
   const year = new Date().getFullYear();
 
@@ -100,10 +101,10 @@ export function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-3 text-sm">{tNav('areas')}</h3>
             <ul className="space-y-2">
-              <li><Link href="/areas/kassandra" className="text-sm text-gray-400 hover:text-white transition-colors">Κασσάνδρα</Link></li>
-              <li><Link href="/areas/sithonia" className="text-sm text-gray-400 hover:text-white transition-colors">Σιθωνία</Link></li>
-              <li><Link href="/areas/athos" className="text-sm text-gray-400 hover:text-white transition-colors">Άθως</Link></li>
-              <li><Link href="/areas/mainland" className="text-sm text-gray-400 hover:text-white transition-colors">{locale === 'el' ? 'Ενδοχώρα' : 'Mainland'}</Link></li>
+              <li><Link href="/areas/kassandra" className="text-sm text-gray-400 hover:text-white transition-colors">{tAreas('kassandra.name')}</Link></li>
+              <li><Link href="/areas/sithonia" className="text-sm text-gray-400 hover:text-white transition-colors">{tAreas('sithonia.name')}</Link></li>
+              <li><Link href="/areas/athos" className="text-sm text-gray-400 hover:text-white transition-colors">{tAreas('athos.name')}</Link></li>
+              <li><Link href="/areas/mainland" className="text-sm text-gray-400 hover:text-white transition-colors">{tAreas('mainlandHalkidiki.name')}</Link></li>
             </ul>
           </div>
 

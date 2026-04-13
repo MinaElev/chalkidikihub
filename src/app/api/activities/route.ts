@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
   if (slug) {
     const { data } = await supabase.from('activities').select('*, activity_reviews(*)').eq('slug', slug).single();
-    if (!data) return NextResponse.json(null);
+    if (!data) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(transformActivity(data), {
       headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
     });

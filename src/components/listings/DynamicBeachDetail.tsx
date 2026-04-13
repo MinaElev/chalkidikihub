@@ -24,7 +24,7 @@ import { ReviewForm } from '@/components/ui/ReviewForm';
 export function DynamicBeachDetail({ slug }: { slug: string }) {
   const locale = useLocale();
   const t = useTranslations('beaches');
-  const tRestaurants = useTranslations('restaurants');
+  const tDetail = useTranslations('detail');
   const [beach, setBeach] = useState<Beach | null>(null);
   const [allBeaches, setAllBeaches] = useState<Beach[]>([]);
   const [nearbyRestaurants, setNearbyRestaurants] = useState<Restaurant[]>([]);
@@ -70,7 +70,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
   if (loading) return <DetailSkeleton />;
   if (!beach) return (
     <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-      <p className="text-lg text-gray-500">Beach not found</p>
+      <p className="text-lg text-gray-500">{tDetail('notFound')}</p>
       <Link href="/beaches" className="mt-4 inline-flex text-primary-600 hover:underline">{t('title')}</Link>
     </div>
   );
@@ -151,7 +151,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
               <div className="my-6 p-5 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-100 rounded-2xl">
                 <div className="flex items-center gap-2 mb-3">
                   <Waves className="w-5 h-5 text-cyan-600" />
-                  <h3 className="text-sm font-bold text-cyan-800">Παραλίες κοντά σας</h3>
+                  <h3 className="text-sm font-bold text-cyan-800">{tDetail('nearbyBeaches')}</h3>
                 </div>
                 <div className="space-y-2">
                   {ctaBeaches.map((b) => (
@@ -196,7 +196,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
           {/* Map */}
           {beach.latitude && beach.longitude && beach.latitude !== 0 && (
             <div className="mt-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-3">Τοποθεσία</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-3">{tDetail('location')}</h2>
               <LocationMap latitude={beach.latitude} longitude={beach.longitude} name={name} />
             </div>
           )}
@@ -204,7 +204,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
           {/* Nearby restaurants */}
           {nearbyRestaurants.length > 0 && (
             <div className="mt-10">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">{tRestaurants('title')} κοντά</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">{tDetail('nearbyRestaurants')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {nearbyRestaurants.map((r) => <RestaurantCard key={r.id} restaurant={r} />)}
               </div>
@@ -214,7 +214,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
           {/* Nearby listings */}
           {nearbyListings.length > 0 && (
             <div className="mt-10">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Καταλύματα στην περιοχή</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">{tDetail('nearbyListings')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {nearbyListings.map((l) => <ListingCard key={l.id} listing={l} />)}
               </div>
@@ -232,7 +232,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
                     className="group flex items-start gap-3 p-4 rounded-xl border border-gray-200 hover:border-cyan-300 hover:bg-cyan-50/50 transition-all">
                     <ArrowLeft className="w-5 h-5 text-gray-400 group-hover:text-cyan-600 mt-0.5 shrink-0" />
                     <div className="min-w-0">
-                      <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Προηγούμενη</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">{tDetail('previous')}</p>
                       <p className="text-sm font-semibold text-gray-900 group-hover:text-cyan-700 line-clamp-2">
                         {prevBeach.name[locale] || prevBeach.name.en}
                       </p>
@@ -244,7 +244,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
                     className="group flex items-start gap-3 p-4 rounded-xl border border-gray-200 hover:border-cyan-300 hover:bg-cyan-50/50 transition-all text-right md:flex-row-reverse">
                     <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-cyan-600 mt-0.5 shrink-0" />
                     <div className="min-w-0">
-                      <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Επόμενη</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">{tDetail('next')}</p>
                       <p className="text-sm font-semibold text-gray-900 group-hover:text-cyan-700 line-clamp-2">
                         {nextBeach.name[locale] || nextBeach.name.en}
                       </p>
@@ -282,7 +282,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
               <div>
                 <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide flex items-center gap-2 mb-3">
                   <Waves className="w-4 h-4 text-cyan-600" />
-                  Δείτε επίσης
+                  {tDetail('seeAlso')}
                 </h3>
                 <div className="space-y-3">
                   {sidebarBeaches.map((b) => (
@@ -301,7 +301,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
                 </div>
                 <Link href="/beaches"
                   className="block text-center py-2.5 px-4 bg-cyan-50 text-cyan-700 rounded-xl text-sm font-medium hover:bg-cyan-100 transition-colors mt-4">
-                  Όλες οι παραλίες →
+                  {tDetail('allBeaches')}
                 </Link>
               </div>
             )}

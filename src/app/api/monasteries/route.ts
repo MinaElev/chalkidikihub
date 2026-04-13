@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
   if (slug) {
     const { data } = await supabase.from('monasteries').select('*').eq('slug', slug).single();
-    if (!data) return NextResponse.json(null, { status: 404 });
+    if (!data) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
     const monastery = {
       id: data.id, slug: data.slug, rank: data.rank, founded: data.founded, nation: data.nation,

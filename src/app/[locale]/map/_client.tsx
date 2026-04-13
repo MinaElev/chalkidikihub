@@ -17,15 +17,24 @@ interface MapItem {
 }
 
 const typeConfig = {
-  listing: { color: '#0284c7', emoji: '🏡', label: 'Καταλύματα' },
-  beach: { color: '#06b6d4', emoji: '🏖️', label: 'Παραλίες' },
-  restaurant: { color: '#dc2626', emoji: '🍽️', label: 'Εστιατόρια' },
-  activity: { color: '#d97706', emoji: '🏛️', label: 'Αξιοθέατα' },
-  charger: { color: '#16a34a', emoji: '⚡', label: 'Φορτιστές EV' },
+  listing: { color: '#0284c7', emoji: '🏡' },
+  beach: { color: '#06b6d4', emoji: '🏖️' },
+  restaurant: { color: '#dc2626', emoji: '🍽️' },
+  activity: { color: '#d97706', emoji: '🏛️' },
+  charger: { color: '#16a34a', emoji: '⚡' },
 };
 
 export default function MapClient() {
   const locale = useLocale();
+  const tMap = useTranslations('map');
+
+  const typeLabels: Record<string, string> = {
+    listing: tMap('listings'),
+    beach: tMap('beaches'),
+    restaurant: tMap('restaurants'),
+    activity: tMap('activities'),
+    charger: tMap('evChargers'),
+  };
   const mapRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapInstanceRef = useRef<any>(null);
@@ -174,7 +183,7 @@ export default function MapClient() {
               }`}
               style={isActive ? { borderColor: conf.color } : {}}>
               <Icon className="w-3.5 h-3.5" style={isActive ? { color: conf.color } : {}} />
-              {conf.label} ({count})
+              {typeLabels[type]} ({count})
             </button>
           );
         })}
@@ -187,14 +196,14 @@ export default function MapClient() {
           <div className="flex items-center gap-2 mb-2">
             <span className="text-lg">{typeConfig[selectedItem.type].emoji}</span>
             <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: typeConfig[selectedItem.type].color + '20', color: typeConfig[selectedItem.type].color }}>
-              {typeConfig[selectedItem.type].label}
+              {typeLabels[selectedItem.type]}
             </span>
           </div>
           <h3 className="font-semibold text-gray-900">{selectedItem.name}</h3>
           <p className="text-sm text-gray-500 mb-3">{selectedItem.subtitle}</p>
           <Link href={selectedItem.href} onClick={() => setSelectedItem(null)}
             className="inline-flex px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors">
-            Δες περισσότερα →
+            {tMap('viewMore')}
           </Link>
         </div>
       )}
