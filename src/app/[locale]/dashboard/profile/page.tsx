@@ -51,12 +51,12 @@ export default function ProfilePage() {
       <form onSubmit={handleSubmit} className="space-y-4 bg-white border border-gray-200 rounded-2xl p-6 max-w-lg">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-          <input type="text" value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })}
+          <input type="text" value={form.full_name} onChange={(e) => setForm(prev => ({ ...prev, full_name: e.target.value }))}
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-          <input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
+          <input type="tel" value={form.phone} onChange={(e) => setForm(prev => ({ ...prev, phone: e.target.value }))}
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" placeholder="+30 69..." />
         </div>
         <button type="submit" disabled={saving}

@@ -69,25 +69,27 @@ export async function getContentMeta(
   const pathSegment = tableToPath[table] || table;
   try {
     const supabase = createApiClient();
-    const titleField = table === 'blog_articles' ? 'title' : 'name';
 
-    const { data } = await supabase
+    // Use select('*') to avoid issues with missing columns across different tables
+    // (e.g. listings uses title_*, beaches uses name_*, some tables may lack meta_* columns)
+    const { data, error } = await supabase
       .from(table)
-      .select(`
-        ${titleField}_${locale}, ${titleField}_el, ${titleField}_en,
-        meta_title_${locale}, meta_title_el, meta_title_en,
-        meta_description_${locale}, meta_description_el, meta_description_en,
-        image_url, image_alt
-      `)
+      .select('*')
       .eq('slug', slug)
       .single();
 
-    if (!data) return getDefaultMeta(fallbackTitle, fallbackDescription, locale);
+    if (error || !data) return getDefaultMeta(fallbackTitle, fallbackDescription, locale, pathSegment, slug);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const row = data as any;
-    const title = row[`meta_title_${locale}`] || row.meta_title_el || row.meta_title_en || row[`${titleField}_${locale}`] || row[`${titleField}_el`] || fallbackTitle;
-    const description = row[`meta_description_${locale}`] || row.meta_description_el || row.meta_description_en || fallbackDescription;
+
+    // Determine which field holds the display name (title for listings/sales/blog, name for others)
+    const titleField = (table === 'blog_articles' || table === 'listings' || table === 'sales') ? 'title' : 'name';
+
+    const title = row[`meta_title_${locale}`] || row.meta_title_el || row.meta_title_en
+      || row[`${titleField}_${locale}`] || row[`${titleField}_el`] || row[`${titleField}_en`] || fallbackTitle;
+    const description = row[`meta_description_${locale}`] || row.meta_description_el || row.meta_description_en
+      || row[`description_${locale}`] || row.description_el || row.description_en || fallbackDescription;
     const imageAlt = row.image_alt || title;
 
     // Map path segments to OG image types
@@ -122,17 +124,18 @@ export async function getContentMeta(
       alternates: {
         canonical: `${SITE_URL}/${locale}/${pathSegment}/${slug}`,
         languages: Object.fromEntries(
-          ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, `${SITE_URL}/${l}/${pathSegment}/${slug}`])
+          LOCALES.map(l => [l, `${SITE_URL}/${l}/${pathSegment}/${slug}`])
         ),
       },
     };
   } catch {
-    return getDefaultMeta(fallbackTitle, fallbackDescription, locale);
+    return getDefaultMeta(fallbackTitle, fallbackDescription, locale, pathSegment, slug);
   }
 }
 
-function getDefaultMeta(title: string, description: string, locale: string): Metadata {
+function getDefaultMeta(title: string, description: string, locale: string, pathSegment?: string, slug?: string): Metadata {
   const image = ogImageUrl(title);
+  const path = pathSegment && slug ? `${pathSegment}/${slug}` : pathSegment || '';
   return {
     title,
     description,
@@ -150,6 +153,12 @@ function getDefaultMeta(title: string, description: string, locale: string): Met
       description,
       images: [image],
     },
+    ...(path ? {
+      alternates: {
+        canonical: `${SITE_URL}/${locale}/${path}`,
+        languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/${path}`])),
+      },
+    } : {}),
   };
 }
 

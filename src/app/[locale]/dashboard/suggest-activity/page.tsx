@@ -115,7 +115,7 @@ export default function SuggestActivityPage() {
         {/* Όνομα */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Όνομα δραστηριότητας / αξιοθέατου *</label>
-          <input required value={form.title_el} onChange={(e) => setForm({ ...form, title_el: e.target.value })}
+          <input required value={form.title_el} onChange={(e) => setForm(prev => ({ ...prev, title_el: e.target.value }))}
             placeholder="π.χ. Κρουαζιέρα στο Άγιο Όρος, Σπήλαιο Πετραλώνων"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
           <p className="text-xs text-gray-400 mt-1">Το πλήρες όνομα της δραστηριότητας ή του αξιοθέατου.</p>
@@ -124,7 +124,7 @@ export default function SuggestActivityPage() {
         {/* Περιγραφή */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Περιγραφή *</label>
-          <textarea required rows={4} value={form.description_el} onChange={(e) => setForm({ ...form, description_el: e.target.value })}
+          <textarea required rows={4} value={form.description_el} onChange={(e) => setForm(prev => ({ ...prev, description_el: e.target.value }))}
             placeholder="Περιγράψτε τη δραστηριότητα: τι περιλαμβάνει, πόσο διαρκεί, για ποιους είναι κατάλληλη. Π.χ. Ημερήσια κρουαζιέρα με παραδοσιακό καΐκι..."
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
           <p className="text-xs text-gray-400 mt-1">Αναφέρετε τι κάνει κάποιος, πόσο κοστίζει, αν χρειάζεται εξοπλισμό κλπ.</p>
@@ -134,7 +134,7 @@ export default function SuggestActivityPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Περιοχή *</label>
-            <select required value={form.area} onChange={(e) => setForm({ ...form, area: e.target.value as Area })}
+            <select required value={form.area} onChange={(e) => setForm(prev => ({ ...prev, area: e.target.value as Area }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
               {AREA_SLUGS.map((a) => <option key={a} value={a}>{areaLabels[a]}</option>)}
             </select>
@@ -142,7 +142,7 @@ export default function SuggestActivityPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Κατηγορία *</label>
-            <select required value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value as ActivityCategory })}
+            <select required value={form.category} onChange={(e) => setForm(prev => ({ ...prev, category: e.target.value as ActivityCategory }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
               {ALL_ACTIVITY_CATEGORIES.map((c) => <option key={c} value={c}>{tCat(c)}</option>)}
             </select>
@@ -153,7 +153,7 @@ export default function SuggestActivityPage() {
         {/* Τοποθεσία */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Τοποθεσία / Χωριό</label>
-          <input value={form.location_name} onChange={(e) => setForm({ ...form, location_name: e.target.value })}
+          <input value={form.location_name} onChange={(e) => setForm(prev => ({ ...prev, location_name: e.target.value }))}
             placeholder="π.χ. Ουρανούπολη, Πολύγυρος, Βουρβουρού"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
           <p className="text-xs text-gray-400 mt-1">Πού βρίσκεται ή πού ξεκινάει;</p>
@@ -165,7 +165,7 @@ export default function SuggestActivityPage() {
           <p className="text-xs text-gray-400 mb-2">Κάνε κλικ ή ψάξε τη διεύθυνση.</p>
           <LocationPicker
             latitude={form.latitude} longitude={form.longitude}
-            onLocationChange={(lat, lng) => setForm({ ...form, latitude: lat, longitude: lng })}
+            onLocationChange={(lat, lng) => setForm(prev => ({ ...prev, latitude: lat, longitude: lng }))}
           />
         </div>
 
@@ -173,14 +173,14 @@ export default function SuggestActivityPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Κόστος</label>
-            <input value={form.price_range} onChange={(e) => setForm({ ...form, price_range: e.target.value })}
+            <input value={form.price_range} onChange={(e) => setForm(prev => ({ ...prev, price_range: e.target.value }))}
               placeholder="π.χ. 10-30€, Δωρεάν, Από 50€/άτομο"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
             <p className="text-xs text-gray-400 mt-1">Κατά προσέγγιση κόστος ανά άτομο.</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Διάρκεια</label>
-            <input value={form.duration} onChange={(e) => setForm({ ...form, duration: e.target.value })}
+            <input value={form.duration} onChange={(e) => setForm(prev => ({ ...prev, duration: e.target.value }))}
               placeholder="π.χ. 2-3 ώρες, Ολοήμερο, 30 λεπτά"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
             <p className="text-xs text-gray-400 mt-1">Πόσο διαρκεί η δραστηριότητα;</p>

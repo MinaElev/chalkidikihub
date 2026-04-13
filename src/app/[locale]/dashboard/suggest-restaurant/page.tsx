@@ -120,7 +120,7 @@ export default function SuggestRestaurantPage() {
         {/* Όνομα */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Όνομα μαγαζιού *</label>
-          <input required value={form.title_el} onChange={(e) => setForm({ ...form, title_el: e.target.value })}
+          <input required value={form.title_el} onChange={(e) => setForm(prev => ({ ...prev, title_el: e.target.value }))}
             placeholder="π.χ. Ταβέρνα ο Νίκος, Blue Lagoon Beach Bar, Café Frappé"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
           <p className="text-xs text-gray-400 mt-1">Το πλήρες όνομα — εστιατόριο, μπαρ, καφετέρια, beach bar κλπ.</p>
@@ -129,7 +129,7 @@ export default function SuggestRestaurantPage() {
         {/* Περιγραφή */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Περιγραφή *</label>
-          <textarea required rows={4} value={form.description_el} onChange={(e) => setForm({ ...form, description_el: e.target.value })}
+          <textarea required rows={4} value={form.description_el} onChange={(e) => setForm(prev => ({ ...prev, description_el: e.target.value }))}
             placeholder="Περιγράψτε το μαγαζί: τι σερβίρει, ποια είναι η ατμόσφαιρα, τι το κάνει ξεχωριστό. Π.χ. Παραδοσιακή ταβέρνα με θέα θάλασσα... ή Beach bar με cocktails και DJ..."
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
           <p className="text-xs text-gray-400 mt-1">Όσο πιο αναλυτικά γράψετε, τόσο καλύτερα. Αναφέρετε ειδικότητες, ατμόσφαιρα, θέα.</p>
@@ -139,7 +139,7 @@ export default function SuggestRestaurantPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Περιοχή *</label>
-            <select required value={form.area} onChange={(e) => setForm({ ...form, area: e.target.value as Area })}
+            <select required value={form.area} onChange={(e) => setForm(prev => ({ ...prev, area: e.target.value as Area }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
               {AREA_SLUGS.map((a) => <option key={a} value={a}>{areaLabels[a]}</option>)}
             </select>
@@ -147,7 +147,7 @@ export default function SuggestRestaurantPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Τύπος *</label>
-            <select required value={form.cuisine} onChange={(e) => setForm({ ...form, cuisine: e.target.value })}
+            <select required value={form.cuisine} onChange={(e) => setForm(prev => ({ ...prev, cuisine: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
               {cuisineTypes.map((c) => <option key={c.slug} value={c.slug}>{c.name_el || c.slug}</option>)}
             </select>
@@ -158,7 +158,7 @@ export default function SuggestRestaurantPage() {
         {/* Τοποθεσία */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Τοποθεσία / Χωριό</label>
-          <input value={form.location_name} onChange={(e) => setForm({ ...form, location_name: e.target.value })}
+          <input value={form.location_name} onChange={(e) => setForm(prev => ({ ...prev, location_name: e.target.value }))}
             placeholder="π.χ. Χανιώτη, Νικήτη, Σάρτη"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
           <p className="text-xs text-gray-400 mt-1">Το χωριό ή η περιοχή που βρίσκεται το μαγαζί.</p>
@@ -170,7 +170,7 @@ export default function SuggestRestaurantPage() {
           <p className="text-xs text-gray-400 mb-2">Κάνε κλικ στο χάρτη ή ψάξε τη διεύθυνση για να βάλεις pin.</p>
           <LocationPicker
             latitude={form.latitude} longitude={form.longitude}
-            onLocationChange={(lat, lng) => setForm({ ...form, latitude: lat, longitude: lng })}
+            onLocationChange={(lat, lng) => setForm(prev => ({ ...prev, latitude: lat, longitude: lng }))}
           />
         </div>
 
@@ -178,14 +178,14 @@ export default function SuggestRestaurantPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Τηλέφωνο</label>
-            <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            <input value={form.phone} onChange={(e) => setForm(prev => ({ ...prev, phone: e.target.value }))}
               placeholder="π.χ. 23740 12345 ή 6972 123456"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
             <p className="text-xs text-gray-400 mt-1">Προαιρετικό — αν το γνωρίζετε.</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Ωράριο λειτουργίας</label>
-            <input value={form.hours} onChange={(e) => setForm({ ...form, hours: e.target.value })}
+            <input value={form.hours} onChange={(e) => setForm(prev => ({ ...prev, hours: e.target.value }))}
               placeholder="π.χ. 12:00-00:00, Καθημερινά"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
             <p className="text-xs text-gray-400 mt-1">Κατά προσέγγιση ωράριο.</p>

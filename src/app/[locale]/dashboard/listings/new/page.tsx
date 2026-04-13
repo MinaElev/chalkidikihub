@@ -207,7 +207,7 @@ export default function NewListingPage() {
         {/* Title */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Τίτλος καταλύματος *</label>
-          <input type="text" required value={form.title_el} onChange={(e) => setForm({ ...form, title_el: e.target.value })}
+          <input type="text" required value={form.title_el} onChange={(e) => setForm(prev => ({ ...prev, title_el: e.target.value }))}
             placeholder="π.χ. Στούντιο κοντά στη θάλασσα στα Χανιώτη"
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
           <p className="text-xs text-gray-400 mt-1">Η μετάφραση στις άλλες γλώσσες γίνεται αυτόματα</p>
@@ -216,7 +216,7 @@ export default function NewListingPage() {
         {/* Description */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Περιγραφή</label>
-          <textarea rows={5} value={form.description_el} onChange={(e) => setForm({ ...form, description_el: e.target.value })}
+          <textarea rows={5} value={form.description_el} onChange={(e) => setForm(prev => ({ ...prev, description_el: e.target.value }))}
             placeholder="Περιγράψτε το κατάλυμά σας, τι προσφέρει, πόσο κοντά είναι στη θάλασσα, κλπ."
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
           <p className="text-xs text-gray-400 mt-1">Η μετάφραση στις άλλες γλώσσες γίνεται αυτόματα</p>
@@ -226,14 +226,14 @@ export default function NewListingPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Area *</label>
-            <select value={form.area} onChange={(e) => setForm({ ...form, area: e.target.value as Area })}
+            <select value={form.area} onChange={(e) => setForm(prev => ({ ...prev, area: e.target.value as Area }))}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500">
               {AREA_SLUGS.map((a) => <option key={a} value={a}>{areaLabels[a]}</option>)}
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Location Name *</label>
-            <input type="text" required value={form.location_name} onChange={(e) => setForm({ ...form, location_name: e.target.value })}
+            <input type="text" required value={form.location_name} onChange={(e) => setForm(prev => ({ ...prev, location_name: e.target.value }))}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500"
               placeholder="e.g. Hanioti, Kassandra" />
           </div>
@@ -243,7 +243,7 @@ export default function NewListingPage() {
         <LocationPicker
           latitude={form.latitude}
           longitude={form.longitude}
-          onLocationChange={(lat, lng) => setForm({ ...form, latitude: lat, longitude: lng })}
+          onLocationChange={(lat, lng) => setForm(prev => ({ ...prev, latitude: lat, longitude: lng }))}
         />
 
         {/* Numbers */}
@@ -251,25 +251,25 @@ export default function NewListingPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Τιμή από (EUR/βράδυ) *</label>
             <input type="number" min={1} required value={form.price_per_night}
-              onChange={(e) => setForm({ ...form, price_per_night: Number(e.target.value) })}
+              onChange={(e) => setForm(prev => ({ ...prev, price_per_night: Number(e.target.value) }))}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Max Guests *</label>
             <input type="number" min={1} required value={form.guests_max}
-              onChange={(e) => setForm({ ...form, guests_max: Number(e.target.value) })}
+              onChange={(e) => setForm(prev => ({ ...prev, guests_max: Number(e.target.value) }))}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Bedrooms</label>
             <input type="number" min={0} value={form.bedrooms}
-              onChange={(e) => setForm({ ...form, bedrooms: Number(e.target.value) })}
+              onChange={(e) => setForm(prev => ({ ...prev, bedrooms: Number(e.target.value) }))}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Bathrooms</label>
             <input type="number" min={0} value={form.bathrooms}
-              onChange={(e) => setForm({ ...form, bathrooms: Number(e.target.value) })}
+              onChange={(e) => setForm(prev => ({ ...prev, bathrooms: Number(e.target.value) }))}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
           </div>
         </div>
@@ -298,13 +298,13 @@ export default function NewListingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <span className="text-sm font-medium text-gray-600">Τηλέφωνο</span>
-              <input type="tel" value={form.contact_phone} onChange={(e) => setForm({ ...form, contact_phone: e.target.value })}
+              <input type="tel" value={form.contact_phone} onChange={(e) => setForm(prev => ({ ...prev, contact_phone: e.target.value }))}
                 placeholder="+30 69..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 text-sm mt-1" />
             </div>
             <div>
               <span className="text-sm font-medium text-gray-600">Email</span>
-              <input type="email" value={form.contact_email} onChange={(e) => setForm({ ...form, contact_email: e.target.value })}
+              <input type="email" value={form.contact_email} onChange={(e) => setForm(prev => ({ ...prev, contact_email: e.target.value }))}
                 placeholder="info@example.com"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 text-sm mt-1" />
             </div>
@@ -315,7 +315,7 @@ export default function NewListingPage() {
         {/* Website */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Website καταλύματος</label>
-          <input type="url" value={form.website_url} onChange={(e) => setForm({ ...form, website_url: e.target.value })}
+          <input type="url" value={form.website_url} onChange={(e) => setForm(prev => ({ ...prev, website_url: e.target.value }))}
             placeholder="https://www.myhotel.gr"
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 text-sm" />
           <p className="text-xs text-gray-400 mt-1">Προαιρετικά - η ιστοσελίδα του καταλύματος</p>
@@ -329,7 +329,7 @@ export default function NewListingPage() {
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-sm font-medium text-gray-600">Booking.com</span>
               </div>
-              <input type="url" value={form.booking_url} onChange={(e) => setForm({ ...form, booking_url: e.target.value })}
+              <input type="url" value={form.booking_url} onChange={(e) => setForm(prev => ({ ...prev, booking_url: e.target.value }))}
                 placeholder="https://www.booking.com/hotel/gr/..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 text-sm" />
             </div>
@@ -337,7 +337,7 @@ export default function NewListingPage() {
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-sm font-medium text-gray-600">Airbnb</span>
               </div>
-              <input type="url" value={form.airbnb_url} onChange={(e) => setForm({ ...form, airbnb_url: e.target.value })}
+              <input type="url" value={form.airbnb_url} onChange={(e) => setForm(prev => ({ ...prev, airbnb_url: e.target.value }))}
                 placeholder="https://www.airbnb.com/rooms/..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 text-sm" />
             </div>
@@ -371,7 +371,7 @@ export default function NewListingPage() {
         <div className="flex items-center justify-between pt-4 border-t border-gray-200">
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" checked={form.status === 'published'}
-              onChange={(e) => setForm({ ...form, status: e.target.checked ? 'published' : 'draft' })}
+              onChange={(e) => setForm(prev => ({ ...prev, status: e.target.checked ? 'published' : 'draft' }))}
               className="rounded text-primary-600 focus:ring-primary-500" />
             Publish immediately
           </label>

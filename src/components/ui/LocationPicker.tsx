@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MapPin, Search } from 'lucide-react';
 
 interface LocationPickerProps {
@@ -17,6 +17,14 @@ export function LocationPicker({ latitude, longitude, onLocationChange }: Locati
   const markerRef = useRef<any>(null);
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
+
+  // Keep a stable ref to the latest callback so Leaflet events never go stale
+  const onLocationChangeRef = useRef(onLocationChange);
+  useEffect(() => { onLocationChangeRef.current = onLocationChange; }, [onLocationChange]);
+
+  const fireChange = useCallback((lat: number, lng: number) => {
+    onLocationChangeRef.current(lat, lng);
+  }, []);
 
   const defaultLat = latitude || 40.1;
   const defaultLng = longitude || 23.6;
@@ -52,13 +60,13 @@ export function LocationPicker({ latitude, longitude, onLocationChange }: Locati
 
         marker.on('dragend', () => {
           const pos = marker.getLatLng();
-          onLocationChange(parseFloat(pos.lat.toFixed(6)), parseFloat(pos.lng.toFixed(6)));
+          fireChange(parseFloat(pos.lat.toFixed(6)), parseFloat(pos.lng.toFixed(6)));
         });
 
         // Click on map to move marker
         map.on('click', (e: L.LeafletMouseEvent) => {
           marker.setLatLng(e.latlng);
-          onLocationChange(parseFloat(e.latlng.lat.toFixed(6)), parseFloat(e.latlng.lng.toFixed(6)));
+          fireChange(parseFloat(e.latlng.lat.toFixed(6)), parseFloat(e.latlng.lng.toFixed(6)));
         });
       }
     });

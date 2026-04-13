@@ -81,8 +81,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description: desc,
-    openGraph: { title, description: desc, type: 'website', locale, siteName: 'Chalkidiki Hub' },
-    twitter: { card: 'summary', title, description: desc },
+    openGraph: { title, description: desc, type: 'website', locale, siteName: 'Chalkidiki Hub', images: [{ url: `${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=listing`, width: 1200, height: 630, alt: title }] },
+    twitter: { card: 'summary_large_image', title, description: desc, images: [`${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=listing`] },
     alternates: {
       canonical: `${SITE_URL}/${locale}/listings/type/${type}`,
       languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/listings/type/${type}`])),

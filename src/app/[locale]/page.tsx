@@ -53,12 +53,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       locale,
       siteName: 'Chalkidiki Hub',
-      images: [{ url: `${SITE_URL}/icons/icon-512.png`, alt: 'Chalkidiki Hub', width: 512, height: 512 }],
+      images: [{ url: `${SITE_URL}/api/og?title=${encodeURIComponent(titles[locale] || titles.en)}&type=home`, alt: 'Chalkidiki Hub', width: 1200, height: 630 }],
     },
     twitter: {
-      card: 'summary',
-      title: t.siteName,
+      card: 'summary_large_image',
+      title: titles[locale] || titles.en,
       description: desc,
+      images: [`${SITE_URL}/api/og?title=${encodeURIComponent(titles[locale] || titles.en)}&type=home`],
     },
     alternates: {
       canonical: `${SITE_URL}/${locale}`,

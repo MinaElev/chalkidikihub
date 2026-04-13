@@ -101,7 +101,7 @@ export default function SuggestBlogPage() {
         {/* Τίτλος */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Τίτλος άρθρου *</label>
-          <input required value={form.title_el} onChange={(e) => setForm({ ...form, title_el: e.target.value })}
+          <input required value={form.title_el} onChange={(e) => setForm(prev => ({ ...prev, title_el: e.target.value }))}
             placeholder="π.χ. 10 Κρυμμένες Παραλίες στη Σιθωνία που Πρέπει να Ανακαλύψεις"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
           <p className="text-xs text-gray-400 mt-1">Ένας ελκυστικός τίτλος που τραβάει την προσοχή.</p>
@@ -111,7 +111,7 @@ export default function SuggestBlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Κατηγορία *</label>
-            <select required value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
+            <select required value={form.category} onChange={(e) => setForm(prev => ({ ...prev, category: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
               {BLOG_CATEGORIES.map((c) => <option key={c} value={c}>{tCat(c)}</option>)}
             </select>
@@ -119,7 +119,7 @@ export default function SuggestBlogPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Ετικέτες (tags)</label>
-            <input value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })}
+            <input value={form.tags} onChange={(e) => setForm(prev => ({ ...prev, tags: e.target.value }))}
               placeholder="π.χ. παραλίες, σιθωνία, οικογένεια, tips"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
             <p className="text-xs text-gray-400 mt-1">Λέξεις-κλειδιά χωρισμένες με κόμμα.</p>
@@ -129,7 +129,7 @@ export default function SuggestBlogPage() {
         {/* Περιεχόμενο */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Κείμενο άρθρου *</label>
-          <textarea required rows={12} value={form.content_el} onChange={(e) => setForm({ ...form, content_el: e.target.value })}
+          <textarea required rows={12} value={form.content_el} onChange={(e) => setForm(prev => ({ ...prev, content_el: e.target.value }))}
             placeholder="Γράψτε το άρθρο σας εδώ...
 
 Μπορείτε να χρησιμοποιήσετε:
