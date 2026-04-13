@@ -22,7 +22,7 @@ export default async function ListingDetailPage({ params }: Props) {
   setRequestLocale(locale);
 
   const supabase = createApiClient();
-  const { data } = await supabase.from('listings').select('id').eq('slug', slug).eq('status', 'active').single();
+  const { data } = await supabase.from('listings').select('id').eq('slug', slug).eq('status', 'published').single();
   if (!data) notFound();
 
   // Always use DynamicListingDetail to fetch live content from DB
