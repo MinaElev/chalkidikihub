@@ -5,7 +5,7 @@ import { useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 
 interface LinkableItem {
-  type: 'beach' | 'restaurant' | 'activity' | 'area' | 'blog' | 'listing';
+  type: 'beach' | 'restaurant' | 'activity' | 'area' | 'blog' | 'listing' | 'village';
   slug: string;
   name: string;
   href: string;
@@ -21,7 +21,7 @@ export function AutoLinkedContent({ content, className }: { content: string; cla
       .then(r => r.json())
       .then((data: Array<{ type: string; slug: string; name_el: string; name_en: string }>) => {
         if (!Array.isArray(data)) return;
-        const pathMap: Record<string, string> = { beach: 'beaches', restaurant: 'restaurants', activity: 'activities', blog: 'blog', area: 'areas' };
+        const pathMap: Record<string, string> = { beach: 'beaches', restaurant: 'restaurants', activity: 'activities', blog: 'blog', area: 'areas', village: 'places' };
         const items: LinkableItem[] = data
           .map(item => {
             const name = locale === 'el' ? (item.name_el || item.name_en) : (item.name_en || item.name_el);
