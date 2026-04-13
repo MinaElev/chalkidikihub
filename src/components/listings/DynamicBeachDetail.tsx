@@ -20,6 +20,7 @@ import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 import { ReviewForm } from '@/components/ui/ReviewForm';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 
 export function DynamicBeachDetail({ slug }: { slug: string }) {
@@ -109,9 +110,10 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <JsonLd data={generateBeachLD(beach as unknown as Record<string, unknown>, locale)} />
-      <Link href="/beaches" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6">
-        <ArrowLeft className="w-4 h-4" />{t('title')}
-      </Link>
+      <Breadcrumbs items={[
+        { label: t('title') || 'Beaches', href: '/beaches' },
+        { label: name }
+      ]} />
 
       {/* Hero image */}
       {beach.image_url && (

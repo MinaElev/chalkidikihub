@@ -14,6 +14,7 @@ import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 import { CommentSection } from './CommentSection';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 
 export function DynamicArticle({ slug }: { slug: string }) {
@@ -99,9 +100,10 @@ export function DynamicArticle({ slug }: { slug: string }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <JsonLd data={generateArticleLD(article as unknown as Record<string, unknown>, locale)} />
-      <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary-600 mb-6">
-        <ArrowLeft className="w-4 h-4" />{t('backToBlog')}
-      </Link>
+      <Breadcrumbs items={[
+        { label: t('backToBlog') || 'Blog', href: '/blog' },
+        { label: title }
+      ]} />
 
       <div className="flex flex-col lg:flex-row gap-10">
         {/* Main content */}

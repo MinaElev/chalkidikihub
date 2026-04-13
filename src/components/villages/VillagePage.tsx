@@ -215,13 +215,21 @@ export function VillagePage({ slug }: { slug: string }) {
           '@context': 'https://schema.org',
           '@type': 'Place',
           name: name,
-          description: description,
-          geo: village.latitude ? {
-            '@type': 'GeoCoordinates',
-            latitude: village.latitude,
-            longitude: village.longitude,
-          } : undefined,
-          image: village.image_url || undefined,
+          description: description.includes('<') ? description.replace(/<[^>]*>/g, '') : description,
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: village.name.en || village.name.el,
+            addressRegion: 'Halkidiki',
+            addressCountry: 'GR',
+          },
+          ...(village.latitude && village.longitude ? {
+            geo: {
+              '@type': 'GeoCoordinates',
+              latitude: village.latitude,
+              longitude: village.longitude,
+            },
+          } : {}),
+          ...(village.image_url ? { image: village.image_url } : {}),
           containedInPlace: {
             '@type': 'AdministrativeArea',
             name: `${areaName}, Halkidiki, Greece`,

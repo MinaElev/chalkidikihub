@@ -1,4 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 import { VillagePage } from '@/components/villages/VillagePage';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
 import type { Metadata } from 'next';
@@ -46,5 +47,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function VillageDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
+
+  const supabase = createApiClient();
+  const { data } = await supabase.from('villages').select('id').eq('slug', slug).single();
+  if (!data) notFound();
+
   return <VillagePage slug={slug} />;
 }
