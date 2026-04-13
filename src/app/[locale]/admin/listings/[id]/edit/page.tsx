@@ -410,13 +410,12 @@ export default function AdminEditListingPage() {
               const files = e.target.files;
               if (!files) return;
               const supabase = createClient();
+              setError('');
 
-              // Use owner_id for the storage path (admin may not be the owner)
-              const uploadOwnerId = ownerInfo.id || 'admin';
-
+              // Use a flat path to avoid RLS folder ownership issues
               for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                const filePath = `${uploadOwnerId}/${id}/${Date.now()}-${i}.webp`;
+                const filePath = `listings/${id}/${Date.now()}-${i}.webp`;
 
                 // Compress
                 let uploadBlob: Blob = file;
@@ -426,17 +425,23 @@ export default function AdminEditListingPage() {
                   uploadBlob = blob;
                 } catch {}
 
-                const { error } = await supabase.storage.from('listing-images').upload(filePath, uploadBlob, { contentType: 'image/webp', upsert: true });
-                if (!error) {
-                  const { data: { publicUrl } } = supabase.storage.from('listing-images').getPublicUrl(filePath);
-                  const { data: newImg } = await supabase.from('listing_images').insert({
-                    listing_id: id,
-                    image_url: publicUrl,
-                    sort_order: images.length + i,
-                    is_cover: images.length === 0 && i === 0,
-                  }).select().single();
-                  if (newImg) setImages(prev => [...prev, newImg as typeof prev[0]]);
+                const { error: uploadErr } = await supabase.storage.from('listing-images').upload(filePath, uploadBlob, { contentType: 'image/webp', upsert: true });
+                if (uploadErr) {
+                  setError(`Upload failed: ${uploadErr.message}`);
+                  continue;
                 }
+                const { data: { publicUrl } } = supabase.storage.from('listing-images').getPublicUrl(filePath);
+                const { data: newImg, error: insertErr } = await supabase.from('listing_images').insert({
+                  listing_id: id,
+                  image_url: publicUrl,
+                  sort_order: images.length + i,
+                  is_cover: images.length === 0 && i === 0,
+                }).select().single();
+                if (insertErr) {
+                  setError(`DB insert failed: ${insertErr.message}`);
+                  continue;
+                }
+                if (newImg) setImages(prev => [...prev, newImg as typeof prev[0]]);
               }
             }} />
           </label>
