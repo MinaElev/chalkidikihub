@@ -20,6 +20,7 @@ import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 import { ReviewForm } from '@/components/ui/ReviewForm';
+import Image from 'next/image';
 
 export function DynamicBeachDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -115,7 +116,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
       {/* Hero image */}
       {beach.image_url && (
         <div className="relative aspect-[21/9] bg-gray-200 rounded-2xl overflow-hidden mb-8">
-          <img src={beach.image_url} alt={name} className="w-full h-full object-cover" loading="lazy" />
+          <Image src={beach.image_url} alt={name} fill className="object-cover" sizes="100vw" priority />
           <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl flex items-center gap-2">
             <Star className="w-5 h-5 text-amber-500 fill-amber-500" />
             <span className="text-lg font-bold text-gray-900">{beach.rating.toFixed(1)}</span>
@@ -157,7 +158,7 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
                   {ctaBeaches.map((b) => (
                     <Link key={b.slug} href={`/beaches/${b.slug}`}
                       className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
-                      {b.image_url && <img src={b.image_url} alt={b.name[locale] || b.name.en} className="w-14 h-14 rounded-lg object-cover shrink-0" />}
+                      {b.image_url && <Image src={b.image_url} alt={b.name[locale] || b.name.en} width={56} height={56} className="rounded-lg object-cover shrink-0" sizes="56px" />}
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-gray-900 group-hover:text-cyan-700 truncate">
                           {b.name[locale] || b.name.en}
@@ -288,8 +289,8 @@ export function DynamicBeachDetail({ slug }: { slug: string }) {
                   {sidebarBeaches.map((b) => (
                     <Link key={b.slug} href={`/beaches/${b.slug}`} className="block group">
                       {b.image_url && (
-                        <div className="aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
-                          <img src={b.image_url} alt={b.name[locale] || b.name.en} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                        <div className="relative aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
+                          <Image src={b.image_url} alt={b.name[locale] || b.name.en} fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                         </div>
                       )}
                       <h4 className="text-sm font-semibold text-gray-900 group-hover:text-cyan-700 transition-colors line-clamp-2 leading-snug">

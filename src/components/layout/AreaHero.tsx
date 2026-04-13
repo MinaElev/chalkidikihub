@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useLocale } from 'next-intl';
 import { AREAS } from '@/lib/constants';
 import { AreaInfo } from '@/types';
@@ -25,8 +26,9 @@ export function AreaHero({ slug }: { slug: string }) {
   return (
     <div className="relative overflow-hidden rounded-2xl aspect-[21/9] bg-gray-300 mb-8">
       {area.image_url && (
-        <img src={area.image_url} alt={area.name[locale] || area.name.el || ''} loading="eager"
-          className="absolute inset-0 w-full h-full object-cover" />
+        <Image src={area.image_url} alt={area.name[locale] || area.name.el || ''} fill priority
+          sizes="100vw"
+          className="object-cover" />
       )}
       <div className="absolute inset-0 bg-primary-900/20" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10" />

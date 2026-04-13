@@ -6,6 +6,7 @@ import { ChevronRight, ChevronLeft, MapPin, Calendar, Flag, Star } from 'lucide-
 import { MONASTERIES, getMonasteryBySlug, type Monastery } from '../../monastery-data';
 import { tr } from '../../content';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import Image from 'next/image';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -102,7 +103,7 @@ export default async function MonasteryDetailPage({ params }: Props) {
       {/* Hero */}
       <div className="relative bg-gradient-to-br from-amber-900 via-amber-800 to-amber-700 rounded-2xl overflow-hidden text-white mb-8">
         {m.image_url && (
-          <img src={m.image_url} alt={name} className="absolute inset-0 w-full h-full object-cover opacity-30" />
+          <Image src={m.image_url} alt={name} fill className="object-cover opacity-30" sizes="100vw" priority />
         )}
         <div className="relative p-8 md:p-10">
           <div className="flex items-center gap-2 mb-2 text-amber-200 text-sm">
@@ -119,8 +120,8 @@ export default async function MonasteryDetailPage({ params }: Props) {
 
       {/* Image */}
       {m.image_url && (
-        <div className="rounded-2xl overflow-hidden mb-8">
-          <img src={m.image_url} alt={name} className="w-full h-64 md:h-80 object-cover" loading="lazy" />
+        <div className="relative rounded-2xl overflow-hidden mb-8 h-64 md:h-80">
+          <Image src={m.image_url} alt={name} fill className="object-cover" sizes="100vw" />
         </div>
       )}
 

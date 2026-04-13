@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { AREA_SLUGS } from '@/lib/constants';
 import { Area, PropertyType, SaleFeature } from '@/types';
+import Image from 'next/image';
 import { Loader2, Upload, X } from 'lucide-react';
 import { compressImage } from '@/lib/image-utils';
 import { LocationPicker } from '@/components/ui/LocationPicker';
@@ -376,7 +377,7 @@ export default function EditSalePage() {
             <div className="flex flex-wrap gap-3">
               {existingImages.map((img) => (
                 <div key={img.id} className="relative w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
-                  <img src={img.image_url} alt="" className="w-full h-full object-cover" />
+                  <Image src={img.image_url || '/images/placeholder.svg'} alt="" width={96} height={96} className="w-full h-full object-cover" />
                   <button type="button" onClick={() => removeExistingImage(img.id)}
                     className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5">
                     <X className="w-3 h-3" />
@@ -393,7 +394,7 @@ export default function EditSalePage() {
           <div className="flex flex-wrap gap-3">
             {newImages.map((file, idx) => (
               <div key={idx} className="relative w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
-                <img src={URL.createObjectURL(file)} alt="" className="w-full h-full object-cover" />
+                <Image src={URL.createObjectURL(file)} alt="" width={96} height={96} className="w-full h-full object-cover" unoptimized />
                 <button type="button" onClick={() => setNewImages(newImages.filter((_, i) => i !== idx))}
                   className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5">
                   <X className="w-3 h-3" />

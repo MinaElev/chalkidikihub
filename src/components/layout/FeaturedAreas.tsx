@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { AREAS } from '@/lib/constants';
 import { AreaInfo } from '@/types';
@@ -37,8 +38,9 @@ export function FeaturedAreas() {
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10" />
               {area.image_url ? (
-                <img src={area.image_url} alt={area.name[locale] || area.name.el || ''} loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                <Image src={area.image_url} alt={area.name[locale] || area.name.el || ''} fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300" />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700 group-hover:scale-105 transition-transform duration-300" />
               )}

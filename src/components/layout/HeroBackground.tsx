@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export function HeroBackground() {
   const [heroImage, setHeroImage] = useState('');
@@ -13,7 +14,7 @@ export function HeroBackground() {
   }, []);
 
   if (heroImage) {
-    return <img src={heroImage} alt="Halkidiki" className="absolute inset-0 w-full h-full object-cover opacity-30" loading="eager" />;
+    return <Image src={heroImage} alt="Halkidiki" fill priority sizes="100vw" className="object-cover opacity-30" />;
   }
 
   return (

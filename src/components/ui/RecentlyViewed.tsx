@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useRecentlyViewed, RecentItem } from '@/lib/use-recently-viewed';
 import { Link } from '@/i18n/navigation';
 import { Clock, Home, Waves, UtensilsCrossed, Landmark, FileText } from 'lucide-react';
@@ -30,9 +31,11 @@ export function RecentlyViewed({ currentSlug }: { currentSlug: string }) {
           return (
             <Link key={`${item.type}-${item.slug}`} href={`/${config?.path || item.type}/${item.slug}`}
               className="flex-shrink-0 w-40 group">
-              <div className="aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-2">
+              <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-2">
                 {item.image ? (
-                  <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                  <Image src={item.image} alt={item.title} fill
+                    sizes="160px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300" />
                 ) : (
                   <div className={`w-full h-full flex items-center justify-center ${config?.bgColor || 'bg-gray-50'}`}>
                     <Icon className={`w-8 h-8 ${config?.color || 'text-gray-400'}`} />

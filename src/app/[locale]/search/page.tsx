@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Search, Home, Waves, UtensilsCrossed, Landmark, FileText, MapPin, Star, Loader2 } from 'lucide-react';
 import { Listing, Beach, Restaurant, Activity, BlogArticle } from '@/types';
+import Image from 'next/image';
 
 type SearchResult = {
   type: 'listing' | 'beach' | 'restaurant' | 'activity' | 'blog';
@@ -248,7 +249,7 @@ function SearchContent() {
                 className="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-primary-300 hover:shadow-sm transition-all group">
                 {/* Image or icon */}
                 {result.image ? (
-                  <img src={result.image} alt={result.title} className="w-16 h-16 rounded-lg object-cover shrink-0" loading="lazy" />
+                  <Image src={result.image || '/images/placeholder.svg'} alt={result.title} width={64} height={64} className="rounded-lg object-cover shrink-0" sizes="64px" />
                 ) : (
                   <div className={`w-16 h-16 rounded-lg flex items-center justify-center shrink-0 ${config?.bgColor || 'bg-gray-50'}`}>
                     <Icon className={`w-6 h-6 ${config?.color || 'text-gray-400'}`} />

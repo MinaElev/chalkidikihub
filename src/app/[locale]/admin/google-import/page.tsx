@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import NextImage from 'next/image';
 import { MapPin, Search, Loader2, Check, X, Star, Phone, Clock, Image, AlertTriangle, UtensilsCrossed, Landmark } from 'lucide-react';
 
 interface GooglePlace {
@@ -285,10 +286,11 @@ export default function GoogleImportPage() {
                             className={`shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all ${
                               i === selectedIdx ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200 hover:border-gray-400'
                             }`}>
-                            <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${ref}&key=${typeof window !== 'undefined' ? '' : ''}`}
+                            <NextImage src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${ref}&key=${typeof window !== 'undefined' ? '' : ''}` || '/images/placeholder.svg'}
                               alt={`Photo ${i + 1}`}
+                              width={80} height={64}
                               className="w-full h-full object-cover"
-                              onError={(e) => { (e.target as HTMLImageElement).src = ''; (e.target as HTMLImageElement).alt = 'No preview'; }}
+                              unoptimized
                             />
                           </button>
                         ))}

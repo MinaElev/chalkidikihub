@@ -18,6 +18,7 @@ import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 import { ReviewForm } from '@/components/ui/ReviewForm';
+import Image from 'next/image';
 
 export function DynamicRestaurantDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -171,8 +172,8 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
 
           {/* Image */}
           {restaurant.image_url && (
-            <div className="aspect-[21/9] bg-gray-200 rounded-2xl overflow-hidden mt-6">
-              <img src={restaurant.image_url} alt={name} className="w-full h-full object-cover" loading="lazy" />
+            <div className="relative aspect-[21/9] bg-gray-200 rounded-2xl overflow-hidden mt-6">
+              <Image src={restaurant.image_url} alt={name} fill className="object-cover" sizes="100vw" priority />
             </div>
           )}
 
@@ -191,7 +192,7 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
                   {ctaRestaurants.map((r) => (
                     <Link key={r.slug} href={`/restaurants/${r.slug}`}
                       className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
-                      {r.image_url && <img src={r.image_url} alt={r.name[locale] || r.name.en} className="w-14 h-14 rounded-lg object-cover shrink-0" />}
+                      {r.image_url && <Image src={r.image_url} alt={r.name[locale] || r.name.en} width={56} height={56} className="rounded-lg object-cover shrink-0" sizes="56px" />}
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-gray-900 group-hover:text-red-700 truncate">
                           {r.name[locale] || r.name.en}
@@ -350,8 +351,8 @@ export function DynamicRestaurantDetail({ slug }: { slug: string }) {
                   {sidebarRestaurants.map((r) => (
                     <Link key={r.slug} href={`/restaurants/${r.slug}`} className="block group">
                       {r.image_url && (
-                        <div className="aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
-                          <img src={r.image_url} alt={r.name[locale] || r.name.en} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                        <div className="relative aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
+                          <Image src={r.image_url} alt={r.name[locale] || r.name.en} fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                         </div>
                       )}
                       <div className="flex flex-wrap gap-1 mb-1">

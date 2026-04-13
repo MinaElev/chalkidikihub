@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import { ImageIcon, Loader2, Zap, CheckCircle, AlertTriangle, Download } from 'lucide-react';
 
@@ -246,7 +247,7 @@ export default function AdminImagesPage() {
             }`}>
               {/* Thumbnail */}
               <div className="aspect-[4/3] bg-gray-100 relative">
-                <img src={img.image_url} alt={img.name} loading="lazy" className="w-full h-full object-cover" />
+                <Image src={img.image_url || '/images/placeholder.svg'} alt={img.name} fill className="object-cover" sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw" />
                 {img.optimized && (
                   <div className="absolute top-1 right-1 bg-green-500 text-white rounded-full p-0.5">
                     <CheckCircle className="w-3 h-3" />

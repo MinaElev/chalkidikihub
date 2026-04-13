@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Building, Eye, EyeOff, Trash2, Loader2, Search, ChevronDown, ChevronUp, Pencil, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { AREA_SLUGS } from '@/lib/constants';
 
@@ -137,7 +138,7 @@ export default function AdminSalesPage() {
                   {/* Thumbnail */}
                   <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
                     {sale.sale_images?.[0] ? (
-                      <img src={sale.sale_images[0].image_url} alt="" className="w-full h-full object-cover" />
+                      <Image src={sale.sale_images[0].image_url || '/images/placeholder.svg'} alt="" width={48} height={48} className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full bg-primary-100 flex items-center justify-center text-primary-400 font-bold text-xs">S</div>
                     )}
@@ -227,7 +228,7 @@ export default function AdminSalesPage() {
                       {sale.sale_images?.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
                           {sale.sale_images.map((img) => (
-                            <img key={img.id} src={img.image_url} alt=""
+                            <Image key={img.id} src={img.image_url || '/images/placeholder.svg'} alt="" width={80} height={64}
                               className={`w-20 h-16 rounded-lg object-cover ${img.is_cover ? 'ring-2 ring-primary-500' : ''}`} />
                           ))}
                         </div>

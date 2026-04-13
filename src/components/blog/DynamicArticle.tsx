@@ -14,6 +14,7 @@ import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 import { CommentSection } from './CommentSection';
+import Image from 'next/image';
 
 export function DynamicArticle({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -107,7 +108,7 @@ export function DynamicArticle({ slug }: { slug: string }) {
         <div className="flex-1 min-w-0 max-w-4xl">
           {article.image_url && (
             <div className="relative aspect-[21/9] bg-gray-200 rounded-2xl overflow-hidden mb-8">
-              <img src={article.image_url} alt={title} className="w-full h-full object-cover" loading="lazy" />
+              <Image src={article.image_url} alt={title} fill className="object-cover" sizes="100vw" priority />
             </div>
           )}
 
@@ -159,7 +160,7 @@ export function DynamicArticle({ slug }: { slug: string }) {
                         <Link key={a.slug} href={`/blog/${a.slug}`}
                           className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
                           {a.image_url && (
-                            <img src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} className="w-14 h-14 rounded-lg object-cover shrink-0" />
+                            <Image src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} width={56} height={56} className="rounded-lg object-cover shrink-0" sizes="56px" />
                           )}
                           <div className="min-w-0">
                             <p className="text-sm font-semibold text-gray-900 group-hover:text-primary-700 truncate">
@@ -190,7 +191,7 @@ export function DynamicArticle({ slug }: { slug: string }) {
                         <Link key={a.slug} href={`/blog/${a.slug}`}
                           className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
                           {a.image_url && (
-                            <img src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} className="w-14 h-14 rounded-lg object-cover shrink-0" />
+                            <Image src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} width={56} height={56} className="rounded-lg object-cover shrink-0" sizes="56px" />
                           )}
                           <div className="min-w-0">
                             <p className="text-sm font-semibold text-gray-900 group-hover:text-primary-700 truncate">
@@ -261,8 +262,8 @@ export function DynamicArticle({ slug }: { slug: string }) {
                 <Link key={a.slug} href={`/blog/${a.slug}`}
                   className="block group">
                   {a.image_url && (
-                    <div className="aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
-                      <img src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                    <div className="relative aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
+                      <Image src={a.image_url} alt={a.title[locale] || a.title.en || a.title.el} fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                     </div>
                   )}
                   <span className="inline-flex px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-[10px] font-medium mb-1">

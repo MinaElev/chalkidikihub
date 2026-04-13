@@ -16,6 +16,7 @@ import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 import { ReviewForm } from '@/components/ui/ReviewForm';
+import Image from 'next/image';
 
 export function DynamicActivityDetail({ slug }: { slug: string }) {
   const locale = useLocale();
@@ -151,8 +152,8 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
 
           {/* Image */}
           {activity.image_url && (
-            <div className="aspect-[21/9] bg-gray-200 rounded-2xl overflow-hidden mt-6">
-              <img src={activity.image_url} alt={name} className="w-full h-full object-cover" loading="lazy" />
+            <div className="relative aspect-[21/9] bg-gray-200 rounded-2xl overflow-hidden mt-6">
+              <Image src={activity.image_url} alt={name} fill className="object-cover" sizes="100vw" priority />
             </div>
           )}
 
@@ -171,7 +172,7 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
                   {ctaActivities.map((a) => (
                     <Link key={a.slug} href={`/activities/${a.slug}`}
                       className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/60 transition-colors group">
-                      {a.image_url && <img src={a.image_url} alt={a.name[locale] || a.name.en} className="w-14 h-14 rounded-lg object-cover shrink-0" />}
+                      {a.image_url && <Image src={a.image_url} alt={a.name[locale] || a.name.en} width={56} height={56} className="rounded-lg object-cover shrink-0" sizes="56px" />}
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-gray-900 group-hover:text-amber-700 truncate">
                           {a.name[locale] || a.name.en}
@@ -299,8 +300,8 @@ export function DynamicActivityDetail({ slug }: { slug: string }) {
                   {sidebarActivities.map((a) => (
                     <Link key={a.slug} href={`/activities/${a.slug}`} className="block group">
                       {a.image_url && (
-                        <div className="aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
-                          <img src={a.image_url} alt={a.name[locale] || a.name.en} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                        <div className="relative aspect-[16/9] rounded-xl overflow-hidden mb-2 bg-gray-100">
+                          <Image src={a.image_url} alt={a.name[locale] || a.name.en} fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                         </div>
                       )}
                       <span className="inline-flex px-2 py-0.5 bg-amber-50 text-amber-700 rounded text-[10px] font-medium mb-1">

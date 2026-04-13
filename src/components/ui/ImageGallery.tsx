@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, Expand } from 'lucide-react';
 
 interface ImageGalleryProps {
@@ -56,7 +57,7 @@ export function ImageGallery({ images, alt = '' }: ImageGalleryProps) {
           className="relative aspect-[16/9] bg-gray-200 rounded-2xl overflow-hidden cursor-pointer group"
           onClick={() => openLightbox(images.indexOf(cover))}
         >
-          <img src={cover.image_url} alt={alt} className="w-full h-full object-cover" loading="eager" />
+          <Image src={cover.image_url} alt={alt} fill priority sizes="(max-width: 768px) 100vw, 800px" className="object-cover" />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
             <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-medium text-gray-700">
               <Expand className="w-4 h-4" />
@@ -81,7 +82,7 @@ export function ImageGallery({ images, alt = '' }: ImageGalleryProps) {
                   idx === 0 ? 'border-primary-500' : 'border-transparent hover:border-gray-300'
                 }`}
               >
-                <img src={img.image_url} alt="" className="w-full h-full object-cover" loading="lazy" />
+                <Image src={img.image_url} alt="" width={80} height={56} className="w-full h-full object-cover" />
               </button>
             ))}
           </div>
@@ -123,9 +124,11 @@ export function ImageGallery({ images, alt = '' }: ImageGalleryProps) {
           )}
 
           {/* Image */}
-          <img
+          <Image
             src={images[currentIndex].image_url}
             alt={alt}
+            width={1200}
+            height={800}
             className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
             onClick={(e) => e.stopPropagation()}
           />

@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity, Area } from '@/types';
 import { LocationPicker } from '@/components/ui/LocationPicker';
+import Image from 'next/image';
 import { Loader2, Upload, X, Save, ArrowLeft, Trash2 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
@@ -350,7 +351,7 @@ export default function EditListingPage() {
           <div className="flex flex-wrap gap-3">
             {existingImages.map((img) => (
               <div key={img.id} className="relative w-24 h-24 rounded-lg overflow-hidden bg-gray-100 group">
-                <img src={img.image_url} alt="" className="w-full h-full object-cover" />
+                <Image src={img.image_url || '/images/placeholder.svg'} alt="" width={96} height={96} className="w-full h-full object-cover" />
                 {img.is_cover && (
                   <div className="absolute bottom-0 left-0 right-0 bg-primary-600/80 text-white text-center text-[10px] py-0.5">Cover</div>
                 )}
@@ -363,7 +364,7 @@ export default function EditListingPage() {
             {/* New image uploads */}
             {newImages.map((file, idx) => (
               <div key={`new-${idx}`} className="relative w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
-                <img src={URL.createObjectURL(file)} alt="" className="w-full h-full object-cover" />
+                <Image src={URL.createObjectURL(file)} alt="" width={96} height={96} className="w-full h-full object-cover" unoptimized />
                 <div className="absolute bottom-0 left-0 right-0 bg-green-600/80 text-white text-center text-[10px] py-0.5">New</div>
                 <button type="button" onClick={() => setNewImages(newImages.filter((_, i) => i !== idx))}
                   className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5">

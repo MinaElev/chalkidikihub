@@ -2,6 +2,7 @@
 
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
+import Image from 'next/image';
 import { Sale } from '@/types';
 import { MapPin, BedDouble, Maximize, Euro } from 'lucide-react';
 
@@ -30,8 +31,9 @@ export function SaleCard({ sale }: { sale: Sale }) {
       <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-md transition-all hover:-translate-y-0.5">
         <div className="relative aspect-[16/10] bg-gray-200 overflow-hidden">
           {coverImage ? (
-            <img src={coverImage} alt={title} loading="lazy"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+            <Image src={coverImage} alt={title} fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover group-hover:scale-105 transition-transform duration-300" />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-emerald-100 to-teal-200 flex items-center justify-center">
               <span className="text-teal-300 text-5xl">🏠</span>

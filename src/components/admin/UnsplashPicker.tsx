@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Search, Loader2, X, Check, Camera } from 'lucide-react';
 
 interface UnsplashPhoto {
@@ -110,7 +111,7 @@ export function UnsplashPicker({ defaultQuery, folder, slug, onSelect }: Props) 
             <button key={photo.id} type="button" onClick={() => handleSelect(photo)}
               disabled={saving === photo.id}
               className="relative aspect-[4/3] rounded-lg overflow-hidden group hover:ring-2 hover:ring-primary-500 transition-all">
-              <img src={photo.thumb} alt={photo.alt} className="w-full h-full object-cover" />
+              <Image src={photo.thumb || '/images/placeholder.svg'} alt={photo.alt} fill className="object-cover" sizes="33vw" />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                 {saving === photo.id ? (
                   <Loader2 className="w-6 h-6 text-white animate-spin" />

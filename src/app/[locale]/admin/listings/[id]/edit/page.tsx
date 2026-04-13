@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
+import Image from 'next/image';
 import { ArrowLeft, Save, Loader2, ExternalLink } from 'lucide-react';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { AIHelper } from '@/components/admin/AIHelper';
@@ -328,7 +329,7 @@ export default function AdminEditListingPage() {
             <div className="grid grid-cols-3 md:grid-cols-5 gap-3 mb-3">
               {images.map((img, idx) => (
                 <div key={img.id} className={`relative group rounded-lg overflow-hidden border-2 ${img.is_cover ? 'border-primary-500' : 'border-gray-200'}`}>
-                  <img src={img.image_url} alt="" className="w-full aspect-square object-cover" loading="lazy" />
+                  <Image src={img.image_url || '/images/placeholder.svg'} alt="" width={160} height={160} className="w-full aspect-square object-cover" />
 
                   {/* Cover badge */}
                   {img.is_cover && (

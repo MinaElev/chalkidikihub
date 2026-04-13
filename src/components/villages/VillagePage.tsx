@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { MapPin, Waves, UtensilsCrossed, Landmark, Home, Building, ChevronRight, Users } from 'lucide-react';
@@ -111,8 +112,9 @@ export function VillagePage({ slug }: { slug: string }) {
       {/* Hero */}
       <div className="relative bg-gray-900 text-white">
         {village.image_url && (
-          <img src={village.image_url} alt={village.image_alt || name}
-            className="absolute inset-0 w-full h-full object-cover opacity-40" />
+          <Image src={village.image_url} alt={village.image_alt || name} fill priority
+            sizes="100vw"
+            className="object-cover opacity-40" />
         )}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           {/* Breadcrumbs */}

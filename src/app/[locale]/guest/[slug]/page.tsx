@@ -11,6 +11,7 @@ import { ActivityCard } from '@/components/listings/ActivityCard';
 import { LocationMap } from '@/components/ui/LocationMap';
 import { MapPin, Waves, UtensilsCrossed, Landmark, Phone, Shield, Heart, Flame, Car, Loader2 } from 'lucide-react';
 import { logEvent } from '@/lib/logger';
+import Image from 'next/image';
 
 const EMERGENCY = [
   { label: 'Αστυνομία / Police', number: '100', icon: Shield, color: 'bg-blue-100 text-blue-700' },
@@ -84,7 +85,7 @@ export default function GuestPage() {
       <div className="relative bg-primary-900 text-white">
         {coverImage && (
           <div className="absolute inset-0">
-            <img src={coverImage} alt={title} className="w-full h-full object-cover opacity-30" />
+            <Image src={coverImage || '/images/placeholder.svg'} alt={title} fill className="object-cover opacity-30" sizes="100vw" priority />
           </div>
         )}
         <div className="relative px-4 py-12 text-center max-w-lg mx-auto">

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import NextImage from 'next/image';
 import { Upload, X, Loader2, Image as ImageIcon, Sparkles, CheckCircle } from 'lucide-react';
 import { compressImage, formatFileSize } from '@/lib/image-utils';
 
@@ -108,7 +109,7 @@ export function ImageUpload({ currentUrl, onUpload, folder, aiPromptContext }: I
 
       {preview ? (
         <div className="relative w-full max-w-md aspect-[16/9] rounded-xl overflow-hidden bg-gray-100 group">
-          <img src={preview} alt="" className="w-full h-full object-cover" />
+          <NextImage src={preview || '/images/placeholder.svg'} alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 448px" />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
             <div className="opacity-0 group-hover:opacity-100 flex gap-2 transition-opacity">
               <label className="px-3 py-2 bg-white rounded-lg text-sm font-medium cursor-pointer hover:bg-gray-100">

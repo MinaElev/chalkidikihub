@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Link, useRouter } from '@/i18n/navigation';
+import Image from 'next/image';
 import { ArrowLeft, Save, Loader2, Sparkles, X, Star, Upload } from 'lucide-react';
 import { AIHelper } from '@/components/admin/AIHelper';
 import { LocationPicker } from '@/components/ui/LocationPicker';
@@ -234,7 +235,7 @@ export default function AdminEditSalePage() {
           <div className="flex flex-wrap gap-3">
             {images.map((img) => (
               <div key={img.id} className={`relative w-32 h-24 rounded-xl overflow-hidden group border-2 ${img.is_cover ? 'border-emerald-500' : 'border-gray-200'}`}>
-                <img src={img.image_url} alt="" className="w-full h-full object-cover" />
+                <Image src={img.image_url || '/images/placeholder.svg'} alt="" width={128} height={96} className="w-full h-full object-cover" />
                 {img.is_cover && <span className="absolute top-1 left-1 px-1.5 py-0.5 bg-emerald-600 text-white text-[9px] font-bold rounded">COVER</span>}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100">
                   {!img.is_cover && (

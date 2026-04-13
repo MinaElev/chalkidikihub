@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import { MapPin, Edit, Loader2 } from 'lucide-react';
@@ -32,7 +33,7 @@ export default function AdminAreasPage() {
             className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group">
             <div className="relative aspect-[16/9] bg-gray-200">
               {area.image_url ? (
-                <img src={area.image_url} alt={area.name_el} className="w-full h-full object-cover" loading="lazy" />
+                <Image src={area.image_url || '/images/placeholder.svg'} alt={area.name_el} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
                   <MapPin className="w-12 h-12 text-primary-300" />
