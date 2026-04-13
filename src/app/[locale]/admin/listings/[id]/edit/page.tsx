@@ -83,9 +83,9 @@ export default function AdminEditListingPage() {
     // Explicitly list all DB columns to avoid sending unknown fields
     const updateData = {
       title_el: form.title_el, title_en: form.title_en, title_de: form.title_de,
-      title_bg: form.title_bg, title_ru: form.title_ru, title_ro: form.title_ro,
+      title_bg: form.title_bg, title_ru: form.title_ru, title_ro: form.title_ro, title_sr: form.title_sr,
       description_el: form.description_el, description_en: form.description_en, description_de: form.description_de,
-      description_bg: form.description_bg, description_ru: form.description_ru, description_ro: form.description_ro,
+      description_bg: form.description_bg, description_ru: form.description_ru, description_ro: form.description_ro, description_sr: form.description_sr,
       area: form.area, location_name: form.location_name,
       latitude: Number(form.latitude), longitude: Number(form.longitude),
       price_per_night: Number(form.price_per_night), currency: form.currency,
@@ -95,10 +95,10 @@ export default function AdminEditListingPage() {
       booking_url: form.booking_url || null, airbnb_url: form.airbnb_url || null, website_url: form.website_url || null,
       meta_title_el: form.meta_title_el, meta_title_en: form.meta_title_en,
       meta_title_de: form.meta_title_de, meta_title_bg: form.meta_title_bg,
-      meta_title_ru: form.meta_title_ru, meta_title_ro: form.meta_title_ro,
+      meta_title_ru: form.meta_title_ru, meta_title_ro: form.meta_title_ro, meta_title_sr: form.meta_title_sr,
       meta_description_el: form.meta_description_el, meta_description_en: form.meta_description_en,
       meta_description_de: form.meta_description_de, meta_description_bg: form.meta_description_bg,
-      meta_description_ru: form.meta_description_ru, meta_description_ro: form.meta_description_ro,
+      meta_description_ru: form.meta_description_ru, meta_description_ro: form.meta_description_ro, meta_description_sr: form.meta_description_sr,
       image_alt: form.image_alt,
       image_url: seoImageUrl,
     };
@@ -410,12 +410,13 @@ export default function AdminEditListingPage() {
               const files = e.target.files;
               if (!files) return;
               const supabase = createClient();
-              const { data: { user } } = await supabase.auth.getUser();
-              if (!user) return;
+
+              // Use owner_id for the storage path (admin may not be the owner)
+              const uploadOwnerId = ownerInfo.id || 'admin';
 
               for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                const filePath = `${user.id}/${id}/${Date.now()}-${i}.webp`;
+                const filePath = `${uploadOwnerId}/${id}/${Date.now()}-${i}.webp`;
 
                 // Compress
                 let uploadBlob: Blob = file;
@@ -443,7 +444,7 @@ export default function AdminEditListingPage() {
 
         {/* SEO - ALL languages */}
         <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-lg font-semibold text-red-600 mb-4">SEO Meta Tags (6 γλώσσες)</h3>
+          <h3 className="text-lg font-semibold text-red-600 mb-4">SEO Meta Tags (7 γλώσσες)</h3>
 
           <h4 className="text-sm font-semibold text-gray-700 mb-2">Meta Titles</h4>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
