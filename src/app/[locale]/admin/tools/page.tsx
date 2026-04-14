@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Wrench, ImageIcon, Loader2, CheckCircle, AlertCircle, Zap, Search, Sparkles, BarChart3 } from 'lucide-react';
+import { Wrench, ImageIcon, Loader2, CheckCircle, AlertCircle, Zap, Search, Sparkles, BarChart3, BookOpen, Play, SkipForward } from 'lucide-react';
 
 interface ImageRecord {
   table: string;
@@ -310,8 +310,207 @@ export default function AdminToolsPage() {
           </div>
         )}
       </div>
+      {/* Village Article Generator */}
+      <VillageArticleGenerator />
+
       {/* AI Bulk SEO Generator */}
       <BulkSEOGenerator />
+    </div>
+  );
+}
+
+/* ─── Village Article Generator ─── */
+interface VillageStatus {
+  village: string;
+  slug: string;
+  area: string;
+  article_slug: string;
+  has_article: boolean;
+}
+
+function VillageArticleGenerator() {
+  const [loading, setLoading] = useState(false);
+  const [villages, setVillages] = useState<VillageStatus[]>([]);
+  const [generating, setGenerating] = useState<string | null>(null); // slug being generated
+  const [batchRunning, setBatchRunning] = useState(false);
+  const [results, setResults] = useState<string[]>([]);
+  const [processed, setProcessed] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  async function getToken() {
+    const { createClient: cc } = await import('@/lib/supabase/client');
+    const supabase = cc();
+    const { data: { session } } = await supabase.auth.getSession();
+    return session?.access_token || '';
+  }
+
+  async function loadStatus() {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/admin/village-articles');
+      const data = await res.json();
+      setVillages(data.villages || []);
+    } catch (err) {
+      setResults(prev => [...prev, `Error loading status: ${(err as Error).message}`]);
+    }
+    setLoading(false);
+  }
+
+  async function generateOne(villageSlug: string) {
+    setGenerating(villageSlug);
+    const token = await getToken();
+    try {
+      const res = await fetch('/api/admin/village-articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ village_slug: villageSlug }),
+      });
+      const data = await res.json();
+      if (data.errors_detail?.length > 0) {
+        setResults(prev => [...prev, `Error ${villageSlug}: ${data.errors_detail[0].error}`]);
+      } else if (data.results?.length > 0) {
+        const r = data.results[0];
+        setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status === 'already_exists' ? 'Skipped (exists)' : r.status}: ${r.village}`]);
+        // Refresh status
+        setVillages(prev => prev.map(v => v.slug === villageSlug ? { ...v, has_article: true } : v));
+      }
+    } catch (err) {
+      setResults(prev => [...prev, `Error ${villageSlug}: ${(err as Error).message}`]);
+    }
+    setGenerating(null);
+  }
+
+  async function generateAll() {
+    const pending = villages.filter(v => !v.has_article);
+    if (pending.length === 0) return;
+    setBatchRunning(true);
+    setProcessed(0);
+    setTotal(pending.length);
+    setResults([]);
+
+    const token = await getToken();
+
+    for (let i = 0; i < pending.length; i++) {
+      const v = pending[i];
+      setGenerating(v.slug);
+      try {
+        const res = await fetch('/api/admin/village-articles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ village_slug: v.slug }),
+        });
+        const data = await res.json();
+        if (data.errors_detail?.length > 0) {
+          setResults(prev => [...prev, `Error ${v.village}: ${data.errors_detail[0].error}`]);
+        } else if (data.results?.length > 0) {
+          const r = data.results[0];
+          setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status}: ${r.village}`]);
+          setVillages(prev => prev.map(vv => vv.slug === v.slug ? { ...vv, has_article: true } : vv));
+        }
+      } catch (err) {
+        setResults(prev => [...prev, `Error ${v.village}: ${(err as Error).message}`]);
+      }
+      setProcessed(i + 1);
+      // 3 sec delay between villages to avoid rate limiting
+      if (i < pending.length - 1) await new Promise(r => setTimeout(r, 3000));
+    }
+
+    setGenerating(null);
+    setBatchRunning(false);
+  }
+
+  const withArticle = villages.filter(v => v.has_article).length;
+  const withoutArticle = villages.filter(v => !v.has_article).length;
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl p-6 mt-6">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
+          <BookOpen className="w-5 h-5 text-teal-600" />
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900">Village Article Generator</h2>
+          <p className="text-sm text-gray-500">AI blog articles (7 languages) for each village with SEO optimization</p>
+        </div>
+      </div>
+
+      <div className="flex gap-3 mb-6">
+        <button onClick={loadStatus} disabled={loading || batchRunning}
+          className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium disabled:opacity-50">
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+          1. Check Status
+        </button>
+
+        {withoutArticle > 0 && (
+          <button onClick={generateAll} disabled={batchRunning || generating !== null}
+            className="flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm font-medium disabled:opacity-50">
+            {batchRunning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
+            2. Generate All ({withoutArticle})
+          </button>
+        )}
+      </div>
+
+      {/* Village grid */}
+      {villages.length > 0 && (
+        <div className="mb-4">
+          <div className="flex items-center gap-4 mb-3">
+            <span className="text-sm text-gray-600">{villages.length} villages total</span>
+            <span className="text-sm text-green-600 font-medium">{withArticle} with article</span>
+            <span className="text-sm text-orange-600 font-medium">{withoutArticle} pending</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-96 overflow-y-auto">
+            {villages.map(v => (
+              <div key={v.slug}
+                className={`flex items-center justify-between px-3 py-2 rounded-lg border text-sm ${v.has_article ? 'bg-green-50 border-green-200' : 'bg-orange-50 border-orange-200'}`}>
+                <div className="flex items-center gap-2 min-w-0">
+                  {v.has_article
+                    ? <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                    : <AlertCircle className="w-4 h-4 text-orange-500 flex-shrink-0" />
+                  }
+                  <span className="truncate font-medium text-gray-800">{v.village}</span>
+                  <span className="text-xs text-gray-400">{v.area}</span>
+                </div>
+                {!v.has_article && (
+                  <button
+                    onClick={() => generateOne(v.slug)}
+                    disabled={generating !== null || batchRunning}
+                    className="ml-2 flex-shrink-0 px-2 py-1 bg-teal-600 hover:bg-teal-700 text-white rounded text-xs font-medium disabled:opacity-50">
+                    {generating === v.slug ? <Loader2 className="w-3 h-3 animate-spin" /> : 'Generate'}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Progress bar */}
+      {(batchRunning || (processed > 0 && total > 0)) && (
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-600">{processed}/{total} processed</span>
+            {generating && <span className="text-xs text-teal-600 animate-pulse">Generating: {generating}...</span>}
+          </div>
+          <div className="w-full h-2 bg-gray-200 rounded-full">
+            <div className="h-full bg-teal-500 rounded-full transition-all"
+              style={{ width: `${total > 0 ? (processed / total) * 100 : 0}%` }} />
+          </div>
+        </div>
+      )}
+
+      {/* Results log */}
+      {results.length > 0 && (
+        <div className="bg-gray-900 rounded-lg p-4 max-h-60 overflow-y-auto font-mono text-xs">
+          {results.map((r, i) => (
+            <div key={i} className={`py-0.5 ${r.startsWith('Created') ? 'text-green-400' : r.startsWith('Skipped') ? 'text-yellow-400' : r.startsWith('Error') ? 'text-red-400' : 'text-gray-400'}`}>
+              {r}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <p className="text-xs text-gray-400 mt-3">Each village ~30s (4 OpenAI calls). Cost ~$0.01/village. Sent one-by-one to avoid Vercel timeout.</p>
     </div>
   );
 }
