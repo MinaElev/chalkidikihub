@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, Edit, Trash2, Loader2, Waves, CheckCircle, XCircle, ImageIcon, Search, ExternalLink } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, Waves, CheckCircle, XCircle, ImageIcon, Search, ExternalLink, Filter } from 'lucide-react';
+import { AREA_SLUGS } from '@/lib/constants';
 
 interface Beach {
   id: string;
@@ -27,6 +28,9 @@ export default function AdminBeachesPage() {
   const locale = useLocale();
   const [beaches, setBeaches] = useState<Beach[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterArea, setFilterArea] = useState('');
+  const [filterSeo, setFilterSeo] = useState('');
 
   useEffect(() => { loadBeaches(); }, []);
 
@@ -61,6 +65,17 @@ export default function AdminBeachesPage() {
 
   const totalComplete = beaches.filter(b => getSeoStatus(b).length === 0).length;
 
+  const filtered = beaches.filter((b) => {
+    if (filterArea && b.area !== filterArea) return false;
+    if (filterSeo === 'complete' && getSeoStatus(b).length !== 0) return false;
+    if (filterSeo === 'incomplete' && getSeoStatus(b).length === 0) return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      return b.name_el?.toLowerCase().includes(q) || b.name_en?.toLowerCase().includes(q) || b.slug?.toLowerCase().includes(q);
+    }
+    return true;
+  });
+
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
 
   return (
@@ -68,7 +83,7 @@ export default function AdminBeachesPage() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <Waves className="w-6 h-6 text-red-600" />
-          <h1 className="text-2xl font-bold text-gray-900">Beaches ({beaches.length})</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Beaches ({filtered.length}/{beaches.length})</h1>
           <span className={`text-xs px-2 py-0.5 rounded-full ${totalComplete === beaches.length ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
             SEO: {totalComplete}/{beaches.length}
           </span>
@@ -77,6 +92,27 @@ export default function AdminBeachesPage() {
           className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 text-sm font-medium">
           <Plus className="w-4 h-4" />Add New
         </Link>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap items-center gap-3 mb-4 bg-white border border-gray-200 rounded-xl p-4">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Αναζήτηση ονόματος..."
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+        </div>
+        <select value={filterArea} onChange={(e) => setFilterArea(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">Όλες οι περιοχές</option>
+          {AREA_SLUGS.map((a) => <option key={a} value={a}>{a}</option>)}
+        </select>
+        <select value={filterSeo} onChange={(e) => setFilterSeo(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">Όλα τα SEO</option>
+          <option value="complete">SEO OK ✓</option>
+          <option value="incomplete">SEO ελλιπές ✗</option>
+        </select>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
@@ -92,7 +128,7 @@ export default function AdminBeachesPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {beaches.map((b) => {
+            {filtered.map((b) => {
               const issues = getSeoStatus(b);
               const isComplete = issues.length === 0;
               return (
@@ -139,8 +175,8 @@ export default function AdminBeachesPage() {
                 </tr>
               );
             })}
-            {beaches.length === 0 && (
-              <tr><td colSpan={6} className="px-4 py-12 text-center text-gray-500">No beaches found</td></tr>
+            {filtered.length === 0 && (
+              <tr><td colSpan={6} className="px-4 py-12 text-center text-gray-500">Δεν βρέθηκαν παραλίες</td></tr>
             )}
           </tbody>
         </table>

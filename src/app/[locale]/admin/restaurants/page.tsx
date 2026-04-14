@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, Edit, Trash2, Loader2, UtensilsCrossed, CheckCircle, XCircle, ImageIcon, ExternalLink } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, UtensilsCrossed, CheckCircle, XCircle, ImageIcon, ExternalLink, Search } from 'lucide-react';
+import { AREA_SLUGS } from '@/lib/constants';
 
 interface Restaurant {
   id: string;
@@ -24,10 +25,16 @@ interface Restaurant {
   meta_description_el: string;
 }
 
+const PRICE_LEVELS = ['budget', 'moderate', 'premium', 'luxury'];
+
 export default function AdminRestaurantsPage() {
   const locale = useLocale();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterArea, setFilterArea] = useState('');
+  const [filterPrice, setFilterPrice] = useState('');
+  const [filterSeo, setFilterSeo] = useState('');
 
   useEffect(() => { loadRestaurants(); }, []);
 
@@ -62,6 +69,19 @@ export default function AdminRestaurantsPage() {
 
   const totalComplete = restaurants.filter(r => getSeoStatus(r).length === 0).length;
 
+  const filtered = restaurants.filter((r) => {
+    if (filterArea && r.area !== filterArea) return false;
+    if (filterPrice && r.price_level !== filterPrice) return false;
+    if (filterSeo === 'complete' && getSeoStatus(r).length !== 0) return false;
+    if (filterSeo === 'incomplete' && getSeoStatus(r).length === 0) return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      return r.name_el?.toLowerCase().includes(q) || r.name_en?.toLowerCase().includes(q) ||
+        (r.cuisine || []).some(c => c.toLowerCase().includes(q));
+    }
+    return true;
+  });
+
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
 
   return (
@@ -69,7 +89,7 @@ export default function AdminRestaurantsPage() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <UtensilsCrossed className="w-6 h-6 text-red-600" />
-          <h1 className="text-2xl font-bold text-gray-900">Restaurants ({restaurants.length})</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Restaurants ({filtered.length}/{restaurants.length})</h1>
           <span className={`text-xs px-2 py-0.5 rounded-full ${totalComplete === restaurants.length ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
             SEO: {totalComplete}/{restaurants.length}
           </span>
@@ -78,6 +98,32 @@ export default function AdminRestaurantsPage() {
           className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 text-sm font-medium">
           <Plus className="w-4 h-4" />Add New
         </Link>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap items-center gap-3 mb-4 bg-white border border-gray-200 rounded-xl p-4">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Αναζήτηση ονόματος, κουζίνας..."
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+        </div>
+        <select value={filterArea} onChange={(e) => setFilterArea(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">Όλες οι περιοχές</option>
+          {AREA_SLUGS.map((a) => <option key={a} value={a}>{a}</option>)}
+        </select>
+        <select value={filterPrice} onChange={(e) => setFilterPrice(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">Όλες οι τιμές</option>
+          {PRICE_LEVELS.map((p) => <option key={p} value={p}>{p}</option>)}
+        </select>
+        <select value={filterSeo} onChange={(e) => setFilterSeo(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">Όλα τα SEO</option>
+          <option value="complete">SEO OK ✓</option>
+          <option value="incomplete">SEO ελλιπές ✗</option>
+        </select>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
@@ -95,7 +141,7 @@ export default function AdminRestaurantsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {restaurants.map((r) => {
+            {filtered.map((r) => {
               const issues = getSeoStatus(r);
               const isComplete = issues.length === 0;
               return (
@@ -144,8 +190,8 @@ export default function AdminRestaurantsPage() {
               </tr>
               );
             })}
-            {restaurants.length === 0 && (
-              <tr><td colSpan={8} className="px-4 py-12 text-center text-gray-500">No restaurants found</td></tr>
+            {filtered.length === 0 && (
+              <tr><td colSpan={8} className="px-4 py-12 text-center text-gray-500">Δεν βρέθηκαν εστιατόρια</td></tr>
             )}
           </tbody>
         </table>

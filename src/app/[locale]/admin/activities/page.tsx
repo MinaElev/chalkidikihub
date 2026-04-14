@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, Edit, Trash2, Loader2, Landmark, CheckCircle, XCircle, ImageIcon, ExternalLink } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, Landmark, CheckCircle, XCircle, ImageIcon, ExternalLink, Search } from 'lucide-react';
+import { AREA_SLUGS } from '@/lib/constants';
 
 interface Activity {
   id: string;
@@ -28,6 +29,10 @@ export default function AdminActivitiesPage() {
   const locale = useLocale();
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterArea, setFilterArea] = useState('');
+  const [filterCategory, setFilterCategory] = useState('');
+  const [filterSeo, setFilterSeo] = useState('');
 
   useEffect(() => { loadActivities(); }, []);
 
@@ -62,6 +67,22 @@ export default function AdminActivitiesPage() {
 
   const totalComplete = activities.filter(a => getSeoStatus(a).length === 0).length;
 
+  // Extract unique categories from data
+  const allCategories = [...new Set(activities.map(a => a.category).filter(Boolean))].sort();
+
+  const filtered = activities.filter((a) => {
+    if (filterArea && a.area !== filterArea) return false;
+    if (filterCategory && a.category !== filterCategory) return false;
+    if (filterSeo === 'complete' && getSeoStatus(a).length !== 0) return false;
+    if (filterSeo === 'incomplete' && getSeoStatus(a).length === 0) return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      return a.name_el?.toLowerCase().includes(q) || a.name_en?.toLowerCase().includes(q) ||
+        a.category?.toLowerCase().includes(q);
+    }
+    return true;
+  });
+
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
 
   return (
@@ -69,7 +90,7 @@ export default function AdminActivitiesPage() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <Landmark className="w-6 h-6 text-red-600" />
-          <h1 className="text-2xl font-bold text-gray-900">Activities ({activities.length})</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Activities ({filtered.length}/{activities.length})</h1>
           <span className={`text-xs px-2 py-0.5 rounded-full ${totalComplete === activities.length ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
             SEO: {totalComplete}/{activities.length}
           </span>
@@ -78,6 +99,32 @@ export default function AdminActivitiesPage() {
           className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 text-sm font-medium">
           <Plus className="w-4 h-4" />Add New
         </Link>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap items-center gap-3 mb-4 bg-white border border-gray-200 rounded-xl p-4">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Αναζήτηση ονόματος, κατηγορίας..."
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+        </div>
+        <select value={filterArea} onChange={(e) => setFilterArea(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">Όλες οι περιοχές</option>
+          {AREA_SLUGS.map((a) => <option key={a} value={a}>{a}</option>)}
+        </select>
+        <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">Όλες οι κατηγορίες</option>
+          {allCategories.map((c) => <option key={c} value={c}>{c}</option>)}
+        </select>
+        <select value={filterSeo} onChange={(e) => setFilterSeo(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">Όλα τα SEO</option>
+          <option value="complete">SEO OK ✓</option>
+          <option value="incomplete">SEO ελλιπές ✗</option>
+        </select>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
@@ -95,7 +142,7 @@ export default function AdminActivitiesPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {activities.map((a) => {
+            {filtered.map((a) => {
               const issues = getSeoStatus(a);
               const isComplete = issues.length === 0;
               return (
@@ -144,8 +191,8 @@ export default function AdminActivitiesPage() {
               </tr>
               );
             })}
-            {activities.length === 0 && (
-              <tr><td colSpan={8} className="px-4 py-12 text-center text-gray-500">No activities found</td></tr>
+            {filtered.length === 0 && (
+              <tr><td colSpan={8} className="px-4 py-12 text-center text-gray-500">Δεν βρέθηκαν δραστηριότητες</td></tr>
             )}
           </tbody>
         </table>

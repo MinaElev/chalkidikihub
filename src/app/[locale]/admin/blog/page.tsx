@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, Edit, Trash2, Loader2, FileText, CheckCircle, XCircle, ImageIcon, ExternalLink, Sparkles } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, FileText, CheckCircle, XCircle, ImageIcon, ExternalLink, Sparkles, Search } from 'lucide-react';
 
 interface BlogArticle {
   id: string;
@@ -29,6 +29,9 @@ export default function AdminBlogPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [genResult, setGenResult] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterCategory, setFilterCategory] = useState('');
+  const [filterSeo, setFilterSeo] = useState('');
 
   useEffect(() => { loadArticles(); }, []);
 
@@ -83,6 +86,21 @@ export default function AdminBlogPage() {
 
   const totalComplete = articles.filter(a => getSeoStatus(a).length === 0).length;
 
+  // Extract unique categories from data
+  const allCategories = [...new Set(articles.map(a => a.category).filter(Boolean))].sort();
+
+  const filtered = articles.filter((a) => {
+    if (filterCategory && a.category !== filterCategory) return false;
+    if (filterSeo === 'complete' && getSeoStatus(a).length !== 0) return false;
+    if (filterSeo === 'incomplete' && getSeoStatus(a).length === 0) return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      return a.title_el?.toLowerCase().includes(q) || a.title_en?.toLowerCase().includes(q) ||
+        a.slug?.toLowerCase().includes(q) || a.author?.toLowerCase().includes(q);
+    }
+    return true;
+  });
+
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
 
   return (
@@ -90,7 +108,7 @@ export default function AdminBlogPage() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <FileText className="w-6 h-6 text-red-600" />
-          <h1 className="text-2xl font-bold text-gray-900">Blog Articles ({articles.length})</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Blog Articles ({filtered.length}/{articles.length})</h1>
           <span className={`text-xs px-2 py-0.5 rounded-full ${totalComplete === articles.length ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
             SEO: {totalComplete}/{articles.length}
           </span>
@@ -115,6 +133,27 @@ export default function AdminBlogPage() {
         </div>
       )}
 
+      {/* Filters */}
+      <div className="flex flex-wrap items-center gap-3 mb-4 bg-white border border-gray-200 rounded-xl p-4">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Αναζήτηση τίτλου, slug, συγγραφέα..."
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+        </div>
+        <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">Όλες οι κατηγορίες</option>
+          {allCategories.map((c) => <option key={c} value={c}>{c}</option>)}
+        </select>
+        <select value={filterSeo} onChange={(e) => setFilterSeo(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">Όλα τα SEO</option>
+          <option value="complete">SEO OK ✓</option>
+          <option value="incomplete">SEO ελλιπές ✗</option>
+        </select>
+      </div>
+
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-red-50 border-b border-red-100">
@@ -129,7 +168,7 @@ export default function AdminBlogPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {articles.map((a) => {
+            {filtered.map((a) => {
               const issues = getSeoStatus(a);
               const isComplete = issues.length === 0;
               return (
@@ -177,8 +216,8 @@ export default function AdminBlogPage() {
               </tr>
               );
             })}
-            {articles.length === 0 && (
-              <tr><td colSpan={7} className="px-4 py-12 text-center text-gray-500">No articles found</td></tr>
+            {filtered.length === 0 && (
+              <tr><td colSpan={7} className="px-4 py-12 text-center text-gray-500">Δεν βρέθηκαν άρθρα</td></tr>
             )}
           </tbody>
         </table>
