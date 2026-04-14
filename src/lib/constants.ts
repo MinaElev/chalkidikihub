@@ -83,6 +83,7 @@ export const AREAS: AreaInfo[] = [
       bg: 'Континентален Халкидики',
       ru: 'Материковая Халкидики',
       ro: 'Halkidiki continental',
+      sr: 'Kopneni Halkidiki',
     },
     description: {
       el: 'Η ηπειρωτική Χαλκιδική. Παραδοσιακά χωριά, αμπελώνες και αυθεντική φιλοξενία.',
@@ -91,6 +92,7 @@ export const AREAS: AreaInfo[] = [
       bg: 'Континенталната част на Халкидики. Традиционни села, лозя и автентично гостоприемство.',
       ru: 'Материковая часть Халкидики. Традиционные деревни, виноградники и настоящее гостеприимство.',
       ro: 'Partea continentală a Halkidiki. Sate tradiționale, podgorii și ospitalitate autentică.',
+      sr: 'Kopneni deo Halkidikija. Tradicionalna sela, vinogradi i autentično gostoprimstvo.',
     },
     image_url: '',
     latitude: 40.35,

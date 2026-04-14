@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Beach } from '@/types';
@@ -21,11 +22,12 @@ export function BeachCard({ beach }: { beach: Beach }) {
         {/* Image */}
         <div className="relative aspect-[16/10] bg-gray-200 overflow-hidden">
           {beach.image_url ? (
-            <img
+            <Image
               src={beach.image_url}
               alt={name}
-              loading="lazy"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-cyan-100 to-blue-200 flex items-center justify-center">

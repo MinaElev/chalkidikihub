@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Listing } from '@/types';
@@ -23,11 +24,12 @@ export function ListingCard({ listing }: ListingCardProps) {
         {/* Image */}
         <div className="relative aspect-[4/3] bg-gray-200 overflow-hidden">
           {coverImage ? (
-            <img
+            <Image
               src={coverImage.image_url}
               alt={title}
-              loading="lazy"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
