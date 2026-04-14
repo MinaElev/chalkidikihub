@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient, createApiClient } from '@/lib/api-helpers';
 
-// Vercel Hobby default = 10s — extend to max 60s
+// Vercel Hobby: default 10s, max 60s
 export const maxDuration = 60;
 
 async function getOpenAIKey(): Promise<string> {
@@ -29,17 +29,6 @@ async function callOpenAI(prompt: string, maxTokens: number = 6000): Promise<str
   return data.choices[0].message.content;
 }
 
-function slugify(text: string): string {
-  return text.toLowerCase()
-    .replace(/[άα]/g, 'a').replace(/[έε]/g, 'e').replace(/[ήη]/g, 'i').replace(/[ίι]/g, 'i')
-    .replace(/[όο]/g, 'o').replace(/[ύυ]/g, 'y').replace(/[ώω]/g, 'o').replace(/[ς]/g, 's')
-    .replace(/[σ]/g, 's').replace(/[δ]/g, 'd').replace(/[φ]/g, 'f').replace(/[γ]/g, 'g')
-    .replace(/[ξ]/g, 'x').replace(/[κ]/g, 'k').replace(/[λ]/g, 'l').replace(/[μ]/g, 'm')
-    .replace(/[ν]/g, 'n').replace(/[π]/g, 'p').replace(/[ρ]/g, 'r').replace(/[τ]/g, 't')
-    .replace(/[θ]/g, 'th').replace(/[χ]/g, 'ch').replace(/[ψ]/g, 'ps').replace(/[ζ]/g, 'z')
-    .replace(/[β]/g, 'v').replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
-}
-
 const AREA_NAMES_EL: Record<string, string> = {
   kassandra: 'Κασσάνδρα',
   sithonia: 'Σιθωνία',
@@ -47,166 +36,194 @@ const AREA_NAMES_EL: Record<string, string> = {
   mainland: 'Ενδοχώρα Χαλκιδικής',
 };
 
+async function authCheck(request: Request) {
+  const authHeader = request.headers.get('authorization');
+  const token = authHeader?.replace('Bearer ', '');
+  if (!token) return null;
+  const supabaseAuth = createApiClient();
+  const { data: { user }, error } = await supabaseAuth.auth.getUser(token);
+  if (error || !user) return null;
+  const adminDb = createAdminClient();
+  const { data: profile } = await adminDb.from('profiles').select('role').eq('id', user.id).single();
+  if (profile?.role !== 'superadmin') return null;
+  return user;
+}
+
+// ═══════════════════════════════════════════════════════════
+// POST: 2-step article generation
+// step=1 → Greek article + Unsplash + save draft (~25s)
+// step=2 → Translate 6 langs + SEO + update record (~30s)
+// ═══════════════════════════════════════════════════════════
 export async function POST(request: Request) {
   try {
-    // Auth check
-    const authHeader = request.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
-    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const user = await authCheck(request);
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const supabaseAuth = createApiClient();
-    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser(token);
-    if (authError || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-    const adminDb = createAdminClient();
-    const { data: profile } = await adminDb.from('profiles').select('role').eq('id', user.id).single();
-    if (profile?.role !== 'superadmin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-
-    // Parse request body
     const body = await request.json().catch(() => ({}));
-    const targetSlug = body.village_slug || null; // null = all villages
-    const dryRun = body.dry_run || false;
+    const step = body.step || 1;
+    const targetSlug = body.village_slug || null;
+    const articleId = body.article_id || null;
 
-    const supabase = adminDb;
+    const supabase = createAdminClient();
 
-    // Fetch villages
-    let villageQuery = supabase.from('villages').select('*').order('sort_order');
-    if (targetSlug) villageQuery = villageQuery.eq('slug', targetSlug);
-    const { data: villages, error: vErr } = await villageQuery;
-    if (vErr || !villages?.length) {
-      return NextResponse.json({ error: 'No villages found', details: vErr?.message }, { status: 404 });
-    }
-
-    // Check which villages already have articles
-    const { data: existingArticles } = await supabase
-      .from('blog_articles')
-      .select('slug')
-      .like('slug', 'odigos-gia-%');
-    const existingSlugs = new Set((existingArticles || []).map(a => a.slug));
-
-    const results: Array<{ village: string; slug: string; status: string }> = [];
-    const errors: Array<{ village: string; error: string }> = [];
-
-    for (const village of villages) {
-      const villageNameEl = village.name_el || '';
-      const articleSlug = `odigos-gia-${village.slug}`;
-
-      // Skip if article already exists
-      if (existingSlugs.has(articleSlug)) {
-        results.push({ village: villageNameEl, slug: articleSlug, status: 'already_exists' });
-        continue;
+    // ─── STEP 1: Generate Greek article + image + save draft ───
+    if (step === 1) {
+      // Fetch village
+      let villageQuery = supabase.from('villages').select('*').order('sort_order');
+      if (targetSlug) villageQuery = villageQuery.eq('slug', targetSlug);
+      const { data: villages, error: vErr } = await villageQuery;
+      if (vErr || !villages?.length) {
+        return NextResponse.json({ error: 'No villages found' }, { status: 404 });
       }
 
-      if (dryRun) {
-        results.push({ village: villageNameEl, slug: articleSlug, status: 'dry_run' });
-        continue;
-      }
+      // Check existing
+      const { data: existingArticles } = await supabase
+        .from('blog_articles').select('slug').like('slug', 'odigos-gia-%');
+      const existingSlugs = new Set((existingArticles || []).map(a => a.slug));
 
-      try {
-        const areaEl = AREA_NAMES_EL[village.area] || village.area;
+      const results: Array<{ village: string; slug: string; status: string; article_id?: string }> = [];
+      const errors: Array<{ village: string; error: string }> = [];
 
-        // Fetch related content for this village's area
-        const [beachesRes, restaurantsRes, activitiesRes, listingsRes] = await Promise.all([
-          supabase.from('beaches').select('name_el, slug, features, rating, description_el').eq('area', village.area).order('rating', { ascending: false }).limit(10),
-          supabase.from('restaurants').select('name_el, slug, cuisine, rating, price_level').eq('area', village.area).order('rating', { ascending: false }).limit(10),
-          supabase.from('activities').select('name_el, slug, category').eq('area', village.area).limit(8),
-          supabase.from('listings').select('title_el, slug, price_per_night, guests_max').eq('area', village.area).eq('status', 'published').limit(5),
-        ]);
+      for (const village of villages) {
+        const villageNameEl = village.name_el || '';
+        const articleSlug = `odigos-gia-${village.slug}`;
 
-        const beaches = beachesRes.data || [];
-        const restaurants = restaurantsRes.data || [];
-        const activities = activitiesRes.data || [];
-        const listings = listingsRes.data || [];
+        if (existingSlugs.has(articleSlug)) {
+          results.push({ village: villageNameEl, slug: articleSlug, status: 'already_exists' });
+          continue;
+        }
 
-        const beachInfo = beaches.map(b => `${b.name_el} (${(b.features || []).slice(0, 3).join(', ')})`).join('; ');
-        const restaurantInfo = restaurants.map(r => `${r.name_el} (${(r.cuisine || []).join('/')}, ${r.price_level || 'moderate'})`).join('; ');
-        const activityInfo = activities.map(a => `${a.name_el} (${a.category})`).join('; ');
-        const listingInfo = listings.map(l => `${l.title_el} (${l.price_per_night}€/βράδυ, ${l.guests_max} άτομα)`).join('; ');
+        try {
+          const areaEl = AREA_NAMES_EL[village.area] || village.area;
 
-        // ── STEP 1: Generate Greek article ──
-        const articlePrompt = `Είσαι ένας ταξιδιωτικός journalist που ζει στη Χαλκιδική 20 χρόνια. Γράψε τον ΑΠΟΛΥΤΟ οδηγό για το χωριό "${villageNameEl}" στην περιοχή ${areaEl}, Χαλκιδική.
+          // Fetch context data
+          const [beachesRes, restaurantsRes, activitiesRes, listingsRes] = await Promise.all([
+            supabase.from('beaches').select('name_el, slug, features, rating').eq('area', village.area).order('rating', { ascending: false }).limit(10),
+            supabase.from('restaurants').select('name_el, slug, cuisine, price_level').eq('area', village.area).order('rating', { ascending: false }).limit(10),
+            supabase.from('activities').select('name_el, slug, category').eq('area', village.area).limit(8),
+            supabase.from('listings').select('title_el, slug, price_per_night, guests_max').eq('area', village.area).eq('status', 'published').limit(5),
+          ]);
 
-ΠΛΗΡΟΦΟΡΙΕΣ ΠΟΥ ΕΧΕΙΣ:
+          const beaches = beachesRes.data || [];
+          const restaurants = restaurantsRes.data || [];
+          const activities = activitiesRes.data || [];
+          const listings = listingsRes.data || [];
+
+          const beachInfo = beaches.map(b => `${b.name_el} (${(b.features || []).slice(0, 3).join(', ')})`).join('; ');
+          const restaurantInfo = restaurants.map(r => `${r.name_el} (${(r.cuisine || []).join('/')}, ${r.price_level || 'moderate'})`).join('; ');
+          const activityInfo = activities.map(a => `${a.name_el} (${a.category})`).join('; ');
+          const listingInfo = listings.map(l => `${l.title_el} (${l.price_per_night}€/βράδυ, ${l.guests_max} άτομα)`).join('; ');
+
+          // AI: Generate Greek article
+          const articlePrompt = `Είσαι ένας ταξιδιωτικός journalist που ζει στη Χαλκιδική 20 χρόνια. Γράψε τον ΑΠΟΛΥΤΟ οδηγό για το χωριό "${villageNameEl}" στην περιοχή ${areaEl}, Χαλκιδική.
+
+ΠΛΗΡΟΦΟΡΙΕΣ:
 - Χωριό: ${villageNameEl} (${village.name_en || ''})
 - Περιοχή: ${areaEl}
 - Πληθυσμός: ${village.population || 'μικρό χωριό'}
 - Περιγραφή: ${village.description_el || ''}
-- Γεωγραφική θέση: lat ${village.latitude}, lng ${village.longitude}
 - Κοντινές παραλίες: ${beachInfo || 'πολλές παραλίες στην περιοχή'}
 - Εστιατόρια: ${restaurantInfo || 'τοπικές ταβέρνες'}
 - Δραστηριότητες: ${activityInfo || 'εξερεύνηση, κολύμβηση'}
 - Καταλύματα: ${listingInfo || 'ενοικιαζόμενα δωμάτια'}
 
-ΔΟΜΗ ΑΡΘΡΟΥ (ΥΠΟΧΡΕΩΤΙΚΗ):
-1. Εισαγωγική παράγραφος — γιατί αξίζει να επισκεφτείς αυτό το χωριό, τι το κάνει μοναδικό
-2. ## Γνωρίστε ${villageNameEl} — ιστορία, χαρακτήρας, ατμόσφαιρα, αρχιτεκτονική
-3. ## Παραλίες κοντά στ${villageNameEl.endsWith('η') || villageNameEl.endsWith('ά') ? 'η' : 'ο'} ${villageNameEl} — αναλυτικά 3-5 παραλίες, τι προσφέρει η καθεμία
-4. ## Πού να φάτε — εστιατόρια, ταβέρνες, τι να δοκιμάσετε
-5. ## Τι να κάνετε — δραστηριότητες, αξιοθέατα, εκδρομές, νυχτερινή ζωή
-6. ## Πού να μείνετε — τύποι καταλυμάτων, τιμές, tips κράτησης
-7. ## Πώς να φτάσετε — απόσταση από Θεσσαλονίκη, μεταφορικά μέσα
-8. ## Πρακτικές πληροφορίες — καλύτερη εποχή, τι να πάρετε μαζί, tips
+ΔΟΜΗ (ΥΠΟΧΡΕΩΤΙΚΗ):
+1. Εισαγωγική παράγραφος
+2. ## Γνωρίστε ${villageNameEl}
+3. ## Παραλίες κοντά στ${villageNameEl.endsWith('η') || villageNameEl.endsWith('ά') ? 'η' : 'ο'} ${villageNameEl}
+4. ## Πού να φάτε
+5. ## Τι να κάνετε
+6. ## Πού να μείνετε
+7. ## Πώς να φτάσετε
+8. ## Πρακτικές πληροφορίες
 
-ΚΑΝΟΝΕΣ ΜΟΡΦΟΠΟΙΗΣΗΣ:
-- Γράψε 1000-1500 λέξεις
-- Χρησιμοποίησε MARKDOWN format:
-  - Headings: "## Τίτλος" και "### Υποτίτλος"
-  - Bold: **σημαντικές λέξεις** και **ονόματα**
-  - Bullet lists: "- item"
-  - Κενή γραμμή μεταξύ παραγράφων
-  - Blockquote: "> insider tip"
-- ΟΧΙ HTML tags — ΜΟΝΟ markdown
-- Ανέφερε ΠΡΑΓΜΑΤΙΚΑ ονόματα (παραλίες, εστιατόρια) από τα data που σου δίνω
-- Γράψε σαν φίλος που δίνει συμβουλές, ΟΧΙ σαν Wikipedia
-- Βάλε 1 blockquote ("> ") με insider tip
-- Κάθε ## section να έχει τουλάχιστον 2 παραγράφους ή λίστα
-- Keywords: ${villageNameEl}, Χαλκιδική, ${areaEl}, παραλίες, καταλύματα, εστιατόρια
+ΜΟΡΦΟΠΟΙΗΣΗ: MARKDOWN μόνο (## headings, **bold**, - bullets, > blockquote). ΟΧΙ HTML. 1000-1500 λέξεις. Γράψε σαν φίλος.
 
 Επίστρεψε ΜΟΝΟ JSON:
 {
-  "title_el": "Ελκυστικός τίτλος μέχρι 65 χαρακτήρες — πρέπει να περιέχει '${villageNameEl}' και 'Χαλκιδική'",
-  "excerpt_el": "1-2 προτάσεις δελεαστική περίληψη μέχρι 200 χαρακτήρες",
-  "content_el": "Εισαγωγική παράγραφος...\\n\\n## Γνωρίστε...\\n\\nΚείμενο...",
+  "title_el": "Τίτλος ≤65 χαρ. με '${villageNameEl}' και 'Χαλκιδική'",
+  "excerpt_el": "Περίληψη ≤200 χαρ.",
+  "content_el": "markdown...",
   "read_time_min": 7,
-  "tags": ["${villageNameEl.toLowerCase()}", "χαλκιδική", "${areaEl.toLowerCase()}", "tag4", "tag5", "tag6"],
+  "tags": ["${villageNameEl.toLowerCase()}", "χαλκιδική", "${areaEl.toLowerCase()}", "tag4", "tag5"],
   "unsplash_query": "Halkidiki ${village.name_en || villageNameEl} Greece village"
 }`;
 
-        const articleRaw = await callOpenAI(articlePrompt, 5000);
-        const article = JSON.parse(articleRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+          const articleRaw = await callOpenAI(articlePrompt, 5000);
+          const article = JSON.parse(articleRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+          if (!article.title_el || !article.content_el) throw new Error('AI returned incomplete article');
 
-        if (!article.title_el || !article.content_el) throw new Error('AI returned incomplete article');
-
-        // ── STEP 2: Fetch Unsplash image ──
-        let imageUrl = village.image_url || '';
-        let imageAlt = '';
-        try {
-          const { data: unsplashSetting } = await supabase.from('site_settings').select('value').eq('key', 'unsplash_access_key').single();
-          const unsplashKey = unsplashSetting?.value || process.env.UNSPLASH_ACCESS_KEY;
-          if (unsplashKey && !imageUrl) {
-            const query = article.unsplash_query || `Halkidiki ${village.name_en} Greece`;
-            const uRes = await fetch(
-              `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=5&orientation=landscape`,
-              { headers: { Authorization: `Client-ID ${unsplashKey}` } }
-            );
-            if (uRes.ok) {
-              const uData = await uRes.json();
-              const photos = uData.results || [];
-              if (photos.length > 0) {
-                const photo = photos[Math.floor(Math.random() * Math.min(photos.length, 3))];
-                imageUrl = photo.urls?.regular || '';
-                imageAlt = photo.alt_description || photo.description || query;
-                if (photo.links?.download_location) {
-                  fetch(photo.links.download_location, { headers: { Authorization: `Client-ID ${unsplashKey}` } }).catch(() => {});
+          // Unsplash image
+          let imageUrl = village.image_url || '';
+          let imageAlt = '';
+          try {
+            const { data: unsplashSetting } = await supabase.from('site_settings').select('value').eq('key', 'unsplash_access_key').single();
+            const unsplashKey = unsplashSetting?.value || process.env.UNSPLASH_ACCESS_KEY;
+            if (unsplashKey && !imageUrl) {
+              const query = article.unsplash_query || `Halkidiki ${village.name_en} Greece`;
+              const uRes = await fetch(
+                `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=5&orientation=landscape`,
+                { headers: { Authorization: `Client-ID ${unsplashKey}` } }
+              );
+              if (uRes.ok) {
+                const uData = await uRes.json();
+                const photos = uData.results || [];
+                if (photos.length > 0) {
+                  const photo = photos[Math.floor(Math.random() * Math.min(photos.length, 3))];
+                  imageUrl = photo.urls?.regular || '';
+                  imageAlt = photo.alt_description || photo.description || query;
+                  if (photo.links?.download_location) {
+                    fetch(photo.links.download_location, { headers: { Authorization: `Client-ID ${unsplashKey}` } }).catch(() => {});
+                  }
                 }
               }
             }
-          }
-        } catch {}
+          } catch {}
 
-        // ── STEP 3: Translations (titles + excerpts + full content) + SEO — ALL IN ONE CALL ──
-        const allTranslationsPrompt = `You are an expert translator and SEO specialist for a premium tourism blog about Halkidiki, Greece.
-Translate and optimize everything for a village guide about "${village.name_en || villageNameEl}" in ${AREA_NAMES_EL[village.area] || village.area}, Halkidiki.
+          // Insert Greek-only draft
+          const { data: inserted, error: insertError } = await supabase.from('blog_articles').insert({
+            slug: articleSlug,
+            category: 'guides',
+            author: 'ChalkidikiHub',
+            read_time_min: article.read_time_min || 7,
+            tags: article.tags || [villageNameEl.toLowerCase(), 'χαλκιδική'],
+            related_area_slugs: [village.area],
+            related_beach_slugs: beaches.slice(0, 3).map((b: { slug: string }) => b.slug),
+            published_at: new Date().toISOString(),
+            image_url: imageUrl,
+            image_alt: imageAlt || `${village.name_en} village Halkidiki`,
+            title_el: article.title_el,
+            excerpt_el: article.excerpt_el,
+            content_el: article.content_el,
+          }).select('id').single();
+
+          if (insertError) throw new Error(insertError.message);
+
+          results.push({ village: villageNameEl, slug: articleSlug, status: 'step1_done', article_id: inserted?.id });
+        } catch (err) {
+          errors.push({ village: villageNameEl, error: (err as Error).message });
+        }
+      }
+
+      return NextResponse.json({ success: true, step: 1, results, errors_detail: errors });
+    }
+
+    // ─── STEP 2: Translate + SEO + update ───
+    if (step === 2 && articleId) {
+      const { data: article } = await supabase.from('blog_articles')
+        .select('id, slug, title_el, excerpt_el, content_el, image_alt')
+        .eq('id', articleId).single();
+
+      if (!article) return NextResponse.json({ error: 'Article not found' }, { status: 404 });
+
+      // Get village info from slug
+      const villageSlug = article.slug.replace('odigos-gia-', '');
+      const { data: village } = await supabase.from('villages').select('name_el, name_en, area').eq('slug', villageSlug).single();
+      const villageNameEl = village?.name_el || '';
+      const areaEl = AREA_NAMES_EL[village?.area || ''] || village?.area || '';
+
+      const allTranslationsPrompt = `You are an expert translator and SEO specialist for a premium tourism blog about Halkidiki, Greece.
+Translate and optimize everything for a village guide about "${village?.name_en || villageNameEl}" in ${areaEl}, Halkidiki.
 
 Greek title: "${article.title_el}"
 Greek excerpt: "${article.excerpt_el}"
@@ -214,11 +231,7 @@ Greek excerpt: "${article.excerpt_el}"
 Greek content (markdown):
 ${article.content_el}
 
-TRANSLATION RULES:
-- Keep ALL markdown formatting exactly: ## headings, **bold**, - bullets, > blockquotes, blank lines
-- Use **bold** for key names (beaches, restaurants, villages)
-- Translate naturally for tourism audience — like a friend giving travel advice
-- Keep each translation in its OWN language
+RULES: Keep ALL markdown formatting. Translate naturally for tourism. Each language stays in its OWN language.
 
 Return ONLY JSON:
 {
@@ -229,96 +242,51 @@ Return ONLY JSON:
     "content_ru": "...", "content_ro": "...", "content_sr": "..."
   },
   "seo": {
-    "meta_title_el": "max 60 chars, include ${villageNameEl} and Χαλκιδική",
-    "meta_title_en": "max 60 chars, include ${village.name_en || villageNameEl} and Halkidiki",
-    "meta_title_de": "max 60 chars", "meta_title_bg": "max 60 chars",
-    "meta_title_ru": "max 60 chars", "meta_title_ro": "max 60 chars", "meta_title_sr": "max 60 chars",
-    "meta_description_el": "max 155 chars, compelling, include ${villageNameEl}, παραλίες, εστιατόρια",
-    "meta_description_en": "max 155 chars", "meta_description_de": "max 155 chars",
-    "meta_description_bg": "max 155 chars", "meta_description_ru": "max 155 chars",
-    "meta_description_ro": "max 155 chars", "meta_description_sr": "max 155 chars",
-    "image_alt": "English descriptive alt text for village photo"
+    "meta_title_el": "max 60 chars with ${villageNameEl}", "meta_title_en": "max 60 chars",
+    "meta_title_de": "", "meta_title_bg": "", "meta_title_ru": "", "meta_title_ro": "", "meta_title_sr": "",
+    "meta_description_el": "max 155 chars", "meta_description_en": "", "meta_description_de": "",
+    "meta_description_bg": "", "meta_description_ru": "", "meta_description_ro": "", "meta_description_sr": "",
+    "image_alt": "English alt text"
   }
 }`;
 
-        const allTransRaw = await callOpenAI(allTranslationsPrompt, 12000);
-        const allTrans = JSON.parse(allTransRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
-        const seo = allTrans;
-        const trans = allTrans.translations || {};
+      const allTransRaw = await callOpenAI(allTranslationsPrompt, 12000);
+      const allTrans = JSON.parse(allTransRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+      const trans = allTrans.translations || {};
+      const seo = allTrans.seo || {};
 
-        const finalContentEl = article.content_el;
-        const finalContentEn = trans.content_en || '';
-        const finalContentDe = trans.content_de || '';
-        const finalContentBg = trans.content_bg || '';
-        const finalContentRu = trans.content_ru || '';
-        const finalContentRo = trans.content_ro || '';
-        const finalContentSr = trans.content_sr || '';
+      // Update with translations + SEO
+      const { error: updateError } = await supabase.from('blog_articles').update({
+        title_en: trans.title_en || '', title_de: trans.title_de || '',
+        title_bg: trans.title_bg || '', title_ru: trans.title_ru || '',
+        title_ro: trans.title_ro || '', title_sr: trans.title_sr || '',
+        excerpt_en: trans.excerpt_en || '', excerpt_de: trans.excerpt_de || '',
+        excerpt_bg: trans.excerpt_bg || '', excerpt_ru: trans.excerpt_ru || '',
+        excerpt_ro: trans.excerpt_ro || '', excerpt_sr: trans.excerpt_sr || '',
+        content_en: trans.content_en || '', content_de: trans.content_de || '',
+        content_bg: trans.content_bg || '', content_ru: trans.content_ru || '',
+        content_ro: trans.content_ro || '', content_sr: trans.content_sr || '',
+        meta_title_el: seo.meta_title_el || '', meta_title_en: seo.meta_title_en || '',
+        meta_title_de: seo.meta_title_de || '', meta_title_bg: seo.meta_title_bg || '',
+        meta_title_ru: seo.meta_title_ru || '', meta_title_ro: seo.meta_title_ro || '',
+        meta_title_sr: seo.meta_title_sr || '',
+        meta_description_el: seo.meta_description_el || '', meta_description_en: seo.meta_description_en || '',
+        meta_description_de: seo.meta_description_de || '', meta_description_bg: seo.meta_description_bg || '',
+        meta_description_ru: seo.meta_description_ru || '', meta_description_ro: seo.meta_description_ro || '',
+        meta_description_sr: seo.meta_description_sr || '',
+        image_alt: seo.image_alt || article.image_alt || '',
+      }).eq('id', articleId);
 
-        // ── STEP 5: Insert article ──
-        const { error: insertError } = await supabase.from('blog_articles').insert({
-          slug: articleSlug,
-          category: 'guides',
-          author: 'ChalkidikiHub',
-          read_time_min: article.read_time_min || 7,
-          tags: article.tags || [villageNameEl.toLowerCase(), 'χαλκιδική'],
-          related_area_slugs: [village.area],
-          related_beach_slugs: (beaches).slice(0, 3).map((b: { slug: string }) => b.slug),
-          published_at: new Date().toISOString(),
-          image_url: imageUrl,
-          image_alt: imageAlt || seo.seo?.image_alt || `${village.name_en} village Halkidiki`,
-          // Greek
-          title_el: article.title_el,
-          excerpt_el: article.excerpt_el,
-          content_el: finalContentEl,
-          // Translations
-          title_en: seo.translations?.title_en || '', title_de: seo.translations?.title_de || '',
-          title_bg: seo.translations?.title_bg || '', title_ru: seo.translations?.title_ru || '',
-          title_ro: seo.translations?.title_ro || '', title_sr: seo.translations?.title_sr || '',
-          excerpt_en: seo.translations?.excerpt_en || '', excerpt_de: seo.translations?.excerpt_de || '',
-          excerpt_bg: seo.translations?.excerpt_bg || '', excerpt_ru: seo.translations?.excerpt_ru || '',
-          excerpt_ro: seo.translations?.excerpt_ro || '', excerpt_sr: seo.translations?.excerpt_sr || '',
-          content_en: finalContentEn, content_de: finalContentDe,
-          content_bg: finalContentBg, content_ru: finalContentRu,
-          content_ro: finalContentRo, content_sr: finalContentSr,
-          // SEO
-          meta_title_el: seo.seo?.meta_title_el || '', meta_title_en: seo.seo?.meta_title_en || '',
-          meta_title_de: seo.seo?.meta_title_de || '', meta_title_bg: seo.seo?.meta_title_bg || '',
-          meta_title_ru: seo.seo?.meta_title_ru || '', meta_title_ro: seo.seo?.meta_title_ro || '',
-          meta_title_sr: seo.seo?.meta_title_sr || '',
-          meta_description_el: seo.seo?.meta_description_el || '', meta_description_en: seo.seo?.meta_description_en || '',
-          meta_description_de: seo.seo?.meta_description_de || '', meta_description_bg: seo.seo?.meta_description_bg || '',
-          meta_description_ru: seo.seo?.meta_description_ru || '', meta_description_ro: seo.seo?.meta_description_ro || '',
-          meta_description_sr: seo.seo?.meta_description_sr || '',
-        });
+      if (updateError) throw new Error(updateError.message);
 
-        if (insertError) throw new Error(insertError.message);
-
-        results.push({ village: villageNameEl, slug: articleSlug, status: 'created' });
-
-        // Small delay between villages to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-      } catch (err) {
-        errors.push({ village: villageNameEl, error: (err as Error).message });
-      }
+      return NextResponse.json({
+        success: true, step: 2,
+        results: [{ village: villageNameEl, slug: article.slug, status: 'created' }],
+        errors_detail: [],
+      });
     }
 
-    // Log action
-    await supabase.from('activity_logs').insert({
-      type: 'admin_action', severity: 'info',
-      message: `Village articles batch: ${results.filter(r => r.status === 'created').length} created, ${results.filter(r => r.status === 'already_exists').length} skipped, ${errors.length} errors`,
-      details: { results, errors },
-    });
-
-    return NextResponse.json({
-      success: true,
-      total_villages: villages.length,
-      created: results.filter(r => r.status === 'created').length,
-      skipped: results.filter(r => r.status === 'already_exists').length,
-      errors: errors.length,
-      results,
-      errors_detail: errors,
-    });
+    return NextResponse.json({ error: 'Invalid step' }, { status: 400 });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
@@ -328,7 +296,6 @@ Return ONLY JSON:
 export async function GET() {
   try {
     const supabase = createApiClient();
-
     const { data: villages } = await supabase.from('villages').select('slug, name_el, area').order('sort_order');
     const { data: articles } = await supabase.from('blog_articles').select('slug').like('slug', 'odigos-gia-%');
 

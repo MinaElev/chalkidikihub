@@ -362,29 +362,37 @@ function VillageArticleGenerator() {
     setLoading(false);
   }
 
+  // 2-step generation: step1 = Greek + image, step2 = translations + SEO
+  async function callApi(token: string, body: Record<string, unknown>): Promise<any> {
+    const res = await fetch('/api/admin/village-articles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(body),
+    });
+    const text = await res.text();
+    try { return JSON.parse(text); } catch { return null; }
+  }
+
   async function generateOne(villageSlug: string) {
     setGenerating(villageSlug);
     const token = await getToken();
     try {
-      const res = await fetch('/api/admin/village-articles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ village_slug: villageSlug }),
-      });
-      const text = await res.text();
-      let data: any;
-      try { data = JSON.parse(text); } catch {
-        setResults(prev => [...prev, `Error ${villageSlug}: Server timeout ή σφάλμα — δοκίμασε ξανά`]);
-        setGenerating(null);
-        return;
-      }
-      if (data.errors_detail?.length > 0) {
-        setResults(prev => [...prev, `Error ${villageSlug}: ${data.errors_detail[0].error}`]);
-      } else if (data.results?.length > 0) {
-        const r = data.results[0];
-        setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status === 'already_exists' ? 'Skipped (exists)' : r.status}: ${r.village}`]);
-        setVillages(prev => prev.map(v => v.slug === villageSlug ? { ...v, has_article: true } : v));
-      }
+      // Step 1: Greek article + image
+      setResults(prev => [...prev, `${villageSlug}: Βήμα 1/2 — Δημιουργία ελληνικού άρθρου...`]);
+      const step1 = await callApi(token, { step: 1, village_slug: villageSlug });
+      if (!step1) { setResults(prev => [...prev, `Error ${villageSlug}: Server timeout στο βήμα 1`]); setGenerating(null); return; }
+      if (step1.errors_detail?.length > 0) { setResults(prev => [...prev, `Error ${villageSlug}: ${step1.errors_detail[0].error}`]); setGenerating(null); return; }
+
+      const r1 = step1.results?.[0];
+      if (r1?.status === 'already_exists') { setResults(prev => [...prev, `Skipped (exists): ${r1.village}`]); setVillages(prev => prev.map(v => v.slug === villageSlug ? { ...v, has_article: true } : v)); setGenerating(null); return; }
+      if (!r1?.article_id) { setResults(prev => [...prev, `Error ${villageSlug}: no article_id from step 1`]); setGenerating(null); return; }
+
+      // Step 2: Translations + SEO
+      setResults(prev => [...prev, `${villageSlug}: Βήμα 2/2 — Μεταφράσεις + SEO...`]);
+      const step2 = await callApi(token, { step: 2, article_id: r1.article_id });
+      if (!step2) { setResults(prev => [...prev, `⚠️ ${villageSlug}: Timeout στο βήμα 2 — το ελληνικό άρθρο αποθηκεύτηκε, μεταφράσεις ελλιπείς`]); }
+      else { setResults(prev => [...prev, `✅ Created: ${r1.village}`]); }
+      setVillages(prev => prev.map(v => v.slug === villageSlug ? { ...v, has_article: true } : v));
     } catch (err) {
       setResults(prev => [...prev, `Error ${villageSlug}: ${(err as Error).message}`]);
     }
@@ -405,25 +413,21 @@ function VillageArticleGenerator() {
       const v = pending[i];
       setGenerating(v.slug);
       try {
-        const res = await fetch('/api/admin/village-articles', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({ village_slug: v.slug }),
-        });
-        const text = await res.text();
-        let data: any;
-        try { data = JSON.parse(text); } catch {
-          setResults(prev => [...prev, `Error ${v.village}: Server timeout — παράλειψη`]);
-          setProcessed(i + 1);
-          continue;
-        }
-        if (data.errors_detail?.length > 0) {
-          setResults(prev => [...prev, `Error ${v.village}: ${data.errors_detail[0].error}`]);
-        } else if (data.results?.length > 0) {
-          const r = data.results[0];
-          setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status}: ${r.village}`]);
-          setVillages(prev => prev.map(vv => vv.slug === v.slug ? { ...vv, has_article: true } : vv));
-        }
+        // Step 1
+        setResults(prev => [...prev, `${v.village}: Βήμα 1/2...`]);
+        const step1 = await callApi(token, { step: 1, village_slug: v.slug });
+        if (!step1) { setResults(prev => [...prev, `Error ${v.village}: Timeout βήμα 1`]); setProcessed(i + 1); continue; }
+        if (step1.errors_detail?.length > 0) { setResults(prev => [...prev, `Error ${v.village}: ${step1.errors_detail[0].error}`]); setProcessed(i + 1); continue; }
+        const r1 = step1.results?.[0];
+        if (r1?.status === 'already_exists') { setResults(prev => [...prev, `Skipped: ${r1.village}`]); setVillages(prev => prev.map(vv => vv.slug === v.slug ? { ...vv, has_article: true } : vv)); setProcessed(i + 1); continue; }
+        if (!r1?.article_id) { setProcessed(i + 1); continue; }
+
+        // Step 2
+        setResults(prev => [...prev, `${v.village}: Βήμα 2/2...`]);
+        const step2 = await callApi(token, { step: 2, article_id: r1.article_id });
+        if (step2) { setResults(prev => [...prev, `✅ ${r1.village}`]); }
+        else { setResults(prev => [...prev, `⚠️ ${r1.village}: EL ok, μεταφράσεις ελλιπείς`]); }
+        setVillages(prev => prev.map(vv => vv.slug === v.slug ? { ...vv, has_article: true } : vv));
       } catch (err) {
         setResults(prev => [...prev, `Error ${v.village}: ${(err as Error).message}`]);
       }
@@ -571,29 +575,33 @@ function BeachArticleGenerator() {
     setLoading(false);
   }
 
+  async function callBeachApi(token: string, body: Record<string, unknown>): Promise<any> {
+    const res = await fetch('/api/admin/beach-articles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(body),
+    });
+    const text = await res.text();
+    try { return JSON.parse(text); } catch { return null; }
+  }
+
   async function generateOne(beachSlug: string) {
     setGenerating(beachSlug);
     const token = await getToken();
     try {
-      const res = await fetch('/api/admin/beach-articles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ beach_slug: beachSlug }),
-      });
-      const text = await res.text();
-      let data: any;
-      try { data = JSON.parse(text); } catch {
-        setResults(prev => [...prev, `Error ${beachSlug}: Server timeout ή σφάλμα — δοκίμασε ξανά`]);
-        setGenerating(null);
-        return;
-      }
-      if (data.errors_detail?.length > 0) {
-        setResults(prev => [...prev, `Error ${beachSlug}: ${data.errors_detail[0].error}`]);
-      } else if (data.results?.length > 0) {
-        const r = data.results[0];
-        setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status === 'already_exists' ? 'Skipped (exists)' : r.status}: ${r.beach}`]);
-        setBeaches(prev => prev.map(b => b.slug === beachSlug ? { ...b, has_article: true } : b));
-      }
+      setResults(prev => [...prev, `${beachSlug}: Βήμα 1/2 — Δημιουργία ελληνικού άρθρου...`]);
+      const step1 = await callBeachApi(token, { step: 1, beach_slug: beachSlug });
+      if (!step1) { setResults(prev => [...prev, `Error ${beachSlug}: Timeout βήμα 1`]); setGenerating(null); return; }
+      if (step1.errors_detail?.length > 0) { setResults(prev => [...prev, `Error ${beachSlug}: ${step1.errors_detail[0].error}`]); setGenerating(null); return; }
+      const r1 = step1.results?.[0];
+      if (r1?.status === 'already_exists') { setResults(prev => [...prev, `Skipped (exists): ${r1.beach}`]); setBeaches(prev => prev.map(b => b.slug === beachSlug ? { ...b, has_article: true } : b)); setGenerating(null); return; }
+      if (!r1?.article_id) { setResults(prev => [...prev, `Error ${beachSlug}: no article_id`]); setGenerating(null); return; }
+
+      setResults(prev => [...prev, `${beachSlug}: Βήμα 2/2 — Μεταφράσεις + SEO...`]);
+      const step2 = await callBeachApi(token, { step: 2, article_id: r1.article_id });
+      if (step2) { setResults(prev => [...prev, `✅ Created: ${r1.beach}`]); }
+      else { setResults(prev => [...prev, `⚠️ ${r1.beach}: EL ok, μεταφράσεις ελλιπείς`]); }
+      setBeaches(prev => prev.map(b => b.slug === beachSlug ? { ...b, has_article: true } : b));
     } catch (err) {
       setResults(prev => [...prev, `Error ${beachSlug}: ${(err as Error).message}`]);
     }
@@ -607,32 +615,25 @@ function BeachArticleGenerator() {
     setProcessed(0);
     setTotal(pending.length);
     setResults([]);
-
     const token = await getToken();
 
     for (let i = 0; i < pending.length; i++) {
       const b = pending[i];
       setGenerating(b.slug);
       try {
-        const res = await fetch('/api/admin/beach-articles', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({ beach_slug: b.slug }),
-        });
-        const text = await res.text();
-        let data: any;
-        try { data = JSON.parse(text); } catch {
-          setResults(prev => [...prev, `Error ${b.beach}: Server timeout — παράλειψη`]);
-          setProcessed(i + 1);
-          continue;
-        }
-        if (data.errors_detail?.length > 0) {
-          setResults(prev => [...prev, `Error ${b.beach}: ${data.errors_detail[0].error}`]);
-        } else if (data.results?.length > 0) {
-          const r = data.results[0];
-          setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status}: ${r.beach}`]);
-          setBeaches(prev => prev.map(bb => bb.slug === b.slug ? { ...bb, has_article: true } : bb));
-        }
+        setResults(prev => [...prev, `${b.beach}: Βήμα 1/2...`]);
+        const step1 = await callBeachApi(token, { step: 1, beach_slug: b.slug });
+        if (!step1) { setResults(prev => [...prev, `Error ${b.beach}: Timeout βήμα 1`]); setProcessed(i + 1); continue; }
+        if (step1.errors_detail?.length > 0) { setResults(prev => [...prev, `Error ${b.beach}: ${step1.errors_detail[0].error}`]); setProcessed(i + 1); continue; }
+        const r1 = step1.results?.[0];
+        if (r1?.status === 'already_exists') { setResults(prev => [...prev, `Skipped: ${r1.beach}`]); setBeaches(prev => prev.map(bb => bb.slug === b.slug ? { ...bb, has_article: true } : bb)); setProcessed(i + 1); continue; }
+        if (!r1?.article_id) { setProcessed(i + 1); continue; }
+
+        setResults(prev => [...prev, `${b.beach}: Βήμα 2/2...`]);
+        const step2 = await callBeachApi(token, { step: 2, article_id: r1.article_id });
+        if (step2) { setResults(prev => [...prev, `✅ ${r1.beach}`]); }
+        else { setResults(prev => [...prev, `⚠️ ${r1.beach}: EL ok, μεταφράσεις ελλιπείς`]); }
+        setBeaches(prev => prev.map(bb => bb.slug === b.slug ? { ...bb, has_article: true } : bb));
       } catch (err) {
         setResults(prev => [...prev, `Error ${b.beach}: ${(err as Error).message}`]);
       }
@@ -845,35 +846,43 @@ function TopicArticleGenerator() {
     setSuggesting(false);
   }
 
+  async function callTopicApi(token: string, body: Record<string, unknown>): Promise<any> {
+    const res = await fetch('/api/admin/topic-articles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(body),
+    });
+    const text = await res.text();
+    try { return JSON.parse(text); } catch { return null; }
+  }
+
+  function markTopicDone(topicSlug: string) {
+    setCategories(prev => {
+      const cat = { ...prev[activeTab] };
+      cat.topics = cat.topics.map(t => t.slug === topicSlug ? { ...t, has_article: true } : t);
+      cat.with_article = cat.topics.filter(t => t.has_article).length;
+      cat.without_article = cat.topics.filter(t => !t.has_article).length;
+      return { ...prev, [activeTab]: cat };
+    });
+  }
+
   async function generateOne(topicSlug: string) {
     setGenerating(topicSlug);
     const token = await getToken();
     try {
-      const res = await fetch('/api/admin/topic-articles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ category: activeTab, topic_slug: topicSlug }),
-      });
-      const text = await res.text();
-      let data: any;
-      try { data = JSON.parse(text); } catch {
-        setResults(prev => [...prev, `Error ${topicSlug}: Server timeout ή σφάλμα — δοκίμασε ξανά`]);
-        setGenerating(null);
-        return;
-      }
-      if (data.errors_detail?.length > 0) {
-        setResults(prev => [...prev, `Error: ${data.errors_detail[0].error}`]);
-      } else if (data.results?.length > 0) {
-        const r = data.results[0];
-        setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status}: ${r.topic}`]);
-        setCategories(prev => {
-          const cat = { ...prev[activeTab] };
-          cat.topics = cat.topics.map(t => t.slug === topicSlug ? { ...t, has_article: true } : t);
-          cat.with_article = cat.topics.filter(t => t.has_article).length;
-          cat.without_article = cat.topics.filter(t => !t.has_article).length;
-          return { ...prev, [activeTab]: cat };
-        });
-      }
+      setResults(prev => [...prev, `${topicSlug}: Βήμα 1/2 — Δημιουργία ελληνικού άρθρου...`]);
+      const step1 = await callTopicApi(token, { step: 1, category: activeTab, topic_slug: topicSlug });
+      if (!step1) { setResults(prev => [...prev, `Error ${topicSlug}: Timeout βήμα 1`]); setGenerating(null); return; }
+      if (step1.error?.includes('already exists')) { setResults(prev => [...prev, `Skipped (exists): ${topicSlug}`]); markTopicDone(topicSlug); setGenerating(null); return; }
+      if (step1.errors_detail?.length > 0) { setResults(prev => [...prev, `Error: ${step1.errors_detail[0].error}`]); setGenerating(null); return; }
+      const r1 = step1.results?.[0];
+      if (!r1?.article_id) { setResults(prev => [...prev, `Error ${topicSlug}: no article_id`]); setGenerating(null); return; }
+
+      setResults(prev => [...prev, `${topicSlug}: Βήμα 2/2 — Μεταφράσεις + SEO...`]);
+      const step2 = await callTopicApi(token, { step: 2, article_id: r1.article_id });
+      if (step2) { setResults(prev => [...prev, `✅ Created: ${r1.topic || topicSlug}`]); }
+      else { setResults(prev => [...prev, `⚠️ ${topicSlug}: EL ok, μεταφράσεις ελλιπείς`]); }
+      markTopicDone(topicSlug);
     } catch (err) {
       setResults(prev => [...prev, `Error: ${(err as Error).message}`]);
     }
@@ -893,31 +902,19 @@ function TopicArticleGenerator() {
       const t = pending[i];
       setGenerating(t.slug);
       try {
-        const res = await fetch('/api/admin/topic-articles', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({ category: activeTab, topic_slug: t.slug }),
-        });
-        const text = await res.text();
-        let data: any;
-        try { data = JSON.parse(text); } catch {
-          setResults(prev => [...prev, `Error ${t.topic}: Server timeout — παράλειψη`]);
-          setProcessed(i + 1);
-          continue;
-        }
-        if (data.errors_detail?.length > 0) {
-          setResults(prev => [...prev, `Error ${t.topic}: ${data.errors_detail[0].error}`]);
-        } else if (data.results?.length > 0) {
-          const r = data.results[0];
-          setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status}: ${r.topic}`]);
-          setCategories(prev => {
-            const cat = { ...prev[activeTab] };
-            cat.topics = cat.topics.map(tt => tt.slug === t.slug ? { ...tt, has_article: true } : tt);
-            cat.with_article = cat.topics.filter(tt => tt.has_article).length;
-            cat.without_article = cat.topics.filter(tt => !tt.has_article).length;
-            return { ...prev, [activeTab]: cat };
-          });
-        }
+        setResults(prev => [...prev, `${t.topic}: Βήμα 1/2...`]);
+        const step1 = await callTopicApi(token, { step: 1, category: activeTab, topic_slug: t.slug });
+        if (!step1) { setResults(prev => [...prev, `Error ${t.topic}: Timeout βήμα 1`]); setProcessed(i + 1); continue; }
+        if (step1.error?.includes('already exists')) { setResults(prev => [...prev, `Skipped: ${t.topic}`]); markTopicDone(t.slug); setProcessed(i + 1); continue; }
+        if (step1.errors_detail?.length > 0) { setResults(prev => [...prev, `Error ${t.topic}: ${step1.errors_detail[0].error}`]); setProcessed(i + 1); continue; }
+        const r1 = step1.results?.[0];
+        if (!r1?.article_id) { setProcessed(i + 1); continue; }
+
+        setResults(prev => [...prev, `${t.topic}: Βήμα 2/2...`]);
+        const step2 = await callTopicApi(token, { step: 2, article_id: r1.article_id });
+        if (step2) { setResults(prev => [...prev, `✅ ${r1.topic || t.topic}`]); }
+        else { setResults(prev => [...prev, `⚠️ ${t.topic}: EL ok, μεταφράσεις ελλιπείς`]); }
+        markTopicDone(t.slug);
       } catch (err) {
         setResults(prev => [...prev, `Error ${t.topic}: ${(err as Error).message}`]);
       }
