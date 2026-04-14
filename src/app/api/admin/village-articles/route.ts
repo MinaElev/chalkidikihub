@@ -135,30 +135,35 @@ export async function POST(request: Request) {
 - Καταλύματα: ${listingInfo || 'ενοικιαζόμενα δωμάτια'}
 
 ΔΟΜΗ ΑΡΘΡΟΥ (ΥΠΟΧΡΕΩΤΙΚΗ):
-1. Εισαγωγικό <p> — γιατί αξίζει να επισκεφτείς αυτό το χωριό, τι το κάνει μοναδικό
-2. <h2>Γνωρίστε ${villageNameEl}</h2> — ιστορία, χαρακτήρας, ατμόσφαιρα, αρχιτεκτονική
-3. <h2>Παραλίες κοντά στ${villageNameEl.endsWith('η') || villageNameEl.endsWith('ά') ? 'η' : 'ο'} ${villageNameEl}</h2> — αναλυτικά 3-5 παραλίες, τι προσφέρει η καθεμία
-4. <h2>Πού να φάτε</h2> — εστιατόρια, ταβέρνες, τι να δοκιμάσετε
-5. <h2>Τι να κάνετε</h2> — δραστηριότητες, αξιοθέατα, εκδρομές, νυχτερινή ζωή
-6. <h2>Πού να μείνετε</h2> — τύποι καταλυμάτων, τιμές, tips κράτησης
-7. <h2>Πώς να φτάσετε</h2> — απόσταση από Θεσσαλονίκη, μεταφορικά μέσα
-8. <h2>Πρακτικές πληροφορίες</h2> — καλύτερη εποχή, τι να πάρετε μαζί, tips
+1. Εισαγωγική παράγραφος — γιατί αξίζει να επισκεφτείς αυτό το χωριό, τι το κάνει μοναδικό
+2. ## Γνωρίστε ${villageNameEl} — ιστορία, χαρακτήρας, ατμόσφαιρα, αρχιτεκτονική
+3. ## Παραλίες κοντά στ${villageNameEl.endsWith('η') || villageNameEl.endsWith('ά') ? 'η' : 'ο'} ${villageNameEl} — αναλυτικά 3-5 παραλίες, τι προσφέρει η καθεμία
+4. ## Πού να φάτε — εστιατόρια, ταβέρνες, τι να δοκιμάσετε
+5. ## Τι να κάνετε — δραστηριότητες, αξιοθέατα, εκδρομές, νυχτερινή ζωή
+6. ## Πού να μείνετε — τύποι καταλυμάτων, τιμές, tips κράτησης
+7. ## Πώς να φτάσετε — απόσταση από Θεσσαλονίκη, μεταφορικά μέσα
+8. ## Πρακτικές πληροφορίες — καλύτερη εποχή, τι να πάρετε μαζί, tips
 
-ΚΑΝΟΝΕΣ:
+ΚΑΝΟΝΕΣ ΜΟΡΦΟΠΟΙΗΣΗΣ:
 - Γράψε 1000-1500 λέξεις
-- Χρησιμοποίησε <h2>, <h3>, <p>, <ul><li>, <strong>, <blockquote>
+- Χρησιμοποίησε MARKDOWN format:
+  - Headings: "## Τίτλος" και "### Υποτίτλος"
+  - Bold: **σημαντικές λέξεις** και **ονόματα**
+  - Bullet lists: "- item"
+  - Κενή γραμμή μεταξύ παραγράφων
+  - Blockquote: "> insider tip"
+- ΟΧΙ HTML tags — ΜΟΝΟ markdown
 - Ανέφερε ΠΡΑΓΜΑΤΙΚΑ ονόματα (παραλίες, εστιατόρια) από τα data που σου δίνω
 - Γράψε σαν φίλος που δίνει συμβουλές, ΟΧΙ σαν Wikipedia
-- Βάλε 1 <blockquote> με insider tip
-- Κάθε <h2> section να έχει τουλάχιστον 2 παραγράφους ή λίστα
-- ΟΧΙ markdown — ΜΟΝΟ HTML tags
+- Βάλε 1 blockquote ("> ") με insider tip
+- Κάθε ## section να έχει τουλάχιστον 2 παραγράφους ή λίστα
 - Keywords: ${villageNameEl}, Χαλκιδική, ${areaEl}, παραλίες, καταλύματα, εστιατόρια
 
 Επίστρεψε ΜΟΝΟ JSON:
 {
   "title_el": "Ελκυστικός τίτλος μέχρι 65 χαρακτήρες — πρέπει να περιέχει '${villageNameEl}' και 'Χαλκιδική'",
   "excerpt_el": "1-2 προτάσεις δελεαστική περίληψη μέχρι 200 χαρακτήρες",
-  "content_el": "<p>Εισαγωγή...</p><h2>...</h2>...",
+  "content_el": "Εισαγωγική παράγραφος...\\n\\n## Γνωρίστε...\\n\\nΚείμενο...",
   "read_time_min": 7,
   "tags": ["${villageNameEl.toLowerCase()}", "χαλκιδική", "${areaEl.toLowerCase()}", "tag4", "tag5", "tag6"],
   "unsplash_query": "Halkidiki ${village.name_en || villageNameEl} Greece village"
@@ -227,8 +232,8 @@ Return ONLY JSON:
         const seo = JSON.parse(seoRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
 
         // ── STEP 4: Translate full content to 6 languages ──
-        const translatePrompt = `Translate this Greek HTML article about the village "${villageNameEl}" in Halkidiki, Greece to 6 languages.
-Keep ALL HTML tags exactly as they are. Translate naturally for tourism audience.
+        const translatePrompt = `Translate this Greek markdown article about the village "${villageNameEl}" in Halkidiki, Greece to 6 languages.
+Keep ALL markdown formatting exactly as it is (## headings, **bold**, - bullets, > blockquotes, blank lines between paragraphs). Translate naturally for tourism audience.
 
 Greek content:
 ${article.content_el}
@@ -245,22 +250,23 @@ Return ONLY JSON:
         // ── STEP 4.5: AI Polish & Format all content ──
         const polishPrompt = `You are an expert content editor for a premium tourism blog about Halkidiki, Greece.
 
-Polish and enhance the following HTML article content in 7 languages. For EACH language:
+Polish and enhance the following MARKDOWN article content in 7 languages. For EACH language:
 
-1. Ensure proper HTML structure: clear <h2>/<h3> headings, well-formed <p> paragraphs (3-4 sentences each), <ul><li> bullet lists where appropriate
-2. Add <strong> to highlight key names (beaches, restaurants, villages) and important phrases
-3. Add 1-2 <blockquote> with insider tips or memorable quotes (styled as travel tips)
-4. Ensure every <h2> section has at least 2 paragraphs or a paragraph + list
-5. Make the text engaging, scannable, and tourism-friendly — like a friend giving advice
-6. Do NOT change facts, names, or meaning — only restructure and enhance formatting
-7. Do NOT add markdown — use ONLY HTML tags (<h2>, <h3>, <p>, <ul>, <li>, <strong>, <blockquote>, <em>)
-8. Keep each translation in its OWN language — do not mix languages
+1. Use "## " for main section headings and "### " for subheadings
+2. Use **bold** to highlight key names (beaches, restaurants, villages) and important phrases
+3. Add 1-2 blockquotes with "> " prefix as insider tips
+4. Separate paragraphs with blank lines (two newlines)
+5. Use "- " for bullet lists
+6. Each ## section should have at least 2 paragraphs or a paragraph + list
+7. Make the text engaging, scannable — like a friend giving travel advice
+8. Do NOT change facts, names, or meaning — only restructure and enhance formatting
+9. Do NOT use any HTML tags — use ONLY markdown formatting
+10. Keep each translation in its OWN language — do not mix languages
 
-Return ONLY a JSON object with the polished content for each language:
+Return ONLY a JSON object with the polished content:
 {
-  "content_el": "<p>...</p><h2>...</h2>...",
-  "content_en": "<p>...</p><h2>...</h2>...",
-  "content_de": "...", "content_bg": "...",
+  "content_el": "Intro paragraph with **bold**...\\n\\n## Heading\\n\\nText...",
+  "content_en": "...", "content_de": "...", "content_bg": "...",
   "content_ru": "...", "content_ro": "...", "content_sr": "..."
 }
 

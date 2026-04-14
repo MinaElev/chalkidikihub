@@ -127,29 +127,34 @@ export async function POST(request: Request) {
 - Κοντινές παραλίες: ${nearbyInfo || 'υπάρχουν πολλές κοντά'}
 
 ΔΟΜΗ ΑΡΘΡΟΥ (ΥΠΟΧΡΕΩΤΙΚΗ):
-1. Εισαγωγικό <p> — γιατί ξεχωρίζει αυτή η παραλία, πρώτη εντύπωση
-2. <h2>Η Παραλία ${beachNameEl}</h2> — περιγραφή τοπίου, νερού, άμμου, ατμόσφαιρας
-3. <h2>Τι θα βρείτε εκεί</h2> — παροχές, ξαπλώστρες, beach bar, σπορ, ελεύθερη/οργανωμένη
-4. <h2>Για ποιον είναι ιδανική</h2> — οικογένειες, ζευγάρια, νέοι, σπορ, ηρεμία
-5. <h2>Πώς να φτάσετε</h2> — δρόμος, πάρκινγκ, πρόσβαση, απόσταση από Θεσσαλονίκη
-6. <h2>Κοντινές παραλίες</h2> — 2-3 εναλλακτικές στην ίδια περιοχή
-7. <h2>Tips & Συμβουλές</h2> — καλύτερη ώρα, τι να πάρετε μαζί, μυστικά
+1. Εισαγωγική παράγραφος — γιατί ξεχωρίζει αυτή η παραλία, πρώτη εντύπωση
+2. ## Η Παραλία ${beachNameEl} — περιγραφή τοπίου, νερού, άμμου, ατμόσφαιρας
+3. ## Τι θα βρείτε εκεί — παροχές, ξαπλώστρες, beach bar, σπορ, ελεύθερη/οργανωμένη
+4. ## Για ποιον είναι ιδανική — οικογένειες, ζευγάρια, νέοι, σπορ, ηρεμία
+5. ## Πώς να φτάσετε — δρόμος, πάρκινγκ, πρόσβαση, απόσταση από Θεσσαλονίκη
+6. ## Κοντινές παραλίες — 2-3 εναλλακτικές στην ίδια περιοχή
+7. ## Tips & Συμβουλές — καλύτερη ώρα, τι να πάρετε μαζί, μυστικά
 
-ΚΑΝΟΝΕΣ:
+ΚΑΝΟΝΕΣ ΜΟΡΦΟΠΟΙΗΣΗΣ:
 - Γράψε 800-1200 λέξεις
-- Χρησιμοποίησε <h2>, <h3>, <p>, <ul><li>, <strong>, <blockquote>
+- Χρησιμοποίησε MARKDOWN format:
+  - Headings: "## Τίτλος" και "### Υποτίτλος"
+  - Bold: **σημαντικές λέξεις** και **χαρακτηριστικά**
+  - Bullet lists: "- item"
+  - Κενή γραμμή μεταξύ παραγράφων
+  - Blockquote: "> insider tip"
+- ΟΧΙ HTML tags — ΜΟΝΟ markdown
 - Γράψε σαν φίλος — ζεστό, αυθεντικό ύφος
-- Βάλε 1 <blockquote> με insider tip
+- Βάλε 1 blockquote ("> ") με insider tip
 - ΟΧΙ διαφήμιση μαγαζιών — μόνο γενικές αναφορές (π.χ. "υπάρχουν beach bar", ΟΧΙ ονόματα)
 - ΟΧΙ εστιατόρια/ξενοδοχεία — ΜΟΝΟ η παραλία και η φύση
-- ΟΧΙ markdown — ΜΟΝΟ HTML tags
 - Keywords: ${beachNameEl}, παραλία, Χαλκιδική, ${areaEl}
 
 Επίστρεψε ΜΟΝΟ JSON:
 {
   "title_el": "Ελκυστικός τίτλος μέχρι 65 χαρακτήρες με '${beachNameEl}' και 'Χαλκιδική'",
   "excerpt_el": "1-2 προτάσεις δελεαστική περίληψη μέχρι 200 χαρακτήρες",
-  "content_el": "<p>Εισαγωγή...</p><h2>...</h2>...",
+  "content_el": "Εισαγωγική παράγραφος...\\n\\n## Η Παραλία...\\n\\nΚείμενο...",
   "read_time_min": 6,
   "tags": ["${beachNameEl.toLowerCase()}", "παραλία", "χαλκιδική", "${areaEl.toLowerCase()}", "tag5", "tag6"],
   "unsplash_query": "Halkidiki ${beachNameEn} beach Greece crystal water"
@@ -218,8 +223,8 @@ Return ONLY JSON:
         const seo = JSON.parse(seoRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
 
         // ── STEP 4: Translate full content to 6 languages ──
-        const translatePrompt = `Translate this Greek HTML article about the beach "${beachNameEl}" in Halkidiki, Greece to 6 languages.
-Keep ALL HTML tags exactly as they are. Translate naturally for tourism audience.
+        const translatePrompt = `Translate this Greek markdown article about the beach "${beachNameEl}" in Halkidiki, Greece to 6 languages.
+Keep ALL markdown formatting exactly as it is (## headings, **bold**, - bullets, > blockquotes, blank lines between paragraphs). Translate naturally for tourism audience.
 Do NOT advertise any businesses — keep it about the beach and nature.
 
 Greek content:
@@ -237,19 +242,21 @@ Return ONLY JSON:
         // ── STEP 4.5: AI Polish & Format all content ──
         const polishPrompt = `You are an expert content editor for a premium tourism blog about Halkidiki beaches in Greece.
 
-Polish and enhance the following HTML beach article content in 7 languages. For EACH language:
+Polish and enhance the following MARKDOWN beach article content in 7 languages. For EACH language:
 
-1. Ensure proper HTML structure: clear <h2>/<h3> headings, well-formed <p> paragraphs (3-4 sentences each), <ul><li> lists
-2. Add <strong> to highlight key features (crystal water, sandy, shallow water, etc.)
-3. Add 1 <blockquote> with an insider tip for visitors
-4. Make text vivid — describe colors, sensations, atmosphere
-5. Do NOT add any business names, restaurant names, or hotel names — keep it about nature and the beach
-6. Do NOT add markdown — use ONLY HTML tags
-7. Keep each translation in its OWN language
+1. Use "## " for main section headings and "### " for subheadings
+2. Use **bold** to highlight key features (crystal water, sandy, shallow water, etc.)
+3. Add 1 blockquote with "> " prefix as an insider tip for visitors
+4. Separate paragraphs with blank lines (two newlines)
+5. Use "- " for bullet lists
+6. Make text vivid — describe colors, sensations, atmosphere
+7. Do NOT add any business names, restaurant names, or hotel names — keep it about nature
+8. Do NOT use any HTML tags — use ONLY markdown formatting
+9. Keep each translation in its OWN language
 
 Return ONLY JSON:
 {
-  "content_el": "<p>...</p><h2>...</h2>...",
+  "content_el": "Intro with **bold**...\\n\\n## Heading\\n\\nText...",
   "content_en": "...", "content_de": "...", "content_bg": "...",
   "content_ru": "...", "content_ro": "...", "content_sr": "..."
 }
