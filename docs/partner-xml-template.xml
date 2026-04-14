@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================
+  ChalkidikiHub Partner XML Feed - Template
+  ============================================================
+
+  URL feed:  https://partner-domain.com/feed/chalkidikihub.xml
+
+  ΟΔΗΓΙΕΣ:
+  - To feed ανανεωνεται καθε 6-12 ωρες
+  - Καταλυματα που αφαιρουνται απο το XML, απενεργοποιουνται αυτοματα
+  - Νεα καταλυματα προστιθενται αυτοματα
+  - Υπαρχοντα ενημερωνονται (τιμες, διαθεσιμοτητα, φωτογραφιες)
+
+  ΥΠΟΧΡΕΩΤΙΚΑ ΠΕΔΙΑ: id, title, area, location, booking_url, images (min 1)
+  ΠΡΟΑΙΡΕΤΙΚΑ:       description, amenities, coordinates, price, type, κλπ
+  ============================================================
+-->
+<properties partner_name="PartnerName" partner_id="partner-001" updated_at="2026-04-14T12:00:00Z">
+
+  <!-- ==================== ΚΑΤΑΛΥΜΑ 1 ==================== -->
+  <property>
+    <!-- Μοναδικο ID στο συστημα σας - ΔΕΝ αλλαζει ποτε -->
+    <id>PROP-12345</id>
+
+    <!-- Τυπος καταλυματος -->
+    <!-- Τιμες: apartment | villa | studio | house | hotel | room | maisonette -->
+    <type>apartment</type>
+
+    <!-- ===== ΤΙΤΛΟΣ (τουλαχιστον Ελληνικα + Αγγλικα) ===== -->
+    <title>
+      <el>Μοντερνο διαμερισμα με θεα θαλασσα - Χανιωτη</el>
+      <en>Modern Sea View Apartment - Chaniotis</en>
+      <!-- Προαιρετικα: de, bg, ru, ro, sr -->
+      <de>Moderne Wohnung mit Meerblick - Chaniotis</de>
+    </title>
+
+    <!-- ===== ΠΕΡΙΓΡΑΦΗ (τουλαχιστον Ελληνικα) ===== -->
+    <description>
+      <el>Ανετο διαμερισμα 65τμ στο κεντρο της Χανιωτης, 200μ απο την παραλια. Πληρως εξοπλισμενο με κλιματισμο, WiFi, και ιδιωτικο parking. Ιδανικο για ζευγαρια η μικρες οικογενειες.</el>
+      <en>Comfortable 65sqm apartment in the center of Chaniotis, 200m from the beach. Fully equipped with AC, WiFi, and private parking. Ideal for couples or small families.</en>
+    </description>
+
+    <!-- ===== ΤΟΠΟΘΕΣΙΑ ===== -->
+    <location>
+      <!-- area: kassandra | sithonia | athos | mainland -->
+      <area>kassandra</area>
+      <!-- Ονομα περιοχης/χωριου -->
+      <place>Chaniotis</place>
+      <!-- Συντεταγμενες (προαιρετικο αλλα συνισταται) -->
+      <latitude>39.9347</latitude>
+      <longitude>23.5218</longitude>
+    </location>
+
+    <!-- ===== ΧΑΡΑΚΤΗΡΙΣΤΙΚΑ ===== -->
+    <details>
+      <guests>4</guests>
+      <bedrooms>1</bedrooms>
+      <bathrooms>1</bathrooms>
+      <area_sqm>65</area_sqm>
+    </details>
+
+    <!-- ===== ΤΙΜΗ ===== -->
+    <pricing>
+      <!-- Τιμη ανα διανυκτερευση σε EUR -->
+      <price_per_night>75</price_per_night>
+      <currency>EUR</currency>
+      <!-- Προαιρετικο: ελαχιστες διανυκτερευσεις -->
+      <min_nights>2</min_nights>
+    </pricing>
+
+    <!-- ===== ΠΑΡΟΧΕΣ ===== -->
+    <!-- Αποδεκτες τιμες: wifi, parking, airConditioning, pool, kitchen,
+         tv, washingMachine, balcony, seaView, garden, bbq, petsAllowed -->
+    <amenities>
+      <amenity>wifi</amenity>
+      <amenity>parking</amenity>
+      <amenity>airConditioning</amenity>
+      <amenity>kitchen</amenity>
+      <amenity>tv</amenity>
+      <amenity>balcony</amenity>
+      <amenity>seaView</amenity>
+    </amenities>
+
+    <!-- ===== ΦΩΤΟΓΡΑΦΙΕΣ (τουλαχιστον 1, η πρωτη = εξωφυλλο) ===== -->
+    <images>
+      <image url="https://partner-domain.com/photos/12345/main.jpg" is_cover="true" />
+      <image url="https://partner-domain.com/photos/12345/living.jpg" />
+      <image url="https://partner-domain.com/photos/12345/bedroom.jpg" />
+      <image url="https://partner-domain.com/photos/12345/kitchen.jpg" />
+      <image url="https://partner-domain.com/photos/12345/view.jpg" />
+    </images>
+
+    <!-- ===== ΣΥΝΔΕΣΜΟΣ ΚΡΑΤΗΣΗΣ ===== -->
+    <!-- Ο χρηστης θα ανακατευθυνεται εδω αντι να βλεπει τηλεφωνο -->
+    <booking_url>https://partner-domain.com/property/12345?ref=chalkidikihub</booking_url>
+
+    <!-- ===== ΔΙΑΘΕΣΙΜΟΤΗΤΑ (προαιρετικο) ===== -->
+    <availability>
+      <!-- true = διαθεσιμο, false = κλεισμενο προσωρινα -->
+      <is_available>true</is_available>
+      <!-- Προαιρετικο: περιοδος λειτουργιας -->
+      <season_start>2026-05-01</season_start>
+      <season_end>2026-10-15</season_end>
+    </availability>
+  </property>
+
+  <!-- ==================== ΚΑΤΑΛΥΜΑ 2 (Villa) ==================== -->
+  <property>
+    <id>PROP-67890</id>
+    <type>villa</type>
+
+    <title>
+      <el>Πολυτελης βιλα με πισινα - Σανη Κασσανδρας</el>
+      <en>Luxury Villa with Pool - Sani Kassandra</en>
+    </title>
+
+    <description>
+      <el>Εντυπωσιακη βιλα 180τμ με ιδιωτικη πισινα και καταπληκτικη θεα στον Θερμαικο. 4 υπνοδωματια, πληρως εξοπλισμενη κουζινα, BBQ, κηπος. Ιδανικη για οικογενειες και παρεες.</el>
+      <en>Stunning 180sqm villa with private pool and amazing Thermaikos Gulf views. 4 bedrooms, fully equipped kitchen, BBQ, garden. Perfect for families and groups.</en>
+    </description>
+
+    <location>
+      <area>kassandra</area>
+      <place>Sani</place>
+      <latitude>40.0912</latitude>
+      <longitude>23.3241</longitude>
+    </location>
+
+    <details>
+      <guests>8</guests>
+      <bedrooms>4</bedrooms>
+      <bathrooms>2</bathrooms>
+      <area_sqm>180</area_sqm>
+    </details>
+
+    <pricing>
+      <price_per_night>220</price_per_night>
+      <currency>EUR</currency>
+      <min_nights>3</min_nights>
+    </pricing>
+
+    <amenities>
+      <amenity>wifi</amenity>
+      <amenity>parking</amenity>
+      <amenity>airConditioning</amenity>
+      <amenity>pool</amenity>
+      <amenity>kitchen</amenity>
+      <amenity>tv</amenity>
+      <amenity>washingMachine</amenity>
+      <amenity>balcony</amenity>
+      <amenity>seaView</amenity>
+      <amenity>garden</amenity>
+      <amenity>bbq</amenity>
+    </amenities>
+
+    <images>
+      <image url="https://partner-domain.com/photos/67890/exterior.jpg" is_cover="true" />
+      <image url="https://partner-domain.com/photos/67890/pool.jpg" />
+      <image url="https://partner-domain.com/photos/67890/master.jpg" />
+      <image url="https://partner-domain.com/photos/67890/kitchen.jpg" />
+      <image url="https://partner-domain.com/photos/67890/terrace.jpg" />
+      <image url="https://partner-domain.com/photos/67890/garden.jpg" />
+    </images>
+
+    <booking_url>https://partner-domain.com/property/67890?ref=chalkidikihub</booking_url>
+
+    <availability>
+      <is_available>true</is_available>
+      <season_start>2026-04-15</season_start>
+      <season_end>2026-10-31</season_end>
+    </availability>
+  </property>
+
+  <!-- ==================== ΚΑΤΑΛΥΜΑ 3 (Studio) ==================== -->
+  <property>
+    <id>PROP-11111</id>
+    <type>studio</type>
+
+    <title>
+      <el>Ανετο στουντιο κοντα στην παραλια - Νικητη</el>
+      <en>Cozy Beach Studio - Nikiti</en>
+    </title>
+
+    <description>
+      <el>Φωτεινο στουντιο 35τμ, μολις 100μ απο την παραλια της Νικητης. Κλιματισμος, WiFi, μπαλκονι.</el>
+      <en>Bright 35sqm studio, just 100m from Nikiti beach. AC, WiFi, balcony.</en>
+    </description>
+
+    <location>
+      <area>sithonia</area>
+      <place>Nikiti</place>
+      <latitude>40.2134</latitude>
+      <longitude>23.6678</longitude>
+    </location>
+
+    <details>
+      <guests>2</guests>
+      <bedrooms>0</bedrooms>
+      <bathrooms>1</bathrooms>
+      <area_sqm>35</area_sqm>
+    </details>
+
+    <pricing>
+      <price_per_night>45</price_per_night>
+      <currency>EUR</currency>
+      <min_nights>1</min_nights>
+    </pricing>
+
+    <amenities>
+      <amenity>wifi</amenity>
+      <amenity>airConditioning</amenity>
+      <amenity>tv</amenity>
+      <amenity>balcony</amenity>
+    </amenities>
+
+    <images>
+      <image url="https://partner-domain.com/photos/11111/room.jpg" is_cover="true" />
+      <image url="https://partner-domain.com/photos/11111/bathroom.jpg" />
+      <image url="https://partner-domain.com/photos/11111/balcony.jpg" />
+    </images>
+
+    <booking_url>https://partner-domain.com/property/11111?ref=chalkidikihub</booking_url>
+
+    <availability>
+      <is_available>true</is_available>
+    </availability>
+  </property>
+
+</properties>
