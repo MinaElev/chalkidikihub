@@ -268,7 +268,7 @@ export default function AdminListingsPage() {
           );
         })}
 
-        {filtered.length === 0 && (
+        {!loading && filtered.length === 0 && (
           <div className="text-center py-12 bg-white border border-gray-200 rounded-xl">
             <p className="text-gray-500">Δεν βρέθηκαν listings</p>
           </div>

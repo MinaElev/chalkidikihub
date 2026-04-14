@@ -216,7 +216,7 @@ export default function AdminBlogPage() {
               </tr>
               );
             })}
-            {filtered.length === 0 && (
+            {!loading && filtered.length === 0 && (
               <tr><td colSpan={7} className="px-4 py-12 text-center text-gray-500">Δεν βρέθηκαν άρθρα</td></tr>
             )}
           </tbody>
