@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/api-helpers';
 
+export const maxDuration = 60;
+
 // Amenities we support — AI maps to these
 const VALID_AMENITIES = [
   'wifi', 'parking', 'airConditioning', 'pool', 'kitchen', 'tv',

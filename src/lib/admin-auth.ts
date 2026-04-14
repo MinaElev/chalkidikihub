@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { createApiClient } from './api-helpers';
+import { createApiClient, createAdminClient } from './api-helpers';
 
 // Verify caller is superadmin — returns user or error response
 // Only use in API routes (server-side)
@@ -50,23 +50,25 @@ export async function requireSuperAdmin(): Promise<{ userId: string } | NextResp
     }
 
     if (!accessToken) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized — no access token found' }, { status: 401 });
     }
 
+    // Use anon client to verify token (hits Supabase Auth API)
     const supabase = createApiClient();
     const { data: { user }, error } = await supabase.auth.getUser(accessToken);
     if (error || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized — invalid token' }, { status: 401 });
     }
 
-    // Check role
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    // Use admin client to check role (bypasses RLS on profiles table)
+    const adminClient = createAdminClient();
+    const { data: profile } = await adminClient.from('profiles').select('role').eq('id', user.id).single();
     if (profile?.role !== 'superadmin') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: `Forbidden — role is "${profile?.role || 'unknown'}"` }, { status: 403 });
     }
 
     return { userId: user.id };
-  } catch {
-    return NextResponse.json({ error: 'Auth check failed' }, { status: 401 });
+  } catch (err) {
+    return NextResponse.json({ error: `Auth check failed: ${(err as Error).message}` }, { status: 401 });
   }
 }

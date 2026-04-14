@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/api-helpers';
 import { requireSuperAdmin } from '@/lib/admin-auth';
 
+export const maxDuration = 60;
+
 async function getOpenAIKey(): Promise<string> {
   const supabase = createAdminClient();
   const { data } = await supabase.from('site_settings').select('value').eq('key', 'openai_api_key').single();

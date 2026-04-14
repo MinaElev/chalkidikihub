@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient, createApiClient } from '@/lib/api-helpers';
 
+// Vercel Hobby default = 10s — extend to max 60s
+export const maxDuration = 60;
+
 async function getOpenAIKey(): Promise<string> {
   try {
     const supabase = createApiClient();
@@ -16,7 +19,7 @@ async function callOpenAI(prompt: string, maxTokens: number = 6000): Promise<str
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-    body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature: 0.75 }),
+    body: JSON.stringify({ model: 'gpt-4o', messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature: 0.75 }),
   });
   if (!response.ok) {
     const err = await response.text();
@@ -230,19 +233,29 @@ CONTEXT: ${topic.context}
           }
         } catch {}
 
-        // ── STEP 3: SEO + Title translations ──
-        const seoPrompt = `Expert translator and SEO specialist for Halkidiki tourism website.
-
-Translate and optimize for article: "${topic.titleHint}" (${topicDef.label})
+        // ── STEP 3: Translations (titles + excerpts + full content) + SEO — ALL IN ONE CALL ──
+        const allTranslationsPrompt = `Expert translator and SEO specialist for premium Halkidiki tourism blog.
+Translate and optimize everything for article: "${topic.titleHint}" (${topicDef.label})
 
 Greek title: "${article.title_el}"
 Greek excerpt: "${article.excerpt_el}"
+
+Greek content (markdown):
+${article.content_el}
+
+TRANSLATION RULES:
+- Keep ALL markdown formatting: ## headings, **bold**, - bullets, > blockquotes, blank lines
+- Use **bold** for key phrases and place names
+- Translate naturally for tourism audience — engaging, scannable
+- Keep each translation in its OWN language
 
 Return ONLY JSON:
 {
   "translations": {
     "title_en": "", "title_de": "", "title_bg": "", "title_ru": "", "title_ro": "", "title_sr": "",
-    "excerpt_en": "", "excerpt_de": "", "excerpt_bg": "", "excerpt_ru": "", "excerpt_ro": "", "excerpt_sr": ""
+    "excerpt_en": "", "excerpt_de": "", "excerpt_bg": "", "excerpt_ru": "", "excerpt_ro": "", "excerpt_sr": "",
+    "content_en": "full markdown...", "content_de": "...", "content_bg": "...",
+    "content_ru": "...", "content_ro": "...", "content_sr": "..."
   },
   "seo": {
     "meta_title_el": "max 60 chars", "meta_title_en": "max 60 chars",
@@ -256,64 +269,12 @@ Return ONLY JSON:
   }
 }`;
 
-        const seoRaw = await callOpenAI(seoPrompt, 3000);
-        const seo = JSON.parse(seoRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+        const allTransRaw = await callOpenAI(allTranslationsPrompt, 12000);
+        const allTrans = JSON.parse(allTransRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+        const seo = allTrans;
+        const trans = allTrans.translations || {};
 
-        // ── STEP 4: Translate content ──
-        const translatePrompt = `Translate this Greek markdown article about "${topic.titleHint}" in Halkidiki, Greece to 6 languages.
-Keep ALL markdown formatting (## headings, **bold**, - bullets, > blockquotes, blank lines). Translate naturally for tourism audience.
-
-Greek content:
-${article.content_el}
-
-Return ONLY JSON:
-{
-  "content_en": "...", "content_de": "...", "content_bg": "...",
-  "content_ru": "...", "content_ro": "...", "content_sr": "..."
-}`;
-
-        const transRaw = await callOpenAI(translatePrompt, 10000);
-        const trans = JSON.parse(transRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
-
-        // ── STEP 4.5: AI Polish ──
-        const polishPrompt = `Expert content editor for premium Halkidiki tourism blog.
-
-Polish this MARKDOWN article in 7 languages about "${topic.titleHint}":
-
-1. "## " for headings, "### " for subheadings
-2. **bold** key phrases and place names
-3. 1-2 blockquotes with "> " as insider tips
-4. Blank lines between paragraphs
-5. "- " for bullet lists
-6. Engaging, scannable — like a friend sharing experiences
-7. Do NOT change facts — only enhance formatting
-8. ONLY markdown, NO HTML tags
-9. Each language stays in its OWN language
-
-Return ONLY JSON:
-{
-  "content_el": "...", "content_en": "...", "content_de": "...",
-  "content_bg": "...", "content_ru": "...", "content_ro": "...", "content_sr": "..."
-}
-
-=== CONTENT ===
-GREEK: ${article.content_el}
-ENGLISH: ${trans.content_en || ''}
-GERMAN: ${trans.content_de || ''}
-BULGARIAN: ${trans.content_bg || ''}
-RUSSIAN: ${trans.content_ru || ''}
-ROMANIAN: ${trans.content_ro || ''}
-SERBIAN: ${trans.content_sr || ''}`;
-
-        let polished: Record<string, string> = {};
-        try {
-          const polishRaw = await callOpenAI(polishPrompt, 15000);
-          polished = JSON.parse(polishRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
-        } catch {
-          polished = {};
-        }
-
-        // ── STEP 5: Insert ──
+        // ── STEP 4: Insert ──
         const { error: insertError } = await supabase.from('blog_articles').insert({
           slug: articleSlug,
           category: topicDef.blogCategory,
@@ -326,19 +287,19 @@ SERBIAN: ${trans.content_sr || ''}`;
           image_url: imageUrl,
           image_alt: imageAlt || seo.seo?.image_alt || topic.titleHint,
           title_el: article.title_el, excerpt_el: article.excerpt_el,
-          content_el: polished.content_el || article.content_el,
-          title_en: seo.translations?.title_en || '', title_de: seo.translations?.title_de || '',
-          title_bg: seo.translations?.title_bg || '', title_ru: seo.translations?.title_ru || '',
-          title_ro: seo.translations?.title_ro || '', title_sr: seo.translations?.title_sr || '',
-          excerpt_en: seo.translations?.excerpt_en || '', excerpt_de: seo.translations?.excerpt_de || '',
-          excerpt_bg: seo.translations?.excerpt_bg || '', excerpt_ru: seo.translations?.excerpt_ru || '',
-          excerpt_ro: seo.translations?.excerpt_ro || '', excerpt_sr: seo.translations?.excerpt_sr || '',
-          content_en: polished.content_en || trans.content_en || '',
-          content_de: polished.content_de || trans.content_de || '',
-          content_bg: polished.content_bg || trans.content_bg || '',
-          content_ru: polished.content_ru || trans.content_ru || '',
-          content_ro: polished.content_ro || trans.content_ro || '',
-          content_sr: polished.content_sr || trans.content_sr || '',
+          content_el: article.content_el,
+          title_en: trans.title_en || '', title_de: trans.title_de || '',
+          title_bg: trans.title_bg || '', title_ru: trans.title_ru || '',
+          title_ro: trans.title_ro || '', title_sr: trans.title_sr || '',
+          excerpt_en: trans.excerpt_en || '', excerpt_de: trans.excerpt_de || '',
+          excerpt_bg: trans.excerpt_bg || '', excerpt_ru: trans.excerpt_ru || '',
+          excerpt_ro: trans.excerpt_ro || '', excerpt_sr: trans.excerpt_sr || '',
+          content_en: trans.content_en || '',
+          content_de: trans.content_de || '',
+          content_bg: trans.content_bg || '',
+          content_ru: trans.content_ru || '',
+          content_ro: trans.content_ro || '',
+          content_sr: trans.content_sr || '',
           meta_title_el: seo.seo?.meta_title_el || '', meta_title_en: seo.seo?.meta_title_en || '',
           meta_title_de: seo.seo?.meta_title_de || '', meta_title_bg: seo.seo?.meta_title_bg || '',
           meta_title_ru: seo.seo?.meta_title_ru || '', meta_title_ro: seo.seo?.meta_title_ro || '',

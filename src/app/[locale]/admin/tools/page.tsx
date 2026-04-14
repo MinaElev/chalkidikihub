@@ -371,13 +371,18 @@ function VillageArticleGenerator() {
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ village_slug: villageSlug }),
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data: any;
+      try { data = JSON.parse(text); } catch {
+        setResults(prev => [...prev, `Error ${villageSlug}: Server timeout ή σφάλμα — δοκίμασε ξανά`]);
+        setGenerating(null);
+        return;
+      }
       if (data.errors_detail?.length > 0) {
         setResults(prev => [...prev, `Error ${villageSlug}: ${data.errors_detail[0].error}`]);
       } else if (data.results?.length > 0) {
         const r = data.results[0];
         setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status === 'already_exists' ? 'Skipped (exists)' : r.status}: ${r.village}`]);
-        // Refresh status
         setVillages(prev => prev.map(v => v.slug === villageSlug ? { ...v, has_article: true } : v));
       }
     } catch (err) {
@@ -405,7 +410,13 @@ function VillageArticleGenerator() {
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({ village_slug: v.slug }),
         });
-        const data = await res.json();
+        const text = await res.text();
+        let data: any;
+        try { data = JSON.parse(text); } catch {
+          setResults(prev => [...prev, `Error ${v.village}: Server timeout — παράλειψη`]);
+          setProcessed(i + 1);
+          continue;
+        }
         if (data.errors_detail?.length > 0) {
           setResults(prev => [...prev, `Error ${v.village}: ${data.errors_detail[0].error}`]);
         } else if (data.results?.length > 0) {
@@ -569,7 +580,13 @@ function BeachArticleGenerator() {
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ beach_slug: beachSlug }),
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data: any;
+      try { data = JSON.parse(text); } catch {
+        setResults(prev => [...prev, `Error ${beachSlug}: Server timeout ή σφάλμα — δοκίμασε ξανά`]);
+        setGenerating(null);
+        return;
+      }
       if (data.errors_detail?.length > 0) {
         setResults(prev => [...prev, `Error ${beachSlug}: ${data.errors_detail[0].error}`]);
       } else if (data.results?.length > 0) {
@@ -602,7 +619,13 @@ function BeachArticleGenerator() {
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({ beach_slug: b.slug }),
         });
-        const data = await res.json();
+        const text = await res.text();
+        let data: any;
+        try { data = JSON.parse(text); } catch {
+          setResults(prev => [...prev, `Error ${b.beach}: Server timeout — παράλειψη`]);
+          setProcessed(i + 1);
+          continue;
+        }
         if (data.errors_detail?.length > 0) {
           setResults(prev => [...prev, `Error ${b.beach}: ${data.errors_detail[0].error}`]);
         } else if (data.results?.length > 0) {
@@ -831,7 +854,13 @@ function TopicArticleGenerator() {
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ category: activeTab, topic_slug: topicSlug }),
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data: any;
+      try { data = JSON.parse(text); } catch {
+        setResults(prev => [...prev, `Error ${topicSlug}: Server timeout ή σφάλμα — δοκίμασε ξανά`]);
+        setGenerating(null);
+        return;
+      }
       if (data.errors_detail?.length > 0) {
         setResults(prev => [...prev, `Error: ${data.errors_detail[0].error}`]);
       } else if (data.results?.length > 0) {
@@ -869,7 +898,13 @@ function TopicArticleGenerator() {
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({ category: activeTab, topic_slug: t.slug }),
         });
-        const data = await res.json();
+        const text = await res.text();
+        let data: any;
+        try { data = JSON.parse(text); } catch {
+          setResults(prev => [...prev, `Error ${t.topic}: Server timeout — παράλειψη`]);
+          setProcessed(i + 1);
+          continue;
+        }
         if (data.errors_detail?.length > 0) {
           setResults(prev => [...prev, `Error ${t.topic}: ${data.errors_detail[0].error}`]);
         } else if (data.results?.length > 0) {

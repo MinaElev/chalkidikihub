@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient, createApiClient } from '@/lib/api-helpers';
 
+export const maxDuration = 60;
+
 async function getOpenAIKey(): Promise<string> {
   try {
     const supabase = createApiClient();

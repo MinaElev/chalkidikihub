@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient, createApiClient } from '@/lib/api-helpers';
 
+// Vercel Hobby default = 10s — extend to max 60s
+export const maxDuration = 60;
+
 async function getOpenAIKey(): Promise<string> {
   try {
     const supabase = createApiClient();
@@ -16,7 +19,7 @@ async function callOpenAI(prompt: string, maxTokens: number = 6000): Promise<str
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-    body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature: 0.75 }),
+    body: JSON.stringify({ model: 'gpt-4o', messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature: 0.75 }),
   });
   if (!response.ok) {
     const err = await response.text();
@@ -192,19 +195,30 @@ export async function POST(request: Request) {
           }
         } catch {}
 
-        // ── STEP 3: Translations (titles + excerpts) + SEO ──
-        const seoPrompt = `You are an expert translator and SEO specialist for a tourism website about Halkidiki, Greece.
-
-Translate and optimize the following for a beach guide article about "${beachNameEn}" beach in ${areaEn}, Halkidiki.
+        // ── STEP 3: Translations (titles + excerpts + full content) + SEO — ALL IN ONE CALL ──
+        const allTranslationsPrompt = `You are an expert translator and SEO specialist for a premium tourism blog about Halkidiki beaches, Greece.
+Translate and optimize everything for a beach guide about "${beachNameEn}" in ${areaEn}, Halkidiki.
+Do NOT advertise any businesses — keep it about the beach and nature.
 
 Greek title: "${article.title_el}"
 Greek excerpt: "${article.excerpt_el}"
+
+Greek content (markdown):
+${article.content_el}
+
+TRANSLATION RULES:
+- Keep ALL markdown formatting exactly: ## headings, **bold**, - bullets, > blockquotes, blank lines
+- Use **bold** for key features (crystal water, sandy, shallow water, etc.)
+- Translate naturally for tourism audience — vivid, describe colors, sensations
+- Keep each translation in its OWN language
 
 Return ONLY JSON:
 {
   "translations": {
     "title_en": "", "title_de": "", "title_bg": "", "title_ru": "", "title_ro": "", "title_sr": "",
-    "excerpt_en": "", "excerpt_de": "", "excerpt_bg": "", "excerpt_ru": "", "excerpt_ro": "", "excerpt_sr": ""
+    "excerpt_en": "", "excerpt_de": "", "excerpt_bg": "", "excerpt_ru": "", "excerpt_ro": "", "excerpt_sr": "",
+    "content_en": "full markdown...", "content_de": "...", "content_bg": "...",
+    "content_ru": "...", "content_ro": "...", "content_sr": "..."
   },
   "seo": {
     "meta_title_el": "max 60 chars, include ${beachNameEl} and Χαλκιδική",
@@ -219,79 +233,18 @@ Return ONLY JSON:
   }
 }`;
 
-        const seoRaw = await callOpenAI(seoPrompt, 3000);
-        const seo = JSON.parse(seoRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+        const allTransRaw = await callOpenAI(allTranslationsPrompt, 12000);
+        const allTrans = JSON.parse(allTransRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+        const seo = allTrans;
+        const trans = allTrans.translations || {};
 
-        // ── STEP 4: Translate full content to 6 languages ──
-        const translatePrompt = `Translate this Greek markdown article about the beach "${beachNameEl}" in Halkidiki, Greece to 6 languages.
-Keep ALL markdown formatting exactly as it is (## headings, **bold**, - bullets, > blockquotes, blank lines between paragraphs). Translate naturally for tourism audience.
-Do NOT advertise any businesses — keep it about the beach and nature.
-
-Greek content:
-${article.content_el}
-
-Return ONLY JSON:
-{
-  "content_en": "...", "content_de": "...", "content_bg": "...",
-  "content_ru": "...", "content_ro": "...", "content_sr": "..."
-}`;
-
-        const transRaw = await callOpenAI(translatePrompt, 10000);
-        const trans = JSON.parse(transRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
-
-        // ── STEP 4.5: AI Polish & Format all content ──
-        const polishPrompt = `You are an expert content editor for a premium tourism blog about Halkidiki beaches in Greece.
-
-Polish and enhance the following MARKDOWN beach article content in 7 languages. For EACH language:
-
-1. Use "## " for main section headings and "### " for subheadings
-2. Use **bold** to highlight key features (crystal water, sandy, shallow water, etc.)
-3. Add 1 blockquote with "> " prefix as an insider tip for visitors
-4. Separate paragraphs with blank lines (two newlines)
-5. Use "- " for bullet lists
-6. Make text vivid — describe colors, sensations, atmosphere
-7. Do NOT add any business names, restaurant names, or hotel names — keep it about nature
-8. Do NOT use any HTML tags — use ONLY markdown formatting
-9. Keep each translation in its OWN language
-
-Return ONLY JSON:
-{
-  "content_el": "Intro with **bold**...\\n\\n## Heading\\n\\nText...",
-  "content_en": "...", "content_de": "...", "content_bg": "...",
-  "content_ru": "...", "content_ro": "...", "content_sr": "..."
-}
-
-=== CONTENT ===
-
-GREEK: ${article.content_el}
-
-ENGLISH: ${trans.content_en || ''}
-
-GERMAN: ${trans.content_de || ''}
-
-BULGARIAN: ${trans.content_bg || ''}
-
-RUSSIAN: ${trans.content_ru || ''}
-
-ROMANIAN: ${trans.content_ro || ''}
-
-SERBIAN: ${trans.content_sr || ''}`;
-
-        let polished: Record<string, string> = {};
-        try {
-          const polishRaw = await callOpenAI(polishPrompt, 15000);
-          polished = JSON.parse(polishRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
-        } catch {
-          polished = {};
-        }
-
-        const finalContentEl = polished.content_el || article.content_el;
-        const finalContentEn = polished.content_en || trans.content_en || '';
-        const finalContentDe = polished.content_de || trans.content_de || '';
-        const finalContentBg = polished.content_bg || trans.content_bg || '';
-        const finalContentRu = polished.content_ru || trans.content_ru || '';
-        const finalContentRo = polished.content_ro || trans.content_ro || '';
-        const finalContentSr = polished.content_sr || trans.content_sr || '';
+        const finalContentEl = article.content_el;
+        const finalContentEn = trans.content_en || '';
+        const finalContentDe = trans.content_de || '';
+        const finalContentBg = trans.content_bg || '';
+        const finalContentRu = trans.content_ru || '';
+        const finalContentRo = trans.content_ro || '';
+        const finalContentSr = trans.content_sr || '';
 
         // ── STEP 5: Insert article ──
         const { error: insertError } = await supabase.from('blog_articles').insert({
