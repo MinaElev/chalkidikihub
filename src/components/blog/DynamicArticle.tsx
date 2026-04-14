@@ -9,6 +9,7 @@ import { DetailSkeleton } from '@/components/ui/Skeleton';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { generateArticleLD } from '@/lib/seo';
 import { AutoLinkedContent } from './AutoLinkedContent';
+import { AutoLinkedHtml } from './AutoLinkedHtml';
 import { BlogCard } from './BlogCard';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
@@ -29,7 +30,7 @@ export function DynamicArticle({ slug }: { slug: string }) {
     // Fetch current article + recent articles for sidebar/nav
     Promise.all([
       fetch(`/api/blog?slug=${slug}`).then((r) => r.json()),
-      fetch('/api/blog?limit=6').then((r) => r.json()),
+      fetch('/api/blog?limit=50').then((r) => r.json()),
     ])
       .then(([articleData, allData]) => {
         if (articleData && articleData.id) setArticle(articleData);
@@ -69,18 +70,22 @@ export function DynamicArticle({ slug }: { slug: string }) {
   const prevArticle = currentIndex < sortedArticles.length - 1 ? sortedArticles[currentIndex + 1] : null;
   const nextArticle = currentIndex > 0 ? sortedArticles[currentIndex - 1] : null;
 
-  // Sidebar articles: related first, then same category, exclude current
+  // Sidebar articles: related first, then same area, then same category, exclude current
+  const currentAreas = article.related_area_slugs || [];
   const sidebarArticles = allArticles
     .filter((a) => a.slug !== slug)
     .sort((a, b) => {
-      const aRelated = article.related_article_slugs?.includes(a.slug) ? 1 : 0;
-      const bRelated = article.related_article_slugs?.includes(b.slug) ? 1 : 0;
+      const aRelated = article.related_article_slugs?.includes(a.slug) ? 3 : 0;
+      const bRelated = article.related_article_slugs?.includes(b.slug) ? 3 : 0;
       if (aRelated !== bRelated) return bRelated - aRelated;
+      const aSameArea = (a.related_area_slugs || []).some((s) => currentAreas.includes(s)) ? 2 : 0;
+      const bSameArea = (b.related_area_slugs || []).some((s) => currentAreas.includes(s)) ? 2 : 0;
+      if (aSameArea !== bSameArea) return bSameArea - aSameArea;
       const aSameCat = a.category === article.category ? 1 : 0;
       const bSameCat = b.category === article.category ? 1 : 0;
       return bSameCat - aSameCat;
     })
-    .slice(0, 3);
+    .slice(0, 4);
 
   // In-article CTA: pick 2 different articles for mid-content suggestion
   const ctaArticles = allArticles
@@ -147,8 +152,8 @@ export function DynamicArticle({ slug }: { slug: string }) {
           <article className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-lg prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:text-gray-900 prose-ul:my-3 prose-blockquote:border-primary-500 prose-blockquote:text-gray-600">
             {isHtmlContent ? (
               <>
-                {/* HTML content from AI — render directly */}
-                <div dangerouslySetInnerHTML={{ __html: content }} />
+                {/* HTML content from AI — render with auto internal links */}
+                <AutoLinkedHtml html={content} />
 
                 {/* In-article CTA banner */}
                 {ctaArticles.length > 0 && (
