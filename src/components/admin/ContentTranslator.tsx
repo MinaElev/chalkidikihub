@@ -57,7 +57,7 @@ export function ContentTranslator({ contentEl, onTranslated }: ContentTranslator
         ) : done ? (
           <><CheckCircle className="w-4 h-4" />Μεταφράστηκε!</>
         ) : (
-          <><Languages className="w-4 h-4" />Μετάφραση Content σε 6 γλώσσες</>
+          <><Languages className="w-4 h-4" />Μετάφραση Content σε 6+SR γλώσσες</>
         )}
       </button>
       {error && <span className="text-xs text-red-600">{error}</span>}

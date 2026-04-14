@@ -216,8 +216,8 @@ export default function EditBlogPage() {
         {/* Μεταφράσεις Τίτλου */}
         <div className="border-t border-gray-200 pt-6 mt-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Μεταφράσεις Τίτλου</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {(['de', 'bg', 'ru', 'ro'] as const).map((lang) => (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            {(['de', 'bg', 'ru', 'ro', 'sr'] as const).map((lang) => (
               <div key={lang}>
                 <label className="block text-xs font-medium text-gray-500 mb-1">Title ({lang.toUpperCase()})</label>
                 <input type="text" value={(form as unknown as Record<string, string>)[`title_${lang}`] || ''} onChange={(e) => update(`title_${lang}`, e.target.value)}
@@ -230,8 +230,8 @@ export default function EditBlogPage() {
         {/* Μεταφράσεις Excerpt */}
         <div>
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Μεταφράσεις Excerpt</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {(['de', 'bg', 'ru', 'ro'] as const).map((lang) => (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            {(['de', 'bg', 'ru', 'ro', 'sr'] as const).map((lang) => (
               <div key={lang}>
                 <label className="block text-xs font-medium text-gray-500 mb-1">Excerpt ({lang.toUpperCase()})</label>
                 <textarea rows={2} value={(form as unknown as Record<string, string>)[`excerpt_${lang}`] || ''} onChange={(e) => update(`excerpt_${lang}`, e.target.value)}
@@ -243,7 +243,7 @@ export default function EditBlogPage() {
 
         {/* SEO - ΟΛΑ τα πεδία */}
         <div className="border-t border-gray-200 pt-6 mt-6">
-          <h3 className="text-lg font-semibold text-red-600 mb-4">SEO Meta Tags (6 γλώσσες)</h3>
+          <h3 className="text-lg font-semibold text-red-600 mb-4">SEO Meta Tags (7 γλώσσες)</h3>
 
           <p className="text-xs text-gray-500 mb-4">Γεμίζουν αυτόματα με το AI Auto-Complete. Μπορείτε να τα επεξεργαστείτε χειροκίνητα.</p>
 
@@ -350,6 +350,7 @@ function ContentTabs({ form, update, id }: { form: Record<string, unknown>; upda
     { code: 'bg', label: 'BG 🇧🇬', flag: '🇧🇬' },
     { code: 'ru', label: 'RU 🇷🇺', flag: '🇷🇺' },
     { code: 'ro', label: 'RO 🇷🇴', flag: '🇷🇴' },
+    { code: 'sr', label: 'SR 🇷🇸', flag: '🇷🇸' },
   ];
 
   const contentKey = `content_${activeTab}`;
@@ -380,6 +381,7 @@ function ContentTabs({ form, update, id }: { form: Record<string, unknown>; upda
             update('content_bg', translations.bg || '');
             update('content_ru', translations.ru || '');
             update('content_ro', translations.ro || '');
+            update('content_sr', translations.sr || '');
             // Save to DB
             const supabase = createClient();
             supabase.from('blog_articles').update({
@@ -388,6 +390,7 @@ function ContentTabs({ form, update, id }: { form: Record<string, unknown>; upda
               content_bg: translations.bg,
               content_ru: translations.ru,
               content_ro: translations.ro,
+              content_sr: translations.sr,
             }).eq('id', id);
           }}
         />
