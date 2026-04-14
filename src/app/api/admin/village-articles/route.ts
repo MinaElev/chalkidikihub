@@ -242,6 +242,69 @@ Return ONLY JSON:
         const transRaw = await callOpenAI(translatePrompt, 10000);
         const trans = JSON.parse(transRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
 
+        // ── STEP 4.5: AI Polish & Format all content ──
+        const polishPrompt = `You are an expert content editor for a premium tourism blog about Halkidiki, Greece.
+
+Polish and enhance the following HTML article content in 7 languages. For EACH language:
+
+1. Ensure proper HTML structure: clear <h2>/<h3> headings, well-formed <p> paragraphs (3-4 sentences each), <ul><li> bullet lists where appropriate
+2. Add <strong> to highlight key names (beaches, restaurants, villages) and important phrases
+3. Add 1-2 <blockquote> with insider tips or memorable quotes (styled as travel tips)
+4. Ensure every <h2> section has at least 2 paragraphs or a paragraph + list
+5. Make the text engaging, scannable, and tourism-friendly — like a friend giving advice
+6. Do NOT change facts, names, or meaning — only restructure and enhance formatting
+7. Do NOT add markdown — use ONLY HTML tags (<h2>, <h3>, <p>, <ul>, <li>, <strong>, <blockquote>, <em>)
+8. Keep each translation in its OWN language — do not mix languages
+
+Return ONLY a JSON object with the polished content for each language:
+{
+  "content_el": "<p>...</p><h2>...</h2>...",
+  "content_en": "<p>...</p><h2>...</h2>...",
+  "content_de": "...", "content_bg": "...",
+  "content_ru": "...", "content_ro": "...", "content_sr": "..."
+}
+
+=== CONTENT TO POLISH ===
+
+GREEK (content_el):
+${article.content_el}
+
+ENGLISH (content_en):
+${trans.content_en || ''}
+
+GERMAN (content_de):
+${trans.content_de || ''}
+
+BULGARIAN (content_bg):
+${trans.content_bg || ''}
+
+RUSSIAN (content_ru):
+${trans.content_ru || ''}
+
+ROMANIAN (content_ro):
+${trans.content_ro || ''}
+
+SERBIAN (content_sr):
+${trans.content_sr || ''}`;
+
+        let polished: Record<string, string> = {};
+        try {
+          const polishRaw = await callOpenAI(polishPrompt, 15000);
+          polished = JSON.parse(polishRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+        } catch {
+          // If polishing fails, use unpolished content
+          polished = {};
+        }
+
+        // Use polished content if available, fall back to original
+        const finalContentEl = polished.content_el || article.content_el;
+        const finalContentEn = polished.content_en || trans.content_en || '';
+        const finalContentDe = polished.content_de || trans.content_de || '';
+        const finalContentBg = polished.content_bg || trans.content_bg || '';
+        const finalContentRu = polished.content_ru || trans.content_ru || '';
+        const finalContentRo = polished.content_ro || trans.content_ro || '';
+        const finalContentSr = polished.content_sr || trans.content_sr || '';
+
         // ── STEP 5: Insert article ──
         const { error: insertError } = await supabase.from('blog_articles').insert({
           slug: articleSlug,
@@ -257,7 +320,7 @@ Return ONLY JSON:
           // Greek
           title_el: article.title_el,
           excerpt_el: article.excerpt_el,
-          content_el: article.content_el,
+          content_el: finalContentEl,
           // Translations
           title_en: seo.translations?.title_en || '', title_de: seo.translations?.title_de || '',
           title_bg: seo.translations?.title_bg || '', title_ru: seo.translations?.title_ru || '',
@@ -265,9 +328,9 @@ Return ONLY JSON:
           excerpt_en: seo.translations?.excerpt_en || '', excerpt_de: seo.translations?.excerpt_de || '',
           excerpt_bg: seo.translations?.excerpt_bg || '', excerpt_ru: seo.translations?.excerpt_ru || '',
           excerpt_ro: seo.translations?.excerpt_ro || '', excerpt_sr: seo.translations?.excerpt_sr || '',
-          content_en: trans.content_en || '', content_de: trans.content_de || '',
-          content_bg: trans.content_bg || '', content_ru: trans.content_ru || '',
-          content_ro: trans.content_ro || '', content_sr: trans.content_sr || '',
+          content_en: finalContentEn, content_de: finalContentDe,
+          content_bg: finalContentBg, content_ru: finalContentRu,
+          content_ro: finalContentRo, content_sr: finalContentSr,
           // SEO
           meta_title_el: seo.seo?.meta_title_el || '', meta_title_en: seo.seo?.meta_title_en || '',
           meta_title_de: seo.seo?.meta_title_de || '', meta_title_bg: seo.seo?.meta_title_bg || '',
