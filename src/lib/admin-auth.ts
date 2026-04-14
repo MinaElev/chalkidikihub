@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { createApiClient, createAdminClient } from './api-helpers';
+import { createAdminClient } from './api-helpers';
 
 // Verify caller is superadmin — returns user or error response
 // Only use in API routes (server-side)
@@ -53,15 +53,13 @@ export async function requireSuperAdmin(): Promise<{ userId: string } | NextResp
       return NextResponse.json({ error: 'Unauthorized — no access token found' }, { status: 401 });
     }
 
-    // Use anon client to verify token (hits Supabase Auth API)
-    const supabase = createApiClient();
-    const { data: { user }, error } = await supabase.auth.getUser(accessToken);
+    // Use admin client to verify token and check role (service role key can validate any token)
+    const adminClient = createAdminClient();
+    const { data: { user }, error } = await adminClient.auth.getUser(accessToken);
     if (error || !user) {
       return NextResponse.json({ error: 'Unauthorized — invalid token' }, { status: 401 });
     }
 
-    // Use admin client to check role (bypasses RLS on profiles table)
-    const adminClient = createAdminClient();
     const { data: profile } = await adminClient.from('profiles').select('role').eq('id', user.id).single();
     if (profile?.role !== 'superadmin') {
       return NextResponse.json({ error: `Forbidden — role is "${profile?.role || 'unknown'}"` }, { status: 403 });
