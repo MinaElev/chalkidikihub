@@ -52,7 +52,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <div lang={locale} className="min-h-screen flex flex-col bg-white text-gray-900" id="app-shell">
         <div id="main-header"><Header /></div>
         <main className="flex-1">{children}</main>
-        <div id="main-footer"><Footer /></div>
+        <div id="main-footer" className="min-h-[480px] md:min-h-[380px]"><Footer /></div>
         <BackToTop />
         <CookieConsent />
       </div>

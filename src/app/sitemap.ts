@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { locales } from '@/i18n/config';
+import { locales, defaultLocale } from '@/i18n/config';
 import { createApiClient } from '@/lib/api-helpers';
 import { AREAS } from '@/lib/constants';
 
@@ -8,9 +8,16 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 // Revalidate sitemap every hour (ISR)
 export const revalidate = 3600;
 
+/** Build locale-prefixed URL: default locale (el) has no prefix */
+function localeUrl(locale: string, path: string) {
+  return locale === defaultLocale
+    ? `${baseUrl}${path || '/'}`
+    : `${baseUrl}/${locale}${path}`;
+}
+
 function alt(path: string) {
   return {
-    languages: Object.fromEntries(locales.map((l) => [l, `${baseUrl}/${l}${path}`])),
+    languages: Object.fromEntries(locales.map((l) => [l, localeUrl(l, path)])),
   };
 }
 
@@ -19,7 +26,7 @@ function forLocales(
   opts: { freq: MetadataRoute.Sitemap[0]['changeFrequency']; priority: number; modified?: Date },
 ): MetadataRoute.Sitemap {
   return locales.map((locale) => ({
-    url: `${baseUrl}/${locale}${path}`,
+    url: localeUrl(locale, path),
     lastModified: opts.modified || new Date(),
     changeFrequency: opts.freq,
     priority: opts.priority,
