@@ -13,6 +13,23 @@ export function ContentTranslator({ contentEl, onTranslated }: ContentTranslator
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
 
+  const [progress, setProgress] = useState('');
+
+  async function translateBatch(content: string, languages: string[]): Promise<Record<string, string>> {
+    const res = await fetch('/api/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'translate_content',
+        content,
+        languages,
+      }),
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    return data;
+  }
+
   async function handleTranslate() {
     if (!contentEl || contentEl.length < 10) {
       setError('Βάλε πρώτα content στα ελληνικά');
@@ -23,22 +40,23 @@ export function ContentTranslator({ contentEl, onTranslated }: ContentTranslator
     setLoading(true);
 
     try {
-      // Split content into chunks if very long (>2000 chars per language)
-      const res = await fetch('/api/ai', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'translate_content',
-          content: contentEl,
-        }),
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      onTranslated(data);
+      // Translate in 3 batches of 2 languages to avoid token limits & timeouts
+      const batches: string[][] = [['en', 'de'], ['bg', 'ru'], ['ro', 'sr']];
+      const allTranslations: Record<string, string> = {};
+
+      for (let i = 0; i < batches.length; i++) {
+        setProgress(`Μετάφραση ${batches[i].join(', ').toUpperCase()}... (${i + 1}/3)`);
+        const result = await translateBatch(contentEl, batches[i]);
+        Object.assign(allTranslations, result);
+      }
+
+      onTranslated(allTranslations);
       setDone(true);
+      setProgress('');
       setTimeout(() => setDone(false), 5000);
     } catch (err) {
       setError((err as Error).message);
+      setProgress('');
     } finally {
       setLoading(false);
     }
@@ -53,7 +71,7 @@ export function ContentTranslator({ contentEl, onTranslated }: ContentTranslator
         className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 text-white text-sm font-medium rounded-lg transition-colors"
       >
         {loading ? (
-          <><Loader2 className="w-4 h-4 animate-spin" />Μετάφραση content...</>
+          <><Loader2 className="w-4 h-4 animate-spin" />{progress || 'Μετάφραση content...'}</>
         ) : done ? (
           <><CheckCircle className="w-4 h-4" />Μεταφράστηκε!</>
         ) : (

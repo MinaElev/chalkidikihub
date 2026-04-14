@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/api-helpers';
 
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 async function getOpenAIKey(): Promise<string> {
   try {
@@ -175,17 +175,50 @@ IMPORTANT: Write engaging Greek text. Highlights separated by |. No markdown, ON
     }
 
     if (action === 'translate_content') {
-      // Translate long-form content (blog articles) to 5 languages
+      // Translate long-form content (blog articles) — supports batch mode (2 langs at a time)
       const rawContent = (body.content as string || '').trim();
       if (!rawContent) return NextResponse.json({ error: 'No content provided' }, { status: 400 });
 
-      // Sanitize content - remove problematic characters
-      const content = rawContent.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+      const LANG_NAMES: Record<string, string> = {
+        en: 'English', de: 'German', bg: 'Bulgarian', ru: 'Russian', ro: 'Romanian', sr: 'Serbian'
+      };
 
-      const prompt = 'You are a professional translator. Translate the following Greek text to English, German, Bulgarian, Russian, Romanian, and Serbian.\n\nIMPORTANT: Translate the ENTIRE text completely. Do NOT summarize or shorten. Every paragraph, every sentence must be translated.\nKeep the same formatting (## headings, bullet points, line breaks).\n\nReturn ONLY a JSON object:\n{\n  "en": "full English translation...",\n  "de": "full German translation...",\n  "bg": "full Bulgarian translation...",\n  "ru": "full Russian translation...",\n  "ro": "full Romanian translation...",\n  "sr": "full Serbian translation..."\n}\n\nNo markdown wrapping, no explanation.\n\nGreek text to translate:\n' + rawContent;
+      // Accept specific languages or default to all 6
+      const languages: string[] = body.languages || ['en', 'de', 'bg', 'ru', 'ro', 'sr'];
+      const langList = languages.map((l: string) => LANG_NAMES[l] || l).join(' and ');
+      const jsonFields = languages.map((l: string) => `  "${l}": "full ${LANG_NAMES[l] || l} translation..."`).join(',\n');
 
-      const result = await callOpenAI(prompt, 10000);
-      const translations = JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+      const prompt = `You are a professional translator. Translate the following Greek text to ${langList}.
+
+IMPORTANT: Translate the ENTIRE text completely. Do NOT summarize or shorten. Every paragraph, every sentence must be translated.
+Keep the same formatting (## headings, bullet points, line breaks).
+
+Return ONLY a JSON object:
+{
+${jsonFields}
+}
+
+No markdown wrapping, no explanation.
+
+Greek text to translate:
+${rawContent}`;
+
+      const result = await callOpenAI(prompt, 8000);
+
+      // Robust JSON parsing
+      const cleaned = result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      let translations;
+      try {
+        translations = JSON.parse(cleaned);
+      } catch {
+        // Try to extract JSON object from response
+        const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          translations = JSON.parse(jsonMatch[0]);
+        } else {
+          throw new Error('Η μετάφραση απέτυχε — δοκίμασε ξανά ή μίκρυνε το κείμενο');
+        }
+      }
       return NextResponse.json(translations);
     }
 
