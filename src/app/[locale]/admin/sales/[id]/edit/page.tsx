@@ -9,6 +9,7 @@ import { ArrowLeft, Save, Loader2, Sparkles, X, Star, Upload } from 'lucide-reac
 import { AIHelper } from '@/components/admin/AIHelper';
 import { LocationPicker } from '@/components/ui/LocationPicker';
 import { compressImage } from '@/lib/image-utils';
+import { revalidateContent } from '@/lib/revalidate';
 
 const AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'];
 const PROPERTY_TYPES = ['house', 'apartment', 'land', 'commercial', 'other'];
@@ -154,6 +155,7 @@ export default function AdminEditSalePage() {
     }).eq('id', id);
     if (err) { setError(err.message); setSaving(false); return; }
     setSuccess('Saved!'); setSaving(false);
+    revalidateContent('sales', form.slug as string);
   }
 
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;

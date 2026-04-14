@@ -12,6 +12,7 @@ import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity } from '@/types';
 import { LocationPicker } from '@/components/ui/LocationPicker';
 import { ImportFromUrl } from '@/components/listings/ImportFromUrl';
+import { revalidateContent } from '@/lib/revalidate';
 
 export default function AdminEditListingPage() {
   const { id } = useParams();
@@ -132,7 +133,7 @@ export default function AdminEditListingPage() {
     };
 
     const { error: err } = await supabase.from('listings').update(updateData).eq('id', id);
-    if (err) { setError(err.message); } else { setSuccess('Αποθηκεύτηκε!'); }
+    if (err) { setError(err.message); } else { setSuccess('Αποθηκεύτηκε!'); revalidateContent('listings', form.slug as string); }
     setSaving(false);
   }
 

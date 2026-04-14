@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState, useMemo } from 'react';
 import { useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
@@ -142,7 +143,7 @@ export function AutoLinkedContent({ content, className }: { content: string; cla
       <div className={className}>
         {content.split('\n').map((p, i) => {
           const imgMatch = p.trim().match(imageRegex);
-          if (imgMatch) return <figure key={i} className="my-6"><img src={imgMatch[2]} alt={imgMatch[1]} className="w-full rounded-xl" loading="lazy" />{imgMatch[1] && <figcaption className="text-sm text-gray-500 text-center mt-2">{imgMatch[1]}</figcaption>}</figure>;
+          if (imgMatch) return <figure key={i} className="my-6"><div className="relative aspect-[16/9] w-full"><Image src={imgMatch[2]} alt={imgMatch[1]} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover rounded-xl" /></div>{imgMatch[1] && <figcaption className="text-sm text-gray-500 text-center mt-2">{imgMatch[1]}</figcaption>}</figure>;
           if (p.startsWith('### ')) return <h3 key={i} className="text-base font-bold text-gray-800 mt-4 mb-1">{p.replace('### ', '')}</h3>;
           if (p.startsWith('## ')) return <h2 key={i} className="text-2xl font-bold text-gray-900 mt-8 mb-4">{p.replace('## ', '')}</h2>;
           if (p.startsWith('- ')) return <div key={i} className="flex gap-2 ml-4 mb-2"><span className="text-primary-600">•</span><p className="text-gray-600">{p.replace('- ', '')}</p></div>;
@@ -156,7 +157,7 @@ export function AutoLinkedContent({ content, className }: { content: string; cla
   return (
     <div className={className}>
       {processedParagraphs.map((p) => {
-        if (p.type === 'image') return <figure key={p.key} className="my-6"><img src={(p as { url: string }).url} alt={p.text} className="w-full rounded-xl" loading="lazy" />{p.text && <figcaption className="text-sm text-gray-500 text-center mt-2">{p.text}</figcaption>}</figure>;
+        if (p.type === 'image') return <figure key={p.key} className="my-6"><div className="relative aspect-[16/9] w-full"><Image src={(p as { url: string }).url} alt={p.text} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover rounded-xl" /></div>{p.text && <figcaption className="text-sm text-gray-500 text-center mt-2">{p.text}</figcaption>}</figure>;
         if (p.type === 'subheading') return <h3 key={p.key} className="text-base font-bold text-gray-800 mt-4 mb-1">{renderWithLinks(p.text)}</h3>;
         if (p.type === 'heading') return <h2 key={p.key} className="text-2xl font-bold text-gray-900 mt-8 mb-4">{renderWithLinks(p.text)}</h2>;
         if (p.type === 'list') return <div key={p.key} className="flex gap-2 ml-4 mb-2"><span className="text-primary-600">•</span><p className="text-gray-600">{renderWithLinks(p.text)}</p></div>;

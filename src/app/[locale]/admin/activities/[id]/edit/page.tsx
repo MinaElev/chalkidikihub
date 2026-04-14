@@ -10,6 +10,7 @@ import { ALL_ACTIVITY_CATEGORIES } from '@/lib/constants';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { AIHelper } from '@/components/admin/AIHelper';
 import { LocationPicker } from '@/components/ui/LocationPicker';
+import { revalidateContent } from '@/lib/revalidate';
 
 const AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'];
 const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -99,6 +100,7 @@ export default function EditActivityPage() {
     }).eq('id', id);
     if (err) { setError(err.message); setSaving(false); return; }
     setSuccess('Saved!'); setSaving(false);
+    revalidateContent('activities', form.slug as string);
   }
 
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;

@@ -9,6 +9,7 @@ import { compressImage } from '@/lib/image-utils';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { AIHelper } from '@/components/admin/AIHelper';
 import { ContentTranslator } from '@/components/admin/ContentTranslator';
+import { revalidateContent } from '@/lib/revalidate';
 
 const CATEGORIES = ['guides', 'beaches', 'food', 'activities', 'tips', 'culture'];
 
@@ -102,6 +103,7 @@ export default function EditBlogPage() {
     if (err) { setError(err.message); setSaving(false); return; }
     setSuccess('Saved!');
     setSaving(false);
+    revalidateContent('blog', form.slug as string);
   }
 
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;

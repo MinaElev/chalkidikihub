@@ -2,14 +2,15 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicActivityDetail } from '@/components/listings/DynamicActivityDetail';
 import { getContentMeta } from '@/lib/seo';
-import { getActivityBySlug } from '@/lib/data';
+import { getActivityBySlug, getActivities } from '@/lib/data';
 
 export const revalidate = 60;
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export function generateStaticParams() {
-  return [];
+export async function generateStaticParams() {
+  const items = await getActivities();
+  return items.map(item => ({ slug: item.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {

@@ -2,7 +2,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicListingDetail } from '@/components/listings/DynamicListingDetail';
 import { getContentMeta } from '@/lib/seo';
-import { getListingBySlug } from '@/lib/data';
+import { getListingBySlug, getListings } from '@/lib/data';
 
 export const revalidate = 60;
 
@@ -10,8 +10,9 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export function generateStaticParams() {
-  return [];
+export async function generateStaticParams() {
+  const items = await getListings();
+  return items.map(item => ({ slug: item.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
