@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Wrench, ImageIcon, Loader2, CheckCircle, AlertCircle, Zap, Search, Sparkles, BarChart3, BookOpen, Play, SkipForward, Waves } from 'lucide-react';
+import { Wrench, ImageIcon, Loader2, CheckCircle, AlertCircle, Zap, Search, Sparkles, BarChart3, BookOpen, Play, SkipForward, Waves, Compass, Lightbulb, Landmark as LandmarkIcon, RefreshCw } from 'lucide-react';
 
 interface ImageRecord {
   table: string;
@@ -315,6 +315,9 @@ export default function AdminToolsPage() {
 
       {/* Beach Article Generator */}
       <BeachArticleGenerator />
+
+      {/* Topic Article Generator (Activities, Tips, Culture) */}
+      <TopicArticleGenerator />
 
       {/* AI Bulk SEO Generator */}
       <BulkSEOGenerator />
@@ -717,6 +720,306 @@ function BeachArticleGenerator() {
       )}
 
       <p className="text-xs text-gray-400 mt-3">Each beach ~40s (5 AI calls incl. polish). Cost ~$0.015/beach. No business ads — nature only.</p>
+    </div>
+  );
+}
+
+/* ─── Topic Article Generator (Activities, Tips, Culture) ─── */
+interface TopicStatus {
+  topic: string;
+  slug: string;
+  article_slug: string;
+  has_article: boolean;
+}
+interface CategoryStatus {
+  label: string;
+  total: number;
+  with_article: number;
+  without_article: number;
+  topics: TopicStatus[];
+}
+
+const CATEGORY_CONFIG: Record<string, { icon: typeof Compass; color: string; bgColor: string }> = {
+  activities: { icon: Compass, color: 'text-amber-600', bgColor: 'bg-amber-100' },
+  tips: { icon: Lightbulb, color: 'text-blue-600', bgColor: 'bg-blue-100' },
+  culture: { icon: LandmarkIcon, color: 'text-purple-600', bgColor: 'bg-purple-100' },
+};
+
+function TopicArticleGenerator() {
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<Record<string, CategoryStatus>>({});
+  const [activeTab, setActiveTab] = useState<string>('activities');
+  const [generating, setGenerating] = useState<string | null>(null);
+  const [batchRunning, setBatchRunning] = useState(false);
+  const [results, setResults] = useState<string[]>([]);
+  const [processed, setProcessed] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [suggesting, setSuggesting] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
+  async function getToken() {
+    const { createClient: cc } = await import('@/lib/supabase/client');
+    const supabase = cc();
+    const { data: { session } } = await supabase.auth.getSession();
+    return session?.access_token || '';
+  }
+
+  async function loadStatus() {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/admin/topic-articles');
+      const data = await res.json();
+      setCategories(data);
+    } catch (err) {
+      setResults(prev => [...prev, `Error: ${(err as Error).message}`]);
+    }
+    setLoading(false);
+  }
+
+  async function suggestTopics() {
+    setSuggesting(true);
+    setSuggestions([]);
+    try {
+      const catLabel = categories[activeTab]?.label || activeTab;
+      const existing = (categories[activeTab]?.topics || []).map(t => t.topic).join(', ');
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'suggest_topics',
+          category: activeTab,
+          existing,
+          title: catLabel,
+          description: `Suggest 5 new blog article topics for category "${catLabel}" about Halkidiki, Greece. Existing: ${existing}. Return JSON: { "suggestions": ["topic1", "topic2", ...] }`,
+        }),
+      });
+      const data = await res.json();
+      // Try parsing suggestions from AI response
+      if (data.suggestions) {
+        setSuggestions(data.suggestions);
+      } else if (data.formatted) {
+        try { setSuggestions(JSON.parse(data.formatted).suggestions || []); } catch { setSuggestions([]); }
+      }
+    } catch {
+      // Fallback: direct OpenAI call through AI endpoint
+      try {
+        const res = await fetch('/api/ai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'format_content',
+            content: `Suggest 5 NEW unique blog article topics for "${categories[activeTab]?.label || activeTab}" about Halkidiki, Greece tourism. Existing topics: ${(categories[activeTab]?.topics || []).map(t => t.topic).join(', ')}. Return ONLY a JSON array of 5 topic titles in Greek, like: ["Topic 1", "Topic 2", ...]`,
+            lang: 'el',
+          }),
+        });
+        const data = await res.json();
+        if (data.formatted) {
+          const parsed = JSON.parse(data.formatted.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+          setSuggestions(Array.isArray(parsed) ? parsed : parsed.suggestions || []);
+        }
+      } catch {}
+    }
+    setSuggesting(false);
+  }
+
+  async function generateOne(topicSlug: string) {
+    setGenerating(topicSlug);
+    const token = await getToken();
+    try {
+      const res = await fetch('/api/admin/topic-articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ category: activeTab, topic_slug: topicSlug }),
+      });
+      const data = await res.json();
+      if (data.errors_detail?.length > 0) {
+        setResults(prev => [...prev, `Error: ${data.errors_detail[0].error}`]);
+      } else if (data.results?.length > 0) {
+        const r = data.results[0];
+        setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status}: ${r.topic}`]);
+        setCategories(prev => {
+          const cat = { ...prev[activeTab] };
+          cat.topics = cat.topics.map(t => t.slug === topicSlug ? { ...t, has_article: true } : t);
+          cat.with_article = cat.topics.filter(t => t.has_article).length;
+          cat.without_article = cat.topics.filter(t => !t.has_article).length;
+          return { ...prev, [activeTab]: cat };
+        });
+      }
+    } catch (err) {
+      setResults(prev => [...prev, `Error: ${(err as Error).message}`]);
+    }
+    setGenerating(null);
+  }
+
+  async function generateAll() {
+    const pending = (categories[activeTab]?.topics || []).filter(t => !t.has_article);
+    if (pending.length === 0) return;
+    setBatchRunning(true);
+    setProcessed(0);
+    setTotal(pending.length);
+    setResults([]);
+    const token = await getToken();
+
+    for (let i = 0; i < pending.length; i++) {
+      const t = pending[i];
+      setGenerating(t.slug);
+      try {
+        const res = await fetch('/api/admin/topic-articles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ category: activeTab, topic_slug: t.slug }),
+        });
+        const data = await res.json();
+        if (data.errors_detail?.length > 0) {
+          setResults(prev => [...prev, `Error ${t.topic}: ${data.errors_detail[0].error}`]);
+        } else if (data.results?.length > 0) {
+          const r = data.results[0];
+          setResults(prev => [...prev, `${r.status === 'created' ? 'Created' : r.status}: ${r.topic}`]);
+          setCategories(prev => {
+            const cat = { ...prev[activeTab] };
+            cat.topics = cat.topics.map(tt => tt.slug === t.slug ? { ...tt, has_article: true } : tt);
+            cat.with_article = cat.topics.filter(tt => tt.has_article).length;
+            cat.without_article = cat.topics.filter(tt => !tt.has_article).length;
+            return { ...prev, [activeTab]: cat };
+          });
+        }
+      } catch (err) {
+        setResults(prev => [...prev, `Error ${t.topic}: ${(err as Error).message}`]);
+      }
+      setProcessed(i + 1);
+      if (i < pending.length - 1) await new Promise(r => setTimeout(r, 3000));
+    }
+    setGenerating(null);
+    setBatchRunning(false);
+  }
+
+  const currentCat = categories[activeTab];
+  const pending = currentCat?.without_article || 0;
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl p-6 mt-6">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 bg-gradient-to-br from-amber-100 via-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+          <Compass className="w-5 h-5 text-amber-600" />
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900">Topic Article Generator</h2>
+          <p className="text-sm text-gray-500">Δραστηριότητες, Συμβουλές Ταξιδιού, Πολιτισμός — AI blog articles σε 7 γλώσσες</p>
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex gap-3 mb-4">
+        <button onClick={loadStatus} disabled={loading || batchRunning}
+          className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium disabled:opacity-50">
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+          1. Check Status
+        </button>
+        {pending > 0 && (
+          <button onClick={generateAll} disabled={batchRunning || generating !== null}
+            className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-sm font-medium disabled:opacity-50">
+            {batchRunning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
+            2. Generate All ({pending})
+          </button>
+        )}
+        {Object.keys(categories).length > 0 && (
+          <button onClick={suggestTopics} disabled={suggesting || batchRunning}
+            className="flex items-center gap-2 px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg text-sm font-medium disabled:opacity-50">
+            {suggesting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Lightbulb className="w-4 h-4" />}
+            AI Suggest Topics
+          </button>
+        )}
+      </div>
+
+      {/* AI Suggestions */}
+      {suggestions.length > 0 && (
+        <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
+          <h4 className="text-sm font-bold text-purple-800 mb-2">AI Προτάσεις νέων θεμάτων ({categories[activeTab]?.label}):</h4>
+          <ul className="space-y-1">
+            {suggestions.map((s, i) => (
+              <li key={i} className="text-sm text-purple-700 flex items-center gap-2">
+                <Lightbulb className="w-3 h-3 flex-shrink-0" />
+                {s}
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-purple-500 mt-2">Πρόσθεσε αυτά τα θέματα στο API endpoint για να τα δημιουργήσεις.</p>
+        </div>
+      )}
+
+      {/* Category tabs */}
+      {Object.keys(categories).length > 0 && (
+        <div className="flex gap-2 mb-4">
+          {Object.entries(categories).map(([key, cat]) => {
+            const cfg = CATEGORY_CONFIG[key] || CATEGORY_CONFIG.activities;
+            const Icon = cfg.icon;
+            return (
+              <button key={key} onClick={() => { setActiveTab(key); setSuggestions([]); }}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === key ? `${cfg.bgColor} ${cfg.color} ring-2 ring-offset-1 ring-current` : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}>
+                <Icon className="w-4 h-4" />
+                {cat.label}
+                <span className="text-xs opacity-70">({cat.without_article}/{cat.total})</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Topic grid */}
+      {currentCat && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-80 overflow-y-auto mb-4">
+          {currentCat.topics.map(t => (
+            <div key={t.slug}
+              className={`flex items-center justify-between px-3 py-2 rounded-lg border text-sm ${
+                t.has_article ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'
+              }`}>
+              <div className="flex items-center gap-2 min-w-0">
+                {t.has_article
+                  ? <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  : <AlertCircle className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                }
+                <span className="truncate font-medium text-gray-800">{t.topic}</span>
+              </div>
+              {!t.has_article && (
+                <button onClick={() => generateOne(t.slug)}
+                  disabled={generating !== null || batchRunning}
+                  className="ml-2 flex-shrink-0 px-2 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-xs font-medium disabled:opacity-50">
+                  {generating === t.slug ? <Loader2 className="w-3 h-3 animate-spin" /> : 'Generate'}
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Progress */}
+      {(batchRunning || (processed > 0 && total > 0)) && (
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-600">{processed}/{total} processed</span>
+            {generating && <span className="text-xs text-amber-600 animate-pulse">Generating: {generating}...</span>}
+          </div>
+          <div className="w-full h-2 bg-gray-200 rounded-full">
+            <div className="h-full bg-amber-500 rounded-full transition-all"
+              style={{ width: `${total > 0 ? (processed / total) * 100 : 0}%` }} />
+          </div>
+        </div>
+      )}
+
+      {/* Results log */}
+      {results.length > 0 && (
+        <div className="bg-gray-900 rounded-lg p-4 max-h-60 overflow-y-auto font-mono text-xs">
+          {results.map((r, i) => (
+            <div key={i} className={`py-0.5 ${r.startsWith('Created') ? 'text-green-400' : r.startsWith('Skipped') ? 'text-yellow-400' : r.startsWith('Error') ? 'text-red-400' : 'text-gray-400'}`}>
+              {r}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <p className="text-xs text-gray-400 mt-3">10 topics per category (30 total). ~40s each, ~$0.015/article. Markdown format with auto-links.</p>
     </div>
   );
 }
