@@ -13,20 +13,24 @@ interface BreadcrumbsProps {
   items: BreadcrumbItem[];
 }
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
+
 export function Breadcrumbs({ items }: BreadcrumbsProps) {
+  const locale = useLocale();
   const t = useTranslations('nav');
 
   // JSON-LD structured data for Google
+  // "item" must be a full URL string per https://schema.org/ListItem
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: t('home'), item: '/' },
+      { '@type': 'ListItem', position: 1, name: t('home'), item: `${SITE_URL}/${locale}` },
       ...items.map((item, idx) => ({
         '@type': 'ListItem',
         position: idx + 2,
         name: item.label,
-        ...(item.href ? { item: item.href } : {}),
+        ...(item.href ? { item: `${SITE_URL}/${locale}${item.href}` } : {}),
       })),
     ],
   };
