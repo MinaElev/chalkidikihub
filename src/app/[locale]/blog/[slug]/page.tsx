@@ -22,7 +22,7 @@ export default async function BlogArticlePage({ params }: Props) {
   setRequestLocale(locale);
 
   const supabase = createApiClient();
-  const { data } = await supabase.from('blog_articles').select('id').eq('slug', slug).eq('status', 'published').single();
+  const { data } = await supabase.from('blog_articles').select('id').eq('slug', slug).single();
   if (!data) notFound();
 
   // Always use DynamicArticle to fetch live content from DB
