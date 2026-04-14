@@ -36,19 +36,17 @@ export function DynamicRestaurantDetail({ slug, initialData }: { slug: string; i
 
   useEffect(() => {
     const fetchRelated = (restData: Restaurant) => {
-      return Promise.all([
-        fetch(`/api/restaurants?area=${restData.area}&limit=6`).then((r) => r.json()),
-        fetch(`/api/beaches?area=${restData.area}&limit=4`).then((r) => r.json()),
-        fetch(`/api/listings?area=${restData.area}&limit=4`).then((r) => r.json()),
-      ]).then(([allData, beachesData, listingsData]) => {
-        if (Array.isArray(allData)) setAllRestaurants(allData);
-        if (Array.isArray(beachesData)) {
-          setNearbyBeaches(beachesData.filter((b: Beach) => b.area === restData.area).slice(0, 3));
-        }
-        if (Array.isArray(listingsData)) {
-          setNearbyListings(listingsData.filter((l: Listing) => l.area === restData.area).slice(0, 3));
-        }
-      });
+      return fetch(`/api/related-content?type=restaurant&area=${encodeURIComponent(restData.area)}&slug=${encodeURIComponent(restData.slug)}`)
+        .then((r) => r.json())
+        .then(({ restaurants, beaches, listings }) => {
+          if (Array.isArray(restaurants)) setAllRestaurants(restaurants);
+          if (Array.isArray(beaches)) {
+            setNearbyBeaches(beaches.filter((b: Beach) => b.area === restData.area).slice(0, 3));
+          }
+          if (Array.isArray(listings)) {
+            setNearbyListings(listings.filter((l: Listing) => l.area === restData.area).slice(0, 3));
+          }
+        });
     };
 
     if (initialData) {

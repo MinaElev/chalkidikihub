@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Search, X, MapPin, Waves, UtensilsCrossed, Landmark, FileText, Home, Loader2, Zap } from 'lucide-react';
@@ -15,6 +15,21 @@ interface SearchResult {
   href: string;
 }
 
+interface SearchApiItem {
+  slug: string;
+  name: Record<string, string>;
+  location_name?: string;
+  category?: string;
+}
+
+interface SearchApiResponse {
+  beaches: SearchApiItem[];
+  restaurants: SearchApiItem[];
+  activities: SearchApiItem[];
+  listings: SearchApiItem[];
+  blog: SearchApiItem[];
+}
+
 const typeConfig = {
   listing: { icon: Home, color: 'text-primary-600 bg-primary-50', label: 'Κατάλυμα' },
   beach: { icon: Waves, color: 'text-cyan-600 bg-cyan-50', label: 'Παραλία' },
@@ -23,6 +38,30 @@ const typeConfig = {
   blog: { icon: FileText, color: 'text-indigo-600 bg-indigo-50', label: 'Άρθρο' },
   charger: { icon: Zap, color: 'text-green-600 bg-green-50', label: 'Φορτιστής' },
 };
+
+function localizedName(name: Record<string, string>, locale: string): string {
+  return name[locale] || name.el || name.en || '';
+}
+
+function mapResults(items: SearchApiItem[], type: SearchResult['type'], locale: string): SearchResult[] {
+  const conf = typeConfig[type];
+  const pathMap: Record<string, string> = {
+    listing: 'listings',
+    beach: 'beaches',
+    restaurant: 'restaurants',
+    activity: 'activities',
+    blog: 'blog',
+  };
+  return items.map((item) => ({
+    type,
+    slug: item.slug,
+    title: localizedName(item.name, locale),
+    subtitle: item.location_name || item.category || '',
+    icon: conf.icon,
+    color: conf.color,
+    href: `/${pathMap[type]}/${item.slug}`,
+  }));
+}
 
 export function GlobalSearch() {
   const locale = useLocale();
@@ -33,6 +72,8 @@ export function GlobalSearch() {
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   // Close on click outside
   useEffect(() => {
@@ -59,80 +100,74 @@ export function GlobalSearch() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Search when query changes
+  const fetchResults = useCallback(
+    (searchQuery: string) => {
+      // Cancel any in-flight request
+      if (abortRef.current) abortRef.current.abort();
+
+      if (searchQuery.length < 2) {
+        setResults([]);
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      const controller = new AbortController();
+      abortRef.current = controller;
+
+      fetch(`/api/search?q=${encodeURIComponent(searchQuery)}&limit=5`, {
+        signal: controller.signal,
+      })
+        .then((r) => r.json())
+        .then((data: SearchApiResponse) => {
+          const found: SearchResult[] = [
+            ...mapResults(data.listings, 'listing', locale),
+            ...mapResults(data.beaches, 'beach', locale),
+            ...mapResults(data.restaurants, 'restaurant', locale),
+            ...mapResults(data.activities, 'activity', locale),
+            ...mapResults(data.blog, 'blog', locale),
+          ];
+          setResults(found.slice(0, 15));
+          setLoading(false);
+        })
+        .catch((err) => {
+          if (err.name !== 'AbortError') {
+            setResults([]);
+            setLoading(false);
+          }
+        });
+    },
+    [locale],
+  );
+
+  // Debounced search when query changes
   useEffect(() => {
-    if (query.length < 2) { setResults([]); return; }
+    if (debounceRef.current) clearTimeout(debounceRef.current);
 
-    setLoading(true);
-    const controller = new AbortController();
-
-    // Fetch all content types in parallel
-    Promise.all([
-      fetch('/api/listings', { signal: controller.signal }).then(r => r.json()).catch(() => []),
-      fetch('/api/beaches', { signal: controller.signal }).then(r => r.json()).catch(() => []),
-      fetch('/api/restaurants', { signal: controller.signal }).then(r => r.json()).catch(() => []),
-      fetch('/api/activities', { signal: controller.signal }).then(r => r.json()).catch(() => []),
-      fetch('/api/blog', { signal: controller.signal }).then(r => r.json()).catch(() => []),
-    ]).then(([listings, beaches, restaurants, activities, articles]) => {
-      const q = query.toLowerCase();
-      const found: SearchResult[] = [];
-
-      // Search listings
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (listings as any[]).forEach((item: any) => {
-        const title = item.title?.[locale] || item.title?.el || item.title?.en || '';
-        const location = item.location_name || '';
-        if (title.toLowerCase().includes(q) || location.toLowerCase().includes(q)) {
-          found.push({ type: 'listing', slug: item.slug, title, subtitle: location, icon: Home, color: typeConfig.listing.color, href: `/listings/${item.slug}` });
-        }
-      });
-
-      // Search beaches
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (beaches as any[]).forEach((item: any) => {
-        const title = item.name?.[locale] || item.name?.el || item.name?.en || '';
-        const location = item.location_name || '';
-        if (title.toLowerCase().includes(q) || location.toLowerCase().includes(q)) {
-          found.push({ type: 'beach', slug: item.slug, title, subtitle: location, icon: Waves, color: typeConfig.beach.color, href: `/beaches/${item.slug}` });
-        }
-      });
-
-      // Search restaurants
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (restaurants as any[]).forEach((item: any) => {
-        const title = item.name?.[locale] || item.name?.el || item.name?.en || '';
-        const location = item.location_name || '';
-        if (title.toLowerCase().includes(q) || location.toLowerCase().includes(q)) {
-          found.push({ type: 'restaurant', slug: item.slug, title, subtitle: location, icon: UtensilsCrossed, color: typeConfig.restaurant.color, href: `/restaurants/${item.slug}` });
-        }
-      });
-
-      // Search activities
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (activities as any[]).forEach((item: any) => {
-        const title = item.name?.[locale] || item.name?.el || item.name?.en || '';
-        const location = item.location_name || '';
-        if (title.toLowerCase().includes(q) || location.toLowerCase().includes(q)) {
-          found.push({ type: 'activity', slug: item.slug, title, subtitle: location, icon: Landmark, color: typeConfig.activity.color, href: `/activities/${item.slug}` });
-        }
-      });
-
-      // Search blog
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (articles as any[]).forEach((item: any) => {
-        const title = item.title?.[locale] || item.title?.el || item.title?.en || '';
-        const excerpt = item.excerpt?.[locale] || item.excerpt?.el || '';
-        if (title.toLowerCase().includes(q) || excerpt.toLowerCase().includes(q)) {
-          found.push({ type: 'blog', slug: item.slug, title, subtitle: item.category || '', icon: FileText, color: typeConfig.blog.color, href: `/blog/${item.slug}` });
-        }
-      });
-
-      setResults(found.slice(0, 10));
+    if (query.length < 2) {
+      setResults([]);
       setLoading(false);
-    });
+      return;
+    }
 
-    return () => controller.abort();
-  }, [query, locale]);
+    // Show loading immediately so the user sees feedback
+    setLoading(true);
+
+    debounceRef.current = setTimeout(() => {
+      fetchResults(query);
+    }, 300);
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, [query, fetchResults]);
+
+  // Cleanup abort controller on unmount
+  useEffect(() => {
+    return () => {
+      if (abortRef.current) abortRef.current.abort();
+    };
+  }, []);
 
   function handleOpen() {
     setOpen(true);

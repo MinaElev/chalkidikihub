@@ -1,4 +1,5 @@
 import './globals.css';
+import Script from 'next/script';
 import { PWARegister } from '@/components/PWARegister';
 
 export default function RootLayout({
@@ -25,18 +26,32 @@ export default function RootLayout({
         <link rel="preconnect" href="https://bvwiwxmgbtklztgapxyp.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://bvwiwxmgbtklztgapxyp.supabase.co" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
-        {/* Google AdSense */}
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9694572418424066" crossOrigin="anonymous" />
-        {/* Defer Google Analytics to not block rendering */}
-        <script dangerouslySetInnerHTML={{ __html: `
-          window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
-          gtag('js',new Date());gtag('config','G-YKD6X4B919');
-          setTimeout(function(){var s=document.createElement('script');s.src='https://www.googletagmanager.com/gtag/js?id=G-YKD6X4B919';s.async=true;document.head.appendChild(s)},2000);
-        ` }} />
+        {/* Performance: preconnect to OpenStreetMap tile server */}
+        <link rel="preconnect" href="https://tile.openstreetmap.org" />
+        <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
       </head>
       <body>
         <PWARegister />
         {children}
+        {/* Google AdSense - lazy loaded, non-critical */}
+        <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9694572418424066"
+          strategy="lazyOnload"
+          crossOrigin="anonymous"
+        />
+        {/* Google Analytics - after interactive for tracking accuracy */}
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: `
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
+            gtag('js',new Date());gtag('config','G-YKD6X4B919');
+          ` }}
+        />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-YKD6X4B919"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

@@ -19,24 +19,24 @@ export function DynamicChargerDetail({ slug }: { slug: string }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/chargers')
-      .then((r) => r.json())
-      .then((data: EvCharger[]) => {
-        if (Array.isArray(data)) {
-          const found = data.find((c) => c.slug === slug);
-          if (found) {
-            setCharger(found);
-            // Fetch nearby beaches
-            if (found.nearby_beach_ids?.length > 0) {
-              fetch('/api/beaches')
-                .then((r) => r.json())
-                .then((beaches: Beach[]) => {
-                  if (Array.isArray(beaches)) {
-                    setNearbyBeaches(beaches.filter((b) => found.nearby_beach_ids.includes(b.id)));
-                  }
-                })
-                .catch(() => {});
-            }
+    fetch(`/api/chargers?slug=${encodeURIComponent(slug)}`)
+      .then((r) => {
+        if (!r.ok) return null;
+        return r.json();
+      })
+      .then((data: EvCharger | null) => {
+        if (data && !('error' in data)) {
+          setCharger(data);
+          // Fetch nearby beaches by IDs
+          if (data.nearby_beach_ids?.length > 0) {
+            fetch('/api/beaches')
+              .then((r) => r.json())
+              .then((beaches: Beach[]) => {
+                if (Array.isArray(beaches)) {
+                  setNearbyBeaches(beaches.filter((b) => data.nearby_beach_ids.includes(b.id)));
+                }
+              })
+              .catch(() => {});
           }
         }
       })

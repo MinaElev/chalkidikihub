@@ -31,15 +31,14 @@ export function DynamicActivityDetail({ slug, initialData }: { slug: string; ini
 
   useEffect(() => {
     const fetchRelated = (actData: Activity) => {
-      return Promise.all([
-        fetch(`/api/activities?area=${actData.area}&limit=6`).then((r) => r.json()),
-        fetch(`/api/beaches?area=${actData.area}&limit=4`).then((r) => r.json()),
-      ]).then(([allData, beachesData]) => {
-        if (Array.isArray(allData)) setAllActivities(allData);
-        if (Array.isArray(beachesData)) {
-          setNearbyBeaches(beachesData.filter((b: Beach) => b.area === actData.area).slice(0, 3));
-        }
-      });
+      return fetch(`/api/related-content?type=activity&area=${encodeURIComponent(actData.area)}&slug=${encodeURIComponent(actData.slug)}`)
+        .then((r) => r.json())
+        .then(({ activities, beaches }) => {
+          if (Array.isArray(activities)) setAllActivities(activities);
+          if (Array.isArray(beaches)) {
+            setNearbyBeaches(beaches.filter((b: Beach) => b.area === actData.area).slice(0, 3));
+          }
+        });
     };
 
     if (initialData) {

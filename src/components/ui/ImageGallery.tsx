@@ -123,12 +123,13 @@ export function ImageGallery({ images, alt = '' }: ImageGalleryProps) {
             </button>
           )}
 
-          {/* Image */}
+          {/* Image - lazy loaded so lightbox doesn't block page load */}
           <Image
             src={images[currentIndex].image_url}
             alt={alt}
             width={1200}
             height={800}
+            loading="lazy"
             className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
             onClick={(e) => e.stopPropagation()}
           />
