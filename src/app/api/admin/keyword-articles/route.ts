@@ -259,14 +259,15 @@ export async function GET(request: Request) {
 
   const supabase = createAdminClient();
 
-  // Get existing articles
-  const { data: existing } = await supabase.from('blog_articles').select('slug').like('slug', 'keyword-%');
+  // Get existing articles — match by slug directly
+  const allSlugs = KEYWORD_TOPICS.map(t => t.slug);
+  const { data: existing } = await supabase.from('blog_articles').select('slug').in('slug', allSlugs);
   const existingSlugs = new Set((existing || []).map(a => a.slug));
 
   const topics = KEYWORD_TOPICS.map(t => ({
-    slug: `keyword-${t.slug}`,
+    slug: t.slug,
     category: t.category,
-    exists: existingSlugs.has(`keyword-${t.slug}`),
+    exists: existingSlugs.has(t.slug),
   }));
 
   return NextResponse.json({
@@ -307,15 +308,16 @@ export async function POST(request: Request) {
         topicToGenerate = found;
       } else {
         // Find first topic not yet created
-        const { data: existing } = await supabase.from('blog_articles').select('slug').like('slug', 'keyword-%');
+        const allSlugs = KEYWORD_TOPICS.map(t => t.slug);
+        const { data: existing } = await supabase.from('blog_articles').select('slug').in('slug', allSlugs);
         const existingSlugs = new Set((existing || []).map(a => a.slug));
 
-        const next = KEYWORD_TOPICS.find(t => !existingSlugs.has(`keyword-${t.slug}`));
+        const next = KEYWORD_TOPICS.find(t => !existingSlugs.has(t.slug));
         if (!next) return NextResponse.json({ error: 'Όλα τα keyword articles έχουν δημιουργηθεί!', allDone: true });
         topicToGenerate = next;
       }
 
-      const articleSlug = `keyword-${topicToGenerate.slug}`;
+      const articleSlug = topicToGenerate.slug;
 
       // Check if already exists
       const { data: existCheck } = await supabase.from('blog_articles').select('id').eq('slug', articleSlug).single();
