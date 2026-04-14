@@ -12,30 +12,47 @@ async function getOpenAIKey(): Promise<string> {
   return process.env.OPENAI_API_KEY || '';
 }
 
-async function callOpenAI(prompt: string, maxTokens: number = 6000): Promise<string> {
+async function callOpenAI(prompt: string, maxTokens: number = 6000, retries: number = 2): Promise<string> {
   const apiKey = await getOpenAIKey();
   if (!apiKey) throw new Error('OpenAI API key not configured. Set it in Admin → Settings.');
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: maxTokens,
-      temperature: 0.3,
-    }),
-  });
 
-  if (!response.ok) {
-    const err = await response.text();
-    throw new Error(`OpenAI error: ${response.status} - ${err}`);
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: maxTokens,
+          temperature: 0.3,
+        }),
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        // Rate limit — wait and retry
+        if (response.status === 429 && attempt < retries) {
+          await new Promise(r => setTimeout(r, 5000 * (attempt + 1)));
+          continue;
+        }
+        throw new Error(`OpenAI ${response.status}: ${errText.slice(0, 200)}`);
+      }
+
+      const data = await response.json();
+      if (!data.choices?.[0]?.message?.content) {
+        throw new Error('OpenAI returned empty response');
+      }
+      return data.choices[0].message.content;
+    } catch (err) {
+      if (attempt === retries) throw err;
+      await new Promise(r => setTimeout(r, 3000));
+    }
   }
-
-  const data = await response.json();
-  return data.choices[0].message.content;
+  throw new Error('OpenAI failed after retries');
 }
 
 export async function POST(request: NextRequest) {
