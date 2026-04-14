@@ -4,7 +4,7 @@ import { DynamicSaleDetail } from '@/components/sales/DynamicSaleDetail';
 import { getContentMeta } from '@/lib/seo';
 import { getSaleBySlug, getSales } from '@/lib/data';
 
-export const revalidate = 60;
+export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 

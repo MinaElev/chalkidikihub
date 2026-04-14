@@ -4,7 +4,7 @@ import { DynamicRestaurantDetail } from '@/components/listings/DynamicRestaurant
 import { getContentMeta } from '@/lib/seo';
 import { getRestaurantBySlug, getRestaurants } from '@/lib/data';
 
-export const revalidate = 60;
+export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 

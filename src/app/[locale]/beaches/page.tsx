@@ -4,7 +4,7 @@ import { collectionMeta } from '@/lib/seo';
 import { getBeaches } from '@/lib/data';
 import PageClient from './_client';
 
-export const revalidate = 300; // ISR: regenerate every 5 minutes
+export const revalidate = 3600; // ISR: 1 hour — on-demand revalidation handles instant updates
 
 const titles: Record<string, string> = {
   el: 'Παραλίες Χαλκιδικής | ChalkidikiHub',

@@ -4,7 +4,7 @@ import { DynamicBeachDetail } from '@/components/listings/DynamicBeachDetail';
 import { getContentMeta } from '@/lib/seo';
 import { getBeachBySlug, getBeaches } from '@/lib/data';
 
-export const revalidate = 60;
+export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
