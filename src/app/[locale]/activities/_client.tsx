@@ -10,13 +10,13 @@ import { AREA_SLUGS, ALL_ACTIVITY_CATEGORIES } from '@/lib/constants';
 import { X } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export default function ActivitiesPageClient() {
+export default function ActivitiesPageClient({ initialData = [] }: { initialData?: Activity[] }) {
   const t = useTranslations('activities');
   const tCat = useTranslations('activityCategories');
   const tAreas = useTranslations('areas');
   const tCommon = useTranslations('common');
   const [filters, setFilters] = useState<ActivityFilters>({});
-  const { data: activities } = useLiveData<Activity>('/api/activities', []);
+  const { data: activities } = useLiveData<Activity>('/api/activities', initialData);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'), sithonia: tAreas('sithonia.name'),

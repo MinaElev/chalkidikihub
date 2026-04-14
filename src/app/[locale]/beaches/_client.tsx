@@ -10,14 +10,14 @@ import { AREA_SLUGS, ALL_BEACH_FEATURES } from '@/lib/constants';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export default function BeachesPageClient() {
+export default function BeachesPageClient({ initialData = [] }: { initialData?: Beach[] }) {
   const t = useTranslations('beaches');
   const tCommon = useTranslations('common');
   const tAreas = useTranslations('areas');
   const tFeatures = useTranslations('beachFeatures');
   const [filters, setFilters] = useState<BeachFiltersType>({});
   const [showFeatures, setShowFeatures] = useState(false);
-  const { data: beaches } = useLiveData<Beach>('/api/beaches', []);
+  const { data: beaches } = useLiveData<Beach>('/api/beaches', initialData);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'),

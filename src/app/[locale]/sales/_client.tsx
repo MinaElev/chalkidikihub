@@ -18,13 +18,13 @@ const PROPERTY_TYPES: { value: PropertyType; icon: typeof Home }[] = [
   { value: 'other', icon: Landmark },
 ];
 
-export default function SalesPageClient() {
+export default function SalesPageClient({ initialData = [] }: { initialData?: Sale[] }) {
   const locale = useLocale();
   const t = useTranslations('sales');
   const tProp = useTranslations('propertyTypes');
   const tAreas = useTranslations('areas');
   const [filters, setFilters] = useState<SaleFilters>({});
-  const { data: sales } = useLiveData<Sale>('/api/sales', []);
+  const { data: sales } = useLiveData<Sale>('/api/sales', initialData);
   const [showAll, setShowAll] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 

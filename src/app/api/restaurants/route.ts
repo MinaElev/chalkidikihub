@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import { createApiClient } from '@/lib/api-helpers';
+import { transformRestaurant } from '@/lib/data';
 
 export async function GET(request: NextRequest) {
   const supabase = createApiClient();
@@ -24,26 +25,4 @@ export async function GET(request: NextRequest) {
   return NextResponse.json((data || []).map(transformRestaurant), {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });
-}
-
-function transformRestaurant(row: Record<string, unknown>) {
-  const reviews = (row.restaurant_reviews as Array<Record<string, unknown>> || []).map((r) => ({
-    id: r.id, restaurant_id: r.restaurant_id, author_name: r.author_name, rating: r.rating,
-    comment: { el: r.comment_el || '', en: r.comment_en || '', de: '', bg: '', ru: '', ro: '' },
-    created_at: r.created_at,
-  }));
-  return {
-    id: row.id, slug: row.slug,
-    name: toLocaleMap(row, 'name'),
-    description: toLocaleMap(row, 'description'),
-    area: row.area, location_name: row.location_name,
-    latitude: row.latitude, longitude: row.longitude,
-    image_url: row.image_url || '',
-    cuisine: row.cuisine || [], price_level: row.price_level,
-    rating: Number(row.rating), reviews_count: row.reviews_count || reviews.length,
-    reviews, phone: row.phone || '', hours: row.hours || '',
-    has_sea_view: row.has_sea_view, has_live_music: row.has_live_music,
-    accepts_reservations: row.accepts_reservations,
-    tags: row.tags || [], nearby_listing_ids: [], nearby_beach_ids: [],
-  };
 }

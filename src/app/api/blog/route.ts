@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import { createApiClient } from '@/lib/api-helpers';
+import { transformArticle } from '@/lib/data';
 
 export async function GET(request: NextRequest) {
   const supabase = createApiClient();
@@ -24,22 +25,4 @@ export async function GET(request: NextRequest) {
   return NextResponse.json((data || []).map(transformArticle), {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });
-}
-
-function transformArticle(row: Record<string, unknown>) {
-  return {
-    id: row.id, slug: row.slug,
-    title: toLocaleMap(row, 'title'),
-    excerpt: toLocaleMap(row, 'excerpt'),
-    content: toLocaleMap(row, 'content'),
-    category: row.category, image_url: row.image_url || '',
-    author: row.author || 'Halkidiki Hub',
-    read_time_min: row.read_time_min || 5,
-    tags: row.tags || [],
-    related_area_slugs: row.related_area_slugs || [],
-    related_beach_slugs: row.related_beach_slugs || [],
-    related_listing_slugs: row.related_listing_slugs || [],
-    related_article_slugs: row.related_article_slugs || [],
-    published_at: row.published_at,
-  };
 }

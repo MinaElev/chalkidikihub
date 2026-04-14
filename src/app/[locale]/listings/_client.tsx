@@ -7,13 +7,13 @@ import { SearchFilters } from '@/components/listings/SearchFilters';
 import { SearchFilters as SearchFiltersType, Listing } from '@/types';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export default function ListingsPageClient() {
+export default function ListingsPageClient({ initialData = [] }: { initialData?: Listing[] }) {
   const t = useTranslations('listings');
   const tCommon = useTranslations('common');
   const [filters, setFilters] = useState<SearchFiltersType>({});
-  const [dbListings, setDbListings] = useState<Listing[]>([]);
+  const [dbListings, setDbListings] = useState<Listing[]>(initialData);
 
-  // Fetch real listings from Supabase
+  // Refresh listings from API (live update after ISR)
   useEffect(() => {
     fetch('/api/listings')
       .then((r) => r.json())

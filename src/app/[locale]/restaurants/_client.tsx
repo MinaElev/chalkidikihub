@@ -11,7 +11,7 @@ import { X, Eye } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export default function RestaurantsPageClient() {
+export default function RestaurantsPageClient({ initialData = [] }: { initialData?: Restaurant[] }) {
   const t = useTranslations('restaurants');
   const tPrice = useTranslations('priceLevels');
   const tAreas = useTranslations('areas');
@@ -23,7 +23,7 @@ export default function RestaurantsPageClient() {
   useEffect(() => {
     fetch('/api/business-types').then(r => r.json()).then(d => { if (Array.isArray(d)) setCuisineTypes(d); }).catch(() => {});
   }, []);
-  const { data: restaurants } = useLiveData<Restaurant>('/api/restaurants', []);
+  const { data: restaurants } = useLiveData<Restaurant>('/api/restaurants', initialData);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'), sithonia: tAreas('sithonia.name'),

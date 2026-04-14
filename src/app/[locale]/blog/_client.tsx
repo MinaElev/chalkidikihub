@@ -12,13 +12,13 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 const CATEGORIES: BlogCategory[] = ['guides', 'beaches', 'food', 'activities', 'tips', 'culture'];
 
-export default function BlogPageClient() {
+export default function BlogPageClient({ initialData = [] }: { initialData?: BlogArticle[] }) {
   const t = useTranslations('blog');
   const tCat = useTranslations('blogCategories');
   const tAreas = useTranslations('areas');
   const tCommon = useTranslations('common');
   const [filters, setFilters] = useState<BlogFilters>({});
-  const { data: articles } = useLiveData<BlogArticle>('/api/blog', []);
+  const { data: articles } = useLiveData<BlogArticle>('/api/blog', initialData);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'),

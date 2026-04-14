@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { collectionMeta } from '@/lib/seo';
+import { getSales } from '@/lib/data';
 import PageClient from './_client';
+
+export const revalidate = 300; // ISR: regenerate every 5 minutes
 
 const titles: Record<string, string> = {
   el: 'Ακίνητα Χαλκιδική | ChalkidikiHub',
@@ -33,5 +36,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <PageClient />;
+  const sales = await getSales();
+  return <PageClient initialData={sales} />;
 }

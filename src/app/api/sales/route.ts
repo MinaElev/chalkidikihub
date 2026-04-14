@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import { createApiClient } from '@/lib/api-helpers';
+import { transformSale } from '@/lib/data';
 
 export async function GET(request: NextRequest) {
   const supabase = createApiClient();
@@ -26,25 +27,4 @@ export async function GET(request: NextRequest) {
   return NextResponse.json((data || []).map(transformSale), {
     headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' },
   });
-}
-
-function transformSale(row: Record<string, unknown>) {
-  const images = (row.sale_images as Array<Record<string, unknown>> || []).map(i => ({
-    id: i.id, sale_id: i.sale_id, image_url: i.image_url, sort_order: i.sort_order, is_cover: i.is_cover,
-  }));
-  return {
-    id: row.id, slug: row.slug, owner_id: row.owner_id,
-    property_type: row.property_type,
-    title: toLocaleMap(row, 'title'),
-    description: toLocaleMap(row, 'description'),
-    area: row.area, location_name: row.location_name,
-    latitude: row.latitude, longitude: row.longitude,
-    price: row.price, currency: row.currency || 'EUR',
-    size_sqm: row.size_sqm, bedrooms: row.bedrooms, bathrooms: row.bathrooms,
-    floor: row.floor, year_built: row.year_built, energy_class: row.energy_class,
-    features: row.features || [],
-    status: row.status, images,
-    contact_phone: row.contact_phone || '', contact_email: row.contact_email || '',
-    created_at: row.created_at, updated_at: row.updated_at,
-  };
 }
