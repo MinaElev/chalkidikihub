@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, Edit, Trash2, Loader2, FileText, CheckCircle, XCircle, ImageIcon, ExternalLink, Sparkles, Search } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, FileText, CheckCircle, XCircle, ImageIcon, ExternalLink, Sparkles, Search, Key } from 'lucide-react';
 
 interface BlogArticle {
   id: string;
@@ -29,6 +29,8 @@ export default function AdminBlogPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [genResult, setGenResult] = useState('');
+  const [kwGenerating, setKwGenerating] = useState(false);
+  const [kwProgress, setKwProgress] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterSeo, setFilterSeo] = useState('');
@@ -53,6 +55,62 @@ export default function AdminBlogPage() {
       }
     } catch (err) { setGenResult(`Error: ${(err as Error).message}`); }
     setGenerating(false);
+  }
+
+  async function handleKeywordArticles() {
+    setKwGenerating(true); setKwProgress('Ξεκινάω...');
+    try {
+      const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token || '';
+      const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+
+      // Check how many remaining
+      const statusRes = await fetch(`/api/admin/keyword-articles?token=${token}`);
+      const status = await statusRes.json();
+      if (status.remaining === 0) {
+        setKwProgress(`✅ Όλα τα ${status.total} keyword articles υπάρχουν ήδη!`);
+        setKwGenerating(false);
+        return;
+      }
+
+      let created = 0;
+      const total = status.remaining;
+
+      // Generate one by one
+      for (let i = 0; i < total; i++) {
+        setKwProgress(`📝 Δημιουργία ${created + 1}/${total}... (Step 1: Ελληνικό κείμενο)`);
+
+        // Step 1: Generate Greek article
+        const step1Res = await fetch('/api/admin/keyword-articles', {
+          method: 'POST', headers,
+          body: JSON.stringify({ step: 1 }),
+        });
+        const step1 = await step1Res.json();
+        if (step1.allDone || step1.exists) break;
+        if (!step1.success) { setKwProgress(`❌ Error: ${step1.error}`); break; }
+
+        setKwProgress(`🌐 Μετάφραση "${step1.title}" (${created + 1}/${total})... (Step 2: 7 γλώσσες)`);
+
+        // Step 2: Translate + SEO
+        const step2Res = await fetch('/api/admin/keyword-articles', {
+          method: 'POST', headers,
+          body: JSON.stringify({ step: 2, article_id: step1.article_id }),
+        });
+        const step2 = await step2Res.json();
+        if (!step2.success) { setKwProgress(`❌ Error step2: ${step2.error}`); break; }
+
+        created++;
+        setKwProgress(`✅ ${created}/${total} — "${step1.title}" (${step1.category})`);
+
+        // Small delay between articles
+        if (i < total - 1) await new Promise(r => setTimeout(r, 2000));
+      }
+
+      setKwProgress(`🎉 Ολοκληρώθηκαν ${created} keyword articles!`);
+      loadArticles();
+    } catch (err) { setKwProgress(`❌ Error: ${(err as Error).message}`); }
+    setKwGenerating(false);
   }
 
   async function loadArticles() {
@@ -114,7 +172,13 @@ export default function AdminBlogPage() {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={handleAutoGenerate} disabled={generating}
+          <button onClick={handleKeywordArticles} disabled={kwGenerating || generating}
+            className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-xl hover:bg-amber-700 text-sm font-medium disabled:opacity-50"
+            title="Δημιουργεί 20 SEO articles γύρω από bold keywords των χωριών. Κάθε article αναφέρει 15-25 τοποθεσίες που γίνονται αυτόματα internal links.">
+            {kwGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Key className="w-4 h-4" />}
+            {kwGenerating ? 'Keywords...' : 'Keyword Articles'}
+          </button>
+          <button onClick={handleAutoGenerate} disabled={generating || kwGenerating}
             className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 text-sm font-medium disabled:opacity-50"
             title="Δημιουργεί πλήρες article: κείμενο EL → μετάφραση 6 γλώσσες → SEO 7 γλώσσες → Unsplash photo → δημοσίευση. Κόστος: ~$0.05. Rotating θεματολογία.">
             {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
@@ -130,6 +194,12 @@ export default function AdminBlogPage() {
       {genResult && (
         <div className={`mb-4 p-3 rounded-xl text-sm ${genResult.startsWith('Error') ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700'}`}>
           {genResult}
+        </div>
+      )}
+
+      {kwProgress && (
+        <div className={`mb-4 p-3 rounded-xl text-sm ${kwProgress.includes('❌') ? 'bg-red-50 border border-red-200 text-red-700' : kwProgress.includes('🎉') ? 'bg-green-50 border border-green-200 text-green-700' : 'bg-amber-50 border border-amber-200 text-amber-700'}`}>
+          {kwProgress}
         </div>
       )}
 
