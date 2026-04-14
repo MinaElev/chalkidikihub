@@ -20,9 +20,9 @@ import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 
-export function DynamicListingDetail({ slug, locale }: { slug: string; locale: string }) {
-  const [listing, setListing] = useState<Listing | null>(null);
-  const [loading, setLoading] = useState(true);
+export function DynamicListingDetail({ slug, locale, initialData }: { slug: string; locale: string; initialData?: Listing | null }) {
+  const [listing, setListing] = useState<Listing | null>(initialData || null);
+  const [loading, setLoading] = useState(!initialData);
   const t = useTranslations('listings.details');
   const tCommon = useTranslations('common');
   const tNav = useTranslations('nav');
@@ -30,12 +30,14 @@ export function DynamicListingDetail({ slug, locale }: { slug: string; locale: s
   const tInquiry = useTranslations('inquiry');
 
   useEffect(() => {
-    fetch(`/api/listings?slug=${slug}`)
-      .then((r) => r.json())
-      .then((data) => { if (data && data.id) setListing(data); })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [slug]);
+    if (!initialData) {
+      fetch(`/api/listings?slug=${slug}`)
+        .then((r) => r.json())
+        .then((data) => { if (data && data.id) setListing(data); })
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }
+  }, [slug, initialData]);
 
   useEffect(() => {
     if (listing) {

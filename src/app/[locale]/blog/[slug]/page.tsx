@@ -2,7 +2,9 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicArticle } from '@/components/blog/DynamicArticle';
 import { getContentMeta } from '@/lib/seo';
-import { createApiClient } from '@/lib/api-helpers';
+import { getArticleBySlug } from '@/lib/data';
+
+export const revalidate = 60;
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -21,11 +23,8 @@ export default async function BlogArticlePage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const supabase = createApiClient();
-  const { data } = await supabase.from('blog_articles').select('id').eq('slug', slug).single();
-  if (!data) notFound();
+  const article = await getArticleBySlug(slug);
+  if (!article) notFound();
 
-  // Always use DynamicArticle to fetch live content from DB
-  // This ensures translated content (DE, BG, RU, RO) is shown
-  return <DynamicArticle slug={slug} />;
+  return <DynamicArticle slug={slug} initialData={article} />;
 }

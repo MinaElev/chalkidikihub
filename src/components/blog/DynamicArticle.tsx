@@ -18,27 +18,34 @@ import { CommentSection } from './CommentSection';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 
-export function DynamicArticle({ slug }: { slug: string }) {
+export function DynamicArticle({ slug, initialData }: { slug: string; initialData?: BlogArticle | null }) {
   const locale = useLocale();
   const t = useTranslations('blog');
   const tCat = useTranslations('blogCategories');
-  const [article, setArticle] = useState<BlogArticle | null>(null);
+  const [article, setArticle] = useState<BlogArticle | null>(initialData || null);
   const [allArticles, setAllArticles] = useState<BlogArticle[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialData);
 
   useEffect(() => {
-    // Fetch current article + recent articles for sidebar/nav
-    Promise.all([
-      fetch(`/api/blog?slug=${slug}`).then((r) => r.json()),
-      fetch('/api/blog?limit=50').then((r) => r.json()),
-    ])
-      .then(([articleData, allData]) => {
-        if (articleData && articleData.id) setArticle(articleData);
-        if (Array.isArray(allData)) setAllArticles(allData);
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [slug]);
+    if (initialData) {
+      // Already have article from server, just fetch sidebar articles
+      fetch('/api/blog?limit=50').then((r) => r.json())
+        .then((allData) => { if (Array.isArray(allData)) setAllArticles(allData); })
+        .catch(() => {});
+    } else {
+      // Fallback: fetch everything client-side
+      Promise.all([
+        fetch(`/api/blog?slug=${slug}`).then((r) => r.json()),
+        fetch('/api/blog?limit=50').then((r) => r.json()),
+      ])
+        .then(([articleData, allData]) => {
+          if (articleData && articleData.id) setArticle(articleData);
+          if (Array.isArray(allData)) setAllArticles(allData);
+        })
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }
+  }, [slug, initialData]);
 
   useEffect(() => {
     if (article) {

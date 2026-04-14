@@ -19,36 +19,44 @@ import { ReviewForm } from '@/components/ui/ReviewForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 
-export function DynamicActivityDetail({ slug }: { slug: string }) {
+export function DynamicActivityDetail({ slug, initialData }: { slug: string; initialData?: Activity | null }) {
   const locale = useLocale();
   const t = useTranslations('activities');
   const tDetail = useTranslations('detail');
   const tCat = useTranslations('activityCategories');
-  const [activity, setActivity] = useState<Activity | null>(null);
+  const [activity, setActivity] = useState<Activity | null>(initialData || null);
   const [allActivities, setAllActivities] = useState<Activity[]>([]);
   const [nearbyBeaches, setNearbyBeaches] = useState<Beach[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialData);
 
   useEffect(() => {
-    fetch(`/api/activities?slug=${slug}`)
-      .then((r) => r.json())
-      .then((actData) => {
-        if (actData && actData.id) {
-          setActivity(actData);
-          return Promise.all([
-            fetch(`/api/activities?area=${actData.area}&limit=6`).then((r) => r.json()),
-            fetch(`/api/beaches?area=${actData.area}&limit=4`).then((r) => r.json()),
-          ]).then(([allData, beachesData]) => {
-            if (Array.isArray(allData)) setAllActivities(allData);
-            if (Array.isArray(beachesData)) {
-              setNearbyBeaches(beachesData.filter((b: Beach) => b.area === actData.area).slice(0, 3));
-            }
-          });
+    const fetchRelated = (actData: Activity) => {
+      return Promise.all([
+        fetch(`/api/activities?area=${actData.area}&limit=6`).then((r) => r.json()),
+        fetch(`/api/beaches?area=${actData.area}&limit=4`).then((r) => r.json()),
+      ]).then(([allData, beachesData]) => {
+        if (Array.isArray(allData)) setAllActivities(allData);
+        if (Array.isArray(beachesData)) {
+          setNearbyBeaches(beachesData.filter((b: Beach) => b.area === actData.area).slice(0, 3));
         }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [slug]);
+      });
+    };
+
+    if (initialData) {
+      fetchRelated(initialData).catch(() => {});
+    } else {
+      fetch(`/api/activities?slug=${slug}`)
+        .then((r) => r.json())
+        .then((actData) => {
+          if (actData && actData.id) {
+            setActivity(actData);
+            return fetchRelated(actData);
+          }
+        })
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }
+  }, [slug, initialData]);
 
   useEffect(() => {
     if (activity) {

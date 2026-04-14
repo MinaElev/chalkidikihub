@@ -2,7 +2,9 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicActivityDetail } from '@/components/listings/DynamicActivityDetail';
 import { getContentMeta } from '@/lib/seo';
-import { createApiClient } from '@/lib/api-helpers';
+import { getActivityBySlug } from '@/lib/data';
+
+export const revalidate = 60;
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -19,9 +21,8 @@ export default async function ActivityDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const supabase = createApiClient();
-  const { data } = await supabase.from('activities').select('id').eq('slug', slug).single();
-  if (!data) notFound();
+  const activity = await getActivityBySlug(slug);
+  if (!activity) notFound();
 
-  return <DynamicActivityDetail slug={slug} />;
+  return <DynamicActivityDetail slug={slug} initialData={activity} />;
 }

@@ -2,7 +2,9 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicBeachDetail } from '@/components/listings/DynamicBeachDetail';
 import { getContentMeta } from '@/lib/seo';
-import { createApiClient } from '@/lib/api-helpers';
+import { getBeachBySlug } from '@/lib/data';
+
+export const revalidate = 60;
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -21,9 +23,8 @@ export default async function BeachDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const supabase = createApiClient();
-  const { data } = await supabase.from('beaches').select('id').eq('slug', slug).single();
-  if (!data) notFound();
+  const beach = await getBeachBySlug(slug);
+  if (!beach) notFound();
 
-  return <DynamicBeachDetail slug={slug} />;
+  return <DynamicBeachDetail slug={slug} initialData={beach} />;
 }

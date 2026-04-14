@@ -2,7 +2,9 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicSaleDetail } from '@/components/sales/DynamicSaleDetail';
 import { getContentMeta } from '@/lib/seo';
-import { createApiClient } from '@/lib/api-helpers';
+import { getSaleBySlug } from '@/lib/data';
+
+export const revalidate = 60;
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -17,9 +19,8 @@ export default async function SaleDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const supabase = createApiClient();
-  const { data } = await supabase.from('sales').select('id').eq('slug', slug).single();
-  if (!data) notFound();
+  const sale = await getSaleBySlug(slug);
+  if (!sale) notFound();
 
-  return <DynamicSaleDetail slug={slug} />;
+  return <DynamicSaleDetail slug={slug} initialData={sale} />;
 }

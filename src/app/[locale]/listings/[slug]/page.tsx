@@ -2,7 +2,9 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicListingDetail } from '@/components/listings/DynamicListingDetail';
 import { getContentMeta } from '@/lib/seo';
-import { createApiClient } from '@/lib/api-helpers';
+import { getListingBySlug } from '@/lib/data';
+
+export const revalidate = 60;
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -21,10 +23,8 @@ export default async function ListingDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const supabase = createApiClient();
-  const { data } = await supabase.from('listings').select('id').eq('slug', slug).eq('status', 'published').single();
-  if (!data) notFound();
+  const listing = await getListingBySlug(slug);
+  if (!listing) notFound();
 
-  // Always use DynamicListingDetail to fetch live content from DB
-  return <DynamicListingDetail slug={slug} locale={locale} />;
+  return <DynamicListingDetail slug={slug} locale={locale} initialData={listing} />;
 }

@@ -21,9 +21,9 @@ const TYPE_COLORS: Record<string, string> = {
   commercial: 'bg-purple-600', other: 'bg-gray-600',
 };
 
-export function DynamicSaleDetail({ slug }: { slug: string }) {
-  const [sale, setSale] = useState<Sale | null>(null);
-  const [loading, setLoading] = useState(true);
+export function DynamicSaleDetail({ slug, initialData }: { slug: string; initialData?: Sale | null }) {
+  const [sale, setSale] = useState<Sale | null>(initialData || null);
+  const [loading, setLoading] = useState(!initialData);
   const locale = useLocale();
   const tCommon = useTranslations('common');
   const tNav = useTranslations('nav');
@@ -33,12 +33,14 @@ export function DynamicSaleDetail({ slug }: { slug: string }) {
   const tInquiry = useTranslations('inquiry');
 
   useEffect(() => {
-    fetch(`/api/sales?slug=${slug}`)
-      .then((r) => r.json())
-      .then((data) => { if (data && data.id) setSale(data); })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [slug]);
+    if (!initialData) {
+      fetch(`/api/sales?slug=${slug}`)
+        .then((r) => r.json())
+        .then((data) => { if (data && data.id) setSale(data); })
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }
+  }, [slug, initialData]);
 
   useEffect(() => {
     if (sale) {

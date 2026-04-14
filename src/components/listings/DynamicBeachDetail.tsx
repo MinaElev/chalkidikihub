@@ -23,40 +23,50 @@ import { ReviewForm } from '@/components/ui/ReviewForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 
-export function DynamicBeachDetail({ slug }: { slug: string }) {
+export function DynamicBeachDetail({ slug, initialData }: { slug: string; initialData?: Beach | null }) {
   const locale = useLocale();
   const t = useTranslations('beaches');
   const tDetail = useTranslations('detail');
-  const [beach, setBeach] = useState<Beach | null>(null);
+  const [beach, setBeach] = useState<Beach | null>(initialData || null);
   const [allBeaches, setAllBeaches] = useState<Beach[]>([]);
   const [nearbyRestaurants, setNearbyRestaurants] = useState<Restaurant[]>([]);
   const [nearbyListings, setNearbyListings] = useState<Listing[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialData);
 
   useEffect(() => {
-    fetch(`/api/beaches?slug=${slug}`)
-      .then((r) => r.json())
-      .then((beachData) => {
-        if (beachData && beachData.id) {
-          setBeach(beachData);
-          return Promise.all([
-            fetch(`/api/beaches?area=${beachData.area}&limit=6`).then((r) => r.json()),
-            fetch(`/api/restaurants?area=${beachData.area}&limit=4`).then((r) => r.json()),
-            fetch(`/api/listings?area=${beachData.area}&limit=4`).then((r) => r.json()),
-          ]).then(([allData, restaurantsData, listingsData]) => {
-            if (Array.isArray(allData)) setAllBeaches(allData);
-            if (Array.isArray(restaurantsData)) {
-              setNearbyRestaurants(restaurantsData.filter((r: Restaurant) => r.area === beachData.area).slice(0, 3));
-            }
-            if (Array.isArray(listingsData)) {
-              setNearbyListings(listingsData.filter((l: Listing) => l.area === beachData.area).slice(0, 3));
-            }
-          });
+    const fetchData = (beachData: Beach) => {
+      return Promise.all([
+        fetch(`/api/beaches?area=${beachData.area}&limit=6`).then((r) => r.json()),
+        fetch(`/api/restaurants?area=${beachData.area}&limit=4`).then((r) => r.json()),
+        fetch(`/api/listings?area=${beachData.area}&limit=4`).then((r) => r.json()),
+      ]).then(([allData, restaurantsData, listingsData]) => {
+        if (Array.isArray(allData)) setAllBeaches(allData);
+        if (Array.isArray(restaurantsData)) {
+          setNearbyRestaurants(restaurantsData.filter((r: Restaurant) => r.area === beachData.area).slice(0, 3));
         }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [slug]);
+        if (Array.isArray(listingsData)) {
+          setNearbyListings(listingsData.filter((l: Listing) => l.area === beachData.area).slice(0, 3));
+        }
+      });
+    };
+
+    if (initialData) {
+      // Already have primary data from server, just fetch related items
+      fetchData(initialData).catch(() => {});
+    } else {
+      // Fallback: fetch everything client-side
+      fetch(`/api/beaches?slug=${slug}`)
+        .then((r) => r.json())
+        .then((beachData) => {
+          if (beachData && beachData.id) {
+            setBeach(beachData);
+            return fetchData(beachData);
+          }
+        })
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }
+  }, [slug, initialData]);
 
   useEffect(() => {
     if (beach) {

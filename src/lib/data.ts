@@ -33,6 +33,15 @@ export async function getBeaches(): Promise<Beach[]> {
   return (data || []).map(transformBeach) as unknown as Beach[];
 }
 
+export async function getBeachBySlug(slug: string): Promise<Beach | null> {
+  const supabase = createApiClient();
+  const { data } = await supabase
+    .from('beaches').select('*, beach_reviews(*)')
+    .eq('slug', slug).single();
+  if (!data) return null;
+  return transformBeach(data) as unknown as Beach;
+}
+
 // ─── Restaurants ────────────────────────────────────────────
 export function transformRestaurant(row: Record<string, unknown>) {
   const reviews = (row.restaurant_reviews as Array<Record<string, unknown>> || []).map((r) => ({
@@ -62,6 +71,15 @@ export async function getRestaurants(): Promise<Restaurant[]> {
     .from('restaurants').select('*, restaurant_reviews(*)')
     .order('rating', { ascending: false });
   return (data || []).map(transformRestaurant) as unknown as Restaurant[];
+}
+
+export async function getRestaurantBySlug(slug: string): Promise<Restaurant | null> {
+  const supabase = createApiClient();
+  const { data } = await supabase
+    .from('restaurants').select('*, restaurant_reviews(*)')
+    .eq('slug', slug).single();
+  if (!data) return null;
+  return transformRestaurant(data) as unknown as Restaurant;
 }
 
 // ─── Activities ─────────────────────────────────────────────
@@ -94,6 +112,15 @@ export async function getActivities(): Promise<Activity[]> {
   return (data || []).map(transformActivity) as unknown as Activity[];
 }
 
+export async function getActivityBySlug(slug: string): Promise<Activity | null> {
+  const supabase = createApiClient();
+  const { data } = await supabase
+    .from('activities').select('*, activity_reviews(*)')
+    .eq('slug', slug).single();
+  if (!data) return null;
+  return transformActivity(data) as unknown as Activity;
+}
+
 // ─── Blog ───────────────────────────────────────────────────
 export function transformArticle(row: Record<string, unknown>) {
   return {
@@ -119,6 +146,15 @@ export async function getBlogArticles(): Promise<BlogArticle[]> {
     .from('blog_articles').select('*')
     .order('published_at', { ascending: false });
   return (data || []).map(transformArticle) as unknown as BlogArticle[];
+}
+
+export async function getArticleBySlug(slug: string): Promise<BlogArticle | null> {
+  const supabase = createApiClient();
+  const { data } = await supabase
+    .from('blog_articles').select('*')
+    .eq('slug', slug).single();
+  if (!data) return null;
+  return transformArticle(data) as unknown as BlogArticle;
 }
 
 // ─── Listings ───────────────────────────────────────────────
@@ -169,6 +205,15 @@ export async function getListings(): Promise<Listing[]> {
   return (data || []).map((row) => transformListing(row as Record<string, unknown>)) as unknown as Listing[];
 }
 
+export async function getListingBySlug(slug: string): Promise<Listing | null> {
+  const supabase = createApiClient();
+  const { data } = await supabase
+    .from('listings').select(LISTING_FIELDS)
+    .eq('status', 'published').eq('slug', slug).single();
+  if (!data) return null;
+  return transformListing(data as Record<string, unknown>) as unknown as Listing;
+}
+
 // ─── Sales ──────────────────────────────────────────────────
 export function transformSale(row: Record<string, unknown>) {
   const images = (row.sale_images as Array<Record<string, unknown>> || []).map(i => ({
@@ -189,6 +234,15 @@ export function transformSale(row: Record<string, unknown>) {
     contact_phone: row.contact_phone || '', contact_email: row.contact_email || '',
     created_at: row.created_at, updated_at: row.updated_at,
   };
+}
+
+export async function getSaleBySlug(slug: string): Promise<Sale | null> {
+  const supabase = createApiClient();
+  const { data } = await supabase
+    .from('sales').select('*, sale_images(*)')
+    .eq('slug', slug).single();
+  if (!data) return null;
+  return transformSale(data) as unknown as Sale;
 }
 
 export async function getSales(): Promise<Sale[]> {
