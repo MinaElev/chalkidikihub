@@ -30,6 +30,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
         {/* Preload hero image for fast LCP */}
         <link rel="preload" as="image" href="/images/hero/halkidiki-hero.webp" type="image/webp" />
+        {/* RSS feed for blog content distribution */}
+        <link rel="alternate" type="application/rss+xml" title="Chalkidiki Hub Blog" href="/feed.xml" />
       </head>
       <body>
         <PWARegister />
