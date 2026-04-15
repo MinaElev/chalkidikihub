@@ -1,7 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicChargerDetail } from '@/components/listings/DynamicChargerDetail';
-import { createApiClient } from '@/lib/api-helpers';
 import { getChargers } from '@/lib/get-chargers';
 import { localeUrl, ogImageUrl } from '@/lib/seo';
 import type { Metadata } from 'next';
@@ -65,9 +64,14 @@ export default async function ChargerDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const supabase = createApiClient();
-  const { data } = await supabase.from('ev_chargers').select('id').eq('slug', slug).single();
-  if (!data) notFound();
+  // Validate slug against live OCM data (chargers are NOT stored in Supabase)
+  try {
+    const chargers = await getChargers();
+    const charger = chargers.find((c) => c.slug === slug);
+    if (!charger) notFound();
+  } catch {
+    // If OCM API fails, still render — the client component will retry
+  }
 
   return <DynamicChargerDetail slug={slug} />;
 }
