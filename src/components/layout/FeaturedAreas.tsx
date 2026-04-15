@@ -1,26 +1,14 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
+import { getAreas } from '@/lib/data';
 import { AREAS } from '@/lib/constants';
-import { AreaInfo } from '@/types';
 import { MapPin } from 'lucide-react';
 
-export function FeaturedAreas() {
-  const locale = useLocale();
-  const t = useTranslations('areas');
-  const [areas, setAreas] = useState<AreaInfo[]>(AREAS);
-
-  useEffect(() => {
-    fetch('/api/areas')
-      .then((r) => r.json())
-      .then((data: AreaInfo[]) => {
-        if (Array.isArray(data) && data.length > 0) setAreas(data);
-      })
-      .catch(() => {});
-  }, []);
+export async function FeaturedAreas({ locale }: { locale: string }) {
+  const t = await getTranslations('areas');
+  let areas = await getAreas();
+  if (areas.length === 0) areas = AREAS;
 
   return (
     <section className="py-20 md:py-28 bg-mesh-light">

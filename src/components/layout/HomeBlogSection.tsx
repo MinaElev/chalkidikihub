@@ -1,15 +1,12 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { useLiveData } from '@/lib/use-live-data';
 import { BlogCard } from '@/components/blog/BlogCard';
-import { BlogArticle } from '@/types';
+import { getBlogArticles } from '@/lib/data';
 import { FileText, ArrowRight } from 'lucide-react';
 
-export function HomeBlogSection() {
-  const t = useTranslations('blog');
-  const { data: articles } = useLiveData<BlogArticle>('/api/blog?limit=4', []);
+export async function HomeBlogSection({ locale }: { locale: string }) {
+  const t = await getTranslations('blog');
+  const articles = await getBlogArticles();
   const latest = articles.slice(0, 3);
 
   return (

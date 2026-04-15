@@ -3,7 +3,24 @@
  * Used by page.tsx (ISR) and API routes to share transform logic.
  */
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
-import type { Beach, Restaurant, Activity, BlogArticle, Listing, Sale } from '@/types';
+import type { Area, Beach, Restaurant, Activity, BlogArticle, Listing, Sale, AreaInfo } from '@/types';
+
+// ─── Areas ─────────────────────────────────────────────────
+export async function getAreas(): Promise<AreaInfo[]> {
+  const supabase = createApiClient();
+  const { data } = await supabase.from('areas').select('*').order('sort_order', { ascending: true });
+  if (!data) return [];
+  return data.map((row: Record<string, unknown>) => ({
+    id: row.id as string,
+    slug: row.slug as Area,
+    name: toLocaleMap(row, 'name'),
+    description: toLocaleMap(row, 'description'),
+    image_url: (row.image_url as string) || '',
+    latitude: row.latitude as number,
+    longitude: row.longitude as number,
+    listings_count: 0,
+  }));
+}
 
 // ─── Beaches ────────────────────────────────────────────────
 export function transformBeach(row: Record<string, unknown>) {

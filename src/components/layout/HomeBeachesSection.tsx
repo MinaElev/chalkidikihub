@@ -1,18 +1,13 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { useLiveData } from '@/lib/use-live-data';
 import { BeachCard } from '@/components/listings/BeachCard';
-import { Beach } from '@/types';
+import { getBeaches } from '@/lib/data';
 import { Waves, ArrowRight } from 'lucide-react';
-import { useLocale } from 'next-intl';
 
-export function HomeBeachesSection() {
-  const tBeaches = useTranslations('beaches');
-  const tCommon = useTranslations('common');
-  const locale = useLocale();
-  const { data: beaches } = useLiveData<Beach>('/api/beaches?limit=6', []);
+export async function HomeBeachesSection({ locale }: { locale: string }) {
+  const tBeaches = await getTranslations('beaches');
+  const tCommon = await getTranslations('common');
+  const beaches = await getBeaches();
   const featured = beaches.slice(0, 6);
 
   if (featured.length === 0) return null;

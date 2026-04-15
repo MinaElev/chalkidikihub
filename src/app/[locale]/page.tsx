@@ -114,10 +114,10 @@ export default async function HomePage({ params }: Props) {
       <JsonLd data={organizationSchema} />
       <HeroSection />
       <TrustStrip />
-      <FeaturedAreas />
-      <HomeFeaturedListings />
-      <HomeBeachesSection />
-      <HomeBlogSection />
+      <FeaturedAreas locale={locale} />
+      <HomeFeaturedListings locale={locale} />
+      <HomeBeachesSection locale={locale} />
+      <HomeBlogSection locale={locale} />
       <QRFeatureSection />
     </>
   );

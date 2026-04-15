@@ -1,18 +1,13 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { useLiveData } from '@/lib/use-live-data';
 import { ListingCard } from '@/components/listings/ListingCard';
-import { Listing } from '@/types';
+import { getListings } from '@/lib/data';
 import { Home, ArrowRight } from 'lucide-react';
-import { useLocale } from 'next-intl';
 
-export function HomeFeaturedListings() {
-  const t = useTranslations('common');
-  const tListings = useTranslations('listings');
-  const locale = useLocale();
-  const { data: listings } = useLiveData<Listing>('/api/listings?limit=6', []);
+export async function HomeFeaturedListings({ locale }: { locale: string }) {
+  const t = await getTranslations('common');
+  const tListings = await getTranslations('listings');
+  const listings = await getListings();
   const featured = listings.slice(0, 6);
 
   if (featured.length === 0) return null;
