@@ -22,12 +22,9 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="ChalkidikiHub" />
-        {/* Performance: preconnect to critical origins */}
-        <link rel="preconnect" href="https://bvwiwxmgbtklztgapxyp.supabase.co" crossOrigin="anonymous" />
+        {/* DNS prefetch for origins used after initial load (not preconnect — avoids unused-connection penalty) */}
         <link rel="dns-prefetch" href="https://bvwiwxmgbtklztgapxyp.supabase.co" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
-        {/* Performance: preconnect to OpenStreetMap tile server */}
-        <link rel="preconnect" href="https://tile.openstreetmap.org" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
       </head>
       <body>

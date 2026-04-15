@@ -73,7 +73,7 @@ export function Footer() {
                 Chalkidiki<span className="text-primary-400">Hub</span>
               </span>
             </div>
-            <p className="text-xs text-gray-500 mb-4">{t('description')}</p>
+            <p className="text-xs text-gray-400 mb-4">{t('description')}</p>
             <Link href="/sales"
               className="inline-flex items-center gap-2 px-3 py-2 bg-emerald-900/60 border border-emerald-700/50 rounded-xl hover:bg-emerald-800/60 transition-colors">
               <div className="w-6 h-6 bg-emerald-600 rounded-lg flex items-center justify-center shrink-0">
@@ -132,8 +132,8 @@ export function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-6 text-center text-xs">
-          <p className="text-gray-500">{t('copyright', { year })}</p>
-          <Link href="/changelog" className="text-gray-600 hover:text-gray-400 mt-1 inline-block">v3.2.0</Link>
+          <p className="text-gray-400">{t('copyright', { year })}</p>
+          <Link href="/changelog" className="text-gray-400 hover:text-white mt-1 inline-block">v3.2.0</Link>
         </div>
       </div>
     </footer>
