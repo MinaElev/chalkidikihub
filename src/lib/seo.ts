@@ -248,7 +248,7 @@ export function generateBeachLD(beach: Record<string, unknown>, locale: string) 
       latitude: beach.latitude,
       longitude: beach.longitude,
     },
-    ...(beach.rating ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: beach.rating, bestRating: 5, ratingCount: beach.reviews_count || 1 } } : {}),
+    // Note: aggregateRating omitted — Google doesn't support review snippets for Beach type
     url: localeUrl(locale, `beaches/${beach.slug}`),
   };
 }
