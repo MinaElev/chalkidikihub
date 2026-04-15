@@ -4,6 +4,7 @@ import { Link } from '@/i18n/navigation';
 import { ChevronRight } from 'lucide-react';
 import { getGuide, GUIDES } from './guide-data';
 import { notFound } from 'next/navigation';
+import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: { title, description: desc, type: 'website', locale, siteName: 'Chalkidiki Hub', images: [{ url: `${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=guide`, width: 1200, height: 630, alt: title }] },
     twitter: { card: 'summary_large_image', title, description: desc, images: [`${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=guide`] },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/guide/${slug}`,
+      canonical: localeUrl(locale, `guide/${slug}`),
       languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/guide/${slug}`])),
     },
   };

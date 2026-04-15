@@ -9,6 +9,7 @@ import { JsonLd } from '@/components/ui/JsonLd';
 import { HeroSearchBox } from '@/components/layout/HeroSearchBox';
 import { HeroBackground } from '@/components/layout/HeroBackground';
 import { MapPin, Home, Star, QrCode } from 'lucide-react';
+import { localeUrl } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -62,8 +63,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [`${SITE_URL}/api/og?title=${encodeURIComponent(titles[locale] || titles.en)}&type=home`],
     },
     alternates: {
-      canonical: `${SITE_URL}/${locale}`,
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}`])),
+      canonical: localeUrl(locale),
+      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l)])),
     },
   };
 }
@@ -81,7 +82,7 @@ export default async function HomePage({ params }: Props) {
     inLanguage: ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'],
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${SITE_URL}/${locale}/listings?q={search_term_string}`,
+      target: `${localeUrl(locale, 'listings')}?q={search_term_string}`,
       'query-input': 'required name=search_term_string',
     },
   };

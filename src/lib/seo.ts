@@ -3,6 +3,14 @@ import { createApiClient, toLocaleMap } from './api-helpers';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const DEFAULT_LOCALE = 'el';
+
+/** Build locale-prefixed URL: default locale has no prefix (as-needed) */
+export function localeUrl(locale: string, path: string = '') {
+  return locale === DEFAULT_LOCALE
+    ? `${SITE_URL}${path ? `/${path}` : ''}`
+    : `${SITE_URL}/${locale}${path ? `/${path}` : ''}`;
+}
 
 /** Build OG image URL for the /api/og route */
 export function ogImageUrl(title: string, type?: string, subtitle?: string): string {
@@ -42,8 +50,8 @@ export function collectionMeta(opts: {
       images: [image],
     },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/${path}`,
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/${path}`])),
+      canonical: localeUrl(locale, path),
+      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, path)])),
     },
   };
 }
@@ -122,9 +130,9 @@ export async function getContentMeta(
         images: [image],
       },
       alternates: {
-        canonical: `${SITE_URL}/${locale}/${pathSegment}/${slug}`,
+        canonical: localeUrl(locale, `${pathSegment}/${slug}`),
         languages: Object.fromEntries(
-          LOCALES.map(l => [l, `${SITE_URL}/${l}/${pathSegment}/${slug}`])
+          LOCALES.map(l => [l, localeUrl(l, `${pathSegment}/${slug}`)])
         ),
       },
     };
@@ -155,8 +163,8 @@ function getDefaultMeta(title: string, description: string, locale: string, path
     },
     ...(path ? {
       alternates: {
-        canonical: `${SITE_URL}/${locale}/${path}`,
-        languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/${path}`])),
+        canonical: localeUrl(locale, path),
+        languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, path)])),
       },
     } : {}),
   };
@@ -186,7 +194,7 @@ export function generateLodgingLD(listing: Record<string, unknown>, locale: stri
     },
     priceRange: `from €${listing.price_per_night}`,
     ...(images.length > 0 ? { image: images[0].image_url } : {}),
-    url: `${SITE_URL}/${locale}/listings/${listing.slug}`,
+    url: localeUrl(locale, `listings/${listing.slug}`),
     numberOfRooms: listing.bedrooms,
   };
 }
@@ -216,7 +224,7 @@ export function generateRestaurantLD(restaurant: Record<string, unknown>, locale
     priceRange: restaurant.price_level === 'budget' ? '€' : restaurant.price_level === 'moderate' ? '€€' : restaurant.price_level === 'upscale' ? '€€€' : '€€€€',
     servesCuisine: (restaurant.cuisine as string[])?.join(', ') || '',
     ...(restaurant.rating ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: restaurant.rating, bestRating: 5, ratingCount: restaurant.reviews_count || 1 } } : {}),
-    url: `${SITE_URL}/${locale}/restaurants/${restaurant.slug}`,
+    url: localeUrl(locale, `restaurants/${restaurant.slug}`),
   };
 }
 
@@ -241,7 +249,7 @@ export function generateBeachLD(beach: Record<string, unknown>, locale: string) 
       longitude: beach.longitude,
     },
     ...(beach.rating ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: beach.rating, bestRating: 5, ratingCount: beach.reviews_count || 1 } } : {}),
-    url: `${SITE_URL}/${locale}/beaches/${beach.slug}`,
+    url: localeUrl(locale, `beaches/${beach.slug}`),
   };
 }
 
@@ -258,7 +266,7 @@ export function generateArticleLD(article: Record<string, unknown>, locale: stri
     publisher: { '@type': 'Organization', name: 'Chalkidiki Hub' },
     datePublished: article.published_at,
     ...(article.image_url ? { image: article.image_url } : {}),
-    url: `${SITE_URL}/${locale}/blog/${article.slug}`,
+    url: localeUrl(locale, `blog/${article.slug}`),
   };
 }
 
@@ -282,6 +290,6 @@ export function generateActivityLD(activity: Record<string, unknown>, locale: st
       latitude: activity.latitude,
       longitude: activity.longitude,
     },
-    url: `${SITE_URL}/${locale}/activities/${activity.slug}`,
+    url: localeUrl(locale, `activities/${activity.slug}`),
   };
 }

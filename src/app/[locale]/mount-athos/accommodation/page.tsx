@@ -3,6 +3,7 @@ import { Link } from '@/i18n/navigation';
 import type { Metadata } from 'next';
 import { ChevronRight, ChevronLeft, BedDouble, Church, UtensilsCrossed, Wallet, Info } from 'lucide-react';
 import { tr } from '../content';
+import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -336,8 +337,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     openGraph: { title, description },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/mount-athos/accommodation`,
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/mount-athos/accommodation`])),
+      canonical: localeUrl(locale, 'mount-athos/accommodation'),
+      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'mount-athos/accommodation')])),
     },
   };
 }
@@ -471,7 +472,7 @@ export default async function AccommodationPage({ params }: Props) {
         description: c.jsonDescription,
         author: { '@type': 'Organization', name: 'Chalkidiki Hub' },
         publisher: { '@type': 'Organization', name: 'Chalkidiki Hub', url: SITE_URL },
-        mainEntityOfPage: `${SITE_URL}/${locale}/mount-athos/accommodation`,
+        mainEntityOfPage: localeUrl(locale, 'mount-athos/accommodation'),
       })}} />
     </article>
   );

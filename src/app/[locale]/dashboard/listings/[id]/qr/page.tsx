@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import { QRCodeCanvas } from 'qrcode.react';
 import { ArrowLeft, Download, Printer, QrCode, Loader2, ExternalLink } from 'lucide-react';
+import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
@@ -27,7 +28,7 @@ export default function QRCodePage() {
     load();
   }, [id]);
 
-  const guestUrl = listing ? `${SITE_URL}/${locale}/guest/${listing.slug}` : '';
+  const guestUrl = listing ? localeUrl(locale, `guest/${listing.slug}`) : '';
 
   const handleDownload = useCallback(() => {
     const canvas = qrRef.current?.querySelector('canvas');

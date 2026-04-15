@@ -12,8 +12,7 @@ import { Link } from '@/i18n/navigation';
 import { Church, ChevronRight, MapPin } from 'lucide-react';
 import { Area } from '@/types';
 import { AreaVillages } from '@/components/listings/AreaVillages';
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
+import { localeUrl } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -49,8 +48,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ...(area.image_url ? { images: [area.image_url] } : {}),
     },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/areas/${slug}`,
-      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/areas/${slug}`])),
+      canonical: localeUrl(locale, `areas/${slug}`),
+      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, `areas/${slug}`)])),
     },
   };
 }

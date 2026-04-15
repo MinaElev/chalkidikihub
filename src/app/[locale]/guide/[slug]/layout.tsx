@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getGuide } from './guide-data';
+import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title, description,
     openGraph: { title, description },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/guide/${slug}`,
+      canonical: localeUrl(locale, `guide/${slug}`),
       languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/guide/${slug}`])),
     },
   };

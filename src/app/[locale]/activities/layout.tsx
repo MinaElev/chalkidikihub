@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
@@ -8,8 +9,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: 'Δραστηριότητες & Αξιοθέατα Χαλκιδικής',
     description: 'Δραστηριότητες και αξιοθέατα στη Χαλκιδική — θαλάσσια σπορ, πεζοπορία, εκδρομές, κρουαζιέρες και πολιτιστικά μνημεία σε Κασσάνδρα, Σιθωνία και Άθως.',
     alternates: {
-      canonical: `${SITE_URL}/${locale}/activities`,
-      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/activities`])),
+      canonical: localeUrl(locale, 'activities'),
+      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'activities')])),
     },
   };
 }

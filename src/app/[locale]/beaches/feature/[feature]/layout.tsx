@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
+import { localeUrl } from '@/lib/seo';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 const FEATURE_META: Record<string, Record<string, { title: string; desc: string }>> = {
@@ -111,8 +111,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: meta.title,
     description: meta.desc,
     alternates: {
-      canonical: `${SITE_URL}/${locale}/beaches/feature/${feature}`,
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/beaches/feature/${feature}`])),
+      canonical: localeUrl(locale, `beaches/feature/${feature}`),
+      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `beaches/feature/${feature}`)])),
     },
   };
 }

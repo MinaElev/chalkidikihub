@@ -1,4 +1,5 @@
 import { createApiClient } from '@/lib/api-helpers';
+import { localeUrl } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -53,8 +54,8 @@ export async function getVillageContentMeta(
     title, description,
     openGraph: { title, description },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/places/${slug}/${contentType}`,
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/places/${slug}/${contentType}`])),
+      canonical: localeUrl(locale, `places/${slug}/${contentType}`),
+      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `places/${slug}/${contentType}`)])),
     },
   };
 }

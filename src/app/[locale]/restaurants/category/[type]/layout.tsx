@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { createApiClient } from '@/lib/api-helpers';
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
+import { localeUrl } from '@/lib/seo';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; type: string }> }): Promise<Metadata> {
   const { locale, type } = await params;
@@ -23,15 +22,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description,
     openGraph: { title, description, type: 'website', locale, siteName: 'Chalkidiki Hub' },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/restaurants/category/${type}`,
-      languages: {
-        el: `${SITE_URL}/el/restaurants/category/${type}`,
-        en: `${SITE_URL}/en/restaurants/category/${type}`,
-        de: `${SITE_URL}/de/restaurants/category/${type}`,
-        bg: `${SITE_URL}/bg/restaurants/category/${type}`,
-        ru: `${SITE_URL}/ru/restaurants/category/${type}`,
-        ro: `${SITE_URL}/ro/restaurants/category/${type}`,
-      },
+      canonical: localeUrl(locale, `restaurants/category/${type}`),
+      languages: Object.fromEntries(
+        ['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, `restaurants/category/${type}`)])
+      ),
     },
   };
 }

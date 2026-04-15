@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { DynamicChargerDetail } from '@/components/listings/DynamicChargerDetail';
 import { createApiClient } from '@/lib/api-helpers';
 import { getChargers } from '@/lib/get-chargers';
-import { ogImageUrl } from '@/lib/seo';
+import { localeUrl, ogImageUrl } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         images: [image],
       },
       alternates: {
-        canonical: `${SITE_URL}/${locale}/ev-chargers/${slug}`,
+        canonical: localeUrl(locale, `ev-chargers/${slug}`),
         languages: Object.fromEntries(LOCALES.map((l) => [l, `${SITE_URL}/${l}/ev-chargers/${slug}`])),
       },
     };

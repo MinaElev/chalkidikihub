@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
+import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -472,7 +473,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: { title, description: desc, type: 'website', locale, siteName: 'Chalkidiki Hub' },
     twitter: { card: 'summary', title, description: desc },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/terms`,
+      canonical: localeUrl(locale, 'terms'),
       languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/terms`])),
     },
   };

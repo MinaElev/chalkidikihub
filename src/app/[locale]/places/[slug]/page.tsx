@@ -2,6 +2,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { VillagePage } from '@/components/villages/VillagePage';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import { localeUrl } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -38,8 +39,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: row.image_url ? [{ url: row.image_url, alt: row.image_alt || title }] : [],
     },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/places/${slug}`,
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/places/${slug}`])),
+      canonical: localeUrl(locale, `places/${slug}`),
+      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `places/${slug}`)])),
     },
   };
 }

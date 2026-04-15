@@ -6,6 +6,7 @@ import { ChevronRight, ChevronLeft, MapPin, Calendar, Flag, Star } from 'lucide-
 import { MONASTERIES, getMonasteryBySlug, type Monastery } from '../../monastery-data';
 import { tr } from '../../content';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import { localeUrl } from '@/lib/seo';
 import Image from 'next/image';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title, description,
     openGraph: { title, description },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/mount-athos/monasteries/${slug}`,
+      canonical: localeUrl(locale, `mount-athos/monasteries/${slug}`),
       languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/mount-athos/monasteries/${slug}`])),
     },
   };
