@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
+const DEFAULT_HERO = '/images/hero/halkidiki-hero.webp';
+
 export function HeroBackground() {
-  const [heroImage, setHeroImage] = useState('');
+  const [heroImage, setHeroImage] = useState(DEFAULT_HERO);
 
   useEffect(() => {
     fetch('/api/settings/hero-image')
@@ -13,12 +15,14 @@ export function HeroBackground() {
       .catch(() => {});
   }, []);
 
-  if (heroImage) {
-    return <Image src={heroImage} alt="Halkidiki" fill priority sizes="100vw" className="object-cover opacity-40" />;
-  }
-
-  // Subtle dot pattern fallback
   return (
-    <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+    <Image
+      src={heroImage}
+      alt="Halkidiki, Greece — turquoise waters and pine trees"
+      fill
+      priority
+      sizes="100vw"
+      className="object-cover opacity-50"
+    />
   );
 }

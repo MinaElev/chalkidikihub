@@ -126,7 +126,7 @@ function HeroSection() {
     <section className="relative min-h-[600px] md:min-h-[700px] bg-primary-950 text-white overflow-hidden flex items-center">
       {/* Background image + cinematic overlay */}
       <HeroBackground />
-      <div className="absolute inset-0 bg-gradient-to-b from-primary-950/70 via-primary-950/50 to-primary-950/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-primary-950/60 via-primary-950/40 to-primary-950/70" />
 
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
         {/* Trust badge */}
