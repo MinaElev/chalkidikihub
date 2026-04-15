@@ -1,7 +1,8 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicListingDetail } from '@/components/listings/DynamicListingDetail';
-import { getContentMeta } from '@/lib/seo';
+import { getContentMeta, generateLodgingLD } from '@/lib/seo';
+import { JsonLd } from '@/components/ui/JsonLd';
 import { getListingBySlug, getListings } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
@@ -27,5 +28,10 @@ export default async function ListingDetailPage({ params }: Props) {
   const listing = await getListingBySlug(slug);
   if (!listing) notFound();
 
-  return <DynamicListingDetail slug={slug} locale={locale} initialData={listing} />;
+  return (
+    <>
+      <JsonLd data={generateLodgingLD(listing as unknown as Record<string, unknown>, locale)} />
+      <DynamicListingDetail slug={slug} locale={locale} initialData={listing} />
+    </>
+  );
 }

@@ -1,7 +1,8 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicBeachDetail } from '@/components/listings/DynamicBeachDetail';
-import { getContentMeta } from '@/lib/seo';
+import { getContentMeta, generateBeachLD } from '@/lib/seo';
+import { JsonLd } from '@/components/ui/JsonLd';
 import { getBeachBySlug, getBeaches } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
@@ -27,5 +28,10 @@ export default async function BeachDetailPage({ params }: Props) {
   const beach = await getBeachBySlug(slug);
   if (!beach) notFound();
 
-  return <DynamicBeachDetail slug={slug} initialData={beach} />;
+  return (
+    <>
+      <JsonLd data={generateBeachLD(beach as unknown as Record<string, unknown>, locale)} />
+      <DynamicBeachDetail slug={slug} initialData={beach} />
+    </>
+  );
 }

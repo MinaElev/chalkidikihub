@@ -1,7 +1,8 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicActivityDetail } from '@/components/listings/DynamicActivityDetail';
-import { getContentMeta } from '@/lib/seo';
+import { getContentMeta, generateActivityLD } from '@/lib/seo';
+import { JsonLd } from '@/components/ui/JsonLd';
 import { getActivityBySlug, getActivities } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
@@ -25,5 +26,10 @@ export default async function ActivityDetailPage({ params }: Props) {
   const activity = await getActivityBySlug(slug);
   if (!activity) notFound();
 
-  return <DynamicActivityDetail slug={slug} initialData={activity} />;
+  return (
+    <>
+      <JsonLd data={generateActivityLD(activity as unknown as Record<string, unknown>, locale)} />
+      <DynamicActivityDetail slug={slug} initialData={activity} />
+    </>
+  );
 }

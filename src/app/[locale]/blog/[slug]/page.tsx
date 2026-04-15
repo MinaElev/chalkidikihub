@@ -1,7 +1,8 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicArticle } from '@/components/blog/DynamicArticle';
-import { getContentMeta } from '@/lib/seo';
+import { getContentMeta, generateArticleLD } from '@/lib/seo';
+import { JsonLd } from '@/components/ui/JsonLd';
 import { getArticleBySlug, getBlogArticles } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
@@ -27,5 +28,10 @@ export default async function BlogArticlePage({ params }: Props) {
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
-  return <DynamicArticle slug={slug} initialData={article} />;
+  return (
+    <>
+      <JsonLd data={generateArticleLD(article as unknown as Record<string, unknown>, locale)} />
+      <DynamicArticle slug={slug} initialData={article} />
+    </>
+  );
 }

@@ -1,7 +1,8 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicRestaurantDetail } from '@/components/listings/DynamicRestaurantDetail';
-import { getContentMeta } from '@/lib/seo';
+import { getContentMeta, generateRestaurantLD } from '@/lib/seo';
+import { JsonLd } from '@/components/ui/JsonLd';
 import { getRestaurantBySlug, getRestaurants } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
@@ -25,5 +26,10 @@ export default async function RestaurantDetailPage({ params }: Props) {
   const restaurant = await getRestaurantBySlug(slug);
   if (!restaurant) notFound();
 
-  return <DynamicRestaurantDetail slug={slug} initialData={restaurant} />;
+  return (
+    <>
+      <JsonLd data={generateRestaurantLD(restaurant as unknown as Record<string, unknown>, locale)} />
+      <DynamicRestaurantDetail slug={slug} initialData={restaurant} />
+    </>
+  );
 }
