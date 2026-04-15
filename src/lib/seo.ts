@@ -79,7 +79,6 @@ export async function getContentMeta(
     const supabase = createApiClient();
 
     // Use select('*') to avoid issues with missing columns across different tables
-    // (e.g. listings uses title_*, beaches uses name_*, some tables may lack meta_* columns)
     const { data, error } = await supabase
       .from(table)
       .select('*')
@@ -94,10 +93,14 @@ export async function getContentMeta(
     // Determine which field holds the display name (title for listings/sales/blog, name for others)
     const titleField = (table === 'blog_articles' || table === 'listings' || table === 'sales') ? 'title' : 'name';
 
-    const title = row[`meta_title_${locale}`] || row.meta_title_el || row.meta_title_en
-      || row[`${titleField}_${locale}`] || row[`${titleField}_el`] || row[`${titleField}_en`] || fallbackTitle;
-    const description = row[`meta_description_${locale}`] || row.meta_description_el || row.meta_description_en
-      || row[`description_${locale}`] || row.description_el || row.description_en || fallbackDescription;
+    // 1. Use explicit meta_title if set in DB
+    const explicitTitle = row[`meta_title_${locale}`] || row.meta_title_el || row.meta_title_en;
+    const explicitDesc = row[`meta_description_${locale}`] || row.meta_description_el || row.meta_description_en;
+
+    // 2. Smart fallback: build rich title from content fields
+    const displayName = row[`${titleField}_${locale}`] || row[`${titleField}_el`] || row[`${titleField}_en`] || '';
+    const title = explicitTitle || buildSmartTitle(table, displayName, row, locale) || fallbackTitle;
+    const description = explicitDesc || buildSmartDescription(table, displayName, row, locale) || row[`description_${locale}`] || row.description_el || row.description_en || fallbackDescription;
     const imageAlt = row.image_alt || title;
 
     // Map path segments to OG image types
@@ -168,6 +171,177 @@ function getDefaultMeta(title: string, description: string, locale: string, path
       },
     } : {}),
   };
+}
+
+// ── Smart Meta Builders ──────────────────────────────────────────────
+// Generate rich titles & descriptions from content fields when meta_title is not explicitly set.
+// This dramatically improves CTR in Google search results.
+
+const AREA_NAMES: Record<string, Record<string, string>> = {
+  kassandra: { el: 'Κασσάνδρα', en: 'Kassandra', de: 'Kassandra', bg: 'Касандра', ru: 'Кассандра', ro: 'Kassandra', sr: 'Kasandra' },
+  sithonia: { el: 'Σιθωνία', en: 'Sithonia', de: 'Sithonia', bg: 'Ситония', ru: 'Ситония', ro: 'Sithonia', sr: 'Sitonija' },
+  athos: { el: 'Άθως', en: 'Athos', de: 'Athos', bg: 'Атон', ru: 'Афон', ro: 'Athos', sr: 'Atos' },
+  mainland: { el: 'Ηπειρωτική Χαλκιδική', en: 'Mainland Halkidiki', de: 'Festland Chalkidiki', bg: 'Халкидики', ru: 'Халкидики', ro: 'Halkidiki', sr: 'Halkidiki' },
+};
+
+const SMART_TITLE_SUFFIX: Record<string, Record<string, string>> = {
+  beaches: {
+    el: 'Φωτογραφίες, Χάρτης & Κριτικές',
+    en: 'Photos, Map & Reviews',
+    de: 'Fotos, Karte & Bewertungen',
+    bg: 'Снимки, Карта & Отзиви',
+    ru: 'Фото, Карта & Отзывы',
+    ro: 'Fotografii, Hartă & Recenzii',
+    sr: 'Fotografije, Mapa & Recenzije',
+  },
+  restaurants: {
+    el: 'Μενού, Τιμές & Κριτικές',
+    en: 'Menu, Prices & Reviews',
+    de: 'Menü, Preise & Bewertungen',
+    bg: 'Меню, Цени & Отзиви',
+    ru: 'Меню, Цены & Отзывы',
+    ro: 'Meniu, Prețuri & Recenzii',
+    sr: 'Meni, Cene & Recenzije',
+  },
+  activities: {
+    el: 'Πληροφορίες, Τιμές & Κριτικές',
+    en: 'Info, Prices & Reviews',
+    de: 'Info, Preise & Bewertungen',
+    bg: 'Информация, Цени & Отзиви',
+    ru: 'Информация, Цены & Отзывы',
+    ro: 'Info, Prețuri & Recenzii',
+    sr: 'Info, Cene & Recenzije',
+  },
+  listings: {
+    el: 'Τιμές, Παροχές & Κράτηση',
+    en: 'Prices, Amenities & Booking',
+    de: 'Preise, Ausstattung & Buchung',
+    bg: 'Цени, Удобства & Резервация',
+    ru: 'Цены, Удобства & Бронирование',
+    ro: 'Prețuri, Facilități & Rezervare',
+    sr: 'Cene, Pogodnosti & Rezervacija',
+  },
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function buildSmartTitle(table: string, name: string, row: any, locale: string): string {
+  if (!name) return '';
+  const pathSegment = tableToPath[table] || table;
+  const area = row.area as string;
+  const areaName = area ? (AREA_NAMES[area]?.[locale] || AREA_NAMES[area]?.en || '') : '';
+  const location = row.location_name as string || '';
+  const suffix = SMART_TITLE_SUFFIX[pathSegment]?.[locale] || SMART_TITLE_SUFFIX[pathSegment]?.en || '';
+
+  // Use short location (village name) or area name
+  const loc = location ? location.split(',')[0].trim() : areaName;
+
+  switch (pathSegment) {
+    case 'beaches': {
+      // "Παραλία Καρύδι, Σιθωνία — Φωτογραφίες, Χάρτης & Κριτικές"
+      const prefix = locale === 'el' ? 'Παραλία' : locale === 'de' ? 'Strand' : locale === 'ru' ? 'Пляж' : locale === 'bg' ? 'Плаж' : 'Beach';
+      const fullName = name.includes(prefix) ? name : `${prefix} ${name}`;
+      return loc ? `${fullName}, ${loc} — ${suffix}` : `${fullName} — ${suffix}`;
+    }
+    case 'restaurants': {
+      // "Mr Coffee Πολύγυρος — Μενού, Τιμές & Κριτικές"
+      return loc ? `${name}, ${loc} — ${suffix}` : `${name} — ${suffix}`;
+    }
+    case 'activities': {
+      return loc ? `${name}, ${loc} — ${suffix}` : `${name} — ${suffix}`;
+    }
+    case 'listings': {
+      // "Villa Sunrise, Κασσάνδρα — Τιμές, Παροχές & Κράτηση"
+      return loc ? `${name}, ${loc} — ${suffix}` : `${name} — ${suffix}`;
+    }
+    case 'blog': {
+      return name; // Blog titles are usually already good
+    }
+    case 'sales': {
+      return loc ? `${name}, ${loc}` : name;
+    }
+    default:
+      return name;
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function buildSmartDescription(table: string, name: string, row: any, locale: string): string {
+  if (!name) return '';
+  const pathSegment = tableToPath[table] || table;
+  const area = row.area as string;
+  const areaName = area ? (AREA_NAMES[area]?.[locale] || AREA_NAMES[area]?.en || '') : '';
+  const location = row.location_name as string || '';
+  const rating = row.rating as number;
+  const reviewsCount = row.reviews_count as number;
+  const halkidiki = locale === 'el' ? 'Χαλκιδική' : 'Halkidiki';
+
+  const ratingStr = rating ? (locale === 'el' ? `⭐ ${rating}/5` : `⭐ ${rating}/5`) : '';
+  const reviewStr = reviewsCount ? (locale === 'el' ? `(${reviewsCount} κριτικές)` : `(${reviewsCount} reviews)`) : '';
+
+  switch (pathSegment) {
+    case 'beaches': {
+      const features = (row.features as string[]) || [];
+      const featureWords: string[] = [];
+      if (locale === 'el') {
+        if (features.includes('sandy')) featureWords.push('Αμμώδης');
+        if (features.includes('pebble')) featureWords.push('Βοτσαλωτή');
+        if (features.includes('organized')) featureWords.push('Οργανωμένη');
+        if (features.includes('free')) featureWords.push('Ελεύθερη');
+        if (features.includes('shallowWater')) featureWords.push('Ρηχά νερά');
+        if (features.includes('waterSports')) featureWords.push('Water sports');
+        return `Ανακαλύψτε την παραλία ${name}${location ? ` στη ${location}` : ''}, ${halkidiki}. ${featureWords.join(', ')}. ${ratingStr} ${reviewStr} Φωτογραφίες, χάρτης, οδηγίες.`.trim();
+      }
+      if (features.includes('sandy')) featureWords.push('Sandy');
+      if (features.includes('organized')) featureWords.push('Organized');
+      if (features.includes('free')) featureWords.push('Free');
+      if (features.includes('shallowWater')) featureWords.push('Shallow water');
+      return `Discover ${name} beach${location ? ` in ${location}` : ''}, ${halkidiki}. ${featureWords.join(', ')}. ${ratingStr} ${reviewStr} Photos, map, directions.`.trim();
+    }
+    case 'restaurants': {
+      const cuisine = (row.cuisine as string[]) || [];
+      const cuisineStr = cuisine.length > 0 ? cuisine.slice(0, 3).join(', ') : '';
+      const priceLevel = row.price_level as string;
+      const priceStr = priceLevel === 'budget' ? '€' : priceLevel === 'moderate' ? '€€' : priceLevel === 'upscale' ? '€€€' : priceLevel === 'fineDining' ? '€€€€' : '';
+      if (locale === 'el') {
+        return `${name}${location ? ` στη ${location}` : ''}, ${halkidiki}. ${cuisineStr ? `${cuisineStr}.` : ''} ${priceStr ? `Τιμές: ${priceStr}.` : ''} ${ratingStr} ${reviewStr} Δείτε μενού, ώρες λειτουργίας & τηλέφωνο.`.trim();
+      }
+      return `${name}${location ? ` in ${location}` : ''}, ${halkidiki}. ${cuisineStr ? `${cuisineStr}.` : ''} ${priceStr ? `Prices: ${priceStr}.` : ''} ${ratingStr} ${reviewStr} See menu, hours & contact.`.trim();
+    }
+    case 'activities': {
+      const priceRange = row.price_range as string || '';
+      const duration = row.duration as string || '';
+      if (locale === 'el') {
+        return `${name}${location ? ` στη ${location}` : ''}, ${halkidiki}. ${priceRange ? `Τιμή: ${priceRange}.` : ''} ${duration ? `Διάρκεια: ${duration}.` : ''} ${ratingStr} ${reviewStr} Πληροφορίες & κράτηση.`.trim();
+      }
+      return `${name}${location ? ` in ${location}` : ''}, ${halkidiki}. ${priceRange ? `Price: ${priceRange}.` : ''} ${duration ? `Duration: ${duration}.` : ''} ${ratingStr} ${reviewStr} Info & booking.`.trim();
+    }
+    case 'listings': {
+      const price = row.price_per_night as number;
+      const bedrooms = row.bedrooms as number;
+      const guests = row.guests_max as number;
+      const amenities = (row.amenities as string[]) || [];
+      const hasPool = amenities.includes('pool');
+      const hasSeaView = amenities.includes('seaView');
+      if (locale === 'el') {
+        const parts = [`${name}${location ? ` στη ${location}` : ''}, ${halkidiki}.`];
+        if (price) parts.push(`Από €${price}/βράδυ.`);
+        if (bedrooms) parts.push(`${bedrooms} υπνοδωμάτια${guests ? `, έως ${guests} άτομα` : ''}.`);
+        if (hasPool) parts.push('Πισίνα.');
+        if (hasSeaView) parts.push('Θέα θάλασσα.');
+        parts.push('Φωτογραφίες & κράτηση.');
+        return parts.join(' ').trim();
+      }
+      const parts = [`${name}${location ? ` in ${location}` : ''}, ${halkidiki}.`];
+      if (price) parts.push(`From €${price}/night.`);
+      if (bedrooms) parts.push(`${bedrooms} bedrooms${guests ? `, up to ${guests} guests` : ''}.`);
+      if (hasPool) parts.push('Pool.');
+      if (hasSeaView) parts.push('Sea view.');
+      parts.push('Photos & booking.');
+      return parts.join(' ').trim();
+    }
+    default:
+      return '';
+  }
 }
 
 // JSON-LD generators
