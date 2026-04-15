@@ -92,14 +92,20 @@ export default async function HomePage({ params }: Props) {
     '@type': 'Organization',
     name: 'Chalkidiki Hub',
     url: SITE_URL,
-    logo: `${SITE_URL}/icons/icon-512.png`,
-    description: 'The ultimate tourism platform for Halkidiki, Greece',
+    logo: { '@type': 'ImageObject', url: `${SITE_URL}/icons/icon-512.png`, width: 512, height: 512 },
+    description: 'The ultimate tourism platform for Halkidiki, Greece — accommodation, beaches, restaurants, activities in 7 languages',
+    foundingDate: '2024',
     areaServed: {
       '@type': 'Place',
       name: 'Halkidiki, Greece',
       geo: { '@type': 'GeoCoordinates', latitude: 40.15, longitude: 23.6 },
     },
-    sameAs: [],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      url: `${SITE_URL}/contact`,
+      availableLanguage: ['Greek', 'English', 'German', 'Bulgarian', 'Russian', 'Romanian', 'Serbian'],
+    },
   };
 
   return (

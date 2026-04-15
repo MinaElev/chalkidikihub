@@ -366,10 +366,11 @@ export function generateLodgingLD(listing: Record<string, unknown>, locale: stri
       latitude: listing.latitude,
       longitude: listing.longitude,
     },
-    priceRange: `from €${listing.price_per_night}`,
-    ...(images.length > 0 ? { image: images[0].image_url } : {}),
+    priceRange: listing.price_per_night ? `€${listing.price_per_night} - €${Math.round(Number(listing.price_per_night) * 3)}` : '€€',
+    ...(images.length > 0 ? { image: images.map(i => i.image_url) } : {}),
     url: localeUrl(locale, `listings/${listing.slug}`),
     numberOfRooms: listing.bedrooms,
+    amenityFeature: (listing.amenities as string[])?.map(a => ({ '@type': 'LocationFeatureSpecification', name: a, value: true })),
   };
 }
 
@@ -396,7 +397,7 @@ export function generateRestaurantLD(restaurant: Record<string, unknown>, locale
     telephone: restaurant.phone || '',
     openingHours: restaurant.hours || '',
     priceRange: restaurant.price_level === 'budget' ? '€' : restaurant.price_level === 'moderate' ? '€€' : restaurant.price_level === 'upscale' ? '€€€' : '€€€€',
-    servesCuisine: (restaurant.cuisine as string[])?.join(', ') || '',
+    servesCuisine: (restaurant.cuisine as string[]) || [],
     ...(restaurant.rating ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: restaurant.rating, bestRating: 5, ratingCount: restaurant.reviews_count || 1 } } : {}),
     url: localeUrl(locale, `restaurants/${restaurant.slug}`),
   };
@@ -422,6 +423,7 @@ export function generateBeachLD(beach: Record<string, unknown>, locale: string) 
       latitude: beach.latitude,
       longitude: beach.longitude,
     },
+    ...(beach.image_url ? { image: beach.image_url } : {}),
     // Note: aggregateRating omitted — Google doesn't support review snippets for Beach type
     url: localeUrl(locale, `beaches/${beach.slug}`),
   };
@@ -436,11 +438,17 @@ export function generateArticleLD(article: Record<string, unknown>, locale: stri
     '@type': 'Article',
     headline: title,
     description,
-    author: { '@type': 'Person', name: article.author || 'Chalkidiki Hub' },
-    publisher: { '@type': 'Organization', name: 'Chalkidiki Hub' },
+    author: { '@type': 'Person', name: (article.author as string) || 'Chalkidiki Hub' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Chalkidiki Hub',
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/icons/icon-512.png` },
+    },
     datePublished: article.published_at,
-    ...(article.image_url ? { image: article.image_url } : {}),
+    dateModified: article.updated_at || article.published_at,
+    ...(article.image_url ? { image: { '@type': 'ImageObject', url: article.image_url, width: 1200, height: 630 } } : {}),
     url: localeUrl(locale, `blog/${article.slug}`),
+    mainEntityOfPage: { '@type': 'WebPage', '@id': localeUrl(locale, `blog/${article.slug}`) },
   };
 }
 

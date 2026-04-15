@@ -8,12 +8,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="el" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#0891B2" />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <meta name="google-site-verification" content="23O0hBvOmQHGLCg-_KCo_7HDlwNRkM-OMM7KYlFS8hY" />
+        <meta name="format-detection" content="telephone=no, email=no" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" type="image/svg+xml" href="/icons/icon-192.svg" />
         <link rel="icon" type="image/png" href="/icons/icon-192.png" />
@@ -22,10 +23,13 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="ChalkidikiHub" />
-        {/* DNS prefetch for origins used after initial load (not preconnect — avoids unused-connection penalty) */}
+        {/* Preconnect to Supabase (critical data source) + prefetch others */}
+        <link rel="preconnect" href="https://bvwiwxmgbtklztgapxyp.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://bvwiwxmgbtklztgapxyp.supabase.co" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
+        {/* Preload hero image for fast LCP */}
+        <link rel="preload" as="image" href="/images/hero/halkidiki-hero.webp" type="image/webp" />
       </head>
       <body>
         <PWARegister />

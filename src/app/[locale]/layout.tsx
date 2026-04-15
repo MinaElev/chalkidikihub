@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n/config';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { BackToTop } from '@/components/ui/BackToTop';
-import { CookieConsent } from '@/components/ui/CookieConsent';
+
+const BackToTop = dynamic(() => import('@/components/ui/BackToTop').then(m => m.BackToTop));
+const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent').then(m => m.CookieConsent));
 
 type Props = {
   children: React.ReactNode;
@@ -49,7 +51,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <div lang={locale} className="min-h-screen flex flex-col bg-white text-gray-900" id="app-shell">
+      <div lang={locale} dir="ltr" className="min-h-screen flex flex-col bg-white text-gray-900" id="app-shell">
         <div id="main-header"><Header /></div>
         <main className="flex-1">{children}</main>
         <div id="main-footer" className="min-h-[700px] sm:min-h-[580px] md:min-h-[400px]" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 600px' }}><Footer /></div>
