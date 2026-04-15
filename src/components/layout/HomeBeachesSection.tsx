@@ -5,28 +5,35 @@ import { Link } from '@/i18n/navigation';
 import { useLiveData } from '@/lib/use-live-data';
 import { BeachCard } from '@/components/listings/BeachCard';
 import { Beach } from '@/types';
+import { Waves, ArrowRight } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 export function HomeBeachesSection() {
   const tBeaches = useTranslations('beaches');
   const tCommon = useTranslations('common');
+  const locale = useLocale();
   const { data: beaches } = useLiveData<Beach>('/api/beaches?limit=6', []);
   const featured = beaches.slice(0, 6);
 
   if (featured.length === 0) return null;
 
   return (
-    <section className="py-16 md:py-24 bg-blue-50/50">
+    <section className="py-20 md:py-28 bg-mesh-blue">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-end justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">{tBeaches('title')}</h2>
-            <p className="mt-1 text-gray-600">{tBeaches('subtitle')}</p>
+            <span className="section-badge bg-blue-50 text-blue-700 mb-3">
+              <Waves className="w-3.5 h-3.5" />
+              {locale === 'el' ? 'Κορυφαίες' : 'Top Rated'}
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{tBeaches('title')}</h2>
+            <p className="mt-2 text-gray-500">{tBeaches('subtitle')}</p>
           </div>
           <Link
             href="/beaches"
-            className="hidden md:inline-flex px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+            className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
           >
-            {tCommon('viewAll')} &rarr;
+            {tCommon('viewAll')} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 

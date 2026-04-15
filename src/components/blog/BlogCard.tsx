@@ -16,16 +16,16 @@ export function BlogCard({ article }: { article: BlogArticle }) {
 
   return (
     <Link href={`/blog/${article.slug}`} className="group block">
-      <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-md transition-all hover:-translate-y-0.5">
+      <div className="bg-white rounded-2xl overflow-hidden ring-1 ring-gray-900/5 card-premium">
         {/* Image */}
-        <div className="relative aspect-[16/9] bg-gray-200 overflow-hidden">
+        <div className="relative aspect-[16/9] bg-gray-100 overflow-hidden">
           {article.image_url ? (
             <Image
               src={article.image_url}
               alt={title}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
@@ -33,7 +33,7 @@ export function BlogCard({ article }: { article: BlogArticle }) {
             </div>
           )}
           {/* Category badge */}
-          <div className="absolute top-3 left-3 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-medium">
+          <div className="absolute top-3 left-3 bg-primary-600 text-white px-3 py-1 rounded-lg text-xs font-semibold">
             {tCat(article.category)}
           </div>
         </div>
@@ -43,10 +43,10 @@ export function BlogCard({ article }: { article: BlogArticle }) {
           <h3 className="font-bold text-lg text-gray-900 group-hover:text-primary-600 transition-colors line-clamp-2">
             {title}
           </h3>
-          <p className="mt-2 text-sm text-gray-600 line-clamp-2">{excerpt}</p>
+          <p className="mt-2 text-sm text-gray-500 line-clamp-2 leading-relaxed">{excerpt}</p>
 
-          <div className="flex items-center justify-between mt-4">
-            <div className="flex items-center gap-3 text-xs text-gray-500">
+          <div className="flex items-center justify-between mt-5 pt-4 border-t border-gray-100">
+            <div className="flex items-center gap-3 text-xs text-gray-400">
               <div className="flex items-center gap-1">
                 <Calendar className="w-3.5 h-3.5" />
                 <span>{new Date(article.published_at).toLocaleDateString(locale)}</span>
@@ -56,7 +56,7 @@ export function BlogCard({ article }: { article: BlogArticle }) {
                 <span>{t('readTime', { min: article.read_time_min })}</span>
               </div>
             </div>
-            <span className="text-primary-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+            <span className="text-primary-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
               {t('readMore')} <ArrowRight className="w-3.5 h-3.5" />
             </span>
           </div>

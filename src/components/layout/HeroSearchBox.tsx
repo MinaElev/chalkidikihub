@@ -16,19 +16,19 @@ export function HeroSearchBox({ placeholder, buttonLabel }: { placeholder: strin
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 bg-white rounded-2xl p-4 md:p-6 shadow-xl">
-      <div className="flex flex-col md:flex-row gap-3">
+    <form onSubmit={handleSubmit} className="mt-8 glass-card rounded-2xl p-2 md:p-2.5 shadow-2xl shadow-black/20">
+      <div className="flex flex-col md:flex-row gap-2">
         <div className="flex-1 relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={placeholder}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            className="w-full pl-11 pr-4 py-3.5 bg-white/10 border border-white/10 rounded-xl text-white placeholder-white/40 focus:ring-2 focus:ring-primary-400 focus:border-transparent focus:bg-white/15 transition-all"
           />
         </div>
-        <button type="submit" className="flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
+        <button type="submit" className="flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-primary-900 font-semibold rounded-xl hover:bg-primary-50 transition-all shadow-lg">
           <Search className="w-5 h-5" />
           <span>{buttonLabel}</span>
         </button>

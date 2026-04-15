@@ -5,6 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { useLiveData } from '@/lib/use-live-data';
 import { BlogCard } from '@/components/blog/BlogCard';
 import { BlogArticle } from '@/types';
+import { FileText, ArrowRight } from 'lucide-react';
 
 export function HomeBlogSection() {
   const t = useTranslations('blog');
@@ -12,18 +13,22 @@ export function HomeBlogSection() {
   const latest = articles.slice(0, 3);
 
   return (
-    <section className="py-16 md:py-24 bg-gray-50">
+    <section className="py-20 md:py-28 bg-gray-50/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-end justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">{t('title')}</h2>
-            <p className="mt-1 text-gray-600">{t('subtitle')}</p>
+            <span className="section-badge bg-gray-100 text-gray-700 mb-3">
+              <FileText className="w-3.5 h-3.5" />
+              Blog
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{t('title')}</h2>
+            <p className="mt-2 text-gray-500">{t('subtitle')}</p>
           </div>
           <Link
             href="/blog"
-            className="hidden md:inline-flex px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+            className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors"
           >
-            {t('allArticles')} &rarr;
+            {t('allArticles')} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
@@ -33,12 +38,12 @@ export function HomeBlogSection() {
           ))}
         </div>
 
-        <div className="mt-8 text-center md:hidden">
+        <div className="mt-10 text-center md:hidden">
           <Link
             href="/blog"
-            className="inline-flex px-6 py-3 text-sm font-medium text-primary-600 border border-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors"
           >
-            {t('allArticles')} &rarr;
+            {t('allArticles')} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>

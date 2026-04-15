@@ -14,10 +14,11 @@ export function HeroBackground() {
   }, []);
 
   if (heroImage) {
-    return <Image src={heroImage} alt="Halkidiki" fill priority sizes="100vw" className="object-cover opacity-30" />;
+    return <Image src={heroImage} alt="Halkidiki" fill priority sizes="100vw" className="object-cover opacity-40" />;
   }
 
+  // Subtle dot pattern fallback
   return (
-    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+    <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
   );
 }
