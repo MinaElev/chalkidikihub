@@ -17,6 +17,7 @@ export function ListingCard({ listing }: ListingCardProps) {
 
   const title = listing.title[locale] || listing.title.en;
   const coverImage = listing.images.find((img) => img.is_cover);
+  const altText = `${title}, ${listing.location_name} — ${listing.bedrooms} ${t('bedrooms')}, ${listing.guests_max} ${t('guests')}`;
 
   return (
     <Link href={`/listings/${listing.slug}`} className="group block">
@@ -26,7 +27,7 @@ export function ListingCard({ listing }: ListingCardProps) {
           {coverImage ? (
             <Image
               src={coverImage.image_url}
-              alt={title}
+              alt={altText}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"

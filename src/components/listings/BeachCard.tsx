@@ -15,6 +15,7 @@ export function BeachCard({ beach }: { beach: Beach }) {
 
   const name = beach.name[locale] || beach.name.en;
   const topFeatures = beach.features.slice(0, 3);
+  const altText = `${name}, ${beach.location_name}${topFeatures.length ? ` — ${topFeatures.map(f => tFeatures(f)).join(', ')}` : ''}`;
 
   return (
     <Link href={`/beaches/${beach.slug}`} className="group block">
@@ -24,7 +25,7 @@ export function BeachCard({ beach }: { beach: Beach }) {
           {beach.image_url ? (
             <Image
               src={beach.image_url}
-              alt={name}
+              alt={altText}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"

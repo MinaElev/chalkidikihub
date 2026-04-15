@@ -13,6 +13,7 @@ export function BlogCard({ article }: { article: BlogArticle }) {
 
   const title = article.title[locale] || article.title.en;
   const excerpt = article.excerpt[locale] || article.excerpt.en;
+  const altText = `${title} — ${tCat(article.category)}, Chalkidiki Hub`;
 
   return (
     <Link href={`/blog/${article.slug}`} className="group block">
@@ -22,7 +23,7 @@ export function BlogCard({ article }: { article: BlogArticle }) {
           {article.image_url ? (
             <Image
               src={article.image_url}
-              alt={title}
+              alt={altText}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"

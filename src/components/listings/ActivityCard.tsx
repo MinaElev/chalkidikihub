@@ -12,6 +12,7 @@ export function ActivityCard({ activity }: { activity: Activity }) {
   const tCat = useTranslations('activityCategories');
 
   const name = activity.name[locale] || activity.name.en;
+  const altText = `${name}, ${activity.location_name} — ${tCat(activity.category)}`;
 
   return (
     <Link href={`/activities/${activity.slug}`} className="group block">
@@ -20,7 +21,7 @@ export function ActivityCard({ activity }: { activity: Activity }) {
           {activity.image_url ? (
             <Image
               src={activity.image_url}
-              alt={name}
+              alt={altText}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-300"

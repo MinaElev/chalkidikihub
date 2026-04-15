@@ -192,6 +192,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push(...forLocales(`/mount-athos/monasteries/${slug}`, { freq: 'monthly', priority: 0.8 }));
   }
 
+  // ── RSS Feed ──
+  entries.push({
+    url: `${baseUrl}/feed.xml`,
+    lastModified: new Date(),
+    changeFrequency: 'daily',
+    priority: 0.5,
+  });
+
   // ── Ghost pages (guides, best-of) ──
   for (const g of ['summer', 'easter', 'honeymoon', 'families', 'budget', 'winter', 'nightlife']) {
     entries.push(...forLocales(`/guide/${g}`, { freq: 'monthly', priority: 0.8 }));

@@ -25,13 +25,14 @@ export function SaleCard({ sale }: { sale: Sale }) {
   const coverImage = sale.images?.find(i => i.is_cover)?.image_url || sale.images?.[0]?.image_url;
 
   const typeLabel = TYPE_LABELS[sale.property_type]?.[locale] || TYPE_LABELS[sale.property_type]?.el || sale.property_type;
+  const altText = `${typeLabel} ${locale === 'el' ? 'προς πώληση' : 'for sale'}: ${title}, ${sale.location_name}${sale.size_sqm > 0 ? ` — ${sale.size_sqm}m²` : ''}`;
 
   return (
     <Link href={`/sales/${sale.slug}`} className="group block">
       <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-md transition-all hover:-translate-y-0.5">
         <div className="relative aspect-[16/10] bg-gray-200 overflow-hidden">
           {coverImage ? (
-            <Image src={coverImage} alt={title} fill
+            <Image src={coverImage} alt={altText} fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-300" />
           ) : (

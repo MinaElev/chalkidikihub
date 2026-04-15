@@ -1,22 +1,35 @@
+import { headers } from 'next/headers';
 import Link from 'next/link';
 
 const translations: Record<string, {
-  subtitle: string; hint: string; cta: string;
+  subtitle: string; hint: string;
   home: string; listings: string; beaches: string; restaurants: string; activities: string; blog: string; contact: string;
 }> = {
-  el: { subtitle: 'Η ομάδα μας απολαμβάνει τη θάλασσα αυτή τη στιγμή...', hint: 'Μην χάνεις χρόνο — βρες ό,τι χρειάζεσαι:', cta: 'Επικοινωνία', home: 'Αρχική', listings: 'Καταλύματα', beaches: 'Παραλίες', restaurants: 'Εστιατόρια', activities: 'Αξιοθέατα', blog: 'Blog', contact: 'Επικοινωνία' },
-  en: { subtitle: 'Our team is enjoying the sea right now...', hint: "Don't waste time — find what you need:", cta: 'Contact', home: 'Home', listings: 'Rentals', beaches: 'Beaches', restaurants: 'Restaurants', activities: 'Activities', blog: 'Blog', contact: 'Contact' },
-  de: { subtitle: 'Unser Team genießt gerade das Meer...', hint: 'Keine Zeit verlieren — finde was du brauchst:', cta: 'Kontakt', home: 'Startseite', listings: 'Unterkünfte', beaches: 'Strände', restaurants: 'Restaurants', activities: 'Aktivitäten', blog: 'Blog', contact: 'Kontakt' },
-  bg: { subtitle: 'Екипът ни се наслаждава на морето...', hint: 'Не губете време — намерете каквото ви трябва:', cta: 'Контакт', home: 'Начало', listings: 'Настаняване', beaches: 'Плажове', restaurants: 'Ресторанти', activities: 'Дейности', blog: 'Блог', contact: 'Контакт' },
-  ru: { subtitle: 'Наша команда сейчас наслаждается морем...', hint: 'Не теряйте время — найдите то, что нужно:', cta: 'Контакты', home: 'Главная', listings: 'Жильё', beaches: 'Пляжи', restaurants: 'Рестораны', activities: 'Развлечения', blog: 'Блог', contact: 'Контакты' },
-  ro: { subtitle: 'Echipa noastră se bucură de mare acum...', hint: 'Nu pierde timpul — găsește ce ai nevoie:', cta: 'Contact', home: 'Acasă', listings: 'Cazare', beaches: 'Plaje', restaurants: 'Restaurante', activities: 'Activități', blog: 'Blog', contact: 'Contact' },
-  sr: { subtitle: 'Naš tim trenutno uživa u moru...', hint: 'Ne gubite vreme — pronađite šta vam treba:', cta: 'Kontakt', home: 'Početna', listings: 'Smeštaj', beaches: 'Plaže', restaurants: 'Restorani', activities: 'Aktivnosti', blog: 'Blog', contact: 'Kontakt' },
+  el: { subtitle: 'Η ομάδα μας απολαμβάνει τη θάλασσα αυτή τη στιγμή...', hint: 'Μην χάνεις χρόνο — βρες ό,τι χρειάζεσαι:', home: 'Αρχική', listings: 'Καταλύματα', beaches: 'Παραλίες', restaurants: 'Εστιατόρια', activities: 'Αξιοθέατα', blog: 'Blog', contact: 'Επικοινωνία' },
+  en: { subtitle: 'Our team is enjoying the sea right now...', hint: "Don't waste time — find what you need:", home: 'Home', listings: 'Rentals', beaches: 'Beaches', restaurants: 'Restaurants', activities: 'Activities', blog: 'Blog', contact: 'Contact' },
+  de: { subtitle: 'Unser Team genießt gerade das Meer...', hint: 'Keine Zeit verlieren — finde was du brauchst:', home: 'Startseite', listings: 'Unterkünfte', beaches: 'Strände', restaurants: 'Restaurants', activities: 'Aktivitäten', blog: 'Blog', contact: 'Kontakt' },
+  bg: { subtitle: 'Екипът ни се наслаждава на морето...', hint: 'Не губете време — намерете каквото ви трябва:', home: 'Начало', listings: 'Настаняване', beaches: 'Плажове', restaurants: 'Ресторанти', activities: 'Дейности', blog: 'Блог', contact: 'Контакт' },
+  ru: { subtitle: 'Наша команда сейчас наслаждается морем...', hint: 'Не теряйте время — найдите то, что нужно:', home: 'Главная', listings: 'Жильё', beaches: 'Пляжи', restaurants: 'Рестораны', activities: 'Развлечения', blog: 'Блог', contact: 'Контакты' },
+  ro: { subtitle: 'Echipa noastră se bucură de mare acum...', hint: 'Nu pierde timpul — găsește ce ai nevoie:', home: 'Acasă', listings: 'Cazare', beaches: 'Plaje', restaurants: 'Restaurante', activities: 'Activități', blog: 'Blog', contact: 'Contact' },
+  sr: { subtitle: 'Naš tim trenutno uživa u moru...', hint: 'Ne gubite vreme — pronađite šta vam treba:', home: 'Početna', listings: 'Smeštaj', beaches: 'Plaže', restaurants: 'Restorani', activities: 'Aktivnosti', blog: 'Blog', contact: 'Kontakt' },
 };
 
-export default function NotFound() {
-  // Default to Greek — locale detection without headers() to avoid breaking SSG pages
-  const locale = 'el';
-  const t = translations[locale];
+const SUPPORTED = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'];
+
+function detectLocale(acceptLang: string | null): string {
+  if (!acceptLang) return 'el';
+  // Parse Accept-Language header: "en-US,en;q=0.9,el;q=0.8" → ['en', 'el']
+  const langs = acceptLang
+    .split(',')
+    .map((part) => part.trim().split(';')[0].split('-')[0].toLowerCase())
+    .filter((l) => SUPPORTED.includes(l));
+  return langs[0] || 'el';
+}
+
+export default async function NotFound() {
+  const hdrs = await headers();
+  const locale = detectLocale(hdrs.get('accept-language'));
+  const t = translations[locale] || translations.el;
 
   const btnStyle = { padding: '12px 20px', background: '#0284c7', color: 'white', fontWeight: 500, borderRadius: '12px', textDecoration: 'none', fontSize: '14px' } as const;
   const outlineStyle = { ...btnStyle, background: 'transparent', border: '2px solid #0284c7', color: '#0284c7' } as const;

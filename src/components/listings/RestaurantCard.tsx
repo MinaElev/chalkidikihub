@@ -14,6 +14,8 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
   const tPrice = useTranslations('priceLevels');
 
   const name = restaurant.name[locale] || restaurant.name.en;
+  const cuisineLabels = restaurant.cuisine.slice(0, 2).map(c => getCuisineLabel(c)).join(', ');
+  const altText = `${name}, ${restaurant.location_name}${cuisineLabels ? ` — ${cuisineLabels}` : ''}`;
 
   return (
     <Link href={`/restaurants/${restaurant.slug}`} className="group block">
@@ -22,7 +24,7 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
           {restaurant.image_url ? (
             <Image
               src={restaurant.image_url}
-              alt={name}
+              alt={altText}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-300"
