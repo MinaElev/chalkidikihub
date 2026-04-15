@@ -13,6 +13,8 @@ import { ShareButtons } from '@/components/ui/ShareButtons';
 import { RelatedContent } from './RelatedContent';
 import { ImageGallery } from '@/components/ui/ImageGallery';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
+import { generateListingFaqs } from '@/lib/faq-generators';
+import { FaqSection } from '@/components/ui/FaqSection';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { generateLodgingLD } from '@/lib/seo';
 import { LocationMap } from '@/components/ui/LocationMap';
@@ -213,6 +215,8 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
           )}
         </div>
       </div>
+      <FaqSection faqs={generateListingFaqs(listing as unknown as Record<string, unknown>, locale)} />
+
       {/* Spacer for mobile sticky bar */}
       <div className="h-16 lg:hidden" />
     </div>

@@ -9,6 +9,8 @@ import { ArrowLeft, ArrowRight, MapPin, Star, Clock, Phone, Eye, Music, Calendar
 import { DetailSkeleton } from '@/components/ui/Skeleton';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { generateRestaurantLD } from '@/lib/seo';
+import { generateRestaurantFaqs } from '@/lib/faq-generators';
+import { FaqSection } from '@/components/ui/FaqSection';
 import { RestaurantCard } from './RestaurantCard';
 import { BeachCard } from './BeachCard';
 import { ListingCard } from './ListingCard';
@@ -384,6 +386,8 @@ export function DynamicRestaurantDetail({ slug, initialData }: { slug: string; i
           </div>
         </aside>
       </div>
+
+      <FaqSection faqs={generateRestaurantFaqs(restaurant as unknown as Record<string, unknown>, locale)} />
 
       <RecentlyViewed currentSlug={slug} />
     </div>

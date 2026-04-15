@@ -8,6 +8,8 @@ import { ArrowLeft, ArrowRight, MapPin, Star, Clock, Euro, Compass, Tag } from '
 import { DetailSkeleton } from '@/components/ui/Skeleton';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { generateActivityLD } from '@/lib/seo';
+import { generateActivityFaqs } from '@/lib/faq-generators';
+import { FaqSection } from '@/components/ui/FaqSection';
 import { ActivityCard } from './ActivityCard';
 import { BeachCard } from './BeachCard';
 import { LocationMap } from '@/components/ui/LocationMap';
@@ -332,6 +334,8 @@ export function DynamicActivityDetail({ slug, initialData }: { slug: string; ini
           </div>
         </aside>
       </div>
+
+      <FaqSection faqs={generateActivityFaqs(activity as unknown as Record<string, unknown>, locale)} />
 
       <RecentlyViewed currentSlug={slug} />
     </div>

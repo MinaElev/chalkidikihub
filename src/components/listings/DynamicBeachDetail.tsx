@@ -8,6 +8,8 @@ import { ArrowLeft, ArrowRight, MapPin, Star, Waves } from 'lucide-react';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { generateBeachLD } from '@/lib/seo';
+import { generateBeachFaqs } from '@/lib/faq-generators';
+import { FaqSection } from '@/components/ui/FaqSection';
 import { BeachFeatureBadge } from './BeachFeatureBadge';
 import { BeachReviews } from './BeachReviews';
 import { CrowdIndicator } from './CrowdIndicator';
@@ -319,6 +321,8 @@ export function DynamicBeachDetail({ slug, initialData }: { slug: string; initia
           </div>
         </aside>
       </div>
+
+      <FaqSection faqs={generateBeachFaqs(beach as unknown as Record<string, unknown>, locale)} />
 
       <RecentlyViewed currentSlug={slug} />
     </div>
