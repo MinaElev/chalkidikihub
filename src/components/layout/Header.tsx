@@ -11,17 +11,9 @@ import { Menu, X, ChevronDown, MapPin, Building } from 'lucide-react';
 
 interface Village { slug: string; name: Record<string, string>; area: string }
 
-function MegaMenuAreas({ onClose }: { onClose: () => void }) {
+function MegaMenuAreas({ onClose, villages }: { onClose: () => void; villages: Village[] }) {
   const locale = useLocale();
   const tAreas = useTranslations('areas');
-  const [villages, setVillages] = useState<Village[]>([]);
-
-  useEffect(() => {
-    fetch('/api/villages')
-      .then(r => r.json())
-      .then(data => { if (Array.isArray(data)) setVillages(data); })
-      .catch(() => {});
-  }, []);
 
   const areas = [
     { slug: 'kassandra', label: tAreas('kassandra.name'), color: 'bg-blue-500' },
@@ -99,12 +91,22 @@ export function Header() {
   const locale = useLocale();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [villages, setVillages] = useState<Village[]>([]);
+  const villagesFetched = useRef(false);
   const megaRef = useRef<HTMLDivElement>(null);
   const megaTimeout = useRef<NodeJS.Timeout | null>(null);
 
   function handleMegaEnter() {
     if (megaTimeout.current) clearTimeout(megaTimeout.current);
     setMegaOpen(true);
+    // Lazy-load villages on first open only
+    if (!villagesFetched.current) {
+      villagesFetched.current = true;
+      fetch('/api/villages')
+        .then(r => r.json())
+        .then(data => { if (Array.isArray(data)) setVillages(data); })
+        .catch(() => {});
+    }
   }
   function handleMegaLeave() {
     megaTimeout.current = setTimeout(() => setMegaOpen(false), 200);
@@ -189,7 +191,7 @@ export function Header() {
         {/* Mega Menu - Areas (desktop only, mobile has inline areas) */}
         {megaOpen && (
           <div className="hidden md:block" ref={megaRef} onMouseEnter={handleMegaEnter} onMouseLeave={handleMegaLeave}>
-            <MegaMenuAreas onClose={() => setMegaOpen(false)} />
+            <MegaMenuAreas onClose={() => setMegaOpen(false)} villages={villages} />
           </div>
         )}
 

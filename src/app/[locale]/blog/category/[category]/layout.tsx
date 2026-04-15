@@ -1,32 +1,66 @@
 import type { Metadata } from 'next';
-import { localeUrl } from '@/lib/seo';
+import { localeUrl, ogImageUrl } from '@/lib/seo';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
-const CATEGORY_NAMES: Record<string, string> = {
-  guides: 'Οδηγοί',
-  beaches: 'Παραλίες',
-  food: 'Φαγητό',
-  activities: 'Δραστηριότητες',
-  tips: 'Συμβουλές',
-  culture: 'Πολιτισμός',
+const CATEGORY_NAMES: Record<string, Record<string, string>> = {
+  guides: {
+    el: 'Οδηγοί', en: 'Guides', de: 'Reiseführer',
+    bg: 'Пътеводители', ru: 'Путеводители', ro: 'Ghiduri', sr: 'Vodiči',
+  },
+  beaches: {
+    el: 'Παραλίες', en: 'Beaches', de: 'Strände',
+    bg: 'Плажове', ru: 'Пляжи', ro: 'Plaje', sr: 'Plaže',
+  },
+  food: {
+    el: 'Φαγητό', en: 'Food & Dining', de: 'Essen & Trinken',
+    bg: 'Храна', ru: 'Еда', ro: 'Mâncare', sr: 'Hrana',
+  },
+  activities: {
+    el: 'Δραστηριότητες', en: 'Activities', de: 'Aktivitäten',
+    bg: 'Дейности', ru: 'Развлечения', ro: 'Activități', sr: 'Aktivnosti',
+  },
+  tips: {
+    el: 'Συμβουλές', en: 'Travel Tips', de: 'Reisetipps',
+    bg: 'Съвети', ru: 'Советы', ro: 'Sfaturi', sr: 'Saveti',
+  },
+  culture: {
+    el: 'Πολιτισμός', en: 'Culture', de: 'Kultur',
+    bg: 'Култура', ru: 'Культура', ro: 'Cultură', sr: 'Kultura',
+  },
+};
+
+const descTemplates: Record<string, (cat: string) => string> = {
+  el: (c) => `Άρθρα και οδηγοί για ${c.toLowerCase()} στη Χαλκιδική. Ενημερωθείτε για τα τελευταία νέα και tips.`,
+  en: (c) => `Articles and guides about ${c.toLowerCase()} in Halkidiki. Stay updated with the latest news and tips.`,
+  de: (c) => `Artikel und Reiseführer über ${c} in Chalkidiki. Bleiben Sie auf dem Laufenden mit den neuesten Nachrichten und Tipps.`,
+  bg: (c) => `Статии и пътеводители за ${c.toLowerCase()} в Халкидики. Бъдете информирани за последните новини и съвети.`,
+  ru: (c) => `Статьи и путеводители о ${c.toLowerCase()} на Халкидики. Будьте в курсе последних новостей и советов.`,
+  ro: (c) => `Articole și ghiduri despre ${c.toLowerCase()} în Halkidiki. Rămâneți la curent cu cele mai recente știri și sfaturi.`,
+  sr: (c) => `Članci i vodiči o ${c.toLowerCase()} na Halkidikiju. Budite u toku sa najnovijim vestima i savetima.`,
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; category: string }> }): Promise<Metadata> {
   const { locale, category } = await params;
-  const categoryName = CATEGORY_NAMES[category] || category;
-  const title = `${categoryName} - Blog Χαλκιδικής`;
-  const description = `Άρθρα και οδηγοί για ${categoryName.toLowerCase()} στη Χαλκιδική. Ενημερωθείτε για τα τελευταία νέα και tips.`;
+  const catNames = CATEGORY_NAMES[category];
+  const categoryName = catNames?.[locale] || catNames?.en || category;
+  const title = `${categoryName} — Blog | Chalkidiki Hub`;
+  const description = (descTemplates[locale] || descTemplates.en)(categoryName);
+  const image = ogImageUrl(title, 'blog');
 
   return {
     title,
     description,
+    openGraph: {
+      title, description, type: 'website', locale, siteName: 'Chalkidiki Hub',
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: 'summary_large_image', title, description, images: [image],
+    },
     alternates: {
       canonical: localeUrl(locale, `blog/category/${category}`),
-      languages: Object.fromEntries(
-        LOCALES.map(l => [l, localeUrl(l, `blog/category/${category}`)])
-      ),
+      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `blog/category/${category}`)])),
     },
   };
 }
