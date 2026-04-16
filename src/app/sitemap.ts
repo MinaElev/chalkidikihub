@@ -232,5 +232,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push(...forLocales(`/faq/${f}`, { freq: 'monthly', priority: 0.8 }));
   }
 
+  // ── Beach feature pages ──
+  for (const f of ['sandy', 'pebble', 'organized', 'free', 'parking', 'beachBar', 'shallowWater', 'waterSports', 'accessible', 'sunbeds', 'lifeguard', 'nudist']) {
+    entries.push(...forLocales(`/beaches/feature/${f}`, { freq: 'weekly', priority: 0.7 }));
+  }
+
+  // ── Restaurant category pages ──
+  for (const c of ['traditional', 'seafood', 'pizza', 'grill', 'brunch', 'beach-bar', 'cafe', 'bakery', 'souvlaki', 'fine-dining']) {
+    entries.push(...forLocales(`/restaurants/category/${c}`, { freq: 'weekly', priority: 0.7 }));
+  }
+
+  // ── Activity category pages ──
+  for (const c of ['historical', 'nature', 'waterSports', 'boatTrips', 'wellness', 'family', 'nightlife', 'religious']) {
+    entries.push(...forLocales(`/activities/category/${c}`, { freq: 'weekly', priority: 0.7 }));
+  }
+
   return entries;
 }
