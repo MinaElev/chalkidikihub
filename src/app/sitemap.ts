@@ -201,7 +201,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // ── Ghost pages (guides, best-of) ──
-  for (const g of ['summer', 'easter', 'honeymoon', 'families', 'budget', 'winter', 'nightlife', 'june', 'july-august', 'september', 'getting-here', 'kassandra-vs-sithonia']) {
+  for (const g of [
+    'summer', 'easter', 'honeymoon', 'families', 'budget', 'winter', 'nightlife',
+    'june', 'july-august', 'september', 'getting-here', 'kassandra-vs-sithonia',
+    // TIER 1
+    'weather', 'best-time-to-visit', 'hotels', 'all-inclusive', 'car-rental', 'camping', 'villages', 'map',
+    // TIER 2
+    'food-and-wine', 'ammouliani-island', 'thessaloniki-to-halkidiki', 'road-trip', 'luxury', 'villas', 'may', 'october', 'boat-tours', 'with-dogs', 'diving',
+    // TIER 3
+    'halkidiki-vs-thassos', 'sithonia', 'kassandra', 'day-trips', 'wedding', 'driving-distances', 'aristotle-trail', 'sunset-spots', 'shopping-and-souvenirs',
+  ]) {
     entries.push(...forLocales(`/guide/${g}`, { freq: 'monthly', priority: 0.8 }));
   }
   for (const g of ['beaches-kassandra', 'beaches-sithonia', 'family-beaches', 'quiet-beaches', 'seafood-restaurants', 'beach-bars', 'romantic-restaurants', 'hiking-trails', 'historical-sites', 'water-sports', 'restaurants-kassandra', 'restaurants-sithonia']) {
