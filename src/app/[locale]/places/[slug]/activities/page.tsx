@@ -4,6 +4,7 @@ import { getVillageContentMeta } from '../meta-helper';
 import { VillageContentPage } from '@/components/villages/VillageContentPage';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
+export const dynamic = 'force-dynamic';
 export function generateStaticParams() { return []; }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
