@@ -247,5 +247,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push(...forLocales(`/activities/category/${c}`, { freq: 'weekly', priority: 0.7 }));
   }
 
+  // ── "Travel from [City]" pages ──
+  for (const c of ['sofia', 'bucharest', 'belgrade', 'thessaloniki', 'munich', 'istanbul', 'skopje', 'athens']) {
+    entries.push(...forLocales(`/from/${c}`, { freq: 'monthly', priority: 0.8 }));
+  }
+
+  // ── Itinerary pages ──
+  for (const d of ['3-days', '5-days', '7-days', '10-days', 'weekend']) {
+    entries.push(...forLocales(`/itinerary/${d}`, { freq: 'monthly', priority: 0.8 }));
+  }
+
+  // ── Cost guide pages ──
+  for (const t of ['daily-budget', 'food-prices', 'accommodation-prices', 'car-rental-prices', 'family-budget']) {
+    entries.push(...forLocales(`/costs/${t}`, { freq: 'monthly', priority: 0.8 }));
+  }
+
   return entries;
 }
