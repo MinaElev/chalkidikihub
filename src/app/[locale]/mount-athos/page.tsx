@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Church, MapPin, Users, Bus, BedDouble, Clock, Mountain, BookOpen, ChevronRight } from 'lucide-react';
 import { tr } from './content';
 import { localeUrl } from '@/lib/seo';
+export const dynamic = 'force-dynamic';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;

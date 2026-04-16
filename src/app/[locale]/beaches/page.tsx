@@ -4,6 +4,7 @@ import { collectionMeta, generateItemListLD, localeUrl } from '@/lib/seo';
 import { getBeaches } from '@/lib/data';
 import { JsonLd } from '@/components/ui/JsonLd';
 import PageClient from './_client';
+export const dynamic = 'force-dynamic';
 
 export const revalidate = 3600; // ISR: 1 hour — on-demand revalidation handles instant updates
 

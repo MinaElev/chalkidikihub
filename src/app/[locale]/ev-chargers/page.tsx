@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { collectionMeta } from '@/lib/seo';
 import EvChargersClient from './_client';
+export const dynamic = 'force-dynamic';
 
 const titles: Record<string, string> = {
   el: 'Φορτιστές EV Χαλκιδική | ChalkidikiHub',
