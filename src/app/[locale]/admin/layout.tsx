@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Users, List, MapPin, Waves, UtensilsCrossed,
   Landmark, Wrench, FileText, Settings, Home, LogOut, Loader2, Shield,
   ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail,
-  Sparkles, Star, Building, Tag, Languages, ShieldCheck, Church, Link2,
+  Sparkles, Star, Building, Tag, Languages, ShieldCheck, Church, Link2, QrCode,
 } from 'lucide-react';
 
 const navSections = [
@@ -54,6 +54,7 @@ const navSections = [
       { href: '/admin/submissions', icon: ClipboardList, label: 'Submissions' },
       { href: '/admin/messages', icon: MessageSquare, label: 'Messages' },
       { href: '/admin/email', icon: Mail, label: 'Mass Email' },
+      { href: '/admin/qr-email', icon: QrCode, label: 'QR Email' },
     ],
   },
   {

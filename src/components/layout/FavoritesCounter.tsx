@@ -8,8 +8,10 @@ import { Heart } from 'lucide-react';
 export function FavoritesCounter() {
   const [count, setCount] = useState(0);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) return;
@@ -22,7 +24,9 @@ export function FavoritesCounter() {
     });
   }, []);
 
-  if (!loggedIn) return null;
+  // Server and initial client render: return null (matching)
+  // After mount + auth check: show heart if logged in
+  if (!mounted || !loggedIn) return null;
 
   return (
     <Link href="/favorites" className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors" title="Αγαπημένα">

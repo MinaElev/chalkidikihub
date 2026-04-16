@@ -115,7 +115,7 @@ export function SalesFooter() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-6 text-center text-xs">
-          <p>© {year} ChalkidikiHub Sales — chalkidikihub.gr/sales</p>
+          <p suppressHydrationWarning>© {year} ChalkidikiHub Sales — chalkidikihub.gr/sales</p>
         </div>
       </div>
     </footer>

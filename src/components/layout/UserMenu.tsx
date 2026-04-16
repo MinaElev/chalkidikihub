@@ -12,10 +12,12 @@ export function UserMenu() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [role, setRole] = useState<string>('owner');
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
+    setMounted(true);
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data }) => {
       setUser(data.user);
@@ -46,6 +48,9 @@ export function UserMenu() {
     setOpen(false);
     router.push('/');
   }
+
+  // Before mount: render nothing (matches server render — no hydration mismatch)
+  if (!mounted) return null;
 
   if (!user) {
     return (
