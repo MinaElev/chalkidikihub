@@ -219,6 +219,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     'food-and-wine', 'ammouliani-island', 'thessaloniki-to-halkidiki', 'road-trip', 'luxury', 'villas', 'may', 'october', 'boat-tours', 'with-dogs', 'diving',
     // TIER 3
     'halkidiki-vs-thassos', 'sithonia', 'kassandra', 'day-trips', 'wedding', 'driving-distances', 'aristotle-trail', 'sunset-spots', 'shopping-and-souvenirs',
+    // TIER 4 — comparisons, niche audiences, tips
+    'halkidiki-vs-crete', 'halkidiki-vs-rhodes', 'halkidiki-vs-corfu',
+    'for-seniors', 'for-couples', 'for-solo-travelers',
+    'tips', 'mistakes-to-avoid', 'scams-to-avoid',
   ]) {
     entries.push(...forLocales(`/guide/${g}`, { freq: 'monthly', priority: 0.8 }));
   }
