@@ -201,7 +201,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // ── Ghost pages (guides, best-of) ──
-  for (const g of ['summer', 'easter', 'honeymoon', 'families', 'budget', 'winter', 'nightlife']) {
+  for (const g of ['summer', 'easter', 'honeymoon', 'families', 'budget', 'winter', 'nightlife', 'june', 'july-august', 'september', 'getting-here', 'kassandra-vs-sithonia']) {
     entries.push(...forLocales(`/guide/${g}`, { freq: 'monthly', priority: 0.8 }));
   }
   for (const g of ['beaches-kassandra', 'beaches-sithonia', 'family-beaches', 'quiet-beaches', 'seafood-restaurants', 'beach-bars', 'romantic-restaurants', 'hiking-trails', 'historical-sites', 'water-sports', 'restaurants-kassandra', 'restaurants-sithonia']) {
