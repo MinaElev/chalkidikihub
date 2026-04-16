@@ -22,6 +22,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: ['/api/og'],
       },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: [`${baseUrl}/sitemap.xml`, `${baseUrl}/image-sitemap.xml`],
   };
 }

@@ -1,7 +1,8 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicSaleDetail } from '@/components/sales/DynamicSaleDetail';
-import { getContentMeta } from '@/lib/seo';
+import { getContentMeta, generateSaleLD } from '@/lib/seo';
+import { JsonLd } from '@/components/ui/JsonLd';
 import { getSaleBySlug, getSales } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
@@ -25,5 +26,10 @@ export default async function SaleDetailPage({ params }: Props) {
   const sale = await getSaleBySlug(slug);
   if (!sale) notFound();
 
-  return <DynamicSaleDetail slug={slug} initialData={sale} />;
+  return (
+    <>
+      <JsonLd data={generateSaleLD(sale as unknown as Record<string, unknown>, locale)} />
+      <DynamicSaleDetail slug={slug} initialData={sale} />
+    </>
+  );
 }

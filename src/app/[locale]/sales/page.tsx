@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
-import { collectionMeta } from '@/lib/seo';
+import { collectionMeta, generateItemListLD, localeUrl } from '@/lib/seo';
 import { getSales } from '@/lib/data';
+import { JsonLd } from '@/components/ui/JsonLd';
 import PageClient from './_client';
 
 export const revalidate = 3600; // ISR: 1 hour — on-demand revalidation handles instant updates
@@ -37,5 +38,17 @@ export default async function Page({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const sales = await getSales();
-  return <PageClient initialData={sales} />;
+  const itemListLD = generateItemListLD(
+    titles[locale] || titles.en,
+    sales.map((s) => ({
+      name: s.title[locale] || s.title.el || s.title.en,
+      url: localeUrl(locale, `sales/${s.slug}`),
+    })),
+  );
+  return (
+    <>
+      <JsonLd data={itemListLD as Record<string, unknown>} />
+      <PageClient initialData={sales} />
+    </>
+  );
 }

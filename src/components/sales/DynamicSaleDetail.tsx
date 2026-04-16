@@ -10,7 +10,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 import { ImageGallery } from '@/components/ui/ImageGallery';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
-import { JsonLd } from '@/components/ui/JsonLd';
 import { LocationMap } from '@/components/ui/LocationMap';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
@@ -71,36 +70,8 @@ export function DynamicSaleDetail({ slug, initialData }: { slug: string; initial
   const description = sale.description[locale] || sale.description.en || sale.description.el;
   const typeLabel = tTypes(sale.property_type);
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'RealEstateListing',
-    name: title,
-    description,
-    url: typeof window !== 'undefined' ? window.location.href : '',
-    image: sale.images?.map((img) => img.image_url) || [],
-    offers: {
-      '@type': 'Offer',
-      price: sale.price,
-      priceCurrency: sale.currency || 'EUR',
-    },
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: sale.location_name,
-      addressRegion: 'Halkidiki',
-      addressCountry: 'GR',
-    },
-    ...(sale.latitude && sale.longitude ? {
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: sale.latitude,
-        longitude: sale.longitude,
-      },
-    } : {}),
-  };
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <JsonLd data={jsonLd} />
       <Breadcrumbs items={[{ label: tDetail('salesBreadcrumb'), href: '/sales' }, { label: title }]} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

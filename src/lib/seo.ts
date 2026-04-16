@@ -345,6 +345,27 @@ function buildSmartDescription(table: string, name: string, row: any, locale: st
 }
 
 // JSON-LD generators
+
+/** Generate an ItemList JSON-LD schema for collection/listing pages */
+export function generateItemListLD(
+  name: string,
+  items: { name: string; url: string }[],
+): object {
+  const capped = items.slice(0, 20);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name,
+    numberOfItems: capped.length,
+    itemListElement: capped.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: item.url,
+      name: item.name,
+    })),
+  };
+}
+
 export function generateLodgingLD(listing: Record<string, unknown>, locale: string) {
   const title = (listing.title as Record<string, string>)?.[locale] || (listing.title as Record<string, string>)?.el || '';
   const description = (listing.description as Record<string, string>)?.[locale] || (listing.description as Record<string, string>)?.el || '';
@@ -449,6 +470,57 @@ export function generateArticleLD(article: Record<string, unknown>, locale: stri
     ...(article.image_url ? { image: { '@type': 'ImageObject', url: article.image_url, width: 1200, height: 630 } } : {}),
     url: localeUrl(locale, `blog/${article.slug}`),
     mainEntityOfPage: { '@type': 'WebPage', '@id': localeUrl(locale, `blog/${article.slug}`) },
+  };
+}
+
+export function generateSaleLD(sale: Record<string, unknown>, locale: string) {
+  const title = (sale.title as Record<string, string>)?.[locale] || (sale.title as Record<string, string>)?.el || '';
+  const description = (sale.description as Record<string, string>)?.[locale] || (sale.description as Record<string, string>)?.el || '';
+  const images = (sale.images as Array<{ image_url: string; is_cover?: boolean }>) || [];
+  const features = (sale.features as string[]) || [];
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: title,
+    description,
+    image: images.length > 0 ? images.map(i => i.image_url) : undefined,
+    url: localeUrl(locale, `sales/${sale.slug}`),
+    brand: {
+      '@type': 'Organization',
+      name: 'Chalkidiki Hub',
+    },
+    offers: {
+      '@type': 'Offer',
+      price: sale.price,
+      priceCurrency: (sale.currency as string) || 'EUR',
+      availability: sale.status === 'published'
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      url: localeUrl(locale, `sales/${sale.slug}`),
+    },
+    additionalProperty: [
+      ...(sale.property_type ? [{ '@type': 'PropertyValue', name: 'propertyType', value: sale.property_type }] : []),
+      ...(sale.size_sqm ? [{ '@type': 'PropertyValue', name: 'floorSize', value: `${sale.size_sqm} sqm`, unitCode: 'MTK' }] : []),
+      ...(sale.bedrooms ? [{ '@type': 'PropertyValue', name: 'numberOfBedrooms', value: sale.bedrooms }] : []),
+      ...(sale.bathrooms ? [{ '@type': 'PropertyValue', name: 'numberOfBathrooms', value: sale.bathrooms }] : []),
+      ...(sale.year_built ? [{ '@type': 'PropertyValue', name: 'yearBuilt', value: sale.year_built }] : []),
+      ...(sale.energy_class ? [{ '@type': 'PropertyValue', name: 'energyClass', value: sale.energy_class }] : []),
+      ...features.map(f => ({ '@type': 'PropertyValue', name: f, value: true })),
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: sale.location_name || '',
+      addressRegion: 'Halkidiki',
+      addressCountry: 'GR',
+    },
+    ...(sale.latitude && sale.longitude ? {
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: sale.latitude,
+        longitude: sale.longitude,
+      },
+    } : {}),
   };
 }
 
