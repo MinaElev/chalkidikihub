@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicBeachDetail } from '@/components/listings/DynamicBeachDetail';
-import { getContentMeta, generateBeachLD } from '@/lib/seo';
+import { getContentMeta, generateBeachLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getBeachBySlug, getBeaches } from '@/lib/data';
 
@@ -28,9 +28,19 @@ export default async function BeachDetailPage({ params }: Props) {
   const beach = await getBeachBySlug(slug);
   if (!beach) notFound();
 
+  const homeLabel: Record<string, string> = { el: 'Αρχική', en: 'Home', de: 'Startseite', bg: 'Начало', ru: 'Главная', ro: 'Acasă', sr: 'Početna' };
+  const sectionLabel: Record<string, string> = { el: 'Παραλίες', en: 'Beaches', de: 'Strände', bg: 'Плажове', ru: 'Пляжи', ro: 'Plaje', sr: 'Plaže' };
+  const beachName = (beach as unknown as Record<string, unknown>).name as Record<string, string>;
+  const itemName = beachName?.[locale] || beachName?.el || beachName?.en || '';
+
   return (
     <>
       <JsonLd data={generateBeachLD(beach as unknown as Record<string, unknown>, locale)} />
+      <JsonLd data={generateBreadcrumbLD([
+        { name: homeLabel[locale] || 'Home', url: localeUrl(locale) },
+        { name: sectionLabel[locale] || 'Beaches', url: localeUrl(locale, 'beaches') },
+        { name: itemName, url: localeUrl(locale, `beaches/${slug}`) },
+      ]) as Record<string, unknown>} />
       <DynamicBeachDetail slug={slug} initialData={beach} />
     </>
   );

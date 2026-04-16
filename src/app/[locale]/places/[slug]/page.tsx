@@ -2,7 +2,8 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { VillagePage } from '@/components/villages/VillagePage';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
-import { localeUrl } from '@/lib/seo';
+import { localeUrl, generateBreadcrumbLD } from '@/lib/seo';
+import { JsonLd } from '@/components/ui/JsonLd';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -52,8 +53,23 @@ export default async function VillageDetailPage({ params }: Props) {
   setRequestLocale(locale);
 
   const supabase = createApiClient();
-  const { data } = await supabase.from('villages').select('id').eq('slug', slug).single();
+  const { data } = await supabase.from('villages').select('id, name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr').eq('slug', slug).single();
   if (!data) notFound();
 
-  return <VillagePage slug={slug} />;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const row = data as any;
+  const homeLabel: Record<string, string> = { el: 'Αρχική', en: 'Home', de: 'Startseite', bg: 'Начало', ru: 'Главная', ro: 'Acasă', sr: 'Početna' };
+  const sectionLabel: Record<string, string> = { el: 'Χωριά', en: 'Places', de: 'Orte', bg: 'Места', ru: 'Места', ro: 'Locuri', sr: 'Mesta' };
+  const villageName = row[`name_${locale}`] || row.name_el || row.name_en || '';
+
+  return (
+    <>
+      <JsonLd data={generateBreadcrumbLD([
+        { name: homeLabel[locale] || 'Home', url: localeUrl(locale) },
+        { name: sectionLabel[locale] || 'Places', url: localeUrl(locale, 'places') },
+        { name: villageName, url: localeUrl(locale, `places/${slug}`) },
+      ]) as Record<string, unknown>} />
+      <VillagePage slug={slug} />
+    </>
+  );
 }

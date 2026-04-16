@@ -192,6 +192,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push(...forLocales(`/mount-athos/monasteries/${slug}`, { freq: 'monthly', priority: 0.8 }));
   }
 
+  // ── Programmatic location pages ──
+  const locationSlugs = ['afytos','kallithea','hanioti','pefkohori','siviri','polychrono','possidi','nea-fokea','nikiti','vourvourou','neos-marmaras','sarti','toroni','porto-koufo','ouranoupoli','arnea','nea-moudania'];
+  const locationCategories = ['beaches','restaurants','activities','listings'];
+  for (const loc of locationSlugs) {
+    for (const cat of locationCategories) {
+      entries.push(...forLocales(`/in/${loc}/${cat}`, { freq: 'weekly', priority: 0.7 }));
+    }
+  }
+
   // ── RSS Feed ──
   entries.push({
     url: `${baseUrl}/feed.xml`,
@@ -213,8 +222,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]) {
     entries.push(...forLocales(`/guide/${g}`, { freq: 'monthly', priority: 0.8 }));
   }
-  for (const g of ['beaches-kassandra', 'beaches-sithonia', 'family-beaches', 'quiet-beaches', 'seafood-restaurants', 'beach-bars', 'romantic-restaurants', 'hiking-trails', 'historical-sites', 'water-sports', 'restaurants-kassandra', 'restaurants-sithonia']) {
+  for (const g of ['beaches-kassandra', 'beaches-sithonia', 'family-beaches', 'quiet-beaches', 'seafood-restaurants', 'beach-bars', 'romantic-restaurants', 'hiking-trails', 'historical-sites', 'water-sports', 'restaurants-kassandra', 'restaurants-sithonia', 'free-beaches', 'luxury-hotels', 'camping-spots', 'instagram-spots', 'kids-activities', 'snorkeling-spots', 'romantic-getaways', 'traditional-tavernas']) {
     entries.push(...forLocales(`/best/${g}`, { freq: 'weekly', priority: 0.8 }));
+  }
+
+  // ── FAQ pages ──
+  entries.push(...forLocales('/faq', { freq: 'monthly', priority: 0.7 }));
+  for (const f of ['beaches', 'accommodation', 'transport', 'food-and-drink', 'practical', 'activities']) {
+    entries.push(...forLocales(`/faq/${f}`, { freq: 'monthly', priority: 0.8 }));
   }
 
   return entries;

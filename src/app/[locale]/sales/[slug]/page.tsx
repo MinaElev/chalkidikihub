@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicSaleDetail } from '@/components/sales/DynamicSaleDetail';
-import { getContentMeta, generateSaleLD } from '@/lib/seo';
+import { getContentMeta, generateSaleLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getSaleBySlug, getSales } from '@/lib/data';
 
@@ -26,9 +26,19 @@ export default async function SaleDetailPage({ params }: Props) {
   const sale = await getSaleBySlug(slug);
   if (!sale) notFound();
 
+  const homeLabel: Record<string, string> = { el: 'Αρχική', en: 'Home', de: 'Startseite', bg: 'Начало', ru: 'Главная', ro: 'Acasă', sr: 'Početna' };
+  const sectionLabel: Record<string, string> = { el: 'Πωλήσεις', en: 'Sales', de: 'Verkäufe', bg: 'Продажби', ru: 'Продажи', ro: 'Vânzări', sr: 'Prodaje' };
+  const saleTitle = (sale as unknown as Record<string, unknown>).title as Record<string, string>;
+  const itemName = saleTitle?.[locale] || saleTitle?.el || saleTitle?.en || '';
+
   return (
     <>
       <JsonLd data={generateSaleLD(sale as unknown as Record<string, unknown>, locale)} />
+      <JsonLd data={generateBreadcrumbLD([
+        { name: homeLabel[locale] || 'Home', url: localeUrl(locale) },
+        { name: sectionLabel[locale] || 'Sales', url: localeUrl(locale, 'sales') },
+        { name: itemName, url: localeUrl(locale, `sales/${slug}`) },
+      ]) as Record<string, unknown>} />
       <DynamicSaleDetail slug={slug} initialData={sale} />
     </>
   );

@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { DynamicArticle } from '@/components/blog/DynamicArticle';
-import { getContentMeta, generateArticleLD } from '@/lib/seo';
+import { getContentMeta, generateArticleLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getArticleBySlug, getBlogArticles } from '@/lib/data';
 
@@ -28,9 +28,19 @@ export default async function BlogArticlePage({ params }: Props) {
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
+  const homeLabel: Record<string, string> = { el: 'Αρχική', en: 'Home', de: 'Startseite', bg: 'Начало', ru: 'Главная', ro: 'Acasă', sr: 'Početna' };
+  const sectionLabel: Record<string, string> = { el: 'Ιστολόγιο', en: 'Blog', de: 'Blog', bg: 'Блог', ru: 'Блог', ro: 'Blog', sr: 'Blog' };
+  const artTitle = (article as unknown as Record<string, unknown>).title as Record<string, string>;
+  const itemName = artTitle?.[locale] || artTitle?.el || artTitle?.en || '';
+
   return (
     <>
       <JsonLd data={generateArticleLD(article as unknown as Record<string, unknown>, locale)} />
+      <JsonLd data={generateBreadcrumbLD([
+        { name: homeLabel[locale] || 'Home', url: localeUrl(locale) },
+        { name: sectionLabel[locale] || 'Blog', url: localeUrl(locale, 'blog') },
+        { name: itemName, url: localeUrl(locale, `blog/${slug}`) },
+      ]) as Record<string, unknown>} />
       <DynamicArticle slug={slug} initialData={article} />
     </>
   );

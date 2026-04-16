@@ -346,6 +346,20 @@ function buildSmartDescription(table: string, name: string, row: any, locale: st
 
 // JSON-LD generators
 
+/** Generate a BreadcrumbList JSON-LD schema for detail pages */
+export function generateBreadcrumbLD(items: { name: string; url: string }[]): object {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': items.map((item, i) => ({
+      '@type': 'ListItem',
+      'position': i + 1,
+      'name': item.name,
+      'item': item.url,
+    })),
+  };
+}
+
 /** Generate an ItemList JSON-LD schema for collection/listing pages */
 export function generateItemListLD(
   name: string,
