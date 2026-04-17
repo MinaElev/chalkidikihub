@@ -191,6 +191,9 @@ export default function MyListingsPage() {
         </div>
       ) : (
         <>
+          {/* QR Code promo banner — owner's biggest traffic driver */}
+          <QrPromoBanner locale={locale} />
+
           {/* Filters */}
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <div className="relative">
@@ -311,6 +314,18 @@ export default function MyListingsPage() {
                           <Calendar className="w-3.5 h-3.5" />
                           {L.calendar}
                         </Link>
+                        <Link
+                          href={`/dashboard/listings/${listing.id}/qr`}
+                          className="group relative inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-700 hover:to-fuchsia-700 text-white text-xs font-semibold rounded-lg shadow-sm"
+                          title={locale === 'el' ? 'Φτιάξε QR Code για τους επισκέπτες σου' : 'Create a QR code for your guests'}
+                        >
+                          <QrCode className="w-3.5 h-3.5" />
+                          {locale === 'el' ? 'QR για επισκέπτες' : 'Guest QR'}
+                          <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+                          </span>
+                        </Link>
 
                         {/* Preview */}
                         <Link
@@ -320,14 +335,6 @@ export default function MyListingsPage() {
                           title={L.preview}
                         >
                           <ExternalLink className="w-4 h-4" />
-                        </Link>
-                        {/* QR */}
-                        <Link
-                          href={`/dashboard/listings/${listing.id}/qr`}
-                          className="p-1.5 rounded-lg text-gray-500 hover:bg-purple-50 hover:text-purple-600"
-                          title={L.qr}
-                        >
-                          <QrCode className="w-4 h-4" />
                         </Link>
 
                         {/* Overflow menu */}
@@ -380,6 +387,86 @@ export default function MyListingsPage() {
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// QR promo banner — dismissible, encourages owners to print & display
+// their guest QR code (biggest on-site traffic driver for the platform)
+// ─────────────────────────────────────────────────────────────────────
+function QrPromoBanner({ locale }: { locale: string }) {
+  const [dismissed, setDismissed] = useState(false);
+
+  // Persist dismissal in localStorage so it stays dismissed across visits
+  useEffect(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('qr-promo-dismissed') === '1') {
+      setDismissed(true);
+    }
+  }, []);
+
+  function dismiss() {
+    setDismissed(true);
+    if (typeof window !== 'undefined') localStorage.setItem('qr-promo-dismissed', '1');
+  }
+
+  if (dismissed) return null;
+
+  const T = {
+    el: {
+      badge: 'Νέο · Δωρεάν',
+      title: 'Φτιάξε QR Code για τους επισκέπτες σου',
+      body: 'Τοποθέτησέ το στο χώρο σου (είσοδος, κουζίνα, welcome card) — κάθε σκανάρισμα οδηγεί στη σελίδα σου με τοπικές προτάσεις. Περισσότεροι επισκέπτες στο site, περισσότερες κρατήσεις, αναγνωρισιμότητα για το κατάλυμά σου.',
+      cta: 'Δες το QR μου',
+      points: ['✨ Δωρεάν εκτύπωση', '📍 Οδηγός περιοχής', '🌍 7 γλώσσες'],
+    },
+    en: {
+      badge: 'New · Free',
+      title: 'Create a QR code for your guests',
+      body: 'Place it around your property (entrance, kitchen, welcome card) — every scan drives guests to your page with local recommendations. More traffic, more bookings, more visibility for your property.',
+      cta: 'See my QR',
+      points: ['✨ Free print', '📍 Area guide', '🌍 7 languages'],
+    },
+  };
+  const t = T[locale as 'el' | 'en'] || T.en;
+
+  return (
+    <div className="relative bg-gradient-to-br from-purple-600 via-fuchsia-600 to-pink-600 text-white rounded-2xl p-5 md:p-6 mb-4 overflow-hidden shadow-sm">
+      {/* Decorative pattern */}
+      <div className="absolute -right-8 -bottom-8 opacity-10">
+        <QrCode className="w-48 h-48" />
+      </div>
+
+      <button
+        type="button"
+        onClick={dismiss}
+        className="absolute top-3 right-3 p-1 rounded-full hover:bg-white/20 transition-colors"
+        aria-label="Κλείσιμο"
+      >
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div className="relative flex flex-col md:flex-row md:items-center gap-4">
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm shrink-0">
+          <QrCode className="w-7 h-7" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-300 text-amber-900 mb-1.5 tracking-wide uppercase">
+            {t.badge}
+          </span>
+          <h3 className="text-lg md:text-xl font-bold mb-1">{t.title}</h3>
+          <p className="text-sm text-white/90 leading-relaxed max-w-2xl">{t.body}</p>
+          <div className="flex flex-wrap gap-2 mt-3">
+            {t.points.map((p, i) => (
+              <span key={i} className="text-xs bg-white/15 backdrop-blur-sm px-2.5 py-1 rounded-full">
+                {p}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
