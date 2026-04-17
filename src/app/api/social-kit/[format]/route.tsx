@@ -1,9 +1,10 @@
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
 import { createApiClient } from '@/lib/api-helpers';
-import QRCode from 'qrcode';
 
-export const runtime = 'nodejs';
+// Edge runtime matches the working /api/og route; qrcode lib replaced with
+// an external image fetch so no Node-only Buffer/canvas APIs are needed.
+export const runtime = 'edge';
 
 interface Preset {
   width: number;
@@ -24,6 +25,31 @@ const PRESETS: Record<string, Preset> = {
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
+async function fetchAsBase64(url: string, timeoutMs = 8000): Promise<string | null> {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), timeoutMs);
+    const res = await fetch(url, { headers: { Accept: 'image/*' }, signal: ctrl.signal });
+    clearTimeout(t);
+    if (!res.ok) return null;
+    const buf = await res.arrayBuffer();
+    // Guard against huge payloads
+    if (buf.byteLength > 4 * 1024 * 1024) return null;
+    const contentType = res.headers.get('content-type') || 'image/jpeg';
+    // Convert ArrayBuffer → base64 without Buffer (edge-compatible)
+    const bytes = new Uint8Array(buf);
+    let binary = '';
+    const chunk = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunk) {
+      binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + chunk)));
+    }
+    const b64 = btoa(binary);
+    return `data:${contentType};base64,${b64}`;
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ format: string }> },
@@ -31,14 +57,10 @@ export async function GET(
   try {
     const { format } = await params;
     const preset = PRESETS[format];
-    if (!preset) {
-      return new Response(`Unknown format: ${format}`, { status: 400 });
-    }
+    if (!preset) return new Response(`Unknown format: ${format}`, { status: 400 });
 
     const slug = req.nextUrl.searchParams.get('slug');
-    if (!slug) {
-      return new Response('Missing slug query param', { status: 400 });
-    }
+    if (!slug) return new Response('Missing slug', { status: 400 });
 
     const supabase = createApiClient();
     const { data: listing, error } = await supabase
@@ -65,46 +87,18 @@ export async function GET(
     const cover = sorted.find(i => i.is_cover) || sorted[0];
     const coverUrl = cover?.image_url || '';
 
-    // Fetch cover image → base64 data URL. Satori has issues with external
-    // URLs (CORS, content-type sniffing, format quirks), so we embed it.
-    let coverDataUrl = '';
-    if (coverUrl) {
-      try {
-        const imgRes = await fetch(coverUrl, {
-          headers: { Accept: 'image/*' },
-          signal: AbortSignal.timeout(8000),
-        });
-        if (imgRes.ok) {
-          const buf = Buffer.from(await imgRes.arrayBuffer());
-          const contentType = imgRes.headers.get('content-type') || 'image/jpeg';
-          // Guard against huge images (> 4 MB)
-          if (buf.byteLength <= 4 * 1024 * 1024) {
-            coverDataUrl = `data:${contentType};base64,${buf.toString('base64')}`;
-          }
-        }
-      } catch (err) {
-        console.error('[social-kit] cover fetch failed:', err);
-      }
-    }
-
-    // QR → data URL (base64)
+    // Fetch cover + QR in parallel (both as base64 data URLs)
     const stayUrl = `${SITE_URL}/stay/${slug}`;
-    let qrDataUrl = '';
-    try {
-      qrDataUrl = await QRCode.toDataURL(stayUrl, {
-        width: 300,
-        margin: 1,
-        errorCorrectionLevel: 'M',
-        color: { dark: '#0f172a', light: '#ffffff' },
-      });
-    } catch {
-      // non-fatal — graphic still works without QR
-    }
+    const qrServiceUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=8&data=${encodeURIComponent(stayUrl)}&color=0F172A&bgcolor=FFFFFF&format=png`;
+
+    const [coverDataUrl, qrDataUrl] = await Promise.all([
+      coverUrl ? fetchAsBase64(coverUrl) : Promise.resolve(null),
+      fetchAsBase64(qrServiceUrl, 5000),
+    ]);
 
     const { width, height, align, titleSize, taglineSize, metaSize, footerSize, qrSize } = preset;
     const padding = width === 1200 ? 50 : 70;
 
-    // Meta line as plain text (avoid emoji rendering flakiness)
     const metaParts: string[] = [];
     if (guests > 0) metaParts.push(`${guests} guests`);
     if (bedrooms > 0) metaParts.push(`${bedrooms} beds`);
@@ -121,11 +115,10 @@ export async function GET(
             flexDirection: 'column',
             position: 'relative',
             backgroundColor: '#0f172a',
-            fontFamily: 'Inter, system-ui, sans-serif',
           }}
         >
-          {/* Cover image as base64 so Satori can reliably embed it */}
-          {coverDataUrl && (
+          {/* Cover image (base64) */}
+          {coverDataUrl ? (
             // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
             <img
               src={coverDataUrl}
@@ -140,23 +133,19 @@ export async function GET(
                 objectFit: 'cover',
               }}
             />
-          )}
-
-          {/* Fallback background when cover isn't available */}
-          {!coverDataUrl && (
+          ) : (
             <div
               style={{
                 position: 'absolute',
                 top: 0, left: 0,
-                width: `${width}px`,
-                height: `${height}px`,
+                width: `${width}px`, height: `${height}px`,
                 display: 'flex',
-                backgroundImage: 'linear-gradient(135deg, #0f172a 0%, #059669 100%)',
+                backgroundImage: 'linear-gradient(135deg, #0f172a 0%, #064e3b 100%)',
               }}
             />
           )}
 
-          {/* Dark gradient overlay — different ramp per alignment */}
+          {/* Gradient overlay */}
           <div
             style={{
               position: 'absolute',
@@ -175,11 +164,10 @@ export async function GET(
           <div
             style={{
               position: 'absolute',
-              top: `${padding / 2}px`,
-              right: `${padding / 2}px`,
+              top: `${Math.round(padding / 2)}px`,
+              right: `${Math.round(padding / 2)}px`,
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
               backgroundColor: 'rgba(255,255,255,0.2)',
               borderRadius: '999px',
               padding: '10px 18px',
@@ -191,7 +179,7 @@ export async function GET(
             ChalkidikiHub
           </div>
 
-          {/* Content block */}
+          {/* Content */}
           <div
             style={{
               position: 'absolute',
@@ -199,7 +187,7 @@ export async function GET(
               right: `${padding}px`,
               ...(align === 'bottom'
                 ? { bottom: `${padding}px` }
-                : { top: '50%', transform: 'translateY(-50%)' }
+                : { top: `${Math.round(height / 2)}px`, transform: 'translateY(-50%)' }
               ),
               display: 'flex',
               flexDirection: 'column',
@@ -218,7 +206,6 @@ export async function GET(
                 fontWeight: 700,
                 color: '#a7f3d0',
                 textTransform: 'uppercase',
-                letterSpacing: '1px',
                 marginBottom: '20px',
               }}
             >
@@ -257,7 +244,7 @@ export async function GET(
               </div>
             )}
 
-            {/* Meta line */}
+            {/* Meta */}
             {metaLine && (
               <div
                 style={{
@@ -272,13 +259,13 @@ export async function GET(
             )}
           </div>
 
-          {/* Bottom-right QR code */}
+          {/* QR */}
           {qrDataUrl && (
             <div
               style={{
                 position: 'absolute',
-                right: `${padding / 2}px`,
-                bottom: `${padding / 2}px`,
+                right: `${Math.round(padding / 2)}px`,
+                bottom: `${Math.round(padding / 2)}px`,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -324,7 +311,7 @@ export async function GET(
     );
   } catch (err) {
     console.error('[social-kit] error:', err);
-    const msg = err instanceof Error ? err.message : 'Unknown error';
-    return new Response(`Social kit generation failed: ${msg}`, { status: 500 });
+    const msg = err instanceof Error ? `${err.message}\n${err.stack}` : String(err);
+    return new Response(`Social kit generation failed:\n${msg}`, { status: 500 });
   }
 }
