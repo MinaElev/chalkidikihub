@@ -176,16 +176,16 @@ export default function AnalyticsPage() {
         <p className="text-sm text-gray-600 mt-0.5">{listing.title}</p>
       </div>
 
-      {/* DEMO banner */}
+      {/* Under-construction banner */}
       <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-300 rounded-2xl p-4 mb-5 flex gap-3">
         <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-amber-100 text-amber-700 shrink-0">
           <Info className="w-5 h-5" />
         </span>
         <div className="text-sm text-amber-900 leading-relaxed">
-          <strong>Demo data</strong> — Τα νούμερα είναι προσομοίωση με βάση την ηλικία του καταλύματος.
-          Μόλις οι πραγματικοί επισκέπτες αρχίσουν να σκανάρουν το <strong>QR code</strong> σου
-          ή να μπαίνουν στη σελίδα σου, θα δεις εδώ αληθινά δεδομένα. Τα charts και οι διαστάσεις
-          λειτουργούν σαν προεπισκόπηση για το τι θα βλέπεις όταν αποκτήσεις κίνηση.
+          <strong>🚧 Υπό δημιουργία</strong> — Η συγκεκριμένη ενότητα είναι ακόμα υπό δημιουργία.
+          Τα δεδομένα που εμφανίζονται ενδεχομένως να διαφέρουν από τα πραγματικά. Η ομάδα μας
+          δουλεύει πάνω σε αυτό και σύντομα θα δεις εδώ αληθινά στατιστικά από τη σελίδα του
+          καταλύματός σου.
         </div>
       </div>
 
@@ -245,7 +245,7 @@ export default function AnalyticsPage() {
       </div>
 
       <p className="text-[11px] text-gray-400 italic text-center">
-        * Demo data — για να πάρεις πραγματικά, φτιάξε QR code και μοιράσου τη σελίδα του καταλύματος.
+        🚧 Ενότητα υπό δημιουργία — η ομάδα μας δουλεύει πάνω σε αυτό.
       </p>
     </div>
   );
