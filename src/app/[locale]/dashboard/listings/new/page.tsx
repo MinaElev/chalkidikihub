@@ -11,6 +11,7 @@ import { Loader2, Upload, X } from 'lucide-react';
 import { compressImage } from '@/lib/image-utils';
 import { LocationPicker } from '@/components/ui/LocationPicker';
 import { ImportFromUrl } from '@/components/listings/ImportFromUrl';
+import NumberStepper from '@/components/ui/NumberStepper';
 
 export default function NewListingPage() {
   const t = useTranslations('amenities');
@@ -250,27 +251,42 @@ export default function NewListingPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Τιμή από (EUR/βράδυ) *</label>
-            <input type="number" min={1} required value={form.price_per_night}
-              onChange={(e) => setForm(prev => ({ ...prev, price_per_night: Number(e.target.value) }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
+            <NumberStepper
+              value={form.price_per_night}
+              onChange={(v) => setForm(prev => ({ ...prev, price_per_night: v }))}
+              min={1}
+              step={5}
+              required
+              suffix="€"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Max Guests *</label>
-            <input type="number" min={1} required value={form.guests_max}
-              onChange={(e) => setForm(prev => ({ ...prev, guests_max: Number(e.target.value) }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
+            <NumberStepper
+              value={form.guests_max}
+              onChange={(v) => setForm(prev => ({ ...prev, guests_max: v }))}
+              min={1}
+              max={50}
+              required
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Bedrooms</label>
-            <input type="number" min={0} value={form.bedrooms}
-              onChange={(e) => setForm(prev => ({ ...prev, bedrooms: Number(e.target.value) }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
+            <NumberStepper
+              value={form.bedrooms}
+              onChange={(v) => setForm(prev => ({ ...prev, bedrooms: v }))}
+              min={0}
+              max={30}
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Bathrooms</label>
-            <input type="number" min={0} value={form.bathrooms}
-              onChange={(e) => setForm(prev => ({ ...prev, bathrooms: Number(e.target.value) }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
+            <NumberStepper
+              value={form.bathrooms}
+              onChange={(v) => setForm(prev => ({ ...prev, bathrooms: v }))}
+              min={0}
+              max={30}
+            />
           </div>
         </div>
 

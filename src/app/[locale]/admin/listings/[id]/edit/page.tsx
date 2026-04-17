@@ -12,6 +12,7 @@ import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity } from '@/types';
 import { LocationPicker } from '@/components/ui/LocationPicker';
 import { ImportFromUrl } from '@/components/listings/ImportFromUrl';
+import NumberStepper from '@/components/ui/NumberStepper';
 import { revalidateContent } from '@/lib/revalidate';
 
 export default function AdminEditListingPage() {
@@ -287,8 +288,13 @@ export default function AdminEditListingPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Τιμή από (EUR)</label>
-            <input type="number" min={0} value={form.price_per_night} onChange={(e) => update('price_per_night', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" />
+            <NumberStepper
+              value={Number(form.price_per_night) || 0}
+              onChange={(v) => update('price_per_night', String(v))}
+              min={0}
+              step={5}
+              suffix="€"
+            />
           </div>
         </div>
 
@@ -296,18 +302,30 @@ export default function AdminEditListingPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Επισκέπτες</label>
-            <input type="number" min={1} value={form.guests_max} onChange={(e) => update('guests_max', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" />
+            <NumberStepper
+              value={Number(form.guests_max) || 1}
+              onChange={(v) => update('guests_max', String(v))}
+              min={1}
+              max={50}
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Δωμάτια</label>
-            <input type="number" min={0} value={form.bedrooms} onChange={(e) => update('bedrooms', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" />
+            <NumberStepper
+              value={Number(form.bedrooms) || 0}
+              onChange={(v) => update('bedrooms', String(v))}
+              min={0}
+              max={30}
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Μπάνια</label>
-            <input type="number" min={0} value={form.bathrooms} onChange={(e) => update('bathrooms', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500" />
+            <NumberStepper
+              value={Number(form.bathrooms) || 0}
+              onChange={(v) => update('bathrooms', String(v))}
+              min={0}
+              max={30}
+            />
           </div>
         </div>
 
