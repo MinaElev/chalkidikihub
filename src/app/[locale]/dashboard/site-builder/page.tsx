@@ -350,25 +350,33 @@ export default function SiteBuilderPage() {
               >
                 {/* Listing header */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200">
-                  <div className="min-w-0">
-                    <h2 className="text-base font-semibold text-gray-900 truncate">{title}</h2>
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-0.5 text-xs text-gray-500">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h2 className="text-base font-semibold text-gray-900 truncate">{title}</h2>
+                      {/* Active / Closed status — always visible */}
+                      {listing.is_closed ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-orange-100 text-orange-800 border border-orange-200">
+                          <Lock className="w-3 h-3" /> Κλειστό
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800 border border-green-200">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                          Ενεργό
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1 text-xs text-gray-500">
                       <span className="capitalize">{listing.area}</span>
                       <span>·</span>
                       <span
                         className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
                           listing.status === 'published'
-                            ? 'bg-green-100 text-green-700'
-                            : 'bg-amber-100 text-amber-700'
+                            ? 'bg-green-50 text-green-700'
+                            : 'bg-amber-50 text-amber-700'
                         }`}
                       >
                         {listing.status}
                       </span>
-                      {listing.is_closed && (
-                        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-orange-100 text-orange-700">
-                          <Lock className="w-3 h-3" /> Κλειστό
-                        </span>
-                      )}
                       {isSuperAdmin && listing.owner_email && (
                         <>
                           <span>·</span>
@@ -380,14 +388,25 @@ export default function SiteBuilderPage() {
                       )}
                     </div>
                   </div>
-                  <Link
-                    href={`/stay/${listing.slug}`}
-                    target="_blank"
-                    className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-600 hover:text-primary-700 px-3 py-1.5 bg-white border border-gray-200 rounded-lg self-start sm:self-auto"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                    {t.viewPublic}
-                  </Link>
+
+                  {/* Action buttons */}
+                  <div className="flex items-center gap-2 self-start sm:self-auto">
+                    <Link
+                      href={`/stay/${listing.slug}`}
+                      target="_blank"
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-700 hover:text-primary-700 px-3 py-2 bg-white border border-gray-200 hover:border-primary-300 rounded-lg"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      {t.viewPublic}
+                    </Link>
+                    <Link
+                      href={`/dashboard/listings/${listing.id}/brand`}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-white px-3 py-2 bg-primary-600 hover:bg-primary-700 rounded-lg shadow-sm"
+                    >
+                      <Wand2 className="w-3.5 h-3.5" />
+                      Επεξεργασία
+                    </Link>
+                  </div>
                 </div>
 
                 {/* Feature rows */}
