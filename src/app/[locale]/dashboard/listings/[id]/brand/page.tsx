@@ -153,12 +153,12 @@ export default function BrandPage() {
         </div>
         {slug && (
           <Link
-            href={`/listings/${slug}`}
+            href={`/stay/${slug}`}
             target="_blank"
             className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             <Eye className="w-4 h-4" />
-            Προβολή δημόσιας σελίδας
+            Προβολή σελίδας
           </Link>
         )}
       </div>

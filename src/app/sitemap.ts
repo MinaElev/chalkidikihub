@@ -104,13 +104,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ── Listings (DB) ──
-  const { data: listings } = await supabase.from('listings').select('slug, updated_at').eq('status', 'published');
+  const { data: listings } = await supabase
+    .from('listings')
+    .select('slug, updated_at, tagline_el, tagline_en, owner_story_el, owner_story_en')
+    .eq('status', 'published');
   if (listings) {
     for (const item of listings) {
+      const modified = new Date(item.updated_at);
       entries.push(...forLocales(`/listings/${item.slug}`, {
-        freq: 'weekly', priority: 0.8,
-        modified: new Date(item.updated_at),
+        freq: 'weekly', priority: 0.8, modified,
       }));
+      // Dedicated brand page — only indexed when the owner has filled in
+      // at least one of tagline / owner_story (otherwise it's essentially
+      // duplicate content of the directory listing).
+      const hasBrand = [item.tagline_el, item.tagline_en, item.owner_story_el, item.owner_story_en]
+        .some((v: string | null) => (v || '').trim().length > 0);
+      if (hasBrand) {
+        entries.push(...forLocales(`/stay/${item.slug}`, {
+          freq: 'weekly', priority: 0.9, modified,
+        }));
+      }
     }
   }
   for (const t of ['with-pool', 'sea-view', 'pet-friendly', 'family', 'budget', 'luxury']) {

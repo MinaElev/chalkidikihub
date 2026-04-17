@@ -19,9 +19,6 @@ import { JsonLd } from '@/components/ui/JsonLd';
 import { generateLodgingLD } from '@/lib/seo';
 import { LocationMap } from '@/components/ui/LocationMap';
 import { PublicAvailabilityCalendar } from './PublicAvailabilityCalendar';
-import { NearbySection } from './NearbySection';
-import { ListingFaqs } from './ListingFaqs';
-import { BookOpen } from 'lucide-react';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
@@ -79,16 +76,21 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
   const airbnbUrl = ext.airbnb_url as string | null;
   const contactPhone = ext.contact_phone as string | null;
   const contactEmail = ext.contact_email as string | null;
-  const tagline: string =
-    (ext.tagline?.[locale] as string) || (ext.tagline?.en as string) || (ext.tagline?.el as string) || '';
-  const ownerStory: string =
-    (ext.owner_story?.[locale] as string) ||
-    (ext.owner_story?.en as string) ||
-    (ext.owner_story?.el as string) ||
-    '';
-  const ourStoryLabels: Record<string, string> = {
-    el: 'Η ιστορία μας', en: 'Our story', de: 'Unsere Geschichte',
-    bg: 'Нашата история', ru: 'Наша история', ro: 'Povestea noastră', sr: 'Naša priča',
+  // Detect whether this listing has a dedicated brand page worth surfacing
+  const hasBrandPage = Boolean(
+    (ext.tagline?.el as string)?.trim() ||
+    (ext.tagline?.en as string)?.trim() ||
+    (ext.owner_story?.el as string)?.trim() ||
+    (ext.owner_story?.en as string)?.trim()
+  );
+  const visitSiteLabels: Record<string, string> = {
+    el: 'Δείτε το site του καταλύματος →',
+    en: 'Visit this property\'s site →',
+    de: 'Website der Unterkunft →',
+    bg: 'Посетете сайта на имота →',
+    ru: 'Посетить сайт →',
+    ro: 'Vizitați site-ul proprietății →',
+    sr: 'Posetite sajt →',
   };
 
   return (
@@ -106,17 +108,20 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
               <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
               <ShareButtons title={title} compact />
             </div>
-            {tagline && (
-              <p className="text-lg text-gray-700 mt-2 font-medium italic">
-                {tagline}
-              </p>
-            )}
             <div className="flex items-center gap-2 mt-2 text-gray-600">
               <MapPin className="w-4 h-4" /><span>{listing.location_name}</span>
               {area && (<><span className="text-gray-300">|</span>
                 <Link href={`/areas/${listing.area}`} className="text-primary-600 hover:underline">{area.name[locale]}</Link>
               </>)}
             </div>
+            {hasBrandPage && (
+              <Link
+                href={`/stay/${listing.slug}`}
+                className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white text-sm font-medium rounded-xl transition-colors"
+              >
+                ✨ {visitSiteLabels[locale] || visitSiteLabels.en}
+              </Link>
+            )}
           </div>
 
           <div className="flex items-center gap-6 py-4 border-y border-gray-200">
@@ -130,18 +135,6 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
             <AutoLinkedContent content={description} />
           </div>
 
-          {ownerStory && (
-            <div className="bg-gradient-to-br from-primary-50 to-white border border-primary-100 rounded-2xl p-5 md:p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-primary-100 text-primary-700">
-                  <BookOpen className="w-4 h-4" />
-                </span>
-                {ourStoryLabels[locale] || ourStoryLabels.en}
-              </h2>
-              <div className="text-gray-700 leading-relaxed whitespace-pre-line">{ownerStory}</div>
-            </div>
-          )}
-
           {listing.amenities.length > 0 && (
             <div>
               <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('amenities')}</h2>
@@ -150,14 +143,6 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
               </div>
             </div>
           )}
-
-          {/* What's nearby — auto-computed by Haversine on lat/lng */}
-          {listing.latitude && listing.longitude && listing.latitude !== 0 && (
-            <NearbySection listingId={listing.id} />
-          )}
-
-          {/* Custom FAQs (FAQPage JSON-LD via inline microdata) */}
-          <ListingFaqs listingId={listing.id} />
 
           {/* Map */}
           {listing.latitude && listing.longitude && listing.latitude !== 0 && (
