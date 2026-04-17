@@ -10,7 +10,6 @@ import Image from 'next/image';
 import { Loader2, Upload, X } from 'lucide-react';
 import { compressImage } from '@/lib/image-utils';
 import { LocationPicker } from '@/components/ui/LocationPicker';
-import { ImportFromUrl } from '@/components/listings/ImportFromUrl';
 import NumberStepper from '@/components/ui/NumberStepper';
 
 const MAX_PHOTOS = 10;
@@ -56,25 +55,6 @@ export default function NewListingPage() {
     }));
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleImportData(data: any) {
-    setForm((prev) => ({
-      ...prev,
-      title_el: data.title || data.title_en || prev.title_el,
-      description_el: data.description || data.description_en || prev.description_el,
-      area: data.area || prev.area,
-      location_name: data.location_name || prev.location_name,
-      latitude: data.latitude || prev.latitude,
-      longitude: data.longitude || prev.longitude,
-      price_per_night: data.price_per_night || prev.price_per_night,
-      guests_max: data.guests_max || prev.guests_max,
-      bedrooms: data.bedrooms ?? prev.bedrooms,
-      bathrooms: data.bathrooms ?? prev.bathrooms,
-      amenities: data.amenities?.length ? data.amenities : prev.amenities,
-      booking_url: data.source_platform === 'Booking.com' ? data.source_url : prev.booking_url,
-      airbnb_url: data.source_platform === 'Airbnb' ? data.source_url : prev.airbnb_url,
-    }));
-  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -206,8 +186,6 @@ export default function NewListingPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Add New Listing</h1>
-
-      <ImportFromUrl onImport={handleImportData} />
 
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">{error}</div>
