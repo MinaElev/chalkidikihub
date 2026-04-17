@@ -6,10 +6,16 @@ import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import {
   ArrowLeft, Loader2, Save, Check, Sparkles, BookOpen, Wand2, Eye, Info,
-  HelpCircle, AlertTriangle, Calendar,
+  HelpCircle, AlertTriangle, Calendar, ShieldCheck, Image as ImageIcon,
+  Sparkle, MapPin,
 } from 'lucide-react';
 import { FaqsEditor } from '@/components/dashboard/FaqsEditor';
 import { EmergencyContactsEditor } from '@/components/dashboard/EmergencyContactsEditor';
+import { HouseRulesEditor } from '@/components/dashboard/HouseRulesEditor';
+import { PracticalInfoEditor } from '@/components/dashboard/PracticalInfoEditor';
+import { ExtrasEditor } from '@/components/dashboard/ExtrasEditor';
+import { PhotoCaptionsEditor } from '@/components/dashboard/PhotoCaptionsEditor';
+import { NearbyOverridesEditor } from '@/components/dashboard/NearbyOverridesEditor';
 
 type FieldName = 'tagline' | 'owner_story';
 
@@ -296,6 +302,79 @@ export default function BrandPage() {
           (αστυνομικό τμήμα, ιατρείο, φαρμακείο, ταξί, δικό σου τηλέφωνο ως οικοδεσπότη).
         </p>
         <EmergencyContactsEditor listingId={listingId} />
+      </section>
+
+      {/* House Rules */}
+      <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100 text-blue-700">
+            <ShieldCheck className="w-4 h-4" />
+          </span>
+          <h2 className="text-lg font-semibold text-gray-900">Κανόνες του καταλύματος</h2>
+        </div>
+        <p className="text-xs text-gray-500 mb-4">
+          Check-in/out, κάπνισμα, κατοικίδια, πάρτι, παιδιά. Οι επισκέπτες βλέπουν ξεκάθαρα τι ισχύει πριν κλείσουν.
+        </p>
+        <HouseRulesEditor listingId={listingId} />
+      </section>
+
+      {/* Practical Info */}
+      <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700">
+            <Info className="w-4 h-4" />
+          </span>
+          <h2 className="text-lg font-semibold text-gray-900">Χρήσιμες πληροφορίες</h2>
+        </div>
+        <p className="text-xs text-gray-500 mb-4">
+          Πώς θα φτάσουν στο κατάλυμα, οδηγίες check-in (π.χ. keybox), Wi-Fi, parking.
+          Γράψε στα ελληνικά και μετάφρασε με AI.
+        </p>
+        <PracticalInfoEditor listingId={listingId} />
+      </section>
+
+      {/* Extras */}
+      <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-teal-100 text-teal-700">
+            <Sparkle className="w-4 h-4" />
+          </span>
+          <h2 className="text-lg font-semibold text-gray-900">Πρόσθετες υπηρεσίες</h2>
+        </div>
+        <p className="text-xs text-gray-500 mb-4">
+          Πρωινό, μεταφορά από αεροδρόμιο, καθαριότητα, ενοικίαση ποδηλάτων κ.λπ.
+          Μπορείς να ορίσεις τιμή ή να δηλώσεις ότι περιλαμβάνονται δωρεάν.
+        </p>
+        <ExtrasEditor listingId={listingId} />
+      </section>
+
+      {/* Photo captions */}
+      <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-pink-100 text-pink-700">
+            <ImageIcon className="w-4 h-4" />
+          </span>
+          <h2 className="text-lg font-semibold text-gray-900">Λεζάντες φωτογραφιών</h2>
+        </div>
+        <p className="text-xs text-gray-500 mb-4">
+          Γράψε τι δείχνει κάθε φωτογραφία. Εμφανίζονται σε hover στη gallery της προσωπικής σελίδας.
+        </p>
+        <PhotoCaptionsEditor listingId={listingId} />
+      </section>
+
+      {/* Nearby overrides */}
+      <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-violet-100 text-violet-700">
+            <MapPin className="w-4 h-4" />
+          </span>
+          <h2 className="text-lg font-semibold text-gray-900">Τι υπάρχει γύρω</h2>
+        </div>
+        <p className="text-xs text-gray-500 mb-4">
+          Οι κοντινές τοποθεσίες υπολογίζονται αυτόματα βάσει απόστασης.
+          Εδώ μπορείς να αποκρύψεις όσες δεν θέλεις να εμφανίζονται.
+        </p>
+        <NearbyOverridesEditor listingId={listingId} />
       </section>
 
       {/* Availability calendar shortcut */}

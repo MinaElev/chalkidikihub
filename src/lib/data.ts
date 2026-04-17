@@ -181,10 +181,17 @@ const LISTING_FIELDS = `
   description_el, description_en, description_de, description_bg, description_ru, description_ro,
   tagline_el, tagline_en, tagline_de, tagline_bg, tagline_ru, tagline_ro, tagline_sr,
   owner_story_el, owner_story_en, owner_story_de, owner_story_bg, owner_story_ru, owner_story_ro, owner_story_sr,
+  check_in_time, check_out_time, rule_smoking, rule_pets, rule_parties, rule_kids,
+  quiet_hours_from, quiet_hours_to,
+  house_rules_extra_el, house_rules_extra_en, house_rules_extra_de, house_rules_extra_bg, house_rules_extra_ru, house_rules_extra_ro, house_rules_extra_sr,
+  how_to_reach_el, how_to_reach_en, how_to_reach_de, how_to_reach_bg, how_to_reach_ru, how_to_reach_ro, how_to_reach_sr,
+  wifi_info_el, wifi_info_en, wifi_info_de, wifi_info_bg, wifi_info_ru, wifi_info_ro, wifi_info_sr,
+  parking_info_el, parking_info_en, parking_info_de, parking_info_bg, parking_info_ru, parking_info_ro, parking_info_sr,
+  check_in_info_el, check_in_info_en, check_in_info_de, check_in_info_bg, check_in_info_ru, check_in_info_ro, check_in_info_sr,
   area, location_name, latitude, longitude,
   price_per_night, currency, guests_max, bedrooms, bathrooms,
   amenities, status, contact_phone, contact_email, booking_url, airbnb_url, website_url, created_at, updated_at,
-  listing_images (id, image_url, sort_order, is_cover)
+  listing_images (id, image_url, sort_order, is_cover, caption_el, caption_en, caption_de, caption_bg, caption_ru, caption_ro, caption_sr)
 `;
 
 export function transformListing(row: Record<string, unknown>) {
@@ -205,6 +212,36 @@ export function transformListing(row: Record<string, unknown>) {
     owner_story: {
       el: row.owner_story_el || '', en: row.owner_story_en || '', de: row.owner_story_de || '',
       bg: row.owner_story_bg || '', ru: row.owner_story_ru || '', ro: row.owner_story_ro || '', sr: row.owner_story_sr || '',
+    },
+    // House rules (flat)
+    check_in_time: row.check_in_time || null,
+    check_out_time: row.check_out_time || null,
+    rule_smoking: row.rule_smoking || null,
+    rule_pets: row.rule_pets || null,
+    rule_parties: row.rule_parties || null,
+    rule_kids: row.rule_kids || null,
+    quiet_hours_from: row.quiet_hours_from || null,
+    quiet_hours_to: row.quiet_hours_to || null,
+    house_rules_extra: {
+      el: row.house_rules_extra_el || '', en: row.house_rules_extra_en || '', de: row.house_rules_extra_de || '',
+      bg: row.house_rules_extra_bg || '', ru: row.house_rules_extra_ru || '', ro: row.house_rules_extra_ro || '', sr: row.house_rules_extra_sr || '',
+    },
+    // Practical info
+    how_to_reach: {
+      el: row.how_to_reach_el || '', en: row.how_to_reach_en || '', de: row.how_to_reach_de || '',
+      bg: row.how_to_reach_bg || '', ru: row.how_to_reach_ru || '', ro: row.how_to_reach_ro || '', sr: row.how_to_reach_sr || '',
+    },
+    wifi_info: {
+      el: row.wifi_info_el || '', en: row.wifi_info_en || '', de: row.wifi_info_de || '',
+      bg: row.wifi_info_bg || '', ru: row.wifi_info_ru || '', ro: row.wifi_info_ro || '', sr: row.wifi_info_sr || '',
+    },
+    parking_info: {
+      el: row.parking_info_el || '', en: row.parking_info_en || '', de: row.parking_info_de || '',
+      bg: row.parking_info_bg || '', ru: row.parking_info_ru || '', ro: row.parking_info_ro || '', sr: row.parking_info_sr || '',
+    },
+    check_in_info: {
+      el: row.check_in_info_el || '', en: row.check_in_info_en || '', de: row.check_in_info_de || '',
+      bg: row.check_in_info_bg || '', ru: row.check_in_info_ru || '', ro: row.check_in_info_ro || '', sr: row.check_in_info_sr || '',
     },
     area: row.area, location_name: row.location_name,
     latitude: row.latitude || 0, longitude: row.longitude || 0,

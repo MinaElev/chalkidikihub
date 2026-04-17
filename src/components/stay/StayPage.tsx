@@ -15,6 +15,9 @@ import { NearbySection } from '@/components/listings/NearbySection';
 import { ListingFaqs } from '@/components/listings/ListingFaqs';
 import { EmergencyContacts } from '@/components/listings/EmergencyContacts';
 import { PublicAvailabilityCalendar } from '@/components/listings/PublicAvailabilityCalendar';
+import { HouseRules } from '@/components/stay/HouseRules';
+import { PracticalInfo } from '@/components/stay/PracticalInfo';
+import { ExtrasSection } from '@/components/stay/ExtrasSection';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 
@@ -96,8 +99,16 @@ export function StayPage({ listing, locale }: { listing: Listing; locale: string
   const area = AREAS.find(a => a.slug === listing.area);
   const areaName = area?.name[locale] || area?.name.en || listing.area;
   const coverImage = listing.images?.find((i: { is_cover: boolean }) => i.is_cover) || listing.images?.[0];
-  const galleryImages: { id: string; image_url: string }[] =
+  const galleryImages: {
+    id: string; image_url: string;
+    caption_el?: string; caption_en?: string; caption_de?: string;
+    caption_bg?: string; caption_ru?: string; caption_ro?: string; caption_sr?: string;
+  }[] =
     (listing.images || []).filter((i: { id: string; image_url: string }) => Boolean(i.image_url));
+  const captionFor = (img: { [k: string]: unknown }): string => {
+    const c = (img[`caption_${locale}`] as string) || (img.caption_el as string) || (img.caption_en as string) || '';
+    return c || '';
+  };
 
   const contactPhone = listing.contact_phone;
   const contactEmail = listing.contact_email;
@@ -235,22 +246,32 @@ export function StayPage({ listing, locale }: { listing: Listing; locale: string
         <section className="px-4 sm:px-6 pb-12">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-              {galleryImages.slice(0, 8).map((img, idx) => (
-                <div
-                  key={img.id}
-                  className={`relative rounded-2xl overflow-hidden bg-gray-100 ${
-                    idx === 0 ? 'col-span-2 md:col-span-2 md:row-span-2 aspect-square md:aspect-auto' : 'aspect-square'
-                  }`}
-                >
-                  <Image
-                    src={img.image_url}
-                    alt={title}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              ))}
+              {galleryImages.slice(0, 8).map((img, idx) => {
+                const caption = captionFor(img);
+                return (
+                  <div
+                    key={img.id}
+                    className={`group relative rounded-2xl overflow-hidden bg-gray-100 ${
+                      idx === 0 ? 'col-span-2 md:col-span-2 md:row-span-2 aspect-square md:aspect-auto' : 'aspect-square'
+                    }`}
+                  >
+                    <Image
+                      src={img.image_url}
+                      alt={caption || title}
+                      fill
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                      className="object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                    {caption && (
+                      <div className="absolute inset-x-0 bottom-0 p-2 md:p-3 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p className="text-xs md:text-sm text-white font-medium line-clamp-2 drop-shadow">
+                          {caption}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -286,6 +307,27 @@ export function StayPage({ listing, locale }: { listing: Listing; locale: string
           </div>
         </section>
       )}
+
+      {/* ══════════════ EXTRAS / SERVICES ══════════════ */}
+      <section className="py-12 md:py-16 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto">
+          <ExtrasSection listingId={listing.id} />
+        </div>
+      </section>
+
+      {/* ══════════════ HOUSE RULES ══════════════ */}
+      <section className="py-12 md:py-16 px-4 sm:px-6 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <HouseRules listing={listing} />
+        </div>
+      </section>
+
+      {/* ══════════════ PRACTICAL INFO ══════════════ */}
+      <section className="py-12 md:py-16 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto">
+          <PracticalInfo listing={listing} />
+        </div>
+      </section>
 
       {/* ══════════════ NEARBY (auto) ══════════════ */}
       {listing.latitude && listing.longitude && listing.latitude !== 0 && (
