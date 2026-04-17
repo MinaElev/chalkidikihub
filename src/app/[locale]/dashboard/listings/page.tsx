@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { Plus, Edit, Trash2, Eye, EyeOff, Loader2, QrCode, Calendar } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, EyeOff, Loader2, QrCode, Calendar, Wand2 } from 'lucide-react';
 
 interface DbListing {
   id: string;
@@ -102,6 +102,13 @@ export default function MyListingsPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <Link
+                  href={`/dashboard/listings/${listing.id}/brand`}
+                  className="p-2 rounded-lg hover:bg-primary-50 text-primary-600"
+                  title="Σελίδα καταλύματος (Brand Page)"
+                >
+                  <Wand2 className="w-4 h-4" />
+                </Link>
                 <Link
                   href={`/dashboard/listings/${listing.id}/availability`}
                   className="p-2 rounded-lg hover:bg-emerald-50 text-emerald-600"

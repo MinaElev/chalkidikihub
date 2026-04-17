@@ -13,7 +13,7 @@ import { compressImage } from '@/lib/image-utils';
 
 const MAX_PHOTOS = 10;
 import Image from 'next/image';
-import { Loader2, Upload, X, Save, ArrowLeft, Trash2, Calendar, Sparkles, BookOpen, Wand2 } from 'lucide-react';
+import { Loader2, Upload, X, Save, ArrowLeft, Trash2, Calendar, Wand2 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
 interface DbImage {
@@ -39,8 +39,6 @@ export default function EditListingPage() {
   const [form, setForm] = useState({
     title_el: '',
     description_el: '',
-    tagline_el: '',
-    owner_story_el: '',
     area: 'kassandra' as Area,
     location_name: '',
     latitude: 40.1,
@@ -57,10 +55,6 @@ export default function EditListingPage() {
     airbnb_url: '',
     status: 'draft',
   });
-  const [translating, setTranslating] = useState<Record<string, boolean>>({});
-  // Flat map of column overrides ready to be merged into the update
-  // payload, e.g. { tagline_en: "...", tagline_de: "...", owner_story_en: "..." }
-  const [translatedFields, setTranslatedFields] = useState<Record<string, string>>({});
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'), sithonia: tAreas('sithonia.name'),
@@ -81,8 +75,6 @@ export default function EditListingPage() {
         setForm({
           title_el: data.title_el || '',
           description_el: data.description_el || '',
-          tagline_el: data.tagline_el || '',
-          owner_story_el: data.owner_story_el || '',
           area: data.area as Area,
           location_name: data.location_name || '',
           latitude: data.latitude || 40.1,
@@ -148,10 +140,6 @@ export default function EditListingPage() {
         title_en: form.title_el,
         description_el: form.description_el,
         description_en: form.description_el,
-        tagline_el: form.tagline_el || null,
-        owner_story_el: form.owner_story_el || null,
-        // merge AI-translated brand fields if the user has hit "Translate"
-        ...translatedFields,
         area: form.area,
         location_name: form.location_name,
         latitude: form.latitude,
@@ -224,40 +212,6 @@ export default function EditListingPage() {
     if (imgs) setExistingImages(imgs);
   }
 
-  async function translateField(fieldName: 'tagline' | 'owner_story') {
-    const sourceText = form[`${fieldName}_el`];
-    if (!sourceText?.trim()) {
-      alert('Γράψε πρώτα το κείμενο στα ελληνικά.');
-      return;
-    }
-    setTranslating(prev => ({ ...prev, [fieldName]: true }));
-    try {
-      const res = await fetch('/api/ai/translate-fields', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sourceLocale: 'el', fields: { [fieldName]: sourceText } }),
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      const translations = data[fieldName] as Record<string, string> | undefined;
-      if (!translations) throw new Error('Invalid response');
-      // Persist into state as flat `tagline_en`, `tagline_de`, etc.
-      setTranslatedFields(prev => {
-        const next = { ...prev };
-        Object.entries(translations).forEach(([loc, text]) => {
-          next[`${fieldName}_${loc}`] = text;
-        });
-        return next;
-      });
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 2500);
-    } catch (err) {
-      alert('Αποτυχία μετάφρασης: ' + (err instanceof Error ? err.message : 'Unknown'));
-    } finally {
-      setTranslating(prev => ({ ...prev, [fieldName]: false }));
-    }
-  }
-
   if (loading) {
     return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-primary-600" /></div>;
   }
@@ -268,15 +222,24 @@ export default function EditListingPage() {
         <ArrowLeft className="w-4 h-4" />Πίσω στα καταλύματα
       </Link>
 
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 gap-3 flex-wrap">
         <h1 className="text-2xl font-bold text-gray-900">Επεξεργασία καταλύματος</h1>
-        <Link
-          href={`/dashboard/listings/${listingId}/availability`}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-medium rounded-xl transition-colors text-sm"
-        >
-          <Calendar className="w-4 h-4" />
-          Ημερολόγιο
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/dashboard/listings/${listingId}/brand`}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 hover:bg-primary-100 text-primary-700 font-medium rounded-xl transition-colors text-sm"
+          >
+            <Wand2 className="w-4 h-4" />
+            Σελίδα καταλύματος
+          </Link>
+          <Link
+            href={`/dashboard/listings/${listingId}/availability`}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-medium rounded-xl transition-colors text-sm"
+          >
+            <Calendar className="w-4 h-4" />
+            Ημερολόγιο
+          </Link>
+        </div>
       </div>
 
       {error && <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">{error}</div>}
@@ -298,88 +261,6 @@ export default function EditListingPage() {
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500" />
         </div>
 
-        {/* ─────────────────── Brand Page section ─────────────────── */}
-        <div className="bg-gradient-to-br from-primary-50/50 to-white border border-primary-100 rounded-2xl p-5 space-y-5">
-          <div className="flex items-start gap-3">
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-100 text-primary-700 shrink-0">
-              <Wand2 className="w-5 h-5" />
-            </span>
-            <div>
-              <h2 className="font-semibold text-gray-900">Σελίδα καταλύματος (Brand Page)</h2>
-              <p className="text-xs text-gray-600 mt-0.5">
-                Τα παρακάτω πεδία εμφανίζονται στη δημόσια σελίδα του καταλύματος και βοηθούν τους επισκέπτες να συνδεθούν με το χώρο σου. Γράψε στα <strong>ελληνικά</strong> και πάτα <strong>«Μετάφραση με AI»</strong> για να γίνουν αυτόματα και στις 6 άλλες γλώσσες.
-              </p>
-            </div>
-          </div>
-
-          {/* Tagline */}
-          <div>
-            <div className="flex items-end justify-between mb-1 gap-2">
-              <label className="block text-sm font-medium text-gray-700">
-                <Sparkles className="inline w-3.5 h-3.5 text-primary-500 mr-1" />
-                Tagline / Σλόγκαν <span className="text-gray-400 font-normal">(έως ~80 χαρακτήρες)</span>
-              </label>
-              <button
-                type="button"
-                onClick={() => translateField('tagline')}
-                disabled={!form.tagline_el.trim() || translating.tagline}
-                className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                {translating.tagline ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                Μετάφραση με AI
-              </button>
-            </div>
-            <input
-              type="text"
-              maxLength={120}
-              value={form.tagline_el}
-              onChange={(e) => setForm(prev => ({ ...prev, tagline_el: e.target.value }))}
-              placeholder="π.χ. Βίλα με ιδιωτική πισίνα 30 μέτρα από τη θάλασσα"
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500"
-            />
-            {translatedFields.tagline_en && (
-              <p className="text-xs text-green-700 mt-1">
-                ✓ Μεταφράστηκε σε 6 γλώσσες — θα αποθηκευτούν με το «Αποθήκευση»
-              </p>
-            )}
-          </div>
-
-          {/* Our Story */}
-          <div>
-            <div className="flex items-end justify-between mb-1 gap-2">
-              <label className="block text-sm font-medium text-gray-700">
-                <BookOpen className="inline w-3.5 h-3.5 text-primary-500 mr-1" />
-                Η ιστορία μας
-              </label>
-              <button
-                type="button"
-                onClick={() => translateField('owner_story')}
-                disabled={!form.owner_story_el.trim() || translating.owner_story}
-                className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                {translating.owner_story ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                Μετάφραση με AI
-              </button>
-            </div>
-            <textarea
-              rows={6}
-              value={form.owner_story_el}
-              onChange={(e) => setForm(prev => ({ ...prev, owner_story_el: e.target.value }))}
-              placeholder="Γράψε λίγα λόγια για σένα και το κατάλυμα. Γιατί το αγαπάς; Τι το κάνει ξεχωριστό; Ποιες είναι οι αγαπημένες σου στιγμές εδώ; Αυτή η αφήγηση βοηθάει τους επισκέπτες να νιώσουν οικεία πριν καν φτάσουν."
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500"
-            />
-            {translatedFields.owner_story_en && (
-              <p className="text-xs text-green-700 mt-1">
-                ✓ Μεταφράστηκε σε 6 γλώσσες — θα αποθηκευτούν με το «Αποθήκευση»
-              </p>
-            )}
-          </div>
-
-          <p className="text-[11px] text-gray-500 italic border-t border-primary-100 pt-3">
-            💡 Tip: Εκτός από αυτά, η δημόσια σελίδα εμφανίζει αυτόματα τα κοντινότερα μέρη (παραλίες, εστιατόρια, χωριά) βάσει τοποθεσίας — δεν χρειάζεται να τα προσθέσεις χειροκίνητα.
-          </p>
-        </div>
-        {/* ──────────────────────────────────────────────────────────── */}
 
         {/* Area & Location */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
