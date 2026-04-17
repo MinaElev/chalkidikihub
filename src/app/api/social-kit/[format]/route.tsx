@@ -36,12 +36,13 @@ async function fetchAsBase64(url: string, timeoutMs = 8000): Promise<string | nu
     // Guard against huge payloads
     if (buf.byteLength > 4 * 1024 * 1024) return null;
     const contentType = res.headers.get('content-type') || 'image/jpeg';
-    // Convert ArrayBuffer → base64 without Buffer (edge-compatible)
+    // Simple byte-by-byte base64 encode (edge-compatible, no Buffer,
+    // avoids Array.from / apply which choke on some TypedArray
+    // polyfills and surface as 'd is not iterable' in Satori logs).
     const bytes = new Uint8Array(buf);
     let binary = '';
-    const chunk = 0x8000;
-    for (let i = 0; i < bytes.length; i += chunk) {
-      binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + chunk)));
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
     }
     const b64 = btoa(binary);
     return `data:${contentType};base64,${b64}`;
