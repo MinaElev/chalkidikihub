@@ -39,7 +39,7 @@ const ICONS = [
   { key: 'other',       label: 'Άλλο',            Icon: AlertTriangle },
 ];
 
-export function EmergencyContactsEditor({ listingId }: { listingId: string }) {
+export function EmergencyContactsEditor({ listingId, canTranslate = false }: { listingId: string; canTranslate?: boolean }) {
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState<ContactRow[]>([]);
   const [drafts, setDrafts] = useState<Record<string, Draft>>({});
@@ -293,19 +293,23 @@ export function EmergencyContactsEditor({ listingId }: { listingId: string }) {
               </div>
 
               <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-100">
-                <button
-                  type="button"
-                  onClick={() => translate(row.id)}
-                  disabled={d.translating || !d.label_el.trim()}
-                  className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40"
-                >
-                  {d.translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                  Μετάφραση με AI
-                </button>
-                {d.translations && (
-                  <span className="text-xs text-green-700 flex items-center gap-1">
-                    <Check className="w-3 h-3" /> 6 γλώσσες έτοιμες
-                  </span>
+                {canTranslate && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => translate(row.id)}
+                      disabled={d.translating || !d.label_el.trim()}
+                      className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40"
+                    >
+                      {d.translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
+                      Μετάφραση με AI
+                    </button>
+                    {d.translations && (
+                      <span className="text-xs text-green-700 flex items-center gap-1">
+                        <Check className="w-3 h-3" /> 6 γλώσσες έτοιμες
+                      </span>
+                    )}
+                  </>
                 )}
                 <div className="ml-auto flex items-center gap-2">
                   {d.isDirty && <span className="text-xs text-amber-700">Μη αποθηκευμένες αλλαγές</span>}

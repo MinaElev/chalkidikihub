@@ -20,7 +20,7 @@ interface Draft {
   translating: boolean;
 }
 
-export function PhotoCaptionsEditor({ listingId }: { listingId: string }) {
+export function PhotoCaptionsEditor({ listingId, canTranslate = false }: { listingId: string; canTranslate?: boolean }) {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState<ImageRow[]>([]);
   const [drafts, setDrafts] = useState<Record<string, Draft>>({});
@@ -114,12 +114,16 @@ export function PhotoCaptionsEditor({ listingId }: { listingId: string }) {
                 placeholder="π.χ. Κύρια κρεβατοκάμαρα με θέα θάλασσα"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none" />
               <div className="flex flex-wrap items-center gap-2 mt-2">
-                <button type="button" onClick={() => translate(img.id)} disabled={d.translating || !d.caption_el.trim()}
-                  className="text-xs flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40">
-                  {d.translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                  Μετάφραση με AI
-                </button>
-                {isTranslated && <span className="text-xs text-green-700 flex items-center gap-1"><Check className="w-3 h-3" /> 6 γλώσσες</span>}
+                {canTranslate && (
+                  <>
+                    <button type="button" onClick={() => translate(img.id)} disabled={d.translating || !d.caption_el.trim()}
+                      className="text-xs flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40">
+                      {d.translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
+                      Μετάφραση με AI
+                    </button>
+                    {isTranslated && <span className="text-xs text-green-700 flex items-center gap-1"><Check className="w-3 h-3" /> 6 γλώσσες</span>}
+                  </>
+                )}
                 <div className="ml-auto flex items-center gap-2">
                   {d.isDirty && <span className="text-[10px] text-amber-700">Μη αποθηκευμένη</span>}
                   <button type="button" onClick={() => save(img.id)} disabled={saving[img.id] || !d.isDirty}

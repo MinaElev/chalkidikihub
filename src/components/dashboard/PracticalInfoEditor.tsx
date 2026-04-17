@@ -18,7 +18,7 @@ const FIELDS: { key: keyof State; label: string; placeholder: string; icon: Reac
   { key: 'parking_info_el', label: 'Στάθμευση', placeholder: 'π.χ. Δωρεάν ιδιωτικό parking για 2 αυτοκίνητα στην αυλή', icon: ParkingCircle },
 ];
 
-export function PracticalInfoEditor({ listingId }: { listingId: string }) {
+export function PracticalInfoEditor({ listingId, canTranslate = false }: { listingId: string; canTranslate?: boolean }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [state, setState] = useState<State>({ how_to_reach_el: '', check_in_info_el: '', wifi_info_el: '', parking_info_el: '' });
@@ -113,15 +113,17 @@ export function PracticalInfoEditor({ listingId }: { listingId: string }) {
                 <Icon className="w-3.5 h-3.5 text-indigo-500" />
                 {label} <span className="text-gray-400">(ελληνικά)</span>
               </label>
-              <button type="button" onClick={() => translate(key)} disabled={translating[key] || !state[key].trim()}
-                className="text-xs flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40">
-                {translating[key] ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                Μετάφραση με AI
-              </button>
+              {canTranslate && (
+                <button type="button" onClick={() => translate(key)} disabled={translating[key] || !state[key].trim()}
+                  className="text-xs flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40">
+                  {translating[key] ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
+                  Μετάφραση με AI
+                </button>
+              )}
             </div>
             <textarea rows={3} value={state[key]} onChange={(e) => update(key, e.target.value)} placeholder={placeholder}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none" />
-            {isTranslated && <p className="text-xs text-green-700 mt-1 flex items-center gap-1"><Check className="w-3 h-3" /> Μεταφράστηκε σε 6 γλώσσες</p>}
+            {canTranslate && isTranslated && <p className="text-xs text-green-700 mt-1 flex items-center gap-1"><Check className="w-3 h-3" /> Μεταφράστηκε σε 6 γλώσσες</p>}
           </div>
         );
       })}

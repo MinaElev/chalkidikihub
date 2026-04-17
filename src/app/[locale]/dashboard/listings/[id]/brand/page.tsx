@@ -32,6 +32,9 @@ export default function BrandPage() {
 
   const [listingTitle, setListingTitle] = useState('');
   const [slug, setSlug] = useState('');
+  // Translation features are hidden from owners — only the super admin
+  // runs bulk translations from /admin/brand-sites.
+  const [canTranslate, setCanTranslate] = useState(false);
 
   // EL source fields
   const [taglineEl, setTaglineEl] = useState('');
@@ -46,10 +49,22 @@ export default function BrandPage() {
     tagline: null, owner_story: null,
   });
 
-  // Load listing
+  // Load listing + role probe
   useEffect(() => {
     (async () => {
       const supabase = createClient();
+
+      // Role check — only super admins get the translate buttons
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+        setCanTranslate(profile?.role === 'superadmin' || profile?.role === 'admin');
+      }
+
       const { data, error } = await supabase
         .from('listings')
         .select('slug, title_el, title_en, tagline_el, owner_story_el')
@@ -180,9 +195,8 @@ export default function BrandPage() {
         <div className="text-sm text-gray-700 leading-relaxed">
           Αυτά τα στοιχεία κάνουν τη σελίδα του καταλύματός σου να ξεχωρίζει και βοηθάνε
           τους επισκέπτες να συνδεθούν μαζί σου πριν καν κάνουν κράτηση. Γράψε στα{' '}
-          <strong>ελληνικά</strong> και πάτα «<strong>Μετάφραση με AI</strong>» για να
-          γεμίσουν αυτόματα και οι 6 άλλες γλώσσες. Μπορείς να γυρίσεις εδώ όποτε θες
-          για να τα ενημερώσεις.
+          <strong>ελληνικά</strong> — η ομάδα της πλατφόρμας αναλαμβάνει τη μετάφραση στις υπόλοιπες γλώσσες.
+          Μπορείς να γυρίσεις εδώ όποτε θες για να τα ενημερώσεις.
         </div>
       </div>
 
@@ -204,15 +218,17 @@ export default function BrandPage() {
               Μικρή φράση (έως ~80 χαρακτήρες) που εμφανίζεται κάτω από τον τίτλο.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => translateField('tagline')}
-            disabled={!taglineEl.trim() || translating.tagline}
-            className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
-          >
-            {translating.tagline ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-            Μετάφραση με AI
-          </button>
+          {canTranslate && (
+            <button
+              type="button"
+              onClick={() => translateField('tagline')}
+              disabled={!taglineEl.trim() || translating.tagline}
+              className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+            >
+              {translating.tagline ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
+              Μετάφραση με AI
+            </button>
+          )}
         </div>
         <input
           type="text"
@@ -246,15 +262,17 @@ export default function BrandPage() {
               Μια προσωπική αφήγηση χτίζει εμπιστοσύνη.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => translateField('owner_story')}
-            disabled={!storyEl.trim() || translating.owner_story}
-            className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
-          >
-            {translating.owner_story ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-            Μετάφραση με AI
-          </button>
+          {canTranslate && (
+            <button
+              type="button"
+              onClick={() => translateField('owner_story')}
+              disabled={!storyEl.trim() || translating.owner_story}
+              className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+            >
+              {translating.owner_story ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
+              Μετάφραση με AI
+            </button>
+          )}
         </div>
         <textarea
           rows={8}
@@ -283,10 +301,9 @@ export default function BrandPage() {
           <h2 className="text-lg font-semibold text-gray-900">Συχνές ερωτήσεις</h2>
         </div>
         <p className="text-xs text-gray-500 mb-4">
-          Πρόσθεσε τις ερωτήσεις που σου κάνουν πιο συχνά οι επισκέπτες. Γράψε στα ελληνικά και
-          πάτα «Μετάφραση με AI» για να γίνουν αυτόματα και στις 6 άλλες γλώσσες.
+          Πρόσθεσε τις ερωτήσεις που σου κάνουν πιο συχνά οι επισκέπτες. Γράψε στα ελληνικά — οι μεταφράσεις γίνονται από τη διαχείριση.
         </p>
-        <FaqsEditor listingId={listingId} />
+        <FaqsEditor listingId={listingId} canTranslate={canTranslate} />
       </section>
 
       {/* Emergency Contacts */}
@@ -301,7 +318,7 @@ export default function BrandPage() {
           Τα βασικά τηλέφωνα Ελλάδας / ΕΕ εμφανίζονται ήδη αυτόματα. Εδώ πρόσθεσε τοπικές επαφές
           (αστυνομικό τμήμα, ιατρείο, φαρμακείο, ταξί, δικό σου τηλέφωνο ως οικοδεσπότη).
         </p>
-        <EmergencyContactsEditor listingId={listingId} />
+        <EmergencyContactsEditor listingId={listingId} canTranslate={canTranslate} />
       </section>
 
       {/* House Rules */}
@@ -315,7 +332,7 @@ export default function BrandPage() {
         <p className="text-xs text-gray-500 mb-4">
           Check-in/out, κάπνισμα, κατοικίδια, πάρτι, παιδιά. Οι επισκέπτες βλέπουν ξεκάθαρα τι ισχύει πριν κλείσουν.
         </p>
-        <HouseRulesEditor listingId={listingId} />
+        <HouseRulesEditor listingId={listingId} canTranslate={canTranslate} />
       </section>
 
       {/* Practical Info */}
@@ -327,10 +344,9 @@ export default function BrandPage() {
           <h2 className="text-lg font-semibold text-gray-900">Χρήσιμες πληροφορίες</h2>
         </div>
         <p className="text-xs text-gray-500 mb-4">
-          Πώς θα φτάσουν στο κατάλυμα, οδηγίες check-in (π.χ. keybox), Wi-Fi, parking.
-          Γράψε στα ελληνικά και μετάφρασε με AI.
+          Πώς θα φτάσουν στο κατάλυμα, οδηγίες check-in (π.χ. keybox), Wi-Fi, parking. Γράψε στα ελληνικά.
         </p>
-        <PracticalInfoEditor listingId={listingId} />
+        <PracticalInfoEditor listingId={listingId} canTranslate={canTranslate} />
       </section>
 
       {/* Extras */}
@@ -345,7 +361,7 @@ export default function BrandPage() {
           Πρωινό, μεταφορά από αεροδρόμιο, καθαριότητα, ενοικίαση ποδηλάτων κ.λπ.
           Μπορείς να ορίσεις τιμή ή να δηλώσεις ότι περιλαμβάνονται δωρεάν.
         </p>
-        <ExtrasEditor listingId={listingId} />
+        <ExtrasEditor listingId={listingId} canTranslate={canTranslate} />
       </section>
 
       {/* Photo captions */}
@@ -359,7 +375,7 @@ export default function BrandPage() {
         <p className="text-xs text-gray-500 mb-4">
           Γράψε τι δείχνει κάθε φωτογραφία. Εμφανίζονται σε hover στη gallery της προσωπικής σελίδας.
         </p>
-        <PhotoCaptionsEditor listingId={listingId} />
+        <PhotoCaptionsEditor listingId={listingId} canTranslate={canTranslate} />
       </section>
 
       {/* Nearby overrides */}

@@ -38,7 +38,7 @@ interface State {
   house_rules_extra_el: string;
 }
 
-export function HouseRulesEditor({ listingId }: { listingId: string }) {
+export function HouseRulesEditor({ listingId, canTranslate = false }: { listingId: string; canTranslate?: boolean }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [translating, setTranslating] = useState(false);
@@ -177,16 +177,18 @@ export function HouseRulesEditor({ listingId }: { listingId: string }) {
       <div>
         <div className="flex items-center justify-between mb-1">
           <label className="block text-xs font-medium text-gray-600">Επιπλέον κανόνες / σημειώσεις (ελληνικά)</label>
-          <button type="button" onClick={translate} disabled={translating || !state.house_rules_extra_el.trim()}
-            className="text-xs flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40">
-            {translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-            Μετάφραση με AI
-          </button>
+          {canTranslate && (
+            <button type="button" onClick={translate} disabled={translating || !state.house_rules_extra_el.trim()}
+              className="text-xs flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40">
+              {translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
+              Μετάφραση με AI
+            </button>
+          )}
         </div>
         <textarea rows={3} value={state.house_rules_extra_el} onChange={(e) => update('house_rules_extra_el', e.target.value)}
           placeholder="π.χ. Μέγιστος αριθμός επισκεπτών στο σπίτι, κανόνες για την πισίνα, ανακύκλωση κ.λπ."
           className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none" />
-        {hasTranslations && <p className="text-xs text-green-700 mt-1 flex items-center gap-1"><Check className="w-3 h-3" /> Μεταφράστηκε σε 6 γλώσσες</p>}
+        {canTranslate && hasTranslations && <p className="text-xs text-green-700 mt-1 flex items-center gap-1"><Check className="w-3 h-3" /> Μεταφράστηκε σε 6 γλώσσες</p>}
       </div>
 
       <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100">
