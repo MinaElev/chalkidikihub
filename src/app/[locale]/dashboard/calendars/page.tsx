@@ -125,8 +125,8 @@ export default function MyCalendarsPage() {
 
   const title = locale === 'el' ? 'Ημερολόγια' : 'Calendars';
   const intro = locale === 'el'
-    ? 'Διαχειρίσου τη διαθεσιμότητα για κάθε κατάλυμα και έλεγξε αν το ημερολόγιο εμφανίζεται δημόσια.'
-    : 'Manage availability for each listing and control whether the calendar is publicly visible.';
+    ? 'Διαχειρίσου τη διαθεσιμότητα για κάθε κατάλυμα. Το toggle «Ορατό / Κρυφό» ελέγχει μόνο την εμφάνιση στη σελίδα του listing — στην προσωπική σελίδα του καταλύματος (/stay) εμφανίζεται πάντα.'
+    : 'Manage availability for each listing. The Visible/Hidden toggle only affects the listing page — the calendar always appears on the property\'s personal page (/stay).';
   const emptyTxt = locale === 'el' ? 'Δεν έχεις καταχωρημένα καταλύματα ακόμα.' : 'You have no listings yet.';
   const addTxt = locale === 'el' ? 'Πρόσθεσε το πρώτο σου' : 'Add your first one';
   const visibleTxt = locale === 'el' ? 'Ορατό δημόσια' : 'Visible publicly';

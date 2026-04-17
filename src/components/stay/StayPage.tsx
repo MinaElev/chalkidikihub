@@ -310,11 +310,13 @@ export function StayPage({ listing, locale }: { listing: Listing; locale: string
       )}
 
       {/* ══════════════ AVAILABILITY ══════════════ */}
+      {/* Always shown on the /stay brand page — the show_calendar flag only
+          governs whether it appears on the simpler /listings directory page. */}
       <section className="py-12 md:py-16 px-4 sm:px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <PublicAvailabilityCalendar
             listingId={listing.id}
-            enabled={Boolean(listing.show_calendar)}
+            enabled={true}
           />
         </div>
       </section>
