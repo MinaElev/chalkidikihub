@@ -17,21 +17,33 @@ type L = Record<LocaleCode, string>;
 const emptyL = (): L => Object.fromEntries(LOCALES.map(l => [l, ''])) as L;
 
 interface BrandData {
+  // Core — directly used as <h1> / <meta> title & <p> description on public pages
+  title: L;
+  description: L;
+  // Brand
   tagline: L;
   owner_story: L;
+  // House rules / practical
   house_rules_extra: L;
   how_to_reach: L;
   wifi_info: L;
   parking_info: L;
   check_in_info: L;
+  // Closed-state reason (appears in the public 'Closed' banner)
+  closed_reason: L;
+  // SEO meta (what Google shows in SERP)
   meta_title: L;
   meta_description: L;
+  image_alt: L;
 }
 
 const FIELD_KEYS: (keyof BrandData)[] = [
-  'tagline', 'owner_story', 'house_rules_extra',
+  'title', 'description',
+  'tagline', 'owner_story',
+  'house_rules_extra',
   'how_to_reach', 'wifi_info', 'parking_info', 'check_in_info',
-  'meta_title', 'meta_description',
+  'closed_reason',
+  'meta_title', 'meta_description', 'image_alt',
 ];
 
 export default function AdminBrandEditorPage() {
@@ -48,12 +60,13 @@ export default function AdminBrandEditorPage() {
 
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
-  const [titleMap, setTitleMap] = useState<L>(emptyL());
-  const [descriptionMap, setDescriptionMap] = useState<L>(emptyL());
   const [data, setData] = useState<BrandData>({
-    tagline: emptyL(), owner_story: emptyL(), house_rules_extra: emptyL(),
+    title: emptyL(), description: emptyL(),
+    tagline: emptyL(), owner_story: emptyL(),
+    house_rules_extra: emptyL(),
     how_to_reach: emptyL(), wifi_info: emptyL(), parking_info: emptyL(), check_in_info: emptyL(),
-    meta_title: emptyL(), meta_description: emptyL(),
+    closed_reason: emptyL(),
+    meta_title: emptyL(), meta_description: emptyL(), image_alt: emptyL(),
   });
   const [dirty, setDirty] = useState(false);
 
@@ -72,9 +85,9 @@ export default function AdminBrandEditorPage() {
     const pick = (prefix: string): L =>
       Object.fromEntries(LOCALES.map(l => [l, (row[`${prefix}_${l}`] as string) || ''])) as L;
 
-    setTitleMap(pick('title'));
-    setDescriptionMap(pick('description'));
     setData({
+      title:             pick('title'),
+      description:       pick('description'),
       tagline:           pick('tagline'),
       owner_story:       pick('owner_story'),
       house_rules_extra: pick('house_rules_extra'),
@@ -82,8 +95,10 @@ export default function AdminBrandEditorPage() {
       wifi_info:         pick('wifi_info'),
       parking_info:      pick('parking_info'),
       check_in_info:     pick('check_in_info'),
+      closed_reason:     pick('closed_reason'),
       meta_title:        pick('meta_title'),
       meta_description:  pick('meta_description'),
+      image_alt:         pick('image_alt'),
     });
     setLoading(false);
   }, [listingId]);
@@ -184,9 +199,9 @@ export default function AdminBrandEditorPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: titleMap.el || titleMap.en || title,
+          title: data.title.el || data.title.en || title,
           tagline: data.tagline.el || data.tagline.en,
-          description: descriptionMap.el || descriptionMap.en,
+          description: data.description.el || data.description.en,
           location: 'Halkidiki',
           category: 'accommodation',
         }),
@@ -276,6 +291,32 @@ export default function AdminBrandEditorPage() {
 
       {error && <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">{error}</div>}
 
+      {/* Section: Core content — what the listing actually is */}
+      <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
+        <BookOpen className="w-5 h-5 text-gray-700" /> Core content
+      </h2>
+      <div className="space-y-3 mb-6">
+        <MultilangField
+          label="Title (public name)"
+          description="Τίτλος καταλύματος — εμφανίζεται ως <h1> στις δημόσιες σελίδες και οδηγεί το SEO αν λείπει το meta_title."
+          values={data.title}
+          onChange={(lang, v) => updateField('title', lang, v)}
+          type="input"
+          maxLength={120}
+          onFillMissing={(src) => fillMissing('title', src)}
+          filling={fillingField === 'title'}
+        />
+        <MultilangField
+          label="Description"
+          description="Κύρια περιγραφή καταλύματος. Εμφανίζεται στο /listings και χρησιμοποιείται ως fallback meta description."
+          values={data.description}
+          onChange={(lang, v) => updateField('description', lang, v)}
+          type="textarea" rows={5}
+          onFillMissing={(src) => fillMissing('description', src)}
+          filling={fillingField === 'description'}
+        />
+      </div>
+
       {/* Section: Brand content */}
       <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
         <Sparkles className="w-5 h-5 text-primary-500" /> Brand content
@@ -353,6 +394,22 @@ export default function AdminBrandEditorPage() {
         />
       </div>
 
+      {/* Section: Closed-state reason */}
+      <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
+        <Info className="w-5 h-5 text-amber-500" /> Closed-state reason
+      </h2>
+      <div className="space-y-3 mb-6">
+        <MultilangField
+          label="Αιτιολογία κλεισίματος"
+          description="Εμφανίζεται στο orange banner όταν ο owner ενεργοποιήσει το 'Κλειστό προσωρινά'. Πολλοί owners γράφουν μόνο ελληνικά — μετάφρασε τα υπόλοιπα από εδώ."
+          values={data.closed_reason}
+          onChange={(lang, v) => updateField('closed_reason', lang, v)}
+          type="textarea" rows={2}
+          onFillMissing={(src) => fillMissing('closed_reason', src)}
+          filling={fillingField === 'closed_reason'}
+        />
+      </div>
+
       {/* Section: SEO meta */}
       <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
         <Search className="w-5 h-5 text-violet-500" /> SEO meta
@@ -375,6 +432,15 @@ export default function AdminBrandEditorPage() {
           type="textarea" rows={3} maxLength={200}
           onFillMissing={(src) => fillMissing('meta_description', src)}
           filling={fillingField === 'meta_description'}
+        />
+        <MultilangField
+          label="Image alt (cover)"
+          description="Alt text για την κύρια φωτογραφία. Βοηθάει το SEO εικόνων + προσβασιμότητα."
+          values={data.image_alt}
+          onChange={(lang, v) => updateField('image_alt', lang, v)}
+          type="input" maxLength={160}
+          onFillMissing={(src) => fillMissing('image_alt', src)}
+          filling={fillingField === 'image_alt'}
         />
       </div>
 
