@@ -79,9 +79,10 @@ const TARGET_BYTES = TARGET_KB * 1024;
 const SKIP_BELOW_BYTES = SKIP_BELOW_KB * 1024;
 
 // ─── Sources to scan ──────────────────────────────────────────────────────
+// Bucket is parsed from the URL at runtime — no need to hardcode here.
 const SOURCES = [
-  { table: 'listing_images', bucket: 'listing-images' },
-  { table: 'sale_images',    bucket: 'content-images' },
+  { table: 'listing_images' },
+  { table: 'sale_images' },
 ].filter(s => !TABLE_FILTER || s.table === TABLE_FILTER);
 
 if (SOURCES.length === 0) {
@@ -134,12 +135,24 @@ async function updateUrl(table, id, newUrl) {
 }
 
 // ─── Storage helpers ─────────────────────────────────────────────────────
-function parseStoragePath(url, bucket) {
-  // Expect: https://xxx.supabase.co/storage/v1/object/public/BUCKET/path/to/file.ext
-  const marker = `/storage/v1/object/public/${bucket}/`;
-  const idx = url.indexOf(marker);
-  if (idx === -1) return null;
-  return url.substring(idx + marker.length);
+function parseStorageUrl(url) {
+  // Accept any of:
+  //   /storage/v1/object/public/BUCKET/PATH
+  //   /storage/v1/render/image/public/BUCKET/PATH?query
+  //   /storage/v1/object/sign/BUCKET/PATH?token=...
+  // Returns { bucket, path } or null if it isn't a Supabase Storage URL.
+  if (!url || !url.startsWith(SUPABASE_URL)) return null;
+
+  const patterns = [
+    /\/storage\/v1\/object\/public\/([^/]+)\/(.+?)(?:\?|$)/,
+    /\/storage\/v1\/render\/image\/public\/([^/]+)\/(.+?)(?:\?|$)/,
+    /\/storage\/v1\/object\/sign\/([^/]+)\/(.+?)(?:\?|$)/,
+  ];
+  for (const re of patterns) {
+    const m = url.match(re);
+    if (m) return { bucket: m[1], path: decodeURIComponent(m[2]) };
+  }
+  return null;
 }
 
 async function downloadStorage(bucket, path) {
@@ -220,19 +233,20 @@ function fmtBytes(n) {
       grandTotal++;
       const progress = `[${count}/${toProcess.length}]`;
 
-      const storagePath = parseStoragePath(row.image_url, src.bucket);
-      if (!storagePath) {
-        console.log(`${progress} ⏭️  external URL, skipping: ${row.image_url.slice(0, 60)}…`);
+      const parsed = parseStorageUrl(row.image_url);
+      if (!parsed) {
+        console.log(`${progress} ⏭️  non-Storage URL, skipping: ${row.image_url.slice(0, 80)}…`);
         grandSkipped++;
         continue;
       }
+      const { bucket, path: storagePath } = parsed;
 
       try {
-        const before = await downloadStorage(src.bucket, storagePath);
+        const before = await downloadStorage(bucket, storagePath);
         grandBytesBefore += before.length;
 
         if (before.length <= SKIP_BELOW_BYTES) {
-          console.log(`${progress} ✓ already small (${fmtBytes(before.length)}): ${storagePath}`);
+          console.log(`${progress} ✓ already small (${fmtBytes(before.length)}): ${bucket}/${storagePath}`);
           grandSkipped++;
           grandBytesAfter += before.length;
           continue;
@@ -242,29 +256,26 @@ function fmtBytes(n) {
 
         // If compression didn't help, keep the original
         if (after.length >= before.length) {
-          console.log(`${progress} ⚠ no gain (${fmtBytes(before.length)} → ${fmtBytes(after.length)}): ${storagePath}`);
+          console.log(`${progress} ⚠ no gain (${fmtBytes(before.length)} → ${fmtBytes(after.length)}): ${bucket}/${storagePath}`);
           grandSkipped++;
           grandBytesAfter += before.length;
           continue;
         }
 
         const savedPct = ((1 - after.length / before.length) * 100).toFixed(0);
-        console.log(`${progress} 🗜 ${fmtBytes(before.length)} → ${fmtBytes(after.length)}  (-${savedPct}%)  ${storagePath}`);
+        console.log(`${progress} 🗜 ${fmtBytes(before.length)} → ${fmtBytes(after.length)}  (-${savedPct}%)  ${bucket}/${storagePath}`);
 
         if (!DRY_RUN) {
-          // Write to a new .webp path (overwriting in place can confuse
-          // cached URLs if file extension changes). We write BOTH:
-          //  - the original path (so existing URLs still work; might now
-          //    carry WebP content under a .jpg name, browsers handle this)
-          //  - optionally update the DB url to the .webp path
-          // Simpler: overwrite in place + keep original URL.
-          await uploadStorage(src.bucket, storagePath, after, 'image/webp');
+          // Overwrite in place so the existing public URL keeps working.
+          // Content-Type is set to image/webp regardless of the file
+          // extension — browsers sniff the bytes anyway.
+          await uploadStorage(bucket, storagePath, after, 'image/webp');
         }
 
         grandBytesAfter += after.length;
         grandProcessed++;
       } catch (err) {
-        console.log(`${progress} ❌ ${storagePath}: ${err.message}`);
+        console.log(`${progress} ❌ ${bucket}/${storagePath}: ${err.message}`);
         grandErrors++;
       }
     }
