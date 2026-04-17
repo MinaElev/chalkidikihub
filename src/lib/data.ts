@@ -179,6 +179,8 @@ const LISTING_FIELDS = `
   id, slug, owner_id,
   title_el, title_en, title_de, title_bg, title_ru, title_ro,
   description_el, description_en, description_de, description_bg, description_ru, description_ro,
+  tagline_el, tagline_en, tagline_de, tagline_bg, tagline_ru, tagline_ro, tagline_sr,
+  owner_story_el, owner_story_en, owner_story_de, owner_story_bg, owner_story_ru, owner_story_ro, owner_story_sr,
   area, location_name, latitude, longitude,
   price_per_night, currency, guests_max, bedrooms, bathrooms,
   amenities, status, contact_phone, contact_email, booking_url, airbnb_url, website_url, created_at, updated_at,
@@ -195,6 +197,14 @@ export function transformListing(row: Record<string, unknown>) {
     description: {
       el: row.description_el || '', en: row.description_en || '', de: row.description_de || '',
       bg: row.description_bg || '', ru: row.description_ru || '', ro: row.description_ro || '',
+    },
+    tagline: {
+      el: row.tagline_el || '', en: row.tagline_en || '', de: row.tagline_de || '',
+      bg: row.tagline_bg || '', ru: row.tagline_ru || '', ro: row.tagline_ro || '', sr: row.tagline_sr || '',
+    },
+    owner_story: {
+      el: row.owner_story_el || '', en: row.owner_story_en || '', de: row.owner_story_de || '',
+      bg: row.owner_story_bg || '', ru: row.owner_story_ru || '', ro: row.owner_story_ro || '', sr: row.owner_story_sr || '',
     },
     area: row.area, location_name: row.location_name,
     latitude: row.latitude || 0, longitude: row.longitude || 0,
