@@ -20,6 +20,7 @@ export default function NewListingPage() {
   const tAreas = useTranslations('areas');
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number } | null>(null);
   const [error, setError] = useState('');
   const [images, setImages] = useState<File[]>([]);
 
@@ -150,14 +151,18 @@ export default function NewListingPage() {
     // Upload images (compressed)
     const uploadErrors: string[] = [];
     if (listing && images.length > 0) {
+      setUploadProgress({ current: 0, total: images.length });
       for (let i = 0; i < images.length; i++) {
+        setUploadProgress({ current: i + 1, total: images.length });
         const file = images[i];
         const filePath = `${user.id}/${listing.id}/${i}.webp`;
 
         // Compress before upload
         let uploadBlob: Blob = file;
         try {
-          const { blob } = await compressImage(file, { maxWidth: 1200, maxHeight: 800, quality: 0.72, format: 'webp' });
+          // No explicit options → uses aggressive defaults from image-utils
+          // (1600x1200 max, starts at 0.62 quality, iterates down to hit ~200KB target)
+          const { blob } = await compressImage(file);
           uploadBlob = blob;
         } catch {} // Fallback to original if compression fails
 
@@ -186,6 +191,8 @@ export default function NewListingPage() {
         }
       }
     }
+
+    setUploadProgress(null);
 
     if (uploadErrors.length > 0) {
       setError('Listing saved but image issues: ' + uploadErrors.join('; '));
@@ -417,7 +424,9 @@ export default function NewListingPage() {
           <button type="submit" disabled={loading}
             className="flex items-center gap-2 px-8 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white font-medium rounded-xl transition-colors">
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-            Save Listing
+            {uploadProgress
+              ? `Συμπίεση & ανέβασμα ${uploadProgress.current}/${uploadProgress.total}…`
+              : 'Save Listing'}
           </button>
         </div>
       </form>

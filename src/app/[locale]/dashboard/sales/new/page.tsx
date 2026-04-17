@@ -144,7 +144,7 @@ export default function NewSalePage() {
 
         let uploadBlob: Blob = file;
         try {
-          const { blob } = await compressImage(file, { maxWidth: 1200, maxHeight: 800, quality: 0.72, format: 'webp' });
+          const { blob } = await compressImage(file);
           uploadBlob = blob;
         } catch {}
 

@@ -9,6 +9,7 @@ import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity, Area } from '@/types';
 import { LocationPicker } from '@/components/ui/LocationPicker';
 import NumberStepper from '@/components/ui/NumberStepper';
+import { compressImage } from '@/lib/image-utils';
 
 const MAX_PHOTOS = 10;
 import Image from 'next/image';
@@ -163,17 +164,25 @@ export default function EditListingPage() {
       return;
     }
 
-    // Upload new images
+    // Upload new images (compressed)
     if (newImages.length > 0) {
       const startOrder = existingImages.length;
       for (let i = 0; i < newImages.length; i++) {
         const file = newImages[i];
-        const ext = file.name.split('.').pop() || 'jpg';
-        const filePath = `${user.id}/${listingId}/${startOrder + i}.${ext}`;
+        const filePath = `${user.id}/${listingId}/${startOrder + i}-${Date.now()}.webp`;
+
+        // Compress before upload (aggressive defaults from image-utils)
+        let uploadBlob: Blob = file;
+        let contentType = file.type;
+        try {
+          const { blob } = await compressImage(file);
+          uploadBlob = blob;
+          contentType = 'image/webp';
+        } catch {} // Fallback to original if compression fails
 
         const { error: uploadError } = await supabase.storage
           .from('listing-images')
-          .upload(filePath, file, { contentType: file.type, upsert: true });
+          .upload(filePath, uploadBlob, { contentType, upsert: true });
 
         if (!uploadError) {
           const { data: { publicUrl } } = supabase.storage
