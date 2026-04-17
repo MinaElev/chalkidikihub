@@ -123,9 +123,17 @@ export async function GET(
       loadFontSubset(700, 'greek'),
       loadFontSubset(800, 'greek'),
     ]);
-    const fontRegular = latin400;
-    const fontBold = latin700;
-    const fontBlack = latin800;
+    // Register latin + greek for each weight. Satori picks the font whose
+    // subset actually contains the glyph being rendered — so a single string
+    // like "Συκιά Χαλκιδικής · 4 guests" mixes all three sets cleanly.
+    const fonts = [
+      latin400 && { name: 'Noto Sans', data: latin400, weight: 400 as const, style: 'normal' as const },
+      latin700 && { name: 'Noto Sans', data: latin700, weight: 700 as const, style: 'normal' as const },
+      latin800 && { name: 'Noto Sans', data: latin800, weight: 800 as const, style: 'normal' as const },
+      greek400 && { name: 'Noto Sans', data: greek400, weight: 400 as const, style: 'normal' as const },
+      greek700 && { name: 'Noto Sans', data: greek700, weight: 700 as const, style: 'normal' as const },
+      greek800 && { name: 'Noto Sans', data: greek800, weight: 800 as const, style: 'normal' as const },
+    ].filter(Boolean) as Array<{ name: string; data: ArrayBuffer; weight: 400 | 700 | 800; style: 'normal' }>;
 
     // Diagnostic: return JSON with status of each fetch
     if (req.nextUrl.searchParams.get('debug') === '1') {
@@ -140,27 +148,15 @@ export async function GET(
         coverBytes: coverDataUrl?.length || 0,
         qrLoaded: !!qrDataUrl,
         qrBytes: qrDataUrl?.length || 0,
-        fontRegularBytes: fontRegular?.byteLength || 0,
-        fontBoldBytes: fontBold?.byteLength || 0,
-        fontBlackBytes: fontBlack?.byteLength || 0,
+        latin400Bytes: latin400?.byteLength || 0,
+        latin700Bytes: latin700?.byteLength || 0,
+        latin800Bytes: latin800?.byteLength || 0,
         greek400Bytes: greek400?.byteLength || 0,
         greek700Bytes: greek700?.byteLength || 0,
         greek800Bytes: greek800?.byteLength || 0,
         fontsCount: fonts.length,
       });
     }
-
-    // Register latin + greek for each weight. Satori picks the font whose
-    // subset actually contains the glyph being rendered — so a single string
-    // like "Συκιά Χαλκιδικής · 4 guests" mixes all three sets cleanly.
-    const fonts = [
-      latin400 && { name: 'Noto Sans', data: latin400, weight: 400 as const, style: 'normal' as const },
-      latin700 && { name: 'Noto Sans', data: latin700, weight: 700 as const, style: 'normal' as const },
-      latin800 && { name: 'Noto Sans', data: latin800, weight: 800 as const, style: 'normal' as const },
-      greek400 && { name: 'Noto Sans', data: greek400, weight: 400 as const, style: 'normal' as const },
-      greek700 && { name: 'Noto Sans', data: greek700, weight: 700 as const, style: 'normal' as const },
-      greek800 && { name: 'Noto Sans', data: greek800, weight: 800 as const, style: 'normal' as const },
-    ].filter(Boolean) as Array<{ name: string; data: ArrayBuffer; weight: 400 | 700 | 800; style: 'normal' }>;
 
     const { width, height, align, titleSize, taglineSize, metaSize, footerSize, qrSize } = preset;
     const padding = width === 1200 ? 50 : 70;
