@@ -56,7 +56,10 @@ export default function NumberStepper({
         pattern="[0-9]*"
         min={min}
         max={max}
-        step={step}
+        // step="any" disables the browser's "value must be a multiple of step
+        // offset from min" validation, so typing 1110 when step=5 is fine.
+        // The `step` prop controls only what the +/- buttons add/subtract.
+        step="any"
         required={required}
         value={value}
         onChange={(e) => {
