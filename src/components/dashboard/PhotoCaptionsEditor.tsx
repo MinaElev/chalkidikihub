@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
-import { Loader2, Save, Wand2, Check, Image as ImageIcon } from 'lucide-react';
+import { Loader2, Save, Image as ImageIcon } from 'lucide-react';
 
 interface ImageRow {
   id: string;
@@ -15,12 +15,10 @@ interface ImageRow {
 
 interface Draft {
   caption_el: string;
-  translations?: Record<string, string>;
   isDirty: boolean;
-  translating: boolean;
 }
 
-export function PhotoCaptionsEditor({ listingId, canTranslate = false }: { listingId: string; canTranslate?: boolean }) {
+export function PhotoCaptionsEditor({ listingId }: { listingId: string }) {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState<ImageRow[]>([]);
   const [drafts, setDrafts] = useState<Record<string, Draft>>({});
@@ -38,7 +36,7 @@ export function PhotoCaptionsEditor({ listingId, canTranslate = false }: { listi
     const list = (data || []) as ImageRow[];
     setImages(list);
     const d: Record<string, Draft> = {};
-    list.forEach(i => { d[i.id] = { caption_el: i.caption_el || '', isDirty: false, translating: false }; });
+    list.forEach(i => { d[i.id] = { caption_el: i.caption_el || '', isDirty: false }; });
     setDrafts(d);
     setLoading(false);
   }
@@ -47,37 +45,16 @@ export function PhotoCaptionsEditor({ listingId, canTranslate = false }: { listi
     setDrafts(prev => ({ ...prev, [id]: { ...prev[id], caption_el: val, isDirty: true } }));
   }
 
-  async function translate(id: string) {
-    const d = drafts[id];
-    if (!d.caption_el.trim()) { alert('Γράψε πρώτα τη λεζάντα.'); return; }
-    setDrafts(prev => ({ ...prev, [id]: { ...prev[id], translating: true } }));
-    try {
-      const res = await fetch('/api/ai/translate-fields', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sourceLocale: 'el', fields: { caption: d.caption_el } }),
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      const flat: Record<string, string> = {};
-      Object.entries((data.caption || {}) as Record<string, string>).forEach(([k, v]) => { flat[`caption_${k}`] = v; });
-      setDrafts(prev => ({ ...prev, [id]: { ...prev[id], translations: flat, translating: false, isDirty: true } }));
-    } catch (err) {
-      setDrafts(prev => ({ ...prev, [id]: { ...prev[id], translating: false } }));
-      alert('Αποτυχία: ' + (err instanceof Error ? err.message : 'Unknown'));
-    }
-  }
-
   async function save(id: string) {
     const d = drafts[id];
     setSaving(prev => ({ ...prev, [id]: true }));
     const supabase = createClient();
     const payload: Record<string, string | null> = {
       caption_el: d.caption_el.trim() || null,
-      ...(d.translations || {}),
     };
     const { error } = await supabase.from('listing_images').update(payload).eq('id', id);
     if (error) alert('Σφάλμα: ' + error.message);
-    else setDrafts(prev => ({ ...prev, [id]: { ...prev[id], isDirty: false, translations: undefined } }));
+    else setDrafts(prev => ({ ...prev, [id]: { ...prev[id], isDirty: false } }));
     setSaving(prev => ({ ...prev, [id]: false }));
   }
 
@@ -97,7 +74,6 @@ export function PhotoCaptionsEditor({ listingId, canTranslate = false }: { listi
       {images.map((img) => {
         const d = drafts[img.id];
         if (!d) return null;
-        const isTranslated = !!d.translations?.caption_en;
         return (
           <div key={img.id} className="bg-white border border-gray-200 rounded-xl p-3 flex gap-3">
             <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-lg overflow-hidden bg-gray-100 shrink-0">
@@ -114,16 +90,6 @@ export function PhotoCaptionsEditor({ listingId, canTranslate = false }: { listi
                 placeholder="π.χ. Κύρια κρεβατοκάμαρα με θέα θάλασσα"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none" />
               <div className="flex flex-wrap items-center gap-2 mt-2">
-                {canTranslate && (
-                  <>
-                    <button type="button" onClick={() => translate(img.id)} disabled={d.translating || !d.caption_el.trim()}
-                      className="text-xs flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40">
-                      {d.translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                      Μετάφραση με AI
-                    </button>
-                    {isTranslated && <span className="text-xs text-green-700 flex items-center gap-1"><Check className="w-3 h-3" /> 6 γλώσσες</span>}
-                  </>
-                )}
                 <div className="ml-auto flex items-center gap-2">
                   {d.isDirty && <span className="text-[10px] text-amber-700">Μη αποθηκευμένη</span>}
                   <button type="button" onClick={() => save(img.id)} disabled={saving[img.id] || !d.isDirty}

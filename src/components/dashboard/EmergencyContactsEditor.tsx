@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import {
-  Plus, Trash2, Loader2, Wand2, Save, Check, Info,
+  Plus, Trash2, Loader2, Save, Info,
   ShieldAlert, Flame, HeartPulse, Hospital, Pill, LifeBuoy, Car, User, AlertTriangle,
 } from 'lucide-react';
 
@@ -22,9 +22,7 @@ interface Draft {
   icon_key: string;
   label_el: string;
   notes_el: string;
-  translations?: Record<string, string>;
   isDirty: boolean;
-  translating: boolean;
 }
 
 const ICONS = [
@@ -39,7 +37,7 @@ const ICONS = [
   { key: 'other',       label: 'Άλλο',            Icon: AlertTriangle },
 ];
 
-export function EmergencyContactsEditor({ listingId, canTranslate = false }: { listingId: string; canTranslate?: boolean }) {
+export function EmergencyContactsEditor({ listingId }: { listingId: string }) {
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState<ContactRow[]>([]);
   const [drafts, setDrafts] = useState<Record<string, Draft>>({});
@@ -66,7 +64,6 @@ export function EmergencyContactsEditor({ listingId, canTranslate = false }: { l
         label_el: r.label_el || '',
         notes_el: r.notes_el || '',
         isDirty: false,
-        translating: false,
       };
     });
     setDrafts(d);
@@ -92,7 +89,7 @@ export function EmergencyContactsEditor({ listingId, canTranslate = false }: { l
         ...prev,
         [row.id]: {
           phone: '', icon_key: 'police', label_el: '', notes_el: '',
-          isDirty: false, translating: false,
+          isDirty: false,
         },
       }));
     }
@@ -118,41 +115,6 @@ export function EmergencyContactsEditor({ listingId, canTranslate = false }: { l
     }));
   }
 
-  async function translate(id: string) {
-    const d = drafts[id];
-    if (!d?.label_el.trim()) {
-      alert('Γράψε πρώτα την ετικέτα (π.χ. «Αστυνομικό Τμήμα Κασσανδρείας»).');
-      return;
-    }
-    setDrafts(prev => ({ ...prev, [id]: { ...prev[id], translating: true } }));
-    try {
-      const fields: Record<string, string> = { label: d.label_el };
-      if (d.notes_el.trim()) fields.notes = d.notes_el;
-      const res = await fetch('/api/ai/translate-fields', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sourceLocale: 'el', fields }),
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-
-      const flat: Record<string, string> = {};
-      Object.entries((data.label || {}) as Record<string, string>).forEach(([k, v]) => {
-        flat[`label_${k}`] = v;
-      });
-      Object.entries((data.notes || {}) as Record<string, string>).forEach(([k, v]) => {
-        flat[`notes_${k}`] = v;
-      });
-      setDrafts(prev => ({
-        ...prev,
-        [id]: { ...prev[id], translations: flat, translating: false, isDirty: true },
-      }));
-    } catch (err) {
-      setDrafts(prev => ({ ...prev, [id]: { ...prev[id], translating: false } }));
-      alert('Αποτυχία μετάφρασης: ' + (err instanceof Error ? err.message : 'Unknown'));
-    }
-  }
-
   async function save(id: string) {
     const d = drafts[id];
     if (!d.phone.trim()) { alert('Συμπλήρωσε τον αριθμό τηλεφώνου.'); return; }
@@ -165,7 +127,6 @@ export function EmergencyContactsEditor({ listingId, canTranslate = false }: { l
       icon_key: d.icon_key,
       label_el: d.label_el.trim(),
       notes_el: d.notes_el.trim() || null,
-      ...(d.translations || {}),
     };
     const { error } = await supabase
       .from('listing_emergency_contacts')
@@ -176,7 +137,7 @@ export function EmergencyContactsEditor({ listingId, canTranslate = false }: { l
     } else {
       setDrafts(prev => ({
         ...prev,
-        [id]: { ...prev[id], isDirty: false, translations: undefined },
+        [id]: { ...prev[id], isDirty: false },
       }));
     }
     setSaving(prev => ({ ...prev, [id]: false }));
@@ -293,24 +254,6 @@ export function EmergencyContactsEditor({ listingId, canTranslate = false }: { l
               </div>
 
               <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-100">
-                {canTranslate && (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => translate(row.id)}
-                      disabled={d.translating || !d.label_el.trim()}
-                      className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40"
-                    >
-                      {d.translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                      Μετάφραση με AI
-                    </button>
-                    {d.translations && (
-                      <span className="text-xs text-green-700 flex items-center gap-1">
-                        <Check className="w-3 h-3" /> 6 γλώσσες έτοιμες
-                      </span>
-                    )}
-                  </>
-                )}
                 <div className="ml-auto flex items-center gap-2">
                   {d.isDirty && <span className="text-xs text-amber-700">Μη αποθηκευμένες αλλαγές</span>}
                   <button

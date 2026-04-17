@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import {
-  Plus, Trash2, Loader2, Wand2, Check, HelpCircle, ChevronDown, ChevronUp, Save,
+  Plus, Trash2, Loader2, ChevronDown, ChevronUp, Save,
 } from 'lucide-react';
 
 interface FaqRow {
@@ -23,12 +23,10 @@ interface LocalDraft {
   question_el: string;
   answer_el: string;
   isDirty: boolean;
-  translations?: Record<string, string>; // flat: question_en, answer_de, ...
-  translating: boolean;
   expanded: boolean;
 }
 
-export function FaqsEditor({ listingId, canTranslate = false }: { listingId: string; canTranslate?: boolean }) {
+export function FaqsEditor({ listingId }: { listingId: string }) {
   const [loading, setLoading] = useState(true);
   const [faqs, setFaqs] = useState<FaqRow[]>([]);
   const [drafts, setDrafts] = useState<Record<string, LocalDraft>>({});
@@ -54,7 +52,6 @@ export function FaqsEditor({ listingId, canTranslate = false }: { listingId: str
         question_el: r.question_el || '',
         answer_el: r.answer_el || '',
         isDirty: false,
-        translating: false,
         expanded: false,
       };
     });
@@ -76,7 +73,7 @@ export function FaqsEditor({ listingId, canTranslate = false }: { listingId: str
       setFaqs(prev => [...prev, row]);
       setDrafts(prev => ({
         ...prev,
-        [row.id]: { question_el: '', answer_el: '', isDirty: false, translating: false, expanded: true },
+        [row.id]: { question_el: '', answer_el: '', isDirty: false, expanded: true },
       }));
     }
     setAdding(false);
@@ -101,43 +98,6 @@ export function FaqsEditor({ listingId, canTranslate = false }: { listingId: str
     }));
   }
 
-  async function translate(id: string) {
-    const d = drafts[id];
-    if (!d?.question_el.trim() || !d?.answer_el.trim()) {
-      alert('Γράψε πρώτα την ερώτηση και την απάντηση στα ελληνικά.');
-      return;
-    }
-    setDrafts(prev => ({ ...prev, [id]: { ...prev[id], translating: true } }));
-    try {
-      const res = await fetch('/api/ai/translate-fields', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sourceLocale: 'el',
-          fields: { question: d.question_el, answer: d.answer_el },
-        }),
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-
-      const flat: Record<string, string> = {};
-      Object.entries((data.question || {}) as Record<string, string>).forEach(([k, v]) => {
-        flat[`question_${k}`] = v;
-      });
-      Object.entries((data.answer || {}) as Record<string, string>).forEach(([k, v]) => {
-        flat[`answer_${k}`] = v;
-      });
-
-      setDrafts(prev => ({
-        ...prev,
-        [id]: { ...prev[id], translations: flat, translating: false, isDirty: true },
-      }));
-    } catch (err) {
-      setDrafts(prev => ({ ...prev, [id]: { ...prev[id], translating: false } }));
-      alert('Αποτυχία μετάφρασης: ' + (err instanceof Error ? err.message : 'Unknown'));
-    }
-  }
-
   async function saveFaq(id: string) {
     const d = drafts[id];
     if (!d) return;
@@ -146,7 +106,6 @@ export function FaqsEditor({ listingId, canTranslate = false }: { listingId: str
     const payload: Record<string, string | null> = {
       question_el: d.question_el.trim() || null,
       answer_el: d.answer_el.trim() || null,
-      ...(d.translations || {}),
     };
     const { error } = await supabase.from('listing_faqs').update(payload).eq('id', id);
     if (error) {
@@ -154,9 +113,8 @@ export function FaqsEditor({ listingId, canTranslate = false }: { listingId: str
     } else {
       setDrafts(prev => ({
         ...prev,
-        [id]: { ...prev[id], isDirty: false, translations: undefined },
+        [id]: { ...prev[id], isDirty: false },
       }));
-      // Update local faqs snapshot to avoid stale UI
       setFaqs(prev => prev.map(f => f.id === id ? { ...f, question_el: d.question_el, answer_el: d.answer_el } : f));
     }
     setSaving(prev => ({ ...prev, [id]: false }));
@@ -237,24 +195,6 @@ export function FaqsEditor({ listingId, canTranslate = false }: { listingId: str
                     />
                   </div>
                   <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-100">
-                    {canTranslate && (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() => translate(faq.id)}
-                          disabled={d.translating || !d.question_el.trim() || !d.answer_el.trim()}
-                          className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40"
-                        >
-                          {d.translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                          Μετάφραση με AI
-                        </button>
-                        {d.translations && (
-                          <span className="text-xs text-green-700 flex items-center gap-1">
-                            <Check className="w-3 h-3" /> 6 γλώσσες έτοιμες
-                          </span>
-                        )}
-                      </>
-                    )}
                     <div className="ml-auto flex items-center gap-2">
                       {d.isDirty && <span className="text-xs text-amber-700">Μη αποθηκευμένες αλλαγές</span>}
                       <button

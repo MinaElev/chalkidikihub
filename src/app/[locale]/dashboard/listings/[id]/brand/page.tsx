@@ -18,10 +18,6 @@ import { PhotoCaptionsEditor } from '@/components/dashboard/PhotoCaptionsEditor'
 import { NearbyOverridesEditor } from '@/components/dashboard/NearbyOverridesEditor';
 import { ClosedStateEditor } from '@/components/dashboard/ClosedStateEditor';
 
-type FieldName = 'tagline' | 'owner_story';
-
-const LANGS = ['en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
-
 export default function BrandPage() {
   const { id } = useParams();
   const listingId = id as string;
@@ -33,39 +29,16 @@ export default function BrandPage() {
 
   const [listingTitle, setListingTitle] = useState('');
   const [slug, setSlug] = useState('');
-  // Translation features are hidden from owners — only the super admin
-  // runs bulk translations from /admin/brand-sites.
-  const [canTranslate, setCanTranslate] = useState(false);
 
-  // EL source fields
+  // Source-of-truth (Greek). The platform handles other-language translations.
   const [taglineEl, setTaglineEl] = useState('');
   const [storyEl, setStoryEl] = useState('');
+  const [dirty, setDirty] = useState(false);
 
-  // AI translation overrides: flat keys like tagline_en / owner_story_de
-  const [translated, setTranslated] = useState<Record<string, string>>({});
-  const [translating, setTranslating] = useState<Record<FieldName, boolean>>({
-    tagline: false, owner_story: false,
-  });
-  const [lastTranslatedAt, setLastTranslatedAt] = useState<Record<FieldName, number | null>>({
-    tagline: null, owner_story: null,
-  });
-
-  // Load listing + role probe
+  // Load listing
   useEffect(() => {
     (async () => {
       const supabase = createClient();
-
-      // Role check — only super admins get the translate buttons
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', user.id)
-          .single();
-        setCanTranslate(profile?.role === 'superadmin' || profile?.role === 'admin');
-      }
-
       const { data, error } = await supabase
         .from('listings')
         .select('slug, title_el, title_en, tagline_el, owner_story_el')
@@ -84,61 +57,23 @@ export default function BrandPage() {
     })();
   }, [listingId]);
 
-  async function translateField(fieldName: FieldName) {
-    const source = fieldName === 'tagline' ? taglineEl : storyEl;
-    if (!source.trim()) {
-      alert('Γράψε πρώτα το κείμενο στα ελληνικά.');
-      return;
-    }
-    setTranslating(prev => ({ ...prev, [fieldName]: true }));
-    try {
-      const res = await fetch('/api/ai/translate-fields', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sourceLocale: 'el', fields: { [fieldName]: source } }),
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      const translations = data[fieldName] as Record<string, string> | undefined;
-      if (!translations) throw new Error('Invalid response');
-
-      setTranslated(prev => {
-        const next = { ...prev };
-        Object.entries(translations).forEach(([loc, text]) => {
-          next[`${fieldName}_${loc}`] = text;
-        });
-        return next;
-      });
-      setLastTranslatedAt(prev => ({ ...prev, [fieldName]: Date.now() }));
-    } catch (err) {
-      alert('Αποτυχία μετάφρασης: ' + (err instanceof Error ? err.message : 'Unknown'));
-    } finally {
-      setTranslating(prev => ({ ...prev, [fieldName]: false }));
-    }
-  }
-
   async function handleSave() {
     setSaving(true);
     setError('');
     const supabase = createClient();
-
-    const payload: Record<string, string | null> = {
-      tagline_el: taglineEl.trim() || null,
-      owner_story_el: storyEl.trim() || null,
-      ...translated,
-    };
-
     const { error } = await supabase
       .from('listings')
-      .update(payload)
+      .update({
+        tagline_el: taglineEl.trim() || null,
+        owner_story_el: storyEl.trim() || null,
+      })
       .eq('id', listingId);
 
     if (error) {
       setError(error.message);
     } else {
       setSuccess(true);
-      // Clear translated cache so the user doesn't double-save stale data
-      setTranslated({});
+      setDirty(false);
       setTimeout(() => setSuccess(false), 3000);
     }
     setSaving(false);
@@ -151,8 +86,6 @@ export default function BrandPage() {
       </div>
     );
   }
-
-  const hasUnsavedTranslations = Object.keys(translated).length > 0;
 
   return (
     <div>
@@ -172,9 +105,7 @@ export default function BrandPage() {
             <Wand2 className="w-6 h-6 text-primary-600" />
             Σελίδα καταλύματος
           </h1>
-          {listingTitle && (
-            <p className="text-sm text-gray-600 mt-1">{listingTitle}</p>
-          )}
+          {listingTitle && <p className="text-sm text-gray-600 mt-1">{listingTitle}</p>}
         </div>
         {slug && (
           <Link
@@ -220,93 +151,51 @@ export default function BrandPage() {
           ενεργοποίησε το κλείσιμο. Η δημόσια σελίδα θα δείχνει banner και οι επισκέπτες
           θα μπορούν να επικοινωνήσουν για μελλοντικές κρατήσεις.
         </p>
-        <ClosedStateEditor listingId={listingId} canTranslate={canTranslate} />
+        <ClosedStateEditor listingId={listingId} />
       </section>
 
       {/* Tagline */}
       <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
-        <div className="flex items-end justify-between mb-2 gap-3">
-          <div>
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-primary-500" />
-              Tagline / Σλόγκαν
-            </h2>
-            <p className="text-xs text-gray-500 mt-0.5">
-              Μικρή φράση (έως ~80 χαρακτήρες) που εμφανίζεται κάτω από τον τίτλο.
-            </p>
-          </div>
-          {canTranslate && (
-            <button
-              type="button"
-              onClick={() => translateField('tagline')}
-              disabled={!taglineEl.trim() || translating.tagline}
-              className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
-            >
-              {translating.tagline ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-              Μετάφραση με AI
-            </button>
-          )}
+        <div className="mb-2">
+          <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-primary-500" />
+            Tagline / Σλόγκαν
+          </h2>
+          <p className="text-xs text-gray-500 mt-0.5">
+            Μικρή φράση (έως ~80 χαρακτήρες) που εμφανίζεται κάτω από τον τίτλο.
+          </p>
         </div>
         <input
           type="text"
           maxLength={120}
           value={taglineEl}
-          onChange={(e) => setTaglineEl(e.target.value)}
+          onChange={(e) => { setTaglineEl(e.target.value); setDirty(true); }}
           placeholder="π.χ. Βίλα με ιδιωτική πισίνα 30 μέτρα από τη θάλασσα"
           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:outline-none"
         />
-        <div className="flex items-center justify-between mt-1 text-xs">
-          <span className="text-gray-400">{taglineEl.length} / 120</span>
-          {lastTranslatedAt.tagline && (
-            <span className="text-green-700 flex items-center gap-1">
-              <Check className="w-3 h-3" />
-              Μεταφράστηκε σε 6 γλώσσες — πάτα «Αποθήκευση»
-            </span>
-          )}
-        </div>
+        <div className="text-right text-xs text-gray-400 mt-1">{taglineEl.length} / 120</div>
       </section>
 
       {/* Our Story */}
       <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-6">
-        <div className="flex items-end justify-between mb-2 gap-3">
-          <div>
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-primary-500" />
-              Η ιστορία μας
-            </h2>
-            <p className="text-xs text-gray-500 mt-0.5">
-              Μίλα για σένα και το κατάλυμα. Τι το κάνει ξεχωριστό; Τι αγαπάς εσύ εδώ;
-              Μια προσωπική αφήγηση χτίζει εμπιστοσύνη.
-            </p>
-          </div>
-          {canTranslate && (
-            <button
-              type="button"
-              onClick={() => translateField('owner_story')}
-              disabled={!storyEl.trim() || translating.owner_story}
-              className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
-            >
-              {translating.owner_story ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-              Μετάφραση με AI
-            </button>
-          )}
+        <div className="mb-2">
+          <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-primary-500" />
+            Η ιστορία μας
+          </h2>
+          <p className="text-xs text-gray-500 mt-0.5">
+            Μίλα για σένα και το κατάλυμα. Τι το κάνει ξεχωριστό; Τι αγαπάς εσύ εδώ;
+            Μια προσωπική αφήγηση χτίζει εμπιστοσύνη.
+          </p>
         </div>
         <textarea
           rows={8}
           value={storyEl}
-          onChange={(e) => setStoryEl(e.target.value)}
+          onChange={(e) => { setStoryEl(e.target.value); setDirty(true); }}
           placeholder="Γράψε λίγα λόγια για σένα και το κατάλυμα. Γιατί το αγαπάς; Τι το κάνει ξεχωριστό; Ποιες είναι οι αγαπημένες σου στιγμές εδώ;"
           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:outline-none"
         />
-        <div className="flex items-center justify-between mt-1 text-xs">
-          <span className="text-gray-400">{storyEl.length} χαρακτήρες</span>
-          {lastTranslatedAt.owner_story && (
-            <span className="text-green-700 flex items-center gap-1">
-              <Check className="w-3 h-3" />
-              Μεταφράστηκε σε 6 γλώσσες — πάτα «Αποθήκευση»
-            </span>
-          )}
-        </div>
+        <div className="text-right text-xs text-gray-400 mt-1">{storyEl.length} χαρακτήρες</div>
       </section>
 
       {/* FAQs */}
@@ -320,7 +209,7 @@ export default function BrandPage() {
         <p className="text-xs text-gray-500 mb-4">
           Πρόσθεσε τις ερωτήσεις που σου κάνουν πιο συχνά οι επισκέπτες. Γράψε στα ελληνικά — οι μεταφράσεις γίνονται από τη διαχείριση.
         </p>
-        <FaqsEditor listingId={listingId} canTranslate={canTranslate} />
+        <FaqsEditor listingId={listingId} />
       </section>
 
       {/* Emergency Contacts */}
@@ -335,7 +224,7 @@ export default function BrandPage() {
           Τα βασικά τηλέφωνα Ελλάδας / ΕΕ εμφανίζονται ήδη αυτόματα. Εδώ πρόσθεσε τοπικές επαφές
           (αστυνομικό τμήμα, ιατρείο, φαρμακείο, ταξί, δικό σου τηλέφωνο ως οικοδεσπότη).
         </p>
-        <EmergencyContactsEditor listingId={listingId} canTranslate={canTranslate} />
+        <EmergencyContactsEditor listingId={listingId} />
       </section>
 
       {/* House Rules */}
@@ -349,7 +238,7 @@ export default function BrandPage() {
         <p className="text-xs text-gray-500 mb-4">
           Check-in/out, κάπνισμα, κατοικίδια, πάρτι, παιδιά. Οι επισκέπτες βλέπουν ξεκάθαρα τι ισχύει πριν κλείσουν.
         </p>
-        <HouseRulesEditor listingId={listingId} canTranslate={canTranslate} />
+        <HouseRulesEditor listingId={listingId} />
       </section>
 
       {/* Practical Info */}
@@ -363,7 +252,7 @@ export default function BrandPage() {
         <p className="text-xs text-gray-500 mb-4">
           Πώς θα φτάσουν στο κατάλυμα, οδηγίες check-in (π.χ. keybox), Wi-Fi, parking. Γράψε στα ελληνικά.
         </p>
-        <PracticalInfoEditor listingId={listingId} canTranslate={canTranslate} />
+        <PracticalInfoEditor listingId={listingId} />
       </section>
 
       {/* Extras */}
@@ -378,7 +267,7 @@ export default function BrandPage() {
           Πρωινό, μεταφορά από αεροδρόμιο, καθαριότητα, ενοικίαση ποδηλάτων κ.λπ.
           Μπορείς να ορίσεις τιμή ή να δηλώσεις ότι περιλαμβάνονται δωρεάν.
         </p>
-        <ExtrasEditor listingId={listingId} canTranslate={canTranslate} />
+        <ExtrasEditor listingId={listingId} />
       </section>
 
       {/* Photo captions */}
@@ -392,7 +281,7 @@ export default function BrandPage() {
         <p className="text-xs text-gray-500 mb-4">
           Γράψε τι δείχνει κάθε φωτογραφία. Εμφανίζονται σε hover στη gallery της προσωπικής σελίδας.
         </p>
-        <PhotoCaptionsEditor listingId={listingId} canTranslate={canTranslate} />
+        <PhotoCaptionsEditor listingId={listingId} />
       </section>
 
       {/* Nearby overrides */}
@@ -419,8 +308,7 @@ export default function BrandPage() {
           <h2 className="text-lg font-semibold text-gray-900">Ημερολόγιο διαθεσιμότητας</h2>
         </div>
         <p className="text-xs text-gray-500 mb-4">
-          Σημάδεψε τις μέρες που το κατάλυμα είναι δεσμευμένο ή κλειστό. Από την
-          σελίδα «Ημερολόγια» επίσης ελέγχεις αν εμφανίζεται δημόσια.
+          Σημάδεψε τις μέρες που το κατάλυμα είναι δεσμευμένο ή κλειστό.
         </p>
         <Link
           href={`/dashboard/listings/${listingId}/availability`}
@@ -433,18 +321,12 @@ export default function BrandPage() {
 
       {/* Sticky save bar (tagline + story only) */}
       <div className={`sticky bottom-4 bg-white border rounded-2xl p-4 shadow-lg flex items-center justify-between gap-3 ${
-        hasUnsavedTranslations ? 'border-primary-300 bg-primary-50/50' : 'border-gray-200'
+        dirty ? 'border-primary-300 bg-primary-50/50' : 'border-gray-200'
       }`}>
         <div className="text-sm">
-          {hasUnsavedTranslations ? (
-            <span className="text-primary-700 font-medium">
-              Έχεις {Object.keys(translated).length} μεταφράσεις χωρίς αποθήκευση
-            </span>
-          ) : (
-            <span className="text-gray-600">
-              Αλλαγές ισχύουν μετά την αποθήκευση.
-            </span>
-          )}
+          {dirty
+            ? <span className="text-primary-700 font-medium">Μη αποθηκευμένες αλλαγές</span>
+            : <span className="text-gray-600">Οι αλλαγές ισχύουν μετά την αποθήκευση.</span>}
         </div>
         <button
           type="button"
@@ -462,39 +344,6 @@ export default function BrandPage() {
           <Check className="w-5 h-5" />
           Αποθηκεύτηκε!
         </div>
-      )}
-
-      {/* Translation previews (read-only) */}
-      {Object.keys(translated).length > 0 && (
-        <details className="mt-6 bg-white border border-gray-200 rounded-2xl p-5">
-          <summary className="text-sm font-medium text-gray-700 cursor-pointer flex items-center gap-2">
-            <Eye className="w-4 h-4" />
-            Προεπισκόπηση μεταφράσεων ({Object.keys(translated).length})
-          </summary>
-          <div className="mt-4 space-y-4 text-sm">
-            {(['tagline', 'owner_story'] as FieldName[]).map(fieldName => {
-              const entries = LANGS
-                .map(lang => ({ lang, text: translated[`${fieldName}_${lang}`] }))
-                .filter(e => e.text);
-              if (entries.length === 0) return null;
-              return (
-                <div key={fieldName}>
-                  <h3 className="font-semibold text-gray-900 mb-2 capitalize">
-                    {fieldName === 'tagline' ? 'Tagline' : 'Η ιστορία μας'}
-                  </h3>
-                  <ul className="space-y-1.5 pl-3 border-l-2 border-primary-200">
-                    {entries.map(({ lang, text }) => (
-                      <li key={lang} className="text-gray-700">
-                        <span className="inline-block w-8 font-mono text-[10px] uppercase text-gray-400">{lang}</span>
-                        <span className="whitespace-pre-line">{text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        </details>
       )}
     </div>
   );

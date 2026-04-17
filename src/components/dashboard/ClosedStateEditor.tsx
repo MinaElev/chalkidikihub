@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Loader2, Save, Wand2, Check, Lock, LockOpen } from 'lucide-react';
+import { Loader2, Save, Lock, LockOpen } from 'lucide-react';
 
 interface State {
   is_closed: boolean;
@@ -12,14 +12,11 @@ interface State {
 
 interface Props {
   listingId: string;
-  canTranslate?: boolean;
 }
 
-export function ClosedStateEditor({ listingId, canTranslate = false }: Props) {
+export function ClosedStateEditor({ listingId }: Props) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [translating, setTranslating] = useState(false);
-  const [translated, setTranslated] = useState<Record<string, string>>({});
   const [dirty, setDirty] = useState(false);
   const [state, setState] = useState<State>({
     is_closed: false, reopening_date: '', closed_reason_el: '',
@@ -49,30 +46,6 @@ export function ClosedStateEditor({ listingId, canTranslate = false }: Props) {
     setDirty(true);
   }
 
-  async function translate() {
-    if (!state.closed_reason_el.trim()) { alert('Γράψε πρώτα την αιτιολογία στα ελληνικά.'); return; }
-    setTranslating(true);
-    try {
-      const res = await fetch('/api/ai/translate-fields', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sourceLocale: 'el', fields: { closed_reason: state.closed_reason_el } }),
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      const flat: Record<string, string> = {};
-      Object.entries((data.closed_reason || {}) as Record<string, string>).forEach(([k, v]) => {
-        flat[`closed_reason_${k}`] = v;
-      });
-      setTranslated(flat);
-      setDirty(true);
-    } catch (err) {
-      alert('Αποτυχία: ' + (err instanceof Error ? err.message : 'Unknown'));
-    } finally {
-      setTranslating(false);
-    }
-  }
-
   async function save() {
     setSaving(true);
     const supabase = createClient();
@@ -80,19 +53,16 @@ export function ClosedStateEditor({ listingId, canTranslate = false }: Props) {
       is_closed: state.is_closed,
       reopening_date: state.reopening_date || null,
       closed_reason_el: state.closed_reason_el.trim() || null,
-      ...translated,
     };
     const { error } = await supabase.from('listings').update(payload).eq('id', listingId);
     if (error) alert('Σφάλμα: ' + error.message);
-    else { setDirty(false); setTranslated({}); }
+    else setDirty(false);
     setSaving(false);
   }
 
   if (loading) {
     return <div className="py-6 flex justify-center"><Loader2 className="w-5 h-5 animate-spin text-primary-600" /></div>;
   }
-
-  const hasTranslated = Object.keys(translated).length > 0;
 
   return (
     <div className="space-y-4">
@@ -146,18 +116,9 @@ export function ClosedStateEditor({ listingId, canTranslate = false }: Props) {
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="block text-xs font-medium text-gray-600">
-                Αιτιολογία <span className="text-gray-400">(προαιρετικό, ελληνικά)</span>
-              </label>
-              {canTranslate && (
-                <button type="button" onClick={translate} disabled={translating || !state.closed_reason_el.trim()}
-                  className="text-xs flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40">
-                  {translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                  Μετάφραση με AI
-                </button>
-              )}
-            </div>
+            <label className="block text-xs font-medium text-gray-600 mb-1">
+              Αιτιολογία <span className="text-gray-400">(προαιρετικό, ελληνικά)</span>
+            </label>
             <textarea
               rows={2}
               value={state.closed_reason_el}
@@ -165,11 +126,6 @@ export function ClosedStateEditor({ listingId, canTranslate = false }: Props) {
               placeholder="π.χ. Ανακαίνιση — επανερχόμαστε Απρίλιο 2026"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
             />
-            {canTranslate && hasTranslated && (
-              <p className="text-xs text-green-700 mt-1 flex items-center gap-1">
-                <Check className="w-3 h-3" /> Μεταφράστηκε σε 6 γλώσσες
-              </p>
-            )}
           </div>
         </div>
       )}

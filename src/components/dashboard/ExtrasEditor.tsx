@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import {
-  Plus, Trash2, Loader2, Wand2, Save, Check, Coffee, Car, Droplets, Bike, Ship,
+  Plus, Trash2, Loader2, Save, Coffee, Car, Droplets, Bike, Ship,
   Utensils, Flower2, ShowerHead, Sparkle,
 } from 'lucide-react';
 
@@ -28,9 +28,7 @@ interface Draft {
   included: boolean;
   label_el: string;
   description_el: string;
-  translations?: Record<string, string>;
   isDirty: boolean;
-  translating: boolean;
 }
 
 const ICONS = [
@@ -54,7 +52,7 @@ const UNITS = [
   { key: 'per_use',      label: 'ανά χρήση' },
 ];
 
-export function ExtrasEditor({ listingId, canTranslate = false }: { listingId: string; canTranslate?: boolean }) {
+export function ExtrasEditor({ listingId }: { listingId: string }) {
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState<ExtraRow[]>([]);
   const [drafts, setDrafts] = useState<Record<string, Draft>>({});
@@ -82,7 +80,7 @@ export function ExtrasEditor({ listingId, canTranslate = false }: { listingId: s
         included: !!r.included,
         label_el: r.label_el || '',
         description_el: r.description_el || '',
-        isDirty: false, translating: false,
+        isDirty: false,
       };
     });
     setDrafts(d);
@@ -106,7 +104,7 @@ export function ExtrasEditor({ listingId, canTranslate = false }: { listingId: s
         [row.id]: {
           icon_key: 'breakfast', price: '', currency: 'EUR', price_unit: 'per_person',
           included: false, label_el: '', description_el: '',
-          isDirty: false, translating: false,
+          isDirty: false,
         },
       }));
     }
@@ -125,30 +123,6 @@ export function ExtrasEditor({ listingId, canTranslate = false }: { listingId: s
     setDrafts(prev => ({ ...prev, [id]: { ...prev[id], ...patch, isDirty: true } }));
   }
 
-  async function translate(id: string) {
-    const d = drafts[id];
-    if (!d?.label_el.trim()) { alert('Γράψε πρώτα την ετικέτα στα ελληνικά.'); return; }
-    setDrafts(prev => ({ ...prev, [id]: { ...prev[id], translating: true } }));
-    try {
-      const fields: Record<string, string> = { label: d.label_el };
-      if (d.description_el.trim()) fields.description = d.description_el;
-      const res = await fetch('/api/ai/translate-fields', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sourceLocale: 'el', fields }),
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      const flat: Record<string, string> = {};
-      Object.entries((data.label || {}) as Record<string, string>).forEach(([k, v]) => { flat[`label_${k}`] = v; });
-      Object.entries((data.description || {}) as Record<string, string>).forEach(([k, v]) => { flat[`description_${k}`] = v; });
-      setDrafts(prev => ({ ...prev, [id]: { ...prev[id], translations: flat, translating: false, isDirty: true } }));
-    } catch (err) {
-      setDrafts(prev => ({ ...prev, [id]: { ...prev[id], translating: false } }));
-      alert('Αποτυχία: ' + (err instanceof Error ? err.message : 'Unknown'));
-    }
-  }
-
   async function save(id: string) {
     const d = drafts[id];
     if (!d.label_el.trim()) { alert('Συμπλήρωσε την ετικέτα στα ελληνικά.'); return; }
@@ -162,11 +136,10 @@ export function ExtrasEditor({ listingId, canTranslate = false }: { listingId: s
       included: d.included,
       label_el: d.label_el.trim(),
       description_el: d.description_el.trim() || null,
-      ...(d.translations || {}),
     };
     const { error } = await supabase.from('listing_extras').update(payload).eq('id', id);
     if (error) alert('Σφάλμα: ' + error.message);
-    else setDrafts(prev => ({ ...prev, [id]: { ...prev[id], isDirty: false, translations: undefined } }));
+    else setDrafts(prev => ({ ...prev, [id]: { ...prev[id], isDirty: false } }));
     setSaving(prev => ({ ...prev, [id]: false }));
   }
 
@@ -240,16 +213,6 @@ export function ExtrasEditor({ listingId, canTranslate = false }: { listingId: s
                 )}
               </div>
               <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-100">
-                {canTranslate && (
-                  <>
-                    <button type="button" onClick={() => translate(row.id)} disabled={d.translating || !d.label_el.trim()}
-                      className="text-xs flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-primary-50 border border-primary-200 text-primary-700 font-medium rounded-lg disabled:opacity-40">
-                      {d.translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                      Μετάφραση με AI
-                    </button>
-                    {d.translations && <span className="text-xs text-green-700 flex items-center gap-1"><Check className="w-3 h-3" /> 6 γλώσσες έτοιμες</span>}
-                  </>
-                )}
                 <div className="ml-auto flex items-center gap-2">
                   {d.isDirty && <span className="text-xs text-amber-700">Μη αποθηκευμένες</span>}
                   <button type="button" onClick={() => save(row.id)} disabled={saving[row.id] || !d.isDirty}
