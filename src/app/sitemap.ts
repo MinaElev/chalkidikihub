@@ -232,6 +232,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // ── FAQ pages ──
   entries.push(...forLocales('/faq', { freq: 'monthly', priority: 0.7 }));
+  entries.push(...forLocales('/places', { freq: 'weekly', priority: 0.7 }));
   for (const f of ['beaches', 'accommodation', 'transport', 'food-and-drink', 'practical', 'activities']) {
     entries.push(...forLocales(`/faq/${f}`, { freq: 'monthly', priority: 0.8 }));
   }
