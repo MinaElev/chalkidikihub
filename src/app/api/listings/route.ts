@@ -8,7 +8,7 @@ const SELECT_FIELDS = `
   description_el, description_en, description_de, description_bg, description_ru, description_ro,
   area, location_name, latitude, longitude,
   price_per_night, currency, guests_max, bedrooms, bathrooms,
-  amenities, status, contact_phone, contact_email, booking_url, airbnb_url, website_url, created_at, updated_at,
+  amenities, status, contact_phone, contact_email, booking_url, airbnb_url, website_url, show_calendar, created_at, updated_at,
   listing_images (id, image_url, sort_order, is_cover)
 `;
 

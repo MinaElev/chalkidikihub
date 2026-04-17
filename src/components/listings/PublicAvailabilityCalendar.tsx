@@ -7,6 +7,8 @@ import { useLocale } from 'next-intl';
 
 interface Props {
   listingId: string;
+  /** If false, the calendar is not rendered at all. */
+  enabled?: boolean;
 }
 
 interface AvailabilityRow {
@@ -46,7 +48,7 @@ const LABELS: Record<string, { title: string; available: string; unavailable: st
   sr: { title: 'Dostupnost', available: 'Dostupno', unavailable: 'Nije dostupno' },
 };
 
-export function PublicAvailabilityCalendar({ listingId }: Props) {
+export function PublicAvailabilityCalendar({ listingId, enabled = true }: Props) {
   const locale = useLocale();
   const [rows, setRows] = useState<AvailabilityRow[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -57,6 +59,10 @@ export function PublicAvailabilityCalendar({ listingId }: Props) {
   });
 
   useEffect(() => {
+    if (!enabled) {
+      setLoaded(true);
+      return;
+    }
     (async () => {
       const supabase = createClient();
       const today = new Date();
@@ -69,7 +75,7 @@ export function PublicAvailabilityCalendar({ listingId }: Props) {
       if (data) setRows(data as AvailabilityRow[]);
       setLoaded(true);
     })();
-  }, [listingId]);
+  }, [listingId, enabled]);
 
   const statusByDate = useMemo(() => {
     const m = new Map<string, CellStatus>();
@@ -77,7 +83,8 @@ export function PublicAvailabilityCalendar({ listingId }: Props) {
     return m;
   }, [rows]);
 
-  // If no availability data set at all, hide the calendar (not all owners use it)
+  // Hide if owner disabled OR no availability data yet
+  if (!enabled) return null;
   if (loaded && rows.length === 0) return null;
 
   const months = [0, 1].map(offset => {

@@ -129,8 +129,11 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
             </div>
           )}
 
-          {/* Availability Calendar (only shown if owner has set some dates) */}
-          <PublicAvailabilityCalendar listingId={listing.id} />
+          {/* Availability Calendar (only shown if owner enabled it and has set dates) */}
+          <PublicAvailabilityCalendar
+            listingId={listing.id}
+            enabled={Boolean((listing as unknown as { show_calendar?: boolean }).show_calendar)}
+          />
 
           <ShareButtons title={title} description={description} />
         </div>
