@@ -212,6 +212,13 @@ export function transformListing(row: Record<string, unknown>) {
       el: row.house_rules_extra_el || '', en: row.house_rules_extra_en || '', de: row.house_rules_extra_de || '',
       bg: row.house_rules_extra_bg || '', ru: row.house_rules_extra_ru || '', ro: row.house_rules_extra_ro || '', sr: row.house_rules_extra_sr || '',
     },
+    // Closed flag
+    is_closed: Boolean(row.is_closed),
+    reopening_date: row.reopening_date || null,
+    closed_reason: {
+      el: row.closed_reason_el || '', en: row.closed_reason_en || '', de: row.closed_reason_de || '',
+      bg: row.closed_reason_bg || '', ru: row.closed_reason_ru || '', ro: row.closed_reason_ro || '', sr: row.closed_reason_sr || '',
+    },
     // Practical info
     how_to_reach: {
       el: row.how_to_reach_el || '', en: row.how_to_reach_en || '', de: row.how_to_reach_de || '',

@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation';
 import {
   Loader2, Wand2, Sparkles, BookOpen, HelpCircle, Eye, ChevronRight, Plus,
   AlertTriangle, Calendar, Shield, ShieldCheck, Info, Sparkle,
-  Image as ImageIcon, MapPin,
+  Image as ImageIcon, MapPin, Lock,
 } from 'lucide-react';
 
 interface DbListing {
@@ -21,6 +21,8 @@ interface DbListing {
   owner_email?: string;
   tagline_el: string | null;
   owner_story_el: string | null;
+  is_closed?: boolean;
+  reopening_date?: string | null;
   // House rules / practical (set if any of the structured fields are filled)
   house_rules_filled: boolean;
   practical_filled: boolean;
@@ -165,6 +167,7 @@ export default function SiteBuilderPage() {
         .select(`
           id, slug, title_el, title_en, area, status, owner_id,
           tagline_el, owner_story_el,
+          is_closed, reopening_date,
           check_in_time, check_out_time, rule_smoking, rule_pets, rule_parties, rule_kids,
           quiet_hours_from, quiet_hours_to, house_rules_extra_el,
           how_to_reach_el, wifi_info_el, parking_info_el, check_in_info_el
@@ -259,6 +262,8 @@ export default function SiteBuilderPage() {
           return {
             ...row,
             owner_email: row.owner_id ? ownerEmails[row.owner_id] : undefined,
+            is_closed: Boolean(row.is_closed),
+            reopening_date: row.reopening_date || null,
             house_rules_filled,
             practical_filled,
             faqs_count: faqCounts[row.id] || 0,
@@ -359,6 +364,11 @@ export default function SiteBuilderPage() {
                       >
                         {listing.status}
                       </span>
+                      {listing.is_closed && (
+                        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-orange-100 text-orange-700">
+                          <Lock className="w-3 h-3" /> Κλειστό
+                        </span>
+                      )}
                       {isSuperAdmin && listing.owner_email && (
                         <>
                           <span>·</span>

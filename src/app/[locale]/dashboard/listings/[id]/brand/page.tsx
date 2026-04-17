@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation';
 import {
   ArrowLeft, Loader2, Save, Check, Sparkles, BookOpen, Wand2, Eye, Info,
   HelpCircle, AlertTriangle, Calendar, ShieldCheck, Image as ImageIcon,
-  Sparkle, MapPin,
+  Sparkle, MapPin, Lock,
 } from 'lucide-react';
 import { FaqsEditor } from '@/components/dashboard/FaqsEditor';
 import { EmergencyContactsEditor } from '@/components/dashboard/EmergencyContactsEditor';
@@ -16,6 +16,7 @@ import { PracticalInfoEditor } from '@/components/dashboard/PracticalInfoEditor'
 import { ExtrasEditor } from '@/components/dashboard/ExtrasEditor';
 import { PhotoCaptionsEditor } from '@/components/dashboard/PhotoCaptionsEditor';
 import { NearbyOverridesEditor } from '@/components/dashboard/NearbyOverridesEditor';
+import { ClosedStateEditor } from '@/components/dashboard/ClosedStateEditor';
 
 type FieldName = 'tagline' | 'owner_story';
 
@@ -205,6 +206,22 @@ export default function BrandPage() {
           {error}
         </div>
       )}
+
+      {/* Open / Closed state */}
+      <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-amber-100 text-amber-700">
+            <Lock className="w-4 h-4" />
+          </span>
+          <h2 className="text-lg font-semibold text-gray-900">Κατάσταση καταλύματος</h2>
+        </div>
+        <p className="text-xs text-gray-500 mb-4">
+          Αν το κατάλυμα είναι προσωρινά κλειστό (σεζόν, ανακαίνιση, προσωπικοί λόγοι),
+          ενεργοποίησε το κλείσιμο. Η δημόσια σελίδα θα δείχνει banner και οι επισκέπτες
+          θα μπορούν να επικοινωνήσουν για μελλοντικές κρατήσεις.
+        </p>
+        <ClosedStateEditor listingId={listingId} canTranslate={canTranslate} />
+      </section>
 
       {/* Tagline */}
       <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">

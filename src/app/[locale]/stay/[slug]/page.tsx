@@ -30,6 +30,8 @@ export default async function StayRoute({ params }: Props) {
       wifi_info_el, wifi_info_en, wifi_info_de, wifi_info_bg, wifi_info_ru, wifi_info_ro, wifi_info_sr,
       parking_info_el, parking_info_en, parking_info_de, parking_info_bg, parking_info_ru, parking_info_ro, parking_info_sr,
       check_in_info_el, check_in_info_en, check_in_info_de, check_in_info_bg, check_in_info_ru, check_in_info_ro, check_in_info_sr,
+      is_closed, reopening_date,
+      closed_reason_el, closed_reason_en, closed_reason_de, closed_reason_bg, closed_reason_ru, closed_reason_ro, closed_reason_sr,
       area, location_name, latitude, longitude,
       price_per_night, currency, guests_max, bedrooms, bathrooms,
       amenities, status,

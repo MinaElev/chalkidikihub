@@ -18,6 +18,7 @@ import { PublicAvailabilityCalendar } from '@/components/listings/PublicAvailabi
 import { HouseRules } from '@/components/stay/HouseRules';
 import { PracticalInfo } from '@/components/stay/PracticalInfo';
 import { ExtrasSection } from '@/components/stay/ExtrasSection';
+import { ClosedBanner } from '@/components/stay/ClosedBanner';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 
@@ -118,6 +119,9 @@ export function StayPage({ listing, locale }: { listing: Listing; locale: string
 
   return (
     <div className="bg-white">
+      {/* Closed banner — only renders when listing.is_closed = true */}
+      <ClosedBanner listing={listing} />
+
       {/* ══════════════ HERO ══════════════ */}
       <section className="relative w-full h-[70vh] min-h-[480px] max-h-[720px] overflow-hidden">
         {coverImage?.image_url ? (
