@@ -365,7 +365,13 @@
       "Bash(node scripts/compress-existing-images.js --target-kb=100 --skip-below-kb=130)",
       "Bash(git tag *)",
       "Bash(curl -sI \"https://chalkidikihub.gr/api/social-kit/ig-story?slug=amira-house-sithonia-sykia-chalkidikis\")",
-      "Bash(curl -s \"https://chalkidikihub.gr/api/social-kit/ig-story?slug=amira-house-sithonia-sykia-chalkidikis\" -o /tmp/test.png)"
+      "Bash(curl -s \"https://chalkidikihub.gr/api/social-kit/ig-story?slug=amira-house-sithonia-sykia-chalkidikis\" -o /tmp/test.png)",
+      "Bash(curl -s -w \"HTTP %{http_code} | size=%{size_download} bytes | time=%{time_total}s\\\\n\" \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=amira-house-sithonia-sykia-chalkidikis\" -o /tmp/sk.png)",
+      "Bash(curl -s -w \"HTTP %{http_code} | size=%{size_download} bytes\\\\n\" \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=amira-house-sithonia-sykia-chalkidikis&cb=$\\(date +%s\\)\" -o /tmp/sk.png)",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(X11; Linux x86_64\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/98.0.4758.102 Safari/537.36\" \"https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400&subset=greek&display=swap\")",
+      "Bash(curl -sI \"https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-400-normal.ttf\")",
+      "Bash(curl -sI \"https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-700-normal.ttf\")",
+      "Bash(curl -sI \"https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-800-normal.ttf\")"
     ]
   }
 }

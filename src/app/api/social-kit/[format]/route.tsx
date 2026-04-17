@@ -31,21 +31,12 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 // Noto Sans covers Greek + Latin + Cyrillic — perfect for our 7 locales.
 async function loadFont(weight: 400 | 700 | 800): Promise<ArrayBuffer | null> {
   try {
-    // Google Fonts CSS → .ttf URL (Satori wants raw font buffer, not woff2)
-    const cssUrl = `https://fonts.googleapis.com/css2?family=Noto+Sans:wght@${weight}&subset=greek&display=swap`;
-    const cssRes = await fetch(cssUrl, {
-      headers: {
-        // User-Agent forces Google to return .ttf (not .woff2) which Satori supports
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
-      },
-    });
-    if (!cssRes.ok) return null;
-    const css = await cssRes.text();
-    const match = css.match(/src:\s*url\(([^)]+)\)\s*format\('(?:truetype|opentype)'\)/);
-    if (!match) return null;
-    const fontRes = await fetch(match[1]);
-    if (!fontRes.ok) return null;
-    return await fontRes.arrayBuffer();
+    // jsDelivr serves raw TTFs from fontsource (Google Fonts returns woff2,
+    // which Satori can't parse). The greek subset is ~16 KB per weight.
+    const url = `https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-${weight}-normal.ttf`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    return await res.arrayBuffer();
   } catch {
     return null;
   }
