@@ -375,7 +375,8 @@
       "Bash(curl -s \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=nonexistent-slug-test-404\" -w \"\\\\nHTTP %{http_code}\\\\n\")",
       "Bash(curl -s \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=amira-house-sithonia-sykia-chalkidikis&debug=1\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=amira-house-sithonia-sykia-chalkidikis&nocover=1&cb=$\\(date +%s\\)\" -o /tmp/nocover.png)",
-      "Bash(curl -s -w \"HTTP %{http_code} size=%{size_download}\\\\n\" \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=amira-house-sithonia-sykia-chalkidikis&cb=$\\(date +%s\\)2\" -o /tmp/sk.png)"
+      "Bash(curl -s -w \"HTTP %{http_code} size=%{size_download}\\\\n\" \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=amira-house-sithonia-sykia-chalkidikis&cb=$\\(date +%s\\)2\" -o /tmp/sk.png)",
+      "Bash(curl -s \"https://chalkidikihub.gr/api/og/feature/_list\")"
     ]
   }
 }

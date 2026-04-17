@@ -1030,6 +1030,281 @@ function ProfileBadge() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// 8. CAROUSEL — "Πώς να ανεβάσεις το κατάλυμά σου σε 5 λεπτά" (8 slides)
+// Designed as a cohesive set: same palette, top progress bar, big step
+// number, consistent "swipe →" hint. Share as a multi-photo IG post.
+// ─────────────────────────────────────────────────────────────
+
+const CAROUSEL_TOTAL = 8;
+
+function ProgressBar({ step }: { step: number }) {
+  return (
+    <div style={{ display: 'flex', gap: 6, marginBottom: 30 }}>
+      {Array.from({ length: CAROUSEL_TOTAL }).map((_, i) => {
+        const done = i < step;
+        const current = i === step - 1;
+        return (
+          <div key={i} style={{
+            display: 'flex',
+            flex: 1,
+            height: 5,
+            borderRadius: 9999,
+            backgroundColor: done ? '#34d399' : current ? '#34d399' : 'rgba(255,255,255,0.15)',
+            opacity: current ? 1 : done ? 0.5 : 1,
+          }} />
+        );
+      })}
+    </div>
+  );
+}
+
+function SwipeHint() {
+  return (
+    <div style={{
+      position: 'absolute', right: 60, bottom: 110,
+      display: 'flex', alignItems: 'center', gap: 10,
+      fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)',
+    }}>
+      Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+    </div>
+  );
+}
+
+function SlideBase({ step, children, showSwipe = true }: { step: number; children: React.ReactNode; showSwipe?: boolean }) {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <ProgressBar step={step} />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip label={`Step ${step} / ${CAROUSEL_TOTAL}`} />
+      </div>
+      {children}
+      {showSwipe && <SwipeHint />}
+      <Footer tagline={`${step} / ${CAROUSEL_TOTAL}  ·  chalkidikihub.gr`} />
+    </Canvas>
+  );
+}
+
+// Slide 1 — COVER
+function Carousel1() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #064e3b 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <Glow accent="teal" pos="bl" />
+      <ProgressBar step={1} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip label="Owner guide · ChalkidikiHub" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 42, fontWeight: 700, color: '#34d399', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>
+          Οδηγός · 5 λεπτά
+        </div>
+        <div style={{ display: 'flex', fontSize: 108, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em' }}>
+          Ανέβασε
+        </div>
+        <div style={{ display: 'flex', fontSize: 108, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em' }}>
+          το κατάλυμά
+        </div>
+        <div style={{ display: 'flex', fontSize: 108, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: '#34d399' }}>
+          σου.
+        </div>
+        <div style={{ display: 'flex', fontSize: 32, color: 'rgba(255,255,255,0.75)', marginTop: 40, lineHeight: 1.3, maxWidth: 900 }}>
+          Χωρίς προμήθεια. Χωρίς πιστωτική. 5 απλά βήματα — και βγαίνεις live.
+        </div>
+      </div>
+      <SwipeHint />
+      <Footer tagline="1 / 8  ·  Swipe για αρχή" />
+    </Canvas>
+  );
+}
+
+// Slide 2 — Step 1: Signup
+function Carousel2() {
+  return (
+    <SlideBase step={2}>
+      <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>1</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Κάνε εγγραφή.</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
+        Email + κωδικός. Χωρίς πιστωτική κάρτα. Χωρίς "free trial που γίνεται paid". Δωρεάν για πάντα.
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 40, width: 700 }}>
+        <div style={{ display: 'flex', backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 12, padding: '18px 22px', fontSize: 22, color: 'rgba(255,255,255,0.55)' }}>
+          you@example.com
+        </div>
+        <div style={{ display: 'flex', backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 12, padding: '18px 22px', fontSize: 22, color: 'rgba(255,255,255,0.55)' }}>
+          • • • • • • • •
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#10b981', borderRadius: 12, padding: '18px 22px', fontSize: 24, fontWeight: 700 }}>
+          Ξεκίνα →
+        </div>
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 3 — Step 2: Photos
+function Carousel3() {
+  return (
+    <SlideBase step={3}>
+      <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>2</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Βάλε φωτογραφίες.</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
+        5-10 φωτό φτάνουν. Η 1η είναι η πιο σημαντική — είναι το cover που βλέπει όλος ο κόσμος.
+      </div>
+      <div style={{ display: 'flex', gap: 14, marginTop: 40, flexWrap: 'wrap' }}>
+        {[['#0ea5e9','#8b5cf6'], ['#f59e0b','#ef4444'], ['#10b981','#0ea5e9'], ['#ec4899','#8b5cf6'], ['#14b8a6','#10b981']].map(([a,b], i) => (
+          <div key={i} style={{
+            display: 'flex',
+            width: 170, height: 170,
+            backgroundImage: `linear-gradient(135deg, ${a}, ${b})`,
+            borderRadius: 14,
+            ...(i === 0 ? { border: '4px solid #34d399' } : {}),
+          }}>
+            {i === 0 && <div style={{ display: 'flex', position: 'absolute', backgroundColor: '#34d399', color: '#0f172a', fontSize: 14, fontWeight: 800, padding: '4px 10px', borderRadius: 999, margin: 10 }}>COVER</div>}
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 24, fontSize: 22, color: '#fcd34d' }}>
+        <span style={{ display: 'flex', fontSize: 28 }}>💡</span>
+        Πρωί ή απόγευμα φως. Δωμάτια τακτοποιημένα. Καμία compression.
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 4 — Step 3: Describe (Greek only)
+function Carousel4() {
+  return (
+    <SlideBase step={4}>
+      <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>3</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Γράψε στα ελληνικά.</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
+        Μόνο αυτό. Το AI μεταφράζει σε 6 γλώσσες δωρεάν. Όχι copy-paste με Google Translate.
+      </div>
+      <div style={{ display: 'flex', gap: 16, marginTop: 36, alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 14, padding: 20, width: 350 }}>
+          <div style={{ display: 'flex', fontSize: 20, fontWeight: 700, color: '#34d399', marginBottom: 8 }}>🇬🇷 Ελληνικά (γράφεις)</div>
+          <div style={{ display: 'flex', fontSize: 18, color: 'rgba(255,255,255,0.85)', lineHeight: 1.4 }}>Ήσυχο σπίτι με θέα στη Σιθωνία...</div>
+        </div>
+        <div style={{ display: 'flex', fontSize: 40, color: '#34d399' }}>→</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
+          {['🇬🇧 Auto', '🇩🇪 Auto', '🇧🇬 Auto', '🇷🇺 Auto', '🇷🇴 Auto'].map(l => (
+            <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 10, backgroundColor: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.25)', borderRadius: 10, padding: '8px 14px', fontSize: 18, fontWeight: 600 }}>
+              <span style={{ display: 'flex', width: 8, height: 8, borderRadius: 9999, backgroundColor: '#34d399' }} />{l}
+            </div>
+          ))}
+        </div>
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 5 — Step 4: Amenities
+function Carousel5() {
+  const amen = ['📶 WiFi', '🅿️ Parking', '❄️ A/C', '🏊 Pool', '🍳 Κουζίνα', '📺 TV', '🌊 Θέα', '🐾 Pet-friendly', '🚭 Non-smoking'];
+  return (
+    <SlideBase step={5}>
+      <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>4</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Τσέκαρε amenities.</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
+        Όσα προσφέρεις — ο guest το βλέπει και ξέρει τι να περιμένει. 0 ερωτήσεις μετά.
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 36 }}>
+        {amen.map(a => (
+          <div key={a} style={{ display: 'flex', alignItems: 'center', gap: 10, backgroundColor: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.4)', borderRadius: 12, padding: '14px 22px', fontSize: 26, fontWeight: 700 }}>
+            <span style={{ display: 'flex', color: '#34d399', fontSize: 20, fontWeight: 800 }}>✓</span>{a}
+          </div>
+        ))}
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 6 — Step 5: Publish
+function Carousel6() {
+  return (
+    <SlideBase step={6}>
+      <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>5</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Publish.</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
+        Ένα κουμπί. Το κατάλυμά σου είναι live σε 2 δευτερόλεπτα και αρχίζει να εμφανίζεται σε αναζητήσεις.
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: 30 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backgroundImage: 'linear-gradient(135deg, #10b981, #14b8a6)',
+            padding: '28px 60px', borderRadius: 16,
+            fontSize: 44, fontWeight: 800,
+            boxShadow: '0 30px 60px rgba(16,185,129,0.4)',
+          }}>🚀 Publish</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 28, color: '#34d399', fontWeight: 700 }}>
+            <span style={{ display: 'flex', width: 14, height: 14, borderRadius: 9999, backgroundColor: '#34d399' }} />
+            Live · δες το στο chalkidikihub.gr
+          </div>
+        </div>
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 7 — Bonus: auto features
+function Carousel7() {
+  const bonuses = [
+    { emoji: '📱', title: 'QR για guests', sub: 'Αυτόματα' },
+    { emoji: '🎨', title: 'Social Kit', sub: '3 graphics με 1 κλικ' },
+    { emoji: '📊', title: 'Στατιστικά', sub: 'Views · countries · sources' },
+    { emoji: '🌐', title: 'Brand site', sub: 'Δική σου σελίδα' },
+  ];
+  return (
+    <SlideBase step={7}>
+      <div style={{ display: 'flex', fontSize: 48, fontWeight: 700, color: '#34d399', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Bonus · Αυτόματα</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.02em' }}>Μόλις έγινες live</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.02em' }}>έχεις ΗΔΗ:</div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginTop: 36, flex: 1 }}>
+        {bonuses.map(b => (
+          <div key={b.title} style={{ display: 'flex', flexDirection: 'column', width: 460, backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 16, padding: 24 }}>
+            <div style={{ display: 'flex', fontSize: 48, marginBottom: 8 }}>{b.emoji}</div>
+            <div style={{ display: 'flex', fontSize: 30, fontWeight: 800 }}>{b.title}</div>
+            <div style={{ display: 'flex', fontSize: 20, color: '#a7f3d0', marginTop: 4 }}>{b.sub}</div>
+          </div>
+        ))}
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 8 — CTA
+function Carousel8() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #064e3b 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <Glow accent="teal" pos="bl" />
+      <ProgressBar step={8} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip label="Τέλος · Ξεκίνα τώρα" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 100, fontWeight: 800, lineHeight: 1.02, textAlign: 'center' }}>Το κατάλυμά σου</div>
+        <div style={{ display: 'flex', fontSize: 100, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', color: '#34d399' }}>αξίζει καλύτερα.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.8)', marginTop: 36, textAlign: 'center', maxWidth: 900, lineHeight: 1.4 }}>
+          Ξεκίνα τώρα. 5 λεπτά, καμία προμήθεια, όλα τα bonuses μέσα.
+        </div>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          backgroundImage: 'linear-gradient(135deg, #10b981, #14b8a6)',
+          padding: '26px 60px', borderRadius: 16, marginTop: 50,
+          fontSize: 38, fontWeight: 800,
+          boxShadow: '0 30px 60px rgba(16,185,129,0.4)',
+        }}>chalkidikihub.gr →</div>
+        <div style={{ display: 'flex', marginTop: 24, fontSize: 22, color: 'rgba(255,255,255,0.55)' }}>Save this post · Tag έναν ιδιοκτήτη 👇</div>
+      </div>
+      <Footer tagline="8 / 8  ·  Ευχαριστούμε που διάβασες!" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // Router
 // ─────────────────────────────────────────────────────────────
 
@@ -1075,6 +1350,15 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   'profile-peninsulas': ProfilePeninsulas,
   'profile-monogram':   ProfileMonogram,
   'profile-badge':      ProfileBadge,
+  // Carousel: "Ανέβασε το κατάλυμά σου σε 5 λεπτά" (8 slides)
+  'carousel-onboard-1': Carousel1,
+  'carousel-onboard-2': Carousel2,
+  'carousel-onboard-3': Carousel3,
+  'carousel-onboard-4': Carousel4,
+  'carousel-onboard-5': Carousel5,
+  'carousel-onboard-6': Carousel6,
+  'carousel-onboard-7': Carousel7,
+  'carousel-onboard-8': Carousel8,
 };
 
 export async function GET(
