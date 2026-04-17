@@ -1305,6 +1305,184 @@ function Carousel8() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// 9. CAROUSEL — "7 λάθη που κάνουν οι owners" (9 slides)
+// Distinct visual identity from the onboarding carousel: rose accent
+// for mistakes, emerald for fixes — visible tension at a glance.
+// ─────────────────────────────────────────────────────────────
+
+const MISTAKES_TOTAL = 9;
+
+function MistakeProgress({ step }: { step: number }) {
+  return (
+    <div style={{ display: 'flex', gap: 5, marginBottom: 30 }}>
+      {Array.from({ length: MISTAKES_TOTAL }).map((_, i) => (
+        <div key={i} style={{
+          display: 'flex', flex: 1, height: 5, borderRadius: 9999,
+          backgroundColor: i < step ? '#fb7185' : 'rgba(255,255,255,0.15)',
+        }} />
+      ))}
+    </div>
+  );
+}
+
+function MistakeSlide({ num, title, hurt, fix, step }: {
+  num: string; title: string; hurt: string; fix: string; step: number;
+}) {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #4c0519 100%)">
+      <Glow accent="rose" pos="tr" />
+      <MistakeProgress step={step} />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip accent="rose" label={`Λάθος ${num} / 7`} />
+      </div>
+      <div style={{ display: 'flex', fontSize: 180, fontWeight: 800, lineHeight: 0.9, color: 'rgba(251,113,133,0.25)', letterSpacing: '-0.05em' }}>#{num}</div>
+      <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.02em', marginTop: 10, maxWidth: 960 }}>{title}</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 36, flex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, backgroundColor: 'rgba(244,63,94,0.1)', border: '1px solid rgba(244,63,94,0.3)', borderRadius: 14, padding: 22 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 9999, backgroundColor: '#f43f5e', color: 'white', fontSize: 20, fontWeight: 800, flexShrink: 0 }}>✕</div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', fontSize: 20, fontWeight: 700, color: '#fb7185', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Γιατί πονάει</div>
+            <div style={{ display: 'flex', fontSize: 26, color: 'white', lineHeight: 1.35 }}>{hurt}</div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, backgroundColor: 'rgba(16,185,129,0.1)', border: '1px solid rgba(52,211,153,0.4)', borderRadius: 14, padding: 22 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 9999, backgroundColor: '#10b981', color: 'white', fontSize: 20, fontWeight: 800, flexShrink: 0 }}>✓</div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', fontSize: 20, fontWeight: 700, color: '#34d399', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Πώς λύνεται</div>
+            <div style={{ display: 'flex', fontSize: 26, color: 'white', lineHeight: 1.35 }}>{fix}</div>
+          </div>
+        </div>
+      </div>
+      <div style={{
+        position: 'absolute', right: 60, bottom: 110,
+        display: 'flex', alignItems: 'center', gap: 10,
+        fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)',
+      }}>Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span></div>
+      <Footer tagline={`${step} / ${MISTAKES_TOTAL}  ·  chalkidikihub.gr`} />
+    </Canvas>
+  );
+}
+
+// Slide 1 — COVER
+function Mistakes1() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #4c0519 0%, #0f172a 50%, #7f1d1d 100%)">
+      <Glow accent="rose" pos="tr" />
+      <Glow accent="rose" pos="bl" />
+      <MistakeProgress step={1} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="rose" label="Owner mistakes · ChalkidikiHub" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: '#fb7185', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>Προσοχή!</div>
+        <div style={{ display: 'flex', fontSize: 130, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em' }}>7 λάθη</div>
+        <div style={{ display: 'flex', fontSize: 74, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em', marginTop: 14 }}>που κάνουν οι owners</div>
+        <div style={{ display: 'flex', fontSize: 74, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em', color: '#fb7185' }}>και χάνουν κρατήσεις.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 40, lineHeight: 1.35, maxWidth: 900 }}>
+          Save αυτό το post — θα σε βγάλει από πολύ μπελά. 👇
+        </div>
+      </div>
+      <div style={{
+        position: 'absolute', right: 60, bottom: 110,
+        display: 'flex', alignItems: 'center', gap: 10,
+        fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)',
+      }}>Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span></div>
+      <Footer tagline="1 / 9  ·  Απολύτως δωρεάν" />
+    </Canvas>
+  );
+}
+
+// Slides 2-8 — The 7 mistakes
+function Mistakes2() {
+  return <MistakeSlide step={2} num="01"
+    title="Φωτογραφίες κινητού στο μεσημέρι"
+    hurt="Σκληρό φως, σκιές, κατακόρυφες λήψεις. Ο guest κάνει scroll και σε προσπερνάει σε 0.3 δευτερόλεπτα."
+    fix="5-10 φωτό, πρωί ή απόγευμα, horizontal. Cover με την καλύτερη θέα. Δωρεάν photo tips στο ChalkidikiHub."
+  />;
+}
+
+function Mistakes3() {
+  return <MistakeSlide step={3} num="02"
+    title="Description μόνο στα ελληνικά"
+    hurt="70% των τουριστών στη Χαλκιδική ψάχνουν στα αγγλικά. Αν δεν σε βρίσκουν στη γλώσσα τους, δεν υπάρχεις."
+    fix="Γράφε στα ελληνικά. Το ChalkidikiHub μεταφράζει αυτόματα σε 6 γλώσσες (EN, DE, BG, RU, RO). Δωρεάν."
+  />;
+}
+
+function Mistakes4() {
+  return <MistakeSlide step={4} num="03"
+    title="Απαντάς σε 6 ώρες"
+    hurt="75% των κρατήσεων πάνε σε αυτόν που απαντά πρώτος. Ο guest ρωτάει 3-5 καταλύματα ταυτόχρονα."
+    fix="Απευθείας τηλέφωνο + WhatsApp στο brand page σου. Ο guest σε καλεί — όχι message που το βλέπεις αύριο."
+  />;
+}
+
+function Mistakes5() {
+  return <MistakeSlide step={5} num="04"
+    title="Αδειάζεις το amenities checklist"
+    hurt="Οι guests φιλτράρουν με Pool, WiFi, Parking, A/C. Αν δεν έχεις τσεκάρει, δεν εμφανίζεσαι στα filter results."
+    fix="5 λεπτά να τσεκάρεις όσα έχεις. Το ChalkidikiHub έχει 40+ amenities organized — και εμφανίζεσαι σε όλα τα relevant searches."
+  />;
+}
+
+function Mistakes6() {
+  return <MistakeSlide step={6} num="05"
+    title="Δεν ζητάς reviews από τους guests"
+    hurt="0 reviews = φοβάται ο νέος guest. Social proof είναι ο #1 παράγοντας απόφασης — πριν την τιμή, πριν τη φωτό."
+    fix="Στο check-out στείλε ένα ευγενικό "τι σας άρεσε περισσότερο;". 1 στους 3 θα σου γράψει. Μέσα σε 2-3 μήνες έχεις 10+ reviews."
+  />;
+}
+
+function Mistakes7() {
+  return <MistakeSlide step={7} num="06"
+    title="Ίδια τιμή όλο τον χρόνο"
+    hurt="Χρεώνεις €80 σε Ιούλιο όπως και σε Μάρτιο. Peak season = +40-60% — αφήνεις λεφτά στο τραπέζι."
+    fix="Δυναμική τιμολόγηση: χαμηλή σεζόν, regular, peak. Ανέβαζέ την Ιούλιο-Αύγουστο, ρίξ' την Οκτώβριο-Μάιο."
+  />;
+}
+
+function Mistakes8() {
+  return <MistakeSlide step={8} num="07"
+    title="Εξάρτηση 100% από μία πλατφόρμα"
+    hurt="Αν αλλάξει αλγόριθμος, αν σε suspend'άρουν, αν κόψουν προβολή — χάνεις όλη τη χρονιά. Άμεσα."
+    fix="Ανέβασε παντού: ChalkidikiHub + τα γνωστά. Δικό σου site + QR για direct bookings. 0% προμήθεια, 100% δικό σου."
+  />;
+}
+
+// Slide 9 — CTA
+function Mistakes9() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #064e3b 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <Glow accent="teal" pos="bl" />
+      <MistakeProgress step={9} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip label="Τέλος · Save + Share" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 80, fontWeight: 800, lineHeight: 1.02, textAlign: 'center' }}>Διόρθωσε αυτά τα 7.</div>
+        <div style={{ display: 'flex', fontSize: 80, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', color: '#34d399' }}>Θα δεις διαφορά.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.8)', marginTop: 36, textAlign: 'center', maxWidth: 920, lineHeight: 1.4 }}>
+          Όλα τα παραπάνω είναι δωρεάν στο ChalkidikiHub:<br />
+          auto-translate, QR, brand site, analytics, social kit.
+        </div>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          backgroundImage: 'linear-gradient(135deg, #10b981, #14b8a6)',
+          padding: '26px 60px', borderRadius: 16, marginTop: 48,
+          fontSize: 38, fontWeight: 800,
+          boxShadow: '0 30px 60px rgba(16,185,129,0.4)',
+        }}>chalkidikihub.gr →</div>
+        <div style={{ display: 'flex', marginTop: 28, fontSize: 24, color: 'rgba(255,255,255,0.7)', textAlign: 'center', maxWidth: 900 }}>
+          💾 Save αυτό το post  ·  🔁 Tag έναν ιδιοκτήτη που ξέρεις
+        </div>
+      </div>
+      <Footer tagline="9 / 9  ·  Ευχαριστούμε!" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // Router
 // ─────────────────────────────────────────────────────────────
 
@@ -1359,6 +1537,16 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   'carousel-onboard-6': Carousel6,
   'carousel-onboard-7': Carousel7,
   'carousel-onboard-8': Carousel8,
+  // Carousel: "7 λάθη που κάνουν οι owners" (9 slides)
+  'carousel-mistakes-1': Mistakes1,
+  'carousel-mistakes-2': Mistakes2,
+  'carousel-mistakes-3': Mistakes3,
+  'carousel-mistakes-4': Mistakes4,
+  'carousel-mistakes-5': Mistakes5,
+  'carousel-mistakes-6': Mistakes6,
+  'carousel-mistakes-7': Mistakes7,
+  'carousel-mistakes-8': Mistakes8,
+  'carousel-mistakes-9': Mistakes9,
 };
 
 export async function GET(
