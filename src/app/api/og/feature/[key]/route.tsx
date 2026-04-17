@@ -939,6 +939,97 @@ function GuessBeach() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// 7. INSTAGRAM PROFILE PHOTOS (center-safe, circle-crop friendly)
+// ─────────────────────────────────────────────────────────────
+
+// Three iconic peninsulas of Halkidiki — Kassandra (west, medium),
+// Sithonia (middle, longest), Athos (east, medium). Pure white on
+// emerald → teal gradient. Instantly readable as Halkidiki to anyone
+// who has ever looked at a map.
+function ProfilePeninsulas() {
+  return (
+    <div style={{
+      width: W, height: H,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      backgroundImage: 'linear-gradient(135deg, #10b981 0%, #0d9488 50%, #0f766e 100%)',
+      position: 'relative',
+    }}>
+      {/* Soft glow */}
+      <div style={{ position: 'absolute', top: -200, right: -200, width: 680, height: 680, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%)', display: 'flex' }} />
+      <div style={{ position: 'absolute', bottom: -240, left: -240, width: 640, height: 640, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.2), transparent 70%)', display: 'flex' }} />
+
+      {/* Three peninsulas — varied heights for organic feel */}
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 38 }}>
+        <div style={{ display: 'flex', width: 130, height: 380, backgroundColor: 'white', borderRadius: '70px 70px 55px 55px', boxShadow: '0 30px 60px rgba(0,0,0,0.25)' }} />
+        <div style={{ display: 'flex', width: 130, height: 540, backgroundColor: 'white', borderRadius: '70px 70px 55px 55px', boxShadow: '0 30px 60px rgba(0,0,0,0.25)' }} />
+        <div style={{ display: 'flex', width: 130, height: 440, backgroundColor: 'white', borderRadius: '70px 70px 55px 55px', boxShadow: '0 30px 60px rgba(0,0,0,0.25)' }} />
+      </div>
+    </div>
+  );
+}
+
+function ProfileMonogram() {
+  return (
+    <div style={{
+      width: W, height: H,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      backgroundImage: 'linear-gradient(135deg, #0f172a 0%, #064e3b 50%, #10b981 100%)',
+      position: 'relative',
+    }}>
+      <div style={{ position: 'absolute', top: -200, right: -200, width: 680, height: 680, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(52,211,153,0.3), transparent 70%)', display: 'flex' }} />
+      <div style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        width: 780, height: 780, borderRadius: 9999,
+        backgroundColor: 'rgba(255,255,255,0.05)',
+        border: '14px solid rgba(255,255,255,0.12)',
+      }}>
+        <div style={{
+          display: 'flex',
+          fontSize: 440, fontWeight: 800,
+          lineHeight: 0.85,
+          letterSpacing: '-0.08em',
+          backgroundImage: 'linear-gradient(135deg, #ffffff 0%, #a7f3d0 100%)',
+          backgroundClip: 'text',
+          color: 'transparent',
+        }}>CH</div>
+        <div style={{ display: 'flex', fontSize: 32, fontWeight: 700, color: '#a7f3d0', letterSpacing: '0.25em', marginTop: 8 }}>HALKIDIKI</div>
+      </div>
+    </div>
+  );
+}
+
+function ProfileBadge() {
+  // Combined: peninsulas inside a circular badge with "HUB" wordmark below.
+  // Best compromise between iconic and brand-recognition.
+  return (
+    <div style={{
+      width: W, height: H,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      backgroundImage: 'linear-gradient(135deg, #064e3b 0%, #0f172a 100%)',
+      position: 'relative',
+    }}>
+      <div style={{ position: 'absolute', top: -160, left: -160, width: 620, height: 620, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(52,211,153,0.35), transparent 70%)', display: 'flex' }} />
+      <div style={{ position: 'absolute', bottom: -200, right: -200, width: 640, height: 640, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(20,184,166,0.3), transparent 70%)', display: 'flex' }} />
+
+      <div style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        width: 820, height: 820, borderRadius: 9999,
+        backgroundImage: 'linear-gradient(135deg, #10b981, #0d9488)',
+        boxShadow: '0 40px 80px rgba(0,0,0,0.4), inset 0 0 60px rgba(255,255,255,0.08)',
+      }}>
+        {/* 3 peninsulas */}
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 26, marginBottom: 40 }}>
+          <div style={{ display: 'flex', width: 90, height: 240, backgroundColor: 'white', borderRadius: '50px 50px 40px 40px' }} />
+          <div style={{ display: 'flex', width: 90, height: 340, backgroundColor: 'white', borderRadius: '50px 50px 40px 40px' }} />
+          <div style={{ display: 'flex', width: 90, height: 280, backgroundColor: 'white', borderRadius: '50px 50px 40px 40px' }} />
+        </div>
+        <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>ChalkidikiHub</div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // Router
 // ─────────────────────────────────────────────────────────────
 
@@ -980,6 +1071,10 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   'which-beach':      WhichBeach,
   'tag-friend':       TagFriend,
   'guess-beach':      GuessBeach,
+  // Profile photos (3 variants)
+  'profile-peninsulas': ProfilePeninsulas,
+  'profile-monogram':   ProfileMonogram,
+  'profile-badge':      ProfileBadge,
 };
 
 export async function GET(
