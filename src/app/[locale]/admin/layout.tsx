@@ -43,6 +43,7 @@ const navSections = [
     items: [
       { href: '/admin/blog', icon: FileText, label: 'Blog' },
       { href: '/admin/seo', icon: BarChart3, label: 'SEO Dashboard' },
+      { href: '/admin/social-kit-stats', icon: BarChart3, label: 'Social Kit Stats' },
       { href: '/admin/seo-audit', icon: BarChart3, label: 'SEO Audit' },
       { href: '/admin/translations', icon: Languages, label: 'Translations' },
       { href: '/admin/quality', icon: ShieldCheck, label: 'Quality Check' },

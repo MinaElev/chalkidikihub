@@ -123,6 +123,13 @@ export default function SocialKitPage() {
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
+
+      // Fire-and-forget analytics: track one download per click.
+      fetch('/api/social-kit/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ listingId: listing.id }),
+      }).catch(() => {});
     } catch (err) {
       alert('Σφάλμα: ' + (err instanceof Error ? err.message : 'Unknown'));
     } finally {
