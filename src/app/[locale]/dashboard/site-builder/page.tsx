@@ -6,7 +6,8 @@ import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import {
   Loader2, Wand2, Sparkles, BookOpen, HelpCircle, Eye, ChevronRight, Plus,
-  AlertTriangle, Calendar, Shield,
+  AlertTriangle, Calendar, Shield, ShieldCheck, Info, Sparkle,
+  Image as ImageIcon, MapPin,
 } from 'lucide-react';
 
 interface DbListing {
@@ -20,9 +21,16 @@ interface DbListing {
   owner_email?: string;
   tagline_el: string | null;
   owner_story_el: string | null;
+  // House rules / practical (set if any of the structured fields are filled)
+  house_rules_filled: boolean;
+  practical_filled: boolean;
   // Computed
   faqs_count?: number;
   emergency_count?: number;
+  extras_count?: number;
+  captions_count?: number;
+  total_photos?: number;
+  nearby_overrides_count?: number;
   blocked_count?: number;
 }
 
@@ -52,6 +60,26 @@ const COPY = {
     emergency: {
       title: 'Τηλέφωνα έκτακτης ανάγκης',
       desc: 'Τοπικά τηλέφωνα ασφαλείας (αστυνομία, ιατρείο, φαρμακείο) + οι βασικοί αριθμοί ΕΕ.',
+    },
+    houseRules: {
+      title: 'Κανόνες του καταλύματος',
+      desc: 'Check-in/out, κάπνισμα, κατοικίδια, πάρτι, παιδιά, ώρες κοινής ησυχίας.',
+    },
+    practical: {
+      title: 'Χρήσιμες πληροφορίες',
+      desc: 'Πώς θα φτάσουν οι επισκέπτες, Wi-Fi, parking, οδηγίες check-in.',
+    },
+    extras: {
+      title: 'Πρόσθετες υπηρεσίες',
+      desc: 'Πρωινό, μεταφορά, καθαριότητα, ποδήλατα κ.λπ. — με ή χωρίς χρέωση.',
+    },
+    captions: {
+      title: 'Λεζάντες φωτογραφιών',
+      desc: 'Γράψε τι δείχνει κάθε φωτογραφία — εμφανίζονται σε hover στη gallery.',
+    },
+    nearby: {
+      title: 'Τι υπάρχει γύρω',
+      desc: 'Αυτόματα υπολογισμένο. Μπορείς να αποκρύψεις όσες τοποθεσίες δεν θες.',
     },
     availability: {
       title: 'Ημερολόγιο διαθεσιμότητας',
@@ -84,6 +112,26 @@ const COPY = {
       title: 'Emergency contacts',
       desc: 'Local safety numbers (police, clinic, pharmacy) + default EU numbers.',
     },
+    houseRules: {
+      title: 'House rules',
+      desc: 'Check-in/out, smoking, pets, parties, kids, quiet hours.',
+    },
+    practical: {
+      title: 'Practical info',
+      desc: 'How to reach, Wi-Fi, parking, check-in instructions.',
+    },
+    extras: {
+      title: 'Extras & services',
+      desc: 'Breakfast, transfer, cleaning, bikes… paid or included.',
+    },
+    captions: {
+      title: 'Photo captions',
+      desc: 'Tell guests what each photo shows — appears on hover in the gallery.',
+    },
+    nearby: {
+      title: 'What\u2019s nearby',
+      desc: 'Auto-computed. You can hide the suggestions you don\u2019t want shown.',
+    },
     availability: {
       title: 'Availability calendar',
       desc: 'Block booked or closed dates.',
@@ -114,7 +162,13 @@ export default function SiteBuilderPage() {
 
       let query = supabase
         .from('listings')
-        .select('id, slug, title_el, title_en, area, status, owner_id, tagline_el, owner_story_el')
+        .select(`
+          id, slug, title_el, title_en, area, status, owner_id,
+          tagline_el, owner_story_el,
+          check_in_time, check_out_time, rule_smoking, rule_pets, rule_parties, rule_kids,
+          quiet_hours_from, quiet_hours_to, house_rules_extra_el,
+          how_to_reach_el, wifi_info_el, parking_info_el, check_in_info_el
+        `)
         .order('created_at', { ascending: false });
       if (!admin) {
         query = query.eq('owner_id', user.id);
@@ -148,12 +202,20 @@ export default function SiteBuilderPage() {
       const emergencyCounts: Record<string, number> = {};
       const blockedCounts: Record<string, number> = {};
 
+      const extrasCounts: Record<string, number> = {};
+      const captionsCounts: Record<string, number> = {};
+      const totalPhotos: Record<string, number> = {};
+      const nearbyOverrideCounts: Record<string, number> = {};
+
       if (ids.length > 0) {
         const today = new Date().toISOString().slice(0, 10);
-        const [faqsRes, emergRes, availRes] = await Promise.all([
+        const [faqsRes, emergRes, availRes, extrasRes, imgsRes, nearbyRes] = await Promise.all([
           supabase.from('listing_faqs').select('listing_id').in('listing_id', ids),
           supabase.from('listing_emergency_contacts').select('listing_id').in('listing_id', ids),
           supabase.from('listing_availability').select('listing_id').in('listing_id', ids).gte('date', today),
+          supabase.from('listing_extras').select('listing_id').in('listing_id', ids),
+          supabase.from('listing_images').select('listing_id, caption_el, caption_en').in('listing_id', ids),
+          supabase.from('listing_nearby_overrides').select('listing_id').in('listing_id', ids),
         ]);
         (faqsRes.data || []).forEach((r: { listing_id: string }) => {
           faqCounts[r.listing_id] = (faqCounts[r.listing_id] || 0) + 1;
@@ -164,16 +226,50 @@ export default function SiteBuilderPage() {
         (availRes.data || []).forEach((r: { listing_id: string }) => {
           blockedCounts[r.listing_id] = (blockedCounts[r.listing_id] || 0) + 1;
         });
+        (extrasRes.data || []).forEach((r: { listing_id: string }) => {
+          extrasCounts[r.listing_id] = (extrasCounts[r.listing_id] || 0) + 1;
+        });
+        (imgsRes.data || []).forEach((r: { listing_id: string; caption_el: string | null; caption_en: string | null }) => {
+          totalPhotos[r.listing_id] = (totalPhotos[r.listing_id] || 0) + 1;
+          if ((r.caption_el && r.caption_el.trim()) || (r.caption_en && r.caption_en.trim())) {
+            captionsCounts[r.listing_id] = (captionsCounts[r.listing_id] || 0) + 1;
+          }
+        });
+        (nearbyRes.data || []).forEach((r: { listing_id: string }) => {
+          nearbyOverrideCounts[r.listing_id] = (nearbyOverrideCounts[r.listing_id] || 0) + 1;
+        });
       }
 
       setListings(
-        data.map(l => ({
-          ...l,
-          owner_email: l.owner_id ? ownerEmails[l.owner_id] : undefined,
-          faqs_count: faqCounts[l.id] || 0,
-          emergency_count: emergencyCounts[l.id] || 0,
-          blocked_count: blockedCounts[l.id] || 0,
-        })) as DbListing[],
+        data.map(l => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const row = l as any;
+          const house_rules_filled = Boolean(
+            row.check_in_time || row.check_out_time ||
+            row.rule_smoking || row.rule_pets || row.rule_parties || row.rule_kids ||
+            row.quiet_hours_from || row.quiet_hours_to ||
+            (row.house_rules_extra_el && row.house_rules_extra_el.trim()),
+          );
+          const practical_filled = Boolean(
+            (row.how_to_reach_el && row.how_to_reach_el.trim()) ||
+            (row.wifi_info_el && row.wifi_info_el.trim()) ||
+            (row.parking_info_el && row.parking_info_el.trim()) ||
+            (row.check_in_info_el && row.check_in_info_el.trim()),
+          );
+          return {
+            ...row,
+            owner_email: row.owner_id ? ownerEmails[row.owner_id] : undefined,
+            house_rules_filled,
+            practical_filled,
+            faqs_count: faqCounts[row.id] || 0,
+            emergency_count: emergencyCounts[row.id] || 0,
+            extras_count: extrasCounts[row.id] || 0,
+            captions_count: captionsCounts[row.id] || 0,
+            total_photos: totalPhotos[row.id] || 0,
+            nearby_overrides_count: nearbyOverrideCounts[row.id] || 0,
+            blocked_count: blockedCounts[row.id] || 0,
+          } as DbListing;
+        }),
       );
       setLoading(false);
     })();
@@ -235,6 +331,12 @@ export default function SiteBuilderPage() {
             const faqsCount = listing.faqs_count || 0;
             const emergencyCount = listing.emergency_count || 0;
             const blockedCount = listing.blocked_count || 0;
+            const extrasCount = listing.extras_count || 0;
+            const captionsCount = listing.captions_count || 0;
+            const totalPhotos = listing.total_photos || 0;
+            const nearbyOverridesCount = listing.nearby_overrides_count || 0;
+            const houseRulesFilled = listing.house_rules_filled;
+            const practicalFilled = listing.practical_filled;
 
             return (
               <div
@@ -318,6 +420,56 @@ export default function SiteBuilderPage() {
                     desc={t.emergency.desc}
                     status={emergencyCount > 0 ? `${emergencyCount}` : t.notSet}
                     statusColor={emergencyCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
+                    href={`/dashboard/listings/${listing.id}/brand`}
+                    cta={t.brandEdit}
+                  />
+                  <FeatureRow
+                    icon={<ShieldCheck className="w-5 h-5" />}
+                    iconBg="bg-blue-100 text-blue-600"
+                    title={t.houseRules.title}
+                    desc={t.houseRules.desc}
+                    status={houseRulesFilled ? t.configured : t.notSet}
+                    statusColor={houseRulesFilled ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
+                    href={`/dashboard/listings/${listing.id}/brand`}
+                    cta={t.brandEdit}
+                  />
+                  <FeatureRow
+                    icon={<Info className="w-5 h-5" />}
+                    iconBg="bg-indigo-100 text-indigo-600"
+                    title={t.practical.title}
+                    desc={t.practical.desc}
+                    status={practicalFilled ? t.configured : t.notSet}
+                    statusColor={practicalFilled ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
+                    href={`/dashboard/listings/${listing.id}/brand`}
+                    cta={t.brandEdit}
+                  />
+                  <FeatureRow
+                    icon={<Sparkle className="w-5 h-5" />}
+                    iconBg="bg-teal-100 text-teal-600"
+                    title={t.extras.title}
+                    desc={t.extras.desc}
+                    status={extrasCount > 0 ? `${extrasCount}` : t.notSet}
+                    statusColor={extrasCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
+                    href={`/dashboard/listings/${listing.id}/brand`}
+                    cta={t.brandEdit}
+                  />
+                  <FeatureRow
+                    icon={<ImageIcon className="w-5 h-5" />}
+                    iconBg="bg-pink-100 text-pink-600"
+                    title={t.captions.title}
+                    desc={t.captions.desc}
+                    status={totalPhotos > 0 ? `${captionsCount}/${totalPhotos}` : t.notSet}
+                    statusColor={captionsCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
+                    href={`/dashboard/listings/${listing.id}/brand`}
+                    cta={t.brandEdit}
+                  />
+                  <FeatureRow
+                    icon={<MapPin className="w-5 h-5" />}
+                    iconBg="bg-violet-100 text-violet-600"
+                    title={t.nearby.title}
+                    desc={t.nearby.desc}
+                    status={nearbyOverridesCount > 0 ? `${nearbyOverridesCount} hidden` : t.configured}
+                    statusColor={'text-green-700 bg-green-50'}
                     href={`/dashboard/listings/${listing.id}/brand`}
                     cta={t.brandEdit}
                   />
