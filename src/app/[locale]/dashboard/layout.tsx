@@ -52,7 +52,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
+        <div className="relative">
+          <div className="w-12 h-12 rounded-full border-2 border-slate-200"></div>
+          <div className="w-12 h-12 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin absolute inset-0"></div>
+        </div>
       </div>
     );
   }
@@ -99,35 +102,42 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     },
   ];
 
+  const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Owner';
+  const initials = displayName.split(' ').map((n: string) => n[0]).slice(0, 2).join('').toUpperCase();
+
   function NavContent() {
     return (
       <>
-        <div className="mb-4 pb-4 border-b border-gray-200">
-          <p className="font-semibold text-gray-900 truncate">
-            {user!.user_metadata?.full_name || user!.email}
-          </p>
-          <p className="text-xs text-gray-500 truncate">{user!.email}</p>
+        <div className="mb-5 pb-4 border-b border-slate-100 flex items-center gap-3">
+          <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white font-semibold text-sm shadow-sm shrink-0">
+            {initials}
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="text-sm font-semibold text-slate-900 truncate">{displayName}</div>
+            <div className="text-xs text-slate-500 truncate">{user?.email}</div>
+          </div>
         </div>
 
-        <nav className="space-y-4">
+        <nav className="space-y-5">
           {navSections.map((section, i) => (
             <div key={i}>
-              {i > 0 && <p className="px-3 mb-1 text-[10px] font-bold uppercase tracking-wider text-gray-400">{section.title}</p>}
+              {i > 0 && <p className="px-3 mb-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400">{section.title}</p>}
               <div className="space-y-0.5">
                 {section.items.map((item) => {
                   const active = isActive(item.href);
                   return (
                     <Link key={item.href} href={item.href}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      className={`group relative flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                         active
-                          ? 'bg-primary-600 text-white'
-                          : 'text-gray-700 hover:bg-gray-50'
+                          ? 'bg-slate-900 text-white shadow-sm'
+                          : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                       }`}>
-                      <item.icon className="w-4 h-4" />
+                      {active && <span className="absolute left-0 top-1.5 bottom-1.5 w-0.5 rounded-r-full bg-emerald-400" />}
+                      <item.icon className={`w-4 h-4 ${active ? 'text-emerald-300' : ''}`} />
                       <span className="flex-1">{item.label}</span>
                       {item.href === '/dashboard/submissions' && pendingCount > 0 && (
-                        <span className={`min-w-[20px] h-5 flex items-center justify-center rounded-full text-[10px] font-bold ${
-                          active ? 'bg-white/30 text-white' : 'bg-amber-100 text-amber-700'
+                        <span className={`min-w-[20px] h-5 flex items-center justify-center px-1.5 rounded-full text-[10px] font-semibold tabular-nums ${
+                          active ? 'bg-emerald-500 text-white' : 'bg-amber-100 text-amber-700'
                         }`}>{pendingCount}</span>
                       )}
                     </Link>
@@ -138,13 +148,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           ))}
         </nav>
 
-        <hr className="my-3" />
+        <hr className="my-4 border-slate-100" />
 
         <div className="space-y-0.5">
-          <Link href="/" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-50">
+          <Link href="/" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900">
             <Home className="w-4 h-4" />{t('home')}
           </Link>
-          <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50">
+          <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-rose-600 hover:bg-rose-50">
             <LogOut className="w-4 h-4" />{t('logout')}
           </button>
         </div>
@@ -153,44 +163,59 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
-      {/* Mobile header */}
-      <div className="md:hidden flex items-center justify-between mb-4 bg-white border border-gray-200 rounded-xl px-4 py-3">
-        <div className="truncate">
-          <p className="font-semibold text-gray-900 text-sm truncate">{user.user_metadata?.full_name || user.email}</p>
-        </div>
-        <button onClick={() => setDrawerOpen(true)} className="p-2 rounded-lg hover:bg-gray-100">
-          <Menu className="w-5 h-5 text-gray-700" />
-        </button>
-      </div>
-
-      {/* Mobile drawer */}
-      {drawerOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setDrawerOpen(false)} />
-          <div className="absolute left-0 top-0 bottom-0 w-72 bg-white shadow-xl overflow-y-auto">
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <p className="font-semibold text-gray-900 text-sm truncate">{user.user_metadata?.full_name || 'Dashboard'}</p>
-              <button onClick={() => setDrawerOpen(false)} className="p-2 rounded-lg hover:bg-gray-100">
-                <X className="w-5 h-5 text-gray-500" />
-              </button>
+    <div className="min-h-screen bg-slate-50/60">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+        {/* Mobile header */}
+        <div className="md:hidden flex items-center justify-between mb-4 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl px-4 py-3 shadow-sm">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white text-xs font-semibold shrink-0">
+              {initials}
+            </span>
+            <div className="min-w-0">
+              <div className="text-sm font-semibold text-slate-900 truncate">{displayName}</div>
             </div>
-            <div className="p-4">
+          </div>
+          <button onClick={() => setDrawerOpen(true)} className="p-2 rounded-lg hover:bg-slate-100">
+            <Menu className="w-5 h-5 text-slate-700" />
+          </button>
+        </div>
+
+        {/* Mobile drawer */}
+        {drawerOpen && (
+          <div className="fixed inset-0 z-50 md:hidden">
+            <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setDrawerOpen(false)} />
+            <div className="absolute left-0 top-0 bottom-0 w-72 bg-white shadow-2xl overflow-y-auto">
+              <div className="flex items-center justify-between p-4 border-b border-slate-100">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white text-xs font-semibold shrink-0">
+                    {initials}
+                  </span>
+                  <div className="min-w-0">
+                    <div className="text-sm font-semibold text-slate-900 truncate">{displayName}</div>
+                    <div className="text-xs text-slate-500 truncate">{user?.email}</div>
+                  </div>
+                </div>
+                <button onClick={() => setDrawerOpen(false)} className="p-2 rounded-lg hover:bg-slate-100 shrink-0">
+                  <X className="w-5 h-5 text-slate-500" />
+                </button>
+              </div>
+              <div className="p-4">
+                <NavContent />
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Desktop sidebar */}
+          <aside className="hidden md:block md:w-64 shrink-0">
+            <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-4 sticky top-24 shadow-sm">
               <NavContent />
             </div>
-          </div>
+          </aside>
+
+          <main className="flex-1 min-w-0">{children}</main>
         </div>
-      )}
-
-      <div className="flex flex-col md:flex-row gap-6">
-        {/* Desktop sidebar */}
-        <aside className="hidden md:block md:w-64 shrink-0">
-          <div className="bg-white border border-gray-200 rounded-2xl p-4 sticky top-24">
-            <NavContent />
-          </div>
-        </aside>
-
-        <main className="flex-1 min-w-0">{children}</main>
       </div>
     </div>
   );
