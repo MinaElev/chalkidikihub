@@ -248,6 +248,21 @@ export default async function PlacesIndexPage({ params, searchParams }: Props) {
         { name: tr('breadcrumbHome', locale), url: localeUrl(locale, '') },
         { name: tr('breadcrumbPlaces', locale), url: localeUrl(locale, 'places') },
       ]) as unknown as Record<string, unknown>} />
+
+      {/* ItemList JSON-LD — helps Google show this as a rich list result */}
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: tr('title', locale),
+        description: tr('subtitle', locale),
+        numberOfItems: total,
+        itemListElement: villages.map((v, idx) => ({
+          '@type': 'ListItem',
+          position: idx + 1,
+          name: v.name[locale] || v.name.el || v.name.en,
+          url: localeUrl(locale, `places/${v.slug}`),
+        })),
+      }} />
     </div>
   );
 }
