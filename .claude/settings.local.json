@@ -363,7 +363,9 @@
       "Bash(node -e ' *)",
       "Bash(node scripts/compress-existing-images.js --dry-run --target-kb=100 --skip-below-kb=130)",
       "Bash(node scripts/compress-existing-images.js --target-kb=100 --skip-below-kb=130)",
-      "Bash(git tag *)"
+      "Bash(git tag *)",
+      "Bash(curl -sI \"https://chalkidikihub.gr/api/social-kit/ig-story?slug=amira-house-sithonia-sykia-chalkidikis\")",
+      "Bash(curl -s \"https://chalkidikihub.gr/api/social-kit/ig-story?slug=amira-house-sithonia-sykia-chalkidikis\" -o /tmp/test.png)"
     ]
   }
 }

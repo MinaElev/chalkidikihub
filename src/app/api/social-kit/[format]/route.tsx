@@ -25,6 +25,32 @@ const PRESETS: Record<string, Preset> = {
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
+// Satori's built-in font only covers Latin. Our titles/locations/taglines
+// are in Greek, so we must load a Greek-capable font or the renderer
+// silently fails mid-stream (→ 200 with 0-byte body).
+// Noto Sans covers Greek + Latin + Cyrillic — perfect for our 7 locales.
+async function loadFont(weight: 400 | 700 | 800): Promise<ArrayBuffer | null> {
+  try {
+    // Google Fonts CSS → .ttf URL (Satori wants raw font buffer, not woff2)
+    const cssUrl = `https://fonts.googleapis.com/css2?family=Noto+Sans:wght@${weight}&subset=greek&display=swap`;
+    const cssRes = await fetch(cssUrl, {
+      headers: {
+        // User-Agent forces Google to return .ttf (not .woff2) which Satori supports
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
+      },
+    });
+    if (!cssRes.ok) return null;
+    const css = await cssRes.text();
+    const match = css.match(/src:\s*url\(([^)]+)\)\s*format\('(?:truetype|opentype)'\)/);
+    if (!match) return null;
+    const fontRes = await fetch(match[1]);
+    if (!fontRes.ok) return null;
+    return await fontRes.arrayBuffer();
+  } catch {
+    return null;
+  }
+}
+
 async function fetchAsBase64(url: string, timeoutMs = 8000): Promise<string | null> {
   try {
     const ctrl = new AbortController();
@@ -92,10 +118,19 @@ export async function GET(
     const stayUrl = `${SITE_URL}/listings/${slug}`;
     const qrServiceUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=8&data=${encodeURIComponent(stayUrl)}&color=0F172A&bgcolor=FFFFFF&format=png`;
 
-    const [coverDataUrl, qrDataUrl] = await Promise.all([
+    const [coverDataUrl, qrDataUrl, fontRegular, fontBold, fontBlack] = await Promise.all([
       coverUrl ? fetchAsBase64(coverUrl) : Promise.resolve(null),
       fetchAsBase64(qrServiceUrl, 5000),
+      loadFont(400),
+      loadFont(700),
+      loadFont(800),
     ]);
+
+    const fonts = [
+      fontRegular && { name: 'Noto Sans', data: fontRegular, weight: 400 as const, style: 'normal' as const },
+      fontBold    && { name: 'Noto Sans', data: fontBold,    weight: 700 as const, style: 'normal' as const },
+      fontBlack   && { name: 'Noto Sans', data: fontBlack,   weight: 800 as const, style: 'normal' as const },
+    ].filter(Boolean) as Array<{ name: string; data: ArrayBuffer; weight: 400 | 700 | 800; style: 'normal' }>;
 
     const { width, height, align, titleSize, taglineSize, metaSize, footerSize, qrSize } = preset;
     const padding = width === 1200 ? 50 : 70;
@@ -233,7 +268,6 @@ export async function GET(
                 style={{
                   display: 'flex',
                   fontSize: `${taglineSize}px`,
-                  fontStyle: 'italic',
                   fontWeight: 400,
                   color: 'rgba(255,255,255,0.9)',
                   lineHeight: 1.3,
@@ -305,6 +339,7 @@ export async function GET(
       {
         width,
         height,
+        fonts: fonts.length > 0 ? fonts : undefined,
         headers: {
           'Cache-Control': 'public, max-age=300, s-maxage=600',
         },
