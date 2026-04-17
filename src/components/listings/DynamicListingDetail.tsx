@@ -18,6 +18,7 @@ import { FaqSection } from '@/components/ui/FaqSection';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { generateLodgingLD } from '@/lib/seo';
 import { LocationMap } from '@/components/ui/LocationMap';
+import { PublicAvailabilityCalendar } from './PublicAvailabilityCalendar';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
@@ -127,6 +128,9 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
               <LocationMap latitude={listing.latitude} longitude={listing.longitude} name={title} />
             </div>
           )}
+
+          {/* Availability Calendar (only shown if owner has set some dates) */}
+          <PublicAvailabilityCalendar listingId={listing.id} />
 
           <ShareButtons title={title} description={description} />
         </div>
