@@ -8,7 +8,7 @@ import { Link } from '@/i18n/navigation';
 import {
   Plus, Edit, Trash2, Eye, EyeOff, Loader2, QrCode, Calendar,
   Users, BedDouble, Bath, Wand2, MapPin, ExternalLink,
-  MoreHorizontal, Lock, Search, TrendingUp,
+  MoreHorizontal, Lock, Search, TrendingUp, Palette,
 } from 'lucide-react';
 
 interface Img { image_url: string; is_cover: boolean; sort_order: number; }
@@ -325,6 +325,14 @@ export default function MyListingsPage() {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
                           </span>
+                        </Link>
+                        <Link
+                          href={`/dashboard/listings/${listing.id}/social-kit`}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-xs font-semibold rounded-lg shadow-sm"
+                          title={locale === 'el' ? 'Έτοιμα γραφιστικά για Instagram, Facebook, TikTok' : 'Ready-made graphics for Instagram, Facebook, TikTok'}
+                        >
+                          <Palette className="w-3.5 h-3.5" />
+                          {locale === 'el' ? 'Social Kit' : 'Social Kit'}
                         </Link>
                         <Link
                           href={`/dashboard/listings/${listing.id}/analytics`}
