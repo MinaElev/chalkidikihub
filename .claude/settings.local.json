@@ -371,7 +371,8 @@
       "Bash(curl -s -A \"Mozilla/5.0 \\(X11; Linux x86_64\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/98.0.4758.102 Safari/537.36\" \"https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400&subset=greek&display=swap\")",
       "Bash(curl -sI \"https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-400-normal.ttf\")",
       "Bash(curl -sI \"https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-700-normal.ttf\")",
-      "Bash(curl -sI \"https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-800-normal.ttf\")"
+      "Bash(curl -sI \"https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-800-normal.ttf\")",
+      "Bash(curl -s \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=nonexistent-slug-test-404\" -w \"\\\\nHTTP %{http_code}\\\\n\")"
     ]
   }
 }

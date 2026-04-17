@@ -117,6 +117,25 @@ export async function GET(
       loadFont(800),
     ]);
 
+    // Diagnostic: return JSON with status of each fetch
+    if (req.nextUrl.searchParams.get('debug') === '1') {
+      return Response.json({
+        slug,
+        format,
+        title,
+        tagline,
+        location,
+        coverUrl,
+        coverLoaded: !!coverDataUrl,
+        coverBytes: coverDataUrl?.length || 0,
+        qrLoaded: !!qrDataUrl,
+        qrBytes: qrDataUrl?.length || 0,
+        fontRegularBytes: fontRegular?.byteLength || 0,
+        fontBoldBytes: fontBold?.byteLength || 0,
+        fontBlackBytes: fontBlack?.byteLength || 0,
+      });
+    }
+
     const fonts = [
       fontRegular && { name: 'Noto Sans', data: fontRegular, weight: 400 as const, style: 'normal' as const },
       fontBold    && { name: 'Noto Sans', data: fontBold,    weight: 700 as const, style: 'normal' as const },
