@@ -65,6 +65,28 @@ export async function GET(
     const cover = sorted.find(i => i.is_cover) || sorted[0];
     const coverUrl = cover?.image_url || '';
 
+    // Fetch cover image → base64 data URL. Satori has issues with external
+    // URLs (CORS, content-type sniffing, format quirks), so we embed it.
+    let coverDataUrl = '';
+    if (coverUrl) {
+      try {
+        const imgRes = await fetch(coverUrl, {
+          headers: { Accept: 'image/*' },
+          signal: AbortSignal.timeout(8000),
+        });
+        if (imgRes.ok) {
+          const buf = Buffer.from(await imgRes.arrayBuffer());
+          const contentType = imgRes.headers.get('content-type') || 'image/jpeg';
+          // Guard against huge images (> 4 MB)
+          if (buf.byteLength <= 4 * 1024 * 1024) {
+            coverDataUrl = `data:${contentType};base64,${buf.toString('base64')}`;
+          }
+        }
+      } catch (err) {
+        console.error('[social-kit] cover fetch failed:', err);
+      }
+    }
+
     // QR → data URL (base64)
     const stayUrl = `${SITE_URL}/stay/${slug}`;
     let qrDataUrl = '';
@@ -102,11 +124,11 @@ export async function GET(
             fontFamily: 'Inter, system-ui, sans-serif',
           }}
         >
-          {/* Cover image */}
-          {coverUrl && (
+          {/* Cover image as base64 so Satori can reliably embed it */}
+          {coverDataUrl && (
             // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
             <img
-              src={coverUrl}
+              src={coverDataUrl}
               width={width}
               height={height}
               style={{
@@ -116,6 +138,20 @@ export async function GET(
                 width: `${width}px`,
                 height: `${height}px`,
                 objectFit: 'cover',
+              }}
+            />
+          )}
+
+          {/* Fallback background when cover isn't available */}
+          {!coverDataUrl && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 0, left: 0,
+                width: `${width}px`,
+                height: `${height}px`,
+                display: 'flex',
+                backgroundImage: 'linear-gradient(135deg, #0f172a 0%, #059669 100%)',
               }}
             />
           )}
