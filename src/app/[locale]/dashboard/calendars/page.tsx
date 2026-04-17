@@ -23,21 +23,51 @@ export default function MyCalendarsPage() {
   const [listings, setListings] = useState<DbListing[]>([]);
   const [loading, setLoading] = useState(true);
   const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [missingColumn, setMissingColumn] = useState(false);
 
   useEffect(() => {
     loadListings();
   }, []);
 
   async function loadListings() {
+    setErrorMsg(null);
+    setMissingColumn(false);
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      setErrorMsg(authError?.message || 'Not signed in');
+      setLoading(false);
+      return;
+    }
 
-    const { data: listingsData } = await supabase
+    // First try WITH show_calendar (expected after migration 025)
+    let listingsData: DbListing[] | null = null;
+    const { data, error } = await supabase
       .from('listings')
       .select('id, slug, title_el, title_en, area, price_per_night, status, show_calendar')
       .eq('owner_id', user.id)
       .order('created_at', { ascending: false });
+
+    if (error) {
+      // Likely the column does not exist yet — migration 025 not applied
+      if (error.message?.toLowerCase().includes('show_calendar') || error.code === '42703') {
+        setMissingColumn(true);
+        // Fall back to fetching without that column so the user still sees listings
+        const fallback = await supabase
+          .from('listings')
+          .select('id, slug, title_el, title_en, area, price_per_night, status')
+          .eq('owner_id', user.id)
+          .order('created_at', { ascending: false });
+        listingsData = (fallback.data || []).map(l => ({ ...l, show_calendar: false })) as DbListing[];
+      } else {
+        setErrorMsg(error.message);
+        setLoading(false);
+        return;
+      }
+    } else {
+      listingsData = data as DbListing[];
+    }
 
     if (!listingsData) {
       setListings([]);
@@ -114,6 +144,22 @@ export default function MyCalendarsPage() {
       </div>
       <p className="text-sm text-gray-600 mb-6">{intro}</p>
 
+      {errorMsg && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+          <strong>Σφάλμα:</strong> {errorMsg}
+        </div>
+      )}
+
+      {missingColumn && (
+        <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
+          <p className="font-semibold mb-1">⚠️ Χρειάζεται να τρέξεις το migration 025</p>
+          <p className="mb-2">Η στήλη <code className="bg-amber-100 px-1 rounded">show_calendar</code> δεν υπάρχει ακόμα στον πίνακα <code className="bg-amber-100 px-1 rounded">listings</code>. Το toggle δημόσιας εμφάνισης θα ενεργοποιηθεί μόλις τρέξεις το παρακάτω SQL στο Supabase:</p>
+          <pre className="bg-amber-100 p-3 rounded text-xs overflow-x-auto">
+ALTER TABLE listings{'\n'}  ADD COLUMN IF NOT EXISTS show_calendar boolean NOT NULL DEFAULT false;
+          </pre>
+        </div>
+      )}
+
       {listings.length === 0 ? (
         <div className="text-center py-16 bg-white border border-gray-200 rounded-2xl">
           <p className="text-gray-500 mb-4">{emptyTxt}</p>
@@ -163,12 +209,13 @@ export default function MyCalendarsPage() {
                     <button
                       type="button"
                       onClick={() => toggleShowCalendar(listing.id, listing.show_calendar)}
-                      disabled={isToggling}
+                      disabled={isToggling || missingColumn}
+                      title={missingColumn ? 'Τρέξε πρώτα το migration 025' : undefined}
                       className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
                         listing.show_calendar
                           ? 'bg-green-50 text-green-700 hover:bg-green-100 border border-green-200'
                           : 'bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-200'
-                      } disabled:opacity-50`}
+                      } disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
                       {isToggling ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
