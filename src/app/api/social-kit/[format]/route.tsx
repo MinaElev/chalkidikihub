@@ -29,11 +29,11 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 // are in Greek, so we must load a Greek-capable font or the renderer
 // silently fails mid-stream (→ 200 with 0-byte body).
 // Noto Sans covers Greek + Latin + Cyrillic — perfect for our 7 locales.
-async function loadFont(weight: 400 | 700 | 800): Promise<ArrayBuffer | null> {
+async function loadFontSubset(weight: 400 | 700 | 800, subset: 'latin' | 'greek'): Promise<ArrayBuffer | null> {
   try {
     // jsDelivr serves raw TTFs from fontsource (Google Fonts returns woff2,
-    // which Satori can't parse). The greek subset is ~16 KB per weight.
-    const url = `https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-${weight}-normal.ttf`;
+    // which Satori can't parse). Each subset is ~16 KB per weight.
+    const url = `https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/${subset}-${weight}-normal.ttf`;
     const res = await fetch(url);
     if (!res.ok) return null;
     return await res.arrayBuffer();
@@ -109,13 +109,23 @@ export async function GET(
     const stayUrl = `${SITE_URL}/listings/${slug}`;
     const qrServiceUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=8&data=${encodeURIComponent(stayUrl)}&color=0F172A&bgcolor=FFFFFF&format=png`;
 
-    const [coverDataUrl, qrDataUrl, fontRegular, fontBold, fontBlack] = await Promise.all([
+    const [
+      coverDataUrl, qrDataUrl,
+      latin400, latin700, latin800,
+      greek400, greek700, greek800,
+    ] = await Promise.all([
       coverUrl ? fetchAsBase64(coverUrl) : Promise.resolve(null),
       fetchAsBase64(qrServiceUrl, 5000),
-      loadFont(400),
-      loadFont(700),
-      loadFont(800),
+      loadFontSubset(400, 'latin'),
+      loadFontSubset(700, 'latin'),
+      loadFontSubset(800, 'latin'),
+      loadFontSubset(400, 'greek'),
+      loadFontSubset(700, 'greek'),
+      loadFontSubset(800, 'greek'),
     ]);
+    const fontRegular = latin400;
+    const fontBold = latin700;
+    const fontBlack = latin800;
 
     // Diagnostic: return JSON with status of each fetch
     if (req.nextUrl.searchParams.get('debug') === '1') {
@@ -133,13 +143,23 @@ export async function GET(
         fontRegularBytes: fontRegular?.byteLength || 0,
         fontBoldBytes: fontBold?.byteLength || 0,
         fontBlackBytes: fontBlack?.byteLength || 0,
+        greek400Bytes: greek400?.byteLength || 0,
+        greek700Bytes: greek700?.byteLength || 0,
+        greek800Bytes: greek800?.byteLength || 0,
+        fontsCount: fonts.length,
       });
     }
 
+    // Register latin + greek for each weight. Satori picks the font whose
+    // subset actually contains the glyph being rendered — so a single string
+    // like "Συκιά Χαλκιδικής · 4 guests" mixes all three sets cleanly.
     const fonts = [
-      fontRegular && { name: 'Noto Sans', data: fontRegular, weight: 400 as const, style: 'normal' as const },
-      fontBold    && { name: 'Noto Sans', data: fontBold,    weight: 700 as const, style: 'normal' as const },
-      fontBlack   && { name: 'Noto Sans', data: fontBlack,   weight: 800 as const, style: 'normal' as const },
+      latin400 && { name: 'Noto Sans', data: latin400, weight: 400 as const, style: 'normal' as const },
+      latin700 && { name: 'Noto Sans', data: latin700, weight: 700 as const, style: 'normal' as const },
+      latin800 && { name: 'Noto Sans', data: latin800, weight: 800 as const, style: 'normal' as const },
+      greek400 && { name: 'Noto Sans', data: greek400, weight: 400 as const, style: 'normal' as const },
+      greek700 && { name: 'Noto Sans', data: greek700, weight: 700 as const, style: 'normal' as const },
+      greek800 && { name: 'Noto Sans', data: greek800, weight: 800 as const, style: 'normal' as const },
     ].filter(Boolean) as Array<{ name: string; data: ArrayBuffer; weight: 400 | 700 | 800; style: 'normal' }>;
 
     const { width, height, align, titleSize, taglineSize, metaSize, footerSize, qrSize } = preset;

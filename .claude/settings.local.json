@@ -372,7 +372,8 @@
       "Bash(curl -sI \"https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-400-normal.ttf\")",
       "Bash(curl -sI \"https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-700-normal.ttf\")",
       "Bash(curl -sI \"https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/greek-800-normal.ttf\")",
-      "Bash(curl -s \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=nonexistent-slug-test-404\" -w \"\\\\nHTTP %{http_code}\\\\n\")"
+      "Bash(curl -s \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=nonexistent-slug-test-404\" -w \"\\\\nHTTP %{http_code}\\\\n\")",
+      "Bash(curl -s \"https://chalkidikihub.gr/api/social-kit/ig-square?slug=amira-house-sithonia-sykia-chalkidikis&debug=1\")"
     ]
   }
 }
