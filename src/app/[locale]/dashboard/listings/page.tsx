@@ -328,11 +328,13 @@ export default function MyListingsPage() {
                         </Link>
                         <Link
                           href={`/dashboard/listings/${listing.id}/analytics`}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs font-medium rounded-lg border border-sky-200"
-                          title={locale === 'el' ? 'Στατιστικά & επισκεψιμότητα' : 'Analytics & traffic'}
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white hover:bg-gray-50 text-gray-600 hover:text-sky-700 text-xs font-medium rounded-lg border border-gray-200"
+                          title={locale === 'el' ? 'Στατιστικά & επισκεψιμότητα (υπό δημιουργία)' : 'Analytics & traffic (beta)'}
                         >
                           <TrendingUp className="w-3.5 h-3.5" />
-                          {locale === 'el' ? 'Στατιστικά' : 'Analytics'}
+                          <span className="px-1 py-0.5 rounded text-[9px] font-bold bg-sky-100 text-sky-700 uppercase tracking-wide">
+                            Beta
+                          </span>
                         </Link>
 
                         {/* Preview */}
