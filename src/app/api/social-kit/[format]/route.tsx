@@ -109,12 +109,21 @@ export async function GET(
     const stayUrl = `${SITE_URL}/listings/${slug}`;
     const qrServiceUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=8&data=${encodeURIComponent(stayUrl)}&color=0F172A&bgcolor=FFFFFF&format=png`;
 
+    // Satori can't decode WebP — route through wsrv.nl which re-encodes to
+    // JPEG on the fly. Keeps the Supabase origin private and caches on their
+    // CDN. `?output=jpg&q=85&w=1200` gives us a right-sized JPEG.
+    const coverProxied = coverUrl
+      ? `https://wsrv.nl/?url=${encodeURIComponent(coverUrl)}&output=jpg&q=85&w=1400`
+      : '';
+
+    const skipCover = req.nextUrl.searchParams.get('nocover') === '1';
+
     const [
       coverDataUrl, qrDataUrl,
       latin400, latin700, latin800,
       greek400, greek700, greek800,
     ] = await Promise.all([
-      coverUrl ? fetchAsBase64(coverUrl) : Promise.resolve(null),
+      !skipCover && coverProxied ? fetchAsBase64(coverProxied) : Promise.resolve(null),
       fetchAsBase64(qrServiceUrl, 5000),
       loadFontSubset(400, 'latin'),
       loadFontSubset(700, 'latin'),
