@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import {
-  Users, List, FileText, Waves, UtensilsCrossed, Landmark, AlertTriangle,
-  ClipboardList, MessageSquare, QrCode, Building, Star, ChevronDown, ChevronUp,
-  CheckCircle, Globe, Sparkles,
+  Users, List, FileText, Waves, UtensilsCrossed, Landmark,
+  ClipboardList, MessageSquare, QrCode, Building, Star, ChevronRight,
+  CheckCircle, Globe, Sparkles, ArrowUpRight, TrendingUp, Plus,
+  Activity, Link2, Search, Languages, ShieldAlert, Circle,
 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
@@ -15,7 +16,6 @@ interface ActionItem {
   count: number;
   href: string;
   icon: typeof Users;
-  color: string;
 }
 
 interface LogEntry {
@@ -29,6 +29,7 @@ interface LogEntry {
 const CONTENT_TABLES = ['beaches', 'restaurants', 'activities', 'blog_articles', 'sales', 'villages'] as const;
 const LANGS = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 const LANG_FLAGS: Record<string, string> = { el: '🇬🇷', en: '🇬🇧', de: '🇩🇪', bg: '🇧🇬', ru: '🇷🇺', ro: '🇷🇴', sr: '🇷🇸' };
+const LANG_NAMES: Record<string, string> = { el: 'Ελληνικά', en: 'English', de: 'Deutsch', bg: 'Български', ru: 'Русский', ro: 'Română', sr: 'Srpski' };
 
 export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
@@ -39,7 +40,6 @@ export default function AdminDashboard() {
   const [recentLogs, setRecentLogs] = useState<LogEntry[]>([]);
   const [logFilter, setLogFilter] = useState<'all' | 'error' | 'admin'>('all');
   const [qrStats, setQrStats] = useState<Array<{ slug: string; title: string; views: number }>>([]);
-  const [qrOpen, setQrOpen] = useState(false);
 
   useEffect(() => {
     loadAll();
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
   async function loadAll() {
     const supabase = createClient();
 
-    // --- Action Required ---
+    // Actions
     const [subRes, msgRes, revBeach, revRest, revAct, draftSales] = await Promise.all([
       supabase.from('user_submissions').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
       supabase.from('contact_messages').select('subject').eq('read', false),
@@ -61,13 +61,13 @@ export default function AdminDashboard() {
     const pendingReviews = (revBeach.count || 0) + (revRest.count || 0) + (revAct.count || 0);
 
     const actionItems: ActionItem[] = [];
-    if (pendingReviews > 0) actionItems.push({ type: 'reviews', label: 'Pending Reviews', count: pendingReviews, href: '/admin/reviews', icon: Star, color: 'amber' });
-    if ((subRes.count || 0) > 0) actionItems.push({ type: 'submissions', label: 'Pending Submissions', count: subRes.count || 0, href: '/admin/submissions', icon: ClipboardList, color: 'amber' });
-    if (unreadMsgs > 0) actionItems.push({ type: 'messages', label: 'Unread Messages', count: unreadMsgs, href: '/admin/messages', icon: MessageSquare, color: 'blue' });
-    if ((draftSales.count || 0) > 0) actionItems.push({ type: 'sales', label: 'Draft Sales', count: draftSales.count || 0, href: '/admin/sales', icon: Building, color: 'orange' });
+    if (pendingReviews > 0) actionItems.push({ type: 'reviews', label: 'Pending reviews', count: pendingReviews, href: '/admin/reviews', icon: Star });
+    if ((subRes.count || 0) > 0) actionItems.push({ type: 'submissions', label: 'Pending submissions', count: subRes.count || 0, href: '/admin/submissions', icon: ClipboardList });
+    if (unreadMsgs > 0) actionItems.push({ type: 'messages', label: 'Unread messages', count: unreadMsgs, href: '/admin/messages', icon: MessageSquare });
+    if ((draftSales.count || 0) > 0) actionItems.push({ type: 'sales', label: 'Draft sales', count: draftSales.count || 0, href: '/admin/sales', icon: Building });
     setActions(actionItems);
 
-    // --- Key Metrics ---
+    // Metrics
     const [userRes, listingRes, beachRes, restRes, actRes, artRes, salesRes] = await Promise.all([
       supabase.from('profiles').select('created_at'),
       supabase.from('listings').select('status'),
@@ -91,10 +91,9 @@ export default function AdminDashboard() {
       newUsers,
     });
 
-    // --- SEO Health ---
+    // SEO Health
     const seoData = { perfect: 0, issues: 0, critical: 0, total: 0 };
     for (const table of CONTENT_TABLES) {
-      const titleField = table === 'blog_articles' ? 'title_el' : 'name_el';
       const cols = (table === 'sales' || table === 'blog_articles')
         ? 'meta_title_el,meta_title_en,meta_description_el,meta_description_en,title_en,title_de,title_bg,title_ru,title_ro'
         : `meta_title_el,meta_title_en,meta_description_el,meta_description_en,name_en,name_de,name_bg,name_ru,name_ro`;
@@ -113,7 +112,7 @@ export default function AdminDashboard() {
     }
     setSeoHealth(seoData);
 
-    // --- Translation Coverage ---
+    // Translation Coverage
     const coverage: Record<string, { filled: number; total: number }> = {};
     LANGS.forEach(l => { coverage[l] = { filled: 0, total: 0 }; });
     const transTables = [
@@ -138,7 +137,7 @@ export default function AdminDashboard() {
     }
     setTranslationCoverage(coverage);
 
-    // --- Recent Activity ---
+    // Activity
     const { data: logs } = await supabase
       .from('activity_logs')
       .select('id, message, severity, type, created_at')
@@ -146,7 +145,7 @@ export default function AdminDashboard() {
       .limit(15);
     setRecentLogs(logs || []);
 
-    // --- QR Stats ---
+    // QR stats
     const { data: allListings } = await supabase.from('listings').select('slug, title_el').eq('status', 'published').limit(100);
     const { data: qrLogs } = await supabase.from('activity_logs').select('details').eq('message', 'Guest page viewed').limit(500);
     const slugCounts = new Map<string, number>();
@@ -157,7 +156,7 @@ export default function AdminDashboard() {
       });
     }
     if (allListings) {
-      setQrStats(allListings.map(l => ({ slug: l.slug, title: l.title_el || l.slug, views: slugCounts.get(l.slug) || 0 })).sort((a, b) => b.views - a.views));
+      setQrStats(allListings.map(l => ({ slug: l.slug, title: l.title_el || l.slug, views: slugCounts.get(l.slug) || 0 })).sort((a, b) => b.views - a.views).slice(0, 5));
     }
 
     setLoading(false);
@@ -170,243 +169,369 @@ export default function AdminDashboard() {
   });
 
   if (loading) {
-    return <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-red-200 border-t-red-600 rounded-full animate-spin" /></div>;
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="relative">
+          <div className="w-12 h-12 rounded-full border-2 border-slate-200"></div>
+          <div className="w-12 h-12 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin absolute inset-0"></div>
+        </div>
+      </div>
+    );
   }
 
+  const listingsPct = metrics.listingsTotal > 0 ? (metrics.listingsPublished / metrics.listingsTotal) * 100 : 0;
+  const salesPct = metrics.salesTotal > 0 ? (metrics.salesPublished / metrics.salesTotal) * 100 : 0;
+  const seoScore = seoHealth.total > 0 ? Math.round((seoHealth.perfect / seoHealth.total) * 100) : 0;
+  const totalQrScans = qrStats.reduce((s, q) => s + q.views, 0);
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-4">Dashboard</h1>
+    <div className="space-y-8">
+      {/* Header */}
+      <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-600 mb-1">
+            ChalkidikiHub · Control center
+          </p>
+          <h1 className="text-3xl font-semibold text-slate-900 tracking-tight">Overview</h1>
+          <p className="text-sm text-slate-500 mt-1">
+            {new Date().toLocaleDateString('el-GR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+          </p>
+        </div>
 
-      {/* Quick Actions */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        <Link href="/admin/blog" className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-medium transition-colors">
-          <Sparkles className="w-3 h-3" /> AI Article
-        </Link>
-        <Link href="/admin/beaches/new" className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-xs font-medium transition-colors">
-          + Beach
-        </Link>
-        <Link href="/admin/restaurants/new" className="flex items-center gap-1.5 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-medium transition-colors">
-          + Restaurant
-        </Link>
-        <Link href="/admin/activities/new" className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-medium transition-colors">
-          + Activity
-        </Link>
-        <Link href="/admin/villages/new" className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-xs font-medium transition-colors">
-          + Village
-        </Link>
-        <Link href="/admin/broken-links" className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-xs font-medium transition-colors">
-          🔗 Broken Links
-        </Link>
-        <Link href="/admin/seo" className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-xs font-medium transition-colors">
-          📊 SEO Audit
-        </Link>
-        <Link href="/admin/translations" className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-xs font-medium transition-colors">
-          🌍 Translations
-        </Link>
-      </div>
+        {/* Primary action group */}
+        <div className="flex flex-wrap gap-2">
+          <Link href="/admin/blog" className="group inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-br from-slate-900 to-slate-800 text-white text-sm font-medium rounded-xl shadow-sm hover:shadow-md transition-all">
+            <Sparkles className="w-4 h-4 text-emerald-300" />
+            AI Article
+            <ArrowUpRight className="w-3.5 h-3.5 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
+          <Link href="/admin/brand-sites" className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-700 hover:border-emerald-300 hover:text-emerald-700 text-sm font-medium rounded-xl transition-all">
+            <Building className="w-4 h-4" />
+            Brand sites
+          </Link>
+          <Link href="/admin/seo" className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-700 hover:border-emerald-300 hover:text-emerald-700 text-sm font-medium rounded-xl transition-all">
+            <Search className="w-4 h-4" />
+            SEO audit
+          </Link>
+        </div>
+      </header>
 
-      {/* Row 1: Action Required */}
+      {/* Action Required (only if any) */}
       {actions.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-          {actions.map((a) => {
-            const colors: Record<string, string> = {
-              amber: 'bg-amber-50 border-amber-200 hover:bg-amber-100',
-              blue: 'bg-blue-50 border-blue-200 hover:bg-blue-100',
-              orange: 'bg-orange-50 border-orange-200 hover:bg-orange-100',
-            };
-            const textColors: Record<string, string> = {
-              amber: 'text-amber-700',
-              blue: 'text-blue-700',
-              orange: 'text-orange-700',
-            };
-            const badgeColors: Record<string, string> = {
-              amber: 'bg-amber-200 text-amber-800',
-              blue: 'bg-blue-200 text-blue-800',
-              orange: 'bg-orange-200 text-orange-800',
-            };
-            return (
+        <section className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-white to-white border border-amber-100 rounded-2xl p-5">
+          <div className="absolute -top-12 -right-12 w-48 h-48 bg-amber-200/30 rounded-full blur-3xl" aria-hidden />
+          <div className="relative flex items-center gap-2 mb-4">
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+            </span>
+            <h2 className="text-sm font-semibold text-slate-900">Action required</h2>
+            <span className="text-xs text-slate-500">· {actions.reduce((s, a) => s + a.count, 0)} items</span>
+          </div>
+          <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+            {actions.map((a) => (
               <Link key={a.type} href={a.href}
-                className={`flex items-center gap-3 p-4 border rounded-xl transition-colors ${colors[a.color]}`}>
-                <a.icon className={`w-5 h-5 ${textColors[a.color]}`} />
-                <span className={`flex-1 font-semibold text-sm ${textColors[a.color]}`}>{a.label}</span>
-                <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${badgeColors[a.color]}`}>{a.count}</span>
+                className="group flex items-center gap-3 p-3 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl hover:border-slate-300 hover:shadow-sm transition-all">
+                <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-amber-50 text-amber-600 group-hover:bg-amber-100 transition-colors">
+                  <a.icon className="w-4 h-4" />
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs text-slate-500">{a.label}</div>
+                  <div className="text-lg font-semibold text-slate-900 tabular-nums">{a.count}</div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 group-hover:translate-x-0.5 transition-all" />
               </Link>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        </section>
       ) : (
-        <div className="flex items-center gap-2 p-4 bg-green-50 border border-green-200 rounded-xl mb-6">
-          <CheckCircle className="w-5 h-5 text-green-600" />
-          <span className="text-sm font-medium text-green-700">Όλα καθαρά — δεν υπάρχουν εκκρεμότητες</span>
-        </div>
+        <section className="flex items-center gap-3 p-4 bg-gradient-to-r from-emerald-50 to-white border border-emerald-100 rounded-2xl">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-emerald-500/15 text-emerald-700">
+            <CheckCircle className="w-4 h-4" />
+          </span>
+          <div className="flex-1">
+            <div className="text-sm font-medium text-slate-900">Όλα καθαρά</div>
+            <div className="text-xs text-slate-500">Δεν υπάρχουν εκκρεμότητες αυτή τη στιγμή</div>
+          </div>
+        </section>
       )}
 
-      {/* Row 2: Key Metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center"><Waves className="w-4 h-4 text-cyan-600" /></div>
-            <span className="text-xs font-medium text-gray-500 uppercase">Περιεχόμενο</span>
-          </div>
-          <div className="text-3xl font-bold text-gray-900">{metrics.content}</div>
-          <p className="text-xs text-gray-400 mt-1">Beaches + Restaurants + Activities + Blog</p>
+      {/* Key metrics */}
+      <section>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <MetricCard
+            icon={Waves}
+            iconColor="text-sky-600 bg-sky-50"
+            label="Content"
+            value={metrics.content.toLocaleString()}
+            caption="Beaches · Restaurants · Activities · Blog"
+          />
+          <MetricCard
+            icon={List}
+            iconColor="text-emerald-600 bg-emerald-50"
+            label="Listings"
+            value={metrics.listingsPublished.toLocaleString()}
+            suffix={` / ${metrics.listingsTotal}`}
+            progress={listingsPct}
+            progressColor="bg-emerald-500"
+          />
+          <MetricCard
+            icon={Building}
+            iconColor="text-blue-600 bg-blue-50"
+            label="Sales"
+            value={metrics.salesPublished.toLocaleString()}
+            suffix={` / ${metrics.salesTotal}`}
+            progress={salesPct}
+            progressColor="bg-blue-500"
+          />
+          <MetricCard
+            icon={Users}
+            iconColor="text-violet-600 bg-violet-50"
+            label="Users"
+            value={metrics.users.toLocaleString()}
+            delta={metrics.newUsers > 0 ? `+${metrics.newUsers} this week` : undefined}
+          />
         </div>
+      </section>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center"><List className="w-4 h-4 text-purple-600" /></div>
-            <span className="text-xs font-medium text-gray-500 uppercase">Καταλύματα</span>
+      {/* Two-column: SEO Health + Translation Coverage */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* SEO Health */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div className="flex items-start justify-between mb-5">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <ShieldAlert className="w-4 h-4 text-slate-400" />
+                <h3 className="text-sm font-semibold text-slate-900">SEO health</h3>
+              </div>
+              <p className="text-xs text-slate-500">{seoHealth.total} pages scanned</p>
+            </div>
+            <Link href="/admin/seo" className="text-xs font-medium text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1">
+              Details <ArrowUpRight className="w-3 h-3" />
+            </Link>
           </div>
-          <div className="text-3xl font-bold text-gray-900">{metrics.listingsPublished}<span className="text-lg text-gray-400">/{metrics.listingsTotal}</span></div>
-          <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-            <div className="bg-purple-500 h-1.5 rounded-full" style={{ width: `${metrics.listingsTotal > 0 ? (metrics.listingsPublished / metrics.listingsTotal) * 100 : 0}%` }} />
-          </div>
-        </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center"><Building className="w-4 h-4 text-emerald-600" /></div>
-            <span className="text-xs font-medium text-gray-500 uppercase">Πωλήσεις</span>
+          <div className="flex items-baseline gap-2 mb-5">
+            <span className="text-4xl font-semibold tabular-nums text-slate-900 tracking-tight">{seoScore}%</span>
+            <span className="text-xs text-slate-500">perfect pages</span>
           </div>
-          <div className="text-3xl font-bold text-gray-900">{metrics.salesPublished}<span className="text-lg text-gray-400">/{metrics.salesTotal}</span></div>
-          <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-            <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${metrics.salesTotal > 0 ? (metrics.salesPublished / metrics.salesTotal) * 100 : 0}%` }} />
-          </div>
-        </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center"><Users className="w-4 h-4 text-blue-600" /></div>
-            <span className="text-xs font-medium text-gray-500 uppercase">Χρήστες</span>
-          </div>
-          <div className="text-3xl font-bold text-gray-900">{metrics.users}</div>
-          {metrics.newUsers > 0 && <p className="text-xs text-green-600 mt-1">+{metrics.newUsers} τελευταία εβδομάδα</p>}
-        </div>
-      </div>
-
-      {/* Row 3: Content Health */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        {/* SEO Score */}
-        <div className="bg-white border border-gray-200 rounded-xl p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-gray-900 text-sm">SEO Health</h3>
-            <Link href="/admin/seo" className="text-xs text-red-600 hover:underline">Details →</Link>
-          </div>
-          {seoHealth.total > 0 ? (
+          {seoHealth.total > 0 && (
             <>
-              <div className="flex gap-3 mb-3">
-                <div className="flex-1 text-center p-2 bg-green-50 rounded-lg">
-                  <div className="text-xl font-bold text-green-700">{seoHealth.perfect}</div>
-                  <div className="text-[10px] text-green-600 font-medium">Perfect</div>
-                </div>
-                <div className="flex-1 text-center p-2 bg-amber-50 rounded-lg">
-                  <div className="text-xl font-bold text-amber-700">{seoHealth.issues}</div>
-                  <div className="text-[10px] text-amber-600 font-medium">Issues</div>
-                </div>
-                <div className="flex-1 text-center p-2 bg-red-50 rounded-lg">
-                  <div className="text-xl font-bold text-red-700">{seoHealth.critical}</div>
-                  <div className="text-[10px] text-red-600 font-medium">Critical</div>
-                </div>
+              <div className="flex h-1.5 rounded-full overflow-hidden bg-slate-100 mb-3">
+                <div className="bg-emerald-500" style={{ width: `${(seoHealth.perfect / seoHealth.total) * 100}%` }} />
+                <div className="bg-amber-400" style={{ width: `${(seoHealth.issues / seoHealth.total) * 100}%` }} />
+                <div className="bg-rose-500" style={{ width: `${(seoHealth.critical / seoHealth.total) * 100}%` }} />
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden flex">
-                <div className="bg-green-500 h-2" style={{ width: `${(seoHealth.perfect / seoHealth.total) * 100}%` }} />
-                <div className="bg-amber-400 h-2" style={{ width: `${(seoHealth.issues / seoHealth.total) * 100}%` }} />
-                <div className="bg-red-500 h-2" style={{ width: `${(seoHealth.critical / seoHealth.total) * 100}%` }} />
+              <div className="grid grid-cols-3 gap-2">
+                <HealthChip dotColor="bg-emerald-500" label="Perfect" count={seoHealth.perfect} />
+                <HealthChip dotColor="bg-amber-400"   label="Issues"  count={seoHealth.issues} />
+                <HealthChip dotColor="bg-rose-500"    label="Critical" count={seoHealth.critical} />
               </div>
-              <p className="text-xs text-gray-400 mt-2">{seoHealth.total} pages scanned</p>
             </>
-          ) : (
-            <p className="text-sm text-gray-400">Loading...</p>
           )}
         </div>
 
         {/* Translation Coverage */}
-        <div className="bg-white border border-gray-200 rounded-xl p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-gray-900 text-sm flex items-center gap-2"><Globe className="w-4 h-4" /> Translation Coverage</h3>
-            <Link href="/admin/translations" className="text-xs text-red-600 hover:underline">Details →</Link>
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div className="flex items-start justify-between mb-5">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <Languages className="w-4 h-4 text-slate-400" />
+                <h3 className="text-sm font-semibold text-slate-900">Translation coverage</h3>
+              </div>
+              <p className="text-xs text-slate-500">Across 7 languages · 6 content types</p>
+            </div>
+            <Link href="/admin/translations" className="text-xs font-medium text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1">
+              Details <ArrowUpRight className="w-3 h-3" />
+            </Link>
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-2.5">
             {LANGS.map(lang => {
               const data = translationCoverage[lang];
               if (!data || data.total === 0) return null;
               const pct = Math.round((data.filled / data.total) * 100);
+              const color = pct >= 90 ? 'bg-emerald-500' : pct >= 60 ? 'bg-amber-400' : 'bg-rose-500';
+              const textColor = pct >= 90 ? 'text-emerald-700' : pct >= 60 ? 'text-amber-700' : 'text-rose-700';
               return (
-                <div key={lang} className="flex items-center gap-2">
-                  <span className="text-sm w-6">{LANG_FLAGS[lang]}</span>
-                  <span className="text-xs font-medium text-gray-600 w-6 uppercase">{lang}</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div className={`h-2 rounded-full ${pct >= 90 ? 'bg-green-500' : pct >= 60 ? 'bg-amber-400' : 'bg-red-500'}`}
-                      style={{ width: `${pct}%` }} />
+                <div key={lang} className="flex items-center gap-3">
+                  <span className="text-sm w-4">{LANG_FLAGS[lang]}</span>
+                  <span className="text-xs font-medium text-slate-600 w-20">{LANG_NAMES[lang]}</span>
+                  <div className="flex-1 bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div className={`h-full ${color} rounded-full transition-all`} style={{ width: `${pct}%` }} />
                   </div>
-                  <span className={`text-xs font-bold w-10 text-right ${pct >= 90 ? 'text-green-600' : pct >= 60 ? 'text-amber-600' : 'text-red-600'}`}>{pct}%</span>
+                  <span className={`text-xs font-semibold tabular-nums w-10 text-right ${textColor}`}>{pct}%</span>
                 </div>
               );
             })}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Row 4: Recent Activity */}
-      <div className="bg-white border border-gray-200 rounded-xl mb-6">
-        <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100">
-          <h3 className="font-semibold text-gray-900 text-sm">Recent Activity</h3>
-          <div className="flex gap-1">
-            {(['all', 'error', 'admin'] as const).map(f => (
-              <button key={f} onClick={() => setLogFilter(f)}
-                className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors ${logFilter === f ? 'bg-red-100 text-red-700' : 'text-gray-500 hover:bg-gray-100'}`}>
-                {f === 'all' ? 'All' : f === 'error' ? 'Errors' : 'Admin'}
-              </button>
-            ))}
-          </div>
+      {/* Quick create row */}
+      <section className="bg-gradient-to-br from-slate-50 via-white to-slate-50 border border-slate-200 rounded-2xl p-5">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold text-slate-900">Quick create</h3>
+          <span className="text-xs text-slate-500">Add new content</span>
         </div>
-        <div className="divide-y divide-gray-50">
-          {filteredLogs.length > 0 ? filteredLogs.slice(0, 10).map((log) => (
-            <div key={log.id} className="flex items-center gap-3 px-5 py-2.5">
-              <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase shrink-0 ${
-                log.severity === 'error' ? 'bg-red-100 text-red-700' :
-                log.severity === 'warning' ? 'bg-amber-100 text-amber-700' :
-                'bg-gray-100 text-gray-500'
-              }`}>{log.severity}</span>
-              {log.type && (
-                <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 text-[9px] font-medium shrink-0">{log.type}</span>
-              )}
-              <span className="text-sm text-gray-700 flex-1 truncate">{log.message}</span>
-              <span className="text-[11px] text-gray-400 shrink-0">{new Date(log.created_at).toLocaleString('el', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
-            </div>
-          )) : (
-            <div className="px-5 py-6 text-center text-sm text-gray-400">No logs found</div>
-          )}
+        <div className="flex flex-wrap gap-2">
+          <CreateChip href="/admin/beaches/new"      label="Beach"      icon={Waves}          />
+          <CreateChip href="/admin/restaurants/new"  label="Restaurant" icon={UtensilsCrossed}/>
+          <CreateChip href="/admin/activities/new"   label="Activity"   icon={Landmark}       />
+          <CreateChip href="/admin/blog/new"         label="Blog post"  icon={FileText}       />
+          <CreateChip href="/admin/broken-links"     label="Broken links" icon={Link2} ghost />
+          <CreateChip href="/admin/translations"     label="Translations" icon={Globe} ghost  />
         </div>
-        <div className="px-5 py-2 border-t border-gray-100 text-right">
-          <Link href="/admin/logs" className="text-xs text-red-600 hover:underline">View all logs →</Link>
-        </div>
-      </div>
+      </section>
 
-      {/* Row 5: QR Stats (collapsible) */}
-      {qrStats.length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-xl">
-          <button onClick={() => setQrOpen(!qrOpen)}
-            className="w-full flex items-center justify-between px-5 py-3 hover:bg-gray-50 transition-colors rounded-xl">
+      {/* Two column: Activity + QR */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Activity */}
+        <div className="lg:col-span-2 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
             <div className="flex items-center gap-2">
-              <QrCode className="w-4 h-4 text-purple-600" />
-              <span className="font-semibold text-gray-900 text-sm">QR Guest Guide</span>
-              <span className="text-xs text-gray-400">({qrStats.reduce((s, q) => s + q.views, 0)} scans)</span>
+              <Activity className="w-4 h-4 text-slate-400" />
+              <h3 className="text-sm font-semibold text-slate-900">Recent activity</h3>
             </div>
-            {qrOpen ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
-          </button>
-          {qrOpen && (
-            <div className="border-t border-gray-100 divide-y divide-gray-50">
-              {qrStats.map((q) => (
-                <div key={q.slug} className="flex items-center justify-between px-5 py-2.5">
-                  <span className="text-sm text-gray-700 truncate">{q.title}</span>
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${q.views > 0 ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-400'}`}>{q.views}</span>
-                </div>
+            <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg">
+              {(['all', 'error', 'admin'] as const).map(f => (
+                <button key={f} onClick={() => setLogFilter(f)}
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors ${
+                    logFilter === f
+                      ? 'bg-white text-slate-900 shadow-sm'
+                      : 'text-slate-500 hover:text-slate-700'
+                  }`}>
+                  {f === 'all' ? 'All' : f === 'error' ? 'Errors' : 'Admin'}
+                </button>
               ))}
             </div>
-          )}
+          </div>
+
+          <div className="divide-y divide-slate-50">
+            {filteredLogs.length > 0 ? filteredLogs.slice(0, 8).map((log) => {
+              const sevStyle = log.severity === 'error'
+                ? 'bg-rose-500'
+                : log.severity === 'warning'
+                  ? 'bg-amber-400'
+                  : 'bg-slate-300';
+              return (
+                <div key={log.id} className="flex items-center gap-3 px-5 py-3 hover:bg-slate-50/50 transition-colors">
+                  <span className={`w-1.5 h-1.5 rounded-full ${sevStyle} shrink-0`} />
+                  {log.type && (
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 shrink-0">
+                      {log.type}
+                    </span>
+                  )}
+                  <span className="text-sm text-slate-700 flex-1 truncate">{log.message}</span>
+                  <span className="text-[11px] text-slate-400 tabular-nums shrink-0">
+                    {new Date(log.created_at).toLocaleString('el', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
+              );
+            }) : (
+              <div className="px-5 py-12 text-center text-sm text-slate-400">No logs found</div>
+            )}
+          </div>
+
+          <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/50">
+            <Link href="/admin/logs" className="text-xs font-medium text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1">
+              View all logs <ArrowUpRight className="w-3 h-3" />
+            </Link>
+          </div>
+        </div>
+
+        {/* QR Stats */}
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          <div className="px-5 py-4 border-b border-slate-100">
+            <div className="flex items-center gap-2 mb-1">
+              <QrCode className="w-4 h-4 text-slate-400" />
+              <h3 className="text-sm font-semibold text-slate-900">Guest QR scans</h3>
+            </div>
+            <p className="text-xs text-slate-500">
+              <span className="text-lg font-semibold text-slate-900 tabular-nums">{totalQrScans}</span>
+              <span className="text-slate-400 ml-1">total scans</span>
+            </p>
+          </div>
+          <div className="divide-y divide-slate-50">
+            {qrStats.length > 0 ? qrStats.map((q) => (
+              <div key={q.slug} className="flex items-center gap-3 px-5 py-2.5">
+                <Circle className={`w-1.5 h-1.5 shrink-0 ${q.views > 0 ? 'fill-emerald-500 text-emerald-500' : 'fill-slate-200 text-slate-200'}`} />
+                <span className="text-xs text-slate-700 flex-1 truncate">{q.title}</span>
+                <span className={`text-xs font-semibold tabular-nums ${q.views > 0 ? 'text-slate-900' : 'text-slate-400'}`}>
+                  {q.views}
+                </span>
+              </div>
+            )) : (
+              <div className="px-5 py-8 text-center text-xs text-slate-400">No scans yet</div>
+            )}
+          </div>
+          <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/50">
+            <Link href="/admin/logs" className="text-xs font-medium text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1">
+              View all activity <ArrowUpRight className="w-3 h-3" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Primitives
+// ─────────────────────────────────────────────────────────────────────
+
+function MetricCard({ icon: Icon, iconColor, label, value, suffix, caption, delta, progress, progressColor }: {
+  icon: typeof Users; iconColor: string; label: string; value: string;
+  suffix?: string; caption?: string; delta?: string;
+  progress?: number; progressColor?: string;
+}) {
+  return (
+    <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center justify-between mb-4">
+        <span className={`inline-flex items-center justify-center w-9 h-9 rounded-xl ${iconColor}`}>
+          <Icon className="w-4 h-4" />
+        </span>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{label}</span>
+      </div>
+      <div className="flex items-baseline gap-0.5">
+        <span className="text-3xl font-semibold tabular-nums text-slate-900 tracking-tight">{value}</span>
+        {suffix && <span className="text-base font-medium text-slate-400 tabular-nums">{suffix}</span>}
+      </div>
+      {caption && <p className="text-[11px] text-slate-400 mt-1.5">{caption}</p>}
+      {delta && (
+        <p className="text-[11px] text-emerald-600 font-medium mt-1.5 inline-flex items-center gap-1">
+          <TrendingUp className="w-3 h-3" />
+          {delta}
+        </p>
+      )}
+      {progress !== undefined && (
+        <div className="mt-3 h-1 bg-slate-100 rounded-full overflow-hidden">
+          <div className={`h-full ${progressColor} rounded-full transition-all`} style={{ width: `${progress}%` }} />
         </div>
       )}
     </div>
+  );
+}
+
+function HealthChip({ dotColor, label, count }: { dotColor: string; label: string; count: number }) {
+  return (
+    <div className="flex items-center gap-1.5 p-2 bg-slate-50 rounded-lg">
+      <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
+      <span className="text-[11px] font-medium text-slate-600">{label}</span>
+      <span className="ml-auto text-xs font-semibold tabular-nums text-slate-900">{count}</span>
+    </div>
+  );
+}
+
+function CreateChip({ href, label, icon: Icon, ghost }: { href: string; label: string; icon: typeof Users; ghost?: boolean }) {
+  const style = ghost
+    ? 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900'
+    : 'bg-white border-slate-200 text-slate-700 hover:border-emerald-300 hover:text-emerald-700 hover:bg-emerald-50/50';
+  return (
+    <Link href={href} className={`inline-flex items-center gap-2 px-3.5 py-2 border rounded-xl text-xs font-medium transition-all ${style}`}>
+      {ghost ? <Icon className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
+      {label}
+    </Link>
   );
 }

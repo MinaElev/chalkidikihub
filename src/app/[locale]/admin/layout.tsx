@@ -124,7 +124,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   if (loading) {
-    return <div className="min-h-[60vh] flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="relative">
+          <div className="w-12 h-12 rounded-full border-2 border-slate-200"></div>
+          <div className="w-12 h-12 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin absolute inset-0"></div>
+        </div>
+      </div>
+    );
   }
 
   if (role !== 'superadmin') return null;
@@ -137,30 +144,36 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   function NavContent() {
     return (
       <>
-        <div className="mb-4 pb-4 border-b border-red-100 flex items-center gap-2">
-          <Shield className="w-5 h-5 text-red-600" />
-          <span className="font-bold text-red-600">Super Admin</span>
+        <div className="mb-5 pb-4 border-b border-slate-100 flex items-center gap-2.5">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-sm">
+            <Shield className="w-4 h-4" />
+          </span>
+          <div className="min-w-0">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600">Super admin</div>
+            <div className="text-xs text-slate-500">Control center</div>
+          </div>
         </div>
 
         <nav className="space-y-5">
           {navSections.map((section) => (
             <div key={section.title}>
-              <p className="px-3 mb-1 text-[10px] font-bold uppercase tracking-wider text-gray-400">{section.title}</p>
+              <p className="px-3 mb-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400">{section.title}</p>
               <div className="space-y-0.5">
                 {section.items.map((item) => {
                   const active = isActive(item.href);
                   return (
                     <Link key={item.href} href={item.href}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      className={`group relative flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                         active
-                          ? 'bg-red-600 text-white'
-                          : 'text-gray-700 hover:bg-red-50 hover:text-red-700'
+                          ? 'bg-slate-900 text-white shadow-sm'
+                          : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                       }`}>
-                      <item.icon className="w-4 h-4" />
+                      {active && <span className="absolute left-0 top-1.5 bottom-1.5 w-0.5 rounded-r-full bg-emerald-400" />}
+                      <item.icon className={`w-4 h-4 ${active ? 'text-emerald-300' : ''}`} />
                       <span className="flex-1">{item.label}</span>
                       {badges[item.href] > 0 && (
-                        <span className={`min-w-[20px] h-5 flex items-center justify-center rounded-full text-[10px] font-bold ${
-                          active ? 'bg-white/30 text-white' : 'bg-red-100 text-red-700'
+                        <span className={`min-w-[20px] h-5 flex items-center justify-center px-1.5 rounded-full text-[10px] font-semibold tabular-nums ${
+                          active ? 'bg-emerald-500 text-white' : 'bg-amber-100 text-amber-700'
                         }`}>{badges[item.href]}</span>
                       )}
                     </Link>
@@ -171,17 +184,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ))}
         </nav>
 
-        <hr className="my-4" />
+        <hr className="my-4 border-slate-100" />
 
         <div className="space-y-0.5">
-          <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-50">
-            <Home className="w-4 h-4" />Owner Dashboard
+          <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900">
+            <Home className="w-4 h-4" />Owner dashboard
           </Link>
-          <Link href="/" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-50">
-            <Home className="w-4 h-4" />View Site
+          <Link href="/" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900">
+            <Home className="w-4 h-4" />View site
           </Link>
-          <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50">
-            <LogOut className="w-4 h-4" />Logout
+          <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-rose-600 hover:bg-rose-50">
+            <LogOut className="w-4 h-4" />Sign out
           </button>
         </div>
       </>
@@ -189,91 +202,102 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
-      {/* Mobile header */}
-      <div className="md:hidden flex items-center justify-between mb-4 bg-white border border-red-200 rounded-xl px-4 py-3">
-        <div className="flex items-center gap-2">
-          <Shield className="w-5 h-5 text-red-600" />
-          <span className="font-bold text-red-600 text-sm">Admin</span>
-        </div>
-        <button onClick={() => setDrawerOpen(true)} className="p-2 rounded-lg hover:bg-red-50">
-          <Menu className="w-5 h-5 text-gray-700" />
-        </button>
-      </div>
-
-      {/* Mobile drawer overlay */}
-      {drawerOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/40" onClick={() => setDrawerOpen(false)} />
-          {/* Drawer */}
-          <div className="absolute left-0 top-0 bottom-0 w-72 bg-white shadow-xl overflow-y-auto">
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <div className="flex items-center gap-2">
-                <Shield className="w-5 h-5 text-red-600" />
-                <span className="font-bold text-red-600">Super Admin</span>
-              </div>
-              <button onClick={() => setDrawerOpen(false)} className="p-2 rounded-lg hover:bg-gray-100">
-                <X className="w-5 h-5 text-gray-500" />
-              </button>
+    <div className="min-h-screen bg-slate-50/60">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+        {/* Mobile header */}
+        <div className="md:hidden flex items-center justify-between mb-4 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl px-4 py-3 shadow-sm">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
+              <Shield className="w-4 h-4" />
+            </span>
+            <div>
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-emerald-600 leading-none">Super admin</div>
+              <div className="text-xs text-slate-500 leading-tight">Control center</div>
             </div>
-            <div className="p-4">
-              <nav className="space-y-5">
-                {navSections.map((section) => (
-                  <div key={section.title}>
-                    <p className="px-3 mb-1 text-[10px] font-bold uppercase tracking-wider text-gray-400">{section.title}</p>
-                    <div className="space-y-0.5">
-                      {section.items.map((item) => {
-                        const active = isActive(item.href);
-                        return (
-                          <Link key={item.href} href={item.href}
-                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                              active
-                                ? 'bg-red-600 text-white'
-                                : 'text-gray-700 hover:bg-red-50 hover:text-red-700'
-                            }`}>
-                            <item.icon className="w-5 h-5" />
-                            <span className="flex-1">{item.label}</span>
-                            {badges[item.href] > 0 && (
-                              <span className={`min-w-[20px] h-5 flex items-center justify-center rounded-full text-[10px] font-bold ${
-                                active ? 'bg-white/30 text-white' : 'bg-red-100 text-red-700'
-                              }`}>{badges[item.href]}</span>
-                            )}
-                          </Link>
-                        );
-                      })}
-                    </div>
+          </div>
+          <button onClick={() => setDrawerOpen(true)} className="p-2 rounded-lg hover:bg-slate-100">
+            <Menu className="w-5 h-5 text-slate-700" />
+          </button>
+        </div>
+
+        {/* Mobile drawer overlay */}
+        {drawerOpen && (
+          <div className="fixed inset-0 z-50 md:hidden">
+            <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setDrawerOpen(false)} />
+            <div className="absolute left-0 top-0 bottom-0 w-72 bg-white shadow-2xl overflow-y-auto">
+              <div className="flex items-center justify-between p-4 border-b border-slate-100">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
+                    <Shield className="w-4 h-4" />
+                  </span>
+                  <div>
+                    <div className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600 leading-none">Super admin</div>
+                    <div className="text-xs text-slate-500 leading-tight">Control center</div>
                   </div>
-                ))}
-              </nav>
-
-              <hr className="my-4" />
-
-              <div className="space-y-0.5">
-                <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-50">
-                  <Home className="w-5 h-5" />Owner Dashboard
-                </Link>
-                <Link href="/" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-50">
-                  <Home className="w-5 h-5" />View Site
-                </Link>
-                <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50">
-                  <LogOut className="w-5 h-5" />Logout
+                </div>
+                <button onClick={() => setDrawerOpen(false)} className="p-2 rounded-lg hover:bg-slate-100">
+                  <X className="w-5 h-5 text-slate-500" />
                 </button>
               </div>
+              <div className="p-4">
+                <nav className="space-y-5">
+                  {navSections.map((section) => (
+                    <div key={section.title}>
+                      <p className="px-3 mb-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400">{section.title}</p>
+                      <div className="space-y-0.5">
+                        {section.items.map((item) => {
+                          const active = isActive(item.href);
+                          return (
+                            <Link key={item.href} href={item.href}
+                              className={`group relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                                active
+                                  ? 'bg-slate-900 text-white shadow-sm'
+                                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                              }`}>
+                              {active && <span className="absolute left-0 top-2 bottom-2 w-0.5 rounded-r-full bg-emerald-400" />}
+                              <item.icon className={`w-5 h-5 ${active ? 'text-emerald-300' : ''}`} />
+                              <span className="flex-1">{item.label}</span>
+                              {badges[item.href] > 0 && (
+                                <span className={`min-w-[20px] h-5 flex items-center justify-center px-1.5 rounded-full text-[10px] font-semibold tabular-nums ${
+                                  active ? 'bg-emerald-500 text-white' : 'bg-amber-100 text-amber-700'
+                                }`}>{badges[item.href]}</span>
+                              )}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </nav>
+
+                <hr className="my-4 border-slate-100" />
+
+                <div className="space-y-0.5">
+                  <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900">
+                    <Home className="w-5 h-5" />Owner dashboard
+                  </Link>
+                  <Link href="/" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900">
+                    <Home className="w-5 h-5" />View site
+                  </Link>
+                  <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-rose-600 hover:bg-rose-50">
+                    <LogOut className="w-5 h-5" />Sign out
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
+        )}
+
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Desktop sidebar */}
+          <aside className="hidden md:block md:w-64 shrink-0">
+            <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto shadow-sm">
+              <NavContent />
+            </div>
+          </aside>
+
+          <main className="flex-1 min-w-0">{children}</main>
         </div>
-      )}
-
-      <div className="flex flex-col md:flex-row gap-6">
-        {/* Desktop sidebar */}
-        <aside className="hidden md:block md:w-64 shrink-0">
-          <div className="bg-white border border-red-200 rounded-2xl p-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
-            <NavContent />
-          </div>
-        </aside>
-
-        <main className="flex-1 min-w-0">{children}</main>
       </div>
     </div>
   );
