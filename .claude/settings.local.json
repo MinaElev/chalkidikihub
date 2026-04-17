@@ -362,7 +362,8 @@
       "Bash(node --check scripts/compress-existing-images.js)",
       "Bash(node -e ' *)",
       "Bash(node scripts/compress-existing-images.js --dry-run --target-kb=100 --skip-below-kb=130)",
-      "Bash(node scripts/compress-existing-images.js --target-kb=100 --skip-below-kb=130)"
+      "Bash(node scripts/compress-existing-images.js --target-kb=100 --skip-below-kb=130)",
+      "Bash(git tag *)"
     ]
   }
 }

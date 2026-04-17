@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.13.0',
+      date: '17 Απριλίου 2026',
+      highlights: 'Free Social Media Kit Auto-Generator per Listing',
+      features: [
+        { emoji: '🎨', title: 'Social Media Kit', desc: 'Νέα σελίδα /dashboard/listings/[id]/social-kit — ο owner κατεβάζει με ένα κλικ ZIP με 3 έτοιμα γραφιστικά (Instagram Square 1080×1080, Instagram Story 1080×1920, Facebook/X Card 1200×630) φτιαγμένα από τη cover + title + tagline + location του καταλύματος' },
+        { emoji: '📱', title: 'QR σε κάθε Graphic', desc: 'Κάθε εικόνα περιέχει branded QR code που δείχνει στη σελίδα του listing (/listings/[slug]) — όποιος το σκανάρει πάει κατευθείαν στην κράτηση' },
+        { emoji: '📝', title: 'Ready-to-Post Caption', desc: 'Έτοιμο ελληνικό κείμενο με emojis, hashtags (#Halkidiki #ChalkidikiHub #VisitGreece) + copy button — για γρήγορο share χωρίς να γράφει τίποτα ο owner' },
+        { emoji: '📦', title: 'ZIP Bundle + README', desc: 'Lazy-loaded JSZip φτιάχνει client-side το ZIP με τα 3 PNGs + README.txt που έχει filenames, dimensions, platform mapping και το caption' },
+        { emoji: '⚡', title: 'Edge Runtime + Satori', desc: '/api/social-kit/[format] τρέχει σε edge με next/og ImageResponse — base64-embedded cover + QR (api.qrserver.com), όχι Node-only APIs. 5-10 min browser cache για γρήγορο preview' },
+        { emoji: '🎓', title: 'First-Visit Onboarding', desc: '3-step modal (Welcome → 3 formats, 1 click → Γιατί έχει σημασία) + 30s "How it works" + 6 benefit tiles + FAQ accordion + bottom CTA — explains γιατί αξίζει χωρίς jargon' },
+        { emoji: '🔗', title: 'Entry στο Dashboard Listings', desc: 'Νέο pink-rose gradient κουμπί "Social Kit" δίπλα στο QR button σε κάθε listing card — όχι κρυμμένο σε menu' },
+      ],
+    },
+    {
       version: 'v3.12.0',
       date: '17 Απριλίου 2026',
       highlights: 'Owner UX Overhaul + Analytics Beta + Clean Translation Split',
