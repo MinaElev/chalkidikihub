@@ -13,6 +13,8 @@ import { LocationPicker } from '@/components/ui/LocationPicker';
 import { ImportFromUrl } from '@/components/listings/ImportFromUrl';
 import NumberStepper from '@/components/ui/NumberStepper';
 
+const MAX_PHOTOS = 10;
+
 export default function NewListingPage() {
   const t = useTranslations('amenities');
   const tAreas = useTranslations('areas');
@@ -363,7 +365,14 @@ export default function NewListingPage() {
 
         {/* Images */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Photos</label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Φωτογραφίες
+            </label>
+            <span className={`text-xs font-medium ${images.length >= MAX_PHOTOS ? 'text-red-600' : 'text-gray-500'}`}>
+              {images.length} / {MAX_PHOTOS}
+            </span>
+          </div>
           <div className="flex flex-wrap gap-3">
             {images.map((file, idx) => (
               <div key={idx} className="relative w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
@@ -374,13 +383,27 @@ export default function NewListingPage() {
                 </button>
               </div>
             ))}
-            <label className="w-24 h-24 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-colors">
-              <Upload className="w-5 h-5 text-gray-400" />
-              <span className="text-xs text-gray-400 mt-1">Upload</span>
-              <input type="file" accept="image/*" multiple className="hidden"
-                onChange={(e) => { if (e.target.files) setImages([...images, ...Array.from(e.target.files)]); }} />
-            </label>
+            {images.length < MAX_PHOTOS && (
+              <label className="w-24 h-24 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-colors">
+                <Upload className="w-5 h-5 text-gray-400" />
+                <span className="text-xs text-gray-400 mt-1">Upload</span>
+                <input type="file" accept="image/*" multiple className="hidden"
+                  onChange={(e) => {
+                    if (!e.target.files) return;
+                    const picked = Array.from(e.target.files);
+                    const remaining = MAX_PHOTOS - images.length;
+                    if (picked.length > remaining) {
+                      alert(`Μπορείς να ανεβάσεις μέχρι ${MAX_PHOTOS} φωτογραφίες. Επιλέχθηκαν οι πρώτες ${remaining}.`);
+                    }
+                    setImages([...images, ...picked.slice(0, remaining)]);
+                    e.target.value = '';
+                  }} />
+              </label>
+            )}
           </div>
+          <p className="text-xs text-gray-500 mt-2">
+            Μέχρι {MAX_PHOTOS} φωτογραφίες. Η πρώτη θα χρησιμοποιηθεί ως εξώφυλλο.
+          </p>
         </div>
 
         {/* Status & Submit */}

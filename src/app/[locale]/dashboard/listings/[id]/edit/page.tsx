@@ -9,6 +9,8 @@ import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity, Area } from '@/types';
 import { LocationPicker } from '@/components/ui/LocationPicker';
 import NumberStepper from '@/components/ui/NumberStepper';
+
+const MAX_PHOTOS = 10;
 import Image from 'next/image';
 import { Loader2, Upload, X, Save, ArrowLeft, Trash2, Calendar } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
@@ -372,7 +374,12 @@ export default function EditListingPage() {
 
         {/* Existing images */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Φωτογραφίες</label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="block text-sm font-medium text-gray-700">Φωτογραφίες</label>
+            <span className={`text-xs font-medium ${(existingImages.length + newImages.length) >= MAX_PHOTOS ? 'text-red-600' : 'text-gray-500'}`}>
+              {existingImages.length + newImages.length} / {MAX_PHOTOS}
+            </span>
+          </div>
           <div className="flex flex-wrap gap-3">
             {existingImages.map((img) => (
               <div key={img.id} className="relative w-24 h-24 rounded-lg overflow-hidden bg-gray-100 group">
@@ -397,13 +404,27 @@ export default function EditListingPage() {
                 </button>
               </div>
             ))}
-            <label className="w-24 h-24 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-colors">
-              <Upload className="w-5 h-5 text-gray-400" />
-              <span className="text-xs text-gray-400 mt-1">Upload</span>
-              <input type="file" accept="image/*" multiple className="hidden"
-                onChange={(e) => { if (e.target.files) setNewImages([...newImages, ...Array.from(e.target.files)]); }} />
-            </label>
+            {(existingImages.length + newImages.length) < MAX_PHOTOS && (
+              <label className="w-24 h-24 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-colors">
+                <Upload className="w-5 h-5 text-gray-400" />
+                <span className="text-xs text-gray-400 mt-1">Upload</span>
+                <input type="file" accept="image/*" multiple className="hidden"
+                  onChange={(e) => {
+                    if (!e.target.files) return;
+                    const picked = Array.from(e.target.files);
+                    const remaining = MAX_PHOTOS - existingImages.length - newImages.length;
+                    if (picked.length > remaining) {
+                      alert(`Μπορείς να έχεις μέχρι ${MAX_PHOTOS} φωτογραφίες συνολικά. Επιλέχθηκαν οι πρώτες ${remaining}.`);
+                    }
+                    setNewImages([...newImages, ...picked.slice(0, remaining)]);
+                    e.target.value = '';
+                  }} />
+              </label>
+            )}
           </div>
+          <p className="text-xs text-gray-500 mt-2">
+            Μέχρι {MAX_PHOTOS} φωτογραφίες συνολικά.
+          </p>
         </div>
 
         {/* Status & Submit */}
