@@ -61,6 +61,21 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   function isActive(href: string) {
     if (href === '/dashboard') return pathname === '/dashboard';
+
+    // Some sub-routes under /dashboard/listings/[id]/* conceptually belong
+    // to a different sidebar entry than the listings list. Route them to
+    // their owning hub instead of "My Listings".
+    const subrouteOwner: { pattern: RegExp; owner: string }[] = [
+      { pattern: /^\/dashboard\/listings\/[^/]+\/brand(\/|$)/,        owner: '/dashboard/site-builder' },
+      { pattern: /^\/dashboard\/listings\/[^/]+\/availability(\/|$)/, owner: '/dashboard/calendars' },
+    ];
+    for (const { pattern, owner } of subrouteOwner) {
+      if (pattern.test(pathname)) {
+        // Only the "owner" entry should light up; everything else stays dim
+        return href === owner;
+      }
+    }
+
     return pathname.startsWith(href);
   }
 
