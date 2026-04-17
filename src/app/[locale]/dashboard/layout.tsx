@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle, Calendar, Wand2 } from 'lucide-react';
+import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -61,21 +61,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   function isActive(href: string) {
     if (href === '/dashboard') return pathname === '/dashboard';
-
-    // Some sub-routes under /dashboard/listings/[id]/* conceptually belong
-    // to a different sidebar entry than the listings list. Route them to
-    // their owning hub instead of "My Listings".
-    const subrouteOwner: { pattern: RegExp; owner: string }[] = [
-      { pattern: /^\/dashboard\/listings\/[^/]+\/brand(\/|$)/,        owner: '/dashboard/site-builder' },
-      { pattern: /^\/dashboard\/listings\/[^/]+\/availability(\/|$)/, owner: '/dashboard/calendars' },
-    ];
-    for (const { pattern, owner } of subrouteOwner) {
-      if (pattern.test(pathname)) {
-        // Only the "owner" entry should light up; everything else stays dim
-        return href === owner;
-      }
-    }
-
+    // Everything under /dashboard/listings — including /brand, /availability,
+    // /qr, /edit, /new — lights up "Τα καταλύματά μου".
     return pathname.startsWith(href);
   }
 
@@ -92,8 +79,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       items: [
         { href: '/dashboard/listings', icon: List, label: t('myListings') },
         { href: '/dashboard/listings/new', icon: PlusCircle, label: locale === 'el' ? 'Νέο Κατάλυμα' : 'Add Listing' },
-        { href: '/dashboard/calendars', icon: Calendar, label: locale === 'el' ? 'Ημερολόγια' : 'Calendars' },
-        { href: '/dashboard/site-builder', icon: Wand2, label: locale === 'el' ? 'Φτιάξε το site σου' : 'Build your site' },
       ],
     },
     {
