@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "compress:dry": "node scripts/compress-existing-images.js --dry-run",
+    "compress:images": "node scripts/compress-existing-images.js"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.0",
