@@ -8,7 +8,7 @@ import { Link } from '@/i18n/navigation';
 import {
   Plus, Edit, Trash2, Eye, EyeOff, Loader2, QrCode, Calendar,
   Users, BedDouble, Bath, Wand2, MapPin, ExternalLink,
-  MoreHorizontal, Lock, Search,
+  MoreHorizontal, Lock, Search, TrendingUp,
 } from 'lucide-react';
 
 interface Img { image_url: string; is_cover: boolean; sort_order: number; }
@@ -325,6 +325,14 @@ export default function MyListingsPage() {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
                           </span>
+                        </Link>
+                        <Link
+                          href={`/dashboard/listings/${listing.id}/analytics`}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs font-medium rounded-lg border border-sky-200"
+                          title={locale === 'el' ? 'Στατιστικά & επισκεψιμότητα' : 'Analytics & traffic'}
+                        >
+                          <TrendingUp className="w-3.5 h-3.5" />
+                          {locale === 'el' ? 'Στατιστικά' : 'Analytics'}
                         </Link>
 
                         {/* Preview */}
