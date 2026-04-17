@@ -6,7 +6,10 @@ import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import {
   ArrowLeft, Loader2, Save, Check, Sparkles, BookOpen, Wand2, Eye, Info,
+  HelpCircle, AlertTriangle, Calendar,
 } from 'lucide-react';
+import { FaqsEditor } from '@/components/dashboard/FaqsEditor';
+import { EmergencyContactsEditor } from '@/components/dashboard/EmergencyContactsEditor';
 
 type FieldName = 'tagline' | 'owner_story';
 
@@ -265,7 +268,58 @@ export default function BrandPage() {
         </div>
       </section>
 
-      {/* Sticky save bar */}
+      {/* FAQs */}
+      <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-amber-100 text-amber-700">
+            <HelpCircle className="w-4 h-4" />
+          </span>
+          <h2 className="text-lg font-semibold text-gray-900">Συχνές ερωτήσεις</h2>
+        </div>
+        <p className="text-xs text-gray-500 mb-4">
+          Πρόσθεσε τις ερωτήσεις που σου κάνουν πιο συχνά οι επισκέπτες. Γράψε στα ελληνικά και
+          πάτα «Μετάφραση με AI» για να γίνουν αυτόματα και στις 6 άλλες γλώσσες.
+        </p>
+        <FaqsEditor listingId={listingId} />
+      </section>
+
+      {/* Emergency Contacts */}
+      <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 text-red-600">
+            <AlertTriangle className="w-4 h-4" />
+          </span>
+          <h2 className="text-lg font-semibold text-gray-900">Τηλέφωνα έκτακτης ανάγκης</h2>
+        </div>
+        <p className="text-xs text-gray-500 mb-4">
+          Τα βασικά τηλέφωνα Ελλάδας / ΕΕ εμφανίζονται ήδη αυτόματα. Εδώ πρόσθεσε τοπικές επαφές
+          (αστυνομικό τμήμα, ιατρείο, φαρμακείο, ταξί, δικό σου τηλέφωνο ως οικοδεσπότη).
+        </p>
+        <EmergencyContactsEditor listingId={listingId} />
+      </section>
+
+      {/* Availability calendar shortcut */}
+      <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700">
+            <Calendar className="w-4 h-4" />
+          </span>
+          <h2 className="text-lg font-semibold text-gray-900">Ημερολόγιο διαθεσιμότητας</h2>
+        </div>
+        <p className="text-xs text-gray-500 mb-4">
+          Σημάδεψε τις μέρες που το κατάλυμα είναι δεσμευμένο ή κλειστό. Από την
+          σελίδα «Ημερολόγια» επίσης ελέγχεις αν εμφανίζεται δημόσια.
+        </p>
+        <Link
+          href={`/dashboard/listings/${listingId}/availability`}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-medium rounded-xl text-sm"
+        >
+          <Calendar className="w-4 h-4" />
+          Διαχείριση ημερολογίου →
+        </Link>
+      </section>
+
+      {/* Sticky save bar (tagline + story only) */}
       <div className={`sticky bottom-4 bg-white border rounded-2xl p-4 shadow-lg flex items-center justify-between gap-3 ${
         hasUnsavedTranslations ? 'border-primary-300 bg-primary-50/50' : 'border-gray-200'
       }`}>

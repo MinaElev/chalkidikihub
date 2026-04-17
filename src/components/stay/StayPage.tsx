@@ -13,6 +13,7 @@ import type { Amenity } from '@/types';
 import { LocationMap } from '@/components/ui/LocationMap';
 import { NearbySection } from '@/components/listings/NearbySection';
 import { ListingFaqs } from '@/components/listings/ListingFaqs';
+import { EmergencyContacts } from '@/components/listings/EmergencyContacts';
 import { PublicAvailabilityCalendar } from '@/components/listings/PublicAvailabilityCalendar';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { ShareButtons } from '@/components/ui/ShareButtons';
@@ -322,6 +323,13 @@ export function StayPage({ listing, locale }: { listing: Listing; locale: string
       <section className="py-12 md:py-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
           <ListingFaqs listingId={listing.id} />
+        </div>
+      </section>
+
+      {/* ══════════════ EMERGENCY CONTACTS ══════════════ */}
+      <section className="py-12 md:py-16 px-4 sm:px-6 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <EmergencyContacts listingId={listing.id} />
         </div>
       </section>
 

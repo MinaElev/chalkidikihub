@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import {
   Loader2, Wand2, Sparkles, BookOpen, HelpCircle, Eye, ChevronRight, Plus,
+  AlertTriangle, Calendar,
 } from 'lucide-react';
 
 interface DbListing {
@@ -19,6 +20,8 @@ interface DbListing {
   owner_story_el: string | null;
   // Computed
   faqs_count?: number;
+  emergency_count?: number;
+  blocked_count?: number;
 }
 
 const COPY = {
@@ -43,7 +46,14 @@ const COPY = {
     faqs: {
       title: 'Συχνές ερωτήσεις',
       desc: 'Πρόσθεσε τις συχνότερες ερωτήσεις — βοηθάει και το Google (rich results).',
-      soon: 'Έρχεται σύντομα',
+    },
+    emergency: {
+      title: 'Τηλέφωνα έκτακτης ανάγκης',
+      desc: 'Τοπικά τηλέφωνα ασφαλείας (αστυνομία, ιατρείο, φαρμακείο) + οι βασικοί αριθμοί ΕΕ.',
+    },
+    availability: {
+      title: 'Ημερολόγιο διαθεσιμότητας',
+      desc: 'Μπλόκαρε δεσμευμένες ή κλειστές μέρες.',
     },
   },
   en: {
@@ -67,7 +77,14 @@ const COPY = {
     faqs: {
       title: 'FAQs',
       desc: 'Add common questions — also helps Google (rich results).',
-      soon: 'Coming soon',
+    },
+    emergency: {
+      title: 'Emergency contacts',
+      desc: 'Local safety numbers (police, clinic, pharmacy) + default EU numbers.',
+    },
+    availability: {
+      title: 'Availability calendar',
+      desc: 'Block booked or closed dates.',
     },
   },
 };
@@ -95,21 +112,37 @@ export default function SiteBuilderPage() {
         return;
       }
 
-      // FAQ counts per listing (best effort — no-op if the table query fails)
+      // Counts per listing (best effort — no-op if a query fails)
       const ids = data.map(l => l.id);
-      let faqCounts: Record<string, number> = {};
+      const faqCounts: Record<string, number> = {};
+      const emergencyCounts: Record<string, number> = {};
+      const blockedCounts: Record<string, number> = {};
+
       if (ids.length > 0) {
-        const { data: faqsData } = await supabase
-          .from('listing_faqs')
-          .select('listing_id')
-          .in('listing_id', ids);
-        (faqsData || []).forEach((r: { listing_id: string }) => {
+        const today = new Date().toISOString().slice(0, 10);
+        const [faqsRes, emergRes, availRes] = await Promise.all([
+          supabase.from('listing_faqs').select('listing_id').in('listing_id', ids),
+          supabase.from('listing_emergency_contacts').select('listing_id').in('listing_id', ids),
+          supabase.from('listing_availability').select('listing_id').in('listing_id', ids).gte('date', today),
+        ]);
+        (faqsRes.data || []).forEach((r: { listing_id: string }) => {
           faqCounts[r.listing_id] = (faqCounts[r.listing_id] || 0) + 1;
+        });
+        (emergRes.data || []).forEach((r: { listing_id: string }) => {
+          emergencyCounts[r.listing_id] = (emergencyCounts[r.listing_id] || 0) + 1;
+        });
+        (availRes.data || []).forEach((r: { listing_id: string }) => {
+          blockedCounts[r.listing_id] = (blockedCounts[r.listing_id] || 0) + 1;
         });
       }
 
       setListings(
-        data.map(l => ({ ...l, faqs_count: faqCounts[l.id] || 0 })) as DbListing[]
+        data.map(l => ({
+          ...l,
+          faqs_count: faqCounts[l.id] || 0,
+          emergency_count: emergencyCounts[l.id] || 0,
+          blocked_count: blockedCounts[l.id] || 0,
+        })) as DbListing[],
       );
       setLoading(false);
     })();
@@ -154,6 +187,8 @@ export default function SiteBuilderPage() {
             const hasTagline = !!listing.tagline_el?.trim();
             const hasStory = !!listing.owner_story_el?.trim();
             const faqsCount = listing.faqs_count || 0;
+            const emergencyCount = listing.emergency_count || 0;
+            const blockedCount = listing.blocked_count || 0;
 
             return (
               <div
@@ -216,11 +251,30 @@ export default function SiteBuilderPage() {
                     iconBg="bg-amber-100 text-amber-600"
                     title={t.faqs.title}
                     desc={t.faqs.desc}
-                    status={faqsCount > 0 ? `${faqsCount}` : t.faqs.soon}
-                    statusColor={faqsCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-400 bg-gray-50 italic'}
+                    status={faqsCount > 0 ? `${faqsCount}` : t.notSet}
+                    statusColor={faqsCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
                     href={`/dashboard/listings/${listing.id}/brand`}
                     cta={t.brandEdit}
-                    disabled={true}
+                  />
+                  <FeatureRow
+                    icon={<AlertTriangle className="w-5 h-5" />}
+                    iconBg="bg-red-100 text-red-600"
+                    title={t.emergency.title}
+                    desc={t.emergency.desc}
+                    status={emergencyCount > 0 ? `${emergencyCount}` : t.notSet}
+                    statusColor={emergencyCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
+                    href={`/dashboard/listings/${listing.id}/brand`}
+                    cta={t.brandEdit}
+                  />
+                  <FeatureRow
+                    icon={<Calendar className="w-5 h-5" />}
+                    iconBg="bg-emerald-100 text-emerald-600"
+                    title={t.availability.title}
+                    desc={t.availability.desc}
+                    status={blockedCount > 0 ? `${blockedCount}` : t.notSet}
+                    statusColor={blockedCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
+                    href={`/dashboard/listings/${listing.id}/availability`}
+                    cta={t.brandEdit}
                   />
                 </div>
               </div>
