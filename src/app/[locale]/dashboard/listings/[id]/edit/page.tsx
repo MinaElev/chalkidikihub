@@ -13,7 +13,7 @@ import { compressImage } from '@/lib/image-utils';
 
 const MAX_PHOTOS = 10;
 import Image from 'next/image';
-import { Loader2, Upload, X, Save, ArrowLeft, Trash2, Calendar, Wand2 } from 'lucide-react';
+import { Loader2, Upload, X, Save, ArrowLeft, Trash2, Calendar } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
 interface DbImage {
@@ -224,22 +224,13 @@ export default function EditListingPage() {
 
       <div className="flex items-center justify-between mb-6 gap-3 flex-wrap">
         <h1 className="text-2xl font-bold text-gray-900">Επεξεργασία καταλύματος</h1>
-        <div className="flex items-center gap-2">
-          <Link
-            href={`/dashboard/listings/${listingId}/brand`}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 hover:bg-primary-100 text-primary-700 font-medium rounded-xl transition-colors text-sm"
-          >
-            <Wand2 className="w-4 h-4" />
-            Σελίδα καταλύματος
-          </Link>
-          <Link
-            href={`/dashboard/listings/${listingId}/availability`}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-medium rounded-xl transition-colors text-sm"
-          >
-            <Calendar className="w-4 h-4" />
-            Ημερολόγιο
-          </Link>
-        </div>
+        <Link
+          href={`/dashboard/listings/${listingId}/availability`}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-medium rounded-xl transition-colors text-sm"
+        >
+          <Calendar className="w-4 h-4" />
+          Ημερολόγιο
+        </Link>
       </div>
 
       {error && <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">{error}</div>}

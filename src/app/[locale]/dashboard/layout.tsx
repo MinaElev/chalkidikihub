@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle, Calendar } from 'lucide-react';
+import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle, Calendar, Wand2 } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -78,6 +78,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         { href: '/dashboard/listings', icon: List, label: t('myListings') },
         { href: '/dashboard/listings/new', icon: PlusCircle, label: locale === 'el' ? 'Νέο Κατάλυμα' : 'Add Listing' },
         { href: '/dashboard/calendars', icon: Calendar, label: locale === 'el' ? 'Ημερολόγια' : 'Calendars' },
+        { href: '/dashboard/site-builder', icon: Wand2, label: locale === 'el' ? 'Φτιάξε το site σου' : 'Build your site' },
       ],
     },
     {
