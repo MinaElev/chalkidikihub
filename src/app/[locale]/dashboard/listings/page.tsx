@@ -51,22 +51,33 @@ export default function MyListingsPage() {
     }
   }, [menuOpenId]);
 
-  async function loadListings() {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-    const { data } = await supabase
+  async function loadListings() {
+    setLoadError(null);
+    const supabase = createClient();
+    const { data: { user }, error: authErr } = await supabase.auth.getUser();
+    if (authErr || !user) {
+      setLoadError(authErr?.message || 'Not signed in');
+      setLoading(false);
+      return;
+    }
+
+    // Use '*' so the query survives schema drift (e.g. if a migration
+    // hasn't been applied yet, the page still renders the listings).
+    const { data, error } = await supabase
       .from('listings')
-      .select(`
-        id, slug, title_el, title_en, area, location_name,
-        price_per_night, guests_max, bedrooms, bathrooms,
-        status, is_closed, created_at,
-        listing_images (image_url, is_cover, sort_order)
-      `)
+      .select('*, listing_images(image_url, is_cover, sort_order)')
       .eq('owner_id', user.id)
       .order('created_at', { ascending: false });
-    setListings((data || []) as unknown as DbListing[]);
+
+    if (error) {
+      console.error('[MyListings] load error:', error);
+      setLoadError(error.message);
+      setListings([]);
+    } else {
+      setListings((data || []) as unknown as DbListing[]);
+    }
     setLoading(false);
   }
 
@@ -158,6 +169,15 @@ export default function MyListingsPage() {
         </Link>
       </div>
 
+      {loadError && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+          <strong>Σφάλμα φόρτωσης:</strong> {loadError}
+          <div className="mt-2 text-xs text-red-600">
+            Δοκίμασε hard refresh (Ctrl+Shift+R). Αν επιμένει, στείλε μου screenshot.
+          </div>
+        </div>
+      )}
+
       {listings.length === 0 ? (
         <div className="text-center py-16 bg-white border border-gray-200 rounded-2xl">
           <p className="text-gray-500 mb-4">{L.empty}</p>
@@ -210,8 +230,8 @@ export default function MyListingsPage() {
           <div className="space-y-3">
             {filtered.map((listing) => {
               const title = locale === 'el' ? listing.title_el : (listing.title_en || listing.title_el);
-              const cover = listing.listing_images?.find(i => i.is_cover)?.image_url
-                         || listing.listing_images?.[0]?.image_url;
+              const images = Array.isArray(listing.listing_images) ? listing.listing_images : [];
+              const cover = images.find(i => i.is_cover)?.image_url || images[0]?.image_url;
               const isPublished = listing.status === 'published';
               const isClosed = !!listing.is_closed;
 
@@ -255,15 +275,17 @@ export default function MyListingsPage() {
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-xs text-gray-500">
                         <span className="inline-flex items-center gap-1">
                           <MapPin className="w-3 h-3" />
-                          <span className="capitalize">{listing.area}</span>
+                          <span className="capitalize">{listing.area || '—'}</span>
                           {listing.location_name && <span className="text-gray-400">· {listing.location_name}</span>}
                         </span>
-                        <span className="inline-flex items-center gap-1"><Users className="w-3 h-3" /> {listing.guests_max}</span>
-                        <span className="inline-flex items-center gap-1"><BedDouble className="w-3 h-3" /> {listing.bedrooms}</span>
-                        <span className="inline-flex items-center gap-1"><Bath className="w-3 h-3" /> {listing.bathrooms}</span>
-                        <span className="font-semibold text-gray-900 ml-auto">
-                          €{listing.price_per_night}<span className="font-normal text-gray-500 text-[10px]">{L.perNight}</span>
-                        </span>
+                        {listing.guests_max != null && <span className="inline-flex items-center gap-1"><Users className="w-3 h-3" /> {listing.guests_max}</span>}
+                        {listing.bedrooms != null && <span className="inline-flex items-center gap-1"><BedDouble className="w-3 h-3" /> {listing.bedrooms}</span>}
+                        {listing.bathrooms != null && <span className="inline-flex items-center gap-1"><Bath className="w-3 h-3" /> {listing.bathrooms}</span>}
+                        {listing.price_per_night != null && (
+                          <span className="font-semibold text-gray-900 ml-auto">
+                            €{listing.price_per_night}<span className="font-normal text-gray-500 text-[10px]">{L.perNight}</span>
+                          </span>
+                        )}
                       </div>
 
                       {/* Actions */}
