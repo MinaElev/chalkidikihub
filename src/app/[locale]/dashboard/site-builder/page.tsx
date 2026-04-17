@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import {
   Loader2, Wand2, Sparkles, BookOpen, HelpCircle, Eye, ChevronRight, Plus,
-  AlertTriangle, Calendar,
+  AlertTriangle, Calendar, Shield,
 } from 'lucide-react';
 
 interface DbListing {
@@ -16,6 +16,8 @@ interface DbListing {
   title_en: string | null;
   area: string;
   status: string;
+  owner_id: string | null;
+  owner_email?: string;
   tagline_el: string | null;
   owner_story_el: string | null;
   // Computed
@@ -93,6 +95,7 @@ export default function SiteBuilderPage() {
   const locale = useLocale();
   const [listings, setListings] = useState<DbListing[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -100,16 +103,43 @@ export default function SiteBuilderPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { data } = await supabase
+      // Role probe — decides whether to fetch own listings or all
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+      const admin = profile?.role === 'superadmin' || profile?.role === 'admin';
+      setIsSuperAdmin(admin);
+
+      let query = supabase
         .from('listings')
-        .select('id, slug, title_el, title_en, area, status, tagline_el, owner_story_el')
-        .eq('owner_id', user.id)
+        .select('id, slug, title_el, title_en, area, status, owner_id, tagline_el, owner_story_el')
         .order('created_at', { ascending: false });
+      if (!admin) {
+        query = query.eq('owner_id', user.id);
+      }
+      const { data } = await query;
 
       if (!data) {
         setListings([]);
         setLoading(false);
         return;
+      }
+
+      // Resolve owner emails / names (admins only — to label each row)
+      const ownerEmails: Record<string, string> = {};
+      if (admin) {
+        const ownerIds = Array.from(new Set(data.map(l => l.owner_id).filter(Boolean))) as string[];
+        if (ownerIds.length > 0) {
+          const { data: profiles } = await supabase
+            .from('profiles')
+            .select('id, email, full_name')
+            .in('id', ownerIds);
+          (profiles || []).forEach((p: { id: string; email: string | null; full_name: string | null }) => {
+            ownerEmails[p.id] = p.email || p.full_name || p.id;
+          });
+        }
       }
 
       // Counts per listing (best effort — no-op if a query fails)
@@ -139,6 +169,7 @@ export default function SiteBuilderPage() {
       setListings(
         data.map(l => ({
           ...l,
+          owner_email: l.owner_id ? ownerEmails[l.owner_id] : undefined,
           faqs_count: faqCounts[l.id] || 0,
           emergency_count: emergencyCounts[l.id] || 0,
           blocked_count: blockedCounts[l.id] || 0,
@@ -167,7 +198,22 @@ export default function SiteBuilderPage() {
         </span>
         <h1 className="text-2xl font-bold text-gray-900">{t.title}</h1>
       </div>
-      <p className="text-sm text-gray-600 mb-6 max-w-2xl">{t.subtitle}</p>
+      <p className="text-sm text-gray-600 mb-4 max-w-2xl">{t.subtitle}</p>
+
+      {isSuperAdmin && (
+        <div className="bg-violet-50 border border-violet-200 rounded-xl p-3 mb-5 flex flex-wrap items-center gap-3 text-sm">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-violet-200 text-violet-700">
+            <Shield className="w-4 h-4" />
+          </span>
+          <div className="text-violet-900 flex-1 min-w-0">
+            <strong>Admin mode</strong> — βλέπεις όλα τα καταλύματα της πλατφόρμας ({listings.length})
+          </div>
+          <Link href="/admin/brand-sites"
+            className="inline-flex items-center gap-1 px-3 py-1.5 bg-violet-600 hover:bg-violet-700 text-white text-xs font-medium rounded-lg">
+            Admin brand hub →
+          </Link>
+        </div>
+      )}
 
       {listings.length === 0 ? (
         <div className="text-center py-16 bg-white border border-gray-200 rounded-2xl">
@@ -211,6 +257,15 @@ export default function SiteBuilderPage() {
                       >
                         {listing.status}
                       </span>
+                      {isSuperAdmin && listing.owner_email && (
+                        <>
+                          <span>·</span>
+                          <span className="inline-flex items-center gap-1 text-violet-700 bg-violet-50 px-1.5 py-0.5 rounded">
+                            <Shield className="w-3 h-3" />
+                            {listing.owner_email}
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
                   <Link
