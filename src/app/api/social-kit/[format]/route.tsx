@@ -89,7 +89,7 @@ export async function GET(
     const coverUrl = cover?.image_url || '';
 
     // Fetch cover + QR in parallel (both as base64 data URLs)
-    const stayUrl = `${SITE_URL}/stay/${slug}`;
+    const stayUrl = `${SITE_URL}/listings/${slug}`;
     const qrServiceUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=8&data=${encodeURIComponent(stayUrl)}&color=0F172A&bgcolor=FFFFFF&format=png`;
 
     const [coverDataUrl, qrDataUrl] = await Promise.all([

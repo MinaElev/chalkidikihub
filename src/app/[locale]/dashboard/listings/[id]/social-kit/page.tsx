@@ -105,7 +105,7 @@ export default function SocialKitPage() {
       // README with caption + instructions
       zip.file('README.txt', [
         `Social Media Kit — ${title}`,
-        `chalkidikihub.gr/stay/${listing.slug}`,
+        `chalkidikihub.gr/listings/${listing.slug}`,
         ``,
         `Files:`,
         ...FORMATS.map(f => `  · ${f.key}.png (${f.dims}) — ${f.platform}`),
