@@ -239,8 +239,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]) {
     entries.push(...forLocales(`/guide/${g}`, { freq: 'monthly', priority: 0.8 }));
   }
+  // Best-of index page — single entry point, helps Google discover all /best/[slug] via crawl
+  entries.push(...forLocales('/best', { freq: 'weekly', priority: 0.8 }));
   for (const g of ['beaches-kassandra', 'beaches-sithonia', 'family-beaches', 'quiet-beaches', 'seafood-restaurants', 'beach-bars', 'romantic-restaurants', 'hiking-trails', 'historical-sites', 'water-sports', 'restaurants-kassandra', 'restaurants-sithonia', 'free-beaches', 'luxury-hotels', 'camping-spots', 'instagram-spots', 'kids-activities', 'snorkeling-spots', 'romantic-getaways', 'traditional-tavernas']) {
     entries.push(...forLocales(`/best/${g}`, { freq: 'weekly', priority: 0.8 }));
+  }
+  // Listing filter pages — listed directly so Google discovers each variant
+  for (const t of ['with-pool', 'sea-view', 'pet-friendly', 'family', 'budget', 'luxury']) {
+    entries.push(...forLocales(`/listings/type/${t}`, { freq: 'weekly', priority: 0.7 }));
   }
 
   // ── FAQ pages ──
