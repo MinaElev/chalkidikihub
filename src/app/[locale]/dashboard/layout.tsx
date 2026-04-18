@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle } from 'lucide-react';
+import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle, CalendarDays, Inbox, DollarSign, Sparkles as SparklesIcon, Wrench, Settings as SettingsIcon, TrendingUp, Zap } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -64,6 +64,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   function isActive(href: string) {
     if (href === '/dashboard') return pathname === '/dashboard';
+    // /dashboard/pms (Command Center) should only light up on exact match —
+    // its sub-pages (calendar, bookings, …) each have their own nav item.
+    if (href === '/dashboard/pms') return pathname === '/dashboard/pms';
     // Everything under /dashboard/listings — including /brand, /availability,
     // /qr, /edit, /new — lights up "Τα καταλύματά μου".
     return pathname.startsWith(href);
@@ -147,6 +150,55 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
           ))}
         </nav>
+
+        {/* ═══ PMS SECTION — premium / distinct ═════════════════════════ */}
+        <div className="mt-6 pt-5 border-t border-slate-200">
+          <div className="relative overflow-hidden rounded-2xl p-3.5 mb-2.5 bg-gradient-to-br from-violet-600 via-fuchsia-600 to-indigo-600 shadow-lg shadow-violet-500/20">
+            <div className="absolute -top-8 -right-8 w-24 h-24 rounded-full bg-white/10 blur-xl" />
+            <div className="relative flex items-center gap-2">
+              <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/20 backdrop-blur-sm">
+                <Zap className="w-3.5 h-3.5 text-white" fill="currentColor" />
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm font-bold text-white tracking-wide">PMS</span>
+                  <span className="px-1.5 py-px rounded-full bg-white/20 text-[9px] font-bold text-white uppercase tracking-wider">Beta</span>
+                </div>
+                <div className="text-[10px] text-white/80 leading-tight mt-px">
+                  {locale === 'el' ? 'Διαχείριση καταλυμάτων' : 'Property management'}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-0.5">
+            {[
+              { href: '/dashboard/pms',              icon: LayoutDashboard, label: locale === 'el' ? 'Command Center' : 'Command Center' },
+              { href: '/dashboard/pms/calendar',     icon: CalendarDays,    label: locale === 'el' ? 'Ημερολόγιο & Sync' : 'Calendar & Sync' },
+              { href: '/dashboard/pms/bookings',     icon: ClipboardList,   label: locale === 'el' ? 'Κρατήσεις' : 'Bookings' },
+              { href: '/dashboard/pms/messages',     icon: Inbox,           label: locale === 'el' ? 'Μηνύματα' : 'Messages' },
+              { href: '/dashboard/pms/pricing',      icon: DollarSign,      label: locale === 'el' ? 'Τιμολόγηση' : 'Pricing' },
+              { href: '/dashboard/pms/automations',  icon: SparklesIcon,    label: locale === 'el' ? 'Αυτοματισμοί' : 'Automations' },
+              { href: '/dashboard/pms/tasks',        icon: Wrench,          label: locale === 'el' ? 'Καθαριότητα' : 'Tasks' },
+              { href: '/dashboard/pms/finance',      icon: TrendingUp,      label: locale === 'el' ? 'Οικονομικά' : 'Finance' },
+              { href: '/dashboard/pms/settings',     icon: SettingsIcon,    label: locale === 'el' ? 'Ρυθμίσεις' : 'Settings' },
+            ].map(item => {
+              const active = isActive(item.href);
+              return (
+                <Link key={item.href} href={item.href}
+                  className={`group relative flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                    active
+                      ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-sm'
+                      : 'text-slate-600 hover:bg-violet-50 hover:text-violet-700'
+                  }`}>
+                  {active && <span className="absolute left-0 top-1.5 bottom-1.5 w-0.5 rounded-r-full bg-fuchsia-300" />}
+                  <item.icon className={`w-4 h-4 ${active ? 'text-white' : 'text-violet-500'}`} />
+                  <span className="flex-1">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+        {/* ═══ /PMS SECTION ══════════════════════════════════════════════ */}
 
         <hr className="my-4 border-slate-100" />
 

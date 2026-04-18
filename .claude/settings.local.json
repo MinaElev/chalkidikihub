@@ -391,7 +391,10 @@
       "Bash(curl -sL --max-time 15 \"https://chalkidikihub.gr/beaches/area/sithonia?cb=$\\(date +%s\\)x\")",
       "Bash(grep -oE '<h1[^<]*\\(<[^>]*>[^<]*\\){0,5}')",
       "Bash(curl -sL --max-time 15 \"https://chalkidikihub.gr/best\")",
-      "Bash(curl -sL --max-time 15 \"https://chalkidikihub.gr/listings\")"
+      "Bash(curl -sL --max-time 15 \"https://chalkidikihub.gr/listings\")",
+      "Bash(curl -sL --max-time 15 \"https://chalkidikihub.gr/\")",
+      "Bash(curl -s \"https://chalkidikihub.gr/api/listings?limit=200\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f'Total: {len\\(d\\)}'\\); [print\\(f' {l[\\\\\"slug\\\\\"]}'\\) for l in d]\")"
     ]
   }
 }
