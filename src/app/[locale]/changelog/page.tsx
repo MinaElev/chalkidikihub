@@ -8,6 +8,14 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.13.1',
+      date: '18 Απριλίου 2026',
+      highlights: 'Bug Fix — Type Filter Pages Έδειχναν Μόνο τα 50 Πιο Πρόσφατα',
+      features: [
+        { emoji: '🐛', title: 'Όλα τα Καταλύματα στο /listings/type/*', desc: 'Το /listings/type/with-pool (και όλες οι type-filter σελίδες: sea-view, pet-friendly, family, budget, luxury) ζητούσε μόνο 50 καταλύματα — όσα έχουμε πλέον > 50 publishes, τα παλαιότερα κόβονταν ΠΡΙΝ εφαρμοστεί το client-side φίλτρο. Αποτέλεσμα: καταλύματα με πισίνα σαν το Thespis Villa 2 λείπανε. Αφαιρέθηκε το limit για να ταιριάζει με τη συμπεριφορά του /listings' },
+      ],
+    },
+    {
       version: 'v3.13.0',
       date: '17 Απριλίου 2026',
       highlights: 'Free Social Media Kit Auto-Generator per Listing',
