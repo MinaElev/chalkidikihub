@@ -1483,6 +1483,537 @@ function Mistakes9() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// 10. CAROUSEL — "Top 10 παραλίες Χαλκιδικής" (12 slides)
+// ─────────────────────────────────────────────────────────────
+
+const BEACHES_TOTAL = 12;
+function BeachProgress({ step }: { step: number }) {
+  return (
+    <div style={{ display: 'flex', gap: 4, marginBottom: 30 }}>
+      {Array.from({ length: BEACHES_TOTAL }).map((_, i) => (
+        <div key={i} style={{ display: 'flex', flex: 1, height: 4, borderRadius: 9999, backgroundColor: i < step ? '#38bdf8' : 'rgba(255,255,255,0.15)' }} />
+      ))}
+    </div>
+  );
+}
+
+interface Beach { rank: number; name: string; where: string; tags: string[]; why: string; gradient: string; }
+const BEACH_DATA: Beach[] = [
+  { rank: 10, name: 'Καλόγρια',         where: 'Κασσάνδρα',  tags: ['Crystal waters','Βράχοι'],           why: 'Τα πιο καθαρά νερά στη δυτική πλευρά — ήρεμο σημείο, ιδανικό για snorkeling.', gradient: 'linear-gradient(180deg, #0ea5e9, #0369a1, #0c4a6e)' },
+  { rank: 9,  name: 'Παλιούρι',         where: 'Κασσάνδρα',  tags: ['Hidden','Ήσυχο'],                    why: 'Μικρός κόλπος, λίγοι ξέρουν το μονοπάτι. Άγρια ομορφιά, χωρίς πλήθη.', gradient: 'linear-gradient(180deg, #14b8a6, #0f766e, #064e3b)' },
+  { rank: 8,  name: 'Γλαροκάβος',       where: 'Κασσάνδρα',  tags: ['Lagoon','Unique'],                   why: 'Η μοναδική φυσική λιμνοθάλασσα της Χαλκιδικής. Ρηχά πράσινα νερά.', gradient: 'linear-gradient(180deg, #22c55e, #15803d, #14532d)' },
+  { rank: 7,  name: 'Σάρτη / Κριαρίτσι', where: 'Σιθωνία',    tags: ['Wild','Camping'],                    why: 'Πολλά μικρά βοτσαλένια bays. Ερημικά, πευκόδασος μέχρι τη θάλασσα.', gradient: 'linear-gradient(180deg, #10b981, #065f46, #064e3b)' },
+  { rank: 6,  name: 'Συκιά',            where: 'Σιθωνία',    tags: ['Long bay','Chilled'],                why: 'Τεράστιος αμμώδης κόλπος με πολλά beach bars και ταβέρνες. All-rounder.', gradient: 'linear-gradient(180deg, #06b6d4, #0e7490, #164e63)' },
+  { rank: 5,  name: 'Ammolofoi',        where: 'Κασσάνδρα',  tags: ['Χρυσή άμμος','Οργανωμένη'],          why: 'Χρυσή λεπτή άμμος, καλοοργανωμένη, beach bar με μουσική. Family favorite.', gradient: 'linear-gradient(180deg, #fbbf24, #f59e0b, #b45309)' },
+  { rank: 4,  name: 'Ακρωτήρι Ποσείδι', where: 'Κασσάνδρα',  tags: ['Cape','Sandbar'],                    why: 'Φαρδιά γλώσσα άμμου εκτείνεται στη θάλασσα. Sunset από τα top της Ελλάδας.', gradient: 'linear-gradient(180deg, #f97316, #c2410c, #7c2d12)' },
+  { rank: 3,  name: 'Καρύδι',           where: 'Σιθωνία',    tags: ['Turquoise','Photogenic'],            why: 'Ένα από τα πιο φωτογραφιζόμενα beaches. Τυρκουάζ νερά, λευκή άμμος.', gradient: 'linear-gradient(180deg, #67e8f9, #06b6d4, #0e7490)' },
+  { rank: 2,  name: 'Porto Karras',     where: 'Σιθωνία',    tags: ['Organized','Resort'],                why: 'Blue flag. Watersports, beach bars, θέα το βραδινό φως. Resort-level.', gradient: 'linear-gradient(180deg, #0ea5e9, #0284c7, #0c4a6e)' },
+  { rank: 1,  name: 'Καβουρότρυπες',     where: 'Σιθωνία',    tags: ['Iconic','Paradise'],                 why: 'Η #1 της Χαλκιδικής. Μικρά βοτσαλένια bays, τυρκουάζ, πευκόδασος από πάνω.', gradient: 'linear-gradient(180deg, #22d3ee, #0891b2, #083344)' },
+];
+
+function Beach1() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #082f49 0%, #0c4a6e 50%, #164e63 100%)">
+      <Glow accent="sky" pos="tr" />
+      <Glow accent="teal" pos="bl" />
+      <BeachProgress step={1} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="sky" label="Halkidiki · Travel guide" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 40, fontWeight: 700, color: '#7dd3fc', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>Ranked · 2026</div>
+        <div style={{ display: 'flex', fontSize: 180, fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.04em' }}>Top 10</div>
+        <div style={{ display: 'flex', fontSize: 78, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.02em', marginTop: 12 }}>παραλίες</div>
+        <div style={{ display: 'flex', fontSize: 78, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.02em', color: '#38bdf8' }}>της Χαλκιδικής.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 40, lineHeight: 1.35, maxWidth: 900 }}>
+          Save this post. Φέτος το καλοκαίρι δεν θα ξέρεις που να πας πρώτα.
+        </div>
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="1 / 12  ·  chalkidikihub.gr/beaches" />
+    </Canvas>
+  );
+}
+
+function BeachSlide({ b, slideIdx }: { b: Beach; slideIdx: number }) {
+  return (
+    <Canvas bg={b.gradient}>
+      {/* Subtle overlay for contrast */}
+      <div style={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.4) 100%)' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', position: 'relative', zIndex: 1 }}>
+        <BeachProgress step={slideIdx} />
+        <div style={{ display: 'flex', marginBottom: 20 }}>
+          <BrandChip accent="sky" label={`Top 10 · ${b.where}`} />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, marginTop: 20 }}>
+          <div style={{ display: 'flex', fontSize: 300, fontWeight: 800, lineHeight: 0.8, color: 'rgba(255,255,255,0.92)', letterSpacing: '-0.05em' }}>#{b.rank}</div>
+        </div>
+        <div style={{ display: 'flex', fontSize: 82, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em', marginTop: 10 }}>{b.name}</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 20 }}>
+          {b.tags.map(t => (
+            <div key={t} style={{ display: 'flex', backgroundColor: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 9999, padding: '8px 18px', fontSize: 22, fontWeight: 700, backdropFilter: 'blur(20px)' }}>{t}</div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', fontSize: 30, lineHeight: 1.4, marginTop: 30, color: 'rgba(255,255,255,0.95)', maxWidth: 920, fontWeight: 500 }}>
+          {b.why}
+        </div>
+        <div style={{ display: 'flex', flex: 1 }} />
+        <div style={{ position: 'absolute', right: 0, bottom: 60, display: 'flex', alignItems: 'center', gap: 10, fontSize: 22, fontWeight: 700, color: 'rgba(255,255,255,0.75)' }}>
+          Swipe <span style={{ display: 'flex', fontSize: 26 }}>→</span>
+        </div>
+        <Footer tagline={`${slideIdx} / 12  ·  chalkidikihub.gr`} />
+      </div>
+    </Canvas>
+  );
+}
+
+// Slides 2-11: 10 beaches (rank 10 → 1 countdown)
+function Beach2()  { return <BeachSlide b={BEACH_DATA[0]} slideIdx={2}  />; }
+function Beach3()  { return <BeachSlide b={BEACH_DATA[1]} slideIdx={3}  />; }
+function Beach4()  { return <BeachSlide b={BEACH_DATA[2]} slideIdx={4}  />; }
+function Beach5()  { return <BeachSlide b={BEACH_DATA[3]} slideIdx={5}  />; }
+function Beach6()  { return <BeachSlide b={BEACH_DATA[4]} slideIdx={6}  />; }
+function Beach7()  { return <BeachSlide b={BEACH_DATA[5]} slideIdx={7}  />; }
+function Beach8()  { return <BeachSlide b={BEACH_DATA[6]} slideIdx={8}  />; }
+function Beach9()  { return <BeachSlide b={BEACH_DATA[7]} slideIdx={9}  />; }
+function Beach10() { return <BeachSlide b={BEACH_DATA[8]} slideIdx={10} />; }
+function Beach11() { return <BeachSlide b={BEACH_DATA[9]} slideIdx={11} />; }
+
+function Beach12() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #083344 0%, #164e63 50%, #0c4a6e 100%)">
+      <Glow accent="sky" pos="tr" />
+      <Glow accent="teal" pos="bl" />
+      <BeachProgress step={12} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="sky" label="Save · Share · Visit" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 84, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', letterSpacing: '-0.02em' }}>350+ ακόμη</div>
+        <div style={{ display: 'flex', fontSize: 84, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', letterSpacing: '-0.02em', color: '#38bdf8' }}>σε περιμένουν.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.85)', marginTop: 34, textAlign: 'center', maxWidth: 920, lineHeight: 1.4 }}>
+          Κάθε παραλία της Χαλκιδικής indexed με φωτογραφίες, πρόσβαση, reviews — σε 6 γλώσσες.
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'linear-gradient(135deg, #0ea5e9, #06b6d4)', padding: '26px 56px', borderRadius: 16, marginTop: 50, fontSize: 36, fontWeight: 800, boxShadow: '0 30px 60px rgba(14,165,233,0.4)' }}>
+          chalkidikihub.gr/beaches →
+        </div>
+        <div style={{ display: 'flex', marginTop: 26, fontSize: 24, color: 'rgba(255,255,255,0.7)' }}>
+          💾 Save  ·  🏖️ Tag έναν που θα πήγαινες μαζί
+        </div>
+      </div>
+      <Footer tagline="12 / 12  ·  Discover Halkidiki" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 11. CAROUSEL — "Οι 3 πλευρές της Χαλκιδικής" (8 slides)
+// ─────────────────────────────────────────────────────────────
+
+const LEGS_TOTAL = 8;
+function LegsProgress({ step, accent }: { step: number; accent: Accent }) {
+  return (
+    <div style={{ display: 'flex', gap: 5, marginBottom: 30 }}>
+      {Array.from({ length: LEGS_TOTAL }).map((_, i) => (
+        <div key={i} style={{ display: 'flex', flex: 1, height: 5, borderRadius: 9999, backgroundColor: i < step ? PALETTE[accent].bgSolid : 'rgba(255,255,255,0.15)' }} />
+      ))}
+    </div>
+  );
+}
+
+function Legs1() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+      <div style={{ display: 'flex', position: 'absolute', top: -150, right: -150, width: 450, height: 450, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(249,115,22,0.35), transparent 70%)' }} />
+      <div style={{ display: 'flex', position: 'absolute', top: '30%', left: -150, width: 450, height: 450, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(52,211,153,0.35), transparent 70%)' }} />
+      <div style={{ display: 'flex', position: 'absolute', bottom: -150, right: -50, width: 450, height: 450, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(139,92,246,0.35), transparent 70%)' }} />
+      <LegsProgress step={1} accent="teal" />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="teal" label="Halkidiki · 3 legs" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 120, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em' }}>Kassandra.</div>
+        <div style={{ display: 'flex', fontSize: 120, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em', color: '#34d399' }}>Sithonia.</div>
+        <div style={{ display: 'flex', fontSize: 120, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em', color: '#c4b5fd' }}>Athos.</div>
+        <div style={{ display: 'flex', fontSize: 36, color: 'rgba(255,255,255,0.85)', marginTop: 40, fontWeight: 600, lineHeight: 1.3 }}>3 πόδια. 3 κόσμοι.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.65)', marginTop: 10, lineHeight: 1.4, maxWidth: 900 }}>
+          Οδηγός για να διαλέξεις ποιο είναι το δικό σου.
+        </div>
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="1 / 8  ·  Discover Halkidiki" />
+    </Canvas>
+  );
+}
+
+function Legs2() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #7c2d12 0%, #ea580c 50%, #fb923c 100%)">
+      <div style={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.35))' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', position: 'relative', zIndex: 1 }}>
+        <LegsProgress step={2} accent="orange" />
+        <div style={{ display: 'flex', marginBottom: 24 }}>
+          <BrandChip accent="orange" label="1o πόδι" />
+        </div>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: '#fef3c7', marginBottom: 6, letterSpacing: '0.08em' }}>I · KASSANDRA</div>
+        <div style={{ display: 'flex', fontSize: 130, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em' }}>Κασσάνδρα.</div>
+        <div style={{ display: 'flex', fontSize: 42, fontWeight: 800, marginTop: 20, color: '#fef3c7' }}>Party · Beach · Nightlife.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.95)', marginTop: 24, lineHeight: 1.4, maxWidth: 920 }}>
+          Η πιο κοσμοπολίτικη πλευρά της Χαλκιδικής. Οργανωμένες παραλίες, beach bars, clubs, ατμόσφαιρα νεανική και ζωντανή.
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 28 }}>
+          {['🏖️ Organized','🍹 Beach bars','🎵 Clubs','👨‍👩‍👧 Family'].map(t => (
+            <div key={t} style={{ display: 'flex', backgroundColor: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 9999, padding: '10px 20px', fontSize: 22, fontWeight: 700 }}>{t}</div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', flex: 1 }} />
+        <div style={{ position: 'absolute', right: 0, bottom: 60, display: 'flex', alignItems: 'center', gap: 10, fontSize: 22, fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>
+          Swipe <span style={{ display: 'flex', fontSize: 26 }}>→</span>
+        </div>
+        <Footer tagline="2 / 8  ·  Κασσάνδρα" />
+      </div>
+    </Canvas>
+  );
+}
+
+function Legs3() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #7c2d12 0%, #0f172a 100%)">
+      <Glow accent="orange" pos="tr" />
+      <LegsProgress step={3} accent="orange" />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip accent="orange" label="Κασσάνδρα · highlights" />
+      </div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, marginBottom: 36 }}>Τι θα βρεις εδώ.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, flex: 1 }}>
+        {[
+          { emoji: '🏖️', title: 'Ammolofoi · Possidi · Glarokavos', sub: 'Οι πιο γνωστές παραλίες' },
+          { emoji: '🎉', title: 'Kallithea nightlife', sub: 'Clubs με live μουσική μέχρι το πρωί' },
+          { emoji: '💎', title: 'Sani Resort', sub: 'Luxury resort experience · watersports' },
+          { emoji: '🌅', title: 'Sunset στο Possidi Cape', sub: 'Sandbar που μπαίνει στη θάλασσα' },
+        ].map(h => (
+          <div key={h.title} style={{ display: 'flex', alignItems: 'center', gap: 18, backgroundColor: 'rgba(251,146,60,0.1)', border: '1px solid rgba(251,146,60,0.3)', borderRadius: 14, padding: 20 }}>
+            <div style={{ display: 'flex', fontSize: 46 }}>{h.emoji}</div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', fontSize: 26, fontWeight: 800 }}>{h.title}</div>
+              <div style={{ display: 'flex', fontSize: 18, color: '#fed7aa' }}>{h.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="3 / 8  ·  Κασσάνδρα highlights" />
+    </Canvas>
+  );
+}
+
+function Legs4() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #064e3b 0%, #10b981 50%, #34d399 100%)">
+      <div style={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.35))' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', position: 'relative', zIndex: 1 }}>
+        <LegsProgress step={4} accent="emerald" />
+        <div style={{ display: 'flex', marginBottom: 24 }}>
+          <BrandChip label="2o πόδι" />
+        </div>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: '#a7f3d0', marginBottom: 6, letterSpacing: '0.08em' }}>II · SITHONIA</div>
+        <div style={{ display: 'flex', fontSize: 130, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em' }}>Σιθωνία.</div>
+        <div style={{ display: 'flex', fontSize: 42, fontWeight: 800, marginTop: 20, color: '#d1fae5' }}>Wild · Untouched · Cove.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.95)', marginTop: 24, lineHeight: 1.4, maxWidth: 920 }}>
+          Η μέση χερσόνησος. Πιο άγρια, λιγότερο τουριστική. Κρυμμένα bay, τυρκουάζ νερά, πευκόδασος μέχρι τη θάλασσα.
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 28 }}>
+          {['🌿 Wild','💎 Hidden bays','🏕️ Camping','📸 Iconic'].map(t => (
+            <div key={t} style={{ display: 'flex', backgroundColor: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 9999, padding: '10px 20px', fontSize: 22, fontWeight: 700 }}>{t}</div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', flex: 1 }} />
+        <div style={{ position: 'absolute', right: 0, bottom: 60, display: 'flex', alignItems: 'center', gap: 10, fontSize: 22, fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>
+          Swipe <span style={{ display: 'flex', fontSize: 26 }}>→</span>
+        </div>
+        <Footer tagline="4 / 8  ·  Σιθωνία" />
+      </div>
+    </Canvas>
+  );
+}
+
+function Legs5() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #064e3b 0%, #0f172a 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <LegsProgress step={5} accent="emerald" />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip label="Σιθωνία · highlights" />
+      </div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, marginBottom: 36 }}>Τι θα βρεις εδώ.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, flex: 1 }}>
+        {[
+          { emoji: '💙', title: 'Καβουρότρυπες', sub: 'Η #1 παραλία της Χαλκιδικής' },
+          { emoji: '🌿', title: 'Νικήτη · Άγιος Νικόλαος', sub: 'Αυθεντικά χωριά χωρίς πλήθη' },
+          { emoji: '⛵', title: 'Σάρτη · Καλαμίτσι · Συκιά', sub: 'Μικρά bay για explore με βάρκα' },
+          { emoji: '🍇', title: 'Porto Carras Wine Estate', sub: 'Wine tours στο μεγαλύτερο αμπελώνα' },
+        ].map(h => (
+          <div key={h.title} style={{ display: 'flex', alignItems: 'center', gap: 18, backgroundColor: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 14, padding: 20 }}>
+            <div style={{ display: 'flex', fontSize: 46 }}>{h.emoji}</div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', fontSize: 26, fontWeight: 800 }}>{h.title}</div>
+              <div style={{ display: 'flex', fontSize: 18, color: '#a7f3d0' }}>{h.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="5 / 8  ·  Σιθωνία highlights" />
+    </Canvas>
+  );
+}
+
+function Legs6() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #1e1b4b 0%, #4c1d95 50%, #7c3aed 100%)">
+      <div style={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.4))' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', position: 'relative', zIndex: 1 }}>
+        <LegsProgress step={6} accent="violet" />
+        <div style={{ display: 'flex', marginBottom: 24 }}>
+          <BrandChip accent="violet" label="3o πόδι" />
+        </div>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: '#ddd6fe', marginBottom: 6, letterSpacing: '0.08em' }}>III · ATHOS</div>
+        <div style={{ display: 'flex', fontSize: 130, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em' }}>Άθως.</div>
+        <div style={{ display: 'flex', fontSize: 42, fontWeight: 800, marginTop: 20, color: '#e9d5ff' }}>Spiritual · Ancient · Deep.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.95)', marginTop: 24, lineHeight: 1.4, maxWidth: 920 }}>
+          Το τρίτο πόδι. UNESCO, 20 μοναστήρια, 1.000+ χρόνια αδιάκοπης μοναστικής ζωής. Μοναδικό στον κόσμο.
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 28 }}>
+          {['⛪ 20 monasteries','🏛️ UNESCO','📿 1000+ years','🚫 Men only*'].map(t => (
+            <div key={t} style={{ display: 'flex', backgroundColor: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 9999, padding: '10px 20px', fontSize: 22, fontWeight: 700 }}>{t}</div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', fontSize: 18, color: 'rgba(255,255,255,0.7)', marginTop: 10 }}>*Μόνο άνδρες. Γυναίκες: boat cruise γύρω από τη χερσόνησο.</div>
+        <div style={{ display: 'flex', flex: 1 }} />
+        <div style={{ position: 'absolute', right: 0, bottom: 60, display: 'flex', alignItems: 'center', gap: 10, fontSize: 22, fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>
+          Swipe <span style={{ display: 'flex', fontSize: 26 }}>→</span>
+        </div>
+        <Footer tagline="6 / 8  ·  Άθως" />
+      </div>
+    </Canvas>
+  );
+}
+
+function Legs7() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)">
+      <Glow accent="violet" pos="tr" />
+      <LegsProgress step={7} accent="violet" />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip accent="violet" label="Άθως · highlights" />
+      </div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, marginBottom: 36 }}>Τι θα βρεις εδώ.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, flex: 1 }}>
+        {[
+          { emoji: '⛪', title: 'Μ. Λαύρα · Βατοπέδι · Ιβήρων', sub: 'Τα 3 μεγαλύτερα μοναστήρια' },
+          { emoji: '🛶', title: 'Cruises από Ουρανούπολη', sub: 'Γυναίκες: καθημερινά sea tours' },
+          { emoji: '📜', title: 'Diamonissia σπήλαια & κελλιά', sub: 'Ισιχαστήρια στα βράχια' },
+          { emoji: '🌲', title: 'Orange Cedar forest', sub: 'Μοναδικό οικοσύστημα για snorkel/hike' },
+        ].map(h => (
+          <div key={h.title} style={{ display: 'flex', alignItems: 'center', gap: 18, backgroundColor: 'rgba(139,92,246,0.1)', border: '1px solid rgba(196,181,253,0.3)', borderRadius: 14, padding: 20 }}>
+            <div style={{ display: 'flex', fontSize: 46 }}>{h.emoji}</div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', fontSize: 26, fontWeight: 800 }}>{h.title}</div>
+              <div style={{ display: 'flex', fontSize: 18, color: '#ddd6fe' }}>{h.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="7 / 8  ·  Άθως highlights" />
+    </Canvas>
+  );
+}
+
+function Legs8() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+      <div style={{ display: 'flex', position: 'absolute', top: -160, left: -100, width: 420, height: 420, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(251,146,60,0.3), transparent 70%)' }} />
+      <div style={{ display: 'flex', position: 'absolute', top: '30%', right: -100, width: 420, height: 420, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(52,211,153,0.3), transparent 70%)' }} />
+      <div style={{ display: 'flex', position: 'absolute', bottom: -160, left: '30%', width: 420, height: 420, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(139,92,246,0.3), transparent 70%)' }} />
+      <LegsProgress step={8} accent="teal" />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="teal" label="Your pick" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 92, fontWeight: 800, lineHeight: 1.02, textAlign: 'center' }}>Ποιο είναι</div>
+        <div style={{ display: 'flex', fontSize: 92, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', color: '#5eead4' }}>το δικό σου;</div>
+        <div style={{ display: 'flex', gap: 14, marginTop: 40 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fb923c', color: '#0f172a', padding: '14px 24px', borderRadius: 9999, fontSize: 22, fontWeight: 800 }}>🍹 Κασσάνδρα</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#34d399', color: '#0f172a', padding: '14px 24px', borderRadius: 9999, fontSize: 22, fontWeight: 800 }}>🌿 Σιθωνία</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#c4b5fd', color: '#0f172a', padding: '14px 24px', borderRadius: 9999, fontSize: 22, fontWeight: 800 }}>⛪ Άθως</div>
+        </div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.8)', marginTop: 36, textAlign: 'center', maxWidth: 900, lineHeight: 1.4 }}>
+          Άνοιξε το ChalkidikiHub, διάλεξε περιοχή, βρες κατάλυμα.
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'linear-gradient(135deg, #14b8a6, #0ea5e9)', padding: '22px 50px', borderRadius: 14, marginTop: 34, fontSize: 32, fontWeight: 800, boxShadow: '0 30px 60px rgba(20,184,166,0.4)' }}>
+          chalkidikihub.gr →
+        </div>
+      </div>
+      <Footer tagline="8 / 8  ·  Comment A · B · C" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 12. CAROUSEL — "Πώς φτιάχνω listing που γεμίζει" (8 slides)
+// ─────────────────────────────────────────────────────────────
+
+const TIPS_TOTAL = 8;
+function TipsProgress({ step }: { step: number }) {
+  return (
+    <div style={{ display: 'flex', gap: 5, marginBottom: 30 }}>
+      {Array.from({ length: TIPS_TOTAL }).map((_, i) => (
+        <div key={i} style={{ display: 'flex', flex: 1, height: 5, borderRadius: 9999, backgroundColor: i < step ? '#fcd34d' : 'rgba(255,255,255,0.15)' }} />
+      ))}
+    </div>
+  );
+}
+
+function TipSlide({ num, title, body, stat, step }: {
+  num: string; title: string; body: string; stat?: { value: string; label: string }; step: number;
+}) {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #78350f 100%)">
+      <Glow accent="amber" pos="tr" />
+      <TipsProgress step={step} />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip accent="amber" label={`Tip ${num} / 6`} />
+      </div>
+      <div style={{ display: 'flex', fontSize: 180, fontWeight: 800, lineHeight: 0.9, color: 'rgba(252,211,77,0.2)', letterSpacing: '-0.05em' }}>#{num}</div>
+      <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.02em', marginTop: 10, maxWidth: 960 }}>{title}</div>
+      <div style={{ display: 'flex', fontSize: 28, lineHeight: 1.45, marginTop: 24, color: 'rgba(255,255,255,0.9)', maxWidth: 920 }}>{body}</div>
+      {stat && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginTop: 36, backgroundColor: 'rgba(252,211,77,0.1)', border: '1px solid rgba(252,211,77,0.3)', borderRadius: 16, padding: 24 }}>
+          <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, color: '#fcd34d', letterSpacing: '-0.02em' }}>{stat.value}</div>
+          <div style={{ display: 'flex', fontSize: 22, color: 'rgba(255,255,255,0.85)', fontWeight: 600, lineHeight: 1.3 }}>{stat.label}</div>
+        </div>
+      )}
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline={`${step} / 8  ·  chalkidikihub.gr`} />
+    </Canvas>
+  );
+}
+
+function Tips1() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #78350f 0%, #0f172a 50%, #78350f 100%)">
+      <Glow accent="amber" pos="tr" />
+      <Glow accent="amber" pos="bl" />
+      <TipsProgress step={1} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="amber" label="Owner masterclass" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: '#fcd34d', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>Masterclass · 6 tips</div>
+        <div style={{ display: 'flex', fontSize: 88, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em' }}>Πώς φτιάχνω</div>
+        <div style={{ display: 'flex', fontSize: 88, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em' }}>listing που</div>
+        <div style={{ display: 'flex', fontSize: 120, fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.03em', color: '#fcd34d', marginTop: 14 }}>γεμίζει.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 36, lineHeight: 1.35, maxWidth: 900 }}>
+          6 tips που βάζω σε κάθε κατάλυμα και διπλασιάζουν τις κρατήσεις.
+        </div>
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="1 / 8  ·  Save this post" />
+    </Canvas>
+  );
+}
+
+function Tips2() {
+  return <TipSlide step={2} num="01"
+    title="Ο τίτλος ΔΕΝ είναι περιγραφή."
+    body='Όχι "Διαμέρισμα με 2 δωμάτια στη Σιθωνία". Ναι: "Πετρόσπιτο 3′ από παραλία · θέα Άθω · BBQ". Βάλε 3 benefits, όχι features.'
+    stat={{ value: '+46%', label: 'CTR με benefit-driven titles vs generic' }}
+  />;
+}
+
+function Tips3() {
+  return <TipSlide step={3} num="02"
+    title="Cover photo = hook."
+    body="Η 1η φωτό παίρνει 80% της απόφασης. Βάλε τη πιο «πουλιάρικη» λήψη: θέα, pool, μπαλκόνι με φαγητό. ΟΧΙ το εσωτερικό δωμάτιο."
+    stat={{ value: '0.3s', label: 'Χρόνος που παίρνει ο guest για να σε προσπεράσει' }}
+  />;
+}
+
+function Tips4() {
+  return <TipSlide step={4} num="03"
+    title="Description σε 3 paragraphs."
+    body="1. Hook (ποιος είναι ο τύπος του σπιτιού + USP). 2. Εμπειρία (τι θα ζήσει ο guest). 3. Practical (beds, check-in, amenities)."
+    stat={{ value: '3×', label: 'Reading completion rate με structured format' }}
+  />;
+}
+
+function Tips5() {
+  return <TipSlide step={5} num="04"
+    title="Λίστα amenities · όχι τσιγκουνιά."
+    body="Κάθε amenity = 1 επιπλέον filter που σε εμφανίζει. Tickare ΟΛΑ όσα πραγματικά έχεις. Pool, Pet-friendly, Family-friendly, BBQ — όλα μετράνε."
+    stat={{ value: '+2.8×', label: 'Περισσότερες εμφανίσεις σε searches' }}
+  />;
+}
+
+function Tips6() {
+  return <TipSlide step={6} num="05"
+    title="Τιμή: peak · shoulder · low."
+    body="ΟΧΙ ίδια τιμή όλο τον χρόνο. Peak (Ιούλ-Αυγ): +40-60%. Shoulder (Ιουν/Σεπ): normal. Low (Μαι/Οκτ): -30% για να γεμίζεις σε slow περιόδους."
+    stat={{ value: '+€1.800', label: 'Μέσος όρος επιπλέον/σεζόν με dynamic pricing' }}
+  />;
+}
+
+function Tips7() {
+  return <TipSlide step={7} num="06"
+    title="Απάντα μέσα σε 15 λεπτά."
+    body="Η ταχύτητα απάντησης είναι #1 ranking factor. Αν δεν μπορείς, βάλε auto-reply «είδα το μήνυμα — απαντώ σε 1 ώρα»."
+    stat={{ value: '75%', label: 'Κρατήσεις πάνε στον πρώτο που απαντά' }}
+  />;
+}
+
+function Tips8() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #78350f 0%, #0f172a 50%, #064e3b 100%)">
+      <Glow accent="amber" pos="tr" />
+      <Glow accent="emerald" pos="bl" />
+      <TipsProgress step={8} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="emerald" label="Τέλος · Do it now" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 82, fontWeight: 800, lineHeight: 1.02, textAlign: 'center' }}>6 tips.</div>
+        <div style={{ display: 'flex', fontSize: 82, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', color: '#fcd34d' }}>1 όσπαστη διαφορά.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.85)', marginTop: 36, textAlign: 'center', maxWidth: 920, lineHeight: 1.4 }}>
+          Το ChalkidikiHub σου δίνει δωρεάν όλα όσα ανέφερα: filters, dynamic pricing ready, instant notifications, analytics.
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'linear-gradient(135deg, #f59e0b, #10b981)', padding: '26px 56px', borderRadius: 16, marginTop: 48, fontSize: 36, fontWeight: 800, boxShadow: '0 30px 60px rgba(245,158,11,0.3)' }}>
+          chalkidikihub.gr →
+        </div>
+        <div style={{ display: 'flex', marginTop: 28, fontSize: 24, color: 'rgba(255,255,255,0.7)', textAlign: 'center' }}>
+          💾 Save  ·  🔁 Tag έναν ιδιοκτήτη
+        </div>
+      </div>
+      <Footer tagline="8 / 8  ·  Ευχαριστούμε!" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // Router
 // ─────────────────────────────────────────────────────────────
 
@@ -1547,6 +2078,37 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   'carousel-mistakes-7': Mistakes7,
   'carousel-mistakes-8': Mistakes8,
   'carousel-mistakes-9': Mistakes9,
+  // Carousel: "Top 10 παραλίες Χαλκιδικής" (12 slides)
+  'carousel-beaches-1':  Beach1,
+  'carousel-beaches-2':  Beach2,
+  'carousel-beaches-3':  Beach3,
+  'carousel-beaches-4':  Beach4,
+  'carousel-beaches-5':  Beach5,
+  'carousel-beaches-6':  Beach6,
+  'carousel-beaches-7':  Beach7,
+  'carousel-beaches-8':  Beach8,
+  'carousel-beaches-9':  Beach9,
+  'carousel-beaches-10': Beach10,
+  'carousel-beaches-11': Beach11,
+  'carousel-beaches-12': Beach12,
+  // Carousel: "Kassandra · Sithonia · Athos" (8 slides)
+  'carousel-legs-1': Legs1,
+  'carousel-legs-2': Legs2,
+  'carousel-legs-3': Legs3,
+  'carousel-legs-4': Legs4,
+  'carousel-legs-5': Legs5,
+  'carousel-legs-6': Legs6,
+  'carousel-legs-7': Legs7,
+  'carousel-legs-8': Legs8,
+  // Carousel: "Πώς φτιάχνω listing που γεμίζει" (8 slides)
+  'carousel-tips-1': Tips1,
+  'carousel-tips-2': Tips2,
+  'carousel-tips-3': Tips3,
+  'carousel-tips-4': Tips4,
+  'carousel-tips-5': Tips5,
+  'carousel-tips-6': Tips6,
+  'carousel-tips-7': Tips7,
+  'carousel-tips-8': Tips8,
 };
 
 export async function GET(
