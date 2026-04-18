@@ -108,20 +108,38 @@ export default function PMSCommandCenterPage() {
       const admin = profile?.role === 'admin';
       setIsAdminUser(admin);
 
-      // Scope everything to auth.uid() unless admin (then: all rows)
-      const byOwner = <T extends { eq: (col: string, val: string) => T }>(q: T) => admin ? q : q.eq('owner_id', user.id);
-
+      // Build queries — RLS still enforces owner scope for non-admins,
+      // but for admins we skip the .eq('owner_id', …) filter so the
+      // aggregate counts reflect every owner.
+      // (Generic helper caused "type instantiation is excessively deep"
+      //  with Supabase's inferred types — inline ternaries are simpler.)
       const listingsQ = admin
         ? supabase.from('listings').select('id, slug, title_el, title_en, location_name, is_active, is_closed').order('created_at', { ascending: false }).limit(100)
         : supabase.from('listings').select('id, slug, title_el, title_en, location_name, is_active, is_closed').eq('owner_id', user.id).order('created_at', { ascending: false });
 
+      const bookingsQ = admin
+        ? supabase.from('pms_bookings').select('id, check_in', { count: 'exact' })
+        : supabase.from('pms_bookings').select('id, check_in', { count: 'exact' }).eq('owner_id', user.id);
+
+      const messagesQ = admin
+        ? supabase.from('pms_messages').select('id', { count: 'exact', head: true }).eq('direction', 'inbound').is('read_at', null)
+        : supabase.from('pms_messages').select('id', { count: 'exact', head: true }).eq('direction', 'inbound').is('read_at', null).eq('owner_id', user.id);
+
+      const tasksQ = admin
+        ? supabase.from('pms_tasks').select('id', { count: 'exact', head: true }).eq('status', 'pending')
+        : supabase.from('pms_tasks').select('id', { count: 'exact', head: true }).eq('status', 'pending').eq('owner_id', user.id);
+
+      const feedsQ = admin
+        ? supabase.from('pms_ical_feeds').select('id', { count: 'exact', head: true }).eq('active', true)
+        : supabase.from('pms_ical_feeds').select('id', { count: 'exact', head: true }).eq('active', true).eq('owner_id', user.id);
+
       const [listingsRes, bookingsRes, messagesRes, tasksRes, feedsRes, settingsRes] = await Promise.all([
         listingsQ,
-        byOwner(supabase.from('pms_bookings').select('id, check_in', { count: 'exact' })),
-        byOwner(supabase.from('pms_messages').select('id', { count: 'exact', head: true }).eq('direction', 'inbound').is('read_at', null)),
-        byOwner(supabase.from('pms_tasks').select('id', { count: 'exact', head: true }).eq('status', 'pending')),
-        byOwner(supabase.from('pms_ical_feeds').select('id', { count: 'exact', head: true }).eq('active', true)),
-        // For admins, settings-check doesn't apply to one user — skip
+        bookingsQ,
+        messagesQ,
+        tasksQ,
+        feedsQ,
+        // Admin doesn't have personal owner_settings — skip the per-user lookup
         admin
           ? Promise.resolve({ data: null })
           : supabase.from('pms_owner_settings').select('stripe_onboarded, afm, ama_number').eq('owner_id', user.id).single(),
