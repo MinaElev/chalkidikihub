@@ -383,7 +383,15 @@
       "Bash(curl -s \"https://chalkidikihub.gr/robots.txt\")",
       "Bash(find /c/Users/mnc/Desktop/hub/src/app/[locale] -type d -name \"best\" -o -name \"listings\" -o -name \"guide\")",
       "Bash(find /c/Users/mnc/Desktop/hub/src/app/[locale]/places/[slug] -name \"page.tsx\")",
-      "Bash(find /c/Users/mnc/Desktop/hub/src/app/[locale]/best -name \"page.tsx\")"
+      "Bash(find /c/Users/mnc/Desktop/hub/src/app/[locale]/best -name \"page.tsx\")",
+      "Bash(curl -sL --max-time 15 \"https://chalkidikihub.gr/beaches/area/sithonia\")",
+      "Bash(grep -oE '<h1[^>]*>[^<]{0,200}')",
+      "Bash(curl -sL --max-time 15 \"https://chalkidikihub.gr/beaches/area/sithonia?cb=$\\(date +%s\\)\")",
+      "Bash(grep -oE '<h1[^>]*>[^<]{0,250}')",
+      "Bash(curl -sL --max-time 15 \"https://chalkidikihub.gr/beaches/area/sithonia?cb=$\\(date +%s\\)x\")",
+      "Bash(grep -oE '<h1[^<]*\\(<[^>]*>[^<]*\\){0,5}')",
+      "Bash(curl -sL --max-time 15 \"https://chalkidikihub.gr/best\")",
+      "Bash(curl -sL --max-time 15 \"https://chalkidikihub.gr/listings\")"
     ]
   }
 }

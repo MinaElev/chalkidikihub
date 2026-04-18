@@ -8,7 +8,7 @@ import { HomeFeaturedListings } from '@/components/layout/HomeFeaturedListings';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { HeroSearchBox } from '@/components/layout/HeroSearchBox';
 import { HeroBackground } from '@/components/layout/HeroBackground';
-import { MapPin, Home, Star, QrCode, Shield, Globe, Award, Smartphone } from 'lucide-react';
+import { MapPin, Home, Star, QrCode, Shield, Globe, Award, Smartphone, Sparkles, BookOpen, HelpCircle, Compass, ChevronRight } from 'lucide-react';
 import { localeUrl } from '@/lib/seo';
 import type { Metadata } from 'next';
 
@@ -118,8 +118,100 @@ export default async function HomePage({ params }: Props) {
       <HomeFeaturedListings locale={locale} />
       <HomeBeachesSection locale={locale} />
       <HomeBlogSection locale={locale} />
+      <ExploreHubsSection locale={locale} />
       <QRFeatureSection />
     </>
+  );
+}
+
+// Internal-linking section — surfaces hub pages (/best, /places, /guide, /faq)
+// from the homepage so Google's crawler can find them via the most
+// authoritative page on the site. Each hub then distributes link equity
+// to its dozens of sub-pages.
+function ExploreHubsSection({ locale }: { locale: string }) {
+  const HEAD: Record<string, string> = {
+    el: 'Εξερεύνησε τη Χαλκιδική',
+    en: 'Explore Halkidiki',
+    de: 'Chalkidiki entdecken',
+    bg: 'Открийте Халкидики',
+    ru: 'Исследуйте Халкидики',
+    ro: 'Explorați Halkidiki',
+    sr: 'Istražite Halkidiki',
+  };
+  const SUB: Record<string, string> = {
+    el: 'Οδηγοί, χωριά, συχνές ερωτήσεις — όλα όσα χρειάζεσαι για τις διακοπές σου.',
+    en: 'Guides, villages, FAQs — everything you need to plan your trip.',
+    de: 'Reiseführer, Dörfer, FAQs — alles für Ihre Reise.',
+    bg: 'Пътеводители, села, въпроси — всичко, което ви трябва.',
+    ru: 'Путеводители, деревни, вопросы — всё для планирования поездки.',
+    ro: 'Ghiduri, sate, întrebări — tot ce aveți nevoie.',
+    sr: 'Vodiči, sela, pitanja — sve što vam treba.',
+  };
+  const prefix = locale === 'el' ? '' : `/${locale}`;
+  const cards = [
+    {
+      href: `${prefix}/best`,
+      icon: Sparkles,
+      color: 'emerald',
+      title: { el: 'Best of Χαλκιδική', en: 'Best of Halkidiki', de: 'Best of Chalkidiki', bg: 'Най-доброто', ru: 'Лучшее', ro: 'Best of Halkidiki', sr: 'Najbolje' },
+      sub:   { el: 'Ταξιδιωτικοί οδηγοί', en: 'Curated travel guides', de: 'Kuratierte Reiseführer', bg: 'Избрани пътеводители', ru: 'Подборки', ro: 'Ghiduri tematice', sr: 'Tematski vodiči' },
+    },
+    {
+      href: `${prefix}/places`,
+      icon: Compass,
+      color: 'violet',
+      title: { el: 'Χωριά & Περιοχές', en: 'Villages & Areas', de: 'Dörfer & Regionen', bg: 'Села & Региони', ru: 'Деревни & Регионы', ro: 'Sate & Zone', sr: 'Sela & Regije' },
+      sub:   { el: 'Οδηγοί ανά χωριό', en: 'Village-by-village guides', de: 'Ortschaftsführer', bg: 'Пътеводители по села', ru: 'Гиды по деревням', ro: 'Ghiduri sate', sr: 'Vodiči po selima' },
+    },
+    {
+      href: `${prefix}/guide/best-time-to-visit`,
+      icon: BookOpen,
+      color: 'amber',
+      title: { el: 'Travel Guides', en: 'Travel Guides', de: 'Reiseführer', bg: 'Пътеводители', ru: 'Путеводители', ro: 'Ghiduri călătorie', sr: 'Vodiči putovanja' },
+      sub:   { el: 'Καιρός, μεταφορές, tips', en: 'Weather, transport, tips', de: 'Wetter, Transport, Tipps', bg: 'Време, транспорт, съвети', ru: 'Погода, транспорт', ro: 'Vreme, transport, sfaturi', sr: 'Vreme, prevoz' },
+    },
+    {
+      href: `${prefix}/faq`,
+      icon: HelpCircle,
+      color: 'sky',
+      title: { el: 'Συχνές Ερωτήσεις', en: 'FAQ', de: 'Häufige Fragen', bg: 'Въпроси', ru: 'Вопросы', ro: 'Întrebări', sr: 'Pitanja' },
+      sub:   { el: 'Παραλίες, φαγητό, διαμονή', en: 'Beaches, food, stay', de: 'Strände, Essen, Unterkunft', bg: 'Плажове, храна', ru: 'Пляжи, еда, жильё', ro: 'Plaje, mâncare', sr: 'Plaže, hrana' },
+    },
+  ];
+  const colorMap: Record<string, string> = {
+    emerald: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    violet:  'bg-violet-50  text-violet-700  border-violet-200',
+    amber:   'bg-amber-50   text-amber-700   border-amber-200',
+    sky:     'bg-sky-50     text-sky-700     border-sky-200',
+  };
+  return (
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{HEAD[locale] || HEAD.en}</h2>
+        <p className="text-gray-600 max-w-2xl mx-auto">{SUB[locale] || SUB.en}</p>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {cards.map(card => {
+          const Icon = card.icon;
+          return (
+            <a
+              key={card.href}
+              href={card.href}
+              className={`group flex flex-col p-5 rounded-2xl border-2 ${colorMap[card.color]} hover:shadow-lg hover:-translate-y-0.5 transition-all`}
+            >
+              <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white mb-3">
+                <Icon className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-bold text-gray-900 mb-1 leading-tight">{card.title[locale as keyof typeof card.title] || card.title.en}</h3>
+              <p className="text-xs text-gray-600 leading-relaxed flex-1">{card.sub[locale as keyof typeof card.sub] || card.sub.en}</p>
+              <div className="mt-3 inline-flex items-center gap-1 text-sm font-semibold group-hover:gap-2 transition-all">
+                <ChevronRight className="w-4 h-4" />
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
