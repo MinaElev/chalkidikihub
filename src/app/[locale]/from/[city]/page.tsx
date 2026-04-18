@@ -97,8 +97,7 @@ export default async function FromCityPage({ params }: Props) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: breadcrumbLabel[locale] || breadcrumbLabel.en, item: `${SITE_URL}/${locale}` },
-          { '@type': 'ListItem', position: 2, name: travelLabel[locale] || travelLabel.en },
-          { '@type': 'ListItem', position: 3, name: title, item: `${SITE_URL}/${locale}/from/${city}` },
+          { '@type': 'ListItem', position: 2, name: title, item: `${SITE_URL}/${locale}/from/${city}` },
         ],
       })}} />
     </div>
