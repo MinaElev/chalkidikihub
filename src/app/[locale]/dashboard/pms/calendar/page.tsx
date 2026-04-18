@@ -16,6 +16,8 @@ interface Listing {
   title_el: string | null;
   title_en: string | null;
   is_active: boolean;
+  owner_id?: string;
+  owner_email?: string | null;
 }
 
 interface Feed {
@@ -154,6 +156,7 @@ export default function PmsCalendarPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [exportToken, setExportToken] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [isAdminUser, setIsAdminUser] = useState(false);
 
   const [currentMonth, setCurrentMonth] = useState(() => {
     const d = new Date();
@@ -175,11 +178,18 @@ export default function PmsCalendarPage() {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-      const { data } = await supabase
+
+      // Detect admin role — admins see every listing in the PMS for support
+      const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+      const admin = profile?.role === 'admin';
+      setIsAdminUser(admin);
+
+      let q = supabase
         .from('listings')
-        .select('id, slug, title_el, title_en, is_active')
-        .eq('owner_id', user.id)
+        .select('id, slug, title_el, title_en, is_active, owner_id')
         .order('created_at', { ascending: false });
+      if (!admin) q = q.eq('owner_id', user.id);
+      const { data } = await q;
       const ll = (data || []) as Listing[];
       setListings(ll);
       if (ll.length > 0) setSelectedListingId(ll[0].id);
@@ -343,6 +353,25 @@ export default function PmsCalendarPage() {
         </div>
       </header>
 
+      {/* ADMIN BANNER — shown when a super-admin is viewing the PMS on behalf of owners */}
+      {isAdminUser && (
+        <div className="bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 rounded-2xl p-4 text-white shadow-lg shadow-violet-500/20 flex items-start gap-3">
+          <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-white/20 shrink-0">
+            <Zap className="w-5 h-5" fill="currentColor" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-sm font-bold mb-0.5">
+              {locale === 'el' ? 'Admin mode · βλέπεις ΟΛΑ τα καταλύματα' : 'Admin mode · you see ALL listings'}
+            </div>
+            <div className="text-xs text-white/85 leading-relaxed">
+              {locale === 'el'
+                ? 'Ό,τι προσθέτεις/συγχρονίζεις αποδίδεται στον πραγματικό owner του καταλύματος. Για support & testing.'
+                : 'Everything you add/sync is attributed to the real property owner. For support & testing.'}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* LISTING SELECTOR */}
       <div className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center gap-3 shadow-sm">
         <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t.propertyLabel}</label>
@@ -355,6 +384,7 @@ export default function PmsCalendarPage() {
             <option key={l.id} value={l.id}>{l.title_el || l.title_en || l.slug}</option>
           ))}
         </select>
+        <span className="text-xs text-slate-400 tabular-nums hidden md:inline">({listings.length})</span>
         {selectedListing && (
           <Link href={`/listings/${selectedListing.slug}`} target="_blank"
             className="text-xs text-slate-500 hover:text-sky-700 inline-flex items-center gap-1">

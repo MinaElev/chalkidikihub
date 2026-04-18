@@ -95,6 +95,7 @@ export default function PMSCommandCenterPage() {
     tasksPending: 0, icalFeeds: 0, hasStripe: false, hasSettings: false,
   });
   const [loading, setLoading] = useState(true);
+  const [isAdminUser, setIsAdminUser] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -102,13 +103,28 @@ export default function PMSCommandCenterPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
+      // Detect admin role — admins see platform-wide stats
+      const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+      const admin = profile?.role === 'admin';
+      setIsAdminUser(admin);
+
+      // Scope everything to auth.uid() unless admin (then: all rows)
+      const byOwner = <T extends { eq: (col: string, val: string) => T }>(q: T) => admin ? q : q.eq('owner_id', user.id);
+
+      const listingsQ = admin
+        ? supabase.from('listings').select('id, slug, title_el, title_en, location_name, is_active, is_closed').order('created_at', { ascending: false }).limit(100)
+        : supabase.from('listings').select('id, slug, title_el, title_en, location_name, is_active, is_closed').eq('owner_id', user.id).order('created_at', { ascending: false });
+
       const [listingsRes, bookingsRes, messagesRes, tasksRes, feedsRes, settingsRes] = await Promise.all([
-        supabase.from('listings').select('id, slug, title_el, title_en, location_name, is_active, is_closed').eq('owner_id', user.id).order('created_at', { ascending: false }),
-        supabase.from('pms_bookings').select('id, check_in', { count: 'exact' }).eq('owner_id', user.id),
-        supabase.from('pms_messages').select('id', { count: 'exact', head: true }).eq('owner_id', user.id).eq('direction', 'inbound').is('read_at', null),
-        supabase.from('pms_tasks').select('id', { count: 'exact', head: true }).eq('owner_id', user.id).eq('status', 'pending'),
-        supabase.from('pms_ical_feeds').select('id', { count: 'exact', head: true }).eq('owner_id', user.id).eq('active', true),
-        supabase.from('pms_owner_settings').select('stripe_onboarded, afm, ama_number').eq('owner_id', user.id).single(),
+        listingsQ,
+        byOwner(supabase.from('pms_bookings').select('id, check_in', { count: 'exact' })),
+        byOwner(supabase.from('pms_messages').select('id', { count: 'exact', head: true }).eq('direction', 'inbound').is('read_at', null)),
+        byOwner(supabase.from('pms_tasks').select('id', { count: 'exact', head: true }).eq('status', 'pending')),
+        byOwner(supabase.from('pms_ical_feeds').select('id', { count: 'exact', head: true }).eq('active', true)),
+        // For admins, settings-check doesn't apply to one user — skip
+        admin
+          ? Promise.resolve({ data: null })
+          : supabase.from('pms_owner_settings').select('stripe_onboarded, afm, ama_number').eq('owner_id', user.id).single(),
       ]);
 
       const today = new Date().toISOString().slice(0, 10);
@@ -143,6 +159,25 @@ export default function PMSCommandCenterPage() {
 
   return (
     <div className="space-y-7">
+      {/* ADMIN BANNER */}
+      {isAdminUser && (
+        <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-2xl p-4 text-white shadow-lg shadow-orange-500/20 flex items-start gap-3">
+          <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white/20 shrink-0">
+            <Zap className="w-5 h-5" fill="currentColor" />
+          </div>
+          <div className="flex-1">
+            <div className="text-sm font-bold">
+              {locale === 'el' ? 'Admin mode · platform-wide view' : 'Admin mode · platform-wide view'}
+            </div>
+            <div className="text-xs text-white/90 leading-relaxed mt-0.5">
+              {locale === 'el'
+                ? 'Βλέπεις συγκεντρωτικά στατιστικά από όλα τα καταλύματα του ChalkidikiHub. Όταν ενεργείς σε κάποιο module, η ενέργεια αποδίδεται στον πραγματικό owner.'
+                : 'You see aggregate stats across every ChalkidikiHub property. When you act inside a module, the action is attributed to the real owner.'}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* HERO */}
       <header className="relative overflow-hidden bg-gradient-to-br from-violet-600 via-fuchsia-600 to-indigo-700 rounded-3xl p-8 md:p-10 text-white">
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/10 blur-3xl" />
@@ -177,8 +212,8 @@ export default function PMSCommandCenterPage() {
         <StatCard icon={CalendarDays}  label={locale === 'el' ? 'Ενεργά iCal feeds' : 'Active iCal feeds'}   value={stats.icalFeeds}      accent="sky" />
       </div>
 
-      {/* SETUP CHECKLIST */}
-      <section className="bg-gradient-to-br from-slate-50 to-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+      {/* SETUP CHECKLIST — owners only; admins don't have personal settings */}
+      {!isAdminUser && <section className="bg-gradient-to-br from-slate-50 to-white border border-slate-200 rounded-2xl p-5 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
@@ -219,7 +254,7 @@ export default function PMSCommandCenterPage() {
             </Link>
           ))}
         </div>
-      </section>
+      </section>}
 
       {/* MODULES GRID */}
       <section>
@@ -256,7 +291,9 @@ export default function PMSCommandCenterPage() {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
             <Building2 className="w-4 h-4 text-slate-400" />
-            {locale === 'el' ? 'Τα καταλύματά σου' : 'Your properties'}
+            {isAdminUser
+              ? (locale === 'el' ? 'Όλα τα καταλύματα' : 'All properties')
+              : (locale === 'el' ? 'Τα καταλύματά σου' : 'Your properties')}
             <span className="text-xs font-normal text-slate-400">({listings.length})</span>
           </h2>
           <Link href="/dashboard/listings" className="text-xs font-semibold text-violet-700 hover:text-violet-800 inline-flex items-center gap-1">
