@@ -1,6 +1,6 @@
 'use client';
 
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { ChevronRight, Home } from 'lucide-react';
 
@@ -13,59 +13,31 @@ interface BreadcrumbsProps {
   items: BreadcrumbItem[];
 }
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const DEFAULT_LOCALE = 'el';
-
-/** Build full URL respecting as-needed locale prefix */
-function localeUrl(locale: string, path: string = '') {
-  return locale === DEFAULT_LOCALE
-    ? `${SITE_URL}${path || '/'}`
-    : `${SITE_URL}/${locale}${path}`;
-}
-
+// UI-only breadcrumb. JSON-LD BreadcrumbList is emitted server-side
+// from each page.tsx via generateBreadcrumbLD() in @/lib/seo — having
+// two sources emit the same schema from server + client caused GSC
+// "Invalid object type for <parent_node>" warnings on beach pages.
 export function Breadcrumbs({ items }: BreadcrumbsProps) {
-  const locale = useLocale();
   const t = useTranslations('nav');
 
-  // JSON-LD structured data for Google.
-  // Google's canonical form is "item": "<absolute URL>" — the nested
-  // { @type: 'WebPage', @id: url } shape triggered GSC's
-  // "Invalid URL in id field" warnings on several URLs.
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: t('home'), item: localeUrl(locale) },
-      ...items.map((item, idx) => ({
-        '@type': 'ListItem',
-        position: idx + 2,
-        name: item.label,
-        ...(item.href ? { item: localeUrl(locale, item.href) } : {}),
-      })),
-    ],
-  };
-
   return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-sm text-gray-500 mb-4 flex-wrap">
-        <Link href="/" className="flex items-center gap-1 hover:text-primary-600 transition-colors">
-          <Home className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">{t('home')}</span>
-        </Link>
-        {items.map((item, idx) => (
-          <span key={idx} className="flex items-center gap-1">
-            <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
-            {item.href && idx < items.length - 1 ? (
-              <Link href={item.href} className="hover:text-primary-600 transition-colors">
-                {item.label}
-              </Link>
-            ) : (
-              <span className="text-gray-900 font-medium">{item.label}</span>
-            )}
-          </span>
-        ))}
-      </nav>
-    </>
+    <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-sm text-gray-500 mb-4 flex-wrap">
+      <Link href="/" className="flex items-center gap-1 hover:text-primary-600 transition-colors">
+        <Home className="w-3.5 h-3.5" />
+        <span className="hidden sm:inline">{t('home')}</span>
+      </Link>
+      {items.map((item, idx) => (
+        <span key={idx} className="flex items-center gap-1">
+          <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+          {item.href && idx < items.length - 1 ? (
+            <Link href={item.href} className="hover:text-primary-600 transition-colors">
+              {item.label}
+            </Link>
+          ) : (
+            <span className="text-gray-900 font-medium">{item.label}</span>
+          )}
+        </span>
+      ))}
+    </nav>
   );
 }
