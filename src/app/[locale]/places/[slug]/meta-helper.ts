@@ -34,17 +34,29 @@ const LABELS: Record<ContentType, Record<string, { title: string; desc: string }
   },
 };
 
-export async function getVillageContentMeta(
+/** Shared server lookup — used both for metadata and for SSR'd H1/desc
+ * on the page. Google was seeing a bare loader before hydration,
+ * contributing to "Discovered, not indexed" signals. */
+export async function getVillageContext(
   slug: string, locale: string, contentType: ContentType
-): Promise<Metadata> {
+): Promise<{ villageName: string; heading: string; description: string }> {
   const supabase = createApiClient();
   const { data } = await supabase.from('villages')
-    .select('name_el, name_en, area')
+    .select('name_el, name_en')
     .eq('slug', slug).single();
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const row = data as any;
   const villageName = row?.[`name_${locale}`] || row?.name_el || row?.name_en || slug;
+  const labels = LABELS[contentType][locale] || LABELS[contentType].en;
+  const heading = `${labels.title} ${locale === 'el' ? 'κοντά στο' : 'near'} ${villageName}`;
+  const description = `${labels.desc} ${villageName}, Χαλκιδική.`;
+  return { villageName, heading, description };
+}
+
+export async function getVillageContentMeta(
+  slug: string, locale: string, contentType: ContentType
+): Promise<Metadata> {
+  const { villageName } = await getVillageContext(slug, locale, contentType);
   const labels = LABELS[contentType][locale] || LABELS[contentType].en;
 
   const title = `${labels.title} ${villageName} | Χαλκιδική - ChalkidikiHub`;

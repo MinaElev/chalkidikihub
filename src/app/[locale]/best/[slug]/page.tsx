@@ -33,7 +33,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BestOfPage({ params }: Props) {
-  const { locale } = await params;
+  const { locale, slug } = await params;
   setRequestLocale(locale);
-  return <BestOfClient />;
+
+  // SSR the H1 + description so Google sees real content before the
+  // client loader resolves. Previously the initial HTML was just a
+  // <Loader />, contributing to "Discovered, not indexed" in GSC.
+  const guide = getBestGuide(slug);
+  const title = guide?.title?.[locale] || guide?.title?.en || slug;
+  const desc = guide?.metaDesc?.[locale] || guide?.metaDesc?.en || '';
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h1 className="text-3xl md:text-4xl font-bold mb-2">{title}</h1>
+      {desc && <p className="text-gray-600 mb-6">{desc}</p>}
+      <BestOfClient />
+    </div>
+  );
 }

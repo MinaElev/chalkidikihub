@@ -92,7 +92,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-  const { locale } = await params;
+  const { locale, type } = await params;
   setRequestLocale(locale);
-  return <PageClient />;
+
+  // SSR the H1 + description so Google sees real content before hydration.
+  // Previously the client returned a bare <Loader /> on first paint and
+  // the crawler saw no H1 — contributing to "Discovered, not indexed".
+  const typeLabel = TYPE_LABELS[type]?.[locale] || TYPE_LABELS[type]?.en || type;
+  const heading = `${typeLabel} — ${locale === 'el' ? 'Καταλύματα Χαλκιδικής' : 'Halkidiki Accommodation'}`;
+  const desc = TYPE_DESCRIPTIONS[type]?.[locale] || TYPE_DESCRIPTIONS[type]?.en || '';
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">{heading}</h1>
+      {desc && <p className="text-gray-600 mb-6">{desc}</p>}
+      <PageClient />
+    </div>
+  );
 }
