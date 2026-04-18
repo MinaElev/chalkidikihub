@@ -73,12 +73,15 @@ export default function FaqDetailPage() {
     })),
   };
 
+  const SITE_URL = 'https://chalkidikihub.gr';
+  const DEFAULT_LOCALE = 'el';
+  const localePrefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`;
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: homeLabel, item: `/${locale}` },
-      { '@type': 'ListItem', position: 2, name: faqLabel, item: `/${locale}/faq` },
+      { '@type': 'ListItem', position: 1, name: homeLabel, item: `${SITE_URL}${localePrefix || '/'}` },
+      { '@type': 'ListItem', position: 2, name: faqLabel, item: `${SITE_URL}${localePrefix}/faq` },
       { '@type': 'ListItem', position: 3, name: title },
     ],
   };

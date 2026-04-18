@@ -27,18 +27,20 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
   const locale = useLocale();
   const t = useTranslations('nav');
 
-  // JSON-LD structured data for Google
-  // "item" must be an object with @id per Google's BreadcrumbList spec
+  // JSON-LD structured data for Google.
+  // Google's canonical form is "item": "<absolute URL>" — the nested
+  // { @type: 'WebPage', @id: url } shape triggered GSC's
+  // "Invalid URL in id field" warnings on several URLs.
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: t('home'), item: { '@type': 'WebPage', '@id': localeUrl(locale) } },
+      { '@type': 'ListItem', position: 1, name: t('home'), item: localeUrl(locale) },
       ...items.map((item, idx) => ({
         '@type': 'ListItem',
         position: idx + 2,
         name: item.label,
-        ...(item.href ? { item: { '@type': 'WebPage', '@id': localeUrl(locale, item.href) } } : {}),
+        ...(item.href ? { item: localeUrl(locale, item.href) } : {}),
       })),
     ],
   };
