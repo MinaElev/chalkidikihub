@@ -32,7 +32,7 @@ export default function ListingTypePageClient() {
   const label = TYPE_LABELS[type]?.[locale] || TYPE_LABELS[type]?.en || type;
 
   useEffect(() => {
-    fetch('/api/listings?limit=50')
+    fetch('/api/listings')
       .then(r => r.json())
       .then(data => {
         if (!Array.isArray(data)) { setItems([]); return; }
