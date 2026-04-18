@@ -27,16 +27,18 @@ export default function RestaurantsByAreaPage() {
       .finally(() => setLoading(false));
   }, [area]);
 
-  if (loading) return <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-primary-600" /></div>;
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <Breadcrumbs items={[{ label: t('title'), href: '/restaurants' }, { label: areaName }]} />
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">{t('title')} {areaName}</h1>
-      <p className="text-gray-600 mb-8">{items.length} {t('results')}</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map(restaurant => <RestaurantCard key={restaurant.id} restaurant={restaurant} />)}
-      </div>
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('title')} {areaName}</h1>
+      <p className="text-gray-600 mb-8">{loading ? '' : `${items.length} ${t('results')}`}</p>
+      {loading ? (
+        <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-primary-600" /></div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {items.map(restaurant => <RestaurantCard key={restaurant.id} restaurant={restaurant} />)}
+        </div>
+      )}
     </div>
   );
 }

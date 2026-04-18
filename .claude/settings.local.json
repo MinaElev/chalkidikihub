@@ -379,7 +379,8 @@
       "Bash(curl -s \"https://chalkidikihub.gr/api/og/feature/_list\")",
       "Bash(xargs -I {} stat -c \"%s %n\" {})",
       "Bash(curl -s -o \"C:/Users/mnc/Desktop/hub/promo-assets/ig-carousel-mistakes-1.png\" \"https://chalkidikihub.gr/api/og/feature/carousel-mistakes-1?cb=$\\(date +%s\\)\")",
-      "Read(//c/Users/mnc/Desktop/hub/**)"
+      "Read(//c/Users/mnc/Desktop/hub/**)",
+      "Bash(curl -s \"https://chalkidikihub.gr/robots.txt\")"
     ]
   }
 }

@@ -253,17 +253,20 @@ export default async function Page({ params }: Props) {
 
   const typeLabel = getTypeLabel(type, locale);
   const content = TYPE_CONTENT[type]?.[locale] || TYPE_CONTENT[type]?.en || null;
+  const desc = TYPE_META_DESC[type]?.[locale] || TYPE_META_DESC[type]?.en || '';
+  const inSuffix = locale === 'el' ? 'στη Χαλκιδική' : locale === 'de' ? 'in Chalkidiki' : 'in Halkidiki';
 
   return (
     <>
-      {content && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-2">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-2">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{typeLabel} {inSuffix}</h1>
+        {desc && <p className="text-gray-600 mb-4">{desc}</p>}
+        {content && (
           <div className="prose prose-gray max-w-none">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">{typeLabel}</h2>
             <p className="text-gray-700 leading-relaxed">{content}</p>
           </div>
-        </section>
-      )}
+        )}
+      </section>
       <RestaurantTypePage />
     </>
   );

@@ -310,14 +310,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { locale, feature } = await params;
   setRequestLocale(locale);
+  const featureLabel = FEATURE_LABELS[feature]?.[locale] || FEATURE_LABELS[feature]?.en || feature;
   const uniqueContent = FEATURE_CONTENT[feature]?.[locale] || FEATURE_CONTENT[feature]?.en || '';
+  const desc = FEATURE_DESCRIPTIONS[feature]?.[locale] || FEATURE_DESCRIPTIONS[feature]?.en || '';
+  const localeTitleSuffix = locale === 'el' ? 'Παραλίες' : 'Beaches';
+
   return (
     <>
-      {uniqueContent && (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{featureLabel} {localeTitleSuffix} — Χαλκιδική</h1>
+        {desc && <p className="text-gray-600 mb-6">{desc}</p>}
+        {uniqueContent && (
           <div className="prose prose-blue max-w-none" dangerouslySetInnerHTML={{ __html: uniqueContent }} />
-        </div>
-      )}
+        )}
+      </div>
       <PageClient />
     </>
   );
