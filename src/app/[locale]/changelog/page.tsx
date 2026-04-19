@@ -8,6 +8,14 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.15.1',
+      date: '19 Απριλίου 2026',
+      highlights: 'Bug Fix — PMS Calendar έδειχνε "Δεν έχεις listings ακόμα"',
+      features: [
+        { emoji: '🐛', title: 'Query ζητούσε ανύπαρκτη column', desc: 'Το /dashboard/pms/calendar έστελνε select στη column listings.is_active που δεν υπάρχει (το schema έχει status: draft/published/archived) — η Postgres γύριζε 42703 "column does not exist" και η σελίδα έπεφτε στο empty state παρόλο που ο owner είχε καταχωρημένο κατάλυμα. Αλλαγή σε status + error surfacing + fallback link στο /dashboard/listings' },
+      ],
+    },
+    {
       version: 'v3.15.0',
       date: '19 Απριλίου 2026',
       highlights: 'PMS Calendar — Ένα Ημερολόγιο ανά Κατάλυμα',
