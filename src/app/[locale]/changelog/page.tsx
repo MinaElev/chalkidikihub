@@ -8,6 +8,14 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.14.1',
+      date: '19 Απριλίου 2026',
+      highlights: 'Bug Fix — Password Reset Email Έβγαζε σε localhost:3000',
+      features: [
+        { emoji: '🐛', title: 'Bypass του Supabase Redirect Flow', desc: 'Το /auth/v1/verify του Supabase αγνοούσε το δικό μας redirect_to (δεν ήταν στο allow-list των Redirect URLs) και έπεφτε πίσω στο project Site URL που ήταν http://localhost:3000 — ο χρήστης κατέληγε σε σελίδα που δεν υπάρχει στο production. Το email link τώρα δείχνει απευθείας στο /auth/reset-password με token_hash και η σελίδα κάνει verifyOtp στο client, χωρίς περάσμα από τον Supabase verify endpoint' },
+      ],
+    },
+    {
       version: 'v3.14.0',
       date: '19 Απριλίου 2026',
       highlights: 'Super-Admin — One-Click Password Reset Email per User',
