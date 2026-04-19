@@ -149,5 +149,6 @@ export async function POST(req: NextRequest) {
     listing_title_en: listing.title_en,
     deposit_percentage: effective.deposit_percentage,
     instant_book: effective.instant_book,
+    stripe_enabled: !!owner?.stripe_account_id && !!owner?.stripe_onboarded,
   }, { status: 201 });
 }
