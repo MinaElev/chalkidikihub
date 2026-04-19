@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.19.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS Tasks — Καθαρισμοί, Συντήρηση & Ανάθεση σε Συνεργάτες',
+      features: [
+        { emoji: '🧹', title: 'Λίστα Εργασιών /dashboard/pms/tasks', desc: 'Όλες οι εργασίες σε κάρτες με date block (μήνας + ημέρα + ώρα), type pill (Καθαρισμός/Συντήρηση/Επιθεώρηση/Κλινοσκεπάσματα/Υποδοχή/Αναχώρηση/Custom), status pill (Εκκρεμεί/Σε εξέλιξη/Ολοκληρωμένη/Ακυρώθηκε/Παραλείφθηκε), overdue badge όταν pending + περασμένη ώρα, assignee name & κόστος στα δεξιά' },
+        { emoji: '📊', title: '4 Stat Cards στο Top', desc: 'Σήμερα (εργασίες προγραμματισμένες για σήμερα), Εκκρεμούν (status=pending), Καθυστερημένες (pending + passed scheduled_at — κόκκινο warning), Κόστος μήνα (sum completed tasks του τρέχοντα μήνα)' },
+        { emoji: '🔎', title: '3-Column Filters + Live Search', desc: 'Listing dropdown, type dropdown (7 τύποι), status dropdown (5 states) + full-text search σε title/assignee/listing name — όλα combinable, instant filtering client-side' },
+        { emoji: '➕', title: 'Νέα Εργασία — 4 Sections', desc: '/dashboard/pms/tasks/new — WHAT (type radio cards με icons + title + listing + description), WHEN (scheduled datetime + 5 status pills — completed_at field εμφανίζεται μόνο όταν status=completed), WHO (assignee name/phone/email), MONEY (cost σε € + internal notes)' },
+        { emoji: '📅', title: 'Auto-Default σε Αύριο 10:00', desc: 'Νέα εργασία ξεκινά με scheduled_at = αύριο 10πμ — sensible default για cleanings/maintenance. Prefill via ?listing_id=&booking_id=&scheduled_at= querystring για αυτόματη δημιουργία από checkout flow στο μέλλον' },
+        { emoji: '✏️', title: 'Επεξεργασία + Διαγραφή', desc: '/dashboard/pms/tasks/[id] — όλα τα πεδία editable, one-click status change, delete με confirm prompt. Shared <TaskForm/> component μεταξύ create & edit. Όταν status→completed, το completed_at γεμίζει αυτόματα με το τώρα αν ήταν κενό' },
+        { emoji: '🎨', title: 'Rose Theme + Overdue Highlighting', desc: 'Rose/pink hero gradient, τύποι εργασιών με δικό τους χρωματικό chip, date block γίνεται rose όταν overdue. Status pills είναι buttons στο form (amber pending, sky in-progress, emerald completed, rose cancelled, slate skipped)' },
+      ],
+    },
+    {
       version: 'v3.18.0',
       date: '19 Απριλίου 2026',
       highlights: 'PMS Pricing Rules — Seasonal, Weekend, LOS, Last-Minute',
