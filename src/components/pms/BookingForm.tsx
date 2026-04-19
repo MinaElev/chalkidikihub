@@ -8,7 +8,26 @@ import {
   User, Mail, Phone, Globe, Users as UsersIcon,
   CalendarDays, Home, Euro, FileText, Radio, CreditCard,
   LogIn, LogOut, CheckCircle, XCircle, Ban,
+  Sparkles, TrendingUp, TrendingDown, Percent,
 } from 'lucide-react';
+
+interface QuoteResponse {
+  base_rate: number;
+  total_nights: number;
+  subtotal_pre_rules: number;
+  subtotal_post_night_rules: number;
+  subtotal_post_booking_rules: number;
+  nightly_average: number;
+  applied: Array<{
+    rule_id: string;
+    name: string;
+    rule_type: 'seasonal' | 'weekend' | 'los_discount' | 'last_minute' | 'custom';
+    operation: 'override' | 'add' | 'subtract' | 'multiply';
+    scope: 'night' | 'booking';
+    nights_affected: number;
+    delta: number;
+  }>;
+}
 
 export type BookingStatus = 'inquiry' | 'pending' | 'confirmed' | 'checked_in' | 'checked_out' | 'cancelled' | 'blocked';
 export type BookingSource = 'direct' | 'airbnb' | 'booking' | 'vrbo' | 'manual' | 'blocked' | 'other';
@@ -87,6 +106,9 @@ export function BookingForm({
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [justSaved, setJustSaved] = useState(false);
+  const [quote, setQuote] = useState<QuoteResponse | null>(null);
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const [quoteError, setQuoteError] = useState<string | null>(null);
 
   const t = {
     guestSection: el ? 'Στοιχεία επισκέπτη' : 'Guest details',
@@ -173,6 +195,58 @@ export function BookingForm({
   useEffect(() => {
     setForm(prev => ({ ...prev, num_guests: (prev.num_adults || 0) + (prev.num_children || 0) }));
   }, [form.num_adults, form.num_children]);
+
+  // Pricing quote — refetch any time the inputs that drive it change. Owners
+  // can still override nightly_rate and total manually after seeing the quote.
+  useEffect(() => {
+    if (!form.listing_id || !form.check_in || !form.check_out || form.check_in >= form.check_out) {
+      setQuote(null);
+      return;
+    }
+    if (form.status === 'blocked' || form.source === 'blocked') {
+      setQuote(null);
+      return;
+    }
+    let cancelled = false;
+    setQuoteLoading(true);
+    setQuoteError(null);
+    fetch('/api/pms/pricing/quote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        listing_id: form.listing_id,
+        check_in: form.check_in,
+        check_out: form.check_out,
+      }),
+    })
+      .then(async r => {
+        const data = await r.json().catch(() => null);
+        if (cancelled) return;
+        if (!r.ok) {
+          setQuoteError(data?.error || `HTTP ${r.status}`);
+          setQuote(null);
+          return;
+        }
+        setQuote(data as QuoteResponse);
+      })
+      .catch(err => {
+        if (!cancelled) { setQuoteError(err.message); setQuote(null); }
+      })
+      .finally(() => { if (!cancelled) setQuoteLoading(false); });
+    return () => { cancelled = true; };
+  }, [form.listing_id, form.check_in, form.check_out, form.status, form.source]);
+
+  function applyQuote() {
+    if (!quote) return;
+    const nightly = quote.total_nights > 0 ? quote.subtotal_post_booking_rules / quote.total_nights : 0;
+    setForm(prev => ({
+      ...prev,
+      nightly_rate: Number(nightly.toFixed(2)),
+      total_amount: Number((quote.subtotal_post_booking_rules + Number(prev.cleaning_fee || 0) + Number(prev.taxes || 0)).toFixed(2)),
+    }));
+    setJustSaved(false);
+    setError(null);
+  }
 
   function update<K extends keyof BookingFormData>(key: K, value: BookingFormData[K]) {
     setForm(prev => ({ ...prev, [key]: value }));
@@ -370,6 +444,79 @@ export function BookingForm({
               </select>
             </Field>
           </div>
+          {(quoteLoading || quote || quoteError) && (
+            <div className="rounded-2xl border border-fuchsia-200 bg-gradient-to-br from-fuchsia-50 to-pink-50 p-3 md:p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="w-4 h-4 text-fuchsia-600" />
+                <div className="text-sm font-bold text-fuchsia-900">{el ? 'Αυτόματη τιμή από κανόνες' : 'Auto quote from pricing rules'}</div>
+                {quoteLoading && <Loader2 className="w-3 h-3 animate-spin text-fuchsia-600" />}
+              </div>
+              {quoteError && (
+                <div className="text-xs text-rose-700 font-mono">{quoteError}</div>
+              )}
+              {quote && !quoteLoading && (
+                <>
+                  {quote.total_nights === 0 ? (
+                    <div className="text-xs text-slate-600">{el ? 'Επέλεξε ημερομηνίες για quote.' : 'Pick dates to see a quote.'}</div>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                        <div className="bg-white/70 rounded-lg px-2.5 py-1.5">
+                          <div className="text-[10px] uppercase tracking-wide text-slate-500 font-semibold">{el ? 'Base/νύχτα' : 'Base/night'}</div>
+                          <div className="text-sm font-bold tabular-nums text-slate-800">€{quote.base_rate.toFixed(2)}</div>
+                        </div>
+                        <div className="bg-white/70 rounded-lg px-2.5 py-1.5">
+                          <div className="text-[10px] uppercase tracking-wide text-slate-500 font-semibold">{el ? 'Μέση/νύχτα' : 'Avg/night'}</div>
+                          <div className="text-sm font-bold tabular-nums text-fuchsia-800">€{quote.nightly_average.toFixed(2)}</div>
+                        </div>
+                        <div className="bg-white/70 rounded-lg px-2.5 py-1.5">
+                          <div className="text-[10px] uppercase tracking-wide text-slate-500 font-semibold">{el ? 'Νύχτες' : 'Nights'}</div>
+                          <div className="text-sm font-bold tabular-nums text-slate-800">{quote.total_nights}</div>
+                        </div>
+                        <div className="bg-white/70 rounded-lg px-2.5 py-1.5">
+                          <div className="text-[10px] uppercase tracking-wide text-slate-500 font-semibold">{el ? 'Σύνολο κρατήσεων' : 'Subtotal'}</div>
+                          <div className="text-sm font-bold tabular-nums text-fuchsia-900">€{quote.subtotal_post_booking_rules.toFixed(2)}</div>
+                        </div>
+                      </div>
+                      {quote.applied.length > 0 && (
+                        <ul className="space-y-1">
+                          {quote.applied.map(a => {
+                            const up = a.delta > 0;
+                            const Icon = a.scope === 'booking' ? Percent : (up ? TrendingUp : TrendingDown);
+                            return (
+                              <li key={a.rule_id} className="flex items-center gap-2 text-xs">
+                                <Icon className={`w-3.5 h-3.5 shrink-0 ${up ? 'text-rose-600' : 'text-emerald-600'}`} />
+                                <span className="font-semibold text-slate-800 truncate">{a.name}</span>
+                                <span className="text-slate-500 text-[11px]">
+                                  {a.scope === 'booking'
+                                    ? (el ? 'σε όλο το σύνολο' : 'whole booking')
+                                    : (el ? `${a.nights_affected} νύχτες` : `${a.nights_affected} nights`)}
+                                </span>
+                                <span className={`ml-auto font-bold tabular-nums ${up ? 'text-rose-700' : 'text-emerald-700'}`}>
+                                  {up ? '+' : ''}€{a.delta.toFixed(2)}
+                                </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                      {quote.applied.length === 0 && (
+                        <div className="text-xs text-slate-600 italic">{el ? 'Κανένας κανόνας δεν εφαρμόζεται — ισχύει η base τιμή.' : 'No rule matched — base rate applies.'}</div>
+                      )}
+                      <div className="flex justify-end pt-1">
+                        <button type="button" onClick={applyQuote}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-xs font-bold rounded-lg shadow-sm">
+                          <Sparkles className="w-3 h-3" />
+                          {el ? 'Εφαρμογή στα πεδία' : 'Apply to fields'}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+
           <Field label={t.totalAmount} hint={autoTotal !== null ? `${t.totalAuto}: €${autoTotal.toFixed(2)}` : undefined}>
             <input type="number" step="0.01" min="0"
               value={form.total_amount ?? ''}
