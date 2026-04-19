@@ -15,6 +15,10 @@
     {
       "path": "/api/cron/pms-auto-tasks",
       "schedule": "41 * * * *"
+    },
+    {
+      "path": "/api/cron/pms-notifications",
+      "schedule": "53 * * * *"
     }
   ],
   "headers": [

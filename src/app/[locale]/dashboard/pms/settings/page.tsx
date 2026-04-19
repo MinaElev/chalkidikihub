@@ -38,6 +38,11 @@ interface OwnerSettings {
   cleaning_default_assignee_email: string | null;
   cleaning_default_cost: number | null;
   cleaning_lead_days: number;
+  notify_new_inquiry: boolean;
+  notify_new_booking: boolean;
+  notify_overdue_tasks: boolean;
+  notify_check_in_today: boolean;
+  notify_check_out_today: boolean;
 }
 
 const DEFAULTS: OwnerSettings = {
@@ -68,6 +73,11 @@ const DEFAULTS: OwnerSettings = {
   cleaning_default_assignee_email: null,
   cleaning_default_cost: null,
   cleaning_lead_days: 0,
+  notify_new_inquiry: true,
+  notify_new_booking: true,
+  notify_overdue_tasks: true,
+  notify_check_in_today: false,
+  notify_check_out_today: false,
 };
 
 export default function PmsSettingsPage() {
@@ -178,6 +188,31 @@ export default function PmsSettingsPage() {
       ? 'Για νέες κρατήσεις & urgent μηνύματα. (Έρχεται)'
       : 'For new bookings & urgent messages. (Coming)',
 
+    emailAlertsTitle: el ? 'Email alerts' : 'Email alerts',
+    emailAlertsSub: el
+      ? 'Hourly cron στέλνει email όταν συμβεί κάτι. Πηγαίνουν στο reply-to email παραπάνω — αν κενό, στο email του λογαριασμού.'
+      : 'Hourly cron emails you when things happen. Sent to the reply-to email above — if blank, to the account email.',
+    alertNewInquiry: el ? 'Νέο αίτημα κράτησης' : 'New inquiry arrived',
+    alertNewInquiryHint: el
+      ? 'Email όταν guest στείλει αίτημα (status = inquiry).'
+      : 'Email when a guest submits an inquiry (status = inquiry).',
+    alertNewBooking: el ? 'Νέα κράτηση επιβεβαιωμένη' : 'New booking confirmed',
+    alertNewBookingHint: el
+      ? 'Email όταν κράτηση γίνεται confirmed ή pending.'
+      : 'Email when a booking becomes confirmed or pending.',
+    alertOverdue: el ? 'Εκπρόθεσμη εργασία' : 'Overdue task',
+    alertOverdueHint: el
+      ? 'Email όταν task έχει περάσει το scheduled_at (ξαναστέλνει μία φορά την ημέρα).'
+      : 'Email when a task passes its scheduled_at (re-sends once per day).',
+    alertCheckIn: el ? 'Check-in σήμερα' : 'Check-in today',
+    alertCheckInHint: el
+      ? 'Υπενθύμιση κάθε πρωί για τα σημερινά arrivals.'
+      : 'Morning reminder for today\'s arrivals.',
+    alertCheckOut: el ? 'Check-out σήμερα' : 'Check-out today',
+    alertCheckOutHint: el
+      ? 'Υπενθύμιση για καθαρισμό/damage check μετά τον guest.'
+      : 'Reminder for cleaning/damage check after guest leaves.',
+
     save: el ? 'Αποθήκευση' : 'Save',
     saving: el ? 'Αποθηκεύεται…' : 'Saving…',
     saved: el ? 'Οι ρυθμίσεις αποθηκεύτηκαν' : 'Settings saved',
@@ -269,6 +304,11 @@ export default function PmsSettingsPage() {
             cleaning_default_assignee_email: data.cleaning_default_assignee_email,
             cleaning_default_cost: data.cleaning_default_cost != null ? Number(data.cleaning_default_cost) : null,
             cleaning_lead_days: data.cleaning_lead_days ?? 0,
+            notify_new_inquiry: data.notify_new_inquiry !== false,
+            notify_new_booking: data.notify_new_booking !== false,
+            notify_overdue_tasks: data.notify_overdue_tasks !== false,
+            notify_check_in_today: !!data.notify_check_in_today,
+            notify_check_out_today: !!data.notify_check_out_today,
           });
         }
       } finally {
@@ -565,6 +605,40 @@ export default function PmsSettingsPage() {
               onChange={e => update('notification_phone', e.target.value || null)}
               className="input" placeholder="+30 69..." />
           </Field>
+        </div>
+        <div className="pt-2 border-t border-slate-100 space-y-3">
+          <div className="text-sm font-semibold text-slate-800">{t.emailAlertsTitle}</div>
+          <p className="text-xs text-slate-500 -mt-1">{t.emailAlertsSub}</p>
+          <Toggle
+            checked={form.notify_new_inquiry}
+            onChange={v => update('notify_new_inquiry', v)}
+            label={t.alertNewInquiry}
+            hint={t.alertNewInquiryHint}
+          />
+          <Toggle
+            checked={form.notify_new_booking}
+            onChange={v => update('notify_new_booking', v)}
+            label={t.alertNewBooking}
+            hint={t.alertNewBookingHint}
+          />
+          <Toggle
+            checked={form.notify_overdue_tasks}
+            onChange={v => update('notify_overdue_tasks', v)}
+            label={t.alertOverdue}
+            hint={t.alertOverdueHint}
+          />
+          <Toggle
+            checked={form.notify_check_in_today}
+            onChange={v => update('notify_check_in_today', v)}
+            label={t.alertCheckIn}
+            hint={t.alertCheckInHint}
+          />
+          <Toggle
+            checked={form.notify_check_out_today}
+            onChange={v => update('notify_check_out_today', v)}
+            label={t.alertCheckOut}
+            hint={t.alertCheckOutHint}
+          />
         </div>
         <div className="pt-2 border-t border-slate-100">
           <Toggle
