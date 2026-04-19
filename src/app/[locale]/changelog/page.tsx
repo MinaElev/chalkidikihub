@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.21.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS Automations — Message Templates σε 6 Γλώσσες με Triggers',
+      features: [
+        { emoji: '🤖', title: 'Λίστα /dashboard/pms/automations', desc: 'Όλα τα templates σε κάρτες με trigger icon + name + trigger pill + Active/Paused badge + body preview 120 χαρακτήρες + locale codes (EL · EN · DE…) + scope (Όλα τα καταλύματα ή N specific). Paused templates εμφανίζονται σε opacity 75% για να διακρίνονται' },
+        { emoji: '⏰', title: '9 Triggers', desc: 'Manual (on-demand insertion σε thread), On inquiry (πρώτο guest message), On booking (confirmation), 3 days before / 1 day before (prep reminders), On check-in (welcome), On check-out (thank-you), 7 days after (review request), On cancel. Radio cards με icon + one-line περιγραφή' },
+        { emoji: '🌍', title: '6 Locales σε Tabs', desc: 'EL 🇬🇷 · EN 🇬🇧 · DE 🇩🇪 · FR 🇫🇷 · IT 🇮🇹 · ES 🇪🇸 — κάθε locale tab δείχνει αν έχει content με πράσινο check. Subject + body per locale, αποθηκεύονται σε JSONB columns (subject_locales, body_locales) ώστε να στέλνεται το σωστό στη γλώσσα του guest χωρίς κόπο' },
+        { emoji: '📌', title: 'Variables με Click-to-Copy', desc: '{{guest_name}}, {{listing_name}}, {{check_in}}, {{check_out}}, {{nights}}, {{total}}, {{owner_name}}, {{owner_phone}} — tap σε variable chip για αυτόματη αντιγραφή στο clipboard. Θα γίνεται substitution την ώρα της αποστολής (render step δεν υλοποιημένο ακόμη)' },
+        { emoji: '🎯', title: 'Scope: Όλα ή Specific Listings', desc: 'Toggle buttons "Όλα τα καταλύματα" vs "Επιλεγμένα" — αν specific, checkboxes για κάθε κατάλυμα του owner. Αποθηκεύεται ως UUID[] (null = όλα, array = specific). Για απλά portfolios το "όλα" είναι one-click setup' },
+        { emoji: '🔘', title: 'Active Toggle + 3 Stats', desc: 'Templates (σύνολο), Ενεργά, Γλώσσες (μοναδικές locales με content). Pause toggle για εποχική παύση (π.χ. winter rates) χωρίς διαγραφή. Filter bar: trigger dropdown + status (All/Active/Paused) + live search σε name + όλα τα locale bodies' },
+        { emoji: '🧩', title: 'Shared <TemplateForm/>', desc: '4 sections: Basics (name + active), Trigger (9 radio cards), Content (6 locale tabs + subject + body + variables), Scope (all vs specific + checkboxes). Create/edit share the same form, delete with confirm στο edit page' },
+      ],
+    },
+    {
       version: 'v3.20.0',
       date: '19 Απριλίου 2026',
       highlights: 'PMS Messages — Ενοποιημένο Inbox με Threads ανά Κράτηση',
