@@ -8,6 +8,16 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.15.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS Calendar — Ένα Ημερολόγιο ανά Κατάλυμα',
+      features: [
+        { emoji: '📅', title: 'Stacked Sections — Ένα Calendar per Listing', desc: 'Το /dashboard/pms/calendar δεν δείχνει πλέον ένα μόνο ημερολόγιο με dropdown επιλογής καταλύματος — δείχνει ξεχωριστή ενότητα για κάθε κατάλυμα του owner, στοιβαγμένες κάθετα. Κάθε section έχει δικά της feeds, export URL, block-dates, event details — όλα ανεξάρτητα μεταξύ τους' },
+        { emoji: '📱', title: 'Mobile-First Layout', desc: 'Grid που στοιβάζει σε mobile (feeds panel πάνω, calendar κάτω) και γίνεται side-by-side σε desktop (340px feeds | rest calendar). Το μηνιαίο navigation και το χρωματικό legend είναι shared και sticky στο top' },
+        { emoji: '🔄', title: 'Next.js 16 Proxy Migration', desc: 'Το deprecated middleware.ts μετονομάστηκε σε src/proxy.ts σύμφωνα με την Next.js 16 convention. Χωρίς αυτό το rename, όλα τα locale-less URLs (/auth/login, /listings, /dashboard) επέστρεφαν 404 — το next-intl locale routing δεν έτρεχε καθόλου. Now back to normal' },
+      ],
+    },
+    {
       version: 'v3.14.1',
       date: '19 Απριλίου 2026',
       highlights: 'Bug Fix — Password Reset Email Έβγαζε σε localhost:3000',
