@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.26.0',
+      date: '20 Απριλίου 2026',
+      highlights: 'PMS — Per-listing overrides: κάθε κατάλυμα έχει τις δικές του πολιτικές',
+      features: [
+        { emoji: '🏠', title: 'Νέα /dashboard/pms/settings/listings/[id]', desc: 'Dedicated page ανά κατάλυμα όπου ορίζεις overrides για instant_book, min/max nights, advance notice, preparation days, check-in/out times, cancellation policy, deposit %, balance days, κόστος καθάρισμα και lead days. Indigo-violet hero με το slug + live link, 4 sections χρωματιστά όπως τα global settings' },
+        { emoji: '🔗', title: 'Κληρονομικότητα με "Inherit" toggle', desc: 'Κάθε πεδίο έχει badge πάνω δεξιά: OVERRIDE (indigo, active) ή INHERIT (slate, πατώντας το επαναφέρει σε null). Όταν inherit, το input μετατρέπεται σε read-only box που δείχνει την effective τιμή από τα global defaults. Έτσι βλέπεις με μια ματιά ποια πεδία έχεις αλλάξει και ποια κληρονομεί' },
+        { emoji: '📋', title: 'Index section στο main settings', desc: 'Νέα indigo section "Overrides ανά κατάλυμα" στο τέλος του /dashboard/pms/settings με λίστα όλων των καταλυμάτων. Κάθε row δείχνει title + slug + pinned badge με τον αριθμό των active overrides (π.χ. "3 overrides") ή "inherits defaults". Click → page του override' },
+        { emoji: '🧠', title: 'Νέο lib/pms/settings.ts', desc: 'Exports mergeSettings(owner, listing) και resolveListingSettings(supabase, listingId, ownerId) που κάνουν tri-state resolution: listing override (αν not null) → owner default (αν not null) → hard default. Consumable από any route handler ή cron. Pure TS, καθαρά interfaces' },
+        { emoji: '🔁', title: 'Auto-cleaning cron σέβεται overrides', desc: 'Το /api/cron/pms-auto-tasks τώρα φορτώνει pms_listing_settings ανά owner και merge-άρει checkout_time + cleaning_lead_days + cleaning_default_cost ανά listing πριν δημιουργήσει το task. Έτσι αν ένα ακίνητο έχει 10:00 check-out και άλλο 13:00, τα tasks προγραμματίζονται σωστά' },
+        { emoji: '🗑️', title: 'Reset to defaults', desc: 'Κουμπί "Reset σε defaults" στο save bar που διαγράφει την entire row από pms_listing_settings (μέσω DELETE WHERE listing_id=...). Το κατάλυμα επιστρέφει σε full inheritance από owner settings σε όλα τα πεδία ταυτόχρονα — χωρίς να χρειάζεται να toggle-άρεις ένα-ένα' },
+        { emoji: '🗄️', title: 'Migration 035_pms_listing_settings.sql', desc: 'Νέος πίνακας pms_listing_settings με PK listing_id, όλα τα override columns NULLABLE (NULL = inherit). CHECK constraint για cancellation_policy μόνο όταν not null. RLS: owner manages own (auth.uid()=owner_id) + admin reads all. Updated-at trigger reused από pms_touch_updated_at()' },
+      ],
+    },
+    {
       version: 'v3.25.0',
       date: '20 Απριλίου 2026',
       highlights: 'PMS — Pricing Rules Engine: αυτόματο quote στο booking form',
