@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import {
   Settings, ArrowLeft, Save, Loader2, CheckCircle2, AlertCircle,
   Receipt, CalendarClock, XCircle, CreditCard, Bell, Zap, Info, Sparkles,
+  Home, ChevronRight, Pin,
 } from 'lucide-react';
 
 interface OwnerSettings {
@@ -190,6 +191,9 @@ export default function PmsSettingsPage() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [form, setForm] = useState<OwnerSettings>(DEFAULTS);
+  const [listings, setListings] = useState<Array<{
+    id: string; slug: string; title_el: string | null; title_en: string | null; overrideCount: number;
+  }>>([]);
 
   useEffect(() => {
     (async () => {
@@ -200,15 +204,42 @@ export default function PmsSettingsPage() {
           setLoadError(authErr?.message || 'Not signed in');
           return;
         }
-        const { data, error } = await supabase
-          .from('pms_owner_settings')
-          .select('*')
-          .eq('owner_id', user.id)
-          .maybeSingle();
+        const [{ data, error }, { data: lst }, { data: overrideRows }] = await Promise.all([
+          supabase
+            .from('pms_owner_settings')
+            .select('*')
+            .eq('owner_id', user.id)
+            .maybeSingle(),
+          supabase
+            .from('listings')
+            .select('id, slug, title_el, title_en')
+            .eq('owner_id', user.id)
+            .order('created_at', { ascending: false }),
+          supabase
+            .from('pms_listing_settings')
+            .select('listing_id, instant_book, min_nights, max_nights, advance_notice_hours, preparation_days, checkin_time, checkout_time, cancellation_policy, deposit_percentage, balance_due_days_before, cleaning_default_cost, cleaning_lead_days')
+            .eq('owner_id', user.id),
+        ]);
         if (error) {
           setLoadError(error.message);
           return;
         }
+        const overrideCountById = new Map<string, number>();
+        for (const row of overrideRows || []) {
+          let n = 0;
+          for (const [k, v] of Object.entries(row)) {
+            if (k === 'listing_id') continue;
+            if (v !== null && v !== undefined) n++;
+          }
+          overrideCountById.set(row.listing_id, n);
+        }
+        setListings((lst || []).map(l => ({
+          id: l.id,
+          slug: l.slug,
+          title_el: l.title_el,
+          title_en: l.title_en,
+          overrideCount: overrideCountById.get(l.id) || 0,
+        })));
         if (data) {
           setForm({
             instant_book: !!data.instant_book,
@@ -545,6 +576,49 @@ export default function PmsSettingsPage() {
         </div>
       </Section>
 
+      {/* PER-LISTING OVERRIDES */}
+      <Section icon={Home} color="indigo" title={el ? 'Overrides ανά κατάλυμα' : 'Per-listing overrides'} sub={el
+        ? 'Τα πιο πάνω είναι global defaults. Κάθε κατάλυμα μπορεί να έχει δικές του τιμές για ώρες, νύχτες, cancellation, deposit, καθάρισμα.'
+        : 'The above are global defaults. Each listing can have its own times, nights, cancellation, deposit, cleaning values.'}>
+        {listings.length === 0 ? (
+          <div className="text-sm text-slate-500 italic">
+            {el ? 'Δεν έχεις listings ακόμα.' : 'No listings yet.'}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {listings.map(l => {
+              const title = l.title_el || l.title_en || l.slug;
+              return (
+                <Link key={l.id} href={`/dashboard/pms/settings/listings/${l.id}`}
+                  className="flex items-center justify-between gap-3 p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition group">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-8 h-8 shrink-0 rounded-lg bg-indigo-50 text-indigo-600 inline-flex items-center justify-center">
+                      <Home className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-slate-900 truncate">{title}</div>
+                      <div className="text-[11px] text-slate-500 truncate">{l.slug}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    {l.overrideCount > 0 ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 text-[11px] font-bold">
+                        <Pin className="w-3 h-3" /> {l.overrideCount} {el ? 'overrides' : 'overrides'}
+                      </span>
+                    ) : (
+                      <span className="text-[11px] text-slate-400 italic">
+                        {el ? 'κληρονομεί defaults' : 'inherits defaults'}
+                      </span>
+                    )}
+                    <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-600" />
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </Section>
+
       {/* SAVE BAR */}
       <div className="fixed md:static bottom-0 left-0 right-0 z-30 bg-white/95 md:bg-transparent backdrop-blur md:backdrop-blur-0 border-t md:border-0 border-slate-200 p-3 md:p-0 flex items-center justify-between gap-3">
         <div className="min-w-0 flex-1">
@@ -594,6 +668,7 @@ const COLOR_MAP: Record<string, { bg: string; text: string; ring: string }> = {
   emerald: { bg: 'bg-emerald-100', text: 'text-emerald-700', ring: 'ring-emerald-200' },
   violet:  { bg: 'bg-violet-100',  text: 'text-violet-700',  ring: 'ring-violet-200' },
   fuchsia: { bg: 'bg-fuchsia-100', text: 'text-fuchsia-700', ring: 'ring-fuchsia-200' },
+  indigo:  { bg: 'bg-indigo-100',  text: 'text-indigo-700',  ring: 'ring-indigo-200' },
 };
 
 function Section({

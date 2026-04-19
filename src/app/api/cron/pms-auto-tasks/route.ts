@@ -67,19 +67,35 @@ export async function GET(req: NextRequest) {
     if (!bookings || bookings.length === 0) continue;
 
     const bookingIds = bookings.map(b => b.id);
-    const { data: existing } = await supabase
-      .from('pms_tasks')
-      .select('booking_id')
-      .eq('task_type', 'cleaning')
-      .in('booking_id', bookingIds);
+    const [{ data: existing }, { data: listingOverrides }] = await Promise.all([
+      supabase
+        .from('pms_tasks')
+        .select('booking_id')
+        .eq('task_type', 'cleaning')
+        .in('booking_id', bookingIds),
+      supabase
+        .from('pms_listing_settings')
+        .select('listing_id, checkout_time, cleaning_default_cost, cleaning_lead_days')
+        .eq('owner_id', os.owner_id),
+    ]);
     const alreadyHave = new Set((existing || []).map(e => e.booking_id));
+    const overrideByListing = new Map<string, { checkout_time: string | null; cleaning_default_cost: number | null; cleaning_lead_days: number | null }>();
+    for (const ov of listingOverrides || []) overrideByListing.set(ov.listing_id, ov);
 
-    const checkoutTime = (os.checkout_time || '11:00').trim();
-    const leadDays = Math.max(0, Number(os.cleaning_lead_days) || 0);
+    const defaultCheckoutTime = (os.checkout_time || '11:00').trim();
+    const defaultLeadDays = Math.max(0, Number(os.cleaning_lead_days) || 0);
+    const defaultCost = os.cleaning_default_cost;
 
     const rows = bookings
       .filter(b => !alreadyHave.has(b.id))
       .map(b => {
+        const ov = overrideByListing.get(b.listing_id);
+        const checkoutTime = (ov?.checkout_time || defaultCheckoutTime).trim();
+        const leadDays = ov?.cleaning_lead_days != null
+          ? Math.max(0, Number(ov.cleaning_lead_days))
+          : defaultLeadDays;
+        const cost = ov?.cleaning_default_cost != null ? ov.cleaning_default_cost : defaultCost;
+
         const checkoutDay = new Date(b.check_out + 'T00:00:00Z');
         checkoutDay.setUTCDate(checkoutDay.getUTCDate() - leadDays);
         const [hh, mm] = checkoutTime.split(':').map(x => Number(x) || 0);
@@ -93,7 +109,7 @@ export async function GET(req: NextRequest) {
           assignee_name: os.cleaning_default_assignee_name,
           assignee_phone: os.cleaning_default_assignee_phone,
           assignee_email: os.cleaning_default_assignee_email,
-          cost: os.cleaning_default_cost,
+          cost,
           scheduled_at: checkoutDay.toISOString(),
           status: 'pending' as const,
         };
