@@ -15,19 +15,21 @@ export async function POST(request: NextRequest) {
 
     const supabase = createAdminClient();
 
-    // Generate the recovery link (does NOT send the email — we send via Gmail SMTP)
+    // Generate the recovery token. We bypass Supabase's redirect flow entirely
+    // (which requires the redirect URL to be allow-listed and otherwise falls back
+    // to the project's "Site URL" — typically localhost:3000) and instead send the
+    // user directly to our page with a token_hash they verify on arrival.
     const { data: linkData, error: linkErr } = await supabase.auth.admin.generateLink({
       type: 'recovery',
       email,
-      options: { redirectTo: `${SITE_URL}/auth/reset-password` },
     });
-    if (linkErr || !linkData?.properties?.action_link) {
+    if (linkErr || !linkData?.properties?.hashed_token) {
       return NextResponse.json(
         { error: linkErr?.message || 'Failed to generate recovery link' },
         { status: 500 },
       );
     }
-    const actionLink = linkData.properties.action_link;
+    const actionLink = `${SITE_URL}/auth/reset-password?token_hash=${encodeURIComponent(linkData.properties.hashed_token)}&type=recovery`;
 
     // Get Gmail credentials
     const { data: settings } = await supabase

@@ -14,30 +14,48 @@ export default function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
-  // Supabase recovery flow puts access_token + refresh_token in the URL hash.
-  // We pick them up, set the session, then let the user choose a new password.
+  // The recovery email links straight here with ?token_hash=...&type=recovery.
+  // We verify the OTP, which establishes a session, then let the user pick a new
+  // password. Falls back to the legacy hash-based flow (#access_token=...) for any
+  // older emails still in flight.
   useEffect(() => {
     const supabase = createClient();
-    const hash = typeof window !== 'undefined' ? window.location.hash : '';
-    const params = new URLSearchParams(hash.startsWith('#') ? hash.slice(1) : hash);
-    const access_token = params.get('access_token');
-    const refresh_token = params.get('refresh_token');
-    const type = params.get('type');
+    if (typeof window === 'undefined') return;
 
-    if (access_token && refresh_token && type === 'recovery') {
+    const query = new URLSearchParams(window.location.search);
+    const token_hash = query.get('token_hash');
+    const queryType = query.get('type');
+
+    if (token_hash && queryType === 'recovery') {
+      supabase.auth.verifyOtp({ token_hash, type: 'recovery' }).then(({ error }) => {
+        if (error) setError(error.message);
+        else setReady(true);
+        // Clean the URL so the token isn't visible in the address bar
+        window.history.replaceState(null, '', window.location.pathname);
+      });
+      return;
+    }
+
+    const hash = window.location.hash;
+    const hashParams = new URLSearchParams(hash.startsWith('#') ? hash.slice(1) : hash);
+    const access_token = hashParams.get('access_token');
+    const refresh_token = hashParams.get('refresh_token');
+    const hashType = hashParams.get('type');
+
+    if (access_token && refresh_token && hashType === 'recovery') {
       supabase.auth.setSession({ access_token, refresh_token }).then(({ error }) => {
         if (error) setError(error.message);
         else setReady(true);
-        // Clean the hash so tokens aren't visible in the URL bar
         window.history.replaceState(null, '', window.location.pathname);
       });
-    } else {
-      // Maybe the user already has a session (e.g. logged-in user opened the page)
-      supabase.auth.getSession().then(({ data }) => {
-        if (data.session) setReady(true);
-        else setError('Μη έγκυρος ή ληγμένος σύνδεσμος επαναφοράς. Ζήτησε νέο email επαναφοράς.');
-      });
+      return;
     }
+
+    // Maybe the user already has a session (e.g. logged-in user opened the page)
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) setReady(true);
+      else setError('Μη έγκυρος ή ληγμένος σύνδεσμος επαναφοράς. Ζήτησε νέο email επαναφοράς.');
+    });
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
