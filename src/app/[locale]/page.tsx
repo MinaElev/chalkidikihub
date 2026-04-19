@@ -152,7 +152,7 @@ function ExploreHubsSection({ locale }: { locale: string }) {
     {
       href: `${prefix}/best`,
       icon: Sparkles,
-      iconColor: 'text-accent-500',
+      iconColor: 'text-accent-400',
       title: { el: 'Best of Χαλκιδική', en: 'Best of Halkidiki', de: 'Best of Chalkidiki', bg: 'Най-доброто', ru: 'Лучшее', ro: 'Best of Halkidiki', sr: 'Najbolje' },
       sub:   { el: 'Ταξιδιωτικοί οδηγοί', en: 'Curated travel guides', de: 'Kuratierte Reiseführer', bg: 'Избрани пътеводители', ru: 'Подборки', ro: 'Ghiduri tematice', sr: 'Tematski vodiči' },
     },
