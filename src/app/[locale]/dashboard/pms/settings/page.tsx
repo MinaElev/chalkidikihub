@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/client';
 import {
   Settings, ArrowLeft, Save, Loader2, CheckCircle2, AlertCircle,
   Receipt, CalendarClock, XCircle, CreditCard, Bell, Zap, Info, Sparkles,
-  Home, ChevronRight, Pin,
+  Home, ChevronRight, Pin, ExternalLink, Unlink,
 } from 'lucide-react';
 
 interface OwnerSettings {
@@ -147,9 +148,16 @@ export default function PmsSettingsPage() {
     stripeStatus: el ? 'Κατάσταση Stripe' : 'Stripe status',
     stripeConnected: el ? '✅ Συνδεδεμένο' : '✅ Connected',
     stripeNotConnected: el ? '⏸ Δεν έχει συνδεθεί ακόμα' : '⏸ Not connected yet',
-    stripeSoon: el
-      ? 'Το Stripe Connect OAuth onboarding έρχεται. Μέχρι τότε, οι κρατήσεις γίνονται μόνο direct (cash/bank).'
-      : 'Stripe Connect OAuth onboarding is coming. Until then, bookings are direct only (cash/bank).',
+    stripeIntro: el
+      ? 'Σύνδεσε τον Stripe λογαριασμό σου και οι direct κρατήσεις χρεώνουν προκαταβολή αυτόματα — τα χρήματα πάνε κατευθείαν σε σένα, 0% προμήθεια.'
+      : 'Connect your Stripe account so direct bookings auto-charge the deposit — funds land straight in your account, 0% commission.',
+    stripeConnectBtn: el ? 'Σύνδεση με Stripe' : 'Connect with Stripe',
+    stripeDisconnectBtn: el ? 'Αποσύνδεση' : 'Disconnect',
+    stripeDisconnectConfirm: el ? 'Σίγουρα θες να αποσυνδέσεις το Stripe;' : 'Really disconnect Stripe?',
+    stripeConnectedOk: el ? 'Ο λογαριασμός Stripe συνδέθηκε επιτυχώς.' : 'Stripe account connected successfully.',
+    stripeConnectedErr: el ? 'Αποτυχία σύνδεσης Stripe.' : 'Stripe connection failed.',
+    stripeConnectedMismatch: el ? 'Το state δεν ταίριαξε — δοκίμασε ξανά.' : 'State mismatch — please try again.',
+    stripeDisconnected: el ? 'Το Stripe αποσυνδέθηκε.' : 'Stripe disconnected.',
     deposit: el ? 'Ποσοστό προκαταβολής (%)' : 'Deposit percentage (%)',
     depositHint: el
       ? 'Όταν κλείνει ο guest, χρεώνεται αυτό το %. Το υπόλοιπο πριν το check-in.'
@@ -229,6 +237,15 @@ export default function PmsSettingsPage() {
   const [listings, setListings] = useState<Array<{
     id: string; slug: string; title_el: string | null; title_en: string | null; overrideCount: number;
   }>>([]);
+  const [stripeDisconnecting, setStripeDisconnecting] = useState(false);
+
+  const sp = useSearchParams();
+  const stripeFlag = sp?.get('stripe');
+  const stripeNotice = stripeFlag === 'connected' ? { kind: 'ok' as const, text: t.stripeConnectedOk }
+    : stripeFlag === 'state_mismatch' ? { kind: 'err' as const, text: t.stripeConnectedMismatch }
+    : stripeFlag === 'disconnected' ? { kind: 'ok' as const, text: t.stripeDisconnected }
+    : stripeFlag && stripeFlag !== 'connected' ? { kind: 'err' as const, text: `${t.stripeConnectedErr} (${stripeFlag})` }
+    : null;
 
   useEffect(() => {
     (async () => {
@@ -518,6 +535,18 @@ export default function PmsSettingsPage() {
 
       {/* PAYMENTS */}
       <Section icon={CreditCard} color="emerald" title={t.paymentsTitle} sub={t.paymentsSub}>
+        {stripeNotice && (
+          <div className={`rounded-xl p-3 text-sm flex items-start gap-2 ${
+            stripeNotice.kind === 'ok'
+              ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+              : 'bg-rose-50 border border-rose-200 text-rose-800'
+          }`}>
+            {stripeNotice.kind === 'ok'
+              ? <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />
+              : <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />}
+            <span>{stripeNotice.text}</span>
+          </div>
+        )}
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
           <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
             <div className="text-sm font-semibold text-slate-700">{t.stripeStatus}</div>
@@ -525,10 +554,38 @@ export default function PmsSettingsPage() {
               {form.stripe_onboarded ? t.stripeConnected : t.stripeNotConnected}
             </div>
           </div>
-          <div className="text-xs text-slate-600 flex items-start gap-2">
+          <div className="text-xs text-slate-600 flex items-start gap-2 mb-3">
             <Info className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-            <span>{t.stripeSoon}</span>
+            <span>{t.stripeIntro}</span>
           </div>
+          {form.stripe_onboarded ? (
+            <button type="button"
+              disabled={stripeDisconnecting}
+              onClick={async () => {
+                if (!confirm(t.stripeDisconnectConfirm)) return;
+                setStripeDisconnecting(true);
+                try {
+                  const res = await fetch('/api/stripe/connect/disconnect', { method: 'POST' });
+                  if (res.ok) {
+                    window.location.href = `/${locale}/dashboard/pms/settings?stripe=disconnected`;
+                  } else {
+                    setStripeDisconnecting(false);
+                  }
+                } catch {
+                  setStripeDisconnecting(false);
+                }
+              }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 hover:border-rose-400 hover:text-rose-700 text-slate-700 text-sm font-semibold rounded-xl transition">
+              {stripeDisconnecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Unlink className="w-4 h-4" />}
+              {t.stripeDisconnectBtn}
+            </button>
+          ) : (
+            <a href="/api/stripe/connect/start"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#635bff] hover:bg-[#534ae0] text-white text-sm font-semibold rounded-xl shadow-sm transition">
+              <ExternalLink className="w-4 h-4" />
+              {t.stripeConnectBtn}
+            </a>
+          )}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
           <Field label={t.deposit} hint={t.depositHint}>

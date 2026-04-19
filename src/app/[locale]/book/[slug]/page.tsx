@@ -159,6 +159,18 @@ export default function PublicBookingPage() {
         setSubmitError(json.error || t.networkError);
         return;
       }
+      if (json.stripe_enabled) {
+        const co = await fetch('/api/pms/public/checkout', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ booking_id: json.booking_id }),
+        });
+        const coJson = await co.json();
+        if (co.ok && coJson.url) {
+          window.location.href = coJson.url;
+          return;
+        }
+      }
       router.push(`/book/${slug}/confirmed?id=${json.booking_id}`);
     } catch {
       setSubmitError(t.networkError);
