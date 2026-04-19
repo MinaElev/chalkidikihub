@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.27.0',
+      date: '20 Απριλίου 2026',
+      highlights: 'PMS — Συνεργάτες (Vendors): λίστα επαφών για tasks',
+      features: [
+        { emoji: '🧑‍🔧', title: 'Νέο module /dashboard/pms/vendors', desc: 'Amber-orange-rose gradient hero, κάρτες ανά συνεργάτη με avatar icon ανά role (καθαριστής, συντήρηση, property manager, κλινοσκεπάσματα, κηπουρός, φωτογράφος, άλλο). Filter bar: search (όνομα/email/τηλ), role dropdown, toggle "show inactive". Activate/deactivate με ένα click — inactive απορρίπτονται από το task picker αλλά δεν χάνονται' },
+        { emoji: '➕', title: 'Add/Edit modal με role picker', desc: 'Modal form με 7 role icons σε grid (tapping χρωματίζει με το chipCls του role), name, phone, email, default hourly rate, default flat rate, notes. Autofocus στο name field. Live validation — save disabled αν δεν υπάρχει όνομα. Inline error από Supabase με mono font bubble' },
+        { emoji: '🔗', title: 'Νέο FK vendor_id στο pms_tasks', desc: 'Optional reference με ON DELETE SET NULL ώστε αν διαγραφεί ο συνεργάτης, τα ιστορικά tasks παραμένουν (με το snapshot assignee_name/phone/email που είχαν τη στιγμή της ανάθεσης). Έτσι τα reports παραμένουν accurate χωρίς dangling refs ή auto-cascade' },
+        { emoji: '🎯', title: 'Vendor picker στο TaskForm', desc: 'Νέο violet section "Πιάσε από συνεργάτες" πάνω από τα assignee fields: dropdown φορτωμένο με όλους τους active vendors. Όταν επιλέξεις συνεργάτη, γεμίζουν αυτόματα το name/phone/email/cost (default_flat_rate). Μπορείς πάντα να overrideάρεις χειροκίνητα — δεν "κολλάνε" τα πεδία' },
+        { emoji: '📊', title: 'Task count badge ανά vendor', desc: 'Κάθε κάρτα δείχνει αριθμό tasks που έχουν ανατεθεί σε αυτόν τον συνεργάτη (όλων των εποχών). Quick way να δεις ποιον χρησιμοποιείς πιο συχνά και ποιον ίσως αρχίζει να ξεχνάς. Ο αριθμός ενημερώνεται live κάθε φορά που φορτώνει η σελίδα' },
+        { emoji: '💶', title: 'Default rates (hourly + flat)', desc: 'Κάθε vendor έχει προαιρετικά default_hourly_rate και default_flat_rate. Εμφανίζονται στην κάρτα με €amount/h και €flat font-mono. Όταν επιλεγεί στο task form, γεμίζει το flat rate αυτόματα στο cost field (αν δεν υπάρχει ήδη value). Hourly μένει για manual entry (e.g. αν η εργασία διήρκησε 2h)' },
+        { emoji: '🗄️', title: 'Migration 036_pms_vendors.sql', desc: 'Νέος πίνακας pms_vendors: id, owner_id FK, name, role (CHECK σε 7 values), phone, email, default_hourly_rate, default_flat_rate, notes, active, timestamps. 2 indexes (owner, active). RLS owner manages own + admin reads all. ALTER TABLE pms_tasks ADD vendor_id UUID REFERENCES pms_vendors ON DELETE SET NULL + index pms_tasks_vendor_idx' },
+      ],
+    },
+    {
       version: 'v3.26.0',
       date: '20 Απριλίου 2026',
       highlights: 'PMS — Per-listing overrides: κάθε κατάλυμα έχει τις δικές του πολιτικές',
