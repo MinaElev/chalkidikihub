@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.20.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS Messages — Ενοποιημένο Inbox με Threads ανά Κράτηση',
+      features: [
+        { emoji: '📥', title: 'Inbox /dashboard/pms/messages', desc: 'Όλα τα μηνύματα ομαδοποιούνται σε threads — ένα ανά κράτηση, ή ανά guest_email όταν δεν υπάρχει κράτηση. Κάθε thread κάρτα: avatar με αρχικό γράμματος guest, όνομα + channel pill + "Auto" badge για templates + unread counter, subject, body preview 140 char, listing name + message count, relative timestamp (τώρα/5λ πριν/3ώ πριν/18 Απρ)' },
+        { emoji: '📊', title: '3 Stat Cards', desc: 'Threads (ομαδοποιημένες συνομιλίες), Αδιάβαστα (inbound χωρίς read_at), Σύνολο μηνυμάτων (όλα τα records)' },
+        { emoji: '🎨', title: '6 Channels με Color Pills', desc: 'Direct (slate), Email (sky), WhatsApp (emerald), Airbnb (rose), Booking.com (indigo), System (violet) — βοηθάει να εντοπίζεις με μια ματιά από πού ήρθε το μήνυμα. Φιλτράρισμα ανά channel + listing + live search σε guest/subject/body' },
+        { emoji: '💬', title: 'Thread View /dashboard/pms/messages/[id]', desc: 'Chat-style bubbles — εξερχόμενα δεξιά (violet), εισερχόμενα αριστερά (slate), system messages γκρι italic. Auto mark-as-read όταν ανοίγεις το thread. Guest panel στην κορυφή με name/email + link στην κράτηση, threaded συνομιλία σε χρονολογική σειρά, inline reply composer από κάτω' },
+        { emoji: '✍️', title: 'Composer — Inbound ή Outbound Logging', desc: 'Toggle μεταξύ "Προς guest (εξερχόμενο)" και "Από guest (εισερχόμενο)" — ώστε να μπορείς να καταχωρήσεις ΚΑΙ μηνύματα που έλαβες εξωτερικά (π.χ. από προσωπικό email) στο ίδιο thread. Channel dropdown, optional subject, multi-line body. Auto sets read_at για inbound entries ώστε να μη φαίνονται unread' },
+        { emoji: '➕', title: 'Νέο Thread /dashboard/pms/messages/new', desc: 'Διάλεξε listing (required) + optionally κράτηση → αν επιλέξεις booking, το guest name/email γεμίζουν αυτόματα. Support για standalone threads (inquiry που δεν έγινε booking) ή booking-tied threads. Prefill via ?listing_id=&booking_id= για δημιουργία από άλλες σελίδες' },
+        { emoji: '🧩', title: 'Shared <MessageComposer/>', desc: 'Ένα component για reply (compact mode) και για new thread (full mode με subject). Reusable για μελλοντικά integrations — όταν συνδεθούν email/WhatsApp/Airbnb parsers, μόνο η μετά-αποστολή logic θα αλλάξει. Διαγραφή thread συνολικά από το [id] page' },
+      ],
+    },
+    {
       version: 'v3.19.0',
       date: '19 Απριλίου 2026',
       highlights: 'PMS Tasks — Καθαρισμοί, Συντήρηση & Ανάθεση σε Συνεργάτες',
