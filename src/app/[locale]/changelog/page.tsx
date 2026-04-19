@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.24.0',
+      date: '20 Απριλίου 2026',
+      highlights: 'PMS — Auto-προγραμματισμός καθαρισμού όταν έρχεται check-out',
+      features: [
+        { emoji: '✨', title: 'Auto-cleaning task ανά booking', desc: 'Νέο hourly cron (/api/cron/pms-auto-tasks) που σκανάρει κρατήσεις με check-out τις επόμενες 14 ημέρες και δημιουργεί pending task καθαρισμού με τίτλο "Cleaning — <guest> checkout". Idempotency: δεν διπλοδημιουργεί αν υπάρχει ήδη task τύπου cleaning για το ίδιο booking' },
+        { emoji: '⏰', title: 'Lead-days & checkout_time', desc: 'Scheduled_at = check_out date στην ώρα checkout_time του owner. Αν ο owner θέλει ο καθαριστής να έρχεται πιο νωρίς, ορίζει cleaning_lead_days=1 και το task προγραμματίζεται την προηγούμενη. Default: 0 (ίδια μέρα, ίδια ώρα με check-out)' },
+        { emoji: '👤', title: 'Default assignee & cost', desc: 'Νέα πεδία στο pms_owner_settings: cleaning_default_assignee_name/phone/email + cleaning_default_cost. Κάθε auto task έρχεται προ-συμπληρωμένο. Αλλαγές γίνονται πάντα χειροκίνητα στο detail page του task (π.χ. override για συγκεκριμένη κράτηση)' },
+        { emoji: '🔘', title: 'Toggle "Αυτόματος καθαρισμός"', desc: 'Νέα ενότητα στο /dashboard/pms/settings με toggle auto_cleaning_enabled. Όταν OFF, ο cron παραλείπει τον owner. Όταν ON, εμφανίζονται και τα assignee/cost/lead-days fields για customization. Opt-in by default (μην σπάσουμε υπάρχουσες workflows)' },
+        { emoji: '🛡️', title: 'Respect status filter', desc: 'Κρατήσεις με status=cancelled ή blocked δεν λαμβάνουν auto-task. Έτσι ακυρώσεις τελευταίας στιγμής δεν αφήνουν task να εμφανιστεί στα Pending. Όταν μια κράτηση μετακινηθεί σε νέα ημερομηνία, επόμενος cron run δημιουργεί νέο task (αν δεν υπάρχει ήδη)' },
+        { emoji: '🔁', title: 'Cron schedule', desc: 'Τρέχει στο :41 κάθε ώρας (vercel.json). Ξεχωριστό από το pms-dispatch (:29) ώστε spikes να μην επηρεάζουν email sends. Service client για να δουλεύει cross-owner χωρίς auth context' },
+        { emoji: '🗄️', title: 'Migration 034_pms_auto_tasks.sql', desc: 'Προσθέτει 6 στήλες στο pms_owner_settings: auto_cleaning_enabled, cleaning_default_assignee_name/phone/email, cleaning_default_cost (NUMERIC), cleaning_lead_days (INT 0-7). RLS μένει το υπάρχον "owner manages own settings" — δεν χρειάζεται νέο policy' },
+      ],
+    },
+    {
       version: 'v3.23.0',
       date: '20 Απριλίου 2026',
       highlights: 'PMS — Template Dispatch Engine: αυτόματα emails με triggers & {{variables}}',
