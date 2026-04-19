@@ -152,38 +152,32 @@ function ExploreHubsSection({ locale }: { locale: string }) {
     {
       href: `${prefix}/best`,
       icon: Sparkles,
-      color: 'emerald',
+      iconColor: 'text-accent-500',
       title: { el: 'Best of Χαλκιδική', en: 'Best of Halkidiki', de: 'Best of Chalkidiki', bg: 'Най-доброто', ru: 'Лучшее', ro: 'Best of Halkidiki', sr: 'Najbolje' },
       sub:   { el: 'Ταξιδιωτικοί οδηγοί', en: 'Curated travel guides', de: 'Kuratierte Reiseführer', bg: 'Избрани пътеводители', ru: 'Подборки', ro: 'Ghiduri tematice', sr: 'Tematski vodiči' },
     },
     {
       href: `${prefix}/places`,
       icon: Compass,
-      color: 'violet',
+      iconColor: 'text-primary-600',
       title: { el: 'Χωριά & Περιοχές', en: 'Villages & Areas', de: 'Dörfer & Regionen', bg: 'Села & Региони', ru: 'Деревни & Регионы', ro: 'Sate & Zone', sr: 'Sela & Regije' },
       sub:   { el: 'Οδηγοί ανά χωριό', en: 'Village-by-village guides', de: 'Ortschaftsführer', bg: 'Пътеводители по села', ru: 'Гиды по деревням', ro: 'Ghiduri sate', sr: 'Vodiči po selima' },
     },
     {
       href: `${prefix}/guide/best-time-to-visit`,
       icon: BookOpen,
-      color: 'amber',
+      iconColor: 'text-primary-700',
       title: { el: 'Travel Guides', en: 'Travel Guides', de: 'Reiseführer', bg: 'Пътеводители', ru: 'Путеводители', ro: 'Ghiduri călătorie', sr: 'Vodiči putovanja' },
       sub:   { el: 'Καιρός, μεταφορές, tips', en: 'Weather, transport, tips', de: 'Wetter, Transport, Tipps', bg: 'Време, транспорт, съвети', ru: 'Погода, транспорт', ro: 'Vreme, transport, sfaturi', sr: 'Vreme, prevoz' },
     },
     {
       href: `${prefix}/faq`,
       icon: HelpCircle,
-      color: 'sky',
+      iconColor: 'text-primary-500',
       title: { el: 'Συχνές Ερωτήσεις', en: 'FAQ', de: 'Häufige Fragen', bg: 'Въпроси', ru: 'Вопросы', ro: 'Întrebări', sr: 'Pitanja' },
       sub:   { el: 'Παραλίες, φαγητό, διαμονή', en: 'Beaches, food, stay', de: 'Strände, Essen, Unterkunft', bg: 'Плажове, храна', ru: 'Пляжи, еда, жильё', ro: 'Plaje, mâncare', sr: 'Plaže, hrana' },
     },
   ];
-  const colorMap: Record<string, string> = {
-    emerald: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    violet:  'bg-violet-50  text-violet-700  border-violet-200',
-    amber:   'bg-amber-50   text-amber-700   border-amber-200',
-    sky:     'bg-sky-50     text-sky-700     border-sky-200',
-  };
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-8">
@@ -197,10 +191,10 @@ function ExploreHubsSection({ locale }: { locale: string }) {
             <a
               key={card.href}
               href={card.href}
-              className={`group flex flex-col p-5 rounded-2xl border-2 ${colorMap[card.color]} hover:shadow-lg hover:-translate-y-0.5 transition-all`}
+              className="group flex flex-col p-5 rounded-2xl border-2 bg-primary-50 border-primary-200 hover:border-primary-400 hover:shadow-lg hover:-translate-y-0.5 transition-all"
             >
-              <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white mb-3">
-                <Icon className="w-5 h-5" />
+              <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white shadow-sm mb-3">
+                <Icon className={`w-5 h-5 ${card.iconColor}`} />
               </div>
               <h3 className="text-base font-bold text-gray-900 mb-1 leading-tight">{card.title[locale as keyof typeof card.title] || card.title.en}</h3>
               <p className="text-xs text-gray-600 leading-relaxed flex-1">{card.sub[locale as keyof typeof card.sub] || card.sub.en}</p>
@@ -227,14 +221,6 @@ function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-primary-950/60 via-primary-950/40 to-primary-950/70" />
 
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
-        {/* Trust badge */}
-        <div className="animate-fade-in mb-6">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm text-primary-200">
-            <Award className="w-4 h-4 text-accent-400" />
-            {locale === 'el' ? '#1 Πλατφόρμα Τουρισμού Χαλκιδικής' : '#1 Halkidiki Tourism Platform'}
-          </span>
-        </div>
-
         <div className="max-w-3xl animate-fade-up">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight">
             {t('title')}
