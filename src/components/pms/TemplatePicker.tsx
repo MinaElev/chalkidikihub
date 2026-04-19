@@ -155,7 +155,7 @@ export function TemplatePicker({ bookingId, listingId, guestEmail, guestCountry,
   const locale = useMemo(() => guessLocale(guestCountry), [guestCountry]);
 
   const vars = useMemo<Record<string, string>>(() => {
-    if (!booking) return {};
+    if (!booking) return {} as Record<string, string>;
     const nights = Math.max(1, Math.round((new Date(booking.check_out).getTime() - new Date(booking.check_in).getTime()) / 86_400_000));
     const currency = booking.currency || 'EUR';
     const total = booking.total_amount != null ? `${Number(booking.total_amount).toFixed(2)} ${currency}` : '';

@@ -98,7 +98,7 @@ export async function GET(req: NextRequest) {
 
         const checkoutDay = new Date(b.check_out + 'T00:00:00Z');
         checkoutDay.setUTCDate(checkoutDay.getUTCDate() - leadDays);
-        const [hh, mm] = checkoutTime.split(':').map(x => Number(x) || 0);
+        const [hh, mm] = checkoutTime.split(':').map((x: string) => Number(x) || 0);
         checkoutDay.setUTCHours(hh, mm, 0, 0);
         return {
           listing_id: b.listing_id,

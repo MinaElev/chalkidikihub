@@ -65,6 +65,15 @@ const LABELS: Record<string, Record<string, string>> = {
   fromLabel: {
     el: 'Από', en: 'From', de: 'Ab', bg: 'От', ru: 'От', ro: 'De la', sr: 'Od',
   },
+  bookDirect: {
+    el: 'Κλείσε απευθείας — 0% προμήθεια',
+    en: 'Book direct — 0% commission',
+    de: 'Direkt buchen — 0% Provision',
+    bg: 'Резервирайте директно — 0% комисиона',
+    ru: 'Забронировать напрямую — 0% комиссии',
+    ro: 'Rezervare directă — 0% comision',
+    sr: 'Rezerviši direktno — 0% provizije',
+  },
   scrollDown: {
     el: 'Συνεχίστε', en: 'Scroll down', de: 'Weiter', bg: 'Превъртете',
     ru: 'Прокрутите', ro: 'Derulați', sr: 'Nastavite',
@@ -222,10 +231,16 @@ export function StayPage({ listing, locale }: { listing: Listing; locale: string
           <div className="flex items-center gap-1.5"><Users className="w-4 h-4 text-gray-400" /> {listing.guests_max} {lbl('guests', locale)}</div>
           <div className="flex items-center gap-1.5"><BedDouble className="w-4 h-4 text-gray-400" /> {listing.bedrooms} {lbl('bedrooms', locale)}</div>
           <div className="flex items-center gap-1.5"><Bath className="w-4 h-4 text-gray-400" /> {listing.bathrooms} {lbl('bathrooms', locale)}</div>
-          <div className="ml-auto font-semibold text-gray-900">
-            <span className="text-xs font-normal text-gray-500">{lbl('fromLabel', locale)} </span>
-            €{listing.price_per_night}
-            <span className="text-xs font-normal text-gray-500">{lbl('perNight', locale)}</span>
+          <div className="ml-auto flex items-center gap-3">
+            <div className="font-semibold text-gray-900">
+              <span className="text-xs font-normal text-gray-500">{lbl('fromLabel', locale)} </span>
+              €{listing.price_per_night}
+              <span className="text-xs font-normal text-gray-500">{lbl('perNight', locale)}</span>
+            </div>
+            <Link href={`/book/${listing.slug}`}
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs md:text-sm font-semibold rounded-xl shadow-sm shadow-rose-500/30 transition">
+              <Sparkles className="w-3.5 h-3.5" /> {lbl('bookDirect', locale)}
+            </Link>
           </div>
         </div>
       </section>
