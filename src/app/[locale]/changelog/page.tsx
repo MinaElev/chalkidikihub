@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.22.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS Finance — Revenue, ADR & Occupancy Dashboard',
+      features: [
+        { emoji: '📈', title: 'Dashboard /dashboard/pms/finance', desc: 'Year + listing filter → 4 KPI cards: Έσοδα (year-over-year delta σε % πάνω στην κάρτα), ADR (Average Daily Rate, €/νύχτα), Occupancy (πληρότητα %), Νύχτες booked (+ σύνολο κρατήσεων). Όλα υπολογίζονται από τα pms_bookings εξαιρώντας ακυρωμένα & blocked dates' },
+        { emoji: '📊', title: 'Monthly Revenue Bar Chart', desc: '12 μήνες σε horizontal bars με gradient emerald→teal, scaled στο max μήνα, με τιμή αριστερά και €amount δεξιά σε tabular-nums. Fast visual για το peak/off-season σου. Προσοχή: αν μια κράτηση πατά δύο μήνες, το nightly amount σπάει ανά ημέρα στον σωστό μήνα (όχι όλο στον checkout month)' },
+        { emoji: '🏠', title: 'Per-Listing Breakdown', desc: 'Κατάλογος καταλυμάτων sorted by revenue desc, κάθε κάρτα: revenue € + bar (% του totalYear) + κρατήσεις + νύχτες + ADR. Βλέπεις ποιο κατάλυμα είναι star performer και ποιο underperforms — χωρίς να κοιτάς spreadsheets' },
+        { emoji: '📡', title: 'Per-Channel Breakdown', desc: 'Ανά source (Direct, Airbnb, Booking.com, VRBO, Manual, Other) με χρωματιστό pill + revenue + bar + % του συνολικού έτους. Βλέπεις άμεσα πόσο OTA commission αποφεύγεις μέσω direct — key motivator για marketing investment' },
+        { emoji: '⚠️', title: 'Unpaid Alert Card', desc: 'Όταν υπάρχουν bookings με payment_status ≠ fully_paid (και όχι refunded/cancelled), εμφανίζεται amber alert με το σύνολο που οφείλεται. Quick reminder να βγάζεις invoices ή να χάκες reminders' },
+        { emoji: '🧮', title: 'Smart Calculations', desc: 'Nightly equivalent = total_amount / booking_nights αν υπάρχει total, αλλιώς nightly_rate. Clip στα όρια του έτους για μετακινήσεις Δεκ→Ιαν. Occupancy = nights / (days_up_to_today × listings_count) × 100 — δεν τιμωρείται για μελλοντικές ημέρες που δεν έχει φτάσει ακόμη η χρονιά' },
+        { emoji: '🟢', title: 'YoY Revenue Delta', desc: 'Κάτω από το revenue KPI εμφανίζεται +15.2% vs πέρυσι (emerald) ή -8% (rose) όταν υπάρχει πέρυσι data στο ίδιο scope (listing filter + calendar year). Είναι το νούμερο που ρωτάς πρώτο στα end-of-year reviews' },
+      ],
+    },
+    {
       version: 'v3.21.0',
       date: '19 Απριλίου 2026',
       highlights: 'PMS Automations — Message Templates σε 6 Γλώσσες με Triggers',
