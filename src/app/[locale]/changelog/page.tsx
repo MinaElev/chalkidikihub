@@ -8,6 +8,19 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.18.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS Pricing Rules — Seasonal, Weekend, LOS, Last-Minute',
+      features: [
+        { emoji: '💰', title: 'Λίστα Κανόνων /dashboard/pms/pricing', desc: 'Όλοι οι κανόνες σε κάρτες με type icon (Seasonal/Weekend/Long Stay/Last-minute/Custom), Active ή Paused pill, condition summary (date range, weekdays, min nights, days before) και οικονομικό impact σε χρώμα (+prasino πρόσθεση, -kokkino έκπτωση, =ble override, ×portokali multiply)' },
+        { emoji: '🎯', title: '5 Τύποι Κανόνων', desc: 'Seasonal (date range, π.χ. Peak Ιουλ-Αυγ +40%), Weekend (Πα-Κυ +20% με day pills picker), Long Stay (≥7 νύχτες -10%, ≥14 -15%), Last-minute (≤7 μέρες πριν -15%), Custom (όλα τα fields optional για hybrid rules)' },
+        { emoji: '🔄', title: '4 Operations × 2 Units', desc: 'Set price (override), Add, Subtract, Multiply — με toggle μεταξύ Percentage (%) ή Absolute (€). Radio cards με icon + περιγραφή για να καταλαβαίνει κανένας τι κάνει ο κανόνας χωρίς εξήγηση' },
+        { emoji: '🔍', title: 'Live Price Preview', desc: 'Βλέπεις σε real-time το "Βασική τιμή → Τελική τιμή" με % difference καθώς αλλάζεις amount/operation/unit. Χρωματισμός: emerald αν ανέβασες, rose αν κατέβασες, slate αν ίδια. Χρησιμοποιεί το listing.price_per_night' },
+        { emoji: '📅', title: 'Weekday Picker', desc: '7 pill buttons (Κυ-Σα) για weekend και custom rules — tap για select/deselect. Αποθηκεύεται ως INT[] στη βάση (0=Κυριακή). Αν πατήσεις όλα τα Σα & Κυ, έχεις κλασικό Σαββατοκύριακο' },
+        { emoji: '⚡', title: 'Priority + Active Toggle', desc: 'Priority 0-1000 (default 100) — υψηλότερο νούμερο υπερισχύει όταν επικαλύπτονται κανόνες. Active toggle για pause/resume χωρίς διαγραφή (π.χ. παύση winter rates το καλοκαίρι)' },
+      ],
+    },
+    {
       version: 'v3.17.0',
       date: '19 Απριλίου 2026',
       highlights: 'PMS Bookings — Λίστα Κρατήσεων + Manual Entry',
