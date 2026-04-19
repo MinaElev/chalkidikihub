@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.23.0',
+      date: '20 Απριλίου 2026',
+      highlights: 'PMS — Template Dispatch Engine: αυτόματα emails με triggers & {{variables}}',
+      features: [
+        { emoji: '📨', title: 'Αυτόματη Αποστολή στο Σωστό Trigger', desc: 'Νέο hourly cron (/api/cron/pms-dispatch) σκανάρει όλα τα active non-manual templates και στέλνει email όπου ταιριάζει booking: on_inquiry/on_book/on_cancel (με βάση status), 3/1 days before check-in, on_checkin, on_checkout, 7 days after. Καλείται από Vercel Cron στο λεπτό :29 κάθε ώρας' },
+        { emoji: '🧠', title: '{{variables}} Substitution με Locale Fallback', desc: 'Κάθε template γίνεται render με guest_name, listing_name, check_in, check_out, nights, total, owner_name, owner_phone, owner_email. Η γλώσσα επιλέγεται από guest_country (GR/CY→el, DE/AT/CH→de, FR/BE/LU→fr, IT→it, ES/MX/AR→es, αλλιώς en), με fallback EN → EL → οποιοδήποτε locale έχει content' },
+        { emoji: '🔁', title: 'Idempotency ανά (template, booking)', desc: 'Το dispatch engine ελέγχει αν υπάρχει ήδη message με ίδιο template_id + booking_id και skipάρει. Έτσι cron runs κάθε ώρα χωρίς κίνδυνο διπλού email. Force re-send επιτρέπεται με flag για edge cases (manual override)' },
+        { emoji: '✉️', title: 'Gmail via Nodemailer', desc: 'Χρησιμοποιεί το ίδιο Gmail account με το password-reset flow (site_settings.gmail_address + gmail_app_password). Reply-to γεμίζει από pms_owner_settings.reply_to_email ή owner email, ώστε απαντήσεις guest να φτάνουν στον owner όχι στο system inbox' },
+        { emoji: '🖱️', title: '<TemplatePicker/> στο Thread View', desc: 'Νέα section στο /dashboard/pms/messages/[id] όταν το thread έχει booking: λίστα όλων των templates που ταιριάζουν στο listing, preview subject+body με συμπληρωμένες variables, Send button ανά template. Έλεγχος γλώσσας, inline override (UI-only preview), "Εστάλη" badge + Re-send option' },
+        { emoji: '🛡️', title: 'Owner-scoped API /api/pms/messages/send-template', desc: 'Endpoint για manual send από UI. Verifyει RLS-scoped ότι template + booking ανήκουν στον caller, φορτώνει listing + owner profile, και delegates στο shared dispatchTemplateToBooking lib. Service client μόνο για site_settings read + cross-policy pms_messages insert' },
+        { emoji: '📝', title: 'Outbound Log στο Inbox', desc: 'Κάθε template send γράφεται σαν κανονικό outbound message στο pms_messages (channel=email, is_automated=true, template_id FK). Βλέπεις στο thread view τα auto emails με "Auto" badge δίπλα στο channel pill, ώστε να ξέρεις ακριβώς τι ειπώθηκε και πότε' },
+      ],
+    },
+    {
       version: 'v3.22.0',
       date: '19 Απριλίου 2026',
       highlights: 'PMS Finance — Revenue, ADR & Occupancy Dashboard',
