@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.25.0',
+      date: '20 Απριλίου 2026',
+      highlights: 'PMS — Pricing Rules Engine: αυτόματο quote στο booking form',
+      features: [
+        { emoji: '💶', title: 'Νέο lib computeQuote()', desc: 'Pure TS function στο src/lib/pms/pricing.ts που παίρνει base_rate + dates + rules και υπολογίζει nightly breakdown. Per-night rules (seasonal/weekend/custom) εφαρμόζονται ανά ημέρα σε priority order, booking-scope rules (LOS/last-minute) μετά στο σύνολο. Σεβαστά operations: override/add/subtract/multiply, percentage ή absolute amount' },
+        { emoji: '🤖', title: '/api/pms/pricing/quote', desc: 'POST {listing_id, check_in, check_out, booking_date?} → {base_rate, subtotal_*, nightly_average, applied[]}. RLS-scoped: verifyει ότι το listing ανήκει στον caller. Επιστρέφει array εφαρμοσμένων κανόνων με name, operation, scope (night/booking), nights_affected και signed delta σε €' },
+        { emoji: '✨', title: 'Auto-quote στο BookingForm', desc: 'Gradient fuchsia→pink box μέσα στο Money section που εμφανίζεται όταν listing + dates είναι set. Auto-fetch κάθε φορά που αλλάζει listing_id/check_in/check_out/status. Δείχνει 4 KPIs (Base/night, Avg/night, Nights, Subtotal) + λίστα εφαρμοσμένων κανόνων με icon (↑ rose αν ακριβότερο, ↓ emerald αν φθηνότερο, % για booking-scope)' },
+        { emoji: '🖱️', title: '"Εφαρμογή στα πεδία" button', desc: 'Κουμπί μέσα στο quote box που γεμίζει nightly_rate (avg) + total_amount (subtotal + cleaning + taxes). Έτσι βλέπεις πρώτα την τιμή, μετά επιλέγεις αν θα την κρατήσεις ή θα κάνεις manual override (το pricing rules engine προτείνει, δεν επιβάλλει)' },
+        { emoji: '🎯', title: 'Αυτόματο skip σε blocks/inquiries', desc: 'Όταν το booking είναι status=blocked ή source=blocked το quote widget αποκρύπτεται (δεν έχει νόημα τιμολόγηση σε owner block). Το ίδιο ισχύει όταν απουσιάζουν dates ή check_in >= check_out. Error messages εμφανίζονται inline χωρίς να χαλάει η ροή του form' },
+        { emoji: '📊', title: 'Tally ανά κανόνα', desc: 'Αν ο ίδιος κανόνας (π.χ. "Σαββατοκύριακα +20%") εφαρμοστεί σε 3 νύχτες, εμφανίζεται μια φορά με sum των deltas + "3 νύχτες" χαρακτηρισμός. Για LOS/last-minute εμφανίζεται "σε όλο το σύνολο". Tα % operations δεν compound — βασίζονται στο base_rate (per night) ή στο subtotal (per booking)' },
+        { emoji: '🧮', title: 'Math σεβαστά με edge cases', desc: 'Math.max(0) clamp για να μην βγει αρνητική τιμή από aggressive subtract, days_until_checkin για last_minute rules υπολογίζεται σε ολόκληρες ημέρες UTC, weekdays array 0=Sun..6=Sat όπως Postgres. Seasonal ranges είναι inclusive [start_date, end_date]' },
+      ],
+    },
+    {
       version: 'v3.24.0',
       date: '20 Απριλίου 2026',
       highlights: 'PMS — Auto-προγραμματισμός καθαρισμού όταν έρχεται check-out',
