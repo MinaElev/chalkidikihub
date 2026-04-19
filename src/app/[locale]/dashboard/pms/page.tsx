@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import {
   Zap, CalendarDays, ClipboardList, Inbox, DollarSign, Sparkles,
   Wrench, TrendingUp, Settings, ArrowRight, Building2, Loader2,
-  CheckCircle2, Circle, AlertCircle,
+  CheckCircle2, Circle, AlertCircle, Users,
 } from 'lucide-react';
 
 interface ListingRow {
@@ -37,6 +37,7 @@ const MODULES = [
   { href: '/dashboard/pms/pricing',     icon: DollarSign,    key: 'pricing',     accent: 'amber' },
   { href: '/dashboard/pms/automations', icon: Sparkles,      key: 'automations', accent: 'fuchsia' },
   { href: '/dashboard/pms/tasks',       icon: Wrench,        key: 'tasks',       accent: 'rose' },
+  { href: '/dashboard/pms/vendors',     icon: Users,         key: 'vendors',     accent: 'amber' },
   { href: '/dashboard/pms/finance',     icon: TrendingUp,    key: 'finance',     accent: 'teal' },
   { href: '/dashboard/pms/settings',    icon: Settings,      key: 'settings',    accent: 'slate' },
 ] as const;
@@ -65,6 +66,10 @@ const MODULE_LABELS: Record<string, Record<string, { title: string; desc: string
   tasks: {
     el: { title: 'Καθαριότητα & Εργασίες',    desc: 'Scheduling, συνεργάτες, ιστορικό' },
     en: { title: 'Cleaning & Tasks',          desc: 'Scheduling, vendors, history' },
+  },
+  vendors: {
+    el: { title: 'Συνεργάτες',                desc: 'Καθαριστές, τεχνικοί, property mgrs' },
+    en: { title: 'Vendors',                   desc: 'Cleaners, handymen, property mgrs' },
   },
   finance: {
     el: { title: 'Οικονομικά',                desc: 'Έσοδα, ΑΜΑ, ΦΠΑ, αναφορές' },

@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from '@/i18n/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter, Link } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/client';
 import {
   Save, Trash2, Loader2, AlertCircle, CheckCircle2,
   Wrench, ClipboardCheck, User, Euro, FileText,
   Sparkles, Hammer, Eye, Shirt, LogIn, LogOut, Settings2,
-  Clock, Play, CheckCheck, Ban, SkipForward,
+  Clock, Play, CheckCheck, Ban, SkipForward, Users, ExternalLink,
 } from 'lucide-react';
 
 export type TaskType = 'cleaning' | 'maintenance' | 'inspection' | 'linen' | 'checkin' | 'checkout' | 'custom';
@@ -20,6 +20,7 @@ export interface TaskFormData {
   task_type: TaskType;
   title: string;
   description: string | null;
+  vendor_id: string | null;
   assignee_name: string | null;
   assignee_phone: string | null;
   assignee_email: string | null;
@@ -28,6 +29,16 @@ export interface TaskFormData {
   status: TaskStatus;
   cost: number | null;
   notes: string | null;
+}
+
+interface VendorOption {
+  id: string;
+  name: string;
+  role: string;
+  phone: string | null;
+  email: string | null;
+  default_flat_rate: number | null;
+  default_hourly_rate: number | null;
 }
 
 export interface Listing {
@@ -43,6 +54,7 @@ export const EMPTY_TASK: TaskFormData = {
   task_type: 'cleaning',
   title: '',
   description: null,
+  vendor_id: null,
   assignee_name: null,
   assignee_phone: null,
   assignee_email: null,
@@ -68,6 +80,26 @@ export function TaskForm({
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [justSaved, setJustSaved] = useState(false);
+  const [vendors, setVendors] = useState<VendorOption[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase
+        .from('pms_vendors')
+        .select('id, name, role, phone, email, default_flat_rate, default_hourly_rate')
+        .eq('owner_id', user.id)
+        .eq('active', true)
+        .order('name', { ascending: true });
+      setVendors((data || []).map(v => ({
+        ...v,
+        default_flat_rate: v.default_flat_rate != null ? Number(v.default_flat_rate) : null,
+        default_hourly_rate: v.default_hourly_rate != null ? Number(v.default_hourly_rate) : null,
+      })));
+    })();
+  }, []);
 
   const t = {
     whatTitle: el ? 'Τι πρέπει να γίνει' : 'What needs doing',
@@ -85,6 +117,10 @@ export function TaskForm({
     completedAt: el ? 'Ολοκληρώθηκε' : 'Completed at',
 
     whoTitle: el ? 'Ποιος το αναλαμβάνει' : 'Who handles this',
+    vendorLabel: el ? 'Επίλεξε από συνεργάτες' : 'Pick from vendors',
+    vendorHint: el ? 'Όταν επιλέξεις συνεργάτη, τα στοιχεία γεμίζουν αυτόματα — μπορείς να κάνεις override παρακάτω.' : 'Selecting a vendor auto-fills details — you can still override below.',
+    vendorNone: el ? '— Χωρίς / Manual —' : '— None / Manual —',
+    vendorManage: el ? 'Διαχείριση συνεργατών' : 'Manage vendors',
     assigneeName: el ? 'Όνομα συνεργάτη' : 'Assignee name',
     assigneePhone: el ? 'Τηλέφωνο' : 'Phone',
     assigneeEmail: 'Email',
@@ -151,6 +187,7 @@ export function TaskForm({
         task_type: form.task_type,
         title: form.title.trim(),
         description: form.description,
+        vendor_id: form.vendor_id,
         assignee_name: form.assignee_name,
         assignee_phone: form.assignee_phone,
         assignee_email: form.assignee_email,
@@ -289,6 +326,45 @@ export function TaskForm({
 
       {/* WHO */}
       <Section icon={User} color="violet" title={t.whoTitle}>
+        <div className="rounded-xl border-2 border-violet-100 bg-violet-50/60 p-3 space-y-2">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <label className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+              <Users className="w-3.5 h-3.5 text-violet-600" /> {t.vendorLabel}
+            </label>
+            <Link href="/dashboard/pms/vendors" target="_blank"
+              className="inline-flex items-center gap-1 text-[11px] text-violet-700 hover:text-violet-900">
+              <ExternalLink className="w-3 h-3" /> {t.vendorManage}
+            </Link>
+          </div>
+          <select value={form.vendor_id || ''}
+            onChange={e => {
+              const id = e.target.value || null;
+              const v = id ? vendors.find(x => x.id === id) : null;
+              if (v) {
+                setForm(prev => ({
+                  ...prev,
+                  vendor_id: v.id,
+                  assignee_name: v.name,
+                  assignee_phone: v.phone,
+                  assignee_email: v.email,
+                  cost: prev.cost ?? v.default_flat_rate,
+                }));
+                setJustSaved(false);
+                setError(null);
+              } else {
+                update('vendor_id', null);
+              }
+            }}
+            className="task-input">
+            <option value="">{t.vendorNone}</option>
+            {vendors.map(v => (
+              <option key={v.id} value={v.id}>
+                {v.name}{v.role ? ` — ${v.role.replace('_', ' ')}` : ''}
+              </option>
+            ))}
+          </select>
+          <p className="text-[11px] text-slate-500 leading-relaxed">{t.vendorHint}</p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <Field label={t.assigneeName}>
             <input type="text" value={form.assignee_name || ''}

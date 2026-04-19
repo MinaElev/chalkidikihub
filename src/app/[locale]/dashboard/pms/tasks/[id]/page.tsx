@@ -60,6 +60,7 @@ export default function TaskDetailPage() {
           task_type: r.task_type,
           title: r.title,
           description: r.description,
+          vendor_id: r.vendor_id ?? null,
           assignee_name: r.assignee_name,
           assignee_phone: r.assignee_phone,
           assignee_email: r.assignee_email,
