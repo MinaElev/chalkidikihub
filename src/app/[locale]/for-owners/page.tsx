@@ -522,6 +522,9 @@ export default function ForOwnersPage() {
             <Link href="/auth/register" className="px-8 py-4 bg-white text-primary-700 font-bold rounded-xl text-lg hover:bg-primary-50 transition-colors shadow-lg">
               {t.hero.cta}
             </Link>
+            <Link href="/for-owners/services" className="px-8 py-4 border-2 border-white/30 text-white font-medium rounded-xl text-lg hover:bg-white/10 transition-colors">
+              {locale === 'el' ? 'Τι Παρέχουμε →' : locale === 'de' ? 'Was wir bieten →' : locale === 'bg' ? 'Какво предлагаме →' : locale === 'ru' ? 'Что мы предлагаем →' : locale === 'ro' ? 'Ce oferim →' : locale === 'sr' ? 'Šta nudimo →' : 'What We Offer →'}
+            </Link>
             <a href="#how" className="px-8 py-4 border-2 border-white/30 text-white font-medium rounded-xl text-lg hover:bg-white/10 transition-colors">
               {t.hero.cta2}
             </a>
