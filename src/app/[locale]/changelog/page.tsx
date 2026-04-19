@@ -8,6 +8,16 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.14.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'Super-Admin — One-Click Password Reset Email per User',
+      features: [
+        { emoji: '🔑', title: 'Password Reset Button στο /admin/users', desc: 'Νέο εικονίδιο κλειδιού δίπλα από κάθε χρήστη στο admin users table — ένα κλικ στέλνει στον χρήστη email επαναφοράς κωδικού. Με confirm prompt + loading spinner + activity log entry' },
+        { emoji: '✉️', title: 'Branded Recovery Email', desc: 'Νέο /api/admin/send-password-reset endpoint — δημιουργεί recovery link μέσω Supabase admin API και το στέλνει με το υπάρχον Gmail SMTP. Branded HTML template (teal gradient header, CTA button, fallback link, security note) ίδιου στιλ με τα QR emails' },
+        { emoji: '🔐', title: 'Νέα /auth/reset-password Σελίδα', desc: 'Public landing page όπου καταλήγει ο χρήστης από το email — διαβάζει tokens από το URL hash, κάνει setSession, ζητά νέο κωδικό (≥6 χαρακτήρες, με confirm field), redirect στο login μετά την επιτυχή αλλαγή' },
+      ],
+    },
+    {
       version: 'v3.13.1',
       date: '18 Απριλίου 2026',
       highlights: 'Bug Fix — Type Filter Pages Έδειχναν Μόνο τα 50 Πιο Πρόσφατα',

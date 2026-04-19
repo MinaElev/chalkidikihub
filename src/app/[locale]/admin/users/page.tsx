@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Users, Shield, User, Loader2, Trash2 } from 'lucide-react';
+import { Users, Shield, User, Loader2, Trash2, KeyRound } from 'lucide-react';
 
 interface Profile {
   id: string;
@@ -32,6 +32,32 @@ export default function AdminUsersPage() {
   }
 
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [resetting, setResetting] = useState<string | null>(null);
+
+  async function sendPasswordReset(userId: string, email: string, fullName: string) {
+    if (!email) {
+      alert('Ο χρήστης δεν έχει email καταχωρημένο.');
+      return;
+    }
+    if (!confirm(`Αποστολή email επαναφοράς κωδικού στον/στην ${fullName || email};`)) return;
+    setResetting(userId);
+    try {
+      const res = await fetch('/api/admin/send-password-reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, fullName }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(`Το email επαναφοράς στάλθηκε στο ${email}.`);
+      } else {
+        alert(`Σφάλμα: ${data.error}`);
+      }
+    } catch (err) {
+      alert(`Σφάλμα: ${(err as Error).message}`);
+    }
+    setResetting(null);
+  }
 
   async function changeRole(userId: string, newRole: string) {
     const supabase = createClient();
@@ -121,6 +147,14 @@ export default function AdminUsersPage() {
                         <option value="admin">Admin</option>
                         <option value="superadmin">Super Admin</option>
                       </select>
+                      <button
+                        onClick={() => sendPasswordReset(user.id, user.email, user.full_name)}
+                        disabled={resetting === user.id || !user.email}
+                        className="p-1.5 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors disabled:opacity-50"
+                        title="Αποστολή email επαναφοράς κωδικού"
+                      >
+                        {resetting === user.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <KeyRound className="w-4 h-4" />}
+                      </button>
                       <button
                         onClick={() => deleteUser(user.id, user.full_name || user.email)}
                         disabled={deleting === user.id}
