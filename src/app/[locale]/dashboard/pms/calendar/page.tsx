@@ -15,7 +15,7 @@ interface Listing {
   slug: string;
   title_el: string | null;
   title_en: string | null;
-  is_active: boolean;
+  status: string;
   owner_id?: string;
   owner_email?: string | null;
 }
@@ -172,6 +172,7 @@ export default function PmsCalendarPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdminUser, setIsAdminUser] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const [currentMonth, setCurrentMonth] = useState(() => {
     const d = new Date();
@@ -180,22 +181,33 @@ export default function PmsCalendarPage() {
 
   useEffect(() => {
     (async () => {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      try {
+        const supabase = createClient();
+        const { data: { user }, error: authErr } = await supabase.auth.getUser();
+        if (authErr || !user) {
+          setLoadError(authErr?.message || 'Not signed in');
+          setLoading(false);
+          return;
+        }
 
-      const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-      const admin = profile?.role === 'admin';
-      setIsAdminUser(admin);
+        const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+        const admin = profile?.role === 'admin' || profile?.role === 'superadmin';
+        setIsAdminUser(admin);
 
-      let q = supabase
-        .from('listings')
-        .select('id, slug, title_el, title_en, is_active, owner_id')
-        .order('created_at', { ascending: false });
-      if (!admin) q = q.eq('owner_id', user.id);
-      const { data } = await q;
-      setListings((data || []) as Listing[]);
-      setLoading(false);
+        let q = supabase
+          .from('listings')
+          .select('id, slug, title_el, title_en, status, owner_id')
+          .order('created_at', { ascending: false });
+        if (!admin) q = q.eq('owner_id', user.id);
+        const { data, error } = await q;
+        if (error) {
+          console.error('[PmsCalendar] load error:', error);
+          setLoadError(error.message);
+        }
+        setListings((data || []) as Listing[]);
+      } finally {
+        setLoading(false);
+      }
     })();
   }, []);
 
@@ -209,8 +221,18 @@ export default function PmsCalendarPage() {
         <Link href="/dashboard/pms" className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-violet-700">
           <ArrowLeft className="w-4 h-4" /> {t.back}
         </Link>
-        <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center text-sm text-slate-500">
-          {t.noListings}
+        <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center space-y-3">
+          <p className="text-sm text-slate-600">{t.noListings}</p>
+          {loadError && (
+            <p className="text-xs text-rose-600 font-mono bg-rose-50 border border-rose-200 rounded-lg p-2 inline-block">
+              {loadError}
+            </p>
+          )}
+          <div>
+            <Link href="/dashboard/listings" className="inline-flex items-center gap-2 text-sm text-violet-700 hover:text-violet-900 underline">
+              {locale === 'el' ? 'Δες τα καταλύματά σου στο /dashboard/listings' : 'View your listings at /dashboard/listings'}
+            </Link>
+          </div>
         </div>
       </div>
     );
