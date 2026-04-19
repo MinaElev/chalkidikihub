@@ -11,6 +11,10 @@
     {
       "path": "/api/cron/pms-dispatch",
       "schedule": "29 * * * *"
+    },
+    {
+      "path": "/api/cron/pms-auto-tasks",
+      "schedule": "41 * * * *"
     }
   ],
   "headers": [

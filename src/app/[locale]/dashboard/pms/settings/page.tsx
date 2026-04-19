@@ -6,7 +6,7 @@ import { Link } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/client';
 import {
   Settings, ArrowLeft, Save, Loader2, CheckCircle2, AlertCircle,
-  Receipt, CalendarClock, XCircle, CreditCard, Bell, Zap, Info,
+  Receipt, CalendarClock, XCircle, CreditCard, Bell, Zap, Info, Sparkles,
 } from 'lucide-react';
 
 interface OwnerSettings {
@@ -31,6 +31,12 @@ interface OwnerSettings {
   reply_to_email: string | null;
   notification_phone: string | null;
   sms_notifications: boolean;
+  auto_cleaning_enabled: boolean;
+  cleaning_default_assignee_name: string | null;
+  cleaning_default_assignee_phone: string | null;
+  cleaning_default_assignee_email: string | null;
+  cleaning_default_cost: number | null;
+  cleaning_lead_days: number;
 }
 
 const DEFAULTS: OwnerSettings = {
@@ -55,6 +61,12 @@ const DEFAULTS: OwnerSettings = {
   reply_to_email: null,
   notification_phone: null,
   sms_notifications: false,
+  auto_cleaning_enabled: false,
+  cleaning_default_assignee_name: null,
+  cleaning_default_assignee_phone: null,
+  cleaning_default_assignee_email: null,
+  cleaning_default_cost: null,
+  cleaning_lead_days: 0,
 };
 
 export default function PmsSettingsPage() {
@@ -133,6 +145,23 @@ export default function PmsSettingsPage() {
       : 'Charged when guest books. Balance before check-in.',
     balanceDays: el ? 'Balance — ημέρες πριν το check-in' : 'Balance — days before check-in',
 
+    autoCleanTitle: el ? 'Αυτόματος προγραμματισμός καθαρισμού' : 'Auto-schedule cleaning',
+    autoCleanSub: el
+      ? 'Όταν έρχεται check-out, δημιουργείται αυτόματα pending task καθαρισμού. Δεν θα φτιαχτεί task αν έχει ήδη μία κρατηθεί manually.'
+      : 'When a check-out approaches, a pending cleaning task is auto-created. Skipped if one already exists manually.',
+    autoCleanEnabled: el ? 'Ενεργός αυτόματος καθαρισμός' : 'Auto-cleaning enabled',
+    autoCleanEnabledHint: el
+      ? 'Hourly cron σκανάρει κρατήσεις με check-out τις επόμενες 14 ημέρες και φτιάχνει τις tasks.'
+      : 'Hourly cron scans bookings with check-out in the next 14 days and creates the tasks.',
+    autoCleanAssigneeName: el ? 'Προεπιλεγμένος συνεργάτης' : 'Default assignee name',
+    autoCleanAssigneePhone: el ? 'Τηλέφωνο συνεργάτη' : 'Assignee phone',
+    autoCleanAssigneeEmail: el ? 'Email συνεργάτη' : 'Assignee email',
+    autoCleanCost: el ? 'Προεπιλεγμένο κόστος (€)' : 'Default cost (€)',
+    autoCleanLead: el ? 'Ημέρες πριν το check-out' : 'Days before check-out',
+    autoCleanLeadHint: el
+      ? '0 = την ίδια μέρα με το check-out (στην ώρα check-out). 1 = την προηγούμενη κλπ.'
+      : '0 = same day as check-out (at check-out time). 1 = one day earlier, etc.',
+
     notifTitle: el ? 'Ειδοποιήσεις' : 'Notifications',
     notifSub: el
       ? 'Πού να σε βρίσκουν οι guests & πού να σου έρχονται alerts.'
@@ -203,6 +232,12 @@ export default function PmsSettingsPage() {
             reply_to_email: data.reply_to_email,
             notification_phone: data.notification_phone,
             sms_notifications: !!data.sms_notifications,
+            auto_cleaning_enabled: !!data.auto_cleaning_enabled,
+            cleaning_default_assignee_name: data.cleaning_default_assignee_name,
+            cleaning_default_assignee_phone: data.cleaning_default_assignee_phone,
+            cleaning_default_assignee_email: data.cleaning_default_assignee_email,
+            cleaning_default_cost: data.cleaning_default_cost != null ? Number(data.cleaning_default_cost) : null,
+            cleaning_lead_days: data.cleaning_lead_days ?? 0,
           });
         }
       } finally {
@@ -440,6 +475,50 @@ export default function PmsSettingsPage() {
         </div>
       </Section>
 
+      {/* AUTO CLEANING */}
+      <Section icon={Sparkles} color="fuchsia" title={t.autoCleanTitle} sub={t.autoCleanSub}>
+        <Toggle
+          checked={form.auto_cleaning_enabled}
+          onChange={v => update('auto_cleaning_enabled', v)}
+          label={t.autoCleanEnabled}
+          hint={t.autoCleanEnabledHint}
+        />
+        {form.auto_cleaning_enabled && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
+            <Field label={t.autoCleanAssigneeName}>
+              <input type="text"
+                value={form.cleaning_default_assignee_name || ''}
+                onChange={e => update('cleaning_default_assignee_name', e.target.value || null)}
+                className="input" placeholder={el ? 'π.χ. Μαρία' : 'e.g. Maria'} />
+            </Field>
+            <Field label={t.autoCleanAssigneePhone}>
+              <input type="tel"
+                value={form.cleaning_default_assignee_phone || ''}
+                onChange={e => update('cleaning_default_assignee_phone', e.target.value || null)}
+                className="input" placeholder="+30 69..." />
+            </Field>
+            <Field label={t.autoCleanAssigneeEmail}>
+              <input type="email"
+                value={form.cleaning_default_assignee_email || ''}
+                onChange={e => update('cleaning_default_assignee_email', e.target.value || null)}
+                className="input" placeholder="cleaner@example.com" />
+            </Field>
+            <Field label={t.autoCleanCost}>
+              <input type="number" step="0.5" min="0"
+                value={form.cleaning_default_cost ?? ''}
+                onChange={e => update('cleaning_default_cost', e.target.value ? Number(e.target.value) : null)}
+                className="input" placeholder="40" />
+            </Field>
+            <Field label={t.autoCleanLead} hint={t.autoCleanLeadHint}>
+              <input type="number" min="0" max="7"
+                value={form.cleaning_lead_days}
+                onChange={e => update('cleaning_lead_days', Math.max(0, Math.min(7, Number(e.target.value) || 0)))}
+                className="input" />
+            </Field>
+          </div>
+        )}
+      </Section>
+
       {/* NOTIFICATIONS */}
       <Section icon={Bell} color="violet" title={t.notifTitle} sub={t.notifSub}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -514,6 +593,7 @@ const COLOR_MAP: Record<string, { bg: string; text: string; ring: string }> = {
   rose:    { bg: 'bg-rose-100',    text: 'text-rose-700',    ring: 'ring-rose-200' },
   emerald: { bg: 'bg-emerald-100', text: 'text-emerald-700', ring: 'ring-emerald-200' },
   violet:  { bg: 'bg-violet-100',  text: 'text-violet-700',  ring: 'ring-violet-200' },
+  fuchsia: { bg: 'bg-fuchsia-100', text: 'text-fuchsia-700', ring: 'ring-fuchsia-200' },
 };
 
 function Section({
