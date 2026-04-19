@@ -58,9 +58,25 @@ const SOURCE_COLORS: Record<string, { bg: string; border: string; dot: string; l
 
 const SITE_URL = 'https://chalkidikihub.gr';
 
+type T = {
+  back: string; pageTitle: string; pageSub: string;
+  propertyLabel: string; monthToday: string;
+  feeds: string; noFeedsTitle: string; noFeedsSub: string; addFeed: string;
+  addFeedModalTitle: string; source: string; label: string; labelHint: string;
+  importUrl: string; importUrlHint: string; cancel: string; save: string;
+  syncNow: string; remove: string; lastSync: string; never: string;
+  okStatus: string; errorStatus: string; pending: string;
+  exportUrl: string; exportUrlHint: string; copy: string; copied: string;
+  blockModalTitle: string; blockReason: string; blockReasonHint: string;
+  blockFrom: string; blockTo: string; blockSave: string; unblock: string;
+  eventDetailTitle: string; confirmRemoveFeed: string; confirmUnblock: string;
+  selectListing: string; noListings: string; legend: string;
+  viewLive: string; properties: string;
+};
+
 export default function PmsCalendarPage() {
   const locale = useLocale();
-  const t = {
+  const t: T = {
     el: {
       back: 'Command Center',
       pageTitle: 'Ημερολόγιο & iCal Sync',
@@ -86,7 +102,7 @@ export default function PmsCalendarPage() {
       okStatus: 'OK',
       errorStatus: 'Σφάλμα',
       pending: 'Εκκρεμεί',
-      exportUrl: 'Export URL αυτού του καταλύματος',
+      exportUrl: 'Export URL',
       exportUrlHint: 'Κάνε paste αυτό στο Airbnb / Booking για να δουν τις κρατήσεις σου από το ChalkidikiHub.',
       copy: 'Copy',
       copied: 'Αντιγράφηκε!',
@@ -103,6 +119,8 @@ export default function PmsCalendarPage() {
       selectListing: 'Διάλεξε κατάλυμα...',
       noListings: 'Δεν έχεις listings ακόμα.',
       legend: 'Υπόμνημα',
+      viewLive: 'Δες live',
+      properties: 'καταλύματα',
     },
     en: {
       back: 'Command Center',
@@ -129,7 +147,7 @@ export default function PmsCalendarPage() {
       okStatus: 'OK',
       errorStatus: 'Error',
       pending: 'Pending',
-      exportUrl: 'Export URL for this property',
+      exportUrl: 'Export URL',
       exportUrlHint: 'Paste this into Airbnb / Booking so they see your ChalkidikiHub bookings.',
       copy: 'Copy',
       copied: 'Copied!',
@@ -146,15 +164,12 @@ export default function PmsCalendarPage() {
       selectListing: 'Select property...',
       noListings: 'No listings yet.',
       legend: 'Legend',
+      viewLive: 'View live',
+      properties: 'properties',
     },
   }[locale === 'el' ? 'el' : 'en'];
 
-  // ── State ──
   const [listings, setListings] = useState<Listing[]>([]);
-  const [selectedListingId, setSelectedListingId] = useState<string>('');
-  const [feeds, setFeeds] = useState<Feed[]>([]);
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [exportToken, setExportToken] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [isAdminUser, setIsAdminUser] = useState(false);
 
@@ -163,23 +178,12 @@ export default function PmsCalendarPage() {
     return new Date(d.getFullYear(), d.getMonth(), 1);
   });
 
-  const [showAddFeed, setShowAddFeed] = useState(false);
-  const [showBlockModal, setShowBlockModal] = useState(false);
-  const [blockFrom, setBlockFrom] = useState<string>('');
-  const [blockTo, setBlockTo] = useState<string>('');
-  const [blockReason, setBlockReason] = useState('');
-  const [syncingFeedId, setSyncingFeedId] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
-  const [eventDetail, setEventDetail] = useState<Booking | null>(null);
-
-  // ── Initial load ──
   useEffect(() => {
     (async () => {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Detect admin role — admins see every listing in the PMS for support
       const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
       const admin = profile?.role === 'admin';
       setIsAdminUser(admin);
@@ -190,126 +194,10 @@ export default function PmsCalendarPage() {
         .order('created_at', { ascending: false });
       if (!admin) q = q.eq('owner_id', user.id);
       const { data } = await q;
-      const ll = (data || []) as Listing[];
-      setListings(ll);
-      if (ll.length > 0) setSelectedListingId(ll[0].id);
+      setListings((data || []) as Listing[]);
       setLoading(false);
     })();
   }, []);
-
-  // ── Reload feeds + bookings when listing or month changes ──
-  useEffect(() => {
-    if (!selectedListingId) return;
-    refreshFeeds(selectedListingId);
-    refreshBookings(selectedListingId);
-    // Derive export token client-side by hitting a tiny endpoint
-    fetch(`/api/pms/ical/export-url?listing_id=${selectedListingId}`)
-      .then(r => r.json())
-      .then(d => setExportToken(d.token || ''))
-      .catch(() => setExportToken(''));
-  }, [selectedListingId]);
-
-  async function refreshFeeds(listingId: string) {
-    const res = await fetch(`/api/pms/ical/feeds?listing_id=${listingId}`);
-    if (res.ok) setFeeds(await res.json());
-  }
-
-  async function refreshBookings(listingId: string) {
-    const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
-    const monthEnd   = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 2, 1);
-    const from = monthStart.toISOString().slice(0, 10);
-    const to   = monthEnd.toISOString().slice(0, 10);
-    const res = await fetch(`/api/pms/bookings?listing_id=${listingId}&from=${from}&to=${to}&status=confirmed,pending,checked_in,blocked`);
-    if (res.ok) setBookings(await res.json());
-  }
-
-  // Reload bookings when month changes
-  useEffect(() => {
-    if (selectedListingId) refreshBookings(selectedListingId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentMonth.getTime(), selectedListingId]);
-
-  // ── Actions ──
-  async function handleAddFeed(source: string, label: string, url: string) {
-    const res = await fetch('/api/pms/ical/feeds', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ listing_id: selectedListingId, source, label, import_url: url }),
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: 'error' }));
-      alert('Error: ' + err.error);
-      return;
-    }
-    const feed = await res.json();
-    setShowAddFeed(false);
-    await refreshFeeds(selectedListingId);
-    // Auto-trigger first sync
-    await handleSyncFeed(feed.id);
-  }
-
-  async function handleSyncFeed(feedId: string) {
-    setSyncingFeedId(feedId);
-    try {
-      const res = await fetch('/api/pms/ical/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ feedId }),
-      });
-      const result = await res.json();
-      await refreshFeeds(selectedListingId);
-      await refreshBookings(selectedListingId);
-      if (!result.ok) alert((locale === 'el' ? 'Σφάλμα sync: ' : 'Sync error: ') + (result.error || 'unknown'));
-    } finally {
-      setSyncingFeedId(null);
-    }
-  }
-
-  async function handleRemoveFeed(feedId: string) {
-    if (!confirm(t.confirmRemoveFeed)) return;
-    await fetch(`/api/pms/ical/feeds/${feedId}`, { method: 'DELETE' });
-    await refreshFeeds(selectedListingId);
-    await refreshBookings(selectedListingId);
-  }
-
-  async function handleBlockSave() {
-    if (!blockFrom || !blockTo) return;
-    const res = await fetch('/api/pms/bookings/block', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ listing_id: selectedListingId, check_in: blockFrom, check_out: blockTo, block_reason: blockReason }),
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: 'error' }));
-      alert('Error: ' + err.error);
-      return;
-    }
-    setShowBlockModal(false);
-    setBlockReason('');
-    await refreshBookings(selectedListingId);
-  }
-
-  async function handleUnblock(bookingId: string) {
-    if (!confirm(t.confirmUnblock)) return;
-    await fetch(`/api/pms/bookings/block?id=${bookingId}`, { method: 'DELETE' });
-    setEventDetail(null);
-    await refreshBookings(selectedListingId);
-  }
-
-  const exportUrl = exportToken
-    ? `${SITE_URL}/api/pms/ical/export/${selectedListingId}/${exportToken}.ics`
-    : '';
-
-  function copyExport() {
-    navigator.clipboard.writeText(exportUrl).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  }
-
-  // ── Derived calendar grid data ──
-  const calendarDays = useMemo(() => buildMonth(currentMonth), [currentMonth]);
-  const selectedListing = listings.find(l => l.id === selectedListingId);
 
   if (loading) {
     return <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-violet-600" /></div>;
@@ -353,7 +241,6 @@ export default function PmsCalendarPage() {
         </div>
       </header>
 
-      {/* ADMIN BANNER — shown when a super-admin is viewing the PMS on behalf of owners */}
       {isAdminUser && (
         <div className="bg-gradient-to-r from-violet-600 via-fuchsia-600 to-indigo-600 rounded-2xl p-4 text-white shadow-lg shadow-violet-500/20 flex items-start gap-3">
           <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-white/20 shrink-0">
@@ -372,37 +259,208 @@ export default function PmsCalendarPage() {
         </div>
       )}
 
-      {/* LISTING SELECTOR */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center gap-3 shadow-sm">
-        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t.propertyLabel}</label>
-        <select
-          value={selectedListingId}
-          onChange={e => setSelectedListingId(e.target.value)}
-          className="flex-1 text-sm font-semibold text-slate-900 bg-transparent border-none focus:ring-0 outline-none cursor-pointer"
-        >
-          {listings.map(l => (
-            <option key={l.id} value={l.id}>{l.title_el || l.title_en || l.slug}</option>
+      {/* SHARED MONTH NAV + LEGEND */}
+      <div className="bg-white border border-slate-200 rounded-2xl p-3 md:p-4 shadow-sm sticky top-2 z-20 backdrop-blur-sm bg-white/95">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
+              className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-600" aria-label="previous month">
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <h2 className="text-base md:text-lg font-bold text-slate-900 capitalize min-w-[140px] md:min-w-[160px] text-center">{monthLabel}</h2>
+            <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
+              className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-600" aria-label="next month">
+              <ChevronRight className="w-4 h-4" />
+            </button>
+            <button onClick={() => {
+              const d = new Date();
+              setCurrentMonth(new Date(d.getFullYear(), d.getMonth(), 1));
+            }} className="ml-1 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 border border-slate-200 rounded-lg hover:border-slate-300">
+              {t.monthToday}
+            </button>
+          </div>
+          <div className="text-xs text-slate-500 tabular-nums">
+            <span className="font-semibold text-slate-700">{listings.length}</span> {t.properties}
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-x-3 gap-y-1.5 mt-3 pt-3 border-t border-slate-100">
+          {Object.entries(SOURCE_COLORS).filter(([k]) => !['other'].includes(k)).map(([k, v]) => (
+            <div key={k} className="flex items-center gap-1.5 text-[11px] text-slate-600">
+              <span className={`inline-block w-2.5 h-2.5 rounded-sm ${v.dot}`} /> {v.label}
+            </div>
           ))}
-        </select>
-        <span className="text-xs text-slate-400 tabular-nums hidden md:inline">({listings.length})</span>
-        {selectedListing && (
-          <Link href={`/listings/${selectedListing.slug}`} target="_blank"
-            className="text-xs text-slate-500 hover:text-sky-700 inline-flex items-center gap-1">
-            <ExternalLink className="w-3.5 h-3.5" /> {locale === 'el' ? 'Δες live' : 'View live'}
-          </Link>
-        )}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-5">
-        {/* ─── LEFT: FEEDS + EXPORT ─── */}
-        <aside className="space-y-4">
-          {/* Feeds */}
-          <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
+      {/* STACKED SECTIONS — one per listing */}
+      <div className="space-y-8">
+        {listings.map(listing => (
+          <ListingCalendarSection
+            key={listing.id}
+            listing={listing}
+            currentMonth={currentMonth}
+            locale={locale}
+            t={t}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Listing section — feeds + export + calendar for ONE listing
+// ─────────────────────────────────────────────────────────────
+
+function ListingCalendarSection({ listing, currentMonth, locale, t }: {
+  listing: Listing;
+  currentMonth: Date;
+  locale: string;
+  t: T;
+}) {
+  const [feeds, setFeeds] = useState<Feed[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [exportToken, setExportToken] = useState<string>('');
+  const [syncingFeedId, setSyncingFeedId] = useState<string | null>(null);
+
+  const [showAddFeed, setShowAddFeed] = useState(false);
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [blockFrom, setBlockFrom] = useState<string>('');
+  const [blockTo, setBlockTo] = useState<string>('');
+  const [blockReason, setBlockReason] = useState('');
+  const [copied, setCopied] = useState(false);
+  const [eventDetail, setEventDetail] = useState<Booking | null>(null);
+
+  useEffect(() => {
+    refreshFeeds();
+    fetch(`/api/pms/ical/export-url?listing_id=${listing.id}`)
+      .then(r => r.json())
+      .then(d => setExportToken(d.token || ''))
+      .catch(() => setExportToken(''));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listing.id]);
+
+  useEffect(() => {
+    refreshBookings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentMonth.getTime(), listing.id]);
+
+  async function refreshFeeds() {
+    const res = await fetch(`/api/pms/ical/feeds?listing_id=${listing.id}`);
+    if (res.ok) setFeeds(await res.json());
+  }
+
+  async function refreshBookings() {
+    const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+    const monthEnd   = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 2, 1);
+    const from = monthStart.toISOString().slice(0, 10);
+    const to   = monthEnd.toISOString().slice(0, 10);
+    const res = await fetch(`/api/pms/bookings?listing_id=${listing.id}&from=${from}&to=${to}&status=confirmed,pending,checked_in,blocked`);
+    if (res.ok) setBookings(await res.json());
+  }
+
+  async function handleAddFeed(source: string, label: string, url: string) {
+    const res = await fetch('/api/pms/ical/feeds', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ listing_id: listing.id, source, label, import_url: url }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'error' }));
+      alert('Error: ' + err.error);
+      return;
+    }
+    const feed = await res.json();
+    setShowAddFeed(false);
+    await refreshFeeds();
+    await handleSyncFeed(feed.id);
+  }
+
+  async function handleSyncFeed(feedId: string) {
+    setSyncingFeedId(feedId);
+    try {
+      const res = await fetch('/api/pms/ical/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedId }),
+      });
+      const result = await res.json();
+      await refreshFeeds();
+      await refreshBookings();
+      if (!result.ok) alert((locale === 'el' ? 'Σφάλμα sync: ' : 'Sync error: ') + (result.error || 'unknown'));
+    } finally {
+      setSyncingFeedId(null);
+    }
+  }
+
+  async function handleRemoveFeed(feedId: string) {
+    if (!confirm(t.confirmRemoveFeed)) return;
+    await fetch(`/api/pms/ical/feeds/${feedId}`, { method: 'DELETE' });
+    await refreshFeeds();
+    await refreshBookings();
+  }
+
+  async function handleBlockSave() {
+    if (!blockFrom || !blockTo) return;
+    const res = await fetch('/api/pms/bookings/block', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ listing_id: listing.id, check_in: blockFrom, check_out: blockTo, block_reason: blockReason }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'error' }));
+      alert('Error: ' + err.error);
+      return;
+    }
+    setShowBlockModal(false);
+    setBlockReason('');
+    await refreshBookings();
+  }
+
+  async function handleUnblock(bookingId: string) {
+    if (!confirm(t.confirmUnblock)) return;
+    await fetch(`/api/pms/bookings/block?id=${bookingId}`, { method: 'DELETE' });
+    setEventDetail(null);
+    await refreshBookings();
+  }
+
+  const exportUrl = exportToken
+    ? `${SITE_URL}/api/pms/ical/export/${listing.id}/${exportToken}.ics`
+    : '';
+
+  function copyExport() {
+    navigator.clipboard.writeText(exportUrl).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  const calendarDays = useMemo(() => buildMonth(currentMonth), [currentMonth]);
+  const listingTitle = listing.title_el || listing.title_en || listing.slug;
+
+  return (
+    <section className="bg-gradient-to-br from-slate-50 to-white border border-slate-200 rounded-3xl p-4 md:p-5 shadow-sm">
+      {/* Section header */}
+      <div className="flex items-start justify-between gap-3 mb-4 pb-4 border-b border-slate-200">
+        <div className="min-w-0 flex-1">
+          <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400 mb-0.5">{t.propertyLabel}</div>
+          <h2 className="text-lg md:text-xl font-bold text-slate-900 truncate">{listingTitle}</h2>
+        </div>
+        <Link href={`/listings/${listing.slug}`} target="_blank"
+          className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-sky-700 shrink-0 mt-1">
+          <ExternalLink className="w-3.5 h-3.5" /> {t.viewLive}
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-4">
+        {/* LEFT: feeds + export */}
+        <aside className="space-y-3">
+          <div className="bg-white border border-slate-200 rounded-2xl p-3.5 shadow-sm">
+            <div className="flex items-center justify-between mb-2.5">
+              <h3 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
                 <Link2 className="w-4 h-4 text-sky-500" /> {t.feeds}
                 {feeds.length > 0 && <span className="text-xs font-normal text-slate-400">({feeds.length})</span>}
-              </h2>
+              </h3>
               <button
                 onClick={() => setShowAddFeed(true)}
                 className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800"
@@ -412,9 +470,9 @@ export default function PmsCalendarPage() {
             </div>
 
             {feeds.length === 0 ? (
-              <div className="text-center py-6 px-3">
-                <p className="text-sm font-medium text-slate-700">{t.noFeedsTitle}</p>
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed">{t.noFeedsSub}</p>
+              <div className="text-center py-4 px-2">
+                <p className="text-xs font-medium text-slate-700">{t.noFeedsTitle}</p>
+                <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">{t.noFeedsSub}</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -423,12 +481,11 @@ export default function PmsCalendarPage() {
             )}
           </div>
 
-          {/* Export URL */}
-          <div className="bg-gradient-to-br from-violet-50 to-fuchsia-50 border-2 border-violet-200 rounded-2xl p-4">
+          <div className="bg-gradient-to-br from-violet-50 to-fuchsia-50 border-2 border-violet-200 rounded-2xl p-3.5">
             <h3 className="text-sm font-semibold text-slate-900 mb-1 flex items-center gap-2">
               <ExternalLink className="w-4 h-4 text-violet-500" /> {t.exportUrl}
             </h3>
-            <p className="text-xs text-slate-600 mb-3 leading-relaxed">{t.exportUrlHint}</p>
+            <p className="text-[11px] text-slate-600 mb-2.5 leading-relaxed">{t.exportUrlHint}</p>
             {exportUrl ? (
               <div className="flex items-stretch gap-1.5">
                 <input
@@ -450,41 +507,11 @@ export default function PmsCalendarPage() {
               <div className="text-xs text-slate-500 italic"><Loader2 className="inline w-3 h-3 mr-1 animate-spin" /> generating…</div>
             )}
           </div>
-
-          {/* Legend */}
-          <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
-            <h3 className="text-xs font-semibold text-slate-900 uppercase tracking-wider mb-3">{t.legend}</h3>
-            <div className="flex flex-wrap gap-x-4 gap-y-2">
-              {Object.entries(SOURCE_COLORS).filter(([k]) => !['other'].includes(k)).map(([k, v]) => (
-                <div key={k} className="flex items-center gap-1.5 text-xs text-slate-600">
-                  <span className={`inline-block w-3 h-3 rounded-sm ${v.dot}`} /> {v.label}
-                </div>
-              ))}
-            </div>
-          </div>
         </aside>
 
-        {/* ─── RIGHT: CALENDAR ─── */}
-        <main className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
-          {/* Month nav */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
-                className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-600">
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <h2 className="text-lg font-bold text-slate-900 capitalize min-w-[160px] text-center">{monthLabel}</h2>
-              <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
-                className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-600">
-                <ChevronRight className="w-4 h-4" />
-              </button>
-              <button onClick={() => {
-                const d = new Date();
-                setCurrentMonth(new Date(d.getFullYear(), d.getMonth(), 1));
-              }} className="ml-2 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 border border-slate-200 rounded-lg hover:border-slate-300">
-                {t.monthToday}
-              </button>
-            </div>
+        {/* RIGHT: calendar */}
+        <main className="bg-white border border-slate-200 rounded-2xl p-3 md:p-4 shadow-sm">
+          <div className="flex items-center justify-end mb-3">
             <button
               onClick={() => {
                 setBlockFrom(new Date().toISOString().slice(0, 10));
@@ -498,14 +525,12 @@ export default function PmsCalendarPage() {
             </button>
           </div>
 
-          {/* Weekday header */}
           <div className="grid grid-cols-7 gap-1 mb-1.5">
             {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => (
               <div key={d} className="text-center text-[10px] font-bold uppercase tracking-wider text-slate-400 py-1">{d}</div>
             ))}
           </div>
 
-          {/* Days grid */}
           <div className="grid grid-cols-7 gap-1">
             {calendarDays.map(day => {
               const iso = toIso(day.date);
@@ -514,7 +539,7 @@ export default function PmsCalendarPage() {
               return (
                 <div
                   key={iso}
-                  className={`relative min-h-[84px] rounded-lg p-1.5 flex flex-col transition-colors ${
+                  className={`relative min-h-[72px] md:min-h-[84px] rounded-lg p-1.5 flex flex-col transition-colors ${
                     !day.inMonth ? 'bg-slate-50/50 text-slate-300' : 'bg-white border border-slate-100 hover:border-slate-300'
                   } ${isToday ? 'ring-2 ring-sky-400 ring-offset-1' : ''}`}
                 >
@@ -550,7 +575,7 @@ export default function PmsCalendarPage() {
         </main>
       </div>
 
-      {/* ─── ADD FEED MODAL ─── */}
+      {/* MODALS */}
       {showAddFeed && (
         <AddFeedModal
           t={t}
@@ -559,7 +584,6 @@ export default function PmsCalendarPage() {
         />
       )}
 
-      {/* ─── BLOCK MODAL ─── */}
       {showBlockModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
@@ -568,6 +592,9 @@ export default function PmsCalendarPage() {
                 <Ban className="w-5 h-5 text-slate-500" /> {t.blockModalTitle}
               </h3>
               <button onClick={() => setShowBlockModal(false)} className="p-1.5 rounded-lg hover:bg-slate-100"><X className="w-4 h-4" /></button>
+            </div>
+            <div className="mb-4 text-xs text-slate-500">
+              {t.propertyLabel}: <span className="font-semibold text-slate-800">{listingTitle}</span>
             </div>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
@@ -597,7 +624,6 @@ export default function PmsCalendarPage() {
         </div>
       )}
 
-      {/* ─── EVENT DETAIL ─── */}
       {eventDetail && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setEventDetail(null)}>
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6" onClick={e => e.stopPropagation()}>
@@ -609,6 +635,10 @@ export default function PmsCalendarPage() {
               <button onClick={() => setEventDetail(null)} className="p-1.5 rounded-lg hover:bg-slate-100"><X className="w-4 h-4" /></button>
             </div>
             <dl className="space-y-2.5 text-sm">
+              <div className="flex justify-between gap-3">
+                <dt className="text-slate-500">{t.propertyLabel}</dt>
+                <dd className="text-slate-900 font-medium truncate max-w-[240px]">{listingTitle}</dd>
+              </div>
               <div className="flex justify-between gap-3">
                 <dt className="text-slate-500">Check-in</dt>
                 <dd className="font-mono text-slate-900">{eventDetail.check_in}</dd>
@@ -645,7 +675,7 @@ export default function PmsCalendarPage() {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }
 
@@ -675,7 +705,7 @@ function FeedCard({ feed, syncingId, onSync, onRemove, t }: {
         <div className={`w-2.5 h-2.5 rounded-full ${c.dot} shrink-0 mt-1.5`} />
         <div className="flex-1 min-w-0">
           <div className="text-sm font-semibold text-slate-900 truncate">{feed.label}</div>
-          <div className="text-[11px] text-slate-600 font-mono truncate">{new URL(feed.import_url).hostname}</div>
+          <div className="text-[11px] text-slate-600 font-mono truncate">{(() => { try { return new URL(feed.import_url).hostname; } catch { return feed.import_url; } })()}</div>
         </div>
       </div>
       <div className="flex items-center gap-2 text-[11px] text-slate-600 mb-2">
@@ -789,19 +819,15 @@ function buildMonth(firstOfMonth: Date) {
   const year = firstOfMonth.getFullYear();
   const month = firstOfMonth.getMonth();
   const first = new Date(year, month, 1);
-  // Mon=0..Sun=6
   const firstDow = (first.getDay() + 6) % 7;
   const days: { date: Date; inMonth: boolean }[] = [];
-  // leading
   for (let i = firstDow; i > 0; i--) {
     days.push({ date: new Date(year, month, 1 - i), inMonth: false });
   }
-  // this month
   const lastDay = new Date(year, month + 1, 0).getDate();
   for (let d = 1; d <= lastDay; d++) {
     days.push({ date: new Date(year, month, d), inMonth: true });
   }
-  // trailing to complete the last week
   while (days.length % 7 !== 0) {
     const last = days[days.length - 1].date;
     const next = new Date(last); next.setDate(last.getDate() + 1);
