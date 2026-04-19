@@ -8,6 +8,19 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.16.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS Settings — Φορολογικά, Πολιτικές, Cancellation & Ειδοποιήσεις',
+      features: [
+        { emoji: '🧾', title: 'Φορολογικά στοιχεία σε ένα μέρος', desc: 'ΑΦΜ, ΑΜΑ (Αριθμός Μητρώου Ακινήτου βραχυχρόνιας μίσθωσης ΑΑΔΕ), συντελεστής ΦΠΑ (default 13% τουριστικός), toggle για τουριστικό φόρο με ποσό ανά διανυκτέρευση — όλα αποθηκεύονται στο pms_owner_settings και θα περιλαμβάνονται αυτόματα στα emails επιβεβαίωσης για νόμιμη τιμολόγηση' },
+        { emoji: '📆', title: 'Πολιτικές Κράτησης Defaults', desc: 'Instant Book toggle (αν OFF, κάθε κράτηση περνά από έγκριση), ώρες check-in/out, min/max διανυκτερεύσεις, advance notice σε ώρες, preparation days buffer μεταξύ κρατήσεων — defaults που θα κληρονομούν όλα τα καταλύματα (per-listing overrides αργότερα)' },
+        { emoji: '❌', title: 'Cancellation Policy 4-in-1', desc: 'Radio cards για Ευέλικτη (24h πριν) / Μέτρια (7 μέρες πριν) / Αυστηρή (no refund) / Custom (δικά σου λόγια με textarea) — θα εμφανίζεται στο public listing και στα emails επιβεβαίωσης κράτησης' },
+        { emoji: '💳', title: 'Payments Preview', desc: 'Stripe Connect status card (read-only μέχρι να ολοκληρωθεί το OAuth onboarding flow), deposit percentage (default 20%), balance due days before check-in (default 14) — ready για όταν ενεργοποιηθεί direct bookings με 0% commission' },
+        { emoji: '🔔', title: 'Ειδοποιήσεις Owner', desc: 'Reply-to email για guests (fallback στο account email αν κενό), τηλέφωνο ειδοποιήσεων, SMS toggle (coming soon) — πού να βρίσκουν τον owner οι guests και πού να φτάνουν τα alerts για νέες κρατήσεις' },
+        { emoji: '🎨', title: 'Color-Coded Sections', desc: '5 κάρτες με ξεχωριστή παλέτα ring+icon (amber tax, sky booking, rose cancellation, emerald payments, violet notifications), sticky save bar σε mobile (fixed bottom) + inline σε desktop, upsert με onConflict: owner_id — single atomic save για όλο το form' },
+      ],
+    },
+    {
       version: 'v3.15.1',
       date: '19 Απριλίου 2026',
       highlights: 'Bug Fix — PMS Calendar έδειχνε "Δεν έχεις listings ακόμα"',
