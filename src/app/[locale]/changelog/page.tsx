@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.30.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS — Stripe Connect: OAuth onboarding + deposit auto-charge με 0% commission',
+      features: [
+        { emoji: '💳', title: 'Stripe Connect OAuth onboarding', desc: 'Νέο κουμπί "Connect with Stripe" στο /dashboard/pms/settings → Payments που κάνει redirect στο https://connect.stripe.com/oauth/authorize. Ο owner συνδέει τον Stripe λογαριασμό του (ή φτιάχνει καινούργιο με τα στοιχεία της επιχείρησης), και μετά το Stripe τον στέλνει πίσω στο /api/stripe/connect/callback όπου ανταλλάσσουμε το authorization code με stripe_user_id. Αποθηκεύεται σε pms_owner_settings.stripe_account_id + stripe_onboarded=true' },
+        { emoji: '🔐', title: 'Anti-CSRF με random state token', desc: 'Πριν το redirect, το /api/stripe/connect/start γεννάει 64-char hex random state μέσω crypto.getRandomValues() και το αποθηκεύει στο pms_owner_settings.stripe_connect_state του owner. Το callback ψάχνει τον owner μέσω του state value — αν δεν ταιριάξει, επιστρέφει state_mismatch. Έτσι κανείς δεν μπορεί να προσαρτήσει Stripe account άλλου σε owner χωρίς να ξέρει το token. Καθαρίζεται μετά την επιτυχία ή αποτυχία' },
+        { emoji: '💰', title: '0% commission με transfer_data.destination', desc: 'Όταν guest κάνει direct booking σε owner με Stripe onboarded, το /api/pms/public/checkout δημιουργεί Stripe Checkout Session με payment_intent_data[transfer_data][destination]=<owner>.stripe_account_id και application_fee_amount=0. Αυτό σημαίνει ότι τα χρήματα πάνε κατευθείαν στον owner — η ChalkidikiHub δεν κρατάει τίποτα. Το 0% commission είναι η υπόσχεση της πλατφόρμας υλοποιημένη σε κώδικα' },
+        { emoji: '🎯', title: 'Deposit-only charge στο checkout', desc: 'Το Checkout χρεώνει μόνο το deposit portion (total × deposit_percentage / 100) σε cents, όχι ολόκληρο το ποσό. Έτσι ο guest δεν επιβαρύνεται με 100% προκαταβολή και το balance (70-80% συνήθως) τακτοποιείται off-platform με bank transfer ή cash πριν το check-in, όπως προτιμάνε οι Έλληνες ιδιοκτήτες. Currency = listing currency (default EUR), product_data.name = "Villa + check_in → check_out"' },
+        { emoji: '🪝', title: 'Webhook /api/stripe/webhook με HMAC verification', desc: 'Νέο endpoint που λαμβάνει checkout.session.completed event. Επαληθεύει το stripe-signature header με HMAC-SHA256 μέσω Web Crypto API (crypto.subtle.importKey + sign) και 5-min tolerance window ενάντια σε replay attacks. Βάζει το booking σε payment_status=deposit_paid + stripe_paid_amount (από amount_total/100) + stripe_payment_method + stripe_checkout_session_id. Unsigned ή malformed webhooks απορρίπτονται με 400' },
+        { emoji: '🪄', title: 'Αυτόματο redirect guest στο Stripe Checkout', desc: 'Αν ο owner έχει Stripe onboarded, το book API επιστρέφει stripe_enabled=true στο response. Το /book/[slug] τότε αντί να πάει στο confirmed, καλεί /api/pms/public/checkout και redirectάρει στο session.url. Ο guest πληρώνει στο Stripe-hosted checkout page, επιστρέφει στο /success → /confirmed. Αν αποτύχει (cancel button), πάει στο /cancelled με "Try paying again" button που ξανακαλεί το ίδιο endpoint' },
+        { emoji: '🗄️', title: 'Migration 038_pms_stripe.sql', desc: 'ALTER pms_owner_settings ADD stripe_connect_state TEXT (nullable, για OAuth flow). ALTER pms_bookings ADD stripe_checkout_session_id TEXT + stripe_paid_amount NUMERIC(10,2) + stripe_payment_method TEXT. Partial index idx_pms_bookings_stripe_session WHERE stripe_checkout_session_id IS NOT NULL για γρήγορο lookup από webhook. Καθαρά nullable ώστε να μην σπάει existing rows — όλοι οι owners ξεκινούν non-onboarded και το stripe flow είναι opt-in' },
+      ],
+    },
+    {
       version: 'v3.29.0',
       date: '19 Απριλίου 2026',
       highlights: 'PMS — Public direct booking page: 0% commission, απευθείας με τον ιδιοκτήτη',
