@@ -11,6 +11,7 @@ import {
   Trash2, CheckCircle2,
 } from 'lucide-react';
 import { MessageComposer, CHANNEL_META, type MessageChannel } from '@/components/pms/MessageComposer';
+import { TemplatePicker } from '@/components/pms/TemplatePicker';
 
 interface MessageRow {
   id: string;
@@ -40,6 +41,7 @@ interface BookingLite {
   check_out: string;
   guest_name: string | null;
   guest_email: string | null;
+  guest_country: string | null;
 }
 
 export default function MessageThreadPage() {
@@ -104,7 +106,7 @@ export default function MessageThreadPage() {
     const [listingRes, bookingRes] = await Promise.all([
       supabase.from('listings').select('id, slug, title_el, title_en').eq('id', seed.listing_id).maybeSingle(),
       seed.booking_id
-        ? supabase.from('pms_bookings').select('id, check_in, check_out, guest_name, guest_email').eq('id', seed.booking_id).maybeSingle()
+        ? supabase.from('pms_bookings').select('id, check_in, check_out, guest_name, guest_email, guest_country').eq('id', seed.booking_id).maybeSingle()
         : Promise.resolve({ data: null, error: null }),
     ]);
     if (listingRes.data) setListing(listingRes.data as ListingLite);
@@ -236,6 +238,19 @@ export default function MessageThreadPage() {
               </div>
             )}
           </section>
+
+          {seedMsg.booking_id && booking && (
+            <section className="bg-white border border-slate-200 rounded-2xl p-4 md:p-5 shadow-sm">
+              <TemplatePicker
+                bookingId={seedMsg.booking_id}
+                listingId={seedMsg.listing_id}
+                guestEmail={guestEmail}
+                guestCountry={booking.guest_country}
+                el={el}
+                onSent={load}
+              />
+            </section>
+          )}
 
           <section className="bg-white border border-slate-200 rounded-2xl p-4 md:p-5 shadow-sm">
             <h2 className="text-xs font-bold uppercase tracking-wide text-slate-500 mb-3">{t.reply}</h2>

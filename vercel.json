@@ -7,6 +7,10 @@
     {
       "path": "/api/pms/ical/sync-all",
       "schedule": "17 * * * *"
+    },
+    {
+      "path": "/api/cron/pms-dispatch",
+      "schedule": "29 * * * *"
     }
   ],
   "headers": [
