@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.29.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS — Public direct booking page: 0% commission, απευθείας με τον ιδιοκτήτη',
+      features: [
+        { emoji: '🎯', title: 'Νέα public page /book/[slug]', desc: 'Guest-facing booking form σε rose→pink→fuchsia gradient χωρίς login. Hero με cover image του καταλύματος + εκπτωτικό badge "0% OTA". Split layout: αριστερά τα fields (dates, guests counter με +/-, name, email, phone, country, notes), δεξιά sticky quote card με nightly average, νύχτες, σύνολο, applied rules, deposit amount, cancellation policy & instant-book/needs-approval chip' },
+        { emoji: '💰', title: 'Live pricing με pricing rules engine', desc: 'Κάθε αλλαγή σε dates/listing καλεί /api/pms/public/quote που εφαρμόζει όλα τα active pms_pricing_rules του καταλύματος (seasonal, weekend, LOS, last-minute, custom) μέσω του υπάρχοντος computeQuote(). Εμφανίζει applied rules με signed delta (+ rose αν ακριβότερο, − emerald αν φθηνότερο). Υπολογισμός deposit με βάση το effective deposit_percentage από mergeSettings()' },
+        { emoji: '🛡️', title: 'Server-side availability checks', desc: 'Το /api/pms/public/quote ελέγχει ταυτόχρονα: (1) listing_availability blocks στο range, (2) επικαλυπτόμενες pms_bookings εκτός cancelled, (3) min/max nights από effective settings, (4) advance_notice_hours vs τρέχουσα ώρα. Επιστρέφει availability.available + conflicts[] list ώστε το UI να δείξει τον λόγο (π.χ. "Minimum 3 nights") αντί για generic "unavailable"' },
+        { emoji: '📝', title: 'POST /api/pms/public/book', desc: 'Δημιουργεί pms_bookings row με source=direct και status=confirmed αν instant_book ON, αλλιώς inquiry. Service client παρακάμπτει RLS για το insert. Server-side re-validation όλων των checks (dates, min/max nights, availability, guest limits, email format) — ο client δεν ελέγχεται. Επιστρέφει 409 αν οι ημερομηνίες κλείστηκαν εν τω μεταξύ από άλλον channel' },
+        { emoji: '✅', title: 'Confirmation page /book/[slug]/confirmed', desc: 'Redirect μετά το submit στο ?id=<booking-id>. Emerald-check icon αν confirmed, amber-clock αν inquiry. Δείχνει listing title, dates, guests, total σε fuchsia, booking ID σε mono. Contact tiles (phone/email) αν ο ιδιοκτήτης έχει ορίσει contact_phone/contact_email στο listing. "0% OTA" badge + link "Επιστροφή στο κατάλυμα"' },
+        { emoji: '🔗', title: '"Book direct" CTA στο stay page', desc: 'Νέο rose button στο sticky price bar (δίπλα στην τιμή/νύχτα) που δείχνει "Κλείσε απευθείας — 0% προμήθεια" σε 7 γλώσσες (el/en/de/bg/ru/ro/sr). Sparkles icon + shadow-rose-500/30 για visual pop. Click → /book/<slug>. Inline στο ίδιο header με την τιμή ώστε να φαίνεται αμέσως η εναλλακτική σε OTA' },
+        { emoji: '🔔', title: 'Αυτόματες ειδοποιήσεις owner (reuse)', desc: 'Όταν δημιουργείται direct booking με status=inquiry ή confirmed, πέφτει στο ίδιο pms_bookings table που σκανάρει το /api/cron/pms-notifications (v3.28.0). Ο owner παίρνει email στο next :53 cron run χωρίς extra code — το source=direct filter δεν υπάρχει στον cron, οπότε καλύπτεται by default. Τοξεύεται επίσης στο ίδιο inbox/calendar όπου φαίνονται όλες οι κρατήσεις' },
+      ],
+    },
+    {
       version: 'v3.28.0',
       date: '19 Απριλίου 2026',
       highlights: 'PMS — Email alerts στον owner: inquiry, booking, overdue, check-in/out',
