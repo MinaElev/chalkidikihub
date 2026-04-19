@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.17.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS Bookings — Λίστα Κρατήσεων + Manual Entry',
+      features: [
+        { emoji: '📋', title: 'Λίστα Κρατήσεων /dashboard/pms/bookings', desc: 'Όλες οι κρατήσεις σε κάρτες με dates block, status pill (Ερώτημα/Εκκρεμεί/Επιβεβαιωμένη/Έχει φτάσει/Έφυγε/Ακυρώθηκε), source dot (Direct/Airbnb/Booking/VRBO/Manual), payment pill (Απλήρωτο/Προκαταβολή/Εξοφλημένο), guest info + listing + nights + total amount — sorted με πιο πρόσφατες πάνω' },
+        { emoji: '📊', title: 'Stats Σύνοψη σε 4 κάρτες', desc: 'Έρχονται (check-in στις επόμενες 7 μέρες), Τώρα στο κατάλυμα (checked-in guests), Έσοδα μήνα (confirmed + in-stay bookings του τρέχοντα μήνα), Σύνολο (όλες οι ενεργές — εκτός cancelled/blocked)' },
+        { emoji: '🔎', title: 'Smart Filters', desc: 'Status pills (όλα τα 7 state), listing dropdown (όλα τα καταλύματά σου), live search σε guest_name/email/phone. Clear filters button όταν δεν ταιριάζει τίποτα' },
+        { emoji: '➕', title: 'Νέα Κράτηση — Manual Entry', desc: '/dashboard/pms/bookings/new — κατάχωρηση κράτησης που ήρθε τηλεφωνικά, με email ή walk-in. 5 sections: Διαμονή (listing + dates με auto nights count), Επισκέπτης (name/email/phone/country/ενήλικες/παιδιά), Status & Source, Οικονομικά (τιμή × νύχτες + καθαριότητα + φόροι → auto total ή manual override), Σημειώσεις' },
+        { emoji: '✏️', title: 'Επεξεργασία + Διαγραφή', desc: '/dashboard/pms/bookings/[id] — όλα τα πεδία editable, change status με ένα click, delete με confirm prompt. Shared <BookingForm/> component για create & edit paths' },
+        { emoji: '🛑', title: 'Block Mode', desc: 'Όταν status=blocked ή source=blocked, κρύβονται guest/financials fields και εμφανίζεται μόνο "Αιτία μπλοκαρίσματος" (π.χ. συντήρηση, προσωπική χρήση) — για όταν θες να κλείσεις ημερομηνίες χωρίς guest' },
+        { emoji: '💳', title: 'Payment Status Pills', desc: '5 καταστάσεις: Unpaid (rose), Deposit Paid (amber), Fully Paid (emerald), Refunded (slate), N/A. Χειροκίνητη ενημέρωση μέχρι να ενεργοποιηθεί το Stripe Connect flow' },
+      ],
+    },
+    {
       version: 'v3.16.0',
       date: '19 Απριλίου 2026',
       highlights: 'PMS Settings — Φορολογικά, Πολιτικές, Cancellation & Ειδοποιήσεις',
