@@ -8,6 +8,20 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.28.0',
+      date: '19 Απριλίου 2026',
+      highlights: 'PMS — Email alerts στον owner: inquiry, booking, overdue, check-in/out',
+      features: [
+        { emoji: '📧', title: 'Νέο hourly cron /api/cron/pms-notifications', desc: 'Τρέχει στο :53 κάθε ώρας (ξεχωριστό window από dispatch :29 και auto-tasks :41 ώστε να μην συνωστίζονται τα sends). Σκανάρει 5 kinds: new inquiry (last 2h), new booking confirmed/pending (last 2h), overdue task (scheduled_at < now), check-in σήμερα, check-out σήμερα. Service client για cross-owner' },
+        { emoji: '🔔', title: '5 toggles στο /dashboard/pms/settings', desc: 'Νέο email-alerts block μέσα στο Notifications section με 5 Toggle switches: notify_new_inquiry (default ON), notify_new_booking (ON), notify_overdue_tasks (ON), notify_check_in_today (OFF), notify_check_out_today (OFF). Κάθε toggle έχει hint που εξηγεί πότε στέλνεται' },
+        { emoji: '🌍', title: 'Bilingual EL + EN σε ένα email', desc: 'Όλα τα alerts γράφονται EL πάνω και EN από κάτω, χωρισμένα με horizontal divider ─────────────. Subject line: "Νέα κράτηση — Βίλα Καλλιθέα / New booking — Villa Kallithea". Έτσι δεν χρειάζεται να επιλέξεις locale — παίρνεις και τις δύο γλώσσες σε κάθε email' },
+        { emoji: '🛡️', title: 'Idempotency ανά kind + ref', desc: 'Νέος πίνακας pms_notifications με UNIQUE (owner_id, kind, ref_id, COALESCE(ref_date, epoch)). Για new_inquiry/new_booking το ref_date είναι NULL (one-shot). Για overdue_task το ref_date=today ώστε να re-notifyεί μία φορά την ημέρα όσο το task παραμένει overdue. Για check_in/out_today ref_date είναι η ίδια η ημερομηνία. Cron safe σε re-runs' },
+        { emoji: '📬', title: 'Έξυπνο destination resolution', desc: 'Email alerts πηγαίνουν στο reply_to_email του owner settings — αν κενό, fallback στο auth.users.email του account (μέσω service.auth.admin.getUserById). Έτσι δεν χρειάζεται εξτρά setup για να λειτουργήσει — δουλεύει out-of-the-box με τα stored credentials του account' },
+        { emoji: '🧠', title: 'Νέο lib/pms/notifications.ts', desc: 'Export: sendOwnerAlert(supabase, {ownerId, kind, refId, refDate?, emailTo, subjectEl/En, bodyEl/En, creds?, footer?}) → "sent"|"skipped_duplicate"|"skipped_no_email"|"skipped_no_creds"|"failed". Reuses bodyToHtml + sendTemplateEmail + loadGmailCreds από dispatch.ts ώστε logic Gmail να είναι σε ένα μέρος. Records κάθε attempt (success or error) στο pms_notifications για audit' },
+        { emoji: '🗄️', title: 'Migration 037_pms_notifications.sql', desc: 'ALTER pms_owner_settings ADD 5 BOOLEAN columns (notify_*) με sensible defaults. Νέος πίνακας pms_notifications: id, owner_id FK CASCADE, kind TEXT (CHECK 5 values), ref_id TEXT, ref_date DATE, email_to, subject, sent_at, error, created_at. UNIQUE index με COALESCE sentinel 1970-01-01. 2 regular indexes (owner, sent_at DESC). RLS owner reads own + admin reads all — inserts γίνονται μόνο από cron με service client' },
+      ],
+    },
+    {
       version: 'v3.27.0',
       date: '20 Απριλίου 2026',
       highlights: 'PMS — Συνεργάτες (Vendors): λίστα επαφών για tasks',
