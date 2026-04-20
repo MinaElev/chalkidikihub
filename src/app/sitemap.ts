@@ -17,7 +17,10 @@ function localeUrl(locale: string, path: string) {
 
 function alt(path: string) {
   return {
-    languages: Object.fromEntries(locales.map((l) => [l, localeUrl(l, path)])),
+    languages: {
+      ...Object.fromEntries(locales.map((l) => [l, localeUrl(l, path)])),
+      'x-default': localeUrl(defaultLocale, path),
+    },
   };
 }
 

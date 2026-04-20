@@ -3,8 +3,6 @@ import { SalesHeader } from '@/components/sales/SalesHeader';
 import { SalesFooter } from '@/components/sales/SalesFooter';
 import { localeUrl } from '@/lib/seo';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   return {
@@ -12,7 +10,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: 'Βρείτε ακίνητα προς πώληση στη Χαλκιδική — κατοικίες, διαμερίσματα, οικόπεδα και επαγγελματικούς χώρους σε Κασσάνδρα, Σιθωνία και Άθως.',
     alternates: {
       canonical: localeUrl(locale, 'sales'),
-      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, `${SITE_URL}/${l}/sales`])),
+      languages: {
+        ...Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'sales')])),
+        'x-default': localeUrl('el', 'sales'),
+      },
     },
   };
 }

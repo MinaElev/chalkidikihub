@@ -19,7 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: { title, description },
     alternates: {
       canonical: localeUrl(locale, 'mount-athos/how-to-visit'),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'mount-athos/how-to-visit')])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'mount-athos/how-to-visit')])),
+        'x-default': localeUrl('el', 'mount-athos/how-to-visit'),
+      },
     },
   };
 }

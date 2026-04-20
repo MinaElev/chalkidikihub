@@ -19,7 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: { title, description },
     alternates: {
       canonical: localeUrl(locale, 'mount-athos/hiking'),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'mount-athos/hiking')])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'mount-athos/hiking')])),
+        'x-default': localeUrl('el', 'mount-athos/hiking'),
+      },
     },
   };
 }
@@ -257,6 +260,7 @@ export default async function HikingPage({ params }: Props) {
         description: c.jsonDesc,
         author: { '@type': 'Organization', name: 'ChalkidikiHub' },
         datePublished: '2025-06-01',
+        dateModified: '2026-04-20',
         publisher: { '@type': 'Organization', name: 'ChalkidikiHub', url: SITE_URL },
       })}} />
     </article>

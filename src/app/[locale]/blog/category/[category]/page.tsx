@@ -8,7 +8,7 @@ import { BlogCard } from '@/components/blog/BlogCard';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import type { BlogCategory, BlogArticle } from '@/types';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR: 1 hour
 
 const VALID_CATEGORIES: BlogCategory[] = ['activities', 'guides', 'tips', 'beaches', 'culture', 'food'];
 

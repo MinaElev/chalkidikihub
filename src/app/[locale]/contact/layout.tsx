@@ -10,7 +10,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: 'Επικοινωνήστε μαζί μας για πληροφορίες, προτάσεις ή συνεργασίες σχετικά με τη Χαλκιδική. Φόρμα επικοινωνίας και στοιχεία επαφής.',
     alternates: {
       canonical: localeUrl(locale, 'contact'),
-      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'contact')])),
+      languages: {
+        ...Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'contact')])),
+        'x-default': localeUrl('el', 'contact'),
+      },
     },
   };
 }

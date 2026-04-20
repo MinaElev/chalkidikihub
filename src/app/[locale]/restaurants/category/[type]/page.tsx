@@ -6,7 +6,7 @@ import { localeUrl, ogImageUrl } from '@/lib/seo';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR: 1 hour
 
 /* ── Type labels in all 7 languages ───────────────────────────────── */
 const TYPE_LABELS: Record<string, Record<string, string>> = {
@@ -238,9 +238,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: localeUrl(locale, path),
-      languages: Object.fromEntries(
-        LOCALES.map((l) => [l, localeUrl(l, path)]),
-      ),
+      languages: {
+        ...Object.fromEntries(LOCALES.map((l) => [l, localeUrl(l, path)])),
+        'x-default': localeUrl('el', path),
+      },
     },
   };
 }

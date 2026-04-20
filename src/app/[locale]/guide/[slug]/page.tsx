@@ -29,7 +29,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: { card: 'summary_large_image', title, description: desc, images: [`${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=guide`] },
     alternates: {
       canonical: localeUrl(locale, `guide/${slug}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/guide/${slug}`])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `guide/${slug}`)])),
+        'x-default': localeUrl('el', `guide/${slug}`),
+      },
     },
   };
 }
@@ -75,6 +78,8 @@ export default async function GuidePage({ params }: Props) {
         '@type': 'Article',
         headline: title,
         description: guide.description[locale] || guide.description.en,
+        datePublished: '2025-06-01',
+        dateModified: '2026-04-20',
         author: { '@type': 'Organization', name: 'ChalkidikiHub' },
         publisher: { '@type': 'Organization', name: 'ChalkidikiHub' },
       })}} />

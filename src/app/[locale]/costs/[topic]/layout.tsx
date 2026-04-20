@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { getCostGuide } from './costs-data';
 import { localeUrl } from '@/lib/seo';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; topic: string }> }): Promise<Metadata> {
@@ -16,7 +15,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     openGraph: { title, description },
     alternates: {
       canonical: localeUrl(locale, `costs/${topic}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/costs/${topic}`])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `costs/${topic}`)])),
+        'x-default': localeUrl('el', `costs/${topic}`),
+      },
     },
   };
 }

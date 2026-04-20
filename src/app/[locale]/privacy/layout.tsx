@@ -9,7 +9,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: locale === 'el' ? 'Πολιτική Απορρήτου | ChalkidikiHub' : locale === 'sr' ? 'Politika privatnosti | ChalkidikiHub' : 'Privacy Policy | ChalkidikiHub',
     alternates: {
       canonical: localeUrl(locale, 'privacy'),
-      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'privacy')])),
+      languages: {
+        ...Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'privacy')])),
+        'x-default': localeUrl('el', 'privacy'),
+      },
     },
   };
 }

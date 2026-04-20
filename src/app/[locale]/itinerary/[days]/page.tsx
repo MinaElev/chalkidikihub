@@ -3,10 +3,9 @@ import { Link } from '@/i18n/navigation';
 import { ChevronRight } from 'lucide-react';
 import { getItinerary, ITINERARIES } from './itinerary-data';
 import { notFound } from 'next/navigation';
+import { localeUrl } from '@/lib/seo';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-
-export const dynamic = 'force-dynamic';
+export const revalidate = 604800; // 1 week — static itinerary content
 
 type Props = { params: Promise<{ locale: string; days: string }> };
 
@@ -68,6 +67,8 @@ export default async function ItineraryPage({ params }: Props) {
         '@type': 'Article',
         headline: title,
         description,
+        datePublished: '2025-06-01',
+        dateModified: '2026-04-20',
         author: { '@type': 'Organization', name: 'ChalkidikiHub' },
         publisher: { '@type': 'Organization', name: 'ChalkidikiHub' },
       })}} />
@@ -76,9 +77,9 @@ export default async function ItineraryPage({ params }: Props) {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: homeLabel[locale] || homeLabel.en, item: `${SITE_URL}/${locale}` },
+          { '@type': 'ListItem', position: 1, name: homeLabel[locale] || homeLabel.en, item: localeUrl(locale) },
           { '@type': 'ListItem', position: 2, name: itineraryLabel[locale] || itineraryLabel.en },
-          { '@type': 'ListItem', position: 3, name: title, item: `${SITE_URL}/${locale}/itinerary/${days}` },
+          { '@type': 'ListItem', position: 3, name: title, item: localeUrl(locale, `itinerary/${days}`) },
         ],
       })}} />
     </div>

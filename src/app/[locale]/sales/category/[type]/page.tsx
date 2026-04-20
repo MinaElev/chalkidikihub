@@ -10,7 +10,7 @@ import { Building } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import type { PropertyType } from '@/types';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR: 1 hour
 
 const VALID_TYPES = ['apartment', 'house', 'land', 'commercial', 'other'] as const;
 

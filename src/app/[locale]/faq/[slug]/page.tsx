@@ -6,8 +6,6 @@ import { ChevronRight, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { getFaqPage, FAQ_PAGES } from './faq-data';
 
-export const dynamic = 'force-dynamic';
-
 function FaqAccordionItem({ question, answer, isOpen, onToggle }: {
   question: string;
   answer: string;

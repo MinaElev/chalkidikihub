@@ -51,7 +51,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: { title, description: desc, type: 'website', locale, siteName: 'Chalkidiki Hub' },
     alternates: {
       canonical: localeUrl(locale, 'faq'),
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/faq`])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'faq')])),
+        'x-default': localeUrl('el', 'faq'),
+      },
     },
   };
 }
@@ -137,7 +140,7 @@ export default async function FaqIndexPage({ params }: Props) {
           hasPart: FAQ_PAGES.map(faq => ({
             '@type': 'WebPage',
             name: faq.title[locale] || faq.title.en,
-            url: `${SITE_URL}/${locale}/faq/${faq.slug}`,
+            url: localeUrl(locale, `faq/${faq.slug}`),
           })),
         })}}
       />

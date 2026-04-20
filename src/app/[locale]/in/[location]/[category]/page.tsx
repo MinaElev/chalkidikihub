@@ -8,7 +8,7 @@ import { getLocation, LOCATIONS, CATEGORIES, type Category } from './location-da
 import { LocationResults } from './LocationResults';
 import type { Beach, Restaurant, Activity, Listing } from '@/types';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR: 1 hour
 
 // ── Localized labels ────────────────────────────────────────
 const CATEGORY_TITLES: Record<Category, Record<string, string>> = {

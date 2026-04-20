@@ -7,7 +7,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: locale === 'el' ? 'Χάρτης Χαλκιδικής | ChalkidikiHub' : locale === 'sr' ? 'Mapa Halkidikija | ChalkidikiHub' : 'Halkidiki Map | ChalkidikiHub',
     alternates: {
       canonical: localeUrl(locale, 'map'),
-      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'map')])),
+      languages: {
+        ...Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'map')])),
+        'x-default': localeUrl('el', 'map'),
+      },
     },
   };
 }

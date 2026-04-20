@@ -5,6 +5,20 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 const DEFAULT_LOCALE = 'el';
 
+/**
+ * Social profile URLs for the Organization schema's `sameAs` property.
+ * Populated from env vars — leave blank in `.env` to omit specific networks.
+ * Google uses these to merge the Knowledge Graph entity with social handles.
+ */
+export const SOCIAL_LINKS: string[] = [
+  process.env.NEXT_PUBLIC_FACEBOOK_URL,
+  process.env.NEXT_PUBLIC_INSTAGRAM_URL,
+  process.env.NEXT_PUBLIC_TWITTER_URL,
+  process.env.NEXT_PUBLIC_YOUTUBE_URL,
+  process.env.NEXT_PUBLIC_TIKTOK_URL,
+  process.env.NEXT_PUBLIC_LINKEDIN_URL,
+].filter((url): url is string => Boolean(url && url.trim()));
+
 /** Build locale-prefixed URL: default locale has no prefix (as-needed) */
 export function localeUrl(locale: string, path: string = '') {
   return locale === DEFAULT_LOCALE
@@ -51,7 +65,10 @@ export function collectionMeta(opts: {
     },
     alternates: {
       canonical: localeUrl(locale, path),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, path)])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, path)])),
+        'x-default': localeUrl(DEFAULT_LOCALE, path),
+      },
     },
   };
 }
@@ -134,9 +151,12 @@ export async function getContentMeta(
       },
       alternates: {
         canonical: localeUrl(locale, `${pathSegment}/${slug}`),
-        languages: Object.fromEntries(
-          LOCALES.map(l => [l, localeUrl(l, `${pathSegment}/${slug}`)])
-        ),
+        languages: {
+          ...Object.fromEntries(
+            LOCALES.map(l => [l, localeUrl(l, `${pathSegment}/${slug}`)])
+          ),
+          'x-default': localeUrl(DEFAULT_LOCALE, `${pathSegment}/${slug}`),
+        },
       },
     };
   } catch {
@@ -167,7 +187,10 @@ function getDefaultMeta(title: string, description: string, locale: string, path
     ...(path ? {
       alternates: {
         canonical: localeUrl(locale, path),
-        languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, path)])),
+        languages: {
+          ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, path)])),
+          'x-default': localeUrl(DEFAULT_LOCALE, path),
+        },
       },
     } : {}),
   };
@@ -538,15 +561,46 @@ export function generateSaleLD(sale: Record<string, unknown>, locale: string) {
   };
 }
 
+// Map our internal activity categories to Schema.org TouristAttraction subtypes
+// where a sensible mapping exists. Falls back to plain TouristAttraction.
+const ACTIVITY_CATEGORY_TO_SCHEMA: Record<string, string> = {
+  historical: 'TouristAttraction',
+  nature: 'TouristAttraction',
+  waterSports: 'SportsActivityLocation',
+  boatTrips: 'TouristAttraction',
+  wellness: 'HealthAndBeautyBusiness',
+  family: 'TouristAttraction',
+  nightlife: 'NightClub',
+  religious: 'PlaceOfWorship',
+};
+
+// Map our category keys to touristType labels Google understands.
+const ACTIVITY_CATEGORY_TOURIST_TYPE: Record<string, string> = {
+  historical: 'History enthusiast',
+  nature: 'Nature lover',
+  waterSports: 'Water sports enthusiast',
+  boatTrips: 'Sightseeing tourist',
+  wellness: 'Wellness traveler',
+  family: 'Family',
+  nightlife: 'Nightlife seeker',
+  religious: 'Religious pilgrim',
+};
+
 export function generateActivityLD(activity: Record<string, unknown>, locale: string) {
   const name = (activity.name as Record<string, string>)?.[locale] || (activity.name as Record<string, string>)?.el || '';
   const description = (activity.description as Record<string, string>)?.[locale] || '';
+  const category = (activity.category as string) || '';
+  const rating = typeof activity.rating === 'number' ? activity.rating : Number(activity.rating) || 0;
+  const reviewsCount = typeof activity.reviews_count === 'number' ? activity.reviews_count : Number(activity.reviews_count) || 0;
+  const schemaType = ACTIVITY_CATEGORY_TO_SCHEMA[category] || 'TouristAttraction';
+  const touristType = ACTIVITY_CATEGORY_TOURIST_TYPE[category];
 
   return {
     '@context': 'https://schema.org',
-    '@type': 'TouristAttraction',
+    '@type': schemaType,
     name,
     description,
+    ...(activity.image_url ? { image: activity.image_url as string } : {}),
     address: {
       '@type': 'PostalAddress',
       addressLocality: activity.location_name || '',
@@ -558,6 +612,21 @@ export function generateActivityLD(activity: Record<string, unknown>, locale: st
       latitude: activity.latitude,
       longitude: activity.longitude,
     },
+    // Rich signals — only emit when we have real data, so Google doesn't flag empties.
+    ...(touristType ? { touristType } : {}),
+    ...(activity.price_range ? { priceRange: activity.price_range as string } : {}),
+    ...(activity.duration ? { duration: activity.duration as string } : {}),
+    ...(rating > 0 && reviewsCount > 0
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: rating,
+            reviewCount: reviewsCount,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        }
+      : {}),
     url: localeUrl(locale, `activities/${activity.slug}`),
   };
 }

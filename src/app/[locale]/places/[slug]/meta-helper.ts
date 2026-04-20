@@ -67,7 +67,10 @@ export async function getVillageContentMeta(
     openGraph: { title, description },
     alternates: {
       canonical: localeUrl(locale, `places/${slug}/${contentType}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `places/${slug}/${contentType}`)])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `places/${slug}/${contentType}`)])),
+        'x-default': localeUrl('el', `places/${slug}/${contentType}`),
+      },
     },
   };
 }

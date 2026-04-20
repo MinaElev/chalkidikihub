@@ -5448,6 +5448,2259 @@ export const GUIDES: Guide[] = [
       sr: `<h2>Prevare u Halkidikiju</h2><p>Halkidiki je <strong>bezbedan</strong>, ali postoje turističke zamke.</p><h2>Taksi</h2><ul><li>Tražite taksimetar</li><li>Aplikacije kao Beat</li></ul><h2>Restorani</h2><ul><li>Meni bez cena — preskočite</li><li><a href="/best/traditional-tavernas">Pouzdane taverne</a></li></ul><h2>Plaže</h2><ul><li>"Besplatne" ležaljke često sa obaveznom konzumacijom</li></ul><h2>Suveniri</h2><ul><li>Kupujte u <a href="/villages">selima</a></li></ul>`,
     },
   },
+  {
+    slug: 'first-time-halkidiki', icon: 'Compass', color: 'teal',
+    title: { el: 'Πρώτη Φορά στη Χαλκιδική — Ο Πλήρης Οδηγός', en: 'First Time in Halkidiki — The Complete Guide', de: 'Zum ersten Mal in Chalkidiki — Der komplette Reiseführer', bg: 'За първи път в Халкидики — Пълен пътеводител', ru: 'Впервые в Халкидики — Полный путеводитель', ro: 'Prima dată în Halkidiki — Ghidul complet', sr: 'Prvi put u Halkidikiju — Kompletan vodič' },
+    description: { el: 'Όλα όσα χρειάζεσαι για το πρώτο σου ταξίδι στη Χαλκιδική', en: 'Everything you need for your first trip to Halkidiki', de: 'Alles, was Sie für Ihre erste Reise nach Chalkidiki brauchen', bg: 'Всичко необходимо за първото ви пътуване', ru: 'Всё необходимое для вашей первой поездки', ro: 'Tot ce ai nevoie pentru prima călătorie', sr: 'Sve što vam treba za prvo putovanje' },
+    metaTitle: { el: 'Πρώτη Φορά στη Χαλκιδική 2026 — Πλήρης Οδηγός Ταξιδιού | ChalkidikiHub', en: 'First Time in Halkidiki 2026 — Complete Travel Guide', de: 'Erstes Mal in Chalkidiki 2026 — Komplettführer', bg: 'За първи път в Халкидики 2026 — Пътеводител', ru: 'Первый раз в Халкидики 2026 — Путеводитель', ro: 'Prima oară în Halkidiki 2026 — Ghid', sr: 'Prvi put u Halkidikiju 2026 — Vodič' },
+    metaDesc: { el: 'Ταξιδεύεις πρώτη φορά στη Χαλκιδική; Ο πλήρης οδηγός 2026 — ποια χερσόνησο να επιλέξεις, πότε να πας, πού να μείνεις, τι να δεις. Από ντόπιους.', en: 'First time in Halkidiki? The complete 2026 guide — which peninsula to choose, when to go, where to stay, what to see. Written by locals.', de: 'Erstes Mal in Chalkidiki? Der komplette Reiseführer 2026 — welche Halbinsel, wann, wo übernachten, was sehen.', bg: 'За първи път в Халкидики? Пълен пътеводител 2026 — кой полуостров, кога, къде да отседнете, какво да видите.', ru: 'Впервые в Халкидики? Полный путеводитель 2026 — какой полуостров выбрать, когда ехать, где остановиться, что посмотреть.', ro: 'Prima dată în Halkidiki? Ghidul complet 2026 — ce peninsulă să alegi, când să mergi, unde să stai, ce să vezi.', sr: 'Prvi put u Halkidikiju? Kompletan vodič 2026 — koji poluostrvo, kada, gde odsesti, šta videti.' },
+    content: {
+      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Η Χαλκιδική έχει 3 χερσονήσους, πάνω από 550 χλμ ακτογραμμής και 70+ χωριά. Αν έρχεσαι πρώτη φορά, ο σωστός σχεδιασμός αλλάζει εντελώς την εμπειρία. Ο οδηγός που ακολουθεί γράφτηκε από ντόπιους και ενημερώνεται κάθε σεζόν.</p>
+
+<h2>Γιατί Χαλκιδική για Πρώτη Φορά;</h2>
+<p>Η Χαλκιδική δεν είναι ένα μικρό ελληνικό νησί που «βλέπεις σε 3 μέρες». Είναι ένας ολόκληρος νομός στη Βόρεια Ελλάδα, με τρεις διαφορετικές χερσονήσους (<strong>Κασσάνδρα</strong>, <strong>Σιθωνία</strong>, <strong>Άθως</strong>) που μοιάζουν με δάχτυλα στον Θερμαϊκό. Κάθε μία έχει διαφορετικό χαρακτήρα, κοινό και τιμές.</p>
+<p>Για τον πρωτοεμφανιζόμενο επισκέπτη, το πλεονέκτημα είναι διπλό: <strong>εύκολη πρόσβαση</strong> (μόλις 70 χλμ από το αεροδρόμιο «Μακεδονία» της Θεσσαλονίκης) και <strong>τεράστια ποικιλία</strong> — από luxury resorts στη <a href="/places/sani-kassandra">Σάνη</a> μέχρι εξωτικές παραλίες χωρίς σήμανση στη <a href="/places/sarti">Σάρτη</a>.</p>
+
+<h2>Ποια Χερσόνησο να Επιλέξω;</h2>
+<p>Η μεγαλύτερη απόφαση. Δεν υπάρχει σωστή απάντηση — υπάρχει σωστή για εσένα. Σύντομα:</p>
+<ul>
+  <li><strong>Κασσάνδρα</strong> — η πιο τουριστικά αναπτυγμένη. Άπειρα ξενοδοχεία, beach bars, νυχτερινή ζωή, οργανωμένες παραλίες. Ιδανική για <a href="/guide/families">οικογένειες</a> και πρώτη επίσκεψη. Δες <a href="/places/kallithea">Καλλιθέα</a>, <a href="/places/hanioti">Χανιώτη</a>, <a href="/places/pefkohori">Πευκοχώρι</a>.</li>
+  <li><strong>Σιθωνία</strong> — πιο άγρια, πιο πράσινη, λιγότερο τουριστική. Εδώ είναι οι πιο εξωτικές παραλίες της Χαλκιδικής — <a href="/places/vourvourou">Βουρβουρού</a>, <a href="/places/sarti">Σάρτη</a>, <a href="/places/neos-marmaras">Νέος Μαρμαράς</a>. Για ήρεμες διακοπές ή <a href="/guide/honeymoon">γαμήλιο ταξίδι</a>.</li>
+  <li><strong>Άθως</strong> — η τρίτη χερσόνησος. Η κορυφή της (Άγιο Όρος) είναι κλειστή για γυναίκες και απαιτεί διαμονητήριο. Η νότια πλευρά (<a href="/places/ouranoupoli">Ουρανούπολη</a>, <a href="/places/ierissos">Ιερισσός</a>) είναι ιδανική για ησυχία και πεζοπορία.</li>
+</ul>
+<p>Για βαθιά σύγκριση, δες τον ειδικό οδηγό <a href="/guide/kassandra-vs-sithonia">Κασσάνδρα vs Σιθωνία</a> ή τη <a href="/guide/kassandra-sithonia-athos">3-way σύγκριση</a>.</p>
+
+<h2>Πότε να Πάω;</h2>
+<p>Η περίοδος <strong>15 Ιουνίου — 15 Σεπτεμβρίου</strong> είναι η «αληθινή» σεζόν. Η κορύφωση είναι <strong>1-25 Αυγούστου</strong>, που τα πάντα είναι γεμάτα και οι τιμές φτάνουν στο +60% σε σχέση με τον Ιούνιο.</p>
+<table class="w-full border-collapse my-4">
+  <thead><tr class="bg-gray-100"><th class="border p-2 text-left">Μήνας</th><th class="border p-2 text-left">Θάλασσα</th><th class="border p-2 text-left">Πόσοι τουρίστες</th><th class="border p-2 text-left">Τιμές</th></tr></thead>
+  <tbody>
+    <tr><td class="border p-2"><a href="/guide/may">Μάιος</a></td><td class="border p-2">19-21°C, λίγο κρύα</td><td class="border p-2">Ελάχιστοι</td><td class="border p-2">€</td></tr>
+    <tr><td class="border p-2"><a href="/guide/june">Ιούνιος</a></td><td class="border p-2">22-24°C</td><td class="border p-2">Μέτριοι</td><td class="border p-2">€€</td></tr>
+    <tr><td class="border p-2"><a href="/guide/july-august">Ιούλιος-Αύγουστος</a></td><td class="border p-2">25-27°C</td><td class="border p-2">Πάρα πολλοί</td><td class="border p-2">€€€€</td></tr>
+    <tr><td class="border p-2"><a href="/guide/september">Σεπτέμβριος</a></td><td class="border p-2">24-26°C</td><td class="border p-2">Μέτριοι</td><td class="border p-2">€€</td></tr>
+    <tr><td class="border p-2"><a href="/guide/october">Οκτώβριος</a></td><td class="border p-2">20-22°C</td><td class="border p-2">Ελάχιστοι</td><td class="border p-2">€</td></tr>
+  </tbody>
+</table>
+<p><strong>Τοπική γνώση:</strong> Ο <strong>Σεπτέμβριος είναι το διαμάντι της σεζόν</strong>. Θάλασσα ζεστή, παραλίες με άνεση, εστιατόρια χωρίς αναμονή, τιμές -30%. Πρόσεξε μόνο: μετά τις 15 Σεπτεμβρίου πολλά beach bars στη Σιθωνία κλείνουν.</p>
+
+<h2>Πώς Φτάνω;</h2>
+<p>Το <strong>αεροδρόμιο Θεσσαλονίκης (SKG)</strong> είναι η κύρια πύλη. Συνδέεται απευθείας με τις περισσότερες ευρωπαϊκές πρωτεύουσες. Από εκεί:</p>
+<ul>
+  <li><strong>Αυτοκίνητο</strong> (προτεινόμενο): 1:00-2:30 ώρα ανάλογα με τον προορισμό. Δες τον οδηγό <a href="/guide/car-rental">ενοικίασης αυτοκινήτου</a>.</li>
+  <li><strong>Λεωφορείο ΚΤΕΛ Χαλκιδικής</strong>: από τον σταθμό ΚΤΕΛ Χαλκιδικής (όχι από αεροδρόμιο — πρέπει να πάρεις πρώτα αστικό 01Χ). Οικονομικό αλλά χρονοβόρο.</li>
+  <li><strong>Ιδιωτικό transfer</strong>: €80-160 ανάλογα με την απόσταση. Καλύτερη επιλογή για οικογένειες με βαλίτσες.</li>
+</ul>
+<p>Αν έρχεσαι οδικώς, δες τους αναλυτικούς οδηγούς <a href="/from/sofia">από Σόφια</a>, <a href="/from/bucharest">από Βουκουρέστι</a>, <a href="/from/belgrade">από Βελιγράδι</a> ή <a href="/from/skopje">από Σκόπια</a>.</p>
+
+<h2>Πόσες Μέρες Χρειάζομαι;</h2>
+<p>Η ελάχιστη πρόταση: <strong>7 μέρες</strong>. Λιγότερες και θα νιώσεις ότι βιάζεσαι. Αν έχεις μόνο μερικές μέρες, περιορίσου σε <em>μία</em> χερσόνησο.</p>
+<ul>
+  <li><strong>3-4 μέρες</strong> → Κασσάνδρα μόνο. Δες <a href="/itinerary/3">3ήμερο itinerary</a>.</li>
+  <li><strong>5-7 μέρες</strong> → Σιθωνία ή συνδυασμός Κασσάνδρα + 1 μέρα Σιθωνία. Δες <a href="/itinerary/7">7ήμερο itinerary</a>.</li>
+  <li><strong>10-14 μέρες</strong> → Και οι τρεις χερσόνησοι + Θεσσαλονίκη + Μετέωρα. Δες <a href="/itinerary/10">10ήμερο itinerary</a>.</li>
+</ul>
+
+<h2>Πού να Μείνω;</h2>
+<p>Η επιλογή βάσης καθορίζει το 70% της εμπειρίας. Σύντομος οδηγός:</p>
+<h3>Για πρώτη φορά + οικογένεια</h3>
+<p><a href="/places/kallithea">Καλλιθέα</a>, <a href="/places/hanioti">Χανιώτη</a> ή <a href="/places/pefkohori">Πευκοχώρι</a>. Οργανωμένες παραλίες, αρκετά εστιατόρια με αγγλικά μενού, αγορές, φαρμακεία.</p>
+<h3>Για ζευγάρια / ησυχία</h3>
+<p><a href="/places/afytos">Άφυτος</a> (Κασσάνδρα), <a href="/places/nikiti">Νικήτη</a> ή <a href="/places/vourvourou">Βουρβουρού</a> (Σιθωνία).</p>
+<h3>Για luxury</h3>
+<p><a href="/places/sani-kassandra">Σάνη</a>, <a href="/best/luxury-hotels">5άστερα ξενοδοχεία</a>, <a href="/guide/villas">ιδιωτικές βίλες</a>.</p>
+<h3>Για budget</h3>
+<p><a href="/places/pefkohori">Πευκοχώρι</a>, <a href="/places/sarti">Σάρτη</a>. Δες και <a href="/guide/camping">camping</a> και <a href="/guide/budget">budget tips</a>.</p>
+
+<h2>Τι ΠΡΕΠΕΙ να Δεις</h2>
+<ol>
+  <li><strong><a href="/places/karidi-sithonia">Παραλία Καρύδι</a></strong> — ίσως η πιο διάσημη παραλία. Τιρκουάζ νερά, πευκοδάσος.</li>
+  <li><strong><a href="/places/portokali-sithonia">Καβουρότρυπες (Orange Beach)</a></strong> — εξωτικό τοπίο με πορτοκαλί βότσαλα.</li>
+  <li><strong><a href="/places/afytos">Άφυτος</a></strong> — το πιο γραφικό χωριό της Κασσάνδρας, πέτρινα σοκάκια πάνω από θάλασσα.</li>
+  <li><strong>Κρουαζιέρα γύρω από το <a href="/mount-athos">Άγιο Όρος</a></strong> — για γυναίκες ο μόνος τρόπος να δουν τα μοναστήρια. Εκκινεί από <a href="/places/ouranoupoli">Ουρανούπολη</a>.</li>
+  <li><strong><a href="/guide/petralona-cave">Σπήλαιο Πετραλώνων</a></strong> — αρχαιολογικός θησαυρός ηλικίας 700.000 ετών.</li>
+  <li><strong><a href="/places/parthenonas">Παρθενώνας</a></strong> — εγκαταλελειμμένο χωριό-κόσμημα πάνω από τον Νέο Μαρμαρά.</li>
+</ol>
+
+<h2>Πρακτικά που ΔΕΝ θα σου πει κανείς</h2>
+<ul>
+  <li><strong>Τα μετρητά είναι ακόμα βασιλιάς</strong>. Πολλές ταβέρνες σε χωριά και beach bars δεν δέχονται κάρτα ή έχουν «χαλασμένο POS» τον Αύγουστο.</li>
+  <li><strong>Τα πάρκινγκ στις δημοφιλείς παραλίες γεμίζουν πριν τις 10:30</strong> τον Ιούλιο-Αύγουστο. Φτάσε στις 9:00 ή μετά τις 17:00.</li>
+  <li><strong>Το νερό της βρύσης είναι πόσιμο</strong> στις περισσότερες περιοχές, αλλά έχει έντονη γεύση — οι ντόπιοι πίνουν εμφιαλωμένο.</li>
+  <li><strong>Η θάλασσα είναι «καθαρή» αλλά τσούχτρες εμφανίζονται σποραδικά</strong>, κυρίως τέλη Αυγούστου-αρχές Σεπτέμβρη όταν αλλάζουν ρεύματα.</li>
+  <li><strong>Αποφύγετε να τρώτε σε εστιατόρια δίπλα ακριβώς στην πλαζ με μενού σε 5 γλώσσες</strong> — δες τις <a href="/best/traditional-tavernas">αυθεντικές ταβέρνες</a>.</li>
+</ul>
+
+<h2>Προϋπολογισμός</h2>
+<p>Για 7 μέρες, 2 άτομα, μεσαία κατηγορία (Ιούλιος-Αύγουστος):</p>
+<ul>
+  <li>Διαμονή: €700-1400 (€100-200/βράδυ)</li>
+  <li>Φαγητό: €400-600 (ταβέρνες + ένα δύο πιο premium)</li>
+  <li>Αυτοκίνητο + βενζίνη: €350-500</li>
+  <li>Παραλία (ξαπλώστρες, beach bar): €150-300</li>
+  <li>Εκδρομές/δραστηριότητες: €150-400</li>
+</ul>
+<p><strong>Σύνολο: ~€1800-3200</strong>. Για πιο οικονομικές λύσεις, δες τον οδηγό <a href="/guide/budget">budget διακοπές</a>.</p>
+
+<h2>Συχνές Ερωτήσεις</h2>
+<h3>Είναι ασφαλής η Χαλκιδική για τουρίστες;</h3>
+<p>Απολύτως. Ο δείκτης εγκληματικότητας είναι εξαιρετικά χαμηλός. Οι μόνες «απάτες» που μπορεί να συναντήσεις είναι τουριστικές παγίδες σε εστιατόρια — δες τον οδηγό <a href="/guide/scams-to-avoid">απάτες προς αποφυγή</a>.</p>
+<h3>Χρειάζομαι οπωσδήποτε αυτοκίνητο;</h3>
+<p>Όχι οπωσδήποτε, αλλά χωρίς αυτό η εμπειρία περιορίζεται δραστικά. Τα ΚΤΕΛ κινούνται, αλλά σπάνια σε μικρές παραλίες. Δες τον <a href="/guide/halkidiki-without-car">οδηγό χωρίς αυτοκίνητο</a> αν έχεις αποφασίσει έτσι.</p>
+<h3>Μιλούν αγγλικά οι ντόπιοι;</h3>
+<p>Ναι, σε μεγάλο βαθμό — ειδικά όσοι εργάζονται στον τουρισμό. Σε πιο απομακρυσμένα χωριά (Άθως, εσωτερικό) λιγότερο. Βασικές ελληνικές λέξεις («ευχαριστώ», «παρακαλώ») πάντα βοηθούν.</p>
+<h3>Μπορούν οι γυναίκες να επισκεφτούν το Άγιο Όρος;</h3>
+<p>Όχι, απαγορεύεται η είσοδος σε γυναίκες (το λεγόμενο άβατο). Μπορούν όμως να κάνουν κρουαζιέρα γύρω από την κορυφή της χερσονήσου και να δουν τα μοναστήρια από τη θάλασσα (500 μέτρα απόσταση από την ακτή).</p>
+<h3>Χρειάζομαι αντικουνουπικό;</h3>
+<p>Ναι, ιδίως τον Ιούλιο και τον Αύγουστο. Τα <a href="/guide/jellyfish-mosquitoes">κουνούπια</a> είναι υπαρκτά αλλά όχι επιθετικά.</p>
+<h3>Ποια είναι η καλύτερη παραλία για πρώτη επίσκεψη;</h3>
+<p>Για «wow factor» το <a href="/places/karidi-sithonia">Καρύδι</a>. Για άνεση με παιδιά η <a href="/places/kallithea">Καλλιθέα</a>. Δες και τις <a href="/best/beaches-sithonia">top παραλίες Σιθωνίας</a>.</p>`,
+      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki has three peninsulas, over 550 km of coastline, and 70+ villages. If you're coming for the first time, smart planning transforms the experience. This guide is written by locals and updated every season.</p>
+
+<h2>Why Halkidiki for Your First Visit?</h2>
+<p>Halkidiki isn't a small Greek island you "see in three days." It's an entire region in Northern Greece, with three distinct peninsulas — <strong>Kassandra</strong>, <strong>Sithonia</strong>, and <strong>Athos</strong> — that look like fingers reaching into the Thermaic Gulf. Each has its own character, crowd, and pricing.</p>
+<p>For first-time visitors, the appeal is twofold: <strong>easy access</strong> (just 70 km from Thessaloniki's "Makedonia" airport) and <strong>massive variety</strong> — from luxury resorts at <a href="/places/sani-kassandra">Sani</a> to unmarked exotic beaches at <a href="/places/sarti">Sarti</a>.</p>
+
+<h2>Which Peninsula Should I Choose?</h2>
+<p>The biggest decision. There's no right answer — only the right one for you.</p>
+<ul>
+  <li><strong>Kassandra</strong> — the most touristically developed. Countless hotels, beach bars, nightlife, organized beaches. Ideal for <a href="/guide/families">families</a> and first-timers. See <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>, <a href="/places/pefkohori">Pefkohori</a>.</li>
+  <li><strong>Sithonia</strong> — wilder, greener, less touristy. Home to Halkidiki's most exotic beaches — <a href="/places/vourvourou">Vourvourou</a>, <a href="/places/sarti">Sarti</a>, <a href="/places/neos-marmaras">Neos Marmaras</a>. Best for quiet stays or a <a href="/guide/honeymoon">honeymoon</a>.</li>
+  <li><strong>Athos</strong> — the third peninsula. Its tip (Mount Athos) is closed to women and requires a pilgrim permit. The south (<a href="/places/ouranoupoli">Ouranoupoli</a>, <a href="/places/ierissos">Ierissos</a>) is ideal for quiet and hiking.</li>
+</ul>
+<p>For deep comparison, see <a href="/guide/kassandra-vs-sithonia">Kassandra vs Sithonia</a> or the <a href="/guide/kassandra-sithonia-athos">3-way comparison</a>.</p>
+
+<h2>When to Go</h2>
+<p>The "real" season is <strong>15 June — 15 September</strong>. The peak is <strong>1-25 August</strong>, when everything is packed and prices jump +60% vs June.</p>
+<table class="w-full border-collapse my-4">
+  <thead><tr class="bg-gray-100"><th class="border p-2 text-left">Month</th><th class="border p-2 text-left">Sea temp</th><th class="border p-2 text-left">Crowds</th><th class="border p-2 text-left">Prices</th></tr></thead>
+  <tbody>
+    <tr><td class="border p-2"><a href="/guide/may">May</a></td><td class="border p-2">19-21°C, a bit cold</td><td class="border p-2">Few</td><td class="border p-2">€</td></tr>
+    <tr><td class="border p-2"><a href="/guide/june">June</a></td><td class="border p-2">22-24°C</td><td class="border p-2">Moderate</td><td class="border p-2">€€</td></tr>
+    <tr><td class="border p-2"><a href="/guide/july-august">July-August</a></td><td class="border p-2">25-27°C</td><td class="border p-2">Heavy</td><td class="border p-2">€€€€</td></tr>
+    <tr><td class="border p-2"><a href="/guide/september">September</a></td><td class="border p-2">24-26°C</td><td class="border p-2">Moderate</td><td class="border p-2">€€</td></tr>
+    <tr><td class="border p-2"><a href="/guide/october">October</a></td><td class="border p-2">20-22°C</td><td class="border p-2">Few</td><td class="border p-2">€</td></tr>
+  </tbody>
+</table>
+<p><strong>Local tip:</strong> <strong>September is the hidden gem of the season.</strong> Warm sea, comfortable beaches, restaurants without waits, prices -30%. Watch out though: after 15 September many Sithonia beach bars close.</p>
+
+<h2>How to Get There</h2>
+<p><strong>Thessaloniki airport (SKG)</strong> is the main gateway, with direct flights from most European capitals. From there:</p>
+<ul>
+  <li><strong>Car</strong> (recommended): 1:00-2:30h depending on destination. See <a href="/guide/car-rental">car rental guide</a>.</li>
+  <li><strong>KTEL bus</strong>: from Halkidiki KTEL station (not from airport — you need city bus 01X first). Cheap but slow.</li>
+  <li><strong>Private transfer</strong>: €80-160 depending on distance. Best for families with luggage.</li>
+</ul>
+<p>If driving overland, see guides <a href="/from/sofia">from Sofia</a>, <a href="/from/bucharest">from Bucharest</a>, <a href="/from/belgrade">from Belgrade</a>, <a href="/from/skopje">from Skopje</a>.</p>
+
+<h2>How Many Days Do I Need?</h2>
+<p>Minimum suggested: <strong>7 days</strong>. Fewer and you'll feel rushed. If you only have a few days, stick to <em>one</em> peninsula.</p>
+<ul>
+  <li><strong>3-4 days</strong> → Kassandra only. See <a href="/itinerary/3">3-day itinerary</a>.</li>
+  <li><strong>5-7 days</strong> → Sithonia or Kassandra + 1 day Sithonia. See <a href="/itinerary/7">7-day itinerary</a>.</li>
+  <li><strong>10-14 days</strong> → All three peninsulas + Thessaloniki + Meteora. See <a href="/itinerary/10">10-day itinerary</a>.</li>
+</ul>
+
+<h2>Where to Stay</h2>
+<h3>First-timers + families</h3>
+<p><a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>, or <a href="/places/pefkohori">Pefkohori</a>. Organized beaches, plenty of English-menu restaurants, supermarkets, pharmacies.</p>
+<h3>Couples / quiet</h3>
+<p><a href="/places/afytos">Afytos</a> (Kassandra), <a href="/places/nikiti">Nikiti</a>, or <a href="/places/vourvourou">Vourvourou</a> (Sithonia).</p>
+<h3>Luxury</h3>
+<p><a href="/places/sani-kassandra">Sani</a>, <a href="/best/luxury-hotels">5-star hotels</a>, <a href="/guide/villas">private villas</a>.</p>
+<h3>Budget</h3>
+<p><a href="/places/pefkohori">Pefkohori</a>, <a href="/places/sarti">Sarti</a>. See also <a href="/guide/camping">camping</a> and <a href="/guide/budget">budget tips</a>.</p>
+
+<h2>Must-See</h2>
+<ol>
+  <li><strong><a href="/places/karidi-sithonia">Karidi Beach</a></strong> — possibly the most famous beach. Turquoise water, pine forest.</li>
+  <li><strong><a href="/places/portokali-sithonia">Kavourotrypes (Orange Beach)</a></strong> — exotic landscape with orange pebbles.</li>
+  <li><strong><a href="/places/afytos">Afytos</a></strong> — the most picturesque village of Kassandra, stone alleys above the sea.</li>
+  <li><strong>Cruise around <a href="/mount-athos">Mount Athos</a></strong> — for women, the only way to see the monasteries. Departs from <a href="/places/ouranoupoli">Ouranoupoli</a>.</li>
+  <li><strong><a href="/guide/petralona-cave">Petralona Cave</a></strong> — archaeological treasure 700,000 years old.</li>
+  <li><strong><a href="/places/parthenonas">Parthenonas</a></strong> — abandoned gem village above Neos Marmaras.</li>
+</ol>
+
+<h2>Practical Things Nobody Tells You</h2>
+<ul>
+  <li><strong>Cash is still king.</strong> Many village tavernas and beach bars refuse cards or "the POS is broken" in August.</li>
+  <li><strong>Parking at popular beaches fills up before 10:30</strong> in July-August. Arrive by 9:00 or after 17:00.</li>
+  <li><strong>Tap water is drinkable</strong> in most areas but has a strong taste — locals drink bottled.</li>
+  <li><strong>The sea is clean but jellyfish appear sporadically</strong>, mostly late August — early September when currents shift.</li>
+  <li><strong>Avoid eating at beachfront restaurants with menus in 5 languages</strong> — see <a href="/best/traditional-tavernas">authentic tavernas</a>.</li>
+</ul>
+
+<h2>Budget</h2>
+<p>For 7 days, 2 people, mid-range (July-August):</p>
+<ul>
+  <li>Accommodation: €700-1400 (€100-200/night)</li>
+  <li>Food: €400-600</li>
+  <li>Car + fuel: €350-500</li>
+  <li>Beach (loungers, bar): €150-300</li>
+  <li>Activities: €150-400</li>
+</ul>
+<p><strong>Total: ~€1800-3200</strong>. For cheaper options see the <a href="/guide/budget">budget guide</a>.</p>
+
+<h2>FAQ</h2>
+<h3>Is Halkidiki safe for tourists?</h3>
+<p>Absolutely. Crime rate is very low. The only "scams" you might meet are tourist traps in restaurants — see <a href="/guide/scams-to-avoid">scams to avoid</a>.</p>
+<h3>Do I really need a car?</h3>
+<p>Not mandatory, but without one the experience is drastically limited. Buses run, but rarely to small beaches. See the <a href="/guide/halkidiki-without-car">without-car guide</a>.</p>
+<h3>Do locals speak English?</h3>
+<p>Yes, especially those in tourism. In remote villages (Athos, inland), less so. Basic Greek words always help.</p>
+<h3>Can women visit Mount Athos?</h3>
+<p>No — entry is forbidden to women (the "avaton" rule). But they can take a cruise around the peninsula's tip and see monasteries from the sea (500 m off the coast).</p>
+<h3>Do I need mosquito repellent?</h3>
+<p>Yes, especially in July-August. <a href="/guide/jellyfish-mosquitoes">Mosquitoes</a> exist but aren't aggressive.</p>
+<h3>What's the best beach for a first visit?</h3>
+<p>For the "wow factor," <a href="/places/karidi-sithonia">Karidi</a>. For comfort with kids, <a href="/places/kallithea">Kallithea</a>. See also <a href="/best/beaches-sithonia">top Sithonia beaches</a>.</p>`,
+      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Chalkidiki hat drei Halbinseln, über 550 km Küste und mehr als 70 Dörfer. Für den ersten Besuch macht kluge Planung den Unterschied.</p>
+
+<h2>Warum Chalkidiki beim ersten Besuch?</h2>
+<p>Chalkidiki ist keine kleine griechische Insel, die man in drei Tagen sieht. Es ist eine ganze Region mit drei Halbinseln: <strong>Kassandra</strong>, <strong>Sithonia</strong> und <strong>Athos</strong>.</p>
+
+<h2>Welche Halbinsel wählen?</h2>
+<ul>
+  <li><strong>Kassandra</strong> — am touristischsten entwickelt. Hotels, Beach Bars, Nachtleben. Ideal für <a href="/guide/families">Familien</a>. Siehe <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>.</li>
+  <li><strong>Sithonia</strong> — wilder, grüner. Die exotischsten Strände: <a href="/places/vourvourou">Vourvourou</a>, <a href="/places/sarti">Sarti</a>. Perfekt für <a href="/guide/honeymoon">Flitterwochen</a>.</li>
+  <li><strong>Athos</strong> — die dritte Halbinsel. Der Heilige Berg ist für Frauen geschlossen. Der Süden (<a href="/places/ouranoupoli">Ouranoupoli</a>) ist ruhig und ideal zum Wandern.</li>
+</ul>
+<p>Siehe den Vergleich <a href="/guide/kassandra-vs-sithonia">Kassandra vs Sithonia</a>.</p>
+
+<h2>Wann reisen?</h2>
+<p>Die "echte" Saison: <strong>15. Juni — 15. September</strong>. Spitze: Anfang August. <strong>Lokaler Tipp:</strong> September ist das versteckte Juwel — warmes Meer, -30% Preise.</p>
+
+<h2>Anreise</h2>
+<p>Flughafen Thessaloniki (SKG). Von dort:</p>
+<ul>
+  <li>Mietwagen (empfohlen) — siehe <a href="/guide/car-rental">Mietwagen-Guide</a></li>
+  <li>KTEL-Bus (günstig)</li>
+  <li>Private Transfers: €80-160</li>
+</ul>
+<p>Überlandanreise: <a href="/from/munich">aus München</a>, <a href="/from/berlin">aus Berlin</a>.</p>
+
+<h2>Wie viele Tage?</h2>
+<ul>
+  <li>3-4 Tage → nur Kassandra — <a href="/itinerary/3">3-Tage-Route</a></li>
+  <li>5-7 Tage → Sithonia — <a href="/itinerary/7">7-Tage-Route</a></li>
+  <li>10-14 Tage → alle drei Halbinseln — <a href="/itinerary/10">10-Tage-Route</a></li>
+</ul>
+
+<h2>Wo übernachten</h2>
+<ul>
+  <li>Familien: <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a></li>
+  <li>Paare: <a href="/places/afytos">Afytos</a>, <a href="/places/nikiti">Nikiti</a></li>
+  <li>Luxus: <a href="/places/sani-kassandra">Sani</a>, <a href="/best/luxury-hotels">5-Sterne-Hotels</a></li>
+</ul>
+
+<h2>Sehenswürdigkeiten</h2>
+<ol>
+  <li><a href="/places/karidi-sithonia">Karidi Beach</a></li>
+  <li><a href="/places/portokali-sithonia">Orange Beach</a></li>
+  <li><a href="/places/afytos">Afytos</a></li>
+  <li>Kreuzfahrt um den <a href="/mount-athos">Heiligen Berg</a></li>
+  <li><a href="/guide/petralona-cave">Petralona-Höhle</a></li>
+</ol>
+
+<h2>Praktische Tipps</h2>
+<ul>
+  <li>Bargeld dabei haben</li>
+  <li>Parkplätze an Stränden vor 10:30 besetzt</li>
+  <li>Flaschenwasser empfohlen</li>
+  <li>Touristenfallen meiden — siehe <a href="/best/traditional-tavernas">authentische Tavernen</a></li>
+</ul>
+
+<h2>Budget</h2>
+<p>7 Tage, 2 Personen, Mittelklasse: €1800-3200. Siehe <a href="/guide/budget">Budget-Tipps</a>.</p>
+
+<h2>FAQ</h2>
+<h3>Ist Chalkidiki sicher?</h3>
+<p>Ja, sehr sicher. Siehe <a href="/guide/scams-to-avoid">Betrugsfallen</a>.</p>
+<h3>Brauche ich ein Auto?</h3>
+<p>Empfohlen. Ohne Auto: <a href="/guide/halkidiki-without-car">Guide</a>.</p>
+<h3>Dürfen Frauen zum Heiligen Berg?</h3>
+<p>Nein — nur Kreuzfahrt um die Küste.</p>`,
+      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики има три полуострова, над 550 км брегова линия и 70+ села. Ако идвате за първи път, правилното планиране променя всичко.</p>
+
+<h2>Защо Халкидики за първо посещение?</h2>
+<p>Халкидики не е малък гръцки остров "за три дни". Това е цял регион с три полуострова — <strong>Касандра</strong>, <strong>Ситония</strong> и <strong>Атон</strong>.</p>
+
+<h2>Кой полуостров?</h2>
+<ul>
+  <li><strong>Касандра</strong> — най-развитият. Идеален за <a href="/guide/families">семейства</a>. <a href="/places/kallithea">Калитея</a>, <a href="/places/hanioti">Ханиоти</a>.</li>
+  <li><strong>Ситония</strong> — по-див, по-зелен. Екзотични плажове: <a href="/places/vourvourou">Вурвуру</a>, <a href="/places/sarti">Сарти</a>.</li>
+  <li><strong>Атон</strong> — Светата гора е затворена за жени. Юг: <a href="/places/ouranoupoli">Уранополис</a>.</li>
+</ul>
+<p>Сравнение: <a href="/guide/kassandra-vs-sithonia">Касандра vs Ситония</a>.</p>
+
+<h2>Кога?</h2>
+<p>Истински сезон: <strong>15 юни — 15 септември</strong>. Пик: август. <strong>Местен съвет:</strong> септември е перлата — топло море, -30% цени.</p>
+
+<h2>Как да стигнете</h2>
+<p>Летище Солун (SKG) или с кола: <a href="/from/sofia">от София</a>.</p>
+<ul>
+  <li>Кола под наем — <a href="/guide/car-rental">гид</a></li>
+  <li>KTEL автобус — евтино</li>
+  <li>Частен трансфер: €80-160</li>
+</ul>
+
+<h2>Колко дни?</h2>
+<ul>
+  <li>3-4 дни → само Касандра — <a href="/itinerary/3">маршрут 3 дни</a></li>
+  <li>5-7 дни → Ситония — <a href="/itinerary/7">маршрут 7 дни</a></li>
+  <li>10+ дни → трите полуострова — <a href="/itinerary/10">маршрут 10 дни</a></li>
+</ul>
+
+<h2>Къде да отседнете</h2>
+<ul>
+  <li>Семейства: <a href="/places/kallithea">Калитея</a>, <a href="/places/hanioti">Ханиоти</a></li>
+  <li>Двойки: <a href="/places/afytos">Афитос</a>, <a href="/places/nikiti">Никити</a></li>
+  <li>Лукс: <a href="/places/sani-kassandra">Сани</a></li>
+</ul>
+
+<h2>Задължително за виждане</h2>
+<ol>
+  <li><a href="/places/karidi-sithonia">Плаж Кариди</a></li>
+  <li><a href="/places/portokali-sithonia">Оранжев плаж</a></li>
+  <li><a href="/places/afytos">Афитос</a></li>
+  <li>Круиз около <a href="/mount-athos">Атон</a></li>
+  <li><a href="/guide/petralona-cave">Пещерата Петралона</a></li>
+</ol>
+
+<h2>Практически съвети</h2>
+<ul>
+  <li>Носете пари в брой</li>
+  <li>Паркингите на плажовете се пълнят до 10:30</li>
+  <li>Избягвайте туристически капани — <a href="/best/traditional-tavernas">автентични таверни</a></li>
+</ul>
+
+<h2>Бюджет</h2>
+<p>7 дни, 2 души: €1800-3200. Виж <a href="/guide/budget">бюджет съвети</a>.</p>
+
+<h2>Често задавани въпроси</h2>
+<h3>Халкидики безопасна ли е?</h3>
+<p>Да, много. Виж <a href="/guide/scams-to-avoid">измами</a>.</p>
+<h3>Имам ли нужда от кола?</h3>
+<p>Препоръчва се. Без кола: <a href="/guide/halkidiki-without-car">гид</a>.</p>
+<h3>Жени могат ли в Атон?</h3>
+<p>Не — само круиз около полуострова.</p>`,
+      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">У Халкидиков три полуострова, более 550 км побережья и 70+ деревень. Для первой поездки правильное планирование меняет всё.</p>
+
+<h2>Почему Халкидики для первого визита?</h2>
+<p>Халкидики — не маленький греческий остров "на три дня". Это целый регион с тремя полуостровами: <strong>Кассандра</strong>, <strong>Ситония</strong> и <strong>Афон</strong>.</p>
+
+<h2>Какой полуостров?</h2>
+<ul>
+  <li><strong>Кассандра</strong> — самый туристический. Идеален для <a href="/guide/families">семей</a>. <a href="/places/kallithea">Каллифея</a>, <a href="/places/hanioti">Ханиоти</a>.</li>
+  <li><strong>Ситония</strong> — дикий, зелёный. Экзотические пляжи: <a href="/places/vourvourou">Вурвуру</a>, <a href="/places/sarti">Сарти</a>.</li>
+  <li><strong>Афон</strong> — Святая Гора закрыта для женщин. Юг: <a href="/places/ouranoupoli">Уранополис</a>.</li>
+</ul>
+<p>Сравнение: <a href="/guide/kassandra-vs-sithonia">Кассандра vs Ситония</a>.</p>
+
+<h2>Когда ехать?</h2>
+<p>Настоящий сезон: <strong>15 июня — 15 сентября</strong>. Пик: август. <strong>Совет местных:</strong> сентябрь — скрытая жемчужина, тёплое море, -30% цены.</p>
+
+<h2>Как добраться</h2>
+<p>Аэропорт Салоники (SKG). Оттуда:</p>
+<ul>
+  <li>Аренда авто — <a href="/guide/car-rental">гид</a></li>
+  <li>Автобус KTEL — дёшево</li>
+  <li>Частный трансфер: €80-160</li>
+</ul>
+
+<h2>Сколько дней?</h2>
+<ul>
+  <li>3-4 дня → только Кассандра — <a href="/itinerary/3">маршрут 3 дня</a></li>
+  <li>5-7 дней → Ситония — <a href="/itinerary/7">маршрут 7 дней</a></li>
+  <li>10+ дней → три полуострова — <a href="/itinerary/10">маршрут 10 дней</a></li>
+</ul>
+
+<h2>Где жить</h2>
+<ul>
+  <li>Семьи: <a href="/places/kallithea">Каллифея</a>, <a href="/places/hanioti">Ханиоти</a></li>
+  <li>Пары: <a href="/places/afytos">Афитос</a>, <a href="/places/nikiti">Никити</a></li>
+  <li>Люкс: <a href="/places/sani-kassandra">Сани</a></li>
+</ul>
+
+<h2>Обязательно к посещению</h2>
+<ol>
+  <li><a href="/places/karidi-sithonia">Пляж Кариди</a></li>
+  <li><a href="/places/portokali-sithonia">Оранжевый пляж</a></li>
+  <li><a href="/places/afytos">Афитос</a></li>
+  <li>Круиз вокруг <a href="/mount-athos">Афона</a></li>
+  <li><a href="/guide/petralona-cave">Пещера Петралона</a></li>
+</ol>
+
+<h2>Практические советы</h2>
+<ul>
+  <li>Имейте наличные</li>
+  <li>Парковки заполняются до 10:30</li>
+  <li>Избегайте туристических ловушек — <a href="/best/traditional-tavernas">аутентичные таверны</a></li>
+</ul>
+
+<h2>Бюджет</h2>
+<p>7 дней, 2 человека: €1800-3200. См. <a href="/guide/budget">бюджет-советы</a>.</p>
+
+<h2>Часто задаваемые вопросы</h2>
+<h3>Халкидики безопасны?</h3>
+<p>Да, очень. См. <a href="/guide/scams-to-avoid">мошенничества</a>.</p>
+<h3>Нужна ли машина?</h3>
+<p>Рекомендуется. Без машины: <a href="/guide/halkidiki-without-car">гид</a>.</p>
+<h3>Могут ли женщины на Афон?</h3>
+<p>Нет — только круиз вокруг полуострова.</p>`,
+      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki are trei peninsule, peste 550 km de coastă și 70+ sate. Pentru prima vizită, o planificare corectă schimbă totul.</p>
+
+<h2>De ce Halkidiki pentru prima vizită?</h2>
+<p>Halkidiki nu este o mică insulă grecească "de trei zile". Este o întreagă regiune cu trei peninsule: <strong>Kassandra</strong>, <strong>Sithonia</strong> și <strong>Athos</strong>.</p>
+
+<h2>Ce peninsulă să alegi?</h2>
+<ul>
+  <li><strong>Kassandra</strong> — cea mai turistică. Ideală pentru <a href="/guide/families">familii</a>. <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>.</li>
+  <li><strong>Sithonia</strong> — sălbatică, verde. Plaje exotice: <a href="/places/vourvourou">Vourvourou</a>, <a href="/places/sarti">Sarti</a>.</li>
+  <li><strong>Athos</strong> — Muntele Athos interzis femeilor. Sud: <a href="/places/ouranoupoli">Ouranoupoli</a>.</li>
+</ul>
+<p>Comparație: <a href="/guide/kassandra-vs-sithonia">Kassandra vs Sithonia</a>.</p>
+
+<h2>Când să mergi?</h2>
+<p>Sezonul real: <strong>15 iunie — 15 septembrie</strong>. Vârf: august. <strong>Sfat local:</strong> septembrie = bijuteria ascunsă — mare caldă, -30% prețuri.</p>
+
+<h2>Cum ajungi</h2>
+<p>Aeroportul Salonic (SKG) sau cu mașina: <a href="/from/bucharest">din București</a>.</p>
+<ul>
+  <li>Închiriere mașină — <a href="/guide/car-rental">ghid</a></li>
+  <li>Autobuz KTEL — ieftin</li>
+  <li>Transfer privat: €80-160</li>
+</ul>
+
+<h2>Câte zile?</h2>
+<ul>
+  <li>3-4 zile → doar Kassandra — <a href="/itinerary/3">traseu 3 zile</a></li>
+  <li>5-7 zile → Sithonia — <a href="/itinerary/7">traseu 7 zile</a></li>
+  <li>10+ zile → toate peninsulele — <a href="/itinerary/10">traseu 10 zile</a></li>
+</ul>
+
+<h2>Unde să stai</h2>
+<ul>
+  <li>Familii: <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a></li>
+  <li>Cupluri: <a href="/places/afytos">Afytos</a>, <a href="/places/nikiti">Nikiti</a></li>
+  <li>Lux: <a href="/places/sani-kassandra">Sani</a></li>
+</ul>
+
+<h2>Obligatoriu de văzut</h2>
+<ol>
+  <li><a href="/places/karidi-sithonia">Plaja Karidi</a></li>
+  <li><a href="/places/portokali-sithonia">Plaja Portocalie</a></li>
+  <li><a href="/places/afytos">Afytos</a></li>
+  <li>Croazieră în jurul <a href="/mount-athos">Athos</a></li>
+  <li><a href="/guide/petralona-cave">Peștera Petralona</a></li>
+</ol>
+
+<h2>Sfaturi practice</h2>
+<ul>
+  <li>Aveți numerar</li>
+  <li>Parcările se umplu până la 10:30</li>
+  <li>Evitați capcanele — <a href="/best/traditional-tavernas">taverne autentice</a></li>
+</ul>
+
+<h2>Buget</h2>
+<p>7 zile, 2 persoane: €1800-3200. Vezi <a href="/guide/budget">sfaturi buget</a>.</p>
+
+<h2>Întrebări frecvente</h2>
+<h3>E sigură Halkidiki?</h3>
+<p>Da, foarte. Vezi <a href="/guide/scams-to-avoid">escrocherii</a>.</p>
+<h3>Am nevoie de mașină?</h3>
+<p>Recomandat. Fără mașină: <a href="/guide/halkidiki-without-car">ghid</a>.</p>
+<h3>Femeile pot vizita Athos?</h3>
+<p>Nu — doar croazieră în jurul peninsulei.</p>`,
+      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki ima tri poluostrva, preko 550 km obale i 70+ sela. Za prvi put, pravilno planiranje menja iskustvo.</p>
+
+<h2>Zašto Halkidiki za prvi put?</h2>
+<p>Halkidiki nije malo grčko ostrvo "za tri dana". To je cela regija sa tri poluostrva: <strong>Kasandra</strong>, <strong>Sitonija</strong> i <strong>Atos</strong>.</p>
+
+<h2>Koje poluostrvo?</h2>
+<ul>
+  <li><strong>Kasandra</strong> — najviše turistička. Idealna za <a href="/guide/families">porodice</a>. <a href="/places/kallithea">Kalitea</a>, <a href="/places/hanioti">Hanioti</a>.</li>
+  <li><strong>Sitonija</strong> — divlja, zelena. Egzotične plaže: <a href="/places/vourvourou">Vurvuru</a>, <a href="/places/sarti">Sarti</a>.</li>
+  <li><strong>Atos</strong> — Sveta Gora zabranjena ženama. Jug: <a href="/places/ouranoupoli">Uranopolis</a>.</li>
+</ul>
+<p>Poređenje: <a href="/guide/kassandra-vs-sithonia">Kasandra vs Sitonija</a>.</p>
+
+<h2>Kada?</h2>
+<p>Prava sezona: <strong>15. jun — 15. septembar</strong>. Vrh: avgust. <strong>Lokalni savet:</strong> septembar je biser — toplo more, -30% cene.</p>
+
+<h2>Kako stići</h2>
+<p>Aerodrom Solun (SKG) ili kolima: <a href="/from/belgrade">iz Beograda</a>.</p>
+<ul>
+  <li>Rent-a-car — <a href="/guide/car-rental">vodič</a></li>
+  <li>KTEL autobus — jeftino</li>
+  <li>Privatni transfer: €80-160</li>
+</ul>
+
+<h2>Koliko dana?</h2>
+<ul>
+  <li>3-4 dana → samo Kasandra — <a href="/itinerary/3">ruta 3 dana</a></li>
+  <li>5-7 dana → Sitonija — <a href="/itinerary/7">ruta 7 dana</a></li>
+  <li>10+ dana → sva poluostrva — <a href="/itinerary/10">ruta 10 dana</a></li>
+</ul>
+
+<h2>Gde odsesti</h2>
+<ul>
+  <li>Porodice: <a href="/places/kallithea">Kalitea</a>, <a href="/places/hanioti">Hanioti</a></li>
+  <li>Parovi: <a href="/places/afytos">Afitos</a>, <a href="/places/nikiti">Nikiti</a></li>
+  <li>Luksuz: <a href="/places/sani-kassandra">Sani</a></li>
+</ul>
+
+<h2>Obavezno videti</h2>
+<ol>
+  <li><a href="/places/karidi-sithonia">Plaža Karidi</a></li>
+  <li><a href="/places/portokali-sithonia">Narandžasta plaža</a></li>
+  <li><a href="/places/afytos">Afitos</a></li>
+  <li>Krstarenje oko <a href="/mount-athos">Atosa</a></li>
+  <li><a href="/guide/petralona-cave">Pećina Petralona</a></li>
+</ol>
+
+<h2>Praktični saveti</h2>
+<ul>
+  <li>Imajte gotovinu</li>
+  <li>Parkinzi se pune do 10:30</li>
+  <li>Izbegavajte turističke zamke — <a href="/best/traditional-tavernas">autentične taverne</a></li>
+</ul>
+
+<h2>Budžet</h2>
+<p>7 dana, 2 osobe: €1800-3200. Vidi <a href="/guide/budget">budžet savete</a>.</p>
+
+<h2>Česta pitanja</h2>
+<h3>Da li je Halkidiki bezbedan?</h3>
+<p>Da, veoma. Vidi <a href="/guide/scams-to-avoid">prevare</a>.</p>
+<h3>Treba li mi auto?</h3>
+<p>Preporučuje se. Bez auta: <a href="/guide/halkidiki-without-car">vodič</a>.</p>
+<h3>Da li žene mogu na Atos?</h3>
+<p>Ne — samo krstarenje oko poluostrva.</p>`,
+    },
+  },
+  {
+    slug: 'kassandra-sithonia-athos', icon: 'GitCompareArrows', color: 'violet',
+    title: { el: 'Κασσάνδρα vs Σιθωνία vs Άθως — Τριπλή Σύγκριση', en: 'Kassandra vs Sithonia vs Athos — 3-Way Comparison', de: 'Kassandra vs Sithonia vs Athos — Dreifachvergleich', bg: 'Касандра vs Ситония vs Атон — Тройно сравнение', ru: 'Кассандра vs Ситония vs Афон — Тройное сравнение', ro: 'Kassandra vs Sithonia vs Athos — Comparație triplă', sr: 'Kasandra vs Sitonija vs Atos — Trostruko poređenje' },
+    description: { el: 'Βαθιά σύγκριση των τριών χερσονήσων — ποια ταιριάζει σε εσένα', en: 'Deep comparison of the three peninsulas — which one suits you', de: 'Tiefer Vergleich der drei Halbinseln', bg: 'Дълбоко сравнение на трите полуострова', ru: 'Глубокое сравнение трёх полуостровов', ro: 'Comparație profundă a celor trei peninsule', sr: 'Duboko poređenje tri poluostrva' },
+    metaTitle: { el: 'Κασσάνδρα ή Σιθωνία ή Άθως; Σύγκριση 2026 | ChalkidikiHub', en: 'Kassandra or Sithonia or Athos? 2026 Comparison', de: 'Kassandra oder Sithonia oder Athos? Vergleich 2026', bg: 'Касандра или Ситония или Атон? Сравнение 2026', ru: 'Кассандра или Ситония или Афон? Сравнение 2026', ro: 'Kassandra sau Sithonia sau Athos? Comparație 2026', sr: 'Kasandra ili Sitonija ili Atos? Poređenje 2026' },
+    metaDesc: { el: 'Κασσάνδρα, Σιθωνία ή Άθως; Πλήρης σύγκριση 2026: παραλίες, κόσμος, τιμές, νυχτερινή ζωή, ατμόσφαιρα — ποια να επιλέξεις.', en: 'Kassandra, Sithonia or Athos? Full 2026 comparison: beaches, crowds, prices, nightlife, atmosphere — which to pick.', de: 'Kassandra, Sithonia oder Athos? Vergleich 2026: Strände, Preise, Nachtleben.', bg: 'Касандра, Ситония или Атон? Пълно сравнение 2026.', ru: 'Кассандра, Ситония или Афон? Полное сравнение 2026.', ro: 'Kassandra, Sithonia sau Athos? Comparație 2026.', sr: 'Kasandra, Sitonija ili Atos? Poređenje 2026.' },
+    content: {
+      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Οι τρεις χερσόνησοι της Χαλκιδικής — Κασσάνδρα, Σιθωνία, Άθως — είναι τρεις εντελώς διαφορετικοί κόσμοι. Αν σκέφτεσαι "ποια να διαλέξω", αυτός ο οδηγός είναι για σένα.</p>
+
+<h2>Γρήγορη Απόφαση σε 30 Δευτερόλεπτα</h2>
+<ul>
+  <li>Θέλεις <strong>οργανωμένες παραλίες, πολύ κόσμο, νυχτερινή ζωή</strong> → <strong>Κασσάνδρα</strong>.</li>
+  <li>Θέλεις <strong>εξωτικές παραλίες, ησυχία, φύση</strong> → <strong>Σιθωνία</strong>.</li>
+  <li>Θέλεις <strong>θρησκευτικό/φιλοσοφικό ταξίδι, ορεινή πεζοπορία, μηδαμινός τουρισμός</strong> → <strong>Άθως</strong>.</li>
+</ul>
+
+<h2>Πίνακας Σύγκρισης</h2>
+<table class="w-full border-collapse my-4 text-sm">
+  <thead><tr class="bg-gray-100"><th class="border p-2 text-left">Κριτήριο</th><th class="border p-2 text-left">Κασσάνδρα</th><th class="border p-2 text-left">Σιθωνία</th><th class="border p-2 text-left">Άθως</th></tr></thead>
+  <tbody>
+    <tr><td class="border p-2"><strong>Χαρακτήρας</strong></td><td class="border p-2">Τουριστικός, κοσμικός</td><td class="border p-2">Φυσικός, χαλαρός</td><td class="border p-2">Θρησκευτικός, ήσυχος</td></tr>
+    <tr><td class="border p-2"><strong>Παραλίες</strong></td><td class="border p-2">Οργανωμένες, μεγάλες</td><td class="border p-2">Εξωτικές, ποικίλες</td><td class="border p-2">Ερημικές, άγριες</td></tr>
+    <tr><td class="border p-2"><strong>Νυχτερινή ζωή</strong></td><td class="border p-2">Έντονη</td><td class="border p-2">Ήπια</td><td class="border p-2">Ανύπαρκτη</td></tr>
+    <tr><td class="border p-2"><strong>Ξενοδοχεία</strong></td><td class="border p-2">Άπειρα (500+)</td><td class="border p-2">Αρκετά (200+)</td><td class="border p-2">Λίγα (50+)</td></tr>
+    <tr><td class="border p-2"><strong>Τιμές</strong></td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
+    <tr><td class="border p-2"><strong>Καταλληλότητα για παιδιά</strong></td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
+    <tr><td class="border p-2"><strong>Για γαμήλιο ταξίδι</strong></td><td class="border p-2">⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
+    <tr><td class="border p-2"><strong>Για πεζοπορία</strong></td><td class="border p-2">⭐⭐</td><td class="border p-2">⭐⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐⭐</td></tr>
+    <tr><td class="border p-2"><strong>Απόσταση από SKG</strong></td><td class="border p-2">70-110 χλμ</td><td class="border p-2">100-140 χλμ</td><td class="border p-2">120-160 χλμ</td></tr>
+  </tbody>
+</table>
+
+<h2>Κασσάνδρα — η Πρώτη Χερσόνησος</h2>
+<p>Η πιο κοντινή στη Θεσσαλονίκη (μόλις 70 χλμ), η Κασσάνδρα είναι η πιο τουριστικά ώριμη. Πάνω από 500 ξενοδοχεία, δεκάδες beach bars, supermarkets, κλινικές — όλα εδώ.</p>
+<h3>Υπέρ</h3>
+<ul>
+  <li><strong>Οργανωμένες παραλίες:</strong> Ξαπλώστρες, ομπρέλες, ναυαγοσώστης (<a href="/beaches/feature/lifeguard">δες τις με ναυαγοσώστη</a>).</li>
+  <li><strong>Νυχτερινή ζωή:</strong> Τα beach bars του <a href="/places/kallithea">Καλλιθέας</a> και του <a href="/places/hanioti">Χανιώτη</a> γεμίζουν μέχρι τις 4 π.μ. Δες <a href="/guide/nightlife">νυχτερινή ζωή</a>.</li>
+  <li><strong>Οικογενειακές υποδομές:</strong> Water parks, mini golf, animation — τέλεια για <a href="/guide/families">οικογένειες</a>.</li>
+  <li><strong>Luxury options:</strong> Η <a href="/places/sani-kassandra">Σάνη</a> είναι από τους κορυφαίους resort προορισμούς της Μεσογείου.</li>
+  <li><strong>Γραφικά χωριά:</strong> Ο <a href="/places/afytos">Άφυτος</a> είναι ένα από τα πιο όμορφα χωριά της Ελλάδας.</li>
+</ul>
+<h3>Κατά</h3>
+<ul>
+  <li><strong>Κόσμος:</strong> Τον Αύγουστο θα παλέψεις για κάθε πάρκινγκ.</li>
+  <li><strong>Υπερκατασκευή:</strong> Μεγάλες πολυκατοικίες και τσιμέντο σε μερικά σημεία.</li>
+  <li><strong>Παραλίες:</strong> Όμορφες, αλλά όχι τόσο «εξωτικές» όσο της Σιθωνίας.</li>
+</ul>
+<p><strong>Ιδανική για:</strong> πρώτη επίσκεψη, οικογένειες με μικρά παιδιά, βραχείες αποδράσεις, νυχτοκόσμο.</p>
+<p>Δες αναλυτικά: <a href="/places/kallithea">Καλλιθέα</a>, <a href="/places/hanioti">Χανιώτη</a>, <a href="/places/pefkohori">Πευκοχώρι</a>, <a href="/places/afytos">Άφυτος</a>, <a href="/places/paliouri">Παλιούρι</a>, <a href="/places/nea-fokea">Νέα Φώκαια</a>.</p>
+
+<h2>Σιθωνία — το Πράσινο Διαμάντι</h2>
+<p>Η μεσαία χερσόνησος. Λιγότερη δόμηση, περισσότερο πράσινο, και οι πιο διάσημες εξωτικές παραλίες της Χαλκιδικής.</p>
+<h3>Υπέρ</h3>
+<ul>
+  <li><strong>Παραλίες απίστευτου κάλλους:</strong> <a href="/places/karidi-sithonia">Καρύδι</a>, <a href="/places/portokali-sithonia">Καβουρότρυπες</a>, <a href="/places/vourvourou">Βουρβουρού</a> — δες όλες τις <a href="/best/beaches-sithonia">top Σιθωνίας</a>.</li>
+  <li><strong>Πεύκα μέχρι τη θάλασσα:</strong> Το τοπίο θυμίζει περισσότερο Κεφαλονιά παρά Χαλκιδική.</li>
+  <li><strong>Ιδανική για ζευγάρια:</strong> <a href="/places/parthenonas">Παρθενώνας</a> με θέα, ψαροταβέρνες στο <a href="/places/porto-koufo">Πόρτο Κουφό</a>.</li>
+  <li><strong>Μικρότερη τουριστική δόμηση:</strong> Πιο αυθεντική ελληνική αίσθηση.</li>
+  <li><strong>Νησίδες:</strong> Η Διάπορος και τα «Μικρά Νησιά» της Βουρβουρούς θυμίζουν Σεϋχέλλες.</li>
+</ul>
+<h3>Κατά</h3>
+<ul>
+  <li><strong>Λιγότερη υποδομή:</strong> Μικρότερα supermarkets, σποραδική κάλυψη ιατρείων.</li>
+  <li><strong>Περισσότερη απόσταση:</strong> Αν μένεις στη Σάρτη, είσαι 2 ώρες από το αεροδρόμιο.</li>
+  <li><strong>Μικρή νυχτερινή ζωή:</strong> Εκτός από τον <a href="/places/neos-marmaras">Νέο Μαρμαρά</a>, είναι ήσυχα.</li>
+</ul>
+<p><strong>Ιδανική για:</strong> ζευγάρια, <a href="/guide/honeymoon">γαμήλιο ταξίδι</a>, nature lovers, οικογένειες με μεγαλύτερα παιδιά, φωτογράφους.</p>
+<p>Δες αναλυτικά: <a href="/places/nikiti">Νικήτη</a>, <a href="/places/vourvourou">Βουρβουρού</a>, <a href="/places/neos-marmaras">Νέος Μαρμαράς</a>, <a href="/places/sarti">Σάρτη</a>, <a href="/places/toroni">Τορώνη</a>, <a href="/places/porto-koufo">Πόρτο Κουφό</a>, <a href="/places/parthenonas">Παρθενώνας</a>.</p>
+
+<h2>Άθως — η Άγνωστη Χερσόνησος</h2>
+<p>Η τρίτη και πιο «μυστηριώδης». Στην κορυφή της βρίσκεται το <a href="/mount-athos">Άγιο Όρος</a>, η θρησκευτική αυτόνομη πολιτεία των μοναχών (κλειστή σε γυναίκες). Η νότια και δυτική πλευρά είναι ανοιχτή σε όλους.</p>
+<h3>Υπέρ</h3>
+<ul>
+  <li><strong>Ελάχιστος τουρισμός:</strong> Ακόμα και τον Αύγουστο οι παραλίες έχουν χώρο.</li>
+  <li><strong>Κρουαζιέρα Αγίου Όρους:</strong> Η μόνη ευκαιρία (για γυναίκες) να δεις τα <a href="/mount-athos/monasteries">μοναστήρια</a>.</li>
+  <li><strong>Πεζοπορία:</strong> Το δίκτυο μονοπατιών είναι εξαιρετικό. Δες <a href="/guide/hiking-halkidiki">πεζοπορία στη Χαλκιδική</a>.</li>
+  <li><strong>Ιστορικά χωριά:</strong> <a href="/places/stagira">Στάγειρα</a> (γενέτειρα Αριστοτέλη), <a href="/places/arnea">Αρναία</a>.</li>
+  <li><strong>Τιμές:</strong> Αρκετά οικονομικότερα από Κασσάνδρα/Σιθωνία.</li>
+</ul>
+<h3>Κατά</h3>
+<ul>
+  <li><strong>Περιορισμένες επιλογές φαγητού/διαμονής</strong> σε σύγκριση με τις άλλες.</li>
+  <li><strong>Μεγάλη απόσταση</strong> από ΣKG αεροδρόμιο.</li>
+  <li><strong>Το άβατο:</strong> Γυναίκες δεν μπορούν να μπουν στο Άγιο Όρος.</li>
+</ul>
+<p><strong>Ιδανική για:</strong> πεζοπόρους, προσκυνητές, όσους θέλουν μονή + ορθόδοξη εμπειρία, nature photographers, ζευγάρια με αγάπη για την ησυχία.</p>
+<p>Δες αναλυτικά: <a href="/places/ouranoupoli">Ουρανούπολη</a>, <a href="/places/ierissos">Ιερισσός</a>, <a href="/places/stagira">Στάγειρα</a>, <a href="/places/olympiada">Ολυμπιάδα</a>, <a href="/places/nea-roda">Νέα Ρόδα</a>, <a href="/places/pyrgadikia">Πυργαδίκια</a>.</p>
+
+<h2>Ποια να Επιλέξεις με Βάση τον Τύπο σου;</h2>
+<h3>Ταξιδεύεις μόνος/μόνη σου</h3>
+<p>Ο <a href="/places/neos-marmaras">Νέος Μαρμαράς</a> έχει ωραία social σκηνή και θάλασσα. Ή η <a href="/places/ouranoupoli">Ουρανούπολη</a> για πιο ρεφλεξιβ ταξίδι.</p>
+<h3>Ζευγάρι σε ρομαντικές διακοπές</h3>
+<p>Σιθωνία, χωρίς δεύτερη σκέψη. Δες <a href="/guide/honeymoon">γαμήλιο ταξίδι</a> και <a href="/best/romantic-restaurants">ρομαντικά εστιατόρια</a>.</p>
+<h3>Οικογένεια με παιδιά κάτω των 6</h3>
+<p>Κασσάνδρα — οργανωμένες παραλίες, παιδιατρικά, water parks.</p>
+<h3>Οικογένεια με εφήβους</h3>
+<p>Συνδυασμός Κασσάνδρας + Σιθωνίας. Δες <a href="/itinerary/10">10ήμερο</a>.</p>
+<h3>Ομάδα φίλων που βγαίνουν νύχτα</h3>
+<p>Νότια <a href="/places/kallithea">Κασσάνδρα</a> — το πιο κοντινό σε κανονικά clubs είναι στο Πευκοχώρι.</p>
+<h3>Επιστρέφεις δεύτερη φορά</h3>
+<p>Αυτή τη φορά πήγαινε Σιθωνία. Αν έχεις ήδη πάει, δοκίμασε Άθως.</p>
+
+<h2>Τι Μπορείς να Συνδυάσεις</h2>
+<p>Αν έχεις τουλάχιστον 10 μέρες, σκέψου συνδυασμό. Η Σιθωνία και η Κασσάνδρα είναι 1 ώρα μεταξύ τους μέσω Πολύγυρου. Η Άθως είναι 1:30 από τη Σιθωνία.</p>
+<ul>
+  <li><strong>7 ημέρες Κασσάνδρα + 3 ημέρες Σιθωνία</strong> — ισορροπημένο πρώτο ταξίδι.</li>
+  <li><strong>5 ημέρες Σιθωνία + 2 ημέρες Άθως</strong> — ήρεμο, φυσιολατρικό.</li>
+  <li><strong>14ήμερο Grand Tour:</strong> 5-5-4 και στις τρεις. Δες <a href="/itinerary/14">14ήμερο itinerary</a>.</li>
+</ul>
+
+<h2>Συχνές Ερωτήσεις</h2>
+<h3>Πού είναι φθηνότερα;</h3>
+<p>Γενικά η Άθως είναι η πιο οικονομική, ακολουθεί η Σιθωνία, και η Κασσάνδρα είναι η πιο ακριβή (ιδίως Σάνη, Καλλιθέα). Δες <a href="/guide/budget">budget tips</a>.</p>
+<h3>Ποια έχει τα πιο καθαρά νερά;</h3>
+<p>Όλες έχουν εξαιρετικά καθαρά νερά (πολλές με <a href="/beaches/feature/blue-flag">Γαλάζια Σημαία</a>), αλλά η Σιθωνία έχει τα πιο φωτογενή — το βάθος + η αμμώδης βάση δημιουργούν τα τιρκουάζ χρώματα.</p>
+<h3>Ποια έχει καλύτερα εστιατόρια;</h3>
+<p>Η Κασσάνδρα έχει ποικιλία (διεθνή, gourmet, παραδοσιακά). Η Σιθωνία έχει τις καλύτερες ψαροταβέρνες. Η Άθως έχει τα πιο αυθεντικά. Δες <a href="/best/traditional-tavernas">παραδοσιακές ταβέρνες</a>.</p>
+<h3>Μπορώ να μείνω σε μία και να κάνω day trips στις άλλες;</h3>
+<p>Ναι, αλλά με κόστος χρόνου. Μείνε στη <a href="/places/nikiti">Νικήτη</a> (Σιθωνία) που είναι στην είσοδο — μπορείς να φτάσεις σε 45' στο <a href="/places/afytos">Άφυτο</a> ή σε 1:15 στην <a href="/places/ouranoupoli">Ουρανούπολη</a>.</p>
+<h3>Ποια είναι καλύτερη για παιδιά με ειδικές ανάγκες;</h3>
+<p>Κασσάνδρα — έχει περισσότερες <a href="/beaches/feature/accessible">προσβάσιμες παραλίες</a> και υποδομές.</p>`,
+      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">The three peninsulas of Halkidiki — Kassandra, Sithonia, Athos — are three entirely different worlds. If you're wondering "which one should I pick," this guide is for you.</p>
+
+<h2>30-Second Decision</h2>
+<ul>
+  <li>You want <strong>organized beaches, crowds, nightlife</strong> → <strong>Kassandra</strong>.</li>
+  <li>You want <strong>exotic beaches, quiet, nature</strong> → <strong>Sithonia</strong>.</li>
+  <li>You want <strong>religious/philosophical journey, mountain hiking, almost zero tourism</strong> → <strong>Athos</strong>.</li>
+</ul>
+
+<h2>Comparison Table</h2>
+<table class="w-full border-collapse my-4 text-sm">
+  <thead><tr class="bg-gray-100"><th class="border p-2 text-left">Criterion</th><th class="border p-2 text-left">Kassandra</th><th class="border p-2 text-left">Sithonia</th><th class="border p-2 text-left">Athos</th></tr></thead>
+  <tbody>
+    <tr><td class="border p-2"><strong>Character</strong></td><td class="border p-2">Touristy, social</td><td class="border p-2">Natural, relaxed</td><td class="border p-2">Religious, quiet</td></tr>
+    <tr><td class="border p-2"><strong>Beaches</strong></td><td class="border p-2">Organized, large</td><td class="border p-2">Exotic, varied</td><td class="border p-2">Remote, wild</td></tr>
+    <tr><td class="border p-2"><strong>Nightlife</strong></td><td class="border p-2">Intense</td><td class="border p-2">Mild</td><td class="border p-2">None</td></tr>
+    <tr><td class="border p-2"><strong>Hotels</strong></td><td class="border p-2">Plenty (500+)</td><td class="border p-2">Several (200+)</td><td class="border p-2">Few (50+)</td></tr>
+    <tr><td class="border p-2"><strong>Prices</strong></td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
+    <tr><td class="border p-2"><strong>Kid-friendly</strong></td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
+    <tr><td class="border p-2"><strong>Honeymoon</strong></td><td class="border p-2">⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
+    <tr><td class="border p-2"><strong>Hiking</strong></td><td class="border p-2">⭐⭐</td><td class="border p-2">⭐⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐⭐</td></tr>
+    <tr><td class="border p-2"><strong>Distance from SKG</strong></td><td class="border p-2">70-110 km</td><td class="border p-2">100-140 km</td><td class="border p-2">120-160 km</td></tr>
+  </tbody>
+</table>
+
+<h2>Kassandra — the First Peninsula</h2>
+<p>Closest to Thessaloniki (just 70 km), Kassandra is the most developed touristically. 500+ hotels, dozens of beach bars, supermarkets, clinics — all here.</p>
+<h3>Pros</h3>
+<ul>
+  <li><strong>Organized beaches:</strong> Sunbeds, umbrellas, lifeguards (<a href="/beaches/feature/lifeguard">see beaches with lifeguards</a>).</li>
+  <li><strong>Nightlife:</strong> Beach bars at <a href="/places/kallithea">Kallithea</a> and <a href="/places/hanioti">Hanioti</a> run until 4 a.m. See <a href="/guide/nightlife">nightlife guide</a>.</li>
+  <li><strong>Family infrastructure:</strong> Water parks, mini golf, animation — great for <a href="/guide/families">families</a>.</li>
+  <li><strong>Luxury options:</strong> <a href="/places/sani-kassandra">Sani</a> is among the top Mediterranean resort destinations.</li>
+  <li><strong>Picturesque villages:</strong> <a href="/places/afytos">Afytos</a> is one of Greece's prettiest villages.</li>
+</ul>
+<h3>Cons</h3>
+<ul>
+  <li><strong>Crowds:</strong> In August you'll fight for every parking spot.</li>
+  <li><strong>Overbuilding:</strong> Large apartment blocks in some areas.</li>
+  <li><strong>Beaches:</strong> Beautiful, but not as "exotic" as Sithonia's.</li>
+</ul>
+<p><strong>Ideal for:</strong> first visit, families with young kids, short breaks, party lovers.</p>
+<p>Explore: <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>, <a href="/places/pefkohori">Pefkohori</a>, <a href="/places/afytos">Afytos</a>, <a href="/places/paliouri">Paliouri</a>.</p>
+
+<h2>Sithonia — the Green Diamond</h2>
+<p>The middle peninsula. Less built-up, greener, and home to Halkidiki's most famous exotic beaches.</p>
+<h3>Pros</h3>
+<ul>
+  <li><strong>Beaches of unbelievable beauty:</strong> <a href="/places/karidi-sithonia">Karidi</a>, <a href="/places/portokali-sithonia">Kavourotrypes</a>, <a href="/places/vourvourou">Vourvourou</a> — see all <a href="/best/beaches-sithonia">top Sithonia</a>.</li>
+  <li><strong>Pines down to the sea:</strong> The landscape feels more like Kefalonia than Halkidiki.</li>
+  <li><strong>Ideal for couples:</strong> <a href="/places/parthenonas">Parthenonas</a> with views, fish tavernas at <a href="/places/porto-koufo">Porto Koufo</a>.</li>
+  <li><strong>Less touristy:</strong> More authentic Greek feel.</li>
+  <li><strong>Islets:</strong> Diaporos and the "Little Islands" of Vourvourou feel Seychelles-like.</li>
+</ul>
+<h3>Cons</h3>
+<ul>
+  <li><strong>Less infrastructure:</strong> Smaller shops, sparse medical.</li>
+  <li><strong>Farther:</strong> If you stay in Sarti, you're 2 hours from the airport.</li>
+  <li><strong>Limited nightlife:</strong> Besides <a href="/places/neos-marmaras">Neos Marmaras</a>, it's quiet.</li>
+</ul>
+<p><strong>Ideal for:</strong> couples, <a href="/guide/honeymoon">honeymoon</a>, nature lovers, families with older kids, photographers.</p>
+<p>Explore: <a href="/places/nikiti">Nikiti</a>, <a href="/places/vourvourou">Vourvourou</a>, <a href="/places/neos-marmaras">Neos Marmaras</a>, <a href="/places/sarti">Sarti</a>, <a href="/places/toroni">Toroni</a>, <a href="/places/porto-koufo">Porto Koufo</a>, <a href="/places/parthenonas">Parthenonas</a>.</p>
+
+<h2>Athos — the Unknown Peninsula</h2>
+<p>The third and most "mysterious." At its tip lies <a href="/mount-athos">Mount Athos</a>, the autonomous monastic state (closed to women). The south and west are open to all.</p>
+<h3>Pros</h3>
+<ul>
+  <li><strong>Minimal tourism:</strong> Even in August beaches have space.</li>
+  <li><strong>Mount Athos cruise:</strong> The only way for women to see the <a href="/mount-athos/monasteries">monasteries</a>.</li>
+  <li><strong>Hiking:</strong> Excellent trail network. See <a href="/guide/hiking-halkidiki">hiking Halkidiki</a>.</li>
+  <li><strong>Historic villages:</strong> <a href="/places/stagira">Stagira</a> (Aristotle's birthplace), <a href="/places/arnea">Arnea</a>.</li>
+  <li><strong>Prices:</strong> More affordable than Kassandra/Sithonia.</li>
+</ul>
+<h3>Cons</h3>
+<ul>
+  <li><strong>Limited food/lodging options</strong> vs other peninsulas.</li>
+  <li><strong>Longest drive</strong> from SKG airport.</li>
+  <li><strong>The "avaton":</strong> Women cannot enter Mount Athos proper.</li>
+</ul>
+<p><strong>Ideal for:</strong> hikers, pilgrims, those seeking monastic + Orthodox experience, nature photographers, couples who value silence.</p>
+<p>Explore: <a href="/places/ouranoupoli">Ouranoupoli</a>, <a href="/places/ierissos">Ierissos</a>, <a href="/places/stagira">Stagira</a>, <a href="/places/olympiada">Olympiada</a>, <a href="/places/nea-roda">Nea Roda</a>.</p>
+
+<h2>Which to Pick by Traveler Type</h2>
+<h3>Solo traveler</h3>
+<p><a href="/places/neos-marmaras">Neos Marmaras</a> has a nice social scene. Or <a href="/places/ouranoupoli">Ouranoupoli</a> for a reflective trip.</p>
+<h3>Couple, romantic holiday</h3>
+<p>Sithonia, hands down. See <a href="/guide/honeymoon">honeymoon</a> and <a href="/best/romantic-restaurants">romantic restaurants</a>.</p>
+<h3>Family, kids under 6</h3>
+<p>Kassandra — organized beaches, pediatric care, water parks.</p>
+<h3>Family, teenagers</h3>
+<p>Kassandra + Sithonia combo. See <a href="/itinerary/10">10-day itinerary</a>.</p>
+<h3>Friend group, party</h3>
+<p>Southern <a href="/places/kallithea">Kassandra</a> — closest to real clubs is in Pefkohori.</p>
+<h3>Second-time visitor</h3>
+<p>This time go Sithonia. If you've done both, try Athos.</p>
+
+<h2>What to Combine</h2>
+<p>With 10+ days, consider a combo. Sithonia and Kassandra are 1 hour apart via Polygyros. Athos is 1:30 from Sithonia.</p>
+<ul>
+  <li><strong>7 days Kassandra + 3 days Sithonia</strong> — balanced first trip.</li>
+  <li><strong>5 days Sithonia + 2 days Athos</strong> — calm, nature-focused.</li>
+  <li><strong>14-day Grand Tour:</strong> 5-5-4 across all three. See <a href="/itinerary/14">14-day itinerary</a>.</li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>Where is it cheapest?</h3>
+<p>Generally Athos, then Sithonia, then Kassandra (especially Sani, Kallithea). See <a href="/guide/budget">budget tips</a>.</p>
+<h3>Which has the clearest water?</h3>
+<p>All are excellent (many <a href="/beaches/feature/blue-flag">Blue Flag</a>), but Sithonia has the most photogenic — depth + sandy base produce turquoise colors.</p>
+<h3>Which has the best restaurants?</h3>
+<p>Kassandra for variety, Sithonia for fish tavernas, Athos for authenticity. See <a href="/best/traditional-tavernas">traditional tavernas</a>.</p>
+<h3>Can I base myself in one and day-trip?</h3>
+<p>Yes, but time cost. Stay at <a href="/places/nikiti">Nikiti</a> (Sithonia) at the entrance — you can reach <a href="/places/afytos">Afytos</a> in 45', <a href="/places/ouranoupoli">Ouranoupoli</a> in 1:15.</p>
+<h3>Best for special-needs kids?</h3>
+<p>Kassandra — more <a href="/beaches/feature/accessible">accessible beaches</a> and infrastructure.</p>`,
+      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Die drei Halbinseln Chalkidikis — Kassandra, Sithonia, Athos — sind drei völlig unterschiedliche Welten.</p>
+
+<h2>Schnelle Entscheidung</h2>
+<ul>
+  <li>Organisierte Strände, Nachtleben → <strong>Kassandra</strong></li>
+  <li>Exotische Strände, Ruhe → <strong>Sithonia</strong></li>
+  <li>Wandern, minimaler Tourismus → <strong>Athos</strong></li>
+</ul>
+
+<h2>Vergleichstabelle</h2>
+<table class="w-full border-collapse my-4 text-sm">
+  <thead><tr class="bg-gray-100"><th class="border p-2">Kriterium</th><th class="border p-2">Kassandra</th><th class="border p-2">Sithonia</th><th class="border p-2">Athos</th></tr></thead>
+  <tbody>
+    <tr><td class="border p-2">Charakter</td><td class="border p-2">Touristisch</td><td class="border p-2">Natürlich</td><td class="border p-2">Religiös</td></tr>
+    <tr><td class="border p-2">Preise</td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
+    <tr><td class="border p-2">Familien</td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
+    <tr><td class="border p-2">Paare</td><td class="border p-2">⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
+  </tbody>
+</table>
+
+<h2>Kassandra</h2>
+<p>Am entwickeltsten. 500+ Hotels. Siehe <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>, <a href="/places/afytos">Afytos</a>, <a href="/places/sani-kassandra">Sani</a>.</p>
+<p><strong>Ideal für:</strong> Erste Reise, <a href="/guide/families">Familien</a>, Nachtleben.</p>
+
+<h2>Sithonia</h2>
+<p>Grüner, ruhiger. Berühmte Strände: <a href="/places/karidi-sithonia">Karidi</a>, <a href="/places/portokali-sithonia">Orange Beach</a>, <a href="/places/vourvourou">Vourvourou</a>.</p>
+<p><strong>Ideal für:</strong> Paare, <a href="/guide/honeymoon">Flitterwochen</a>, Naturliebhaber.</p>
+
+<h2>Athos</h2>
+<p>Der Heilige Berg — geschlossen für Frauen. <a href="/places/ouranoupoli">Ouranoupoli</a>, <a href="/places/ierissos">Ierissos</a>, <a href="/places/stagira">Stagira</a>.</p>
+<p><strong>Ideal für:</strong> Wanderer (siehe <a href="/guide/hiking-halkidiki">Wandern</a>), Pilger, Ruhesuchende.</p>
+
+<h2>Kombinationen</h2>
+<ul>
+  <li>7 Tage Kassandra + 3 Tage Sithonia</li>
+  <li>14-Tage Grand Tour — <a href="/itinerary/14">14-Tage-Route</a></li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>Welche ist am günstigsten?</h3>
+<p>Athos, dann Sithonia, dann Kassandra. <a href="/guide/budget">Budget-Tipps</a>.</p>
+<h3>Klarstes Wasser?</h3>
+<p>Alle exzellent, Sithonia am fotogensten.</p>`,
+      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Трите полуострова на Халкидики — Касандра, Ситония, Атон — са три напълно различни свята.</p>
+
+<h2>Бързо решение</h2>
+<ul>
+  <li>Организирани плажове, нощен живот → <strong>Касандра</strong></li>
+  <li>Екзотични плажове, тишина → <strong>Ситония</strong></li>
+  <li>Планинарство, минимален туризъм → <strong>Атон</strong></li>
+</ul>
+
+<h2>Таблица за сравнение</h2>
+<table class="w-full border-collapse my-4 text-sm">
+  <thead><tr class="bg-gray-100"><th class="border p-2">Критерий</th><th class="border p-2">Касандра</th><th class="border p-2">Ситония</th><th class="border p-2">Атон</th></tr></thead>
+  <tbody>
+    <tr><td class="border p-2">Характер</td><td class="border p-2">Туристически</td><td class="border p-2">Природен</td><td class="border p-2">Религиозен</td></tr>
+    <tr><td class="border p-2">Цени</td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
+  </tbody>
+</table>
+
+<h2>Касандра</h2>
+<p>Най-развит. 500+ хотела. <a href="/places/kallithea">Калитея</a>, <a href="/places/hanioti">Ханиоти</a>, <a href="/places/afytos">Афитос</a>.</p>
+
+<h2>Ситония</h2>
+<p>По-зелена, по-тиха. <a href="/places/karidi-sithonia">Кариди</a>, <a href="/places/portokali-sithonia">Оранжев плаж</a>, <a href="/places/vourvourou">Вурвуру</a>.</p>
+
+<h2>Атон</h2>
+<p>Светата гора — затворена за жени. <a href="/places/ouranoupoli">Уранополис</a>, <a href="/places/ierissos">Иерисос</a>.</p>
+
+<h2>Комбинации</h2>
+<ul>
+  <li>7 дни Касандра + 3 дни Ситония</li>
+  <li>14 дни всичките — <a href="/itinerary/14">маршрут 14 дни</a></li>
+</ul>
+
+<h2>Често задавани въпроси</h2>
+<h3>Коя е най-евтина?</h3>
+<p>Атон, после Ситония, после Касандра. <a href="/guide/budget">Бюджет</a>.</p>`,
+      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Три полуострова Халкидиков — Кассандра, Ситония, Афон — три совершенно разных мира.</p>
+
+<h2>Быстрое решение</h2>
+<ul>
+  <li>Организованные пляжи, ночная жизнь → <strong>Кассандра</strong></li>
+  <li>Экзотические пляжи, тишина → <strong>Ситония</strong></li>
+  <li>Походы, минимум туризма → <strong>Афон</strong></li>
+</ul>
+
+<h2>Таблица сравнения</h2>
+<table class="w-full border-collapse my-4 text-sm">
+  <thead><tr class="bg-gray-100"><th class="border p-2">Критерий</th><th class="border p-2">Кассандра</th><th class="border p-2">Ситония</th><th class="border p-2">Афон</th></tr></thead>
+  <tbody>
+    <tr><td class="border p-2">Характер</td><td class="border p-2">Туристический</td><td class="border p-2">Природный</td><td class="border p-2">Религиозный</td></tr>
+    <tr><td class="border p-2">Цены</td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
+  </tbody>
+</table>
+
+<h2>Кассандра</h2>
+<p>Самый развитый. <a href="/places/kallithea">Каллифея</a>, <a href="/places/hanioti">Ханиоти</a>, <a href="/places/afytos">Афитос</a>.</p>
+
+<h2>Ситония</h2>
+<p>Зеленее, тише. <a href="/places/karidi-sithonia">Кариди</a>, <a href="/places/portokali-sithonia">Оранжевый пляж</a>, <a href="/places/vourvourou">Вурвуру</a>.</p>
+
+<h2>Афон</h2>
+<p>Святая Гора — закрыта для женщин. <a href="/places/ouranoupoli">Уранополис</a>, <a href="/places/ierissos">Иериссос</a>.</p>
+
+<h2>Комбинации</h2>
+<ul>
+  <li>7 дней Кассандра + 3 дня Ситония</li>
+  <li>14 дней все три — <a href="/itinerary/14">маршрут 14 дней</a></li>
+</ul>
+
+<h2>Часто задаваемые вопросы</h2>
+<h3>Где дешевле?</h3>
+<p>Афон, Ситония, Кассандра. <a href="/guide/budget">Бюджет-советы</a>.</p>`,
+      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Cele trei peninsule din Halkidiki — Kassandra, Sithonia, Athos — sunt trei lumi complet diferite.</p>
+
+<h2>Decizie rapidă</h2>
+<ul>
+  <li>Plaje organizate, viață de noapte → <strong>Kassandra</strong></li>
+  <li>Plaje exotice, liniște → <strong>Sithonia</strong></li>
+  <li>Drumeții, turism minim → <strong>Athos</strong></li>
+</ul>
+
+<h2>Tabel comparativ</h2>
+<table class="w-full border-collapse my-4 text-sm">
+  <thead><tr class="bg-gray-100"><th class="border p-2">Criteriu</th><th class="border p-2">Kassandra</th><th class="border p-2">Sithonia</th><th class="border p-2">Athos</th></tr></thead>
+  <tbody>
+    <tr><td class="border p-2">Caracter</td><td class="border p-2">Turistic</td><td class="border p-2">Natural</td><td class="border p-2">Religios</td></tr>
+    <tr><td class="border p-2">Prețuri</td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
+  </tbody>
+</table>
+
+<h2>Kassandra</h2>
+<p>Cea mai dezvoltată. <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>, <a href="/places/afytos">Afytos</a>.</p>
+
+<h2>Sithonia</h2>
+<p>Mai verde, mai liniștită. <a href="/places/karidi-sithonia">Karidi</a>, <a href="/places/portokali-sithonia">Plaja Portocalie</a>, <a href="/places/vourvourou">Vourvourou</a>.</p>
+
+<h2>Athos</h2>
+<p>Muntele Athos — închis femeilor. <a href="/places/ouranoupoli">Ouranoupoli</a>, <a href="/places/ierissos">Ierissos</a>.</p>
+
+<h2>Combinații</h2>
+<ul>
+  <li>7 zile Kassandra + 3 zile Sithonia</li>
+  <li>14 zile toate — <a href="/itinerary/14">traseu 14 zile</a></li>
+</ul>
+
+<h2>Întrebări frecvente</h2>
+<h3>Cea mai ieftină?</h3>
+<p>Athos, apoi Sithonia, apoi Kassandra. <a href="/guide/budget">Buget</a>.</p>`,
+      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Tri poluostrva Halkidikija — Kasandra, Sitonija, Atos — su tri potpuno različita sveta.</p>
+
+<h2>Brza odluka</h2>
+<ul>
+  <li>Organizovane plaže, noćni život → <strong>Kasandra</strong></li>
+  <li>Egzotične plaže, tišina → <strong>Sitonija</strong></li>
+  <li>Planinarenje, minimum turizma → <strong>Atos</strong></li>
+</ul>
+
+<h2>Uporedna tabela</h2>
+<table class="w-full border-collapse my-4 text-sm">
+  <thead><tr class="bg-gray-100"><th class="border p-2">Kriterijum</th><th class="border p-2">Kasandra</th><th class="border p-2">Sitonija</th><th class="border p-2">Atos</th></tr></thead>
+  <tbody>
+    <tr><td class="border p-2">Karakter</td><td class="border p-2">Turistički</td><td class="border p-2">Prirodni</td><td class="border p-2">Religiozni</td></tr>
+    <tr><td class="border p-2">Cene</td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
+  </tbody>
+</table>
+
+<h2>Kasandra</h2>
+<p>Najrazvijenija. <a href="/places/kallithea">Kalitea</a>, <a href="/places/hanioti">Hanioti</a>, <a href="/places/afytos">Afitos</a>.</p>
+
+<h2>Sitonija</h2>
+<p>Zelenija, tiša. <a href="/places/karidi-sithonia">Karidi</a>, <a href="/places/portokali-sithonia">Narandžasta plaža</a>, <a href="/places/vourvourou">Vurvuru</a>.</p>
+
+<h2>Atos</h2>
+<p>Sveta Gora — zabranjena ženama. <a href="/places/ouranoupoli">Uranopolis</a>, <a href="/places/ierissos">Jerisos</a>.</p>
+
+<h2>Kombinacije</h2>
+<ul>
+  <li>7 dana Kasandra + 3 dana Sitonija</li>
+  <li>14 dana sve tri — <a href="/itinerary/14">ruta 14 dana</a></li>
+</ul>
+
+<h2>Česta pitanja</h2>
+<h3>Najjeftinija?</h3>
+<p>Atos, zatim Sitonija, zatim Kasandra. <a href="/guide/budget">Budžet</a>.</p>`,
+    },
+  },
+  {
+    slug: 'hiking-halkidiki', icon: 'Mountain', color: 'emerald',
+    title: { el: 'Πεζοπορία στη Χαλκιδική — Διαδρομές & Μονοπάτια', en: 'Hiking in Halkidiki — Trails & Routes', de: 'Wandern in Chalkidiki — Wege & Routen', bg: 'Планинарство в Халкидики — Маршрути', ru: 'Пешие походы в Халкидики — Маршруты', ro: 'Drumeții în Halkidiki — Rute și poteci', sr: 'Planinarenje u Halkidikiju — Staze' },
+    description: { el: 'Οι καλύτερες διαδρομές πεζοπορίας στη Χαλκιδική', en: 'The best hiking routes in Halkidiki', de: 'Die besten Wanderwege in Chalkidiki', bg: 'Най-добрите пешеходни маршрути', ru: 'Лучшие пешие маршруты', ro: 'Cele mai bune rute de drumeție', sr: 'Najbolje staze za planinarenje' },
+    metaTitle: { el: 'Πεζοπορία Χαλκιδική 2026 — Διαδρομές, Μονοπάτια, Δυσκολία | ChalkidikiHub', en: 'Hiking Halkidiki 2026 — Trails, Routes, Difficulty', de: 'Wandern Chalkidiki 2026 — Routen, Wege', bg: 'Планинарство Халкидики 2026 — Маршрути', ru: 'Пешие походы Халкидики 2026', ro: 'Drumeții Halkidiki 2026 — Rute', sr: 'Planinarenje Halkidiki 2026' },
+    metaDesc: { el: 'Πλήρης οδηγός πεζοπορίας στη Χαλκιδική: 15+ διαδρομές σε Ιτάμο, Χολομώντα, Στρατονικό, με δυσκολία, απόσταση, χρόνο, tips.', en: 'Complete hiking guide in Halkidiki: 15+ trails on Itamos, Holomontas, Stratoniko with difficulty, distance, time, tips.', de: 'Kompletter Wanderführer Chalkidiki: 15+ Routen auf Itamos, Holomontas.', bg: 'Пълен пътеводител за планинарство: 15+ маршрута на Итамос, Холомонтас.', ru: 'Полный путеводитель по пешим походам: 15+ маршрутов на Итамосе, Холомондасе.', ro: 'Ghid complet drumeții: 15+ rute pe Itamos, Holomontas.', sr: 'Kompletan vodič za planinarenje: 15+ staza na Itamosu, Holomondasu.' },
+    content: {
+      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Η Χαλκιδική δεν είναι μόνο παραλίες. Το εσωτερικό της κρύβει τρία σημαντικά βουνά — Ιτάμος, Χολομώντας, Στρατονικό — με πυκνά δάση οξιάς, καστανιάς και πεύκου, μοναστήρια, αρχαιολογικούς χώρους και μονοπάτια που φτάνουν μέχρι τη θάλασσα.</p>
+
+<h2>Γιατί Πεζοπορία στη Χαλκιδική;</h2>
+<p>Η περιοχή συνδυάζει κάτι μοναδικό: <strong>βουνό και θάλασσα σε απόσταση 30 λεπτών</strong>. Μπορείς να ξεκινήσεις το πρωί από το δάσος στα 800μ. υψόμετρο και το απόγευμα να κάνεις βουτιά στα τιρκουάζ νερά της Σιθωνίας. Αντίθετα με τις Κυκλάδες όπου «πεζοπορία» σημαίνει ξερό μονοπάτι κάτω από τον ήλιο, εδώ οι διαδρομές είναι σκιερές, πράσινες και δροσερές.</p>
+
+<h2>Τα 3 Βουνά της Χαλκιδικής</h2>
+<h3>1. Ιτάμος (Σιθωνία)</h3>
+<p>Η «ράχη» της Σιθωνίας, υψόμετρο 811μ., πυκνό πευκοδάσος που φτάνει μέχρι τη θάλασσα. Ιδανικό για συνδυασμό πεζοπορίας + κολύμβησης. Η κορυφή του προσφέρει την πιο εντυπωσιακή θέα — βλέπεις ταυτόχρονα τον Τορωναίο και Σιγγιτικό κόλπο.</p>
+<h3>2. Χολομώντας (κεντρική Χαλκιδική)</h3>
+<p>Το μεγαλύτερο βουνό (1.165μ.), στα όρια Σιθωνίας και Αθω. Πυκνά δάση καστανιάς και οξιάς, μοναστήρια, εγκαταλελειμμένα μεταλλεία χρυσού. Εδώ ξεκινά και καταλήγει το Ε4 Ευρωπαϊκό μονοπάτι.</p>
+<h3>3. Στρατονικό (ΒΑ Χαλκιδική)</h3>
+<p>Συνδέει τη <a href="/places/arnea">Αρναία</a> με τα μεταλλοφόρα χωριά (<a href="/places/stratoni">Στρατώνι</a>, <a href="/places/olympiada">Ολυμπιάδα</a>). Πλούσια χλωρίδα, λιγότερο τουριστικό.</p>
+
+<h2>Οι 10 Καλύτερες Διαδρομές</h2>
+
+<h3>1. Αρναία → Ι.Μ. Αγίας Αναστασίας (4 χλμ, εύκολη)</h3>
+<p><strong>Διάρκεια:</strong> 1:30 ώρα | <strong>Υψομ. διαφορά:</strong> 180μ. | <strong>Εκκίνηση:</strong> <a href="/places/arnea">Αρναία</a>, πλατεία<br>
+Παραδοσιακό μονοπάτι που συνδέει την Αρναία με την ιστορική μονή. Ωραίο για οικογένειες. Σκιά σχεδόν σε όλη τη διαδρομή. Το μοναστήρι ιδρύθηκε τον 9ο αιώνα.</p>
+
+<h3>2. Παρθενώνας → Κορυφή Ιτάμου (7 χλμ, μέτρια)</h3>
+<p><strong>Διάρκεια:</strong> 3:00 ώρες | <strong>Υψομ. διαφορά:</strong> 680μ. | <strong>Εκκίνηση:</strong> <a href="/places/parthenonas">Παρθενώνας</a><br>
+Η κορυφαία διαδρομή της Σιθωνίας. Ανηφόρα σταθερή. Από την κορυφή βλέπεις τη <a href="/places/vourvourou">Βουρβουρού</a>, τον <a href="/places/neos-marmaras">Νέο Μαρμαρά</a>, και — σε καθαρές μέρες — τον Άθωνα. Ξεκίνα στις 7 π.μ. για να αποφύγεις τη ζέστη.</p>
+
+<h3>3. Κήπος Αριστοτέλη → <a href="/places/stagira">Στάγειρα</a> (5 χλμ, εύκολη)</h3>
+<p><strong>Διάρκεια:</strong> 2:00 ώρες | <strong>Υψομ. διαφορά:</strong> 200μ.<br>
+Πολιτιστική πεζοπορία στη γενέτειρα του Αριστοτέλη. Ο Κήπος έχει διαδραστικά όργανα βασισμένα στις επιστήμες του φιλόσοφου.</p>
+
+<h3>4. Ε4 Τμήμα Χολομώντα (12 χλμ, μέτρια-δύσκολη)</h3>
+<p><strong>Διάρκεια:</strong> 5:00 ώρες | <strong>Υψομ. διαφορά:</strong> 550μ.<br>
+Από Ταξιάρχη προς Πολύγυρο. Μέρος του Ευρωπαϊκού μονοπατιού Ε4 που διασχίζει όλη τη Χαλκιδική. Δάσος καστανιάς, πηγές, ιστορικές τοποθεσίες.</p>
+
+<h3>5. Ουρανούπολη → Ζωγράφου (8 χλμ, εύκολη)</h3>
+<p><strong>Διάρκεια:</strong> 2:30 ώρες | <strong>Υψομ. διαφορά:</strong> 120μ. | <strong>Εκκίνηση:</strong> <a href="/places/ouranoupoli">Ουρανούπολη</a><br>
+Παραθαλάσσιο μονοπάτι μέχρι τα σύνορα του <a href="/mount-athos">Αγίου Όρους</a>. Δες δελφίνια και σπάνια πουλιά. Πιο άγριο από όσο φαντάζεσαι.</p>
+
+<h3>6. Ταξιάρχης → Κορυφή Χολομώντα (10 χλμ, δύσκολη)</h3>
+<p><strong>Διάρκεια:</strong> 5:30 ώρες | <strong>Υψομ. διαφορά:</strong> 780μ.<br>
+Ανάβαση στην ψηλότερη κορυφή της Χαλκιδικής (1.165μ.). Απαιτεί καλή φυσική κατάσταση. Το χειμώνα χιονίζει — οι ντόπιοι ανεβαίνουν με ραβδιά.</p>
+
+<h3>7. Πόρτο Κουφό → Στάβρος (6 χλμ, εύκολη-μέτρια)</h3>
+<p><strong>Διάρκεια:</strong> 2:30 ώρες<br>
+Παραθαλάσσια διαδρομή στη ΝΔ άκρη της <a href="/places/porto-koufo">Σιθωνίας</a>. Βράχοι, μικρές ανεξερεύνητες παραλίες, δράκοι θαλάσσιοι. Πρέπει να έχεις παπούτσια trekking.</p>
+
+<h3>8. Παλαιοχώρι → Βαρβάρα (7 χλμ, εύκολη)</h3>
+<p><strong>Διάρκεια:</strong> 2:30 ώρες<br>
+Μονοπάτι μέσα σε δάσος καστανιάς. Αν είσαι εκεί Σεπτέμβριο-Οκτώβριο θα δεις πρωτοφανείς όγκους κάστανων.</p>
+
+<h3>9. Μονή Ζωγράφου Περιμετρικά (15 χλμ, δύσκολη)</h3>
+<p><strong>Διάρκεια:</strong> 6:00 ώρες<br>
+<strong>ΠΡΟΣΟΧΗ:</strong> Απαιτεί διαμονητήριο Αγίου Όρους (μόνο άνδρες). Είναι η πεζοπορία γύρω από το βουλγαρικό μοναστήρι. Δες <a href="/mount-athos/hiking">πεζοπορία Αγίου Όρους</a>.</p>
+
+<h3>10. Κρήνη → <a href="/places/palaiokastro">Παλαιόκαστρο</a> (5 χλμ, εύκολη)</h3>
+<p><strong>Διάρκεια:</strong> 1:45 ώρα<br>
+Μικρή διαδρομή σε βυζαντινό κάστρο. Ιστορικό ενδιαφέρον, ωραία θέα.</p>
+
+<h2>Πότε να Πεζοπορήσεις</h2>
+<p>Τα καλύτερα «παράθυρα»:</p>
+<ul>
+  <li><strong><a href="/guide/april">Απρίλιος</a>-Μάιος:</strong> Άνθιση, δροσιά (12-20°C), φθηνή περίοδος.</li>
+  <li><strong>Σεπτέμβριος-Οκτώβριος:</strong> Θερμοκρασία ιδανική, λιγότεροι τουρίστες, πολλά χρώματα στο δάσος.</li>
+  <li><strong>Ιούνιος πρωινά:</strong> Πρέπει να ξεκινάς πριν τις 8 π.μ. για να αποφύγεις τη ζέστη.</li>
+</ul>
+<p><strong>Να αποφύγεις:</strong> Ιούλιο και Αύγουστο εκτός από βουνά με σκιά (Χολομώντας). Κίνδυνος ηλιοθεραπείας.</p>
+
+<h2>Εξοπλισμός & Απαιτήσεις</h2>
+<h3>Απαραίτητα</h3>
+<ul>
+  <li>Παπούτσια trekking (όχι sneakers)</li>
+  <li>Καπέλο + αντηλιακό + γυαλιά</li>
+  <li>2+ λίτρα νερό ανά άτομο το καλοκαίρι</li>
+  <li>Σνακ υψηλής ενέργειας (ξηροί καρποί, αποξηραμένα)</li>
+  <li>Φαρμακείο: τσιμπίδα για τσιμπούρια (ΣΗΜΑΝΤΙΚΟ — η Χαλκιδική έχει πολλά), κρέμα για τσουξίματα</li>
+  <li>Χάρτης offline στο κινητό (AllTrails, Gaia GPS, Wikiloc)</li>
+</ul>
+<h3>Για πιο δύσκολες διαδρομές</h3>
+<ul>
+  <li>Ραβδιά πεζοπορίας</li>
+  <li>Αδιάβροχο (οι βροχές στη Χαλκιδική έρχονται απρόσμενα)</li>
+  <li>Headlamp (σε περίπτωση που νυχτώσει)</li>
+</ul>
+
+<h2>Συνδυασμός Πεζοπορία + Θάλασσα</h2>
+<p>Η μαγική συνταγή: ανάβαση το πρωί, θάλασσα το απόγευμα. Προτάσεις:</p>
+<ul>
+  <li>Παρθενώνας κορυφή (6-10 π.μ.) + κολύμβηση <a href="/places/karidi-sithonia">Καρύδι</a> (12-16)</li>
+  <li>Ιτάμος + <a href="/places/portokali-sithonia">Καβουρότρυπες</a></li>
+  <li>Ζωγράφου περιμετρικά + <a href="/places/komitsa-athos">Κομίτσα</a></li>
+  <li>Αρναία μονή + <a href="/places/olympiada">Ολυμπιάδα</a> παραλία</li>
+</ul>
+
+<h2>Οργανωμένες Εκδρομές vs Ανεξάρτητη Πεζοπορία</h2>
+<p><strong>Οργανωμένες:</strong> Υπάρχουν τοπικές εταιρείες που προσφέρουν πεζοπορίες με οδηγό (€35-60/άτομο). Ιδανικές αν είναι η πρώτη σου φορά ή αν δεν έχεις χάρτη offline.</p>
+<p><strong>Ανεξάρτητη:</strong> Οι περισσότερες διαδρομές είναι σηματοδοτημένες. Με μια εφαρμογή όπως Wikiloc δεν χάνεσαι. Εξοικονομείς 60%.</p>
+
+<h2>Συχνές Ερωτήσεις</h2>
+<h3>Υπάρχουν αρκούδες ή λύκοι;</h3>
+<p>Δεν υπάρχουν αρκούδες. Λύκοι υπάρχουν στα όρη Χολομώντα αλλά εξαιρετικά σπάνιοι και φοβούνται τον άνθρωπο. Μηδενικός κίνδυνος.</p>
+<h3>Μπορώ να κάνω πεζοπορία με παιδιά;</h3>
+<p>Ναι — διαδρομές #1, #3, #5, #10 είναι κατάλληλες. Δες και <a href="/guide/families">οικογενειακές διακοπές</a>.</p>
+<h3>Υπάρχουν τσιμπούρια;</h3>
+<p>Ναι, κυρίως από τον Μάιο. Φόρεσε μακρύ παντελόνι, ρίξε αντικουνουπικό με DEET, και έλεγξε σώμα μετά την πεζοπορία. Δες <a href="/guide/jellyfish-mosquitoes">tips</a>.</p>
+<h3>Ποιες εφαρμογές να κατεβάσω;</h3>
+<p>Wikiloc (οι περισσότερες χαλκιδικές διαδρομές), AllTrails, Gaia GPS (για offline χάρτες). Κατέβασε τους χάρτες ΠΡΙΝ ξεκινήσεις.</p>
+<h3>Υπάρχουν πηγές νερού στη διαδρομή;</h3>
+<p>Ορισμένες πηγές είναι πόσιμες (σηματοδοτημένες) αλλά καλύτερα να έχεις μαζί σου. Η Αρναία και ο Ταξιάρχης έχουν άφθονες πηγές.</p>
+<h3>Έχει καθαρίσει το δίκτυο μετά τις πυρκαγιές;</h3>
+<p>Ναι. Οι πυρκαγιές του 2023 επηρέασαν το ΒΑ τμήμα (Νέα Πλάγια) αλλά τα κεντρικά μονοπάτια είναι ανοιχτά. Πριν ξεκινήσεις, έλεγξε τοπικές ανακοινώσεις.</p>`,
+      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki isn't only beaches. The interior hides three significant mountains — Itamos, Holomontas, Stratoniko — with dense beech, chestnut and pine forests, monasteries, archaeological sites, and trails that reach the sea.</p>
+
+<h2>Why Hike in Halkidiki?</h2>
+<p>The area combines something unique: <strong>mountain and sea within 30 minutes</strong>. You can start your morning in the forest at 800 m elevation and dive into the turquoise waters of Sithonia in the afternoon. Unlike the Cyclades where "hiking" means a dry path under the sun, here trails are shady, green, and cool.</p>
+
+<h2>The 3 Mountains</h2>
+<h3>1. Itamos (Sithonia)</h3>
+<p>Sithonia's "spine," 811 m, dense pine forest reaching the sea. Ideal for hiking + swimming combos. Its peak offers the most stunning view — you see both the Toronean and Singitic gulfs.</p>
+<h3>2. Holomontas (central Halkidiki)</h3>
+<p>The largest mountain (1,165 m), on the Sithonia-Athos boundary. Dense chestnut and beech forests, monasteries, abandoned gold mines. The European E4 long-distance trail passes through.</p>
+<h3>3. Stratoniko (NE Halkidiki)</h3>
+<p>Connects <a href="/places/arnea">Arnea</a> with the mining villages (<a href="/places/stratoni">Stratoni</a>, <a href="/places/olympiada">Olympiada</a>). Rich flora, less touristy.</p>
+
+<h2>The 10 Best Trails</h2>
+
+<h3>1. Arnea → Agia Anastasia Monastery (4 km, easy)</h3>
+<p><strong>Duration:</strong> 1:30h | <strong>Elevation:</strong> 180 m | <strong>Start:</strong> <a href="/places/arnea">Arnea</a> square<br>
+Traditional trail connecting Arnea with the historic monastery. Family-friendly. Shade almost all the way. Monastery founded in the 9th century.</p>
+
+<h3>2. Parthenonas → Itamos Peak (7 km, moderate)</h3>
+<p><strong>Duration:</strong> 3:00h | <strong>Elevation:</strong> 680 m | <strong>Start:</strong> <a href="/places/parthenonas">Parthenonas</a><br>
+Sithonia's signature hike. Steady climb. From the top: <a href="/places/vourvourou">Vourvourou</a>, <a href="/places/neos-marmaras">Neos Marmaras</a>, and on clear days Mount Athos. Start at 7 a.m. to avoid heat.</p>
+
+<h3>3. Aristotle Grove → <a href="/places/stagira">Stagira</a> (5 km, easy)</h3>
+<p><strong>Duration:</strong> 2:00h | <strong>Elevation:</strong> 200 m<br>
+Cultural hike to Aristotle's birthplace. The park has interactive instruments based on his sciences.</p>
+
+<h3>4. E4 Holomontas section (12 km, moderate-difficult)</h3>
+<p><strong>Duration:</strong> 5:00h | <strong>Elevation:</strong> 550 m<br>
+Taxiarchis to Polygyros. Part of the European E4 crossing all of Halkidiki. Chestnut forest, springs, historic sites.</p>
+
+<h3>5. Ouranoupoli → Zografou (8 km, easy)</h3>
+<p><strong>Duration:</strong> 2:30h | <strong>Elevation:</strong> 120 m | <strong>Start:</strong> <a href="/places/ouranoupoli">Ouranoupoli</a><br>
+Coastal trail up to the <a href="/mount-athos">Mount Athos</a> border. Spot dolphins and rare birds. Wilder than you'd think.</p>
+
+<h3>6. Taxiarchis → Holomontas Peak (10 km, difficult)</h3>
+<p><strong>Duration:</strong> 5:30h | <strong>Elevation:</strong> 780 m<br>
+Climb to Halkidiki's highest peak (1,165 m). Requires good fitness. In winter it snows — locals use poles.</p>
+
+<h3>7. Porto Koufo → Stavros (6 km, easy-moderate)</h3>
+<p><strong>Duration:</strong> 2:30h<br>
+Coastal route at the SW tip of <a href="/places/porto-koufo">Sithonia</a>. Cliffs, hidden beaches, scorpion fish. Trekking shoes required.</p>
+
+<h3>8. Palaiohori → Varvara (7 km, easy)</h3>
+<p><strong>Duration:</strong> 2:30h<br>
+Trail through chestnut forest. In September-October you'll see massive chestnut harvests.</p>
+
+<h3>9. Zografou Perimeter (15 km, difficult)</h3>
+<p><strong>Duration:</strong> 6:00h<br>
+<strong>NOTE:</strong> Requires Mount Athos permit (men only). Circumnavigates the Bulgarian monastery. See <a href="/mount-athos/hiking">hiking Mount Athos</a>.</p>
+
+<h3>10. Krini → <a href="/places/palaiokastro">Palaiokastro</a> (5 km, easy)</h3>
+<p><strong>Duration:</strong> 1:45h<br>
+Short trail to a Byzantine castle. Historic interest, nice view.</p>
+
+<h2>When to Hike</h2>
+<ul>
+  <li><strong><a href="/guide/april">April</a>-May:</strong> Blooms, coolness (12-20°C), cheap period.</li>
+  <li><strong>September-October:</strong> Ideal temperature, fewer tourists, forest colors.</li>
+  <li><strong>June mornings:</strong> Must start before 8 a.m. to avoid heat.</li>
+</ul>
+<p><strong>Avoid:</strong> July and August except shaded mountains (Holomontas). Sunstroke risk.</p>
+
+<h2>Gear & Requirements</h2>
+<h3>Essentials</h3>
+<ul>
+  <li>Trekking shoes (not sneakers)</li>
+  <li>Hat + sunscreen + sunglasses</li>
+  <li>2+ liters water per person in summer</li>
+  <li>High-energy snacks</li>
+  <li>First aid: tick tweezers (IMPORTANT — Halkidiki has many), sting cream</li>
+  <li>Offline map on phone (AllTrails, Gaia GPS, Wikiloc)</li>
+</ul>
+
+<h2>Hiking + Swim Combos</h2>
+<ul>
+  <li>Parthenonas peak + <a href="/places/karidi-sithonia">Karidi</a></li>
+  <li>Itamos + <a href="/places/portokali-sithonia">Kavourotrypes</a></li>
+  <li>Zografou loop + <a href="/places/komitsa-athos">Komitsa</a></li>
+  <li>Arnea monastery + <a href="/places/olympiada">Olympiada</a> beach</li>
+</ul>
+
+<h2>Guided vs Independent</h2>
+<p><strong>Guided:</strong> Local operators offer hikes (€35-60/person). Ideal if it's your first time or you lack offline maps.</p>
+<p><strong>Independent:</strong> Most trails are marked. With Wikiloc you won't get lost. Save 60%.</p>
+
+<h2>FAQ</h2>
+<h3>Are there bears or wolves?</h3>
+<p>No bears. Wolves exist in Holomontas but are extremely rare and fear humans. Zero risk.</p>
+<h3>Can I hike with kids?</h3>
+<p>Yes — trails #1, #3, #5, #10 suit families. See <a href="/guide/families">family holidays</a>.</p>
+<h3>Are there ticks?</h3>
+<p>Yes, mainly from May. Wear long pants, apply DEET, check body after hike. See <a href="/guide/jellyfish-mosquitoes">tips</a>.</p>
+<h3>Which apps?</h3>
+<p>Wikiloc (most Halkidiki routes), AllTrails, Gaia GPS (offline maps). Download maps BEFORE you start.</p>
+<h3>Water sources on trails?</h3>
+<p>Some marked springs are potable but bring your own. Arnea and Taxiarchis have plenty.</p>
+<h3>Network cleared after fires?</h3>
+<p>Yes. The 2023 fires affected the NE section (Nea Plagia) but central trails are open. Check local notices before you start.</p>`,
+      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Chalkidiki hat drei bedeutende Berge — Itamos, Holomontas, Stratoniko — mit dichten Wäldern und Wanderwegen bis zum Meer.</p>
+
+<h2>Die 3 Berge</h2>
+<ul>
+  <li><strong>Itamos</strong> (Sithonia, 811m) — Kiefernwald bis ans Meer</li>
+  <li><strong>Holomontas</strong> (1.165m) — höchster Berg, E4-Fernwanderweg</li>
+  <li><strong>Stratoniko</strong> — verbindet <a href="/places/arnea">Arnea</a> mit der Ostküste</li>
+</ul>
+
+<h2>Top Routen</h2>
+<h3>1. Parthenonas → Itamos-Gipfel (7 km, mittel)</h3>
+<p>3 Stunden, 680m Höhenunterschied. Start: <a href="/places/parthenonas">Parthenonas</a>. Blick auf <a href="/places/vourvourou">Vourvourou</a> und den <a href="/mount-athos">Heiligen Berg</a>.</p>
+
+<h3>2. Arnea → Kloster Agia Anastasia (4 km, leicht)</h3>
+<p>1:30 Stunden. Start: <a href="/places/arnea">Arnea</a>. Familienfreundlich.</p>
+
+<h3>3. Ouranoupoli → Zografou (8 km, leicht)</h3>
+<p>Küstenpfad bis zur <a href="/mount-athos">Athos-Grenze</a>. Start: <a href="/places/ouranoupoli">Ouranoupoli</a>.</p>
+
+<h3>4. Aristoteles-Park → <a href="/places/stagira">Stagira</a> (5 km, leicht)</h3>
+<p>Kulturelle Wanderung zu Aristoteles' Geburtsort.</p>
+
+<h2>Wann wandern?</h2>
+<ul>
+  <li>April-Mai und September-Oktober optimal</li>
+  <li>Juli-August nur früh morgens</li>
+</ul>
+
+<h2>Ausrüstung</h2>
+<ul>
+  <li>Wanderschuhe, Hut, Sonnencreme</li>
+  <li>2+ Liter Wasser</li>
+  <li>Zeckenzange (WICHTIG)</li>
+  <li>Offline-Karten (Wikiloc, Gaia GPS)</li>
+</ul>
+
+<h2>Kombinationen Wandern + Meer</h2>
+<ul>
+  <li>Itamos + <a href="/places/karidi-sithonia">Karidi</a></li>
+  <li>Arnea + <a href="/places/olympiada">Olympiada</a></li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>Bären oder Wölfe?</h3>
+<p>Keine Bären. Wölfe extrem selten. Null Risiko.</p>
+<h3>Mit Kindern?</h3>
+<p>Leichte Routen geeignet. Siehe <a href="/guide/families">Familienurlaub</a>.</p>`,
+      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики има три планини — Итамос, Холомонтас, Стратонико — с гъсти гори и пътеки до морето.</p>
+
+<h2>3-те планини</h2>
+<ul>
+  <li><strong>Итамос</strong> (Ситония, 811м)</li>
+  <li><strong>Холомонтас</strong> (1165м)</li>
+  <li><strong>Стратонико</strong></li>
+</ul>
+
+<h2>Топ маршрути</h2>
+<h3>1. Партенонас → връх Итамос (7 км, среден)</h3>
+<p>3 часа. Старт: <a href="/places/parthenonas">Партенонас</a>.</p>
+
+<h3>2. Арнеа → Манастир Агия Анастасия (4 км, лесен)</h3>
+<p>1:30 часа. Подходящ за семейства. Старт: <a href="/places/arnea">Арнеа</a>.</p>
+
+<h3>3. Уранополис → Зографу (8 км, лесен)</h3>
+<p>Крайбрежна пътека до границата с <a href="/mount-athos">Атон</a>.</p>
+
+<h2>Кога да планинарите?</h2>
+<ul>
+  <li>Април-май и септември-октомври оптимално</li>
+</ul>
+
+<h2>Екипировка</h2>
+<ul>
+  <li>Туристически обувки, вода, щипка за кърлежи</li>
+  <li>Офлайн карти (Wikiloc)</li>
+</ul>
+
+<h2>Често задавани въпроси</h2>
+<h3>Има ли мечки?</h3>
+<p>Не. Нула риск.</p>
+<h3>С деца?</h3>
+<p>Леки маршрути подходящи. Виж <a href="/guide/families">семейства</a>.</p>`,
+      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">В Халкидиках три горы — Итамос, Холомондас, Стратонико — с густыми лесами и тропами до моря.</p>
+
+<h2>3 горы</h2>
+<ul>
+  <li><strong>Итамос</strong> (Ситония, 811м)</li>
+  <li><strong>Холомондас</strong> (1165м)</li>
+  <li><strong>Стратонико</strong></li>
+</ul>
+
+<h2>Топ маршруты</h2>
+<h3>1. Партенонас → вершина Итамос (7 км, средний)</h3>
+<p>3 часа. Старт: <a href="/places/parthenonas">Партенонас</a>.</p>
+
+<h3>2. Арнея → монастырь Агия Анастасия (4 км, лёгкий)</h3>
+<p>1:30 часа. Для семей. Старт: <a href="/places/arnea">Арнея</a>.</p>
+
+<h3>3. Уранополис → Зографу (8 км, лёгкий)</h3>
+<p>Прибрежная тропа до границы <a href="/mount-athos">Афона</a>.</p>
+
+<h2>Когда ходить?</h2>
+<ul>
+  <li>Апрель-май и сентябрь-октябрь — оптимально</li>
+</ul>
+
+<h2>Снаряжение</h2>
+<ul>
+  <li>Трекинговые ботинки, вода, пинцет для клещей</li>
+  <li>Офлайн-карты (Wikiloc)</li>
+</ul>
+
+<h2>Часто задаваемые вопросы</h2>
+<h3>Есть ли медведи?</h3>
+<p>Нет. Нулевой риск.</p>
+<h3>С детьми?</h3>
+<p>Лёгкие маршруты подходят. См. <a href="/guide/families">семьи</a>.</p>`,
+      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki are trei munți — Itamos, Holomontas, Stratoniko — cu păduri dense și poteci până la mare.</p>
+
+<h2>Cei 3 munți</h2>
+<ul>
+  <li><strong>Itamos</strong> (Sithonia, 811m)</li>
+  <li><strong>Holomontas</strong> (1165m)</li>
+  <li><strong>Stratoniko</strong></li>
+</ul>
+
+<h2>Top rute</h2>
+<h3>1. Parthenonas → Vârful Itamos (7 km, mediu)</h3>
+<p>3 ore. Start: <a href="/places/parthenonas">Parthenonas</a>.</p>
+
+<h3>2. Arnea → Mănăstirea Agia Anastasia (4 km, ușor)</h3>
+<p>1:30 ore. Familie. Start: <a href="/places/arnea">Arnea</a>.</p>
+
+<h3>3. Ouranoupoli → Zografou (8 km, ușor)</h3>
+<p>Potecă de coastă până la granița cu <a href="/mount-athos">Athos</a>.</p>
+
+<h2>Când?</h2>
+<ul>
+  <li>Aprilie-mai și septembrie-octombrie — optim</li>
+</ul>
+
+<h2>Echipament</h2>
+<ul>
+  <li>Ghete de drumeție, apă, pensetă pentru căpușe</li>
+  <li>Hărți offline (Wikiloc)</li>
+</ul>
+
+<h2>Întrebări frecvente</h2>
+<h3>Sunt urși?</h3>
+<p>Nu. Risc zero.</p>
+<h3>Cu copii?</h3>
+<p>Rute ușoare potrivite. Vezi <a href="/guide/families">familii</a>.</p>`,
+      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki ima tri planine — Itamos, Holomondas, Stratoniko — sa gustim šumama i stazama do mora.</p>
+
+<h2>3 planine</h2>
+<ul>
+  <li><strong>Itamos</strong> (Sitonija, 811m)</li>
+  <li><strong>Holomondas</strong> (1165m)</li>
+  <li><strong>Stratoniko</strong></li>
+</ul>
+
+<h2>Top staze</h2>
+<h3>1. Partenonas → Vrh Itamos (7 km, srednje)</h3>
+<p>3 sata. Start: <a href="/places/parthenonas">Partenonas</a>.</p>
+
+<h3>2. Arnea → Manastir Agija Anastasija (4 km, lako)</h3>
+<p>1:30 sati. Porodice. Start: <a href="/places/arnea">Arnea</a>.</p>
+
+<h3>3. Uranopolis → Zografu (8 km, lako)</h3>
+<p>Obalska staza do granice sa <a href="/mount-athos">Atosom</a>.</p>
+
+<h2>Kada?</h2>
+<ul>
+  <li>April-maj i septembar-oktobar — optimalno</li>
+</ul>
+
+<h2>Oprema</h2>
+<ul>
+  <li>Planinarske cipele, voda, pinceta za krpelje</li>
+  <li>Offline mape (Wikiloc)</li>
+</ul>
+
+<h2>Česta pitanja</h2>
+<h3>Ima li medveda?</h3>
+<p>Ne. Nulti rizik.</p>
+<h3>Sa decom?</h3>
+<p>Lake staze. Vidi <a href="/guide/families">porodice</a>.</p>`,
+    },
+  },
+  {
+    slug: 'wine-tours-halkidiki', icon: 'Wine', color: 'rose',
+    title: { el: 'Οινοτουρισμός στη Χαλκιδική — Οινοποιεία & Δοκιμές', en: 'Wine Tours in Halkidiki — Wineries & Tastings', de: 'Weintourismus in Chalkidiki — Weingüter & Proben', bg: 'Винен туризъм в Халкидики — Винарни', ru: 'Винный туризм в Халкидики — Винодельни', ro: 'Tururi viticole în Halkidiki — Crame', sr: 'Vinski turizam u Halkidikiju — Vinarije' },
+    description: { el: 'Οι καλύτερες οινοποιητικές επισκέψεις στη Χαλκιδική', en: 'The best winery visits in Halkidiki', de: 'Die besten Weingüter in Chalkidiki', bg: 'Най-добрите посещения на винарни', ru: 'Лучшие винодельни Халкидики', ro: 'Cele mai bune vizite la crame', sr: 'Najbolje posete vinarijama' },
+    metaTitle: { el: 'Οινοτουρισμός Χαλκιδική 2026 — Οινοποιεία, Δοκιμές, Tours | ChalkidikiHub', en: 'Wine Tours Halkidiki 2026 — Wineries, Tastings', de: 'Weintourismus Chalkidiki 2026', bg: 'Винен туризъм Халкидики 2026', ru: 'Винный туризм Халкидики 2026', ro: 'Tururi viticole Halkidiki 2026', sr: 'Vinski turizam Halkidiki 2026' },
+    metaDesc: { el: 'Πλήρης οδηγός οινοτουρισμού στη Χαλκιδική: 8+ οινοποιεία, τοπικές ποικιλίες, τιμές δοκιμών, προτεινόμενες διαδρομές.', en: 'Complete wine tourism guide in Halkidiki: 8+ wineries, local varieties, tasting prices, routes.', de: 'Kompletter Weintourismus-Guide: 8+ Weingüter, Sorten, Preise.', bg: 'Пълен пътеводител за винен туризъм: 8+ винарни.', ru: 'Полный путеводитель винного туризма: 8+ виноделен.', ro: 'Ghid complet: 8+ crame, varietăți, prețuri.', sr: 'Kompletan vodič: 8+ vinarija, sorte, cene.' },
+    content: {
+      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Η Χαλκιδική παράγει κρασί από την αρχαιότητα — ο Αριστοτέλης έγραψε για τους αμπελώνες της Σιθωνίας τον 4ο π.Χ. αιώνα. Σήμερα, ένα δίκτυο 10+ οικογενειακών οινοποιείων και δύο σημαντικές ΠΟΠ περιοχές (Σιθωνία, Αγία Παρασκευή) κάνουν τον οινοτουρισμό μια από τις πιο ωραίες εμπειρίες στον νομό — και εντελώς underrated.</p>
+
+<h2>Γιατί Οινοτουρισμός στη Χαλκιδική;</h2>
+<p>Πέντε λόγοι που οι οινογνώστες έρχονται εδώ:</p>
+<ul>
+  <li><strong>Σπάνιες ντόπιες ποικιλίες:</strong> Η Χαλκιδική έχει τη μεγαλύτερη συγκέντρωση του σπάνιου <strong>Λημνιού</strong> (αρχαία ποικιλία), ενώ εδώ ευδοκιμούν και το <strong>Ασύρτικο</strong>, <strong>Ροδίτης</strong>, <strong>Ξινόμαυρο</strong>, <strong>Μαλαγουζιά</strong>.</li>
+  <li><strong>ΠΟΠ Σιθωνία:</strong> Η ζώνη ΠΟΠ αναγνωρίστηκε το 2011. Καλύπτει αμπελώνες σε υψόμετρο 50-400 μέτρα πάνω από τη θάλασσα.</li>
+  <li><strong>Οικογενειακός χαρακτήρας:</strong> Δεν θα βρεις industrial wineries — όλα είναι οικογενειακές επιχειρήσεις 2-3 γενεών.</li>
+  <li><strong>Συνδυασμός με παραλία:</strong> Δοκιμή κρασιού στις 11 π.μ., ελληνικό μεσημεριανό, μπάνιο στις 15:30.</li>
+  <li><strong>Τιμές:</strong> Οι δοκιμές κοστίζουν €10-25, πολύ χαμηλότερα από Τοσκάνη ή Μπορντώ.</li>
+</ul>
+
+<h2>Τα Κορυφαία Οινοποιεία της Χαλκιδικής</h2>
+
+<h3>1. Κτήμα Claudia Papagianni — Πολύγυρος</h3>
+<p><strong>Τοποθεσία:</strong> Κοντά στον <a href="/places/polygyros">Πολύγυρο</a> | <strong>Ποικιλίες:</strong> Syrah, Merlot, Ασύρτικο<br>
+Μικρό boutique οινοποιείο με οργανικές καλλιέργειες. Οι δοκιμές γίνονται μέσα σε παραδοσιακό πετρόχτιστο κελάρι. Η Claudia, Γερμανίδα στην καταγωγή, έχει μεταφέρει βορειοευρωπαϊκή τεχνογνωσία σε μεσογειακό έδαφος.</p>
+<p><strong>Προτεινόμενη δοκιμή:</strong> Πακέτο 5 κρασιών + mezedes, €25. Πρέπει να κλείσεις ραντεβού.</p>
+
+<h3>2. Κτήμα Πόρτο Καρράς — Νέος Μαρμαράς</h3>
+<p><strong>Τοποθεσία:</strong> <a href="/places/neos-marmaras">Νέος Μαρμαράς</a> | <strong>Μέγεθος:</strong> 475 εκτάρια αμπελώνων — το μεγαλύτερο της Ελλάδας<br>
+Ο «Πατριάρχης» του οινοτουρισμού της Χαλκιδικής. Ιδρύθηκε το 1960s από τον Γιάννη Καρρά. Καλλιεργεί 25 ποικιλίες και παράγει πάνω από 2 εκατομμύρια μπουκάλια ετησίως. Οι επισκέψεις περιλαμβάνουν ξενάγηση στους αμπελώνες, το κελάρι και δοκιμή 6 κρασιών.</p>
+<p><strong>Προτεινόμενη δοκιμή:</strong> Premium tasting €30 (ενηλίκων). Διαθέτει εστιατόριο με wine pairing.</p>
+
+<h3>3. Κτήμα Τσάνταλη — Αγιος Παύλος</h3>
+<p><strong>Τοποθεσία:</strong> Κοντά στην <a href="/places/ouranoupoli">Ουρανούπολη</a> | <strong>Σημαντικότερο κρασί:</strong> Metoxi Chromitsa (από το μετόχι του Αγίου Παντελεήμονα)<br>
+Η Τσάνταλη έχει τη μοναδική άδεια να καλλιεργεί αμπέλια μέσα στο <a href="/mount-athos">Άγιο Όρος</a> — σε συνεργασία με τη Ρωσική μονή Αγίου Παντελεήμονα. Τα κρασιά Metoxi είναι από τα πιο αναζητημένα στην Ελλάδα.</p>
+<p><strong>Προτεινόμενη δοκιμή:</strong> €15-35, ξενάγηση και δοκιμή. Αγόρασε Metoxi Chromitsa Red — θα εντυπωσιάσει τους οινοφίλους στο σπίτι.</p>
+
+<h3>4. Αμπελώνες Πορτοτηνία — Παλιούρι</h3>
+<p><strong>Τοποθεσία:</strong> <a href="/places/paliouri">Παλιούρι</a> | <strong>Ειδικότητα:</strong> Λημνιό, αρχαία ποικιλία<br>
+Μικρό, family-run οινοποιείο. Ο Κώστας Τσιμπούκας, 3ης γενιάς αμπελουργός, καλλιεργεί το σπάνιο Λημνιό που ανέφερε και ο Αριστοτέλης. Το θέρος η οικογένεια οργανώνει δείπνα στον αμπελώνα με ηλιοβασίλεμα.</p>
+<p><strong>Προτεινόμενη δοκιμή:</strong> Παραδοσιακή εμπειρία €20 με σπιτικά μεζέ.</p>
+
+<h3>5. Κτήμα Gerovassiliou — Επανομή (συνοριακή Χαλκιδική)</h3>
+<p><strong>Τοποθεσία:</strong> Μόλις εκτός Χαλκιδικής, 30 λεπτά από αεροδρόμιο<br>
+Αν και τεχνικά στη Θεσσαλονίκη, πολλοί επισκέπτες το συνδυάζουν με τη Χαλκιδική. Το Μουσείο Αμπέλου και Οίνου είναι από τα πιο εντυπωσιακά στην Ευρώπη.</p>
+<p><strong>Προτεινόμενη δοκιμή:</strong> €18, περιλαμβάνει Μαλαγουζιά — την ποικιλία που επανέφερε η οικογένεια από την εξαφάνιση.</p>
+
+<h3>6. Ούζο & Κρασί Μπαμπατζιμόπουλος — Πολύγυρος</h3>
+<p><strong>Σημαντικό:</strong> Παράγει και ούζο. Για όποιον θέλει να μυηθεί και στα δύο ταυτόχρονα.<br>
+Μικρή οικογενειακή μονάδα, περισσότερο αυθεντική εμπειρία, λιγότερο «τουριστικό στήσιμο». Θα μιλήσεις με τον ιδιοκτήτη, όχι με υπάλληλο μάρκετινγκ.</p>
+
+<h3>7. Διονύσου Αμπελώνες — Αφυτος</h3>
+<p><strong>Τοποθεσία:</strong> Κοντά στον <a href="/places/afytos">Άφυτο</a> | <strong>Ειδικότητα:</strong> Ασύρτικο, Σαρντονέ<br>
+Μοντέρνα εγκατάσταση με μινιμαλιστική αρχιτεκτονική. Πολύ δημοφιλές σε Instagrammers για τη θέα του αμπελώνα στον Θερμαϊκό.</p>
+
+<h3>8. Amyntaion Cooperative (εκδρομή)</h3>
+<p>Για όσους θέλουν να πάνε πιο βαθιά, μια μονοήμερη εκδρομή στον αμπελώνα του Ξινόμαυρου στη Μακεδονία αξίζει τον κόπο (1:30 ώρα οδικώς από Χαλκιδική).</p>
+
+<h2>Η «Τέλεια Μέρα Οινοτουρισμού»</h2>
+<p>Προτεινόμενη διαδρομή για ζευγάρι με ένα άτομο που οδηγεί (ο/η άλλος/η δοκιμάζει):</p>
+<ol>
+  <li><strong>9:30 π.μ.</strong> Ξεκίνημα από Χανιώτη/Καλλιθέα</li>
+  <li><strong>10:30</strong> Claudia Papagianni — πρώτη δοκιμή</li>
+  <li><strong>13:00</strong> Μεσημεριανό στον <a href="/places/polygyros">Πολύγυρο</a> σε ταβέρνα</li>
+  <li><strong>15:00</strong> Τσάνταλη (Αγιος Παύλος) — δεύτερη δοκιμή + ξενάγηση</li>
+  <li><strong>18:00</strong> Μπάνιο στο <a href="/places/olympiada">Ολυμπιάδα</a> (λογικά κοντά) ή επιστροφή μέσω <a href="/places/arnea">Αρναίας</a></li>
+  <li><strong>21:00</strong> Δείπνο σε <a href="/best/traditional-tavernas">παραδοσιακή ταβέρνα</a></li>
+</ol>
+
+<h2>Πότε να Πας</h2>
+<ul>
+  <li><strong>Μάιος-Ιούνιος:</strong> Αμπελώνες καταπράσινοι, άνθιση, ιδανικές θερμοκρασίες.</li>
+  <li><strong>Σεπτέμβριος:</strong> ΤΡΥΓΟΣ. Η πιο ατμοσφαιρική περίοδος. Πολλά οινοποιεία αφήνουν τους επισκέπτες να συμμετέχουν στον τρύγο.</li>
+  <li><strong>Χειμώνας:</strong> Μερικά οινοποιεία είναι κλειστά. Κάλεσε πρώτα.</li>
+</ul>
+
+<h2>Πρακτικά Tips</h2>
+<ul>
+  <li><strong>Κλείσε ραντεβού εκ των προτέρων</strong> — τα περισσότερα δεν δέχονται walk-ins.</li>
+  <li><strong>Όρισε designated driver</strong> ή πάρε ταξί/Uber-Beat. Το αλκοτέστ στην Ελλάδα είναι στα 0.25mg/l και η αστυνομία στήνει μπλόκα.</li>
+  <li><strong>Αγόρασε χύμα ή εμφιαλωμένο για το σπίτι</strong>. Τα οινοποιεία έχουν σημαντική έκπτωση (-20% έως -40% από τα supermarket).</li>
+  <li><strong>Μην ντυθείς «τουριστικά»</strong>. Casual αλλά σωστά. Ο οινογεύστης θα σε πάρει πιο σοβαρά.</li>
+  <li><strong>Φάε κάτι πριν</strong>. Ακόμα και οι πιο μικρές δοκιμές σερβίρουν 5-7 κρασιά.</li>
+</ul>
+
+<h2>Συνδυασμοί με Άλλες Εμπειρίες</h2>
+<ul>
+  <li><strong>Wine + Beach:</strong> Δοκιμή το πρωί, παραλία το απόγευμα. Δες <a href="/best/beaches-sithonia">Σιθωνία</a>.</li>
+  <li><strong>Wine + Hiking:</strong> Πεζοπορία στον Χολομώντα, δοκιμή στην Αρναία. Δες <a href="/guide/hiking-halkidiki">πεζοπορία</a>.</li>
+  <li><strong>Wine + Villages:</strong> Μια μέρα στην <a href="/places/arnea">Αρναία</a> + <a href="/places/parthenonas">Παρθενώνα</a> + οινοποιείο.</li>
+  <li><strong>Wine + Φαγητό:</strong> Δοκιμή + wine pairing dinner. Δες <a href="/guide/food-and-wine">φαγητό & κρασί</a>.</li>
+</ul>
+
+<h2>Συχνές Ερωτήσεις</h2>
+<h3>Πόσο κοστίζει μια δοκιμή;</h3>
+<p>€10-35 ανάλογα με το οινοποιείο και το πακέτο. Τα premium (Πόρτο Καρράς, Τσάνταλη) είναι στο €25-35. Τα μικρότερα στο €10-20.</p>
+<h3>Πόσο διαρκεί μια επίσκεψη;</h3>
+<p>1:30 έως 2:30 ώρες συνήθως. Αν έχεις πραγματικό ενδιαφέρον, πολλά οινοποιεία σου δίνουν χρόνο.</p>
+<h3>Μπορώ να πάω με παιδιά;</h3>
+<p>Ναι σχεδόν παντού. Τα παιδιά συνήθως κερνιούνται χυμούς. Τα περισσότερα οινοποιεία έχουν κήπους και σκιά. Δες και <a href="/guide/families">οικογενειακές διακοπές</a>.</p>
+<h3>Μπορώ να αγοράσω online μετά;</h3>
+<p>Ναι, τα περισσότερα έχουν e-shop. Αλλά οι τιμές επί τόπου είναι συνήθως καλύτερες + έχεις και γνώμη.</p>
+<h3>Ποιο είναι το πιο «επισκέψιμο» οινοποιείο για αρχάριους;</h3>
+<p>Το Πόρτο Καρράς — κλίμακα, οργάνωση, ξεναγήσεις στα αγγλικά, ταβέρνα, εύκολη πρόσβαση. Για πιο αυθεντική εμπειρία, πήγαινε σε κάποιο μικρότερο όπως Πορτοτηνία.</p>
+<h3>Μπορώ να κάνω wine tour χωρίς αυτοκίνητο;</h3>
+<p>Πολύ δύσκολα. Τα περισσότερα οινοποιεία είναι εκτός δρόμου. Οι καλύτερες επιλογές: (1) ιδιωτικό tour με driver (€150-250/μέρα για 4 άτομα), (2) κάνε ραντεβού και πάρε Uber.</p>`,
+      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki has produced wine since antiquity — Aristotle wrote about Sithonia's vineyards in the 4th century BC. Today, 10+ family wineries and two PDO zones (Sithonia, Agia Paraskevi) make wine tourism one of the loveliest — and most underrated — experiences here.</p>
+
+<h2>Why Wine Tourism in Halkidiki?</h2>
+<ul>
+  <li><strong>Rare local varieties:</strong> The largest concentration of rare <strong>Limnio</strong> (ancient variety), plus <strong>Assyrtiko</strong>, <strong>Roditis</strong>, <strong>Xinomavro</strong>, <strong>Malagouzia</strong>.</li>
+  <li><strong>PDO Sithonia:</strong> Recognized in 2011. Covers vineyards at 50-400 m above sea level.</li>
+  <li><strong>Family character:</strong> No industrial wineries — everything is family-run for 2-3 generations.</li>
+  <li><strong>Beach combo:</strong> Tasting at 11 a.m., Greek lunch, swim at 15:30.</li>
+  <li><strong>Prices:</strong> €10-25 per tasting, much cheaper than Tuscany or Bordeaux.</li>
+</ul>
+
+<h2>Top Wineries</h2>
+
+<h3>1. Claudia Papagianni Estate — Polygyros</h3>
+<p><strong>Near:</strong> <a href="/places/polygyros">Polygyros</a> | <strong>Varieties:</strong> Syrah, Merlot, Assyrtiko<br>
+Boutique organic winery. Tastings in a stone cellar. Claudia, German-born, brings Northern European know-how to Mediterranean soil.</p>
+<p><strong>Recommended:</strong> 5-wine + mezze package, €25. Reservation required.</p>
+
+<h3>2. Porto Carras Estate — Neos Marmaras</h3>
+<p><strong>In:</strong> <a href="/places/neos-marmaras">Neos Marmaras</a> | <strong>Size:</strong> 475 hectares — Greece's largest<br>
+The "patriarch" of Halkidiki wine tourism. Founded in the 1960s by Giannis Carras. 25 varieties, 2M+ bottles/year. Tours include vineyards, cellar, 6-wine tasting.</p>
+<p><strong>Recommended:</strong> Premium tasting €30. Has a wine-pairing restaurant.</p>
+
+<h3>3. Tsantali Estate — Agios Pavlos</h3>
+<p><strong>Near:</strong> <a href="/places/ouranoupoli">Ouranoupoli</a> | <strong>Signature wine:</strong> Metoxi Chromitsa (from the Agios Panteleimon metochion)<br>
+Tsantali holds the unique permit to farm inside <a href="/mount-athos">Mount Athos</a> — in cooperation with the Russian Agios Panteleimon monastery. Metoxi wines are among the most sought-after in Greece.</p>
+<p><strong>Recommended:</strong> €15-35, tour + tasting. Buy Metoxi Chromitsa Red — it will impress wine friends back home.</p>
+
+<h3>4. Portotinia Vineyards — Paliouri</h3>
+<p><strong>In:</strong> <a href="/places/paliouri">Paliouri</a> | <strong>Specialty:</strong> Limnio, an ancient variety<br>
+Small, family-run. Kostas Tsimpoukas, 3rd-generation, farms the rare Limnio Aristotle mentioned. In summer the family hosts vineyard sunset dinners.</p>
+
+<h3>5. Gerovassiliou Estate — Epanomi (Halkidiki border)</h3>
+<p><strong>Location:</strong> Just outside Halkidiki, 30' from the airport<br>
+Technically in Thessaloniki, but many combine it with Halkidiki. The Wine & Vine Museum is among Europe's most impressive.</p>
+<p><strong>Recommended:</strong> €18, includes Malagouzia — the variety the family saved from extinction.</p>
+
+<h3>6. Babatzimopoulos — Polygyros</h3>
+<p>Also makes ouzo. Smaller, more authentic — you'll speak to the owner, not a marketing rep.</p>
+
+<h3>7. Dionysos Vineyards — Afytos</h3>
+<p><strong>Near:</strong> <a href="/places/afytos">Afytos</a> | <strong>Specialty:</strong> Assyrtiko, Chardonnay<br>
+Modern facility with minimalist design. Instagram-popular for vineyard views over Thermaic Gulf.</p>
+
+<h2>The "Perfect Wine Day"</h2>
+<ol>
+  <li>9:30 a.m. Leave from Hanioti/Kallithea</li>
+  <li>10:30 Claudia Papagianni — first tasting</li>
+  <li>13:00 Lunch in <a href="/places/polygyros">Polygyros</a></li>
+  <li>15:00 Tsantali — second tasting + tour</li>
+  <li>18:00 Swim at <a href="/places/olympiada">Olympiada</a> or return via <a href="/places/arnea">Arnea</a></li>
+  <li>21:00 Dinner at a <a href="/best/traditional-tavernas">traditional taverna</a></li>
+</ol>
+
+<h2>When to Go</h2>
+<ul>
+  <li><strong>May-June:</strong> Green vineyards, bloom, ideal temperatures.</li>
+  <li><strong>September:</strong> HARVEST. Most atmospheric period. Many wineries let visitors join.</li>
+  <li><strong>Winter:</strong> Some closed. Call first.</li>
+</ul>
+
+<h2>Practical Tips</h2>
+<ul>
+  <li>Book ahead — walk-ins rarely accepted.</li>
+  <li>Designated driver or taxi. Greek limit is 0.25 mg/l; police set up checkpoints.</li>
+  <li>Buy wine to take home — 20-40% cheaper than supermarkets.</li>
+  <li>Dress casual but smart. You'll be taken more seriously.</li>
+  <li>Eat beforehand — even small tastings pour 5-7 wines.</li>
+</ul>
+
+<h2>Combos</h2>
+<ul>
+  <li><strong>Wine + Beach:</strong> Morning tasting, afternoon <a href="/best/beaches-sithonia">Sithonia beach</a>.</li>
+  <li><strong>Wine + Hiking:</strong> Holomontas hike + Arnea tasting. See <a href="/guide/hiking-halkidiki">hiking</a>.</li>
+  <li><strong>Wine + Villages:</strong> <a href="/places/arnea">Arnea</a> + <a href="/places/parthenonas">Parthenonas</a> + winery.</li>
+  <li><strong>Wine + Food:</strong> Pairing dinner. See <a href="/guide/food-and-wine">food & wine</a>.</li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>How much does a tasting cost?</h3>
+<p>€10-35 depending on winery and package. Premium €25-35, smaller €10-20.</p>
+<h3>How long is a visit?</h3>
+<p>Usually 1:30-2:30 hours. If genuinely interested, many wineries give you time.</p>
+<h3>Can I bring kids?</h3>
+<p>Yes, almost anywhere. Kids usually get juice. Most have gardens/shade. See <a href="/guide/families">family holidays</a>.</p>
+<h3>Most beginner-friendly?</h3>
+<p>Porto Carras — scale, organization, English tours, restaurant, easy access. For authenticity, go smaller like Portotinia.</p>
+<h3>Wine tour without a car?</h3>
+<p>Hard. Most wineries are off-road. Best: (1) private tour with driver (€150-250/day for 4), (2) prebook + Uber.</p>`,
+      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Chalkidiki produziert seit der Antike Wein. Heute bieten 10+ Familienweingüter eine unterbewertete Tourismuserfahrung.</p>
+
+<h2>Warum Weintourismus hier?</h2>
+<ul>
+  <li>Seltene Rebsorten: <strong>Limnio</strong>, Assyrtiko, Malagouzia</li>
+  <li>PDO-Zonen (Sithonia, Agia Paraskevi)</li>
+  <li>Familienbetriebe, keine Industrie</li>
+  <li>Proben: €10-25 (viel günstiger als Toskana)</li>
+</ul>
+
+<h2>Top Weingüter</h2>
+<h3>Porto Carras — Neos Marmaras</h3>
+<p>Das größte Weingut Griechenlands (475 ha). In <a href="/places/neos-marmaras">Neos Marmaras</a>. Premium-Tasting €30.</p>
+
+<h3>Tsantali — Agios Pavlos</h3>
+<p>Einzige Genehmigung, auf dem <a href="/mount-athos">Heiligen Berg</a> anzubauen. Metoxi Chromitsa ist ihr Signature-Wein. Nahe <a href="/places/ouranoupoli">Ouranoupoli</a>.</p>
+
+<h3>Claudia Papagianni — Polygyros</h3>
+<p>Bio-Boutique-Weingut. Proben in Steinkeller. Nahe <a href="/places/polygyros">Polygyros</a>.</p>
+
+<h3>Portotinia — Paliouri</h3>
+<p>Familienbetrieb, Limnio-Spezialist. In <a href="/places/paliouri">Paliouri</a>.</p>
+
+<h2>Wann besuchen?</h2>
+<ul>
+  <li>Mai-Juni: grüne Weinberge</li>
+  <li>September: Weinlese</li>
+</ul>
+
+<h2>Tipps</h2>
+<ul>
+  <li>Vorab reservieren</li>
+  <li>Fahrer bestimmen — Grenze 0,25 mg/l</li>
+  <li>Wein mitnehmen: 20-40% günstiger</li>
+</ul>
+
+<h2>Kombinationen</h2>
+<ul>
+  <li>Wein + <a href="/best/beaches-sithonia">Sithonia-Strände</a></li>
+  <li>Wein + <a href="/guide/hiking-halkidiki">Wandern</a></li>
+  <li>Wein + <a href="/places/arnea">Arnea</a></li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>Preis?</h3>
+<p>€10-35. <a href="/guide/food-and-wine">Essen & Wein</a>.</p>
+<h3>Mit Kindern?</h3>
+<p>Ja. Kinder bekommen Saft.</p>`,
+      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики произвежда вино от древността. Днес 10+ семейни винарни предлагат подценено туристическо преживяване.</p>
+
+<h2>Защо винен туризъм?</h2>
+<ul>
+  <li>Редки местни сортове: <strong>Лимнио</strong>, Асиртико, Малагузия</li>
+  <li>Семейни бизнеси</li>
+  <li>Дегустации: €10-25</li>
+</ul>
+
+<h2>Топ винарни</h2>
+<h3>Порто Карас — Неос Мармарас</h3>
+<p>Най-голямата винарна в Гърция. В <a href="/places/neos-marmaras">Неос Мармарас</a>. Премиум €30.</p>
+
+<h3>Цанталис — Агиос Павлос</h3>
+<p>Единствени с разрешение да отглеждат на <a href="/mount-athos">Атон</a>. Близо до <a href="/places/ouranoupoli">Уранополис</a>.</p>
+
+<h3>Клаудия Папаяни — Полигирос</h3>
+<p>Био-бутик, каменен склад. Близо до <a href="/places/polygyros">Полигирос</a>.</p>
+
+<h2>Кога?</h2>
+<ul>
+  <li>Май-юни: зелени лозя</li>
+  <li>Септември: гроздобер</li>
+</ul>
+
+<h2>Съвети</h2>
+<ul>
+  <li>Предварителна резервация</li>
+  <li>Назначен шофьор</li>
+</ul>
+
+<h2>Често задавани въпроси</h2>
+<h3>Цена?</h3>
+<p>€10-35. Виж <a href="/guide/food-and-wine">храна и вино</a>.</p>`,
+      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики производит вино с древности. Сегодня 10+ семейных виноделен предлагают недооценённый туристический опыт.</p>
+
+<h2>Почему винный туризм?</h2>
+<ul>
+  <li>Редкие сорта: <strong>Лимнио</strong>, Асиртико, Малагузья</li>
+  <li>Семейные предприятия</li>
+  <li>Дегустации: €10-25</li>
+</ul>
+
+<h2>Топ винодельни</h2>
+<h3>Порто Каррас — Неос Мармарас</h3>
+<p>Крупнейшая винодельня Греции. В <a href="/places/neos-marmaras">Неос Мармарас</a>. Премиум €30.</p>
+
+<h3>Цанталис — Агиос Павлос</h3>
+<p>Единственное разрешение выращивать на <a href="/mount-athos">Афоне</a>. Рядом <a href="/places/ouranoupoli">Уранополис</a>.</p>
+
+<h3>Клаудия Папаянни — Полигирос</h3>
+<p>Био-бутик, каменный погреб. Рядом <a href="/places/polygyros">Полигирос</a>.</p>
+
+<h2>Когда?</h2>
+<ul>
+  <li>Май-июнь: зелёные виноградники</li>
+  <li>Сентябрь: сбор урожая</li>
+</ul>
+
+<h2>Советы</h2>
+<ul>
+  <li>Предварительная запись</li>
+  <li>Трезвый водитель</li>
+</ul>
+
+<h2>Часто задаваемые вопросы</h2>
+<h3>Цена?</h3>
+<p>€10-35. См. <a href="/guide/food-and-wine">еда и вино</a>.</p>`,
+      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki produce vin din antichitate. Astăzi, 10+ crame familiale oferă o experiență turistică subevaluată.</p>
+
+<h2>De ce turism viticol?</h2>
+<ul>
+  <li>Soiuri rare: <strong>Limnio</strong>, Assyrtiko, Malagouzia</li>
+  <li>Afaceri de familie</li>
+  <li>Degustări: €10-25</li>
+</ul>
+
+<h2>Top crame</h2>
+<h3>Porto Carras — Neos Marmaras</h3>
+<p>Cea mai mare cramă din Grecia. În <a href="/places/neos-marmaras">Neos Marmaras</a>. Premium €30.</p>
+
+<h3>Tsantali — Agios Pavlos</h3>
+<p>Unica cu permis de cultivare pe <a href="/mount-athos">Athos</a>. Lângă <a href="/places/ouranoupoli">Ouranoupoli</a>.</p>
+
+<h3>Claudia Papagianni — Polygyros</h3>
+<p>Bio-butic, pivniță de piatră. Lângă <a href="/places/polygyros">Polygyros</a>.</p>
+
+<h2>Când?</h2>
+<ul>
+  <li>Mai-iunie: vii verzi</li>
+  <li>Septembrie: culesul strugurilor</li>
+</ul>
+
+<h2>Sfaturi</h2>
+<ul>
+  <li>Rezervare prealabilă</li>
+  <li>Șofer desemnat</li>
+</ul>
+
+<h2>Întrebări frecvente</h2>
+<h3>Preț?</h3>
+<p>€10-35. Vezi <a href="/guide/food-and-wine">mâncare și vin</a>.</p>`,
+      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki proizvodi vino od antike. Danas 10+ porodičnih vinarija nude potcenjeno turističko iskustvo.</p>
+
+<h2>Zašto vinski turizam?</h2>
+<ul>
+  <li>Retke sorte: <strong>Limnio</strong>, Asirtiko, Malaguzija</li>
+  <li>Porodični biznisi</li>
+  <li>Degustacije: €10-25</li>
+</ul>
+
+<h2>Top vinarije</h2>
+<h3>Porto Karas — Neos Marmaras</h3>
+<p>Najveća vinarija u Grčkoj. U <a href="/places/neos-marmaras">Neos Marmaras</a>. Premium €30.</p>
+
+<h3>Cantalis — Agios Pavlos</h3>
+<p>Jedinstvena dozvola za uzgoj na <a href="/mount-athos">Atosu</a>. Blizu <a href="/places/ouranoupoli">Uranopolisa</a>.</p>
+
+<h3>Klaudija Papajani — Poligiros</h3>
+<p>Bio-butik. Blizu <a href="/places/polygyros">Poligirosa</a>.</p>
+
+<h2>Kada?</h2>
+<ul>
+  <li>Maj-jun: zeleni vinogradi</li>
+  <li>Septembar: berba</li>
+</ul>
+
+<h2>Saveti</h2>
+<ul>
+  <li>Rezervacija unapred</li>
+  <li>Određeni vozač</li>
+</ul>
+
+<h2>Česta pitanja</h2>
+<h3>Cena?</h3>
+<p>€10-35. Vidi <a href="/guide/food-and-wine">hrana i vino</a>.</p>`,
+    },
+  },
+  {
+    slug: 'petralona-cave', icon: 'Gem', color: 'stone',
+    title: { el: 'Σπήλαιο Πετραλώνων — Πλήρης Οδηγός Επίσκεψης', en: 'Petralona Cave — Complete Visitor Guide', de: 'Petralona-Höhle — Kompletter Besucherführer', bg: 'Пещерата Петралона — Пълен пътеводител', ru: 'Пещера Петралона — Полный путеводитель', ro: 'Peștera Petralona — Ghid complet', sr: 'Pećina Petralona — Kompletan vodič' },
+    description: { el: 'Το σπήλαιο με τον αρχαιότερο Ευρωπαίο άνθρωπο', en: 'The cave with the oldest European human', de: 'Die Höhle mit dem ältesten Europäer', bg: 'Пещерата с най-стария европеец', ru: 'Пещера с древнейшим европейцем', ro: 'Peștera cu cel mai vechi european', sr: 'Pećina sa najstarijim Evropljaninom' },
+    metaTitle: { el: 'Σπήλαιο Πετραλώνων 2026 — Ώρες, Εισιτήρια, Ιστορία | ChalkidikiHub', en: 'Petralona Cave 2026 — Hours, Tickets, History', de: 'Petralona-Höhle 2026 — Öffnungszeiten, Tickets', bg: 'Пещерата Петралона 2026 — Часове, Билети', ru: 'Пещера Петралона 2026 — Часы, Билеты', ro: 'Peștera Petralona 2026 — Orar, Bilete', sr: 'Pećina Petralona 2026 — Radno vreme, Karte' },
+    metaDesc: { el: 'Όλα για το Σπήλαιο Πετραλώνων: ώρες, εισιτήρια, ιστορία 700.000 ετών, πώς φτάνεις, τι να δεις, tips από ντόπιους.', en: 'All about Petralona Cave: hours, tickets, 700,000-year history, how to get there, what to see, local tips.', de: 'Petralona-Höhle: Öffnungszeiten, Tickets, 700.000 Jahre Geschichte.', bg: 'Петралона: часове, билети, 700 000 години история.', ru: 'Петралона: часы, билеты, 700 000 лет истории.', ro: 'Petralona: orar, bilete, 700.000 ani de istorie.', sr: 'Petralona: radno vreme, karte, 700.000 godina istorije.' },
+    content: {
+      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Το Σπήλαιο Πετραλώνων είναι ένας από τους πιο σημαντικούς παλαιοντολογικούς χώρους της Ευρώπης. Εδώ, το 1960, ανακαλύφθηκε ο «Αρχάνθρωπος των Πετραλώνων» — ένα ανθρώπινο κρανίο ηλικίας περίπου 700.000 ετών, το αρχαιότερο ανθρώπινο απολίθωμα που έχει βρεθεί στην Ευρώπη. Αν περάσεις από τη Χαλκιδική, είναι υποχρεωτική στάση.</p>
+
+<h2>Γιατί Αξίζει η Επίσκεψη;</h2>
+<p>Δεν είναι απλώς ένα σπήλαιο. Είναι:</p>
+<ul>
+  <li><strong>Μοναδικό παγκόσμιας σημασίας</strong> — εδώ ζούσαν άνθρωποι πριν 700.000 χρόνια. Για σύγκριση, οι Νεάντερταλ εμφανίστηκαν «μόλις» πριν 400.000 χρόνια.</li>
+  <li><strong>Πλούσιο σε σταλακτίτες και σταλαγμίτες</strong> — θεωρείται ένα από τα πιο όμορφα σπήλαια της Ελλάδας.</li>
+  <li><strong>Δίπλα σε Ανθρωπολογικό Μουσείο</strong> με εκθέματα ευρημάτων (κρανίο, εργαλεία, οστά ζώων).</li>
+  <li><strong>Πολύ κοντά σε Θεσσαλονίκη</strong> (40 χλμ) και στην <a href="/guide/kassandra-sithonia-athos">Κασσάνδρα</a> (25 χλμ).</li>
+  <li><strong>Κατάλληλο για όλες τις ηλικίες</strong>, συμπεριλαμβανομένων <a href="/guide/families">οικογενειών</a> με παιδιά.</li>
+</ul>
+
+<h2>Η Ιστορία σε 5 Σημεία</h2>
+<ol>
+  <li><strong>1959-60:</strong> Ντόπιοι βοσκοί παρατηρούν «σπηλιά με κόκαλα» στον λόφο Κατσίκας. Ο ανθρωπολόγος Άρης Πουλιανός ξεκινά ανασκαφές.</li>
+  <li><strong>1960:</strong> Ανακαλύπτεται πλήρες ανθρώπινο κρανίο. Αρχικά χρονολογείται στα 70.000 χρόνια — μεταγενέστερες αναλύσεις το ανεβάζουν στα <strong>700.000</strong>.</li>
+  <li><strong>1968:</strong> Ξεκινά η κατασκευή διαδρομής επισκεψιμότητας.</li>
+  <li><strong>1979:</strong> Ιδρύεται το Ανθρωπολογικό Μουσείο Πετραλώνων.</li>
+  <li><strong>Σήμερα:</strong> Το σπήλαιο λειτουργεί υπό την αιγίδα της Εφορείας Παλαιοανθρωπολογίας-Σπηλαιολογίας του Υπουργείου Πολιτισμού.</li>
+</ol>
+
+<h2>Τι θα Δεις στο Σπήλαιο</h2>
+<p>Η επισκέψιμη διαδρομή έχει μήκος περίπου <strong>300 μέτρα</strong> και διαρκεί 30-40 λεπτά. Με αγγλόφωνη ή ελληνόφωνη ξενάγηση. Βλέπεις:</p>
+<ul>
+  <li><strong>Αίθουσα Αρχανθρώπου</strong> — το σημείο όπου βρέθηκε το κρανίο (αντίγραφο, το αυθεντικό είναι στο μουσείο).</li>
+  <li><strong>Αίθουσα του «Κολώνη»</strong> — εντυπωσιακός σταλαγμίτης ύψους 3 μέτρων.</li>
+  <li><strong>Αίθουσα των Θησαυρών</strong> — πυκνή συγκέντρωση σπηλαιωτικών σχηματισμών σε παλέτα από λευκό, πορτοκαλί, κόκκινο.</li>
+  <li><strong>Παλαιοντολογικά κρεβάτια</strong> — σημεία όπου ανακαλύφθηκαν οστά αρκούδας σπηλαίων, γίγαντος ζαρκαδιού, ιπποπόταμου (!), καρχαροδόντων τίγρης.</li>
+  <li><strong>Θαλάσσιες κοιλότητες</strong> — αποδεικνύουν ότι η περιοχή ήταν κάποτε κάτω από τη θάλασσα.</li>
+</ul>
+
+<h2>Το Μουσείο</h2>
+<p>Δίπλα στην είσοδο, στο Ανθρωπολογικό Μουσείο θα δεις:</p>
+<ul>
+  <li>Το <strong>αυθεντικό κρανίο Πετραλώνων</strong> (πίσω από ασφαλές γυαλί).</li>
+  <li>Πέτρινα εργαλεία και εστίες φωτιάς (τα αρχαιότερα αποδεικτικά χρήσης φωτιάς από άνθρωπο, 700.000 χρόνια).</li>
+  <li>Απολιθωμένα οστά από 22 είδη ζώων — πολλά εξαφανισμένα.</li>
+  <li>Αναπαράσταση του Αρχανθρώπου (Homo heidelbergensis) σε φυσικές διαστάσεις.</li>
+  <li>Video 20 λεπτών με την ιστορία της ανακάλυψης.</li>
+</ul>
+
+<h2>Πρακτικές Πληροφορίες</h2>
+<h3>Ωράριο</h3>
+<ul>
+  <li><strong>Θέρος (1 Μαΐου - 31 Οκτωβρίου):</strong> 9:00 - 17:00 καθημερινά</li>
+  <li><strong>Χειμώνας (1 Νοεμβρίου - 30 Απριλίου):</strong> 9:00 - 16:00 καθημερινά</li>
+  <li><strong>Κλειστό:</strong> 1 Ιανουαρίου, 25 Μαρτίου, Κυριακή Πάσχα, 1 Μαΐου, 25-26 Δεκεμβρίου</li>
+</ul>
+<p>Τελευταία είσοδος 30 λεπτά πριν το κλείσιμο. Προτείνουμε να πας <strong>πρωί</strong> για να αποφύγεις ζέστη έξω και να έχεις χρόνο στο μουσείο μετά.</p>
+
+<h3>Εισιτήρια (τιμές 2026)</h3>
+<ul>
+  <li>Ενήλικες: €8</li>
+  <li>Παιδιά 6-18, φοιτητές: €4</li>
+  <li>Παιδιά κάτω των 6: δωρεάν</li>
+  <li>Ομάδες (10+ άτομα): έκπτωση 20%</li>
+  <li>Το εισιτήριο περιλαμβάνει ξενάγηση + μουσείο.</li>
+</ul>
+<p><strong>Σημαντικό:</strong> Δεν δέχεται πάντα κάρτες στο ταμείο — πάρε μετρητά.</p>
+
+<h3>Πώς Φτάνεις</h3>
+<p><strong>Με αυτοκίνητο:</strong></p>
+<ul>
+  <li>Από Θεσσαλονίκη: 40 χλμ, ~45 λεπτά. Ε75 προς Νέα Μουδανιά, έξοδος Νέα Τρίγλια, κατεύθυνση Πετράλωνα.</li>
+  <li>Από Κασσάνδρα (Καλλιθέα, Χανιώτη): 50 χλμ, ~1 ώρα μέσω <a href="/places/nea-moudania">Νέας Μουδανιάς</a>.</li>
+  <li>Από Σιθωνία (Νικήτη): 70 χλμ, ~1:15 ώρα.</li>
+</ul>
+<p>GPS: 40.3700°N, 23.1620°E. Σηματοδότηση στα ελληνικά και αγγλικά από τα Νέα Μουδανιά. Μεγάλο δωρεάν πάρκινγκ στην είσοδο.</p>
+<p><strong>Χωρίς αυτοκίνητο:</strong> Δύσκολα. Υπάρχουν περιστασιακά KTEL από Θεσσαλονίκη προς Πετράλωνα (χωριό) αλλά η στάση είναι 2 χλμ από το σπήλαιο. Καλύτερη λύση: οργανωμένη εκδρομή από Χαλκιδική/Θεσσαλονίκη (€35-50) ή ταξί. Δες <a href="/guide/halkidiki-without-car">οδηγός χωρίς αυτοκίνητο</a>.</p>
+
+<h3>Παροχές</h3>
+<ul>
+  <li>Τουαλέτες, κυλικείο με σνακ/αναψυκτικά</li>
+  <li>Πάρκινγκ δωρεάν, σκιά κάτω από πεύκα</li>
+  <li>Πωλητήριο με βιβλία & αναπαραγωγές</li>
+  <li>Πρόσβαση ΑΜΕΑ <strong>μόνο στο μουσείο</strong> — το σπήλαιο έχει σκαλοπάτια.</li>
+</ul>
+
+<h3>Ντύσιμο & Εξοπλισμός</h3>
+<ul>
+  <li>Μέσα στο σπήλαιο η θερμοκρασία είναι <strong>16-17°C ΟΛΟ τον χρόνο</strong> — πάρε ζακέτα ακόμη και τον Ιούλιο.</li>
+  <li>Άνετα παπούτσια (δάπεδα μπορεί να είναι υγρά και ολισθηρά).</li>
+  <li>Φωτογραφίες επιτρέπονται χωρίς φλας.</li>
+</ul>
+
+<h2>Συνδυασμοί για Καλύτερη Μέρα</h2>
+
+<h3>Συνδυασμός 1: Πετραλώνα + Θάλασσα (οικογένεια)</h3>
+<ol>
+  <li>10:00 — Πετραλώνα (2 ώρες)</li>
+  <li>12:30 — Μεσημεριανό στη <a href="/places/nea-moudania">Νέα Μουδανιά</a> (ψαροταβέρνα)</li>
+  <li>14:30 — Παραλία <a href="/places/possidi">Ποσείδι</a> (30' διαδρομή)</li>
+  <li>19:00 — <a href="/places/afytos">Άφυτος</a> για ηλιοβασίλεμα</li>
+</ol>
+
+<h3>Συνδυασμός 2: Πετραλώνα + Αρχαιολογικός Ολυνθος (ιστορία)</h3>
+<p>Αν αγαπάς την ιστορία, μετά το σπήλαιο πήγαινε στην <a href="/places/olynthos">Αρχαία Όλυνθο</a>, ελληνιστική πόλη με τα αρχαιότερα σωζόμενα μωσαϊκά της Ευρώπης (δωρεάν είσοδος στα περισσότερα σημεία).</p>
+
+<h3>Συνδυασμός 3: Πετραλώνα + Θεσσαλονίκη (city + nature)</h3>
+<p>Φεύγεις από Θεσσαλονίκη στις 9, επιστρέφεις στις 18. Ιδανική μονοήμερη.</p>
+
+<h2>Tips που ΔΕΝ θα σου πει ο ξεναγός</h2>
+<ul>
+  <li><strong>Η ξενάγηση ξεκινά «όταν γεμίσει η ομάδα».</strong> Τον Αύγουστο περιμένεις 5 λεπτά. Τον Νοέμβριο ίσως 30. Πήγαινε σε peak ώρα (11:00-14:00) για πιο γρήγορη είσοδο.</li>
+  <li><strong>Οι επιστήμονες ακόμη διαφωνούν</strong> για το αν ο Αρχάνθρωπος Πετραλώνων ήταν Homo heidelbergensis ή κάτι μοναδικό. Αξίζει να ρωτήσεις τον ξεναγό — απαντά με πάθος.</li>
+  <li><strong>Το κρύο στο σπήλαιο είναι ευεργετικό</strong> για τους σταλακτίτες — αυτός είναι και ο λόγος που αναπτύχθηκαν τόσο πολύ.</li>
+  <li><strong>Μερικά εκθέματα στο μουσείο μπορεί να κλείσουν</strong> προσωρινά για συντήρηση. Δεν επηρεάζει την επίσκεψη στο σπήλαιο.</li>
+  <li><strong>Υπάρχει πιο μυστηριώδες τμήμα</strong> που ΔΕΝ είναι επισκέψιμο — κλειδωμένο για την προστασία του. Ρώτα τον ξεναγό να σου δείξει φωτογραφίες.</li>
+</ul>
+
+<h2>Συχνές Ερωτήσεις</h2>
+<h3>Πόση ώρα χρειάζομαι για επίσκεψη;</h3>
+<p>Υπολόγισε 2 ώρες συνολικά: 30' αναμονή + 40' ξενάγηση + 50' μουσείο. Αν αγαπάς την αρχαιολογία, μπορεί να σου πάρει 3 ώρες.</p>
+<h3>Έχει νόημα με μικρά παιδιά;</h3>
+<p>Από 5 ετών και πάνω απολαμβάνουν. Κάτω από αυτή την ηλικία μπορεί να τα φοβίσει το σκοτάδι. Δες τον οδηγό <a href="/guide/families">οικογένειες</a>.</p>
+<h3>Κάνει κρύο ακόμη και το καλοκαίρι;</h3>
+<p>Ναι — 16-17°C. Πάρε μακρύ μανίκι.</p>
+<h3>Μπορώ να φωτογραφίσω;</h3>
+<p>Ναι, χωρίς φλας. Βίντεο επιτρέπονται επίσης.</p>
+<h3>Είναι κατάλληλο για ηλικιωμένους;</h3>
+<p>Υπάρχουν πολλά σκαλοπάτια (~100). Αν κάποιος έχει πρόβλημα κινητικότητας, το μουσείο μπορεί να επισκεφθεί αυτόνομα (είναι προσβάσιμο).</p>
+<h3>Υπάρχει wifi;</h3>
+<p>Όχι μέσα στο σπήλαιο (φυσικά). Στο κυλικείο υπάρχει limited wifi.</p>
+<h3>Κλείνω εισιτήριο online;</h3>
+<p>Όχι επί του παρόντος. Τα εισιτήρια κόβονται στην είσοδο.</p>
+<h3>Πόσος κόσμος συνήθως;</h3>
+<p>Τον Αύγουστο μπορεί να έχει 600-800 επισκέπτες/μέρα. Τον Οκτώβριο 50-100. Για ήσυχη εμπειρία προτίμησε εκτός σαιζόν.</p>
+<h3>Πού να φάω κοντά;</h3>
+<p>Στο χωριό Πετράλωνα υπάρχουν 2-3 ταβέρνες. Πιο ποιοτικές επιλογές στη <a href="/places/nea-moudania">Νέα Μουδανιά</a> (15 λεπτά) ή στη <a href="/places/nea-triglia">Νέα Τρίγλια</a>. Δες <a href="/best/traditional-tavernas">παραδοσιακές ταβέρνες</a>.</p>`,
+      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Petralona Cave is one of Europe's most important paleontological sites. In 1960, the "Petralona Archanthropus" was found here — a human skull roughly 700,000 years old, the oldest human fossil ever found in Europe. If you're passing through Halkidiki, it's a mandatory stop.</p>
+
+<h2>Why Visit?</h2>
+<ul>
+  <li><strong>World-class significance</strong> — people lived here 700,000 years ago. Neanderthals appeared "only" 400,000 years ago.</li>
+  <li><strong>Rich in stalactites and stalagmites</strong> — one of Greece's most beautiful caves.</li>
+  <li><strong>Anthropological Museum next door</strong> with findings (skull, tools, animal bones).</li>
+  <li><strong>Close to Thessaloniki</strong> (40 km) and <a href="/guide/kassandra-sithonia-athos">Kassandra</a> (25 km).</li>
+  <li><strong>Suitable for all ages</strong>, including <a href="/guide/families">families</a>.</li>
+</ul>
+
+<h2>History in 5 Points</h2>
+<ol>
+  <li><strong>1959-60:</strong> Local shepherds spot a "cave with bones" on Katsikas Hill. Anthropologist Aris Poulianos begins excavations.</li>
+  <li><strong>1960:</strong> Complete human skull discovered. Initially dated at 70,000 years — later analyses push it to <strong>700,000</strong>.</li>
+  <li><strong>1968:</strong> Visitor path construction begins.</li>
+  <li><strong>1979:</strong> Petralona Anthropological Museum founded.</li>
+  <li><strong>Today:</strong> The cave operates under the Ministry of Culture's Paleoanthropology-Speleology Ephorate.</li>
+</ol>
+
+<h2>What You'll See in the Cave</h2>
+<p>The visitor path is about <strong>300 meters</strong> and takes 30-40 minutes with an English- or Greek-speaking guide. You'll see:</p>
+<ul>
+  <li><strong>Archanthropus Chamber</strong> — where the skull was found (replica; original in the museum).</li>
+  <li><strong>"The Column" Chamber</strong> — impressive 3-meter stalagmite.</li>
+  <li><strong>Chamber of Treasures</strong> — dense formations in white, orange, red.</li>
+  <li><strong>Paleontological beds</strong> — where cave bear, giant deer, hippopotamus(!) and saber-toothed tiger bones were found.</li>
+  <li><strong>Marine cavities</strong> — proving the area was once underwater.</li>
+</ul>
+
+<h2>The Museum</h2>
+<ul>
+  <li>The <strong>original Petralona skull</strong> (behind safety glass).</li>
+  <li>Stone tools and fire hearths (earliest evidence of human fire use, 700,000 years).</li>
+  <li>Fossils from 22 animal species — many extinct.</li>
+  <li>Life-size reconstruction of the Archanthropus (Homo heidelbergensis).</li>
+  <li>20-minute video on the discovery.</li>
+</ul>
+
+<h2>Practical Info</h2>
+<h3>Hours</h3>
+<ul>
+  <li><strong>Summer (1 May - 31 Oct):</strong> 9:00 - 17:00 daily</li>
+  <li><strong>Winter (1 Nov - 30 Apr):</strong> 9:00 - 16:00 daily</li>
+  <li><strong>Closed:</strong> 1 Jan, 25 Mar, Easter Sunday, 1 May, 25-26 Dec</li>
+</ul>
+<p>Last entry 30 min before closing. We suggest going in the <strong>morning</strong> to avoid heat outside and have time for the museum after.</p>
+
+<h3>Tickets (2026 prices)</h3>
+<ul>
+  <li>Adults: €8</li>
+  <li>Kids 6-18, students: €4</li>
+  <li>Under 6: free</li>
+  <li>Groups (10+): 20% discount</li>
+  <li>Ticket includes guided tour + museum.</li>
+</ul>
+<p><strong>Important:</strong> Cards not always accepted — bring cash.</p>
+
+<h3>How to Get There</h3>
+<p><strong>By car:</strong></p>
+<ul>
+  <li>From Thessaloniki: 40 km, ~45 min. E75 toward Nea Moudania, exit Nea Triglia, follow signs to Petralona.</li>
+  <li>From Kassandra (Kallithea, Hanioti): 50 km, ~1 h via <a href="/places/nea-moudania">Nea Moudania</a>.</li>
+  <li>From Sithonia (Nikiti): 70 km, ~1:15 h.</li>
+</ul>
+<p>GPS: 40.3700°N, 23.1620°E. Signs in Greek and English from Nea Moudania. Large free parking at the entrance.</p>
+<p><strong>Without a car:</strong> Hard. Occasional KTEL buses from Thessaloniki to Petralona village, but the stop is 2 km from the cave. Better: organized tour from Halkidiki/Thessaloniki (€35-50) or taxi. See <a href="/guide/halkidiki-without-car">no-car guide</a>.</p>
+
+<h3>Facilities</h3>
+<ul>
+  <li>Toilets, snack bar</li>
+  <li>Free parking with pine shade</li>
+  <li>Gift shop with books & replicas</li>
+  <li>Accessibility: <strong>museum only</strong> — cave has stairs.</li>
+</ul>
+
+<h3>Clothing & Gear</h3>
+<ul>
+  <li>Cave temperature is <strong>16-17°C year-round</strong> — bring a jacket even in July.</li>
+  <li>Comfortable shoes (floors may be wet and slippery).</li>
+  <li>Photos allowed without flash.</li>
+</ul>
+
+<h2>Combos</h2>
+
+<h3>Combo 1: Petralona + Sea (family)</h3>
+<ol>
+  <li>10:00 — Petralona (2 hours)</li>
+  <li>12:30 — Lunch at <a href="/places/nea-moudania">Nea Moudania</a> fish taverna</li>
+  <li>14:30 — <a href="/places/possidi">Possidi</a> beach (30')</li>
+  <li>19:00 — <a href="/places/afytos">Afytos</a> sunset</li>
+</ol>
+
+<h3>Combo 2: Petralona + Ancient Olynthos (history)</h3>
+<p>After the cave, visit <a href="/places/olynthos">Ancient Olynthos</a>, Hellenistic city with Europe's oldest preserved mosaics.</p>
+
+<h3>Combo 3: Petralona + Thessaloniki</h3>
+<p>Leave Thessaloniki at 9, return by 18. Ideal day trip.</p>
+
+<h2>Tips the Guide Won't Tell You</h2>
+<ul>
+  <li><strong>Tours start "when the group fills up."</strong> In August you wait 5 minutes; in November maybe 30. Go at peak (11:00-14:00) for faster entry.</li>
+  <li><strong>Scientists still debate</strong> whether Petralona Archanthropus is Homo heidelbergensis or something unique. Ask the guide — they answer with passion.</li>
+  <li><strong>The cold inside benefits the stalactites</strong> — hence why they grew so large.</li>
+  <li><strong>Some museum exhibits may close</strong> temporarily for maintenance. Doesn't affect the cave visit.</li>
+  <li><strong>A more mysterious section</strong> is NOT open — locked for preservation. Ask the guide to show photos.</li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>How much time do I need?</h3>
+<p>Count on 2 hours: 30' wait + 40' tour + 50' museum. Archaeology fans: up to 3 hours.</p>
+<h3>OK with small kids?</h3>
+<p>Ages 5+ enjoy. Below that the dark may scare them. See <a href="/guide/families">family guide</a>.</p>
+<h3>Cold even in summer?</h3>
+<p>Yes — 16-17°C. Bring long sleeves.</p>
+<h3>Can I photograph?</h3>
+<p>Yes, no flash. Video also allowed.</p>
+<h3>Suitable for elderly?</h3>
+<p>Many steps (~100). Mobility-limited can visit the museum independently (accessible).</p>
+<h3>Wifi?</h3>
+<p>Not in the cave. Limited at the snack bar.</p>
+<h3>Book online?</h3>
+<p>Not currently. Buy at entrance.</p>
+<h3>Where to eat nearby?</h3>
+<p>Petralona village has 2-3 tavernas. Better options in <a href="/places/nea-moudania">Nea Moudania</a> (15 min) or <a href="/places/nea-triglia">Nea Triglia</a>. See <a href="/best/traditional-tavernas">traditional tavernas</a>.</p>`,
+      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Die Petralona-Höhle ist eine der bedeutendsten paläontologischen Stätten Europas. 1960 wurde hier ein Menschenschädel von etwa 700.000 Jahren gefunden — das älteste europäische menschliche Fossil.</p>
+
+<h2>Warum besuchen?</h2>
+<ul>
+  <li>700.000 Jahre alter Menschenschädel</li>
+  <li>Beeindruckende Stalaktiten</li>
+  <li>Anthropologisches Museum</li>
+  <li>Nur 40 km von Thessaloniki</li>
+  <li>Familienfreundlich (<a href="/guide/families">Familien</a>)</li>
+</ul>
+
+<h2>Geschichte</h2>
+<p>1960: Schädelfund durch Anthropologen Aris Poulianos. Der Archanthropus Petralonensis ist der älteste Europäer.</p>
+
+<h2>Was Sie sehen</h2>
+<p>300 m Rundgang, 30-40 Min Führung. Sie sehen die Archanthropus-Kammer, Stalagmiten, paläontologische Funde.</p>
+
+<h2>Praktisches</h2>
+<h3>Öffnungszeiten</h3>
+<ul>
+  <li>Sommer: 9:00-17:00</li>
+  <li>Winter: 9:00-16:00</li>
+</ul>
+
+<h3>Preise 2026</h3>
+<ul>
+  <li>Erwachsene: €8</li>
+  <li>Kinder 6-18: €4</li>
+  <li>Unter 6: frei</li>
+</ul>
+
+<h3>Anreise</h3>
+<ul>
+  <li>Von Thessaloniki: 40 km (45 Min)</li>
+  <li>Von <a href="/places/nea-moudania">Nea Moudania</a>: 20 km</li>
+  <li>Von Kassandra: 50 km</li>
+</ul>
+<p>Ohne Auto: siehe <a href="/guide/halkidiki-without-car">Ohne-Auto-Guide</a>.</p>
+
+<h3>Kleidung</h3>
+<p>Höhlentemperatur: 16-17°C ganzjährig. Jacke mitnehmen.</p>
+
+<h2>Kombinationen</h2>
+<ul>
+  <li>Petralona + <a href="/places/possidi">Possidi-Strand</a></li>
+  <li>Petralona + <a href="/places/olynthos">Antikes Olynthos</a></li>
+  <li>Petralona + Thessaloniki-Tagesausflug</li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>Zeitbedarf?</h3>
+<p>2 Stunden gesamt.</p>
+<h3>Kalt im Sommer?</h3>
+<p>Ja, 16-17°C.</p>
+<h3>Mit Kindern?</h3>
+<p>Ab 5 Jahren super.</p>`,
+      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Пещерата Петралона е един от най-важните палеонтологични обекти в Европа. През 1960 г. тук е открит човешки череп на около 700 000 години.</p>
+
+<h2>Защо да посетите?</h2>
+<ul>
+  <li>700 000-годишен череп</li>
+  <li>Сталактити и сталагмити</li>
+  <li>Антропологичен музей</li>
+  <li>40 км от Солун</li>
+  <li>Подходящо за <a href="/guide/families">семейства</a></li>
+</ul>
+
+<h2>Какво ще видите</h2>
+<p>300-метрова обиколка, 30-40 мин с водач.</p>
+
+<h2>Практическо</h2>
+<h3>Часове</h3>
+<ul>
+  <li>Лято: 9:00-17:00</li>
+  <li>Зима: 9:00-16:00</li>
+</ul>
+
+<h3>Цени 2026</h3>
+<ul>
+  <li>Възрастни: €8</li>
+  <li>Деца 6-18: €4</li>
+  <li>Под 6: безплатно</li>
+</ul>
+
+<h3>Как да стигнете</h3>
+<ul>
+  <li>От Солун: 40 км</li>
+  <li>От <a href="/places/nea-moudania">Неа Муданя</a>: 20 км</li>
+</ul>
+<p>Без кола: <a href="/guide/halkidiki-without-car">гид</a>.</p>
+
+<h3>Облекло</h3>
+<p>В пещерата 16-17°C целогодишно. Вземете яке.</p>
+
+<h2>Комбинации</h2>
+<ul>
+  <li>Петралона + плаж <a href="/places/possidi">Посиди</a></li>
+  <li>Петралона + <a href="/places/olynthos">Древен Олинтос</a></li>
+</ul>
+
+<h2>Често задавани въпроси</h2>
+<h3>Колко време?</h3>
+<p>2 часа общо.</p>
+<h3>Студено ли е през лятото?</h3>
+<p>Да, 16-17°C.</p>`,
+      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Пещера Петралона — один из важнейших палеонтологических объектов Европы. В 1960 году здесь найден человеческий череп возрастом около 700 000 лет.</p>
+
+<h2>Почему посетить?</h2>
+<ul>
+  <li>Череп 700 000 лет</li>
+  <li>Сталактиты и сталагмиты</li>
+  <li>Антропологический музей</li>
+  <li>40 км от Салоник</li>
+  <li>Для <a href="/guide/families">семей</a></li>
+</ul>
+
+<h2>Что увидите</h2>
+<p>300-метровый маршрут, 30-40 мин с гидом.</p>
+
+<h2>Практика</h2>
+<h3>Часы</h3>
+<ul>
+  <li>Лето: 9:00-17:00</li>
+  <li>Зима: 9:00-16:00</li>
+</ul>
+
+<h3>Цены 2026</h3>
+<ul>
+  <li>Взрослые: €8</li>
+  <li>Дети 6-18: €4</li>
+  <li>До 6: бесплатно</li>
+</ul>
+
+<h3>Как добраться</h3>
+<ul>
+  <li>От Салоник: 40 км</li>
+  <li>От <a href="/places/nea-moudania">Неа Муданьи</a>: 20 км</li>
+</ul>
+<p>Без машины: <a href="/guide/halkidiki-without-car">гид</a>.</p>
+
+<h3>Одежда</h3>
+<p>В пещере 16-17°C круглый год. Возьмите куртку.</p>
+
+<h2>Комбинации</h2>
+<ul>
+  <li>Петралона + пляж <a href="/places/possidi">Посиди</a></li>
+  <li>Петралона + <a href="/places/olynthos">Древний Олинф</a></li>
+</ul>
+
+<h2>Часто задаваемые вопросы</h2>
+<h3>Сколько времени?</h3>
+<p>2 часа всего.</p>
+<h3>Холодно летом?</h3>
+<p>Да, 16-17°C.</p>`,
+      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Peștera Petralona este unul dintre cele mai importante situri paleontologice ale Europei. În 1960 s-a găsit aici un craniu uman de aproximativ 700.000 de ani.</p>
+
+<h2>De ce să vizitezi?</h2>
+<ul>
+  <li>Craniu de 700.000 ani</li>
+  <li>Stalactite și stalagmite</li>
+  <li>Muzeul Antropologic</li>
+  <li>40 km de Salonic</li>
+  <li>Pentru <a href="/guide/families">familii</a></li>
+</ul>
+
+<h2>Ce vei vedea</h2>
+<p>Traseu de 300 m, 30-40 min cu ghid.</p>
+
+<h2>Practică</h2>
+<h3>Orar</h3>
+<ul>
+  <li>Vara: 9:00-17:00</li>
+  <li>Iarna: 9:00-16:00</li>
+</ul>
+
+<h3>Prețuri 2026</h3>
+<ul>
+  <li>Adulți: €8</li>
+  <li>Copii 6-18: €4</li>
+  <li>Sub 6: gratuit</li>
+</ul>
+
+<h3>Cum ajungi</h3>
+<ul>
+  <li>Din Salonic: 40 km</li>
+  <li>Din <a href="/places/nea-moudania">Nea Moudania</a>: 20 km</li>
+</ul>
+<p>Fără mașină: <a href="/guide/halkidiki-without-car">ghid</a>.</p>
+
+<h3>Îmbrăcăminte</h3>
+<p>În peșteră 16-17°C tot anul. Luați o geacă.</p>
+
+<h2>Combinații</h2>
+<ul>
+  <li>Petralona + plaja <a href="/places/possidi">Possidi</a></li>
+  <li>Petralona + <a href="/places/olynthos">Olynthos antic</a></li>
+</ul>
+
+<h2>Întrebări frecvente</h2>
+<h3>Cât timp?</h3>
+<p>2 ore în total.</p>
+<h3>E rece vara?</h3>
+<p>Da, 16-17°C.</p>`,
+      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Pećina Petralona je jedno od najvažnijih paleontoloških nalazišta Evrope. 1960. ovde je pronađena ljudska lobanja stara oko 700.000 godina.</p>
+
+<h2>Zašto posetiti?</h2>
+<ul>
+  <li>Lobanja stara 700.000 godina</li>
+  <li>Stalaktiti i stalagmiti</li>
+  <li>Antropološki muzej</li>
+  <li>40 km od Soluna</li>
+  <li>Za <a href="/guide/families">porodice</a></li>
+</ul>
+
+<h2>Šta ćete videti</h2>
+<p>Staza od 300 m, 30-40 min sa vodičem.</p>
+
+<h2>Praktično</h2>
+<h3>Radno vreme</h3>
+<ul>
+  <li>Leto: 9:00-17:00</li>
+  <li>Zima: 9:00-16:00</li>
+</ul>
+
+<h3>Cene 2026</h3>
+<ul>
+  <li>Odrasli: €8</li>
+  <li>Deca 6-18: €4</li>
+  <li>Ispod 6: besplatno</li>
+</ul>
+
+<h3>Kako stići</h3>
+<ul>
+  <li>Iz Soluna: 40 km</li>
+  <li>Iz <a href="/places/nea-moudania">Nea Mudanje</a>: 20 km</li>
+</ul>
+<p>Bez auta: <a href="/guide/halkidiki-without-car">vodič</a>.</p>
+
+<h3>Odeća</h3>
+<p>U pećini 16-17°C cele godine. Ponesite jaknu.</p>
+
+<h2>Kombinacije</h2>
+<ul>
+  <li>Petralona + plaža <a href="/places/possidi">Posidi</a></li>
+  <li>Petralona + <a href="/places/olynthos">Antički Olint</a></li>
+</ul>
+
+<h2>Česta pitanja</h2>
+<h3>Koliko vremena?</h3>
+<p>2 sata ukupno.</p>
+<h3>Hladno leti?</h3>
+<p>Da, 16-17°C.</p>`,
+    },
+  },
 ];
 
 export function getGuide(slug: string): Guide | undefined {

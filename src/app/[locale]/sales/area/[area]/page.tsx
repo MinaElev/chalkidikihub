@@ -9,7 +9,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Building } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR: 1 hour
 
 const VALID_AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'] as const;
 type ValidArea = (typeof VALID_AREAS)[number];

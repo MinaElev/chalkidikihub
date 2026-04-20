@@ -86,7 +86,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: { card: 'summary_large_image', title, description: desc, images: [`${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=listing`] },
     alternates: {
       canonical: localeUrl(locale, `listings/type/${type}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `listings/type/${type}`)])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `listings/type/${type}`)])),
+        'x-default': localeUrl('el', `listings/type/${type}`),
+      },
     },
   };
 }

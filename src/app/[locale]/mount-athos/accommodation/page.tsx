@@ -338,7 +338,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: { title, description },
     alternates: {
       canonical: localeUrl(locale, 'mount-athos/accommodation'),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'mount-athos/accommodation')])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'mount-athos/accommodation')])),
+        'x-default': localeUrl('el', 'mount-athos/accommodation'),
+      },
     },
   };
 }
@@ -470,6 +473,8 @@ export default async function AccommodationPage({ params }: Props) {
         '@type': 'Article',
         headline: c.jsonHeadline,
         description: c.jsonDescription,
+        datePublished: '2025-06-01',
+        dateModified: '2026-04-20',
         author: { '@type': 'Organization', name: 'Chalkidiki Hub' },
         publisher: { '@type': 'Organization', name: 'Chalkidiki Hub', url: SITE_URL },
         mainEntityOfPage: localeUrl(locale, 'mount-athos/accommodation'),

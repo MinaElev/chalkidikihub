@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR: 1 hour
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -77,7 +77,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: { title, description, type: 'website', locale },
     alternates: {
       canonical: localeUrl(locale, 'places'),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'places')])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'places')])),
+        'x-default': localeUrl('el', 'places'),
+      },
     },
   };
 }

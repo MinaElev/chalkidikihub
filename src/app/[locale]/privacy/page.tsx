@@ -480,7 +480,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: { card: 'summary', title, description: desc },
     alternates: {
       canonical: localeUrl(locale, 'privacy'),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'privacy')])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'privacy')])),
+        'x-default': localeUrl('el', 'privacy'),
+      },
     },
   };
 }

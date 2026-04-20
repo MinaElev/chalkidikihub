@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { localeUrl } from '@/lib/seo';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const titles: Record<string, string> = {
@@ -30,9 +28,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     robots: { index: false, follow: true }, // Hidden from Google
     alternates: {
       canonical: localeUrl(locale, 'for-owners/guide'),
-      languages: Object.fromEntries(
-        ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, `${SITE_URL}/${l}/for-owners/guide`])
-      ),
+      languages: {
+        ...Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'for-owners/guide')])),
+        'x-default': localeUrl('el', 'for-owners/guide'),
+      },
     },
   };
 }

@@ -44,7 +44,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     alternates: {
       canonical: localeUrl(locale, `beaches/area/${area}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `beaches/area/${area}`)])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `beaches/area/${area}`)])),
+        'x-default': localeUrl('el', `beaches/area/${area}`),
+      },
     },
   };
 }

@@ -197,6 +197,11 @@ export async function GET(req: NextRequest) {
     {
       width: 1200,
       height: 630,
+      headers: {
+        // Long-lived cache: OG images are deterministic for identical query
+        // params. Avoid re-rendering them on every social-platform crawl.
+        'Cache-Control': 'public, max-age=31536000, s-maxage=31536000, immutable',
+      },
     },
   );
 }

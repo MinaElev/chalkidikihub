@@ -78,6 +78,7 @@ export function ImageGallery({ images, alt = '' }: ImageGalleryProps) {
               <button
                 key={img.id}
                 onClick={() => openLightbox(idx)}
+                aria-label={alt ? `${alt} — ${idx + 1}/${images.length}` : `Photo ${idx + 1} of ${images.length}`}
                 className={`shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-colors ${
                   idx === 0 ? 'border-primary-500' : 'border-transparent hover:border-gray-300'
                 }`}

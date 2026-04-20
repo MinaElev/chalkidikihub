@@ -9,7 +9,7 @@ import { JsonLd } from '@/components/ui/JsonLd';
 import { HeroSearchBox } from '@/components/layout/HeroSearchBox';
 import { HeroBackground } from '@/components/layout/HeroBackground';
 import { MapPin, Home, Star, QrCode, Shield, Globe, Award, Smartphone, Sparkles, BookOpen, HelpCircle, Compass, ChevronRight } from 'lucide-react';
-import { localeUrl } from '@/lib/seo';
+import { localeUrl, SOCIAL_LINKS } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -64,7 +64,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: localeUrl(locale),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l)])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l)])),
+        'x-default': localeUrl('el'),
+      },
     },
   };
 }
@@ -106,6 +109,7 @@ export default async function HomePage({ params }: Props) {
       url: `${SITE_URL}/contact`,
       availableLanguage: ['Greek', 'English', 'German', 'Bulgarian', 'Russian', 'Romanian', 'Serbian'],
     },
+    ...(SOCIAL_LINKS.length > 0 ? { sameAs: SOCIAL_LINKS } : {}),
   };
 
   return (

@@ -49,7 +49,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: localeUrl(locale, `areas/${slug}`),
-      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, `areas/${slug}`)])),
+      languages: {
+        ...Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, `areas/${slug}`)])),
+        'x-default': localeUrl('el', `areas/${slug}`),
+      },
     },
   };
 }

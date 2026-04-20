@@ -10,7 +10,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: 'Ταξιδιωτικά άρθρα, οδηγοί και συμβουλές για διακοπές στη Χαλκιδική — τι να δείτε, πού να φάτε, κρυφά μέρη και πρακτικές πληροφορίες.',
     alternates: {
       canonical: localeUrl(locale, 'blog'),
-      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'blog')])),
+      languages: {
+        ...Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'blog')])),
+        'x-default': localeUrl('el', 'blog'),
+      },
     },
   };
 }

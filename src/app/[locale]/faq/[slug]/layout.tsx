@@ -18,7 +18,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     twitter: { card: 'summary_large_image', title, description, images: [`${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=faq`] },
     alternates: {
       canonical: localeUrl(locale, `faq/${slug}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/faq/${slug}`])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `faq/${slug}`)])),
+        'x-default': localeUrl('el', `faq/${slug}`),
+      },
     },
   };
 }

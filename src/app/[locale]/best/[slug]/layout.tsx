@@ -18,7 +18,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     openGraph: { title, description },
     alternates: {
       canonical: localeUrl(locale, `best/${slug}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `best/${slug}`)])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `best/${slug}`)])),
+        'x-default': localeUrl('el', `best/${slug}`),
+      },
     },
   };
 }

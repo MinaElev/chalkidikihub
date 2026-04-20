@@ -13,7 +13,7 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR: 1 hour
 
 export function generateStaticParams() {
   return [];
@@ -43,7 +43,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: localeUrl(locale, `places/${slug}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `places/${slug}`)])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `places/${slug}`)])),
+        'x-default': localeUrl('el', `places/${slug}`),
+      },
     },
   };
 }

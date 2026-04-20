@@ -8,7 +8,7 @@ import { generateLodgingLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR: 1 hour
 
 export default async function StayRoute({ params }: Props) {
   const { locale, slug } = await params;

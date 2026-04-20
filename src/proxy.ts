@@ -4,6 +4,10 @@ import { routing } from '@/i18n/routing';
 
 const intlMiddleware = createMiddleware(routing);
 
+// Match any locale-prefixed or unprefixed path under /admin, /dashboard, /auth.
+// Examples: /admin, /admin/users, /en/dashboard, /de/auth/login, etc.
+const PRIVATE_PATH = /^\/(?:(?:el|en|de|bg|ru|ro|sr)\/)?(?:admin|dashboard|auth)(?:\/|$)/;
+
 export default function proxy(request: NextRequest) {
   const response = intlMiddleware(request);
 
@@ -25,6 +29,13 @@ export default function proxy(request: NextRequest) {
       });
       return permanentResponse;
     }
+  }
+
+  // Defense-in-depth: tell search engines never to index private areas even
+  // if they somehow discover the URL (robots.txt is advisory; X-Robots-Tag
+  // is authoritative at the HTTP layer).
+  if (PRIVATE_PATH.test(request.nextUrl.pathname)) {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
   }
 
   return response;

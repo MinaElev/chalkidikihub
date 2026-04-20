@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { createApiClient } from '@/lib/api-helpers';
 import { localeUrl } from '@/lib/seo';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 type Params = Promise<{ locale: string; slug: string }>;
@@ -43,7 +42,10 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     openGraph: { title: fullTitle, description, type: 'website', locale },
     alternates: {
       canonical: localeUrl(locale, `stay/${slug}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/stay/${slug}`])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `stay/${slug}`)])),
+        'x-default': localeUrl('el', `stay/${slug}`),
+      },
     },
   };
 }

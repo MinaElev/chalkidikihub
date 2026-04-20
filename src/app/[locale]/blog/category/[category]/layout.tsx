@@ -60,7 +60,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     alternates: {
       canonical: localeUrl(locale, `blog/category/${category}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `blog/category/${category}`)])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `blog/category/${category}`)])),
+        'x-default': localeUrl('el', `blog/category/${category}`),
+      },
     },
   };
 }

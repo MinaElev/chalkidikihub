@@ -8,7 +8,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: 'Εξερευνήστε τις περιοχές της Χαλκιδικής — Κασσάνδρα, Σιθωνία, Άθως και ενδοχώρα. Χωριά, χάρτης, αποστάσεις και χρήσιμες πληροφορίες.',
     alternates: {
       canonical: localeUrl(locale, 'areas'),
-      languages: Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'areas')])),
+      languages: {
+        ...Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'areas')])),
+        'x-default': localeUrl('el', 'areas'),
+      },
     },
   };
 }

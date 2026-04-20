@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { getItinerary } from './itinerary-data';
 import { localeUrl } from '@/lib/seo';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; days: string }> }): Promise<Metadata> {
@@ -16,7 +15,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     openGraph: { title, description },
     alternates: {
       canonical: localeUrl(locale, `itinerary/${days}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/itinerary/${days}`])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `itinerary/${days}`)])),
+        'x-default': localeUrl('el', `itinerary/${days}`),
+      },
     },
   };
 }

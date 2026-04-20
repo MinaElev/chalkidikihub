@@ -29,7 +29,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: { card: 'summary_large_image', title, description: desc, images: [`${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=guide`] },
     alternates: {
       canonical: localeUrl(locale, `from/${city}`),
-      languages: Object.fromEntries(LOCALES.map(l => [l, `${SITE_URL}/${l}/from/${city}`])),
+      languages: {
+        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `from/${city}`)])),
+        'x-default': localeUrl('el', `from/${city}`),
+      },
     },
   };
 }
@@ -88,6 +91,8 @@ export default async function FromCityPage({ params }: Props) {
         '@type': 'Article',
         headline: title,
         description,
+        datePublished: '2025-06-01',
+        dateModified: '2026-04-20',
         author: { '@type': 'Organization', name: 'ChalkidikiHub' },
         publisher: { '@type': 'Organization', name: 'ChalkidikiHub' },
       })}} />
@@ -96,8 +101,8 @@ export default async function FromCityPage({ params }: Props) {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: breadcrumbLabel[locale] || breadcrumbLabel.en, item: `${SITE_URL}/${locale}` },
-          { '@type': 'ListItem', position: 2, name: title, item: `${SITE_URL}/${locale}/from/${city}` },
+          { '@type': 'ListItem', position: 1, name: breadcrumbLabel[locale] || breadcrumbLabel.en, item: localeUrl(locale) },
+          { '@type': 'ListItem', position: 2, name: title, item: localeUrl(locale, `from/${city}`) },
         ],
       })}} />
     </div>
