@@ -8,6 +8,21 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.33.0',
+      date: '21 Απριλίου 2026',
+      highlights: 'Area guide σε όλα τα 66 καταλύματα × 7 γλώσσες (462 νέες indexable σελίδες), /book κλειδωμένο με contact-only, PMS kill-switch',
+      features: [
+        { emoji: '🗺️', title: 'Οδηγός περιοχής σε ΟΛΑ τα καταλύματα (462 νέες σελίδες)', desc: 'Το area guide που πριν δούλευε μόνο στο Thespis Villa 3 είναι τώρα live σε όλα τα 66 καταλύματα × 7 γλώσσες. Κάθε οδηγός έχει τις 6 κοντινότερες παραλίες, 8 εστιατόρια και 6 δραστηριότητες ταξινομημένα με Haversine distance, 3ήμερο προτεινόμενο itinerary, FAQ section με airport transfer info, και 4 internal links προς σχετικά καταλύματα (village-first, area-fallback). Κάθε guide: ~350KB HTML, ~10 JSON-LD schemas, πλήρως SSR, ISR revalidate 24h' },
+        { emoji: '🎯', title: 'Cross-area POI fallback — καμία σελίδα με thin content', desc: 'Το πρώτο audit έδειξε 13 Kassandra listings με μόνο 3 εστιατόρια και 2 mainland listings με 2 παραλίες (λόγω sparse δεδομένων στις αντίστοιχες περιοχές). Αντί να περιοριστώ σε .eq("area", area), τώρα φέρνω POIs από όλη τη Χαλκιδική και ταξινομώ με πραγματική απόσταση. Η Χαλκιδική είναι αρκετά μικρή ώστε ένα beach 10χλμ μακριά να είναι πιο χρήσιμο από padding με 2-item section. Μετά το fix: όλα τα 66 guides έχουν 6 παραλίες + 8 εστιατόρια + 6 δραστηριότητες' },
+        { emoji: '📰', title: 'Article JSON-LD + OG tags στα guides', desc: 'Κάθε area guide έχει τώρα Article schema με datePublished/dateModified, author (ChalkidikiHub), publisher με logo, εικόνα κάλυψη του καταλύματος. Open Graph image 1200×630 με alt text + Twitter summary_large_image card. Η Google τα πιάνει ως content articles αντί για product pages — unlocks "News & Discover" placement' },
+        { emoji: '🔗', title: '1.848 νέα internal paths από related listings', desc: 'Κάθε guide δείχνει 4 σχετικά καταλύματα: priority στο ίδιο χωριό (stronger topical signal), fallback σε ίδια περιοχή αν το χωριό έχει <4 listings. Εικόνα, τιμή, link — το καθένα τραβάει crawl equity στο source listing. 462 guides × 4 links = 1.848 νέα εσωτερικά paths, αυξάνει crawl depth + PageRank flow σε όλο το directory' },
+        { emoji: '🚧', title: '/book/[slug] κλειδωμένο με contact-only σελίδα', desc: 'Το online booking δεν είναι έτοιμο ακόμα. Αντί για half-baked form, η /book/[slug] σε 7 γλώσσες δείχνει "Online κρατήσεις υπό κατασκευή — επικοινωνήστε απευθείας με τον ιδιοκτήτη" με tel:/mailto:/wa.me/website buttons. robots: noindex, follow — δεν χάνουμε link equity, αλλά και δεν γεμίζουμε τη Google με thin "coming soon" pages. Link πίσω στο listing' },
+        { emoji: '🔒', title: 'PMS kill-switch — owner-level disable', desc: 'Νέο pms_enabled flag στο pms_owner_settings (migration 039). Αν ένας owner έχει pms_enabled=false, όλα τα public API routes (/api/pms/public/{book,quote,checkout}) επιστρέφουν 503 pms_disabled. Admin dashboard τώρα έχει toggle για instant activation/deactivation χωρίς να πειράξουμε τα existing listings — χρήσιμο για phased rollout ή emergency stop' },
+        { emoji: '📍', title: 'Guide CTA στη StayPage', desc: 'Το "Οδηγός περιοχής: {village}" CTA εμφανίζεται τώρα σε κάθε listing page (πριν εμφανιζόταν μόνο αν είχε lat/lon). BookOpen icon + area name, link σε /stay/{slug}/guide. 7-locale translations. Δίνει visibility στα νέα 462 guide URLs μέσα από τη φυσική user journey' },
+        { emoji: '🗂️', title: 'Sitemap — 462 νέα guide URLs', desc: 'Το /sitemap.xml τώρα περιλαμβάνει uncontionally /stay/{slug}/guide για κάθε listing × 7 γλώσσες, priority 0.8, changefreq weekly, lastmod από updated_at. Η Google παίρνει ρητό signal ότι αυτές είναι canonical σελίδες που θέλουμε indexed' },
+      ],
+    },
+    {
       version: 'v3.32.0',
       date: '21 Απριλίου 2026',
       highlights: 'SEO — SSR village pages, smart data-driven meta, FAQ schema: fix για 1.510 "Discovered, not indexed" URLs στο GSC',

@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local PSI audit reports (dev only)
+/.psi/
+
+# Claude local state
+/.claude/scheduled_tasks.lock
