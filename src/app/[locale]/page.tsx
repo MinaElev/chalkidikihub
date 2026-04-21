@@ -15,14 +15,12 @@ import type { Metadata } from 'next';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
-// ISR: regenerate homepage every 5 min. All 5 Supabase queries (areas, listings,
-// beaches, blog, hero) run once per window instead of on every request.
-// Slashes TTFB from ~800ms (cold SSR) to ~50ms (cached HTML).
-export const revalidate = 300;
-// Force static prerender at build time. If anything in the render tree uses a
-// Request-time API (cookies/headers/searchParams), Next will throw at build
-// time — which is what we want, so we can identify and remove the dynamic dep.
+// Static prerender at build time + ISR every 5 min. Without force-static,
+// next-intl internals opt the route into dynamic rendering and Vercel returns
+// Cache-Control: no-store. Combined they deliver CDN-cached HTML at ~200ms
+// TTFB instead of ~1100ms SSR.
 export const dynamic = 'force-static';
+export const revalidate = 300;
 
 type Props = {
   params: Promise<{ locale: string }>;
