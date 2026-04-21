@@ -21,6 +21,10 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
+  // CRITICAL: call setRequestLocale BEFORE getMessages() so next-intl reads
+  // locale from cache instead of headers(). Skipping this opts the whole
+  // route into dynamic rendering and kills ISR on Vercel.
+  setRequestLocale(locale);
   const messages = await getMessages();
   const t = (messages as Record<string, Record<string, string>>).common;
 
