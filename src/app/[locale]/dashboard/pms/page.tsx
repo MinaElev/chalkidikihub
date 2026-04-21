@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import {
   Zap, CalendarDays, ClipboardList, Inbox, DollarSign, Sparkles,
   Wrench, TrendingUp, Settings, ArrowRight, Building2, Loader2,
-  CheckCircle2, Circle, AlertCircle, Users,
+  CheckCircle2, Circle, AlertCircle, Users, Power, PowerOff,
 } from 'lucide-react';
 
 interface ListingRow {
@@ -28,6 +28,13 @@ interface PmsStats {
   icalFeeds: number;
   hasStripe: boolean;
   hasSettings: boolean;
+}
+
+interface OwnerSettingsRow {
+  stripe_onboarded?: boolean | null;
+  afm?: string | null;
+  ama_number?: string | null;
+  pms_enabled?: boolean | null;
 }
 
 const MODULES = [
@@ -101,12 +108,17 @@ export default function PMSCommandCenterPage() {
   });
   const [loading, setLoading] = useState(true);
   const [isAdminUser, setIsAdminUser] = useState(false);
+  const [ownerId, setOwnerId] = useState<string | null>(null);
+  const [pmsEnabled, setPmsEnabled] = useState(true);
+  const [togglingPms, setTogglingPms] = useState(false);
 
   useEffect(() => {
     (async () => {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
+
+      setOwnerId(user.id);
 
       // Detect admin role — admins see platform-wide stats
       const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
@@ -147,12 +159,13 @@ export default function PMSCommandCenterPage() {
         // Admin doesn't have personal owner_settings — skip the per-user lookup
         admin
           ? Promise.resolve({ data: null })
-          : supabase.from('pms_owner_settings').select('stripe_onboarded, afm, ama_number').eq('owner_id', user.id).single(),
+          : supabase.from('pms_owner_settings').select('stripe_onboarded, afm, ama_number, pms_enabled').eq('owner_id', user.id).maybeSingle(),
       ]);
 
       const today = new Date().toISOString().slice(0, 10);
       const upcoming = (bookingsRes.data || []).filter(b => (b as { check_in: string }).check_in >= today).length;
 
+      const settings = settingsRes.data as OwnerSettingsRow | null;
       setListings((listingsRes.data || []) as ListingRow[]);
       setStats({
         bookingsTotal:    bookingsRes.count || 0,
@@ -160,12 +173,38 @@ export default function PMSCommandCenterPage() {
         messagesUnread:   messagesRes.count || 0,
         tasksPending:     tasksRes.count || 0,
         icalFeeds:        feedsRes.count || 0,
-        hasStripe:        !!settingsRes.data?.stripe_onboarded,
-        hasSettings:      !!(settingsRes.data?.afm || settingsRes.data?.ama_number),
+        hasStripe:        !!settings?.stripe_onboarded,
+        hasSettings:      !!(settings?.afm || settings?.ama_number),
       });
+      // pms_enabled defaults to true (new column; row may pre-date migration 039)
+      setPmsEnabled(settings?.pms_enabled !== false);
       setLoading(false);
     })();
   }, []);
+
+  async function togglePms() {
+    if (!ownerId || togglingPms) return;
+    const next = !pmsEnabled;
+    // Confirm the destructive direction (turning OFF) — going back ON is harmless.
+    if (!next) {
+      const msg = locale === 'el'
+        ? 'Σίγουρα; Θα σταματήσουν ΟΛΕΣ οι νέες κρατήσεις από τη δημόσια σελίδα μέχρι να το ενεργοποιήσεις ξανά.'
+        : 'Are you sure? ALL new bookings from the public booking page will stop until you re-enable.';
+      if (!window.confirm(msg)) return;
+    }
+    setTogglingPms(true);
+    const supabase = createClient();
+    // upsert so it works even if the row doesn't exist yet for this owner.
+    const { error } = await supabase
+      .from('pms_owner_settings')
+      .upsert({ owner_id: ownerId, pms_enabled: next }, { onConflict: 'owner_id' });
+    if (error) {
+      alert((locale === 'el' ? 'Σφάλμα: ' : 'Error: ') + error.message);
+    } else {
+      setPmsEnabled(next);
+    }
+    setTogglingPms(false);
+  }
 
   if (loading) {
     return <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-violet-600" /></div>;
@@ -197,6 +236,74 @@ export default function PMSCommandCenterPage() {
                 ? 'Βλέπεις συγκεντρωτικά στατιστικά από όλα τα καταλύματα του ChalkidikiHub. Όταν ενεργείς σε κάποιο module, η ενέργεια αποδίδεται στον πραγματικό owner.'
                 : 'You see aggregate stats across every ChalkidikiHub property. When you act inside a module, the action is attributed to the real owner.'}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* PMS KILL SWITCH — owners only (admins don't have personal settings) */}
+      {!isAdminUser && (
+        <div
+          className={`rounded-2xl p-5 border-2 shadow-sm transition-colors ${
+            pmsEnabled
+              ? 'bg-gradient-to-br from-emerald-50 to-white border-emerald-200'
+              : 'bg-gradient-to-br from-rose-50 to-white border-rose-300 ring-2 ring-rose-200'
+          }`}
+        >
+          <div className="flex items-start gap-4">
+            <div
+              className={`inline-flex items-center justify-center w-11 h-11 rounded-xl shrink-0 ${
+                pmsEnabled ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
+              }`}
+            >
+              {pmsEnabled ? <Power className="w-5 h-5" /> : <PowerOff className="w-5 h-5" />}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <h2 className="text-sm font-bold text-slate-900">
+                  {locale === 'el' ? 'Κατάσταση PMS' : 'PMS status'}
+                </h2>
+                <span
+                  className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                    pmsEnabled ? 'bg-emerald-200 text-emerald-800' : 'bg-rose-200 text-rose-800'
+                  }`}
+                >
+                  {pmsEnabled
+                    ? (locale === 'el' ? 'Ενεργό' : 'On')
+                    : (locale === 'el' ? 'Ανενεργό' : 'Off')}
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                {pmsEnabled
+                  ? (locale === 'el'
+                      ? 'Όλα τα καταλύματά σου δέχονται νέες κρατήσεις από τη δημόσια σελίδα.'
+                      : 'All your properties accept new bookings from the public booking page.')
+                  : (locale === 'el'
+                      ? 'ΟΛΕΣ οι νέες κρατήσεις είναι μπλοκαρισμένες. Το ιστορικό και τα υπόλοιπα εργαλεία PMS παραμένουν διαθέσιμα.'
+                      : 'ALL new bookings are blocked. Your PMS history and tools remain accessible.')}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={togglePms}
+              disabled={togglingPms}
+              aria-pressed={pmsEnabled}
+              className={`shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold shadow-sm transition-colors disabled:opacity-50 ${
+                pmsEnabled
+                  ? 'bg-white text-rose-700 border-2 border-rose-300 hover:bg-rose-50'
+                  : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+              }`}
+            >
+              {togglingPms ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : pmsEnabled ? (
+                <PowerOff className="w-4 h-4" />
+              ) : (
+                <Power className="w-4 h-4" />
+              )}
+              {pmsEnabled
+                ? (locale === 'el' ? 'Απενεργοποίηση' : 'Turn off')
+                : (locale === 'el' ? 'Ενεργοποίηση' : 'Turn on')}
+            </button>
           </div>
         </div>
       )}

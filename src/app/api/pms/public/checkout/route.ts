@@ -51,6 +51,9 @@ export async function POST(req: NextRequest) {
   ]);
 
   if (!listing) return NextResponse.json({ error: 'listing_not_found' }, { status: 404 });
+  if ((owner as { pms_enabled?: boolean } | null)?.pms_enabled === false) {
+    return NextResponse.json({ error: 'pms_disabled' }, { status: 503 });
+  }
   if (!owner?.stripe_account_id || !owner?.stripe_onboarded) {
     return NextResponse.json({ error: 'owner_not_onboarded' }, { status: 409 });
   }

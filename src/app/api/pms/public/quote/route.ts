@@ -92,6 +92,11 @@ export async function POST(req: NextRequest) {
   );
   const conflicts: Array<{ kind: string; detail: string }> = [];
 
+  // Owner-level PMS kill switch — overrides everything else.
+  if ((owner as { pms_enabled?: boolean } | null)?.pms_enabled === false) {
+    conflicts.push({ kind: 'pms_disabled', detail: 'Owner is not accepting bookings at this time' });
+  }
+
   if (nights < effective.min_nights) {
     conflicts.push({ kind: 'min_nights', detail: `Minimum ${effective.min_nights} nights` });
   }

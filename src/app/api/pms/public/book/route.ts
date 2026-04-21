@@ -90,6 +90,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'dates_not_available' }, { status: 409 });
   }
 
+  // Owner-level PMS kill switch — reject before any pricing or availability math.
+  if ((owner as { pms_enabled?: boolean } | null)?.pms_enabled === false) {
+    return NextResponse.json({ error: 'pms_disabled' }, { status: 503 });
+  }
+
   const effective = mergeSettings(owner || null, override || null);
   const nights = Math.round(
     (new Date(checkOut).getTime() - new Date(checkIn).getTime()) / 86_400_000,
