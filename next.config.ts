@@ -8,17 +8,17 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const csp = [
   "default-src 'self'",
   // Next.js hydration + GA require inline/eval. Without SSR nonces we keep unsafe-inline.
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://fundingchoicesmessages.google.com https://www.google.com",
   // Tailwind/Next.js inject styles at runtime; unsafe-inline is required.
   "style-src 'self' 'unsafe-inline'",
-  // Images: own domain, data/blob (previews + og), Supabase CDN, DALL-E blob, Unsplash, partner, OSM tiles, GA pixel.
-  "img-src 'self' data: blob: https://*.supabase.co https://oaidalleapiprodscus.blob.core.windows.net https://greece-moments.com https://images.unsplash.com https://*.tile.openstreetmap.org https://www.openstreetmap.org https://*.google-analytics.com",
+  // Images: own domain, data/blob (previews + og), Supabase CDN, DALL-E blob, Unsplash, partner, OSM tiles, GA pixel, AdSense creatives.
+  "img-src 'self' data: blob: https://*.supabase.co https://oaidalleapiprodscus.blob.core.windows.net https://greece-moments.com https://images.unsplash.com https://*.tile.openstreetmap.org https://www.openstreetmap.org https://*.google-analytics.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com",
   // Fonts: self + data (inlined woff2 in OG routes via fontsource).
   "font-src 'self' data: https://cdn.jsdelivr.net",
   // API + analytics + OSM geocoding.
   "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://nominatim.openstreetmap.org https://*.google-analytics.com https://analytics.google.com https://cdn.jsdelivr.net",
-  // OSM iframe embeds on village + monastery pages.
-  "frame-src 'self' https://www.openstreetmap.org",
+  // OSM iframe embeds + AdSense/Funding Choices (GDPR consent) + DoubleClick ad iframes.
+  "frame-src 'self' https://www.openstreetmap.org https://fundingchoicesmessages.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google.com",
   // Harden against clickjacking (complements X-Frame-Options).
   "frame-ancestors 'self'",
   "base-uri 'self'",
