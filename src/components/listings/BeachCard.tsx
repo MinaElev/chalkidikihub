@@ -5,7 +5,6 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Beach } from '@/types';
 import { MapPin, Star, MessageCircle } from 'lucide-react';
-import { CrowdBadge } from './CrowdIndicator';
 import { FavoriteButton } from '@/components/ui/FavoriteButton';
 
 export function BeachCard({ beach }: { beach: Beach }) {
@@ -73,9 +72,8 @@ export function BeachCard({ beach }: { beach: Beach }) {
             )}
           </div>
 
-          {/* Crowd + Reviews */}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-            <CrowdBadge beachSlug={beach.slug} />
+          {/* Reviews */}
+          <div className="flex items-center justify-end mt-4 pt-4 border-t border-gray-100">
             <div className="flex items-center gap-1 text-sm text-gray-400">
               <MessageCircle className="w-3.5 h-3.5" />
               <span>{beach.reviews_count}</span>
