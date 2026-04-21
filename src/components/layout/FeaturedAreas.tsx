@@ -32,6 +32,7 @@ export async function FeaturedAreas({ locale }: { locale: string }) {
               {area.image_url ? (
                 <Image src={area.image_url} alt={area.name[locale] || area.name.el || ''} fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  quality={60}
                   className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700 group-hover:scale-110 transition-transform duration-500" />

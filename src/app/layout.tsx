@@ -28,8 +28,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://bvwiwxmgbtklztgapxyp.supabase.co" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
-        {/* Preload hero image for fast LCP */}
-        <link rel="preload" as="image" href="/images/hero/halkidiki-hero.webp" type="image/webp" />
+        {/* Hero image preload is emitted automatically by next/image with priority={true} + fetchPriority="high" (see HeroBackground.tsx) */}
         {/* RSS feed for blog content distribution */}
         <link rel="alternate" type="application/rss+xml" title="Chalkidiki Hub Blog" href="/feed.xml" />
       </head>
@@ -42,10 +41,10 @@ export default function RootLayout({
           strategy="lazyOnload"
           crossOrigin="anonymous"
         />
-        {/* Google Analytics - after interactive for tracking accuracy */}
+        {/* Google Analytics - lazy loaded to protect LCP/Speed Index */}
         <Script
           id="gtag-init"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{ __html: `
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
             gtag('js',new Date());gtag('config','G-YKD6X4B919');
@@ -53,7 +52,7 @@ export default function RootLayout({
         />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YKD6X4B919"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
       </body>
     </html>

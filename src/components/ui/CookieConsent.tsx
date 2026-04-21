@@ -6,31 +6,40 @@ import { Cookie, X } from 'lucide-react';
 
 export function CookieConsent() {
   const locale = useLocale();
-  const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [shouldShow, setShouldShow] = useState(false);
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
     if (!consent) {
-      setTimeout(() => setVisible(true), 500);
+      setShouldShow(true);
+      requestAnimationFrame(() => setMounted(true));
     }
   }, []);
 
   function accept() {
     localStorage.setItem('cookie-consent', 'accepted');
-    setVisible(false);
+    setMounted(false);
   }
 
   function decline() {
     localStorage.setItem('cookie-consent', 'declined');
-    setVisible(false);
+    setMounted(false);
   }
 
-  if (!visible) return null;
+  if (!shouldShow) return null;
 
   const isGreek = locale === 'el';
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[999] p-4 md:p-6" role="dialog" aria-label="Cookie consent" data-nosnippet>
+    <div
+      className={`fixed bottom-0 left-0 right-0 z-[999] p-4 md:p-6 transition-transform duration-300 ease-out ${mounted ? 'translate-y-0' : 'translate-y-full'}`}
+      style={{ willChange: 'transform' }}
+      role="dialog"
+      aria-label="Cookie consent"
+      aria-hidden={!mounted}
+      data-nosnippet
+    >
       <div className="max-w-xl mx-auto bg-gray-900 text-white rounded-2xl shadow-2xl p-4 border border-gray-700">
         <div className="flex items-start gap-3">
           <div className="text-2xl shrink-0">🍪</div>

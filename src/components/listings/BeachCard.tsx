@@ -28,6 +28,7 @@ export function BeachCard({ beach }: { beach: Beach }) {
               alt={altText}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              quality={60}
               className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
             />
           ) : (

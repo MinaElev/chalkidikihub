@@ -1,19 +1,25 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { cache } from 'react';
+import { createApiClient } from '@/lib/api-helpers';
 
 const DEFAULT_HERO = '/images/hero/halkidiki-hero.webp';
 
-export function HeroBackground() {
-  const [heroImage, setHeroImage] = useState(DEFAULT_HERO);
+const getHeroImageUrl = cache(async (): Promise<string> => {
+  try {
+    const supabase = createApiClient();
+    const { data } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', 'hero_image_url')
+      .single();
+    return (data?.value as string) || DEFAULT_HERO;
+  } catch {
+    return DEFAULT_HERO;
+  }
+});
 
-  useEffect(() => {
-    fetch('/api/settings/hero-image')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => { if (data?.url) setHeroImage(data.url); })
-      .catch(() => {});
-  }, []);
+export async function HeroBackground() {
+  const heroImage = await getHeroImageUrl();
 
   return (
     <Image
@@ -21,7 +27,9 @@ export function HeroBackground() {
       alt="Halkidiki, Greece — turquoise waters and pine trees"
       fill
       priority
+      fetchPriority="high"
       sizes="100vw"
+      quality={60}
       className="object-cover opacity-50"
     />
   );
