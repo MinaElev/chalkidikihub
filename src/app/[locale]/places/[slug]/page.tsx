@@ -30,15 +30,49 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const supabase = createApiClient();
   const { data } = await supabase.from('villages')
-    .select('name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr, meta_title_el, meta_title_en, meta_title_de, meta_title_bg, meta_title_ru, meta_title_ro, meta_title_sr, meta_description_el, meta_description_en, meta_description_de, meta_description_bg, meta_description_ru, meta_description_ro, meta_description_sr, image_url, image_alt')
+    .select('area, name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr, meta_title_el, meta_title_en, meta_title_de, meta_title_bg, meta_title_ru, meta_title_ro, meta_title_sr, meta_description_el, meta_description_en, meta_description_de, meta_description_bg, meta_description_ru, meta_description_ro, meta_description_sr, image_url, image_alt')
     .eq('slug', slug).single();
 
   if (!data) return { title: 'Village | ChalkidikiHub' };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const row = data as any;
-  const title = row[`meta_title_${locale}`] || row.meta_title_el || row.meta_title_en || row[`name_${locale}`] || row.name_el || row.name_en;
-  const description = row[`meta_description_${locale}`] || row.meta_description_el || row.meta_description_en || '';
+  const villageName = row[`name_${locale}`] || row.name_el || row.name_en;
+  const title = row[`meta_title_${locale}`] || row.meta_title_el || row.meta_title_en || villageName;
+
+  // Fetch counts + top beaches in parallel to build a data-driven meta description.
+  // Replaces near-duplicate template descriptions ("Ανακαλύψτε X…") with unique
+  // per-village signals Google ranks higher.
+  const [beachesRes, restaurantsRes, activitiesRes] = await Promise.all([
+    supabase.from('beaches').select(`name_${locale}, name_el, name_en`, { count: 'exact' })
+      .eq('area', row.area).order('rating', { ascending: false }).limit(2),
+    supabase.from('restaurants').select('*', { count: 'exact', head: true }).eq('area', row.area),
+    supabase.from('activities').select('*', { count: 'exact', head: true }).eq('area', row.area),
+  ]);
+  const topBeaches = (beachesRes.data || [])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .map((b: any) => b[`name_${locale}`] || b.name_el || b.name_en)
+    .filter(Boolean) as string[];
+
+  const areaInfo = AREAS.find(a => a.slug === row.area);
+  const areaLocaleMap = (areaInfo?.name ?? {}) as Record<string, string>;
+  const areaName = areaLocaleMap[locale] || areaLocaleMap.el || row.area;
+
+  const smart = buildVillageMeta({
+    villageName,
+    areaName,
+    locale,
+    beachCount: beachesRes.count || 0,
+    restaurantCount: restaurantsRes.count || 0,
+    activityCount: activitiesRes.count || 0,
+    topBeaches,
+  });
+
+  const dbDesc: string = row[`meta_description_${locale}`] || '';
+  // Prefer smart description when we have real data counts (>0 of any type);
+  // fall back to DB description, then to EL/EN fallback chain for gaps.
+  const hasData = (beachesRes.count || 0) + (restaurantsRes.count || 0) + (activitiesRes.count || 0) > 0;
+  const description = hasData ? smart : (dbDesc || row.meta_description_el || row.meta_description_en || '');
 
   return {
     title,
@@ -56,6 +90,45 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     },
   };
+}
+
+// Locale tables for smart meta — avoids per-village template duplication
+const META_LABELS: Record<string, { halkidiki: string; beaches: string; restaurants: string; activities: string; suffix: string; and: string }> = {
+  el: { halkidiki: 'Χαλκιδική', beaches: 'παραλίες', restaurants: 'εστιατόρια', activities: 'δραστηριότητες', suffix: 'Οδηγός, κριτικές, χάρτες.', and: 'και' },
+  en: { halkidiki: 'Halkidiki', beaches: 'beaches', restaurants: 'restaurants', activities: 'activities', suffix: 'Guide, reviews, maps.', and: 'and' },
+  de: { halkidiki: 'Chalkidiki', beaches: 'Strände', restaurants: 'Restaurants', activities: 'Aktivitäten', suffix: 'Reiseführer, Bewertungen, Karten.', and: 'und' },
+  bg: { halkidiki: 'Халкидики', beaches: 'плажа', restaurants: 'ресторанта', activities: 'дейности', suffix: 'Пътеводител, отзиви, карти.', and: 'и' },
+  ru: { halkidiki: 'Халкидики', beaches: 'пляжей', restaurants: 'ресторанов', activities: 'занятий', suffix: 'Путеводитель, отзывы, карты.', and: 'и' },
+  ro: { halkidiki: 'Halkidiki', beaches: 'plaje', restaurants: 'restaurante', activities: 'activități', suffix: 'Ghid, recenzii, hărți.', and: 'și' },
+  sr: { halkidiki: 'Halkidiki', beaches: 'plaža', restaurants: 'restorana', activities: 'aktivnosti', suffix: 'Vodič, recenzije, mape.', and: 'i' },
+};
+
+function buildVillageMeta(opts: {
+  villageName: string;
+  areaName: string;
+  locale: string;
+  beachCount: number;
+  restaurantCount: number;
+  activityCount: number;
+  topBeaches: string[];
+}): string {
+  const { villageName, areaName, locale, beachCount, restaurantCount, activityCount, topBeaches } = opts;
+  const L = META_LABELS[locale] || META_LABELS.en;
+  const items: string[] = [];
+  if (beachCount > 0) {
+    const top = topBeaches.slice(0, 2).filter(Boolean);
+    items.push(`${beachCount} ${L.beaches}${top.length > 0 ? ` (${top.join(', ')})` : ''}`);
+  }
+  if (restaurantCount > 0) items.push(`${restaurantCount} ${L.restaurants}`);
+  if (activityCount > 0) items.push(`${activityCount} ${L.activities}`);
+  // Combine with commas and a final "and"/conjunction
+  let listStr = '';
+  if (items.length === 1) listStr = items[0];
+  else if (items.length === 2) listStr = `${items[0]} ${L.and} ${items[1]}`;
+  else if (items.length >= 3) listStr = `${items.slice(0, -1).join(', ')} ${L.and} ${items[items.length - 1]}`;
+  const head = `${villageName} (${areaName}, ${L.halkidiki}):`;
+  const body = listStr ? `${listStr}. ` : '';
+  return `${head} ${body}${L.suffix}`.trim();
 }
 
 export default async function VillageDetailPage({ params }: Props) {
