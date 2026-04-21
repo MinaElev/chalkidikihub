@@ -19,6 +19,10 @@ const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 // beaches, blog, hero) run once per window instead of on every request.
 // Slashes TTFB from ~800ms (cold SSR) to ~50ms (cached HTML).
 export const revalidate = 300;
+// Force static prerender at build time. If anything in the render tree uses a
+// Request-time API (cookies/headers/searchParams), Next will throw at build
+// time — which is what we want, so we can identify and remove the dynamic dep.
+export const dynamic = 'force-static';
 
 type Props = {
   params: Promise<{ locale: string }>;
