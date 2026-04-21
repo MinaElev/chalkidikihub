@@ -7,9 +7,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Default lang to Greek (primary market). A tiny inline script syncs it
+  // with the URL's locale segment before paint, so screen readers and
+  // accessibility tools see the correct language for non-default locales.
+  // Done this way because the root layout sits above [locale] and has no
+  // access to segment params during static prerender.
   return (
-    <html suppressHydrationWarning>
+    <html lang="el" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var l=['el','en','de','bg','ru','ro','sr'],p=location.pathname.split('/').filter(Boolean)[0];if(l.indexOf(p)>-1)document.documentElement.lang=p;})();`,
+          }}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#0891B2" />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
