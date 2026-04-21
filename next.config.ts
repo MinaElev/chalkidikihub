@@ -8,7 +8,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const csp = [
   "default-src 'self'",
   // Next.js hydration + GA require inline/eval. Without SSR nonces we keep unsafe-inline.
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net",
   // Tailwind/Next.js inject styles at runtime; unsafe-inline is required.
   "style-src 'self' 'unsafe-inline'",
   // Images: own domain, data/blob (previews + og), Supabase CDN, DALL-E blob, Unsplash, partner, OSM tiles, GA pixel.
