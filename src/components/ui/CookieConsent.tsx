@@ -52,7 +52,7 @@ export function CookieConsent() {
                 ? 'Δυστυχώς δεν έχουμε από αυτά τα νόστιμα. Έχουμε μόνο τα βαρετά ψηφιακά cookies που κρατάνε τη σύνδεσή σου και τη γλώσσα σου.'
                 : 'Unfortunately, we don\'t have the tasty kind. We only have boring digital cookies that remember your login and language.'}
             </p>
-            <p className="text-xs text-gray-500 mb-3">
+            <p className="text-xs text-gray-400 mb-3">
               {isGreek
                 ? '🏖️ Κανένα cookie παρακολούθησης - μόνο τα απαραίτητα. Υπόσχεση! Πάμε παραλία;'
                 : '🏖️ No tracking cookies - only the essentials. Promise! Shall we go to the beach?'}

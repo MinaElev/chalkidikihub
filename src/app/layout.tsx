@@ -1,6 +1,6 @@
 import './globals.css';
-import Script from 'next/script';
 import { PWARegister } from '@/components/PWARegister';
+import { DeferredScripts } from '@/components/DeferredScripts';
 
 export default function RootLayout({
   children,
@@ -39,25 +39,9 @@ export default function RootLayout({
       <body>
         <PWARegister />
         {children}
-        {/* Google AdSense - lazy loaded, non-critical */}
-        <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9694572418424066"
-          strategy="lazyOnload"
-          crossOrigin="anonymous"
-        />
-        {/* Google Analytics - lazy loaded to protect LCP/Speed Index */}
-        <Script
-          id="gtag-init"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{ __html: `
-            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
-            gtag('js',new Date());gtag('config','G-YKD6X4B919');
-          ` }}
-        />
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-YKD6X4B919"
-          strategy="lazyOnload"
-        />
+        {/* AdSense + GTM/GA deferred to first user interaction or browser-idle
+            (whichever comes first) — keeps main thread free for LCP/TBT. */}
+        <DeferredScripts />
       </body>
     </html>
   );

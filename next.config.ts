@@ -49,6 +49,11 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
+  compiler: {
+    // Strip console.log/debug/info/warn from production builds; keep console.error so
+    // real crashes still surface in Sentry/server logs.
+    removeConsole: { exclude: ['error'] },
+  },
   experimental: {
     optimizePackageImports: ['lucide-react', 'leaflet', 'react-leaflet'],
   },
