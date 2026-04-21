@@ -29,7 +29,7 @@ export async function HeroBackground() {
       priority
       fetchPriority="high"
       sizes="100vw"
-      quality={60}
+      quality={45}
       className="object-cover opacity-50"
     />
   );
