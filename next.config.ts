@@ -63,7 +63,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 31536000, // 1 year — images rarely change
     deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    qualities: [45, 60, 75], // Next 16 requires explicit qualities allowlist
+    qualities: [45, 50, 60, 75], // Next 16 requires explicit qualities allowlist
   },
   async headers() {
     return [
