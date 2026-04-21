@@ -54,7 +54,7 @@ export function ListingCard({ listing }: ListingCardProps) {
           <h3 className="font-bold text-gray-900 group-hover:text-primary-600 transition-colors line-clamp-1">
             {title}
           </h3>
-          <div className="flex items-center gap-1.5 mt-1.5 text-gray-400">
+          <div className="flex items-center gap-1.5 mt-1.5 text-gray-500">
             <MapPin className="w-3.5 h-3.5" />
             <span className="text-sm">{listing.location_name}</span>
           </div>

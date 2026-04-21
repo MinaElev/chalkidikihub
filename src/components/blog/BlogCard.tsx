@@ -48,7 +48,7 @@ export function BlogCard({ article }: { article: BlogArticle }) {
           <p className="mt-2 text-sm text-gray-500 line-clamp-2 leading-relaxed">{excerpt}</p>
 
           <div className="flex items-center justify-between mt-5 pt-4 border-t border-gray-100">
-            <div className="flex items-center gap-3 text-xs text-gray-400">
+            <div className="flex items-center gap-3 text-xs text-gray-500">
               <div className="flex items-center gap-1">
                 <Calendar className="w-3.5 h-3.5" />
                 <span>{new Date(article.published_at).toLocaleDateString(locale)}</span>

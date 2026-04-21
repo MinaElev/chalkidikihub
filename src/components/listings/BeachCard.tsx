@@ -50,7 +50,7 @@ export function BeachCard({ beach }: { beach: Beach }) {
           <h3 className="font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
             {name}
           </h3>
-          <div className="flex items-center gap-1.5 mt-1.5 text-gray-400">
+          <div className="flex items-center gap-1.5 mt-1.5 text-gray-500">
             <MapPin className="w-3.5 h-3.5" />
             <span className="text-sm">{beach.location_name}</span>
           </div>
@@ -66,7 +66,7 @@ export function BeachCard({ beach }: { beach: Beach }) {
               </span>
             ))}
             {beach.features.length > 3 && (
-              <span className="px-2 py-0.5 bg-gray-50 text-gray-400 rounded-lg text-xs">
+              <span className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-lg text-xs">
                 +{beach.features.length - 3}
               </span>
             )}
@@ -74,7 +74,7 @@ export function BeachCard({ beach }: { beach: Beach }) {
 
           {/* Reviews */}
           <div className="flex items-center justify-end mt-4 pt-4 border-t border-gray-100">
-            <div className="flex items-center gap-1 text-sm text-gray-400">
+            <div className="flex items-center gap-1 text-sm text-gray-500">
               <MessageCircle className="w-3.5 h-3.5" />
               <span>{beach.reviews_count}</span>
             </div>
