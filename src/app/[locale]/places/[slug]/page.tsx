@@ -13,7 +13,10 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export const revalidate = 3600; // ISR: 1 hour
+// MUST be force-dynamic: generateStaticParams returns [] while setRequestLocale
+// triggers headers() via next-intl → "static to dynamic at runtime" 500s in prod.
+// Regression was introduced in 7889755; see d2545c4 for the original fix.
+export const dynamic = 'force-dynamic';
 
 export function generateStaticParams() {
   return [];
