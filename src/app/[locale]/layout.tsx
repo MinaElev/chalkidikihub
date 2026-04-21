@@ -12,6 +12,7 @@ import { generateSiteGraph } from '@/lib/site-schema';
 
 const BackToTop = dynamic(() => import('@/components/ui/BackToTop').then(m => m.BackToTop));
 const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent').then(m => m.CookieConsent));
+const LangSuggestBanner = dynamic(() => import('@/components/layout/LangSuggestBanner').then(m => m.LangSuggestBanner));
 
 type Props = {
   children: React.ReactNode;
@@ -70,6 +71,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <div id="main-footer" className="min-h-[700px] sm:min-h-[580px] md:min-h-[400px]" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 600px' }}><Footer /></div>
         <BackToTop />
         <CookieConsent />
+        <LangSuggestBanner />
       </div>
     </NextIntlClientProvider>
   );
