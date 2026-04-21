@@ -3,8 +3,8 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { UserMenu } from './UserMenu';
-import { FavoritesCounter } from './FavoritesCounter';
+import { UserMenuGate } from './UserMenuGate';
+import { FavoritesCounterGate } from './FavoritesCounterGate';
 import { useState, useRef, useEffect } from 'react';
 import { BrandIcon } from '@/components/ui/BrandLogo';
 import { Menu, X, ChevronDown, MapPin, Building } from 'lucide-react';
@@ -171,10 +171,10 @@ export function Header() {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
-            <FavoritesCounter />
+            <FavoritesCounterGate />
             <LanguageSwitcher />
             <div className="hidden md:flex items-center gap-2">
-              <UserMenu />
+              <UserMenuGate />
             </div>
 
             {/* Mobile menu button */}
