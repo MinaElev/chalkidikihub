@@ -100,9 +100,11 @@ export default async function VillageDetailPage({ params }: Props) {
 
   const homeLabel: Record<string, string> = { el: 'Αρχική', en: 'Home', de: 'Startseite', bg: 'Начало', ru: 'Главная', ro: 'Acasă', sr: 'Početna' };
   const sectionLabel: Record<string, string> = { el: 'Χωριά', en: 'Places', de: 'Orte', bg: 'Места', ru: 'Места', ro: 'Locuri', sr: 'Mesta' };
-  const villageName = village.name[locale] || village.name.el || village.name.en || '';
+  const nameMap = village.name as Record<string, string>;
+  const villageName = nameMap[locale] || nameMap.el || nameMap.en || '';
   const areaInfo = AREAS.find(a => a.slug === village.area);
-  const areaName = areaInfo?.name[locale] || areaInfo?.name.el || village.area;
+  const areaNameMap = (areaInfo?.name ?? {}) as Record<string, string>;
+  const areaName = areaNameMap[locale] || areaNameMap.el || village.area;
 
   // FAQ schema — common visitor questions, helps win rich results
   const faqs = buildFaqs(villageName, areaName, locale, beaches.length, restaurants.length, activities.length);
