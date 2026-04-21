@@ -92,6 +92,28 @@ const LABELS: Record<string, Record<string, string>> = {
     el: 'Επίσης στο directory', en: 'Also on our directory', de: 'Auch in unserem Verzeichnis',
     bg: 'Също в нашата директория', ru: 'Также в каталоге', ro: 'Și în directorul nostru', sr: 'Takođe u direktoriju',
   },
+  areaGuide: {
+    el: 'Οδηγός περιοχής',
+    en: 'Area guide',
+    de: 'Reiseführer',
+    bg: 'Гид за района',
+    ru: 'Гид по району',
+    ro: 'Ghidul zonei',
+    sr: 'Vodič kroz oblast',
+  },
+  areaGuideSubtitle: {
+    el: 'Παραλίες, ταβέρνες και δραστηριότητες κοντά — με αποστάσεις και προτάσεις εκδρομής.',
+    en: 'Beaches, tavernas and things to do nearby — with distances and day-trip ideas.',
+    de: 'Strände, Tavernen und Aktivitäten in der Nähe — mit Entfernungen und Ausflugstipps.',
+    bg: 'Плажове, таверни и дейности наблизо — с разстояния и идеи за екскурзии.',
+    ru: 'Пляжи, таверны и занятия поблизости — с расстояниями и идеями для поездок.',
+    ro: 'Plaje, taverne și activități în apropiere — cu distanțe și idei de excursii.',
+    sr: 'Plaže, taverne i aktivnosti u blizini — sa razdaljinama i idejama za izlete.',
+  },
+  exploreGuide: {
+    el: 'Δείτε τον οδηγό', en: 'Explore the guide', de: 'Zum Reiseführer',
+    bg: 'Вижте гида', ru: 'Открыть гид', ro: 'Vezi ghidul', sr: 'Pogledaj vodič',
+  },
 };
 
 const lbl = (key: string, locale: string) =>
@@ -356,6 +378,34 @@ export function StayPage({ listing, locale }: { listing: Listing; locale: string
           </div>
         </section>
       )}
+
+      {/* ══════════════ AREA GUIDE CTA ══════════════ */}
+      {/* Always rendered — internal link so crawlers discover /stay/[slug]/guide for every listing */}
+      <section className="py-10 md:py-12 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto">
+          <Link
+            href={`/stay/${listing.slug}/guide`}
+            className="group block rounded-2xl bg-gradient-to-br from-primary-50 to-amber-50 border border-primary-200/60 p-6 md:p-7 hover:border-primary-400 hover:shadow-md transition"
+          >
+            <div className="flex items-start gap-4">
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-white flex items-center justify-center text-primary-600 shadow-sm">
+                <BookOpen className="w-6 h-6" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-lg md:text-xl font-bold text-gray-900">
+                  {lbl('areaGuide', locale)}: {areaName}
+                </div>
+                <p className="mt-1.5 text-sm md:text-[15px] text-gray-700 leading-relaxed">
+                  {lbl('areaGuideSubtitle', locale)}
+                </p>
+                <div className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 group-hover:gap-2.5 transition-all">
+                  {lbl('exploreGuide', locale)} <ExternalLink className="w-4 h-4" />
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </section>
 
       {/* ══════════════ LOCATION MAP ══════════════ */}
       {listing.latitude && listing.longitude && listing.latitude !== 0 && (

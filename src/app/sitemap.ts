@@ -128,6 +128,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           freq: 'weekly', priority: 0.9, modified,
         }));
       }
+      // Area guide page — distinct SEO surface (TouristAttraction schema,
+      // area-first H1, POI+itinerary content). Added for every listing,
+      // not gated on hasBrand, since the content comes from the area — not the owner.
+      entries.push(...forLocales(`/stay/${item.slug}/guide`, {
+        freq: 'weekly', priority: 0.8, modified,
+      }));
     }
   }
   for (const t of ['with-pool', 'sea-view', 'pet-friendly', 'family', 'budget', 'luxury']) {
