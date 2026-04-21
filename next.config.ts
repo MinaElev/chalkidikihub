@@ -56,6 +56,11 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'leaflet', 'react-leaflet'],
+    // Inline CSS <style> tag in HTML instead of <link>. Eliminates the
+    // render-blocking stylesheet request — ~22KB Tailwind bundle arrives with
+    // the HTML, so first paint happens without a round-trip. Biggest win for
+    // first-time visitors (which is what PSI measures).
+    inlineCss: true,
   },
   images: {
     remotePatterns: [
