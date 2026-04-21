@@ -1,10 +1,6 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { MapPin, Waves, UtensilsCrossed, Landmark, Home, Building, ChevronRight, Users } from 'lucide-react';
+import { Waves, UtensilsCrossed, Landmark, Home, Building, ChevronRight, Users } from 'lucide-react';
 import { BeachCard } from '@/components/listings/BeachCard';
 import { RestaurantCard } from '@/components/listings/RestaurantCard';
 import { ActivityCard } from '@/components/listings/ActivityCard';
@@ -13,6 +9,7 @@ import { SaleCard } from '@/components/sales/SaleCard';
 import { WeatherBadge } from '@/components/ui/WeatherBadge';
 import { AREAS } from '@/lib/constants';
 import { AutoLinkedHtml } from '@/components/blog/AutoLinkedHtml';
+import type { Beach, Restaurant, Activity, Listing, Sale } from '@/types';
 
 // Sanitize HTML — only allow safe tags for formatted descriptions
 function sanitizeHtml(html: string): string {
@@ -28,14 +25,12 @@ function sanitizeHtml(html: string): string {
     .replace(/<style[\s\S]*?<\/style>/gi, '');
 }
 
-interface Village {
+export interface Village {
   id: string;
   slug: string;
   area: string;
   name: Record<string, string>;
   description: Record<string, string>;
-  meta_title: Record<string, string>;
-  meta_description: Record<string, string>;
   latitude: number;
   longitude: number;
   image_url: string;
@@ -43,58 +38,17 @@ interface Village {
   population: number;
 }
 
-export function VillagePage({ slug }: { slug: string }) {
-  const locale = useLocale();
-  const tAreas = useTranslations('areas');
-  const [village, setVillage] = useState<Village | null>(null);
-  const [beaches, setBeaches] = useState<unknown[]>([]);
-  const [restaurants, setRestaurants] = useState<unknown[]>([]);
-  const [activities, setActivities] = useState<unknown[]>([]);
-  const [listings, setListings] = useState<unknown[]>([]);
-  const [sales, setSales] = useState<unknown[]>([]);
-  const [loading, setLoading] = useState(true);
+export interface VillagePageProps {
+  locale: string;
+  village: Village;
+  beaches: Beach[];
+  restaurants: Restaurant[];
+  activities: Activity[];
+  listings: Listing[];
+  sales: Sale[];
+}
 
-  useEffect(() => {
-    async function load() {
-      // Fetch village
-      const vRes = await fetch(`/api/villages?slug=${slug}`);
-      if (!vRes.ok) { setLoading(false); return; }
-      const v = await vRes.json();
-      if (!v) { setLoading(false); return; }
-      setVillage(v);
-
-      // Fetch nearby content by area
-      const area = v.area;
-      const [bRes, rRes, aRes, lRes, sRes] = await Promise.all([
-        fetch(`/api/beaches?area=${area}&limit=6`),
-        fetch(`/api/restaurants?area=${area}&limit=6`),
-        fetch(`/api/activities?area=${area}&limit=6`),
-        fetch(`/api/listings?area=${area}&limit=6`),
-        fetch(`/api/sales?area=${area}&limit=6`),
-      ]);
-
-      const [bData, rData, aData, lData, sData] = await Promise.all([
-        bRes.json(), rRes.json(), aRes.json(), lRes.json(), sRes.json(),
-      ]);
-
-      setBeaches(Array.isArray(bData) ? bData : []);
-      setRestaurants(Array.isArray(rData) ? rData : []);
-      setActivities(Array.isArray(aData) ? aData : []);
-      setListings(Array.isArray(lData) ? lData : []);
-      setSales(Array.isArray(sData) ? sData : []);
-      setLoading(false);
-    }
-    load();
-  }, [slug]);
-
-  if (loading) {
-    return <div className="min-h-[60vh] flex items-center justify-center"><div className="w-8 h-8 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin" /></div>;
-  }
-
-  if (!village) {
-    return <div className="min-h-[60vh] flex items-center justify-center text-gray-500">Village not found</div>;
-  }
-
+export function VillagePage({ locale, village, beaches, restaurants, activities, listings, sales }: VillagePageProps) {
   const name = village.name[locale] || village.name.el || village.name.en;
   const description = village.description[locale] || village.description.el || village.description.en || '';
   const areaInfo = AREAS.find(a => a.slug === village.area);
@@ -199,13 +153,12 @@ export function VillagePage({ slug }: { slug: string }) {
                 </Link>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                {s.items.slice(0, 6).map((item: any) => {
-                  if (s.key === 'beaches') return <BeachCard key={item.id || item.slug} beach={item} />;
-                  if (s.key === 'restaurants') return <RestaurantCard key={item.id || item.slug} restaurant={item} />;
-                  if (s.key === 'activities') return <ActivityCard key={item.id || item.slug} activity={item} />;
-                  if (s.key === 'listings') return <ListingCard key={item.id || item.slug} listing={item} />;
-                  if (s.key === 'sales') return <SaleCard key={item.id || item.slug} sale={item} />;
+                {s.items.slice(0, 6).map((item) => {
+                  if (s.key === 'beaches') return <BeachCard key={item.id || item.slug} beach={item as Beach} />;
+                  if (s.key === 'restaurants') return <RestaurantCard key={item.id || item.slug} restaurant={item as Restaurant} />;
+                  if (s.key === 'activities') return <ActivityCard key={item.id || item.slug} activity={item as Activity} />;
+                  if (s.key === 'listings') return <ListingCard key={item.id || item.slug} listing={item as Listing} />;
+                  if (s.key === 'sales') return <SaleCard key={item.id || item.slug} sale={item as Sale} />;
                   return null;
                 })}
               </div>
