@@ -9,6 +9,9 @@ import { SaleCard } from '@/components/sales/SaleCard';
 import { WeatherBadge } from '@/components/ui/WeatherBadge';
 import { AREAS } from '@/lib/constants';
 import { AutoLinkedHtml } from '@/components/blog/AutoLinkedHtml';
+import { VillagePriceBenchmark } from './VillagePriceBenchmark';
+import { VillageCuisineRatio } from './VillageCuisineRatio';
+import type { PriceStats, CuisineStats } from '@/lib/place-stats';
 import type { Beach, Restaurant, Activity, Listing, Sale } from '@/types';
 
 // Sanitize HTML — only allow safe tags for formatted descriptions
@@ -46,9 +49,11 @@ export interface VillagePageProps {
   activities: Activity[];
   listings: Listing[];
   sales: Sale[];
+  priceStats?: PriceStats;
+  cuisineStats?: CuisineStats;
 }
 
-export function VillagePage({ locale, village, beaches, restaurants, activities, listings, sales }: VillagePageProps) {
+export function VillagePage({ locale, village, beaches, restaurants, activities, listings, sales, priceStats, cuisineStats }: VillagePageProps) {
   const name = village.name[locale] || village.name.el || village.name.en;
   const description = village.description[locale] || village.description.el || village.description.en || '';
   const areaInfo = AREAS.find(a => a.slug === village.area);
@@ -126,6 +131,14 @@ export function VillagePage({ locale, village, beaches, restaurants, activities,
             </div>
           ))}
         </div>
+
+        {/* Data-driven insights — unique facts per village (sea price + cuisine mix) */}
+        {(priceStats || cuisineStats) && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {priceStats && <VillagePriceBenchmark stats={priceStats} villageName={name} locale={locale} />}
+            {cuisineStats && <VillageCuisineRatio stats={cuisineStats} locale={locale} />}
+          </div>
+        )}
 
         {/* Map */}
         {village.latitude && village.longitude && (

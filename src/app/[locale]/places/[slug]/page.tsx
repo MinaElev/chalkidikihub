@@ -4,6 +4,7 @@ import { VillagePage } from '@/components/villages/VillagePage';
 import { createApiClient } from '@/lib/api-helpers';
 import { transformBeach, transformRestaurant, transformActivity, transformListing, transformSale } from '@/lib/data';
 import { localeUrl, generateBreadcrumbLD } from '@/lib/seo';
+import { getVillagePriceStats, getVillageCuisineStats } from '@/lib/place-stats';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { AREAS } from '@/lib/constants';
 import type { Metadata } from 'next';
@@ -156,13 +157,19 @@ export default async function VillageDetailPage({ params }: Props) {
     population: vr.population,
   };
 
-  // Fetch area-related content in parallel
-  const [beachesRes, restaurantsRes, activitiesRes, listingsRes, salesRes] = await Promise.all([
+  // Pass all localised names + slug — the DB's location_name field can be in
+  // either Greek or English depending on when the listing was created.
+  const villageMatchNames = [vr.name_el, vr.name_en, slug].filter(Boolean) as string[];
+
+  // Fetch area-related content + village-specific data benchmarks in parallel.
+  const [beachesRes, restaurantsRes, activitiesRes, listingsRes, salesRes, priceStats, cuisineStats] = await Promise.all([
     supabase.from('beaches').select('*, beach_reviews(*)').eq('area', village.area).order('rating', { ascending: false }).limit(6),
     supabase.from('restaurants').select('*, restaurant_reviews(*)').eq('area', village.area).order('rating', { ascending: false }).limit(6),
     supabase.from('activities').select('*, activity_reviews(*)').eq('area', village.area).order('rating', { ascending: false }).limit(6),
     supabase.from('listings').select('*, listing_images(*)').eq('area', village.area).eq('status', 'published').order('created_at', { ascending: false }).limit(6),
     supabase.from('sales').select('*, sale_images(*)').eq('area', village.area).eq('status', 'published').order('created_at', { ascending: false }).limit(6),
+    getVillagePriceStats(supabase, villageMatchNames),
+    getVillageCuisineStats(supabase, villageMatchNames, village.area),
   ]);
 
   const beaches = (beachesRes.data || []).map(transformBeach) as unknown as Beach[];
@@ -208,6 +215,8 @@ export default async function VillageDetailPage({ params }: Props) {
         activities={activities}
         listings={listings}
         sales={sales}
+        priceStats={priceStats}
+        cuisineStats={cuisineStats}
       />
     </>
   );
