@@ -13,6 +13,7 @@ import { FaqSection } from '@/components/ui/FaqSection';
 import { BeachFeatureBadge } from './BeachFeatureBadge';
 import { BeachReviews } from './BeachReviews';
 import { CrowdIndicator } from './CrowdIndicator';
+import { SeaTemperatureCard } from './SeaTemperatureCard';
 import { BeachCard } from './BeachCard';
 import { RestaurantCard } from './RestaurantCard';
 import { ListingCard } from './ListingCard';
@@ -154,6 +155,11 @@ export function DynamicBeachDetail({ slug, initialData }: { slug: string; initia
           <div className="mt-6">
             <CrowdIndicator beachSlug={beach.slug} />
           </div>
+
+          {/* Live sea temperature (Open-Meteo Marine) */}
+          {beach.latitude != null && beach.longitude != null && beach.latitude !== 0 && (
+            <SeaTemperatureCard lat={beach.latitude} lon={beach.longitude} />
+          )}
 
           {/* Description with in-article CTA */}
           <div className="mt-6 space-y-4">
