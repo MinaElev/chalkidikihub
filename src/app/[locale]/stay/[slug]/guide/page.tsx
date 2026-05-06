@@ -213,7 +213,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const l = locale as Locale;
   const t = T[l] || T.en;
-  const row = listing as Record<string, string | null>;
+  const row = listing as unknown as Record<string, string | null>;
   const propName = row[`title_${l}`] || row.title_el || row.title_en || '';
   const place = row.location_name || '';
 
@@ -370,7 +370,7 @@ export default async function StayGuidePage({ params }: Props) {
   let villageBodyHtml: string | null = null;
   if (l === 'el') {
     try {
-      const bodies = (await import('../../../../../../../villages_body.json')).default as Array<{ slug: string; description_el: string }>;
+      const bodies = (await import('../../../../../../villages_body.json')).default as Array<{ slug: string; description_el: string }>;
       const match = bodies.find(b => (b.slug || '').toLowerCase() === place.toLowerCase() || b.slug === (listing.area === 'sithonia' ? 'sithonia' : ''));
       if (match?.description_el) villageBodyHtml = match.description_el;
     } catch { /* body file optional */ }
