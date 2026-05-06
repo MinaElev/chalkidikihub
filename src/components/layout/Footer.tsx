@@ -124,6 +124,7 @@ export function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-3 text-sm">{t('legal')}</h3>
             <ul className="space-y-2">
+              <li><Link href="/about" className="text-sm text-gray-400 hover:text-white transition-colors">{tNav('about')}</Link></li>
               <li><Link href="/terms" className="text-sm text-gray-400 hover:text-white transition-colors">{t('terms')}</Link></li>
               <li><Link href="/privacy" className="text-sm text-gray-400 hover:text-white transition-colors">{t('privacy')}</Link></li>
               <li><Link href="/contact" className="text-sm text-gray-400 hover:text-white transition-colors">{locale === 'el' ? 'Επικοινωνία' : 'Contact'}</Link></li>

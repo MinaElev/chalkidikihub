@@ -204,6 +204,12 @@ export default async function LocationCategoryPage({ params }: Props) {
     }
   }
 
+  // Empty programmatic combinations would render as a thin "0 results"
+  // template — flagged by AdSense as low-value content. 404 keeps them out
+  // of the index without breaking sitemap entries that do have data.
+  const itemCount = beaches.length + restaurants.length + activities.length + listings.length;
+  if (itemCount === 0) notFound();
+
   // Build item list for JSON-LD
   const locName = loc!.locationName[locale] || loc!.locationName.en;
   const catLabel = CATEGORY_TITLES[cat]?.[locale] || CATEGORY_TITLES[cat]?.en || cat;

@@ -90,6 +90,7 @@ export async function getContentMeta(
   locale: string,
   fallbackTitle: string,
   fallbackDescription: string,
+  opts?: { thinThreshold?: number },
 ): Promise<Metadata> {
   const pathSegment = tableToPath[table] || table;
   try {
@@ -132,9 +133,19 @@ export async function getContentMeta(
 
     const image = row.image_url || ogImageUrl(title, segmentToOgType[pathSegment] || pathSegment);
 
+    // Auto-noindex pages whose primary user-facing description is too thin
+    // for AdSense/Google quality bars. Falls back to the source description
+    // (not meta_description) so listings with rich meta but empty body
+    // still get filtered.
+    const sourceDesc =
+      row[`description_${locale}`] || row.description_el || row.description_en || '';
+    const isThin =
+      opts?.thinThreshold != null && sourceDesc.trim().length < opts.thinThreshold;
+
     return {
       title,
       description,
+      ...(isThin ? { robots: { index: false, follow: true } } : {}),
       openGraph: {
         title,
         description,

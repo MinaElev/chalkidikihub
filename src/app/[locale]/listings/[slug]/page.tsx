@@ -18,7 +18,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
-  return getContentMeta('listings', slug, locale, 'Accommodation | Chalkidiki Hub', 'Find accommodation in Halkidiki');
+  return getContentMeta(
+    'listings',
+    slug,
+    locale,
+    'Accommodation | Chalkidiki Hub',
+    'Find accommodation in Halkidiki',
+    { thinThreshold: 200 },
+  );
 }
 
 export default async function ListingDetailPage({ params }: Props) {
