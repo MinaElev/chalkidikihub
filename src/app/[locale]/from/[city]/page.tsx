@@ -5,6 +5,9 @@ import { ChevronRight } from 'lucide-react';
 import { getFromCity, FROM_CITIES } from './from-data';
 import { notFound } from 'next/navigation';
 import { localeUrl } from '@/lib/seo';
+import { createApiClient } from '@/lib/api-helpers';
+import { FROM_CITY_COORDS, FROM_CITY_NAMES } from '@/lib/driving-distances';
+import { DistanceTable } from '@/components/from/DistanceTable';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -48,6 +51,25 @@ export default async function FromCityPage({ params }: Props) {
   const content = guide.content[locale] || guide.content.el;
   const description = guide.description[locale] || guide.description.en;
 
+  // Driving-distance table data — fetch popular Halkidiki villages with
+  // coordinates so we can compute approximate distance/time from this city.
+  const cityCoords = FROM_CITY_COORDS[city];
+  const popularSlugs = ['ouranoupoli', 'nea-moudania', 'kallithea', 'hanioti', 'pefkohori', 'sarti', 'nikiti', 'neos-marmaras', 'vourvourou', 'toroni', 'afytos'];
+  const supabase = createApiClient();
+  const { data: villageRows } = await supabase
+    .from('villages')
+    .select('slug, name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr, latitude, longitude')
+    .in('slug', popularSlugs);
+  const distanceVillages = (villageRows || [])
+    .filter((v) => v.latitude != null && v.longitude != null)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .map((v: any) => ({
+      slug: v.slug,
+      name: v[`name_${locale}`] || v.name_el || v.name_en || v.slug,
+      lat: Number(v.latitude),
+      lon: Number(v.longitude),
+    }));
+
   const breadcrumbLabel: Record<string, string> = {
     el: 'Αρχική', en: 'Home', de: 'Startseite', bg: 'Начало', ru: 'Главная', ro: 'Acasă', sr: 'Почетна',
   };
@@ -72,6 +94,15 @@ export default async function FromCityPage({ params }: Props) {
 
       <div className="prose prose-gray max-w-none prose-headings:text-gray-900 prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-lg prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:text-gray-900 prose-ul:my-3 prose-blockquote:border-primary-500 prose-blockquote:text-gray-600"
         dangerouslySetInnerHTML={{ __html: content }} />
+
+      {cityCoords && distanceVillages.length > 0 && (
+        <DistanceTable
+          cityName={FROM_CITY_NAMES[city]?.[locale] || FROM_CITY_NAMES[city]?.en || city}
+          cityCoords={cityCoords}
+          villages={distanceVillages}
+          locale={locale}
+        />
+      )}
 
       {/* More cities */}
       <div className="mt-12 pt-8 border-t border-gray-200">
