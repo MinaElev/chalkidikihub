@@ -73,7 +73,16 @@ const content: Record<string, PrivacyContent> = {
       {
         heading: '5. Cookies',
         body: [
-          'Χρησιμοποιούμε μόνο τα απολύτως απαραίτητα cookies για τη λειτουργία του site (session, γλώσσα). Δεν χρησιμοποιούμε cookies παρακολούθησης ή διαφημίσεων.',
+          'Χρησιμοποιούμε τρεις κατηγορίες cookies:',
+          {
+            type: 'list',
+            items: [
+              'Απαραίτητα — σύνδεση, προτίμηση γλώσσας. Πάντα ενεργά.',
+              'Διαφημιστικά (Google AdSense) — ενεργοποιούνται μόνο μετά τη ρητή σου συναίνεση. Αν αρνηθείς, εμφανίζονται μη-εξατομικευμένες διαφημίσεις (χωρίς profiling).',
+              'Στατιστικά (Google Analytics) — ενεργοποιούνται μόνο μετά τη ρητή σου συναίνεση. Αν αρνηθείς, δεν συλλέγονται στατιστικά επισκέψεων.',
+            ],
+          },
+          'Μπορείς να αλλάξεις τις επιλογές σου ανά πάσα στιγμή μέσω του cookie banner στο κάτω μέρος κάθε σελίδας.',
         ],
       },
       {
@@ -146,7 +155,16 @@ const content: Record<string, PrivacyContent> = {
       {
         heading: '5. Cookies',
         body: [
-          'We use only essential cookies for site operation (session, language). We do not use tracking or advertising cookies.',
+          'We use three categories of cookies:',
+          {
+            type: 'list',
+            items: [
+              'Essential — login session and language preference. Always on.',
+              'Advertising (Google AdSense) — enabled only after your explicit consent. If you decline, ads still display but in non-personalised mode (no profiling).',
+              'Analytics (Google Analytics) — enabled only after your explicit consent. If you decline, no visitor analytics are collected.',
+            ],
+          },
+          'You can change your choice at any time via the cookie banner at the bottom of every page.',
         ],
       },
       {
@@ -219,7 +237,16 @@ const content: Record<string, PrivacyContent> = {
       {
         heading: '5. Cookies',
         body: [
-          'Wir verwenden nur die unbedingt notwendigen Cookies für den Betrieb der Website (Sitzung, Sprache). Wir verwenden keine Tracking- oder Werbe-Cookies.',
+          'Wir verwenden drei Kategorien von Cookies:',
+          {
+            type: 'list',
+            items: [
+              'Notwendig — Anmeldung und Spracheinstellung. Immer aktiv.',
+              'Werbung (Google AdSense) — nur nach ausdrücklicher Einwilligung. Lehnen Sie ab, werden Werbeanzeigen weiterhin angezeigt, jedoch nicht personalisiert (ohne Profiling).',
+              'Statistik (Google Analytics) — nur nach ausdrücklicher Einwilligung. Lehnen Sie ab, werden keine Besucherstatistiken erhoben.',
+            ],
+          },
+          'Sie können Ihre Auswahl jederzeit über das Cookie-Banner am unteren Rand jeder Seite ändern.',
         ],
       },
       {
@@ -292,7 +319,16 @@ const content: Record<string, PrivacyContent> = {
       {
         heading: '5. Бисквитки',
         body: [
-          'Използваме само абсолютно необходимите бисквитки за работата на сайта (сесия, език). Не използваме бисквитки за проследяване или реклама.',
+          'Използваме три категории бисквитки:',
+          {
+            type: 'list',
+            items: [
+              'Необходими — сесия за вход и език. Винаги активни.',
+              'Рекламни (Google AdSense) — активират се само след изричното ви съгласие. Ако откажете, рекламите остават видими, но в неперсонализиран режим (без профилиране).',
+              'Статистически (Google Analytics) — активират се само след изричното ви съгласие. Ако откажете, не се събира статистика за посетителите.',
+            ],
+          },
+          'Можете да промените избора си по всяко време чрез банера за бисквитки в долната част на всяка страница.',
         ],
       },
       {
@@ -365,7 +401,16 @@ const content: Record<string, PrivacyContent> = {
       {
         heading: '5. Файлы cookie',
         body: [
-          'Мы используем только абсолютно необходимые файлы cookie для работы сайта (сессия, язык). Мы не используем файлы cookie для отслеживания или рекламы.',
+          'Мы используем три категории файлов cookie:',
+          {
+            type: 'list',
+            items: [
+              'Необходимые — сессия входа и язык. Всегда активны.',
+              'Рекламные (Google AdSense) — включаются только после вашего явного согласия. Если откажетесь, реклама показывается в неперсонализированном режиме (без профилирования).',
+              'Статистика (Google Analytics) — включается только после вашего явного согласия. Если откажетесь, статистика посещений не собирается.',
+            ],
+          },
+          'Вы можете изменить выбор в любое время через cookie-баннер внизу каждой страницы.',
         ],
       },
       {
@@ -438,7 +483,16 @@ const content: Record<string, PrivacyContent> = {
       {
         heading: '5. Cookie-uri',
         body: [
-          'Folosim doar cookie-urile strict necesare pentru functionarea site-ului (sesiune, limba). Nu folosim cookie-uri de urmarire sau publicitate.',
+          'Folosim trei categorii de cookie-uri:',
+          {
+            type: 'list',
+            items: [
+              'Esențiale — sesiune de autentificare și preferința de limbă. Întotdeauna active.',
+              'Publicitate (Google AdSense) — activate doar după consimțământul explicit. Dacă refuzați, reclamele rămân afișate dar în mod nepersonalizat (fără profilare).',
+              'Statistici (Google Analytics) — activate doar după consimțământul explicit. Dacă refuzați, nu se colectează statistici de vizitatori.',
+            ],
+          },
+          'Puteți schimba alegerea în orice moment prin banner-ul de cookie-uri din partea de jos a fiecărei pagini.',
         ],
       },
       {
