@@ -113,8 +113,8 @@ async function expandPlaces(limit: number, slugFilter: string | null, targetLoca
   if (error) return { error: error.message };
 
   const out: Result[] = [];
-  for (const row of rows || []) {
-    if (out.filter((r) => r.status === 'ok').length >= limit) break;
+  let attempts = 0;
+  outer: for (const row of rows || []) {
     const el = (row as Record<string, string | null>).description_el || '';
     const en = (row as Record<string, string | null>).description_en || '';
     if (isThinContent(el) && isThinContent(en)) {
@@ -122,9 +122,10 @@ async function expandPlaces(limit: number, slugFilter: string | null, targetLoca
       continue;
     }
     for (const loc of targetLocales) {
-      if (out.filter((r) => r.status === 'ok').length >= limit) break;
+      if (attempts >= limit) break outer;
       const current = (row as Record<string, string | null>)[`description_${loc}`] || '';
-      if (!isThinContent(current)) continue; // already good
+      if (!isThinContent(current)) continue;
+      attempts++;
       try {
         const topic = `Village of ${row.name_el} (${row.name_en}), in ${row.area} peninsula, Halkidiki, Greece.`;
         const text = await callOpenAI(buildPrompt({
@@ -144,7 +145,11 @@ async function expandPlaces(limit: number, slugFilter: string | null, targetLoca
           out.push({ slug: row.slug, locale: loc, status: 'ok', words: wc });
         }
       } catch (e) {
-        out.push({ slug: row.slug, locale: loc, status: 'failed', reason: String(e).slice(0, 200) });
+        const msg = String(e).slice(0, 200);
+        out.push({ slug: row.slug, locale: loc, status: 'failed', reason: msg });
+        // Bail out early on upstream quota errors — no point burning through
+        // the rest of the batch when every call will hit the same 429.
+        if (msg.includes('429') || msg.toLowerCase().includes('quota')) break outer;
       }
     }
   }
@@ -155,14 +160,13 @@ async function expandPlaces(limit: number, slugFilter: string | null, targetLoca
 
 async function expandGuide(limit: number, slugFilter: string | null, targetLocales: string[]) {
   const supabase = createAdminClient();
-  // Load existing overrides so we don't regenerate what's already filled.
   const { data: existing } = await supabase.from('guide_overrides').select('slug, locale');
   const haveOverride = new Set((existing || []).map((r) => `${r.slug}|${r.locale}`));
 
   const out: Result[] = [];
-  for (const guide of GUIDES) {
+  let attempts = 0;
+  outer: for (const guide of GUIDES) {
     if (slugFilter && guide.slug !== slugFilter) continue;
-    if (out.filter((r) => r.status === 'ok').length >= limit) break;
     const el = guide.content.el || '';
     const en = guide.content.en || '';
     if (isThinContent(el) && isThinContent(en)) {
@@ -170,11 +174,11 @@ async function expandGuide(limit: number, slugFilter: string | null, targetLocal
       continue;
     }
     for (const loc of targetLocales) {
-      if (out.filter((r) => r.status === 'ok').length >= limit) break;
+      if (attempts >= limit) break outer;
       const current = guide.content[loc] || '';
       if (!isThinContent(current)) continue;
       if (haveOverride.has(`${guide.slug}|${loc}`)) continue;
-
+      attempts++;
       try {
         const topic = `Travel guide section: "${guide.title.en || guide.title.el}" for Halkidiki, Greece.`;
         const text = await callOpenAI(buildPrompt({
@@ -205,7 +209,9 @@ async function expandGuide(limit: number, slugFilter: string | null, targetLocal
           out.push({ slug: guide.slug, locale: loc, status: 'ok', words: wc });
         }
       } catch (e) {
-        out.push({ slug: guide.slug, locale: loc, status: 'failed', reason: String(e).slice(0, 200) });
+        const msg = String(e).slice(0, 200);
+        out.push({ slug: guide.slug, locale: loc, status: 'failed', reason: msg });
+        if (msg.includes('429') || msg.toLowerCase().includes('quota')) break outer;
       }
     }
   }
