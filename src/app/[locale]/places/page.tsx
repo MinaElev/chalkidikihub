@@ -66,10 +66,21 @@ const tr = (key: string, locale: string) => T[key]?.[locale] || T[key]?.en || ke
 // ───────────────────────────────────────────────────────────────────────
 // Metadata
 // ───────────────────────────────────────────────────────────────────────
+const META_DESCRIPTIONS: Record<string, string> = {
+  el: 'Όλα τα χωριά της Χαλκιδικής — Κασσάνδρα, Σιθωνία και Άθως. Παραλίες, εστιατόρια, δραστηριότητες και καταλύματα ανά χωριό.',
+  en: 'Every village in Halkidiki — Kassandra, Sithonia and Athos peninsulas. Beaches, restaurants, activities and stays for each destination.',
+  de: 'Alle Dörfer in Chalkidiki — Halbinseln Kassandra, Sithonia und Athos. Strände, Restaurants, Aktivitäten und Unterkünfte pro Ortschaft.',
+  bg: 'Всички села в Халкидики — полуостровите Касандра, Ситония и Атон. Плажове, ресторанти, дейности и настаняване във всяко село.',
+  ru: 'Все деревни Халкидики — полуострова Кассандра, Ситония и Афон. Пляжи, рестораны, активности и жильё в каждой деревне.',
+  ro: 'Toate satele din Halkidiki — peninsulele Kassandra, Sithonia și Athos. Plaje, restaurante, activități și cazări pentru fiecare destinație.',
+  sr: 'Sva sela Halkidikija — poluostrva Kasandra, Sitonija i Atos. Plaže, restorani, aktivnosti i smeštaj za svako odredište.',
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const title = `${tr('title', locale)} | ChalkidikiHub`;
-  const description = tr('subtitle', locale);
+  // Root [locale]/layout.tsx template appends " | Chalkidiki Hub" — avoid double branding.
+  const title = tr('title', locale);
+  const description = META_DESCRIPTIONS[locale] || META_DESCRIPTIONS.en;
 
   return {
     title,

@@ -26,13 +26,13 @@ type Props = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const titles: Record<string, string> = {
-    el: 'Συχνές Ερωτήσεις — Χαλκιδική | ChalkidikiHub',
-    en: 'Frequently Asked Questions — Halkidiki | ChalkidikiHub',
-    de: 'Häufig gestellte Fragen — Chalkidiki | ChalkidikiHub',
-    bg: 'Често задавани въпроси — Халкидики | ChalkidikiHub',
-    ru: 'Часто задаваемые вопросы — Халкидики | ChalkidikiHub',
-    ro: 'Intrebari frecvente — Halkidiki | ChalkidikiHub',
-    sr: 'Najcesca pitanja — Halkidiki | ChalkidikiHub',
+    el: 'Συχνές Ερωτήσεις — Χαλκιδική',
+    en: 'Frequently Asked Questions — Halkidiki',
+    de: 'Häufig gestellte Fragen — Chalkidiki',
+    bg: 'Често задавани въпроси — Халкидики',
+    ru: 'Часто задаваемые вопросы — Халкидики',
+    ro: 'Intrebari frecvente — Halkidiki',
+    sr: 'Najcesca pitanja — Halkidiki',
   };
   const descs: Record<string, string> = {
     el: 'Βρείτε απαντήσεις σε όλες τις ερωτήσεις σας για διακοπές στη Χαλκιδική: παραλίες, καταλύματα, μετακινήσεις, φαγητό, δραστηριότητες.',

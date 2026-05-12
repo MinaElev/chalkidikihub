@@ -41,7 +41,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = INDEX_TITLE[locale] || INDEX_TITLE.en;
   const description = INDEX_INTRO[locale] || INDEX_INTRO.en;
   return {
-    title: `${title} | ChalkidikiHub`,
+    // Root [locale]/layout.tsx template appends " | Chalkidiki Hub" — avoid double branding.
+    title,
     description,
     alternates: {
       canonical: localeUrl(locale, 'best'),

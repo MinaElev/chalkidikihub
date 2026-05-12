@@ -465,10 +465,20 @@ const content: Record<string, TermsContent> = {
 
 type Props = { params: Promise<{ locale: string }> };
 
+const DESCRIPTIONS: Record<string, string> = {
+  el: 'Όροι χρήσης του ChalkidikiHub: κανόνες καταχώρησης καταλύματος, υποχρεώσεις χρηστών, πνευματική ιδιοκτησία, ευθύνη, ισχύον δίκαιο.',
+  en: 'Terms of use for ChalkidikiHub: listing rules, user obligations, intellectual property, liability, governing law for property owners and visitors.',
+  de: 'Nutzungsbedingungen für ChalkidikiHub: Regeln für Inserate, Pflichten der Nutzer, geistiges Eigentum, Haftung und geltendes Recht.',
+  bg: 'Условия за ползване на ChalkidikiHub: правила за обяви, задължения на потребителите, интелектуална собственост, отговорност и приложимо право.',
+  ru: 'Условия использования ChalkidikiHub: правила размещения, обязанности пользователей, интеллектуальная собственность, ответственность и применимое право.',
+  ro: 'Termenii de utilizare ai ChalkidikiHub: reguli de listare, obligațiile utilizatorilor, proprietate intelectuală, răspundere și lege aplicabilă.',
+  sr: 'Uslovi korišćenja ChalkidikiHub: pravila oglašavanja, obaveze korisnika, intelektualna svojina, odgovornost i merodavno pravo.',
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const title = titles[locale] || titles.en;
-  const desc = 'Terms of Use for ChalkidikiHub.';
+  const desc = DESCRIPTIONS[locale] || DESCRIPTIONS.en;
   return {
     title,
     description: desc,

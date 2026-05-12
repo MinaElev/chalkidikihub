@@ -523,10 +523,20 @@ const content: Record<string, PrivacyContent> = {
 
 type Props = { params: Promise<{ locale: string }> };
 
+const DESCRIPTIONS: Record<string, string> = {
+  el: 'Πώς συλλέγουμε, χρησιμοποιούμε και προστατεύουμε τα δεδομένα σας στο ChalkidikiHub. Πληροφορίες για cookies, AdSense, Google Analytics και τα δικαιώματά σας.',
+  en: 'How we collect, use and protect your data on ChalkidikiHub. Information about cookies, AdSense, Google Analytics, and your rights under GDPR.',
+  de: 'Wie wir Ihre Daten bei ChalkidikiHub erheben, nutzen und schützen. Informationen zu Cookies, AdSense, Google Analytics und Ihren DSGVO-Rechten.',
+  bg: 'Как събираме, използваме и защитаваме данните ви в ChalkidikiHub. Информация за бисквитки, AdSense, Google Analytics и правата ви по GDPR.',
+  ru: 'Как мы собираем, используем и защищаем ваши данные на ChalkidikiHub. Информация о cookies, AdSense, Google Analytics и ваших правах по GDPR.',
+  ro: 'Cum colectăm, folosim și protejăm datele dvs. pe ChalkidikiHub. Informații despre cookie-uri, AdSense, Google Analytics și drepturile dvs. GDPR.',
+  sr: 'Kako prikupljamo, koristimo i štitimo vaše podatke na ChalkidikiHub. Informacije o kolačićima, AdSense, Google Analytics i vašim GDPR pravima.',
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const title = titles[locale] || titles.en;
-  const desc = 'Privacy Policy for ChalkidikiHub.';
+  const desc = DESCRIPTIONS[locale] || DESCRIPTIONS.en;
   return {
     title,
     description: desc,
