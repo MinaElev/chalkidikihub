@@ -7,6 +7,7 @@ import { localeUrl, generateBreadcrumbLD } from '@/lib/seo';
 import { getVillagePriceStats, getVillageCuisineStats } from '@/lib/place-stats';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { AREAS } from '@/lib/constants';
+import { isThinContent } from '@/lib/content-quality';
 import type { Metadata } from 'next';
 import type { Beach, Restaurant, Activity, Listing, Sale } from '@/types';
 
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const supabase = createApiClient();
   const { data } = await supabase.from('villages')
-    .select('area, name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr, meta_title_el, meta_title_en, meta_title_de, meta_title_bg, meta_title_ru, meta_title_ro, meta_title_sr, meta_description_el, meta_description_en, meta_description_de, meta_description_bg, meta_description_ru, meta_description_ro, meta_description_sr, image_url, image_alt')
+    .select('area, name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr, meta_title_el, meta_title_en, meta_title_de, meta_title_bg, meta_title_ru, meta_title_ro, meta_title_sr, meta_description_el, meta_description_en, meta_description_de, meta_description_bg, meta_description_ru, meta_description_ro, meta_description_sr, description_el, description_en, description_de, description_bg, description_ru, description_ro, description_sr, image_url, image_alt')
     .eq('slug', slug).single();
 
   if (!data) return { title: 'Village | ChalkidikiHub' };
@@ -75,9 +76,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const hasData = (beachesRes.count || 0) + (restaurantsRes.count || 0) + (activitiesRes.count || 0) > 0;
   const description = hasData ? smart : (dbDesc || row.meta_description_el || row.meta_description_en || '');
 
+  // Auto-noindex if the village description is empty or thin for this
+  // locale — keeps low-quality translations out of Google's index until
+  // they're filled in.
+  const bodyHtml = row[`description_${locale}`] || '';
+  const thin = isThinContent(bodyHtml);
+
   return {
     title,
     description,
+    ...(thin ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title,
       description,

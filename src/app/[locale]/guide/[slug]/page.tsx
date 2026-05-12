@@ -5,6 +5,7 @@ import { ChevronRight } from 'lucide-react';
 import { getGuide, GUIDES } from './guide-data';
 import { notFound } from 'next/navigation';
 import { localeUrl } from '@/lib/seo';
+import { isThinContent } from '@/lib/content-quality';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -22,9 +23,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = guide.metaTitle[locale] || guide.metaTitle.en;
   const desc = guide.metaDesc[locale] || guide.metaDesc.en;
+  // Hide thin/empty translations from the index — they hurt site quality
+  // signals across the whole domain (AdSense + Google Search).
+  const thin = isThinContent(guide.content[locale]);
   return {
     title,
     description: desc,
+    ...(thin ? { robots: { index: false, follow: true } } : {}),
     openGraph: { title, description: desc, type: 'website', locale, siteName: 'Chalkidiki Hub', images: [{ url: `${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=guide`, width: 1200, height: 630, alt: title }] },
     twitter: { card: 'summary_large_image', title, description: desc, images: [`${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=guide`] },
     alternates: {
