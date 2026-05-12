@@ -6,6 +6,27 @@ import { getGuide, GUIDES } from './guide-data';
 import { notFound } from 'next/navigation';
 import { localeUrl } from '@/lib/seo';
 import { isThinContent } from '@/lib/content-quality';
+import { createApiClient } from '@/lib/api-helpers';
+
+export const revalidate = 3600;
+
+async function resolveContent(slug: string, locale: string, fallback: string): Promise<string> {
+  // Prefer an AI-filled override when one exists for this slug+locale.
+  // Falls back to the static data-file content (which may itself be thin).
+  try {
+    const supabase = createApiClient();
+    const { data } = await supabase
+      .from('guide_overrides')
+      .select('content')
+      .eq('slug', slug)
+      .eq('locale', locale)
+      .maybeSingle();
+    if (data?.content && !isThinContent(data.content)) return data.content;
+  } catch {
+    // Override lookup is best-effort — never fail the page on DB error.
+  }
+  return fallback;
+}
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -23,9 +44,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = guide.metaTitle[locale] || guide.metaTitle.en;
   const desc = guide.metaDesc[locale] || guide.metaDesc.en;
-  // Hide thin/empty translations from the index — they hurt site quality
-  // signals across the whole domain (AdSense + Google Search).
-  const thin = isThinContent(guide.content[locale]);
+  // Hide thin/empty translations from the index. Check the override first
+  // so AI-filled pages re-enter the index automatically.
+  const resolved = await resolveContent(slug, locale, guide.content[locale] || '');
+  const thin = isThinContent(resolved);
   return {
     title,
     description: desc,
@@ -50,7 +72,7 @@ export default async function GuidePage({ params }: Props) {
   if (!guide) notFound();
 
   const title = guide.title[locale] || guide.title.en;
-  const content = guide.content[locale] || guide.content.el;
+  const content = await resolveContent(slug, locale, guide.content[locale] || guide.content.el);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
