@@ -10,22 +10,38 @@ import { createApiClient } from '@/lib/api-helpers';
 
 export const revalidate = 3600;
 
+// Module-level cache: load ALL guide overrides once per server process.
+// Prevents 378 prerendered guide pages from each issuing their own DB call
+// at build time (which timed out a Vercel build at 45min when the table
+// didn't yet exist).
+let _overridesPromise: Promise<Map<string, string>> | null = null;
+
+function loadOverrides(): Promise<Map<string, string>> {
+  if (_overridesPromise) return _overridesPromise;
+  _overridesPromise = (async () => {
+    try {
+      const supabase = createApiClient();
+      const { data, error } = await supabase
+        .from('guide_overrides')
+        .select('slug, locale, content');
+      if (error || !data) return new Map<string, string>();
+      const m = new Map<string, string>();
+      for (const r of data) {
+        if (r.content && !isThinContent(r.content)) {
+          m.set(`${r.slug}|${r.locale}`, r.content);
+        }
+      }
+      return m;
+    } catch {
+      return new Map<string, string>();
+    }
+  })();
+  return _overridesPromise;
+}
+
 async function resolveContent(slug: string, locale: string, fallback: string): Promise<string> {
-  // Prefer an AI-filled override when one exists for this slug+locale.
-  // Falls back to the static data-file content (which may itself be thin).
-  try {
-    const supabase = createApiClient();
-    const { data } = await supabase
-      .from('guide_overrides')
-      .select('content')
-      .eq('slug', slug)
-      .eq('locale', locale)
-      .maybeSingle();
-    if (data?.content && !isThinContent(data.content)) return data.content;
-  } catch {
-    // Override lookup is best-effort — never fail the page on DB error.
-  }
-  return fallback;
+  const overrides = await loadOverrides();
+  return overrides.get(`${slug}|${locale}`) || fallback;
 }
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
