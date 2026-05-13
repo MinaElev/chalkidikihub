@@ -14,11 +14,16 @@ export const revalidate = 3600;
 // Prevents 378 prerendered guide pages from each issuing their own DB call
 // at build time (which timed out a Vercel build at 45min when the table
 // didn't yet exist).
-let _overridesPromise: Promise<Map<string, string>> | null = null;
+//
+// Short TTL so freshly-written AI overrides become visible without waiting
+// for the serverless instance to be recycled. ISR revalidate (1h) still
+// dominates for end users — the cache only kicks in within a request burst.
+const CACHE_TTL_MS = 60_000;
+let _cache: { at: number; promise: Promise<Map<string, string>> } | null = null;
 
 function loadOverrides(): Promise<Map<string, string>> {
-  if (_overridesPromise) return _overridesPromise;
-  _overridesPromise = (async () => {
+  if (_cache && Date.now() - _cache.at < CACHE_TTL_MS) return _cache.promise;
+  const promise = (async () => {
     try {
       const supabase = createApiClient();
       const { data, error } = await supabase
@@ -36,7 +41,8 @@ function loadOverrides(): Promise<Map<string, string>> {
       return new Map<string, string>();
     }
   })();
-  return _overridesPromise;
+  _cache = { at: Date.now(), promise };
+  return promise;
 }
 
 async function resolveContent(slug: string, locale: string, fallback: string): Promise<string> {
