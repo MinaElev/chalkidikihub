@@ -100,7 +100,125 @@ export async function POST(req: NextRequest) {
 
   if (type === 'places') return NextResponse.json(await expandPlaces(limit, slugFilter, targetLocales));
   if (type === 'guide') return NextResponse.json(await expandGuide(limit, slugFilter, targetLocales));
-  return NextResponse.json({ error: 'type must be places or guide' }, { status: 400 });
+  if (type === 'guide-source') return NextResponse.json(await generateGuideFromScratch(limit, slugFilter));
+  return NextResponse.json({ error: 'type must be places | guide | guide-source' }, { status: 400 });
+}
+
+// Generates fresh el+en+all-target-locale content for guides whose source
+// text is missing in every language. Different prompt from `guide` (which
+// only translates/adapts existing source) — this one writes from the title
+// and a short brief, with strict grounding in real Halkidiki places.
+async function generateGuideFromScratch(limit: number, slugFilter: string | null) {
+  const supabase = createAdminClient();
+  const { data: existing } = await supabase.from('guide_overrides').select('slug, locale');
+  const haveOverride = new Set((existing || []).map((r) => `${r.slug}|${r.locale}`));
+
+  const out: Result[] = [];
+  let slugsProcessed = 0;
+  outer: for (const guide of GUIDES) {
+    if (slugFilter && guide.slug !== slugFilter) continue;
+    const el = guide.content.el || '';
+    const en = guide.content.en || '';
+    // Only target guides where BOTH source locales are thin/missing.
+    if (!isThinContent(el) || !isThinContent(en)) continue;
+    if (slugsProcessed >= limit) break;
+    slugsProcessed++;
+
+    const topicTitle = guide.title.en || guide.title.el;
+    const brief = guide.description.en || guide.description.el || '';
+
+    // Generate Greek first — it's our canonical source. Then English (also
+    // from scratch, not translated — keeps quality high). Then the 5
+    // remaining locales translate from the new Greek.
+    type LocalePlan = { locale: string; mode: 'source' | 'translate'; from?: string };
+    const plan: LocalePlan[] = [
+      { locale: 'el', mode: 'source' },
+      { locale: 'en', mode: 'source' },
+      { locale: 'de', mode: 'translate' },
+      { locale: 'bg', mode: 'translate' },
+      { locale: 'ru', mode: 'translate' },
+      { locale: 'ro', mode: 'translate' },
+      { locale: 'sr', mode: 'translate' },
+    ];
+    let greekText = '';
+    let englishText = '';
+
+    for (const step of plan) {
+      if (haveOverride.has(`${guide.slug}|${step.locale}`)) continue;
+      try {
+        let prompt: string;
+        if (step.mode === 'source') {
+          prompt = buildFromScratchPrompt({
+            title: topicTitle,
+            brief,
+            targetLocale: step.locale,
+          });
+        } else {
+          prompt = buildPrompt({
+            topic: `Travel guide section: "${topicTitle}" for Halkidiki, Greece.`,
+            sourceEl: greekText || el,
+            sourceEn: englishText || en,
+            targetLocale: step.locale,
+            isHtml: true,
+          });
+        }
+        const text = await callOpenAI(prompt, 900);
+        const wc = visibleWordCount(text);
+        if (wc < 120) {
+          out.push({ slug: guide.slug, locale: step.locale, status: 'failed', reason: `too short (${wc} words)` });
+          continue;
+        }
+        if (step.locale === 'el') greekText = text;
+        if (step.locale === 'en') englishText = text;
+        const { error: upsertErr } = await supabase
+          .from('guide_overrides')
+          .upsert(
+            {
+              slug: guide.slug,
+              locale: step.locale,
+              content: text,
+              source_locale: step.mode === 'source' ? null : 'el',
+              word_count: wc,
+              generator: `${MODEL}/from-scratch`,
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: 'slug,locale' },
+          );
+        if (upsertErr) {
+          out.push({ slug: guide.slug, locale: step.locale, status: 'failed', reason: upsertErr.message });
+        } else {
+          out.push({ slug: guide.slug, locale: step.locale, status: 'ok', words: wc });
+        }
+      } catch (e) {
+        const msg = String(e).slice(0, 200);
+        out.push({ slug: guide.slug, locale: step.locale, status: 'failed', reason: msg });
+        if (msg.includes('429') || msg.toLowerCase().includes('quota')) break outer;
+      }
+    }
+  }
+  const ok = out.filter((r) => r.status === 'ok').length;
+  const failed = out.filter((r) => r.status === 'failed').length;
+  return { type: 'guide-source', processed: out.length, ok, failed, results: out };
+}
+
+function buildFromScratchPrompt(opts: { title: string; brief: string; targetLocale: string }): string {
+  const { title, brief, targetLocale } = opts;
+  const localeName = LOCALE_NAMES[targetLocale] || (targetLocale === 'el' ? 'Greek' : targetLocale === 'en' ? 'English' : targetLocale);
+  return [
+    `You are writing a travel-guide article for ChalkidikiHub, the Halkidiki (Chalkidiki, Greece) regional tourism portal.`,
+    ``,
+    `Topic title: "${title}"`,
+    brief ? `Brief: ${brief}` : '',
+    ``,
+    `Task: write an original, factually accurate, engaging article in ${localeName}.`,
+    `- 230-300 words.`,
+    `- HTML only, with <h2>, <p>, <ul>, <li>, <strong>. No <html>/<body>.`,
+    `- Open with one short intro paragraph that answers WHY this topic matters in Halkidiki.`,
+    `- 2-3 themed <h2> sections covering: practical info (when/how/where), concrete recommendations, a key tip or warning.`,
+    `- STRICT grounding: only mention real Halkidiki places. Real peninsulas: Kassandra, Sithonia, Athos. Real villages: Sarti, Nikiti, Afytos, Ouranoupoli, Neos Marmaras, Pefkohori, Hanioti, Kallithea, Nea Moudania, Vourvourou, Toroni, Porto Koufo, Sykia, Kalamitsi. Real beaches: Karydi (Vourvourou), Kavourotrypes, Bouzonia, Possidi, Sani, Mola Kalyva, Trani Ammouda, Kriaritsi. Do NOT invent place names.`,
+    `- Tone: knowledgeable local, not marketing-speak.`,
+    `- Output ONLY the HTML. No preamble, no explanation.`,
+  ].filter(Boolean).join('\n');
 }
 
 async function expandPlaces(limit: number, slugFilter: string | null, targetLocales: string[]) {
