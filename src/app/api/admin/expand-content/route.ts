@@ -121,6 +121,10 @@ async function generateGuideFromScratch(limit: number, slugFilter: string | null
     const en = guide.content.en || '';
     // Only target guides where BOTH source locales are thin/missing.
     if (!isThinContent(el) || !isThinContent(en)) continue;
+    // Skip slugs whose every locale already has an override (else the
+    // limit counter burns on no-op iterations and later batches return 0).
+    const needsWork = ['el','en','de','bg','ru','ro','sr'].some((l) => !haveOverride.has(`${guide.slug}|${l}`));
+    if (!needsWork) continue;
     if (slugsProcessed >= limit) break;
     slugsProcessed++;
 
