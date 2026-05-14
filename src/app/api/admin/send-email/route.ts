@@ -70,7 +70,14 @@ export async function POST(request: NextRequest) {
       type: 'admin_action',
       severity: 'info',
       message: `Mass email sent: ${sent} delivered, ${failed} failed`,
-      details: { subject, recipientCount: recipients.length, sent, failed, errors: errors.slice(0, 5) },
+      details: {
+        subject,
+        recipientCount: recipients.length,
+        sent,
+        failed,
+        errors: errors.slice(0, 5),
+        emails: recipients.map((r: { email: string; name?: string }) => r.email),
+      },
     });
 
     return NextResponse.json({ sent, failed, errors: errors.slice(0, 10) });

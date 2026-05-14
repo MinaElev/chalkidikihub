@@ -27,6 +27,7 @@ export default function AdminEmailPage() {
   const [history, setHistory] = useState<Array<{ id: string; message: string; details: Record<string, unknown>; created_at: string }>>([]);
   const [selectedManual, setSelectedManual] = useState<Set<string>>(new Set());
   const [externalEmails, setExternalEmails] = useState('');
+  const [expandedHistory, setExpandedHistory] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     async function load() {
@@ -346,20 +347,70 @@ export default function AdminEmailPage() {
           </div>
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
             {history.map((log) => {
-              const d = log.details as { subject?: string; recipientCount?: number; sent?: number; failed?: number };
+              const d = log.details as { subject?: string; recipientCount?: number; sent?: number; failed?: number; emails?: string[] };
+              const emails = Array.isArray(d.emails) ? d.emails : [];
+              const isOpen = expandedHistory.has(log.id);
               return (
-                <div key={log.id} className="px-4 py-3 flex items-center gap-4">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{d.subject || 'No subject'}</p>
-                    <p className="text-xs text-gray-500">{new Date(log.created_at).toLocaleString('el')}</p>
+                <div key={log.id} className="px-4 py-3">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">{d.subject || 'No subject'}</p>
+                      <p className="text-xs text-gray-500">{new Date(log.created_at).toLocaleString('el')}</p>
+                    </div>
+                    <div className="flex items-center gap-3 shrink-0">
+                      <span className="text-xs text-gray-500">{d.recipientCount || 0} παραλήπτες</span>
+                      <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">{d.sent || 0} sent</span>
+                      {(d.failed || 0) > 0 && (
+                        <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-medium">{d.failed} failed</span>
+                      )}
+                      {emails.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const next = new Set(expandedHistory);
+                            next.has(log.id) ? next.delete(log.id) : next.add(log.id);
+                            setExpandedHistory(next);
+                          }}
+                          className="text-xs text-primary-600 hover:underline"
+                        >
+                          {isOpen ? 'Απόκρυψη' : 'Προβολή emails'}
+                        </button>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <span className="text-xs text-gray-500">{d.recipientCount || 0} παραλήπτες</span>
-                    <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">{d.sent || 0} sent</span>
-                    {(d.failed || 0) > 0 && (
-                      <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-medium">{d.failed} failed</span>
-                    )}
-                  </div>
+                  {isOpen && emails.length > 0 && (
+                    <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
+                        <p className="text-xs text-gray-500">{emails.length} emails:</p>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => navigator.clipboard.writeText(emails.join(', '))}
+                            className="text-xs text-primary-600 hover:underline"
+                          >
+                            Αντιγραφή
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setExternalEmails(emails.join('\n'));
+                              setListType('external');
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                            className="text-xs text-primary-600 hover:underline"
+                          >
+                            Επαναχρήση παραληπτών
+                          </button>
+                        </div>
+                      </div>
+                      <textarea
+                        readOnly
+                        value={emails.join('\n')}
+                        rows={Math.min(8, emails.length)}
+                        className="w-full px-2 py-1 border border-gray-200 rounded text-xs font-mono bg-white"
+                      />
+                    </div>
+                  )}
                 </div>
               );
             })}
