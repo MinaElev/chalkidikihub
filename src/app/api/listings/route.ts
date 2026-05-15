@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/api-helpers';
-import { transformListing } from '@/lib/data';
+import { transformListing, pinFeaturedListings } from '@/lib/data';
 
 const SELECT_FIELDS = `
   id, slug, owner_id,
@@ -66,7 +66,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json([], { status: 500 });
   }
 
-  const listings = (data || []).map((row) => transformListing(row as Record<string, unknown>));
+  const listings = pinFeaturedListings(
+    (data || []).map((row) => transformListing(row as Record<string, unknown>)) as Array<{ slug?: string | null }>
+  );
 
   return NextResponse.json(listings, {
     headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' },

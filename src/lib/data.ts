@@ -253,6 +253,27 @@ export function transformListing(row: Record<string, unknown>) {
   };
 }
 
+/**
+ * Slug prefixes pinned to the top of every listings query, in order.
+ * Edit this list (or wire it to a DB setting later) to change the pin.
+ */
+export const PINNED_LISTING_SLUG_PREFIXES = ['amira-house'] as const;
+
+export function pinFeaturedListings<T extends { slug?: string | null }>(items: T[]): T[] {
+  if (!items.length) return items;
+  const pinned: T[] = [];
+  const rest: T[] = [];
+  for (const item of items) {
+    const slug = (item.slug || '').toLowerCase();
+    if (PINNED_LISTING_SLUG_PREFIXES.some((p) => slug.startsWith(p))) {
+      pinned.push(item);
+    } else {
+      rest.push(item);
+    }
+  }
+  return [...pinned, ...rest];
+}
+
 export async function getListings(): Promise<Listing[]> {
   const supabase = createApiClient();
   const { data, error } = await supabase
@@ -263,7 +284,8 @@ export async function getListings(): Promise<Listing[]> {
     console.error('[getListings] Supabase error:', error);
     return [];
   }
-  return (data || []).map((row) => transformListing(row as Record<string, unknown>)) as unknown as Listing[];
+  const listings = (data || []).map((row) => transformListing(row as Record<string, unknown>)) as unknown as Listing[];
+  return pinFeaturedListings(listings);
 }
 
 export async function getListingBySlug(slug: string): Promise<Listing | null> {

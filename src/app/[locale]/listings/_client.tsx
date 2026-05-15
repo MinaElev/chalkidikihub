@@ -7,6 +7,17 @@ import { SearchFilters } from '@/components/listings/SearchFilters';
 import { SearchFilters as SearchFiltersType, Listing } from '@/types';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
+const PINNED_LISTING_SLUG_PREFIXES = ['amira-house'];
+function pinFeatured<T extends { slug?: string | null }>(items: T[]): T[] {
+  const pinned: T[] = [];
+  const rest: T[] = [];
+  for (const item of items) {
+    const slug = (item.slug || '').toLowerCase();
+    (PINNED_LISTING_SLUG_PREFIXES.some((p) => slug.startsWith(p)) ? pinned : rest).push(item);
+  }
+  return [...pinned, ...rest];
+}
+
 export default function ListingsPageClient({ initialData = [] }: { initialData?: Listing[] }) {
   const t = useTranslations('listings');
   const tCommon = useTranslations('common');
@@ -58,7 +69,7 @@ export default function ListingsPageClient({ initialData = [] }: { initialData?:
         result.sort((a, b) => b.price_per_night - a.price_per_night);
     }
 
-    return result;
+    return pinFeatured(result);
   }, [filters, allListings]);
 
   return (
