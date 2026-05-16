@@ -3,22 +3,6 @@
     {
       "path": "/api/cron/auto-blog",
       "schedule": "0 8 * * *"
-    },
-    {
-      "path": "/api/pms/ical/sync-all",
-      "schedule": "17 * * * *"
-    },
-    {
-      "path": "/api/cron/pms-dispatch",
-      "schedule": "29 * * * *"
-    },
-    {
-      "path": "/api/cron/pms-auto-tasks",
-      "schedule": "41 * * * *"
-    },
-    {
-      "path": "/api/cron/pms-notifications",
-      "schedule": "53 * * * *"
     }
   ],
   "headers": [
