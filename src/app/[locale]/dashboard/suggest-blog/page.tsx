@@ -42,7 +42,7 @@ export default function SuggestBlogPage() {
         blob = compressed.blob;
       } catch {}
       const path = `${user.id}/${Date.now()}.webp`;
-      const { error: upErr } = await supabase.storage.from('submission-images').upload(path, blob, { contentType: 'image/webp' });
+      const { error: upErr } = await supabase.storage.from('submission-images').upload(path, blob, { cacheControl: '31536000', contentType: 'image/webp' });
       if (!upErr) {
         const { data: { publicUrl } } = supabase.storage.from('submission-images').getPublicUrl(path);
         imageUrl = publicUrl;

@@ -48,7 +48,7 @@ export function ImageUpload({ currentUrl, onUpload, folder, aiPromptContext }: I
 
       const { error: uploadError } = await supabase.storage
         .from('content-images')
-        .upload(filePath, blob, { contentType: 'image/webp', upsert: true });
+        .upload(filePath, blob, { cacheControl: '31536000', contentType: 'image/webp', upsert: true });
 
       if (uploadError) {
         setError(uploadError.message);

@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
 
     const { error: uploadError } = await supabase.storage
       .from('content-images')
-      .upload(filePath, imageBuffer, { contentType: 'image/png', upsert: true });
+      .upload(filePath, imageBuffer, { cacheControl: '31536000', contentType: 'image/png', upsert: true });
 
     if (uploadError) {
       // Return the temporary DALL-E URL as fallback

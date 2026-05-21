@@ -137,7 +137,7 @@ export default function AdminToolsPage() {
 
           const { error: uploadError } = await supabase.storage
             .from('content-images')
-            .upload(filePath, compressedBlob, { contentType: 'image/webp', upsert: true });
+            .upload(filePath, compressedBlob, { cacheControl: '31536000', contentType: 'image/webp', upsert: true });
 
           if (!uploadError) {
             const { data: { publicUrl } } = supabase.storage

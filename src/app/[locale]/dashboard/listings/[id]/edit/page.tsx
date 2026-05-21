@@ -189,7 +189,7 @@ export default function EditListingPage() {
 
         const { error: uploadError } = await supabase.storage
           .from('listing-images')
-          .upload(filePath, uploadBlob, { contentType, upsert: true });
+          .upload(filePath, uploadBlob, { cacheControl: '31536000', contentType, upsert: true });
 
         if (!uploadError) {
           const { data: { publicUrl } } = supabase.storage

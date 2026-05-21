@@ -281,7 +281,7 @@ function ContentTabsNew({ form, update }: { form: Record<string, unknown>; updat
         blob = compressed.blob;
       } catch {}
       const path = `blog-content/${Date.now()}.webp`;
-      const { error: upErr } = await supabase.storage.from('listing-images').upload(path, blob, { contentType: 'image/webp', upsert: true });
+      const { error: upErr } = await supabase.storage.from('listing-images').upload(path, blob, { cacheControl: '31536000', contentType: 'image/webp', upsert: true });
       if (!upErr) {
         const { data: { publicUrl } } = supabase.storage.from('listing-images').getPublicUrl(path);
         const contentKey = `content_${activeTab}`;

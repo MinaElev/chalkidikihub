@@ -99,7 +99,7 @@ export default function AdminEditSalePage() {
       const supabase = createClient();
       const { blob } = await compressImage(file, { maxWidth: 1200, maxHeight: 800, quality: 0.72, format: 'webp' });
       const filePath = `sales/${Date.now()}.webp`;
-      const { error: upErr } = await supabase.storage.from('content-images').upload(filePath, blob, { contentType: 'image/webp', upsert: true });
+      const { error: upErr } = await supabase.storage.from('content-images').upload(filePath, blob, { cacheControl: '31536000', contentType: 'image/webp', upsert: true });
       if (upErr) throw upErr;
       const { data: { publicUrl } } = supabase.storage.from('content-images').getPublicUrl(filePath);
       const isCover = images.length === 0;

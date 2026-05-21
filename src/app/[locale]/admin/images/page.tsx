@@ -149,7 +149,7 @@ export default function AdminImagesPage() {
           return;
         }
 
-        const { error } = await supabase.storage.from('content-images').upload(filePath, compressedBlob, { contentType: 'image/webp', upsert: true });
+        const { error } = await supabase.storage.from('content-images').upload(filePath, compressedBlob, { cacheControl: '31536000', contentType: 'image/webp', upsert: true });
 
         if (!error) {
           const { data: { publicUrl } } = supabase.storage.from('content-images').getPublicUrl(filePath);

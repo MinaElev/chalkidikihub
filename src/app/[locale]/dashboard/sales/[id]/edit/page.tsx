@@ -185,7 +185,7 @@ export default function EditSalePage() {
 
         const { error: uploadError } = await supabase.storage
           .from('sale-images')
-          .upload(filePath, uploadBlob, { contentType: 'image/webp', upsert: true });
+          .upload(filePath, uploadBlob, { cacheControl: '31536000', contentType: 'image/webp', upsert: true });
 
         if (uploadError) {
           uploadErrors.push(`Image ${i + 1}: ${uploadError.message}`);

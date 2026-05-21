@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     const path = `${folder || 'photos'}/${slug || Date.now()}.jpg`;
     const { error: uploadError } = await supabase.storage
       .from('content-images')
-      .upload(path, imageBlob, { contentType: 'image/jpeg', upsert: true });
+      .upload(path, imageBlob, { cacheControl: '31536000', contentType: 'image/jpeg', upsert: true });
 
     if (uploadError) return NextResponse.json({ error: uploadError.message }, { status: 500 });
 

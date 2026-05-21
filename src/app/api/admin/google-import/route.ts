@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
           const photoBlob = await photoRes.blob();
           const supabase = createAdminClient();
           const path = `restaurants/${slug}-${Date.now()}.jpg`;
-          const { error: upErr } = await supabase.storage.from('content-images').upload(path, photoBlob, { contentType: 'image/jpeg', upsert: true });
+          const { error: upErr } = await supabase.storage.from('content-images').upload(path, photoBlob, { cacheControl: '31536000', contentType: 'image/jpeg', upsert: true });
           if (!upErr) {
             const { data: { publicUrl } } = supabase.storage.from('content-images').getPublicUrl(path);
             imageUrl = publicUrl;

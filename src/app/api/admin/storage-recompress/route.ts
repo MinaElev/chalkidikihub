@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
 
       const { error: upErr } = await supabase.storage
         .from(f.bucket)
-        .upload(f.path, output, { contentType: 'image/webp', upsert: true });
+        .upload(f.path, output, { cacheControl: '31536000', contentType: 'image/webp', upsert: true });
       if (upErr) {
         results.push({ bucket: f.bucket, path: f.path, beforeKB: Math.round(f.size / 1024), error: upErr.message });
         totalAfter += f.size;

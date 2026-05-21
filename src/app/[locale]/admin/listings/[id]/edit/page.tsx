@@ -493,7 +493,7 @@ export default function AdminEditListingPage() {
                   uploadBlob = blob;
                 } catch {}
 
-                const { error: uploadErr } = await supabase.storage.from('listing-images').upload(filePath, uploadBlob, { contentType: 'image/webp', upsert: true });
+                const { error: uploadErr } = await supabase.storage.from('listing-images').upload(filePath, uploadBlob, { cacheControl: '31536000', contentType: 'image/webp', upsert: true });
                 if (uploadErr) {
                   setError(`Upload failed: ${uploadErr.message}`);
                   continue;
