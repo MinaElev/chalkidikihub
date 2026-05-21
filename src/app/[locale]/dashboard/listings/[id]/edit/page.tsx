@@ -171,14 +171,21 @@ export default function EditListingPage() {
         const file = newImages[i];
         const filePath = `${user.id}/${listingId}/${startOrder + i}-${Date.now()}.webp`;
 
-        // Compress before upload (aggressive defaults from image-utils)
+        // Compress before upload. Reject silently-failed compressions on
+        // large files — letting multi-MB originals through is what caused
+        // the Supabase egress blowup.
         let uploadBlob: Blob = file;
         let contentType = file.type;
         try {
           const { blob } = await compressImage(file);
           uploadBlob = blob;
           contentType = 'image/webp';
-        } catch {} // Fallback to original if compression fails
+        } catch (err) {
+          if (file.size > 1024 * 1024) {
+            console.warn('[upload] skipping oversized file after compress failure', file.name, file.size, err);
+            continue;
+          }
+        }
 
         const { error: uploadError } = await supabase.storage
           .from('listing-images')
