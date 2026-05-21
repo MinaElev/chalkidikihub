@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { AREAS } from '@/lib/constants';
 import { AreaInfo } from '@/types';
+import Image from 'next/image';
 import { MapPin } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -40,11 +41,12 @@ export default function AreasPageClient() {
             <div className="relative overflow-hidden rounded-2xl aspect-[16/9] bg-gray-300">
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10" />
               {area.image_url ? (
-                <img
+                <Image
                   src={area.image_url}
                   alt={area.name[locale] || area.name.el || ''}
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700 group-hover:scale-105 transition-transform duration-300" />

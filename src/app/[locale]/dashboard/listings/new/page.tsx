@@ -137,14 +137,19 @@ export default function NewListingPage() {
         const file = images[i];
         const filePath = `${user.id}/${listing.id}/${i}.webp`;
 
-        // Compress before upload
+        // Compress before upload. If compression fails AND the original is
+        // large (>1MB), reject — silent fallback let multi-MB JPEGs leak into
+        // storage and blew up Supabase egress.
         let uploadBlob: Blob = file;
         try {
-          // No explicit options → uses aggressive defaults from image-utils
-          // (1600x1200 max, starts at 0.62 quality, iterates down to hit ~200KB target)
           const { blob } = await compressImage(file);
           uploadBlob = blob;
-        } catch {} // Fallback to original if compression fails
+        } catch (err) {
+          if (file.size > 1024 * 1024) {
+            uploadErrors.push(`Image ${i + 1}: ${(err as Error).message || 'compression failed'} (original ${(file.size / 1024 / 1024).toFixed(1)}MB — please resize and retry)`);
+            continue;
+          }
+        }
 
         const { error: uploadError } = await supabase.storage
           .from('listing-images')
