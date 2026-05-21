@@ -1,6 +1,8 @@
 import { permanentRedirect } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
+// 308 redirect with no DB / data dependency — let it cache so bot crawls of
+// the ~150 legacy URLs don't burn function invocations on every hit.
+export const revalidate = 604800;
 
 const VALID_CATEGORIES = ['beaches', 'restaurants', 'activities', 'listings'];
 

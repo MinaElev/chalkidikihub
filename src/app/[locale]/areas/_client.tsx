@@ -1,27 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { AREAS } from '@/lib/constants';
 import { AreaInfo } from '@/types';
 import Image from 'next/image';
 import { MapPin } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export default function AreasPageClient() {
+export default function AreasPageClient({ initialAreas }: { initialAreas: AreaInfo[] }) {
   const locale = useLocale();
   const t = useTranslations('areas');
-  const [areas, setAreas] = useState<AreaInfo[]>(AREAS);
-
-  useEffect(() => {
-    fetch('/api/areas')
-      .then((r) => r.json())
-      .then((data: AreaInfo[]) => {
-        if (Array.isArray(data) && data.length > 0) setAreas(data);
-      })
-      .catch(() => {});
-  }, []);
+  const areas = initialAreas;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

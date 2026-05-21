@@ -1,7 +1,13 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { collectionMeta } from '@/lib/seo';
+import { getAreas } from '@/lib/data';
+import { AREAS } from '@/lib/constants';
 import PageClient from './_client';
+
+// Refresh DB-backed areas hourly. Falls back to the static AREAS constant
+// if the DB query returns nothing.
+export const revalidate = 3600;
 
 const titles: Record<string, string> = {
   el: 'Περιοχές Χαλκιδικής | ChalkidikiHub',
@@ -33,5 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <PageClient />;
+  const dbAreas = await getAreas().catch(() => []);
+  const initialAreas = dbAreas.length > 0 ? dbAreas : AREAS;
+  return <PageClient initialAreas={initialAreas} />;
 }

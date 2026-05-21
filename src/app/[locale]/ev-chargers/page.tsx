@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { collectionMeta } from '@/lib/seo';
 import EvChargersClient from './_client';
-export const dynamic = 'force-dynamic';
+
+// Static shell — data is fetched client-side from the OCM API, no server
+// data dependency, so no reason to regenerate per request.
+export const revalidate = 86400;
 
 const titles: Record<string, string> = {
   el: 'Φορτιστές EV Χαλκιδική | ChalkidikiHub',

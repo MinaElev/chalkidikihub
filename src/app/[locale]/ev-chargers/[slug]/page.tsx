@@ -12,7 +12,10 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export const dynamic = 'force-dynamic';
+// Data comes from the OCM API via getChargers(); a daily ISR window is
+// plenty (chargers don't move). Static params are skipped — pages are
+// generated on first hit and cached for `revalidate`.
+export const revalidate = 86400;
 
 export function generateStaticParams() {
   return [];
