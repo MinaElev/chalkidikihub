@@ -63,17 +63,18 @@ const nextConfig: NextConfig = {
     inlineCss: true,
   },
   images: {
+    // Hobby plan caps image optimizations per month; once exceeded /_next/image
+    // returns HTTP 402 and every <Image> on the site breaks. Originals in
+    // Supabase Storage are already compressed (WebP, ~200KB after the
+    // re-encode pass), so the optimizer's marginal benefit doesn't justify
+    // burning the quota. Serve source URLs directly instead.
+    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: '*.supabase.co' },
       { protocol: 'https', hostname: 'oaidalleapiprodscus.blob.core.windows.net' },
       { protocol: 'https', hostname: 'greece-moments.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
-    formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 31536000, // 1 year — images rarely change
-    deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    qualities: [45, 50, 60, 75], // Next 16 requires explicit qualities allowlist
   },
   async headers() {
     return [
