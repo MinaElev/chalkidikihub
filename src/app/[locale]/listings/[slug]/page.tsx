@@ -6,17 +6,11 @@ import { getContentMeta, generateLodgingLD, generateBreadcrumbLD, localeUrl } fr
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getListingBySlug } from '@/lib/data';
 
-export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
+export const dynamic = 'force-dynamic';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
-
-// On-demand rendering: pages built at first visit, cached per `revalidate`.
-// Keeps build time bounded as the catalogue grows; sitemap.xml still lists them.
-export async function generateStaticParams() {
-  return [];
-}
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
