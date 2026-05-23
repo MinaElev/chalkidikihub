@@ -12,6 +12,7 @@ const TYPE_PATHS: Record<string, string> = {
   sales: 'sales',
   villages: 'places',
   areas: 'areas',
+  host: 'host',
 };
 
 /**

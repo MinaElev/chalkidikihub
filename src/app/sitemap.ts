@@ -71,6 +71,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push(...forLocales(`/areas/${area.slug}`, { freq: 'weekly', priority: 0.8 }));
   }
 
+  // ── Host pages (owners with ≥2 published listings + public_page_enabled) ──
+  const { data: publicProfiles } = await supabase
+    .from('profiles')
+    .select('id, public_slug, updated_at')
+    .eq('public_page_enabled', true)
+    .not('public_slug', 'is', null);
+  if (publicProfiles?.length) {
+    const ownerIds = publicProfiles.map((p: { id: string }) => p.id);
+    const { data: hostListings } = await supabase
+      .from('listings').select('owner_id')
+      .in('owner_id', ownerIds).eq('status', 'published');
+    const counts = new Map<string, number>();
+    for (const l of hostListings || []) {
+      const k = (l as { owner_id: string }).owner_id;
+      counts.set(k, (counts.get(k) || 0) + 1);
+    }
+    for (const p of publicProfiles as Array<{ id: string; public_slug: string; updated_at?: string }>) {
+      if ((counts.get(p.id) || 0) >= 2) {
+        entries.push(...forLocales(`/host/${p.public_slug}`, {
+          freq: 'weekly', priority: 0.7,
+          modified: p.updated_at ? new Date(p.updated_at) : undefined,
+        }));
+      }
+    }
+  }
+
   // ── Beaches (DB + area + features) ──
   const { data: beaches } = await supabase.from('beaches').select('slug, updated_at');
   if (beaches) {

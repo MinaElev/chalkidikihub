@@ -301,6 +301,113 @@ export async function getListingBySlug(slug: string): Promise<Listing | null> {
   return transformListing(data as Record<string, unknown>) as unknown as Listing;
 }
 
+// ─── Hosts (public owner pages) ─────────────────────────────
+// A host page exists for an owner who: (a) has set public_page_enabled=true,
+// (b) has a public_slug, and (c) has ≥2 published listings.
+export type Host = {
+  id: string;
+  slug: string;
+  display_name: string;
+  avatar_url: string;
+  email: string;
+  phone: string;
+  social_facebook: string;
+  social_instagram: string;
+  social_website: string;
+  bio: Record<string, string>;
+  member_since: string;
+  listings: Listing[];
+};
+
+const HOST_FIELDS = `
+  id, public_slug, public_page_enabled, public_display_name, full_name,
+  public_avatar_url, avatar_url, public_email, public_phone,
+  social_facebook, social_instagram, social_website,
+  bio_el, bio_en, bio_de, bio_bg, bio_ru, bio_ro, bio_sr,
+  created_at
+`;
+
+function transformHost(row: Record<string, unknown>, listings: Listing[]): Host {
+  return {
+    id: row.id as string,
+    slug: row.public_slug as string,
+    display_name: (row.public_display_name as string) || (row.full_name as string) || 'Host',
+    avatar_url: (row.public_avatar_url as string) || (row.avatar_url as string) || '',
+    email: (row.public_email as string) || '',
+    phone: (row.public_phone as string) || '',
+    social_facebook: (row.social_facebook as string) || '',
+    social_instagram: (row.social_instagram as string) || '',
+    social_website: (row.social_website as string) || '',
+    bio: {
+      el: (row.bio_el as string) || '', en: (row.bio_en as string) || '',
+      de: (row.bio_de as string) || '', bg: (row.bio_bg as string) || '',
+      ru: (row.bio_ru as string) || '', ro: (row.bio_ro as string) || '',
+      sr: (row.bio_sr as string) || '',
+    },
+    member_since: row.created_at as string,
+    listings,
+  };
+}
+
+export async function getHostBySlug(slug: string): Promise<Host | null> {
+  const supabase = createApiClient();
+  const { data: profile, error } = await supabase
+    .from('profiles')
+    .select(HOST_FIELDS)
+    .eq('public_slug', slug)
+    .eq('public_page_enabled', true)
+    .single();
+  if (error || !profile) return null;
+
+  // Fetch their published listings
+  const { data: listingRows } = await supabase
+    .from('listings')
+    .select(LISTING_FIELDS)
+    .eq('owner_id', (profile as Record<string, unknown>).id)
+    .eq('status', 'published')
+    .order('created_at', { ascending: false });
+
+  const listings = (listingRows || []).map((r) =>
+    transformListing(r as Record<string, unknown>)
+  ) as unknown as Listing[];
+
+  // Gate: ≥2 published listings
+  if (listings.length < 2) return null;
+
+  return transformHost(profile as Record<string, unknown>, listings);
+}
+
+export async function getPublicHosts(): Promise<{ slug: string; updated_at?: string }[]> {
+  const supabase = createApiClient();
+  // Profiles flagged public AND with a slug
+  const { data: profiles } = await supabase
+    .from('profiles')
+    .select('id, public_slug, updated_at')
+    .eq('public_page_enabled', true)
+    .not('public_slug', 'is', null);
+  if (!profiles?.length) return [];
+
+  // Count listings per owner_id, keep only owners with ≥2 published
+  const ids = profiles.map((p: Record<string, unknown>) => p.id);
+  const { data: listings } = await supabase
+    .from('listings')
+    .select('owner_id')
+    .in('owner_id', ids)
+    .eq('status', 'published');
+  const counts = new Map<string, number>();
+  for (const l of listings || []) {
+    const k = (l as Record<string, unknown>).owner_id as string;
+    counts.set(k, (counts.get(k) || 0) + 1);
+  }
+
+  return profiles
+    .filter((p: Record<string, unknown>) => (counts.get(p.id as string) || 0) >= 2)
+    .map((p: Record<string, unknown>) => ({
+      slug: p.public_slug as string,
+      updated_at: p.updated_at as string | undefined,
+    }));
+}
+
 // ─── Sales ──────────────────────────────────────────────────
 export function transformSale(row: Record<string, unknown>) {
   const images = (row.sale_images as Array<Record<string, unknown>> || []).map(i => ({
