@@ -4,7 +4,7 @@ import { DynamicListingDetail } from '@/components/listings/DynamicListingDetail
 import { HostLinkBanner } from '@/components/listings/HostLinkBanner';
 import { getContentMeta, generateLodgingLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
-import { getListingBySlug, getListings } from '@/lib/data';
+import { getListingBySlug } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
 
@@ -12,9 +12,10 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
+// On-demand rendering: pages built at first visit, cached per `revalidate`.
+// Keeps build time bounded as the catalogue grows; sitemap.xml still lists them.
 export async function generateStaticParams() {
-  const items = await getListings();
-  return items.map(item => ({ slug: item.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props) {

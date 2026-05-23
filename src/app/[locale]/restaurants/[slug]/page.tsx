@@ -3,15 +3,14 @@ import { notFound } from 'next/navigation';
 import { DynamicRestaurantDetail } from '@/components/listings/DynamicRestaurantDetail';
 import { getContentMeta, generateRestaurantLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
-import { getRestaurantBySlug, getRestaurants } from '@/lib/data';
+import { getRestaurantBySlug } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export async function generateStaticParams() {
-  const items = await getRestaurants();
-  return items.map(item => ({ slug: item.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props) {

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { DynamicBeachDetail } from '@/components/listings/DynamicBeachDetail';
 import { getContentMeta, generateBeachLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
-import { getBeachBySlug, getBeaches } from '@/lib/data';
+import { getBeachBySlug } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
 
@@ -11,9 +11,10 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
+// On-demand rendering: pages built at first visit, cached per `revalidate`.
+// Keeps build time bounded as the DB grows; sitemap.xml still lists them.
 export async function generateStaticParams() {
-  const items = await getBeaches();
-  return items.map(item => ({ slug: item.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props) {

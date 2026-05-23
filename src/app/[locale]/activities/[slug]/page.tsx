@@ -3,15 +3,14 @@ import { notFound } from 'next/navigation';
 import { DynamicActivityDetail } from '@/components/listings/DynamicActivityDetail';
 import { getContentMeta, generateActivityLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
-import { getActivityBySlug, getActivities } from '@/lib/data';
+import { getActivityBySlug } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export async function generateStaticParams() {
-  const items = await getActivities();
-  return items.map(item => ({ slug: item.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props) {

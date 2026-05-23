@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { DynamicArticle } from '@/components/blog/DynamicArticle';
 import { getContentMeta, generateArticleLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
-import { getArticleBySlug, getBlogArticles } from '@/lib/data';
+import { getArticleBySlug } from '@/lib/data';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
 
@@ -12,8 +12,7 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const items = await getBlogArticles();
-  return items.map(item => ({ slug: item.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props) {
