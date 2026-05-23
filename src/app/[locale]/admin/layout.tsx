@@ -33,6 +33,7 @@ const navSections = [
     title: 'Properties',
     items: [
       { href: '/admin/listings', icon: List, label: 'Listings' },
+      { href: '/admin/hosts', icon: Users, label: 'Host Pages' },
       { href: '/admin/brand-sites', icon: Wand2, label: 'Brand Sites' },
       { href: '/admin/sales', icon: Building, label: 'Sales' },
       { href: '/admin/business-types', icon: Tag, label: 'Business Types' },
