@@ -10,6 +10,7 @@ import {
   Users, BedDouble, Bath, Wand2, MapPin, ExternalLink,
   MoreHorizontal, Lock, Search, TrendingUp, Palette,
 } from 'lucide-react';
+import { HostPagePromoBanner } from '@/components/dashboard/HostPagePromoBanner';
 
 interface Img { image_url: string; is_cover: boolean; sort_order: number; }
 
@@ -149,6 +150,9 @@ export default function MyListingsPage() {
 
   return (
     <div>
+      {/* Marketing banner — owners with 2+ published listings get a CTA to enable their public host page */}
+      <HostPagePromoBanner />
+
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-5">
         <div>
