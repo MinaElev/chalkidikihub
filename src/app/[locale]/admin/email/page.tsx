@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle, Clock, Home, Building, UserCheck, AtSign } from 'lucide-react';
+import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle, Clock, Home, Building, UserCheck, AtSign, Globe } from 'lucide-react';
 
 interface Recipient {
   id: string;
@@ -10,9 +10,10 @@ interface Recipient {
   name: string;
   role: string;
   listingCount: number;
+  publicHostEnabled: boolean;
 }
 
-type ListType = 'all' | 'no_listing' | 'has_listing' | 'multi_listing' | 'manual' | 'external';
+type ListType = 'all' | 'no_listing' | 'has_listing' | 'multi_listing' | 'multi_no_host' | 'manual' | 'external';
 
 export default function AdminEmailPage() {
   const [recipients, setRecipients] = useState<Recipient[]>([]);
@@ -39,10 +40,11 @@ export default function AdminEmailPage() {
         .select('id, full_name, role')
         .order('created_at', { ascending: false });
 
-      // Count listings per user
+      // Count PUBLISHED listings per user — matches host-page eligibility logic
       const { data: listings } = await supabase
         .from('listings')
-        .select('owner_id');
+        .select('owner_id')
+        .eq('status', 'published');
 
       const listingCounts = new Map<string, number>();
       (listings || []).forEach(l => {
@@ -63,21 +65,28 @@ export default function AdminEmailPage() {
         name: p.full_name || '',
         role: p.role || 'owner',
         listingCount: listingCounts.get(p.id) || 0,
+        publicHostEnabled: false,
       }));
 
-      // Try to get emails - profiles might have them or we get from a different query
-      // Let's check if profiles has email column
+      // Pull email + public_page_enabled in the same query
       const { data: profilesWithEmail } = await supabase
         .from('profiles')
-        .select('id, full_name, email, role')
+        .select('id, full_name, email, role, public_page_enabled, public_slug')
         .order('created_at', { ascending: false });
 
       if (profilesWithEmail) {
-        const emailMap = new Map(profilesWithEmail.map(p => [p.id, p.email || '']));
+        const byId = new Map(profilesWithEmail.map(p => [p.id, p]));
         enriched.forEach(r => {
-          r.email = emailMap.get(r.id) || '';
-          const profile = profilesWithEmail.find(p => p.id === r.id);
-          if (profile) r.name = profile.full_name || '';
+          const p = byId.get(r.id);
+          if (p) {
+            r.email = (p as { email?: string }).email || '';
+            r.name = (p as { full_name?: string }).full_name || '';
+            // Treat as "enabled" only when both flag is true AND a slug is set
+            r.publicHostEnabled = Boolean(
+              (p as { public_page_enabled?: boolean }).public_page_enabled &&
+              (p as { public_slug?: string | null }).public_slug
+            );
+          }
         });
       }
 
@@ -108,8 +117,9 @@ export default function AdminEmailPage() {
     : listType === 'no_listing' ? recipients.filter(r => r.listingCount === 0)
     : listType === 'has_listing' ? recipients.filter(r => r.listingCount > 0)
     : listType === 'multi_listing' ? recipients.filter(r => r.listingCount > 1)
+    : listType === 'multi_no_host' ? recipients.filter(r => r.listingCount > 1 && !r.publicHostEnabled)
     : listType === 'manual' ? recipients.filter(r => selectedManual.has(r.id))
-    : listType === 'external' ? parsedExternal.map((email, i) => ({ id: `ext-${i}`, email, name: '', role: 'external', listingCount: 0 }))
+    : listType === 'external' ? parsedExternal.map((email, i) => ({ id: `ext-${i}`, email, name: '', role: 'external', listingCount: 0, publicHostEnabled: false }))
     : recipients;
 
   async function handleSend() {
@@ -202,6 +212,7 @@ export default function AdminEmailPage() {
                 { type: 'all' as ListType, icon: Users, color: 'text-primary-600', label: 'Όλοι οι χρήστες', count: recipients.length },
                 { type: 'has_listing' as ListType, icon: Home, color: 'text-green-600', label: 'Με κατάλυμα', count: recipients.filter(r => r.listingCount > 0).length },
                 { type: 'multi_listing' as ListType, icon: Building, color: 'text-blue-600', label: 'Με 2+ καταλύματα', count: recipients.filter(r => r.listingCount > 1).length },
+                { type: 'multi_no_host' as ListType, icon: Globe, color: 'text-indigo-600', label: '2+ καταλύματα χωρίς host page', count: recipients.filter(r => r.listingCount > 1 && !r.publicHostEnabled).length },
                 { type: 'no_listing' as ListType, icon: UserX, color: 'text-amber-600', label: 'Χωρίς κατάλυμα', count: recipients.filter(r => r.listingCount === 0).length },
                 { type: 'manual' as ListType, icon: UserCheck, color: 'text-purple-600', label: 'Χειροκίνητη επιλογή', count: selectedManual.size },
                 { type: 'external' as ListType, icon: AtSign, color: 'text-pink-600', label: 'Εξωτερικά emails', count: parsedExternal.length },
