@@ -5,7 +5,7 @@ import { getContentMeta, generateArticleLD, generateBreadcrumbLD, localeUrl } fr
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getArticleBySlug } from '@/lib/data';
 
-export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
+export const dynamic = 'force-dynamic'; // Next 16 SSG-fallback bug; see listings/[slug]
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
