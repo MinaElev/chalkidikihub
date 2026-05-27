@@ -13,6 +13,7 @@ import { generateSiteGraph } from '@/lib/site-schema';
 const BackToTop = dynamic(() => import('@/components/ui/BackToTop').then(m => m.BackToTop));
 const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent').then(m => m.CookieConsent));
 const LangSuggestBanner = dynamic(() => import('@/components/layout/LangSuggestBanner').then(m => m.LangSuggestBanner));
+const AvailabilityCTAs = dynamic(() => import('@/components/marketing/AvailabilityCTAs'));
 
 type Props = {
   children: React.ReactNode;
@@ -72,6 +73,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <BackToTop />
         <CookieConsent />
         <LangSuggestBanner />
+        <AvailabilityCTAs />
       </div>
     </NextIntlClientProvider>
   );

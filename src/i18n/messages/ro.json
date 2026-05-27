@@ -519,6 +519,19 @@
     },
     "ctaHeroPrefix": "Nu găsești ce vrei?",
     "ctaHero": "Solicită disponibilitate în întreaga zonă",
+    "popup": {
+      "headline": "Nu ai găsit ce căutai?",
+      "body": "Trimite o cerere și toți proprietarii potriviți din zonă vor fi notificați automat. Cei cu disponibilitate te vor contacta direct.",
+      "cta": "Trimite o cerere",
+      "dismiss": "Nu, mulțumesc",
+      "badge": "Nou",
+      "free": "Gratuit · Fără cont"
+    },
+    "floating": {
+      "label": "Solicită disponibilitate",
+      "tooltip": "Cerere către proprietari din zonă"
+    },
+    "beforeUnloadWarning": "Ai o cerere neterminată. Sigur vrei să pleci?",
     "success": {
       "titleSent": "Trimis către {count} proprietari",
       "titleNoMatch": "Am primit cererea ta",

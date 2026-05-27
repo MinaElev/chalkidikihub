@@ -519,6 +519,19 @@
     },
     "ctaHeroPrefix": "Sie finden nicht, was Sie suchen?",
     "ctaHero": "Verfügbarkeit in der Region anfragen",
+    "popup": {
+      "headline": "Nicht das Passende gefunden?",
+      "body": "Senden Sie eine Anfrage und alle passenden Vermieter der Region werden automatisch benachrichtigt. Verfügbare Vermieter melden sich direkt bei Ihnen.",
+      "cta": "Anfrage senden",
+      "dismiss": "Nein danke",
+      "badge": "Neu",
+      "free": "Kostenlos · Ohne Konto"
+    },
+    "floating": {
+      "label": "Verfügbarkeit anfragen",
+      "tooltip": "Anfrage an Vermieter der Region"
+    },
+    "beforeUnloadWarning": "Sie haben eine unvollständige Anfrage. Möchten Sie wirklich gehen?",
     "success": {
       "titleSent": "An {count} Vermieter gesendet",
       "titleNoMatch": "Wir haben Ihre Anfrage erhalten",

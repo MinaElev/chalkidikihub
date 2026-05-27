@@ -519,6 +519,19 @@
     },
     "ctaHeroPrefix": "Can't find what you want?",
     "ctaHero": "Request availability across the area",
+    "popup": {
+      "headline": "Didn't find what you were looking for?",
+      "body": "Send one request and we'll notify every matching property owner in the area. Those with availability will reply to you directly.",
+      "cta": "Send a request",
+      "dismiss": "No thanks",
+      "badge": "New",
+      "free": "Free · No account needed"
+    },
+    "floating": {
+      "label": "Request availability",
+      "tooltip": "Send a request to owners in the area"
+    },
+    "beforeUnloadWarning": "You have an unfinished request. Are you sure you want to leave?",
     "success": {
       "titleSent": "Sent to {count} owners",
       "titleNoMatch": "We received your request",

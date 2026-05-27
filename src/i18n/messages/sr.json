@@ -520,6 +520,19 @@
     },
     "ctaHeroPrefix": "Ne nalaziš ono što tražiš?",
     "ctaHero": "Zatraži dostupnost u celom regionu",
+    "popup": {
+      "headline": "Nisi našao ono što tražiš?",
+      "body": "Pošalji jedan zahtev i svi odgovarajući vlasnici u oblasti biće automatski obavešteni. Oni sa dostupnošću kontaktiraće te direktno.",
+      "cta": "Pošalji zahtev",
+      "dismiss": "Ne, hvala",
+      "badge": "Novo",
+      "free": "Besplatno · Bez naloga"
+    },
+    "floating": {
+      "label": "Zatraži dostupnost",
+      "tooltip": "Zahtev vlasnicima u oblasti"
+    },
+    "beforeUnloadWarning": "Imaš nedovršeni zahtev. Da li si siguran da želiš da odeš?",
     "success": {
       "titleSent": "Poslato {count} vlasnika",
       "titleNoMatch": "Primili smo tvoj zahtev",

@@ -35,6 +35,27 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
     website: '', // honeypot
   });
 
+  // Warn before navigating away if the form has been touched and not submitted.
+  // Modern browsers ignore custom message text, but still show their generic
+  // "Leave site?" prompt when returnValue is set.
+  useEffect(() => {
+    function onBeforeUnload(e: BeforeUnloadEvent) {
+      if (submitting || done) return;
+      const filled =
+        form.guest_name.trim() ||
+        form.guest_email.trim() ||
+        form.guest_phone.trim() ||
+        form.check_in ||
+        form.check_out ||
+        form.notes.trim();
+      if (!filled) return;
+      e.preventDefault();
+      e.returnValue = t('beforeUnloadWarning');
+    }
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  }, [form, submitting, done, t]);
+
   const minCheckIn = useMemo(() => {
     const d = new Date();
     return d.toISOString().slice(0, 10);
