@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { CalendarDays, Users, Wallet, Home, Send, CheckCircle2, AlertCircle, MapPin, Phone, Mail, User, Search, Sparkles, MailCheck, Loader2 } from 'lucide-react';
 
@@ -10,6 +10,7 @@ const PROPERTY_TYPE_KEYS = ['', 'rooms', 'studio', 'apartment', 'house', 'villa'
 
 export default function AvailabilityRequestClient({ initialArea }: { initialArea: string }) {
   const t = useTranslations('availabilityRequest');
+  const locale = useLocale();
   const router = useRouter();
   const mountedAt = useRef(0);
   useEffect(() => {
@@ -78,6 +79,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
+          locale,
           elapsed: mountedAt.current ? Date.now() - mountedAt.current : 0,
         }),
       });

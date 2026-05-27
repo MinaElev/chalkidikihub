@@ -3,10 +3,13 @@ import crypto from 'crypto';
 import { createAdminClient } from '@/lib/api-helpers';
 import {
   dispatchBroadcast,
+  sendGuestConfirmation,
   generatePublicToken,
   MAX_REQUESTS_PER_DAY,
   type AvailabilityRequestRow,
 } from '@/lib/availability/dispatch';
+
+const SUPPORTED_LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'];
 
 // Small list — extend over time. Cheap disposable-mail block.
 const DISPOSABLE_DOMAINS = new Set([
@@ -77,6 +80,7 @@ export async function POST(request: NextRequest) {
     const budget_max = body.budget_max ? Math.max(0, Number(body.budget_max)) : null;
     const property_type = clean(body.property_type, 30);
     const notes = clean(body.notes, 1000);
+    const locale = SUPPORTED_LOCALES.includes(body.locale) ? body.locale : 'el';
 
     if (!guest_name || guest_name.length < 2) {
       return NextResponse.json({ error: 'missing_name' }, { status: 400 });
@@ -201,21 +205,27 @@ export async function POST(request: NextRequest) {
         status: 'active',
         expires_at,
         ip_hash: ipHash,
+        locale,
       })
-      .select('id, public_token, guest_name, guest_phone, area, check_in, check_out, adults, children, budget_min, budget_max, property_type, notes')
+      .select('id, public_token, guest_name, guest_email, guest_phone, area, check_in, check_out, adults, children, budget_min, budget_max, property_type, notes, locale')
       .single();
 
     if (insErr || !inserted) {
       return NextResponse.json({ error: 'insert_failed', detail: insErr?.message }, { status: 500 });
     }
 
-    // ─── Dispatch (inline) ────────────────────────────────────────────
-    const result = await dispatchBroadcast(supabase, inserted as AvailabilityRequestRow);
+    const requestRow = inserted as AvailabilityRequestRow;
+
+    // ─── Dispatch broadcast to owners (inline) ───────────────────────
+    const result = await dispatchBroadcast(supabase, requestRow);
 
     await supabase
       .from('availability_requests')
       .update({ recipients_count: result.sent })
       .eq('id', inserted.id);
+
+    // ─── Send guest confirmation email with dashboard link ───────────
+    await sendGuestConfirmation(supabase, requestRow, result.sent).catch(() => {});
 
     await supabase.from('activity_logs').insert({
       type: 'user_action',

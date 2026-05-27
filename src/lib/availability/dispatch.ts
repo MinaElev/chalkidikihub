@@ -25,6 +25,7 @@ export interface AvailabilityRequestRow {
   id: string;
   public_token: string;
   guest_name: string;
+  guest_email: string;
   guest_phone: string;
   area: string;
   check_in: string;
@@ -35,6 +36,7 @@ export interface AvailabilityRequestRow {
   budget_max: number | null;
   property_type: string | null;
   notes: string | null;
+  locale: string;
 }
 
 interface CandidateOwner {
@@ -362,6 +364,187 @@ export async function dispatchBroadcast(
   return { sent, failed, skipped_no_creds: false };
 }
 
+// ─── Guest email templates (el + en) ─────────────────────────────────
+// Two locales only to keep dispatch.ts manageable; other supported locales
+// fall back to English (every European tourist understands at least one).
+type GuestLocale = 'el' | 'en';
+
+function pickGuestLocale(locale: string | undefined | null): GuestLocale {
+  return locale === 'el' ? 'el' : 'en';
+}
+
+const AREA_LABELS_EN: Record<string, string> = {
+  kassandra: 'Kassandra',
+  sithonia: 'Sithonia',
+  athos: 'Athos',
+  mainland: 'Halkidiki mainland',
+};
+
+function localizedArea(area: string, locale: GuestLocale): string {
+  return (locale === 'el' ? AREA_LABELS : AREA_LABELS_EN)[area] || area;
+}
+
+const GUEST_COPY = {
+  confirmation: {
+    el: {
+      subject: (area: string) => `Λάβαμε το αίτημά σου για ${area} — δες την πορεία`,
+      heading: 'Λάβαμε το αίτημά σου! ✨',
+      sentLine: (n: number) =>
+        n > 0
+          ? `Στείλαμε το αίτημά σου σε <strong>${n} ιδιοκτήτες</strong> με ταιριαστά καταλύματα στην περιοχή.`
+          : `Αυτή τη στιγμή δεν βρήκαμε ιδιοκτήτες με ταιριαστά καταλύματα. Το αίτημά σου παραμένει ενεργό και θα δοκιμάσουμε ξανά αν προκύψει διαθεσιμότητα.`,
+      whatNext: 'Όσοι έχουν διαθέσιμο θα απαντήσουν εντός 24–48 ωρών απευθείας εδώ ή θα σε καλέσουν στο τηλέφωνο που έδωσες.',
+      ctaLabel: 'Δες την πορεία του αιτήματος',
+      tipTitle: '💡 Tip',
+      tipBody: 'Αποθήκευσε αυτό το email — το link σε αυτό είναι μοναδικό για εσένα και χρειάζεται κάθε φορά που θες να δεις νέες απαντήσεις.',
+      summary: 'Σύνοψη αιτήματος',
+      labelDates: 'Ημερομηνίες',
+      labelGuests: 'Άτομα',
+      labelArea: 'Περιοχή',
+      footer: 'ChalkidikiHub · chalkidikihub.gr',
+      textHeading: (area: string) => `Λάβαμε το αίτημά σου για ${area}!`,
+      textSent: (n: number) => (n > 0 ? `Στείλαμε το αίτημά σου σε ${n} ιδιοκτήτες.` : 'Δεν βρήκαμε ταιριαστούς ιδιοκτήτες αυτή τη στιγμή — θα δοκιμάσουμε ξανά.'),
+      textCta: 'Δες την πορεία:',
+      textTip: 'Κράτησε αυτό το link — το χρειάζεσαι κάθε φορά που θες να δεις απαντήσεις.',
+    },
+    en: {
+      subject: (area: string) => `We received your request for ${area} — track it here`,
+      heading: 'We got your request! ✨',
+      sentLine: (n: number) =>
+        n > 0
+          ? `We notified <strong>${n} owners</strong> with matching properties in the area.`
+          : `We couldn't find owners with matching availability right now. Your request stays active and we'll try again if something opens up.`,
+      whatNext: 'Owners with availability typically reply within 24–48 hours, either here or by calling the number you provided.',
+      ctaLabel: 'Track your request',
+      tipTitle: '💡 Tip',
+      tipBody: 'Save this email — the link is unique to you and you need it any time you want to check for new replies.',
+      summary: 'Request summary',
+      labelDates: 'Dates',
+      labelGuests: 'Guests',
+      labelArea: 'Area',
+      footer: 'ChalkidikiHub · chalkidikihub.gr',
+      textHeading: (area: string) => `We received your request for ${area}!`,
+      textSent: (n: number) => (n > 0 ? `We notified ${n} owners.` : `No matching owners right now — we'll try again.`),
+      textCta: 'Track your request:',
+      textTip: 'Keep this link — you need it to check for new replies.',
+    },
+  },
+  firstResponse: {
+    el: {
+      subject: (area: string) => `Ένας ιδιοκτήτης απάντησε στο αίτημά σου για ${area}`,
+      heading: 'Έχεις την πρώτη απάντηση! 🎉',
+      greet: (name: string) => `Γεια σου ${name},`,
+      body: (area: string) =>
+        `Ένας ιδιοκτήτης απάντησε στο αίτημά σου για διαμονή στη ${area}. Μπορεί να ακολουθήσουν κι άλλοι τις επόμενες ώρες.`,
+      ctaLabel: 'Δες τις απαντήσεις',
+      tip: 'Κράτησε αυτό το link — το χρειάζεσαι κάθε φορά που θες να δεις νέες απαντήσεις.',
+      textHeading: (area: string) => `Έχεις την πρώτη απάντηση στο αίτημά σου για ${area}!`,
+      textCta: 'Δες τις απαντήσεις:',
+    },
+    en: {
+      subject: (area: string) => `An owner replied to your request for ${area}`,
+      heading: 'You got your first reply! 🎉',
+      greet: (name: string) => `Hi ${name},`,
+      body: (area: string) =>
+        `An owner replied to your request for accommodation in ${area}. More replies may come in the next few hours.`,
+      ctaLabel: 'See the replies',
+      tip: 'Keep this link — you need it any time you want to check for new replies.',
+      textHeading: (area: string) => `You got your first reply for ${area}!`,
+      textCta: 'See replies:',
+    },
+  },
+} as const;
+
+function fmtDateLocalized(iso: string, locale: GuestLocale): string {
+  return new Date(iso).toLocaleDateString(locale === 'el' ? 'el-GR' : 'en-GB', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+  });
+}
+
+// Send the guest a confirmation email as soon as their request is submitted,
+// containing the dashboard link they can revisit anytime. This runs once per
+// request; the first-response notification still fires separately later.
+export async function sendGuestConfirmation(
+  supabase: SupabaseClient,
+  req: AvailabilityRequestRow,
+  sentCount: number,
+): Promise<void> {
+  if (!req.guest_email) return;
+  const creds = await loadGmailCreds(supabase);
+  if (!creds) return;
+
+  const locale = pickGuestLocale(req.locale);
+  const copy = GUEST_COPY.confirmation[locale];
+  const area = localizedArea(req.area, locale);
+  const dashboardUrl = `${SITE_URL}/requests/${req.public_token}`;
+  const nights = nightsBetween(req.check_in, req.check_out);
+  const totalGuests = (req.adults || 0) + (req.children || 0);
+
+  const html = `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#f8fafc;font-family:system-ui,-apple-system,sans-serif;">
+<div style="max-width:560px;margin:0 auto;padding:24px;">
+  <div style="background:#fff;border-radius:16px;padding:28px 24px;border:1px solid #e5e7eb;color:#111827;font-size:15px;line-height:1.6;">
+    <div style="font-size:13px;color:#0284c7;font-weight:600;margin-bottom:6px;">CHALKIDIKIHUB</div>
+    <h1 style="margin:0 0 14px;font-size:22px;font-weight:700;color:#0f172a;">${copy.heading}</h1>
+
+    <p style="margin:0 0 14px;color:#374151;">${copy.sentLine(sentCount)}</p>
+    <p style="margin:0 0 22px;color:#374151;">${copy.whatNext}</p>
+
+    <div style="background:#f9fafb;border-radius:12px;padding:16px;margin-bottom:22px;font-size:14px;">
+      <div style="font-weight:600;color:#0f172a;margin-bottom:10px;">${copy.summary}</div>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:4px 0;color:#6b7280;width:110px;">${copy.labelArea}</td><td style="padding:4px 0;color:#111827;font-weight:600;">${escapeHtml(area)}</td></tr>
+        <tr><td style="padding:4px 0;color:#6b7280;">${copy.labelDates}</td><td style="padding:4px 0;color:#111827;font-weight:600;">${fmtDateLocalized(req.check_in, locale)} → ${fmtDateLocalized(req.check_out, locale)} (${nights} ${locale === 'el' ? 'βράδια' : 'nights'})</td></tr>
+        <tr><td style="padding:4px 0;color:#6b7280;">${copy.labelGuests}</td><td style="padding:4px 0;color:#111827;font-weight:600;">${totalGuests}</td></tr>
+      </table>
+    </div>
+
+    <p style="text-align:center;margin:0 0 18px;">
+      <a href="${dashboardUrl}" style="display:inline-block;background:#0284c7;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px;">${copy.ctaLabel} →</a>
+    </p>
+
+    <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:14px;font-size:13px;color:#78350f;line-height:1.55;">
+      <strong style="color:#92400e;">${copy.tipTitle}</strong> ${copy.tipBody}
+    </div>
+
+    <div style="margin-top:24px;padding-top:14px;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af;text-align:center;">
+      ${copy.footer}
+    </div>
+  </div>
+</div></body></html>`;
+
+  const text = [
+    copy.textHeading(area),
+    '',
+    copy.textSent(sentCount),
+    '',
+    `${copy.labelDates}: ${fmtDateLocalized(req.check_in, locale)} → ${fmtDateLocalized(req.check_out, locale)}`,
+    `${copy.labelGuests}: ${totalGuests}`,
+    '',
+    `${copy.textCta} ${dashboardUrl}`,
+    '',
+    copy.textTip,
+    '',
+    copy.footer,
+  ].join('\n');
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: creds.user, pass: creds.pass.replace(/\s/g, '') },
+  });
+
+  await transporter
+    .sendMail({
+      from: `ChalkidikiHub <${creds.user}>`,
+      to: req.guest_email,
+      subject: copy.subject(area),
+      html,
+      text,
+    })
+    .catch(() => {
+      // ignore — visitor still sees dashboard URL on the success page
+    });
+}
+
 // Notify the guest that their first response came in. Single email — does NOT
 // fire on subsequent responses to keep Gmail quota safe.
 export async function notifyGuestFirstResponse(
@@ -370,7 +553,7 @@ export async function notifyGuestFirstResponse(
 ): Promise<void> {
   const { data: req } = await supabase
     .from('availability_requests')
-    .select('public_token, guest_email, guest_name, area')
+    .select('public_token, guest_email, guest_name, area, locale')
     .eq('id', requestId)
     .single();
   if (!req) return;
@@ -384,8 +567,10 @@ export async function notifyGuestFirstResponse(
   const creds = await loadGmailCreds(supabase);
   if (!creds) return;
 
+  const locale = pickGuestLocale(req.locale);
+  const copy = GUEST_COPY.firstResponse[locale];
+  const area = localizedArea(req.area, locale);
   const dashboardUrl = `${SITE_URL}/requests/${req.public_token}`;
-  const area = AREA_LABELS[req.area] || req.area;
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -396,15 +581,15 @@ export async function notifyGuestFirstResponse(
     .sendMail({
       from: `ChalkidikiHub <${creds.user}>`,
       to: req.guest_email,
-      subject: `Ένας ιδιοκτήτης απάντησε στο αίτημά σου για ${area}`,
+      subject: copy.subject(area),
       html: `<div style="font-family:system-ui;max-width:480px;margin:0 auto;padding:24px;">
-  <h2 style="color:#0284c7;margin:0 0 12px;">Έχεις την πρώτη απάντηση! 🎉</h2>
-  <p style="color:#374151;line-height:1.6;">Γεια σου ${escapeHtml(req.guest_name)},</p>
-  <p style="color:#374151;line-height:1.6;">Ένας ιδιοκτήτης απάντησε στο αίτημά σου για διαμονή στη ${escapeHtml(area)}. Μπορεί να ακολουθήσουν κι άλλοι τις επόμενες ώρες.</p>
-  <p style="text-align:center;margin:24px 0;"><a href="${dashboardUrl}" style="background:#0284c7;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:600;">Δες τις απαντήσεις</a></p>
-  <p style="color:#9ca3af;font-size:12px;line-height:1.5;">Κράτησε αυτό το link — το χρειάζεσαι κάθε φορά που θες να δεις νέες απαντήσεις. ChalkidikiHub.</p>
+  <h2 style="color:#0284c7;margin:0 0 12px;">${copy.heading}</h2>
+  <p style="color:#374151;line-height:1.6;">${copy.greet(escapeHtml(req.guest_name))}</p>
+  <p style="color:#374151;line-height:1.6;">${copy.body(escapeHtml(area))}</p>
+  <p style="text-align:center;margin:24px 0;"><a href="${dashboardUrl}" style="background:#0284c7;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:600;">${copy.ctaLabel}</a></p>
+  <p style="color:#9ca3af;font-size:12px;line-height:1.5;">${copy.tip} ChalkidikiHub.</p>
 </div>`,
-      text: `Έχεις την πρώτη απάντηση στο αίτημά σου για ${area}!\n\nΔες τις απαντήσεις: ${dashboardUrl}\n\nChalkidikiHub`,
+      text: `${copy.textHeading(area)}\n\n${copy.textCta} ${dashboardUrl}\n\nChalkidikiHub`,
     })
     .catch(() => {
       // ignore — guest still sees responses on the dashboard
