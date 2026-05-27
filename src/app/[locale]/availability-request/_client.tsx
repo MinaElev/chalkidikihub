@@ -1,26 +1,15 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { CalendarDays, Users, Wallet, Home, Send, CheckCircle2, AlertCircle, MapPin, Phone, Mail, User } from 'lucide-react';
 
-const AREAS = [
-  { value: 'kassandra', label: 'Κασσάνδρα (1ο πόδι)' },
-  { value: 'sithonia', label: 'Σιθωνία (2ο πόδι)' },
-  { value: 'athos', label: 'Άθως (3ο πόδι)' },
-  { value: 'mainland', label: 'Ενδοχώρα Χαλκιδικής' },
-];
-
-const PROPERTY_TYPES = [
-  { value: '', label: 'Όλοι οι τύποι' },
-  { value: 'rooms', label: 'Δωμάτια' },
-  { value: 'studio', label: 'Studio' },
-  { value: 'apartment', label: 'Διαμέρισμα' },
-  { value: 'house', label: 'Κατοικία' },
-  { value: 'villa', label: 'Βίλα' },
-];
+const AREA_KEYS = ['kassandra', 'sithonia', 'athos', 'mainland'] as const;
+const PROPERTY_TYPE_KEYS = ['', 'rooms', 'studio', 'apartment', 'house', 'villa'] as const;
 
 export default function AvailabilityRequestClient({ initialArea }: { initialArea: string }) {
+  const t = useTranslations('availabilityRequest');
   const router = useRouter();
   const mountedAt = useRef(0);
   useEffect(() => {
@@ -34,7 +23,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
     guest_name: '',
     guest_email: '',
     guest_phone: '',
-    area: AREAS.find(a => a.value === initialArea)?.value || '',
+    area: AREA_KEYS.includes(initialArea as never) ? initialArea : '',
     check_in: '',
     check_out: '',
     adults: 2,
@@ -58,7 +47,6 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
     return d.toISOString().slice(0, 10);
   }, [form.check_in, minCheckIn]);
 
-
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -69,12 +57,12 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
-          elapsed: Date.now() - mountedAt.current,
+          elapsed: mountedAt.current ? Date.now() - mountedAt.current : 0,
         }),
       });
       const json = await res.json();
       if (!res.ok) {
-        setError(json.message || messageFor(json.error) || 'Κάτι πήγε στραβά.');
+        setError(messageFor(t, json.error) || json.message || t('error.generic'));
         setSubmitting(false);
         return;
       }
@@ -84,7 +72,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
         no_matches: !!json.no_matches,
       });
     } catch {
-      setError('Σφάλμα δικτύου. Δοκίμασε ξανά.');
+      setError(t('error.network'));
       setSubmitting(false);
     }
   }
@@ -97,19 +85,19 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
             <CheckCircle2 className="w-7 h-7 text-emerald-600" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            {done.no_matches ? 'Λάβαμε το αίτημά σου' : `Στάλθηκε σε ${done.recipients} ιδιοκτήτες`}
+            {done.no_matches
+              ? t('success.titleNoMatch')
+              : t('success.titleSent', { count: done.recipients })}
           </h1>
           <p className="text-gray-600 leading-relaxed mb-6">
-            {done.no_matches
-              ? 'Δεν βρήκαμε ιδιοκτήτες με διαθέσιμα καταλύματα που να ταιριάζουν αυτή τη στιγμή. Το αίτημά σου παραμένει ενεργό και θα δοκιμάσουμε ξανά αν προκύψει κάτι.'
-              : 'Οι ιδιοκτήτες θα δουν το αίτημά σου και όσοι έχουν διαθέσιμο θα απαντήσουν εδώ ή θα σε καλέσουν απευθείας στο τηλέφωνο που έδωσες.'}
+            {done.no_matches ? t('success.bodyNoMatch') : t('success.bodySent')}
           </p>
 
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
             <div className="flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
               <div className="text-sm text-amber-900">
-                <strong>Σημαντικό:</strong> Αποθήκευσε αυτό το link για να βλέπεις τις απαντήσεις. Δεν χρειάζεται λογαριασμός — το link είναι μοναδικό και ασφαλές για εσένα.
+                <strong>{t('success.importantTitle')}</strong> {t('success.importantBody')}
               </div>
             </div>
           </div>
@@ -118,7 +106,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
             onClick={() => router.push(done.url as never)}
             className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 rounded-xl transition"
           >
-            Δες τις απαντήσεις σου →
+            {t('success.seeResponses')}
           </button>
         </div>
       </div>
@@ -128,12 +116,8 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
       <div className="text-center mb-8">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">
-          Ζήτα διαθεσιμότητα σε όλη την περιοχή
-        </h1>
-        <p className="text-gray-600 text-lg leading-relaxed">
-          Συμπλήρωσε μία φόρμα και θα ειδοποιηθούν αυτόματα ιδιοκτήτες καταλυμάτων στο πόδι που επιλέγεις. Όσοι έχουν διαθέσιμο θα σε ενημερώσουν.
-        </p>
+        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">{t('title')}</h1>
+        <p className="text-gray-600 text-lg leading-relaxed">{t('subtitle')}</p>
       </div>
 
       <form onSubmit={onSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 md:p-8 shadow-sm space-y-5">
@@ -150,23 +134,23 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
         />
 
         {/* Area */}
-        <Field label="Πόδι Χαλκιδικής" icon={MapPin} required>
+        <Field label={t('areaLabel')} icon={MapPin} required>
           <select
             required
             value={form.area}
             onChange={e => setForm({ ...form, area: e.target.value })}
             className="input"
           >
-            <option value="">Διάλεξε πόδι...</option>
-            {AREAS.map(a => (
-              <option key={a.value} value={a.value}>{a.label}</option>
+            <option value="">{t('areaPlaceholder')}</option>
+            {AREA_KEYS.map(a => (
+              <option key={a} value={a}>{t(`area.${a}`)}</option>
             ))}
           </select>
         </Field>
 
         {/* Dates */}
         <div className="grid grid-cols-2 gap-4">
-          <Field label="Check-in" icon={CalendarDays} required>
+          <Field label={t('checkIn')} icon={CalendarDays} required>
             <input
               type="date"
               required
@@ -183,7 +167,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
               className="input"
             />
           </Field>
-          <Field label="Check-out" icon={CalendarDays} required>
+          <Field label={t('checkOut')} icon={CalendarDays} required>
             <input
               type="date"
               required
@@ -197,7 +181,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
 
         {/* Guests */}
         <div className="grid grid-cols-2 gap-4">
-          <Field label="Ενήλικες" icon={Users} required>
+          <Field label={t('adults')} icon={Users} required>
             <input
               type="number"
               required
@@ -208,7 +192,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
               className="input"
             />
           </Field>
-          <Field label="Παιδιά" icon={Users}>
+          <Field label={t('children')} icon={Users}>
             <input
               type="number"
               min={0}
@@ -221,24 +205,24 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
         </div>
 
         {/* Property type */}
-        <Field label="Τύπος καταλύματος (προαιρετικό)" icon={Home}>
+        <Field label={t('propertyTypeLabel')} icon={Home}>
           <select
             value={form.property_type}
             onChange={e => setForm({ ...form, property_type: e.target.value })}
             className="input"
           >
-            {PROPERTY_TYPES.map(p => (
-              <option key={p.value} value={p.value}>{p.label}</option>
+            {PROPERTY_TYPE_KEYS.map(p => (
+              <option key={p} value={p}>{p === '' ? t('propertyType.any') : t(`propertyType.${p}`)}</option>
             ))}
           </select>
         </Field>
 
         {/* Budget */}
-        <Field label="Budget ανά βράδυ σε € (προαιρετικό)" icon={Wallet}>
+        <Field label={t('budgetLabel')} icon={Wallet}>
           <div className="grid grid-cols-2 gap-3">
             <input
               type="number"
-              placeholder="Από"
+              placeholder={t('budgetFrom')}
               min={0}
               value={form.budget_min}
               onChange={e => setForm({ ...form, budget_min: e.target.value })}
@@ -246,7 +230,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
             />
             <input
               type="number"
-              placeholder="Έως"
+              placeholder={t('budgetTo')}
               min={0}
               value={form.budget_max}
               onChange={e => setForm({ ...form, budget_max: e.target.value })}
@@ -258,18 +242,18 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
         <hr className="border-gray-100" />
 
         {/* Contact */}
-        <Field label="Όνομα" icon={User} required>
+        <Field label={t('nameLabel')} icon={User} required>
           <input
             type="text"
             required
             value={form.guest_name}
             onChange={e => setForm({ ...form, guest_name: e.target.value })}
             className="input"
-            placeholder="Το όνομά σου"
+            placeholder={t('namePlaceholder')}
           />
         </Field>
 
-        <Field label="Email" icon={Mail} required>
+        <Field label={t('emailLabel')} icon={Mail} required>
           <input
             type="email"
             required
@@ -280,24 +264,24 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
           />
         </Field>
 
-        <Field label="Τηλέφωνο (κινητό ελληνικό)" icon={Phone} required>
+        <Field label={t('phoneLabel')} icon={Phone} required>
           <input
             type="tel"
             required
             value={form.guest_phone}
             onChange={e => setForm({ ...form, guest_phone: e.target.value })}
             className="input"
-            placeholder="69XXXXXXXX"
+            placeholder={t('phonePlaceholder')}
           />
         </Field>
 
         {/* Notes */}
-        <Field label="Σημειώσεις (προαιρετικό)">
+        <Field label={t('notesLabel')}>
           <textarea
             value={form.notes}
             onChange={e => setForm({ ...form, notes: e.target.value })}
             className="input min-h-[100px]"
-            placeholder="π.χ. προτίμηση για θέα, parking, κατοικίδιο..."
+            placeholder={t('notesPlaceholder')}
             maxLength={1000}
           />
         </Field>
@@ -314,17 +298,15 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
           disabled={submitting}
           className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3.5 rounded-xl transition disabled:opacity-50 flex items-center justify-center gap-2"
         >
-          {submitting ? 'Αποστολή...' : (
+          {submitting ? t('submitting') : (
             <>
               <Send className="w-4 h-4" />
-              Στείλε το αίτημα
+              {t('submit')}
             </>
           )}
         </button>
 
-        <p className="text-xs text-gray-500 text-center leading-relaxed">
-          Με την υποβολή συμφωνείς ότι τα στοιχεία σου θα κοινοποιηθούν στους ιδιοκτήτες καταλυμάτων που ταιριάζουν με το αίτημά σου, ώστε να επικοινωνήσουν μαζί σου.
-        </p>
+        <p className="text-xs text-gray-500 text-center leading-relaxed">{t('consent')}</p>
       </form>
 
       <style jsx>{`
@@ -370,19 +352,11 @@ function Field({
   );
 }
 
-function messageFor(code: string): string | null {
-  const map: Record<string, string> = {
-    missing_name: 'Συμπλήρωσε το όνομά σου.',
-    invalid_email: 'Μη έγκυρο email.',
-    disposable_email: 'Παρακαλώ χρησιμοποίησε προσωπικό email.',
-    invalid_phone: 'Δώσε ένα έγκυρο ελληνικό τηλέφωνο (κινητό ή σταθερό).',
-    invalid_area: 'Επίλεξε πόδι.',
-    invalid_dates: 'Οι ημερομηνίες δεν είναι έγκυρες.',
-    checkout_before_checkin: 'Η αναχώρηση πρέπει να είναι μετά την άφιξη.',
-    checkin_in_past: 'Η άφιξη δεν μπορεί να είναι στο παρελθόν.',
-    checkin_too_far: 'Η άφιξη μπορεί να είναι μέχρι 1 έτος μπροστά.',
-    submitted_too_fast: 'Παρακαλώ ξαναπροσπάθησε.',
-    invalid_property_type: 'Μη έγκυρος τύπος καταλύματος.',
-  };
-  return map[code] || null;
+function messageFor(t: (key: string) => string, code: string): string | null {
+  if (!code) return null;
+  try {
+    return t(`error.${code}`);
+  } catch {
+    return null;
+  }
 }

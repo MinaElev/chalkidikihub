@@ -1,11 +1,6 @@
 import type { Metadata } from 'next';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getMessages } from 'next-intl/server';
 import AvailabilityRequestClient from './_client';
-
-const titles: Record<string, string> = {
-  el: 'Ζήτα διαθεσιμότητα σε όλη την περιοχή | ChalkidikiHub',
-  en: 'Request availability across the area | ChalkidikiHub',
-};
 
 export const dynamic = 'force-dynamic';
 
@@ -15,10 +10,12 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  setRequestLocale(locale);
+  const messages = await getMessages();
+  const block = (messages as Record<string, Record<string, string>>).availabilityRequest || {};
   return {
-    title: titles[locale] || titles.el,
-    description:
-      'Στείλε ένα αίτημα και θα ειδοποιηθούν αυτόματα ιδιοκτήτες καταλυμάτων στη Χαλκιδική. Όσοι έχουν διαθέσιμο θα επικοινωνήσουν μαζί σου.',
+    title: block.metaTitle || 'Request availability | ChalkidikiHub',
+    description: block.metaDescription || '',
     robots: { index: true, follow: true },
   };
 }

@@ -228,7 +228,7 @@ function HeroSection() {
   const t = useTranslations('hero');
   const tCommon = useTranslations('common');
   const tHome = useTranslations('homepage');
-  const locale = useLocale();
+  const tAvail = useTranslations('availabilityRequest');
   return (
     <section className="relative min-h-[600px] md:min-h-[700px] bg-primary-950 text-white overflow-hidden flex items-center">
       {/* Background image + cinematic overlay */}
@@ -249,12 +249,12 @@ function HeroSection() {
 
           {/* Availability broadcast CTA — secondary action under hero */}
           <div className="mt-5 flex flex-wrap items-center gap-3 animate-fade-up" style={{ animationDelay: '0.15s' }}>
-            <span className="text-sm text-white/60">{locale === 'el' ? 'Δεν βρίσκεις αυτό που θες;' : 'Can’t find what you want?'}</span>
+            <span className="text-sm text-white/60">{tAvail('ctaHeroPrefix')}</span>
             <Link
               href={'/availability-request'}
               className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold px-4 py-2 rounded-xl backdrop-blur transition"
             >
-              {locale === 'el' ? 'Ζήτα διαθεσιμότητα σε όλη την περιοχή' : 'Request availability across the area'}
+              {tAvail('ctaHero')}
               <ChevronRight className="w-4 h-4" />
             </Link>
           </div>

@@ -34,15 +34,12 @@ function isValidEmail(e: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
 
-function isValidGreekPhone(p: string): boolean {
+function isValidPhone(p: string): boolean {
+  // Accept any international format: digits, optional leading +, allow
+  // spaces/dashes/parens in input. Require 6–18 digits total (covers every
+  // E.164 country plus short local-only numbers).
   const digits = p.replace(/\D/g, '');
-  // Greek mobile = 10 digits starting 69, with optional +30 prefix (12 digits)
-  if (digits.length === 10 && digits.startsWith('69')) return true;
-  if (digits.length === 12 && digits.startsWith('3069')) return true;
-  // Accept landline 10-digit too — owner might prefer to call
-  if (digits.length === 10 && digits.startsWith('2')) return true;
-  if (digits.length === 12 && digits.startsWith('302')) return true;
-  return false;
+  return digits.length >= 6 && digits.length <= 18;
 }
 
 function hashIp(ip: string): string {
@@ -91,7 +88,7 @@ export async function POST(request: NextRequest) {
     if (DISPOSABLE_DOMAINS.has(emailDomain)) {
       return NextResponse.json({ error: 'disposable_email' }, { status: 400 });
     }
-    if (!isValidGreekPhone(guest_phone)) {
+    if (!isValidPhone(guest_phone)) {
       return NextResponse.json({ error: 'invalid_phone' }, { status: 400 });
     }
     if (!AREAS.includes(area)) {
