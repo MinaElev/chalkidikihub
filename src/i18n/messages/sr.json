@@ -496,6 +496,13 @@
     "notesPlaceholder": "npr. pogled na more, parking, ljubimac...",
     "submit": "Pošalji zahtev",
     "submitting": "Šalje se...",
+    "loading": {
+      "title": "Obrađujemo tvoj zahtev...",
+      "subtitle": "Ne zatvaraj stranicu — traje nekoliko sekundi.",
+      "step1": "Tražimo smeštaj prema tvojim potrebama",
+      "step2": "Povezujemo sa vlasnicima u oblasti",
+      "step3": "Šaljemo obaveštenja vlasnicima"
+    },
     "consent": "Slanjem se slažeš da tvoji podaci budu podeljeni sa odgovarajućim vlasnicima smeštaja kako bi te kontaktirali.",
     "area": {
       "kassandra": "Kasandra (1. poluostrvo)",

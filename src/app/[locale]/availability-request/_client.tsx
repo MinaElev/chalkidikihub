@@ -3,7 +3,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
-import { CalendarDays, Users, Wallet, Home, Send, CheckCircle2, AlertCircle, MapPin, Phone, Mail, User } from 'lucide-react';
+import { CalendarDays, Users, Wallet, Home, Send, CheckCircle2, AlertCircle, MapPin, Phone, Mail, User, Search, Sparkles, MailCheck, Loader2 } from 'lucide-react';
 
 const AREA_KEYS = ['kassandra', 'sithonia', 'athos', 'mainland'] as const;
 const PROPERTY_TYPE_KEYS = ['', 'rooms', 'studio', 'apartment', 'house', 'villa'] as const;
@@ -75,6 +75,10 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
       setError(t('error.network'));
       setSubmitting(false);
     }
+  }
+
+  if (submitting) {
+    return <LoadingOverlay t={t} />;
   }
 
   if (done) {
@@ -326,6 +330,91 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
           box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
         }
       `}</style>
+    </div>
+  );
+}
+
+function LoadingOverlay({ t }: { t: (key: string) => string }) {
+  const [activeStep, setActiveStep] = useState(0);
+  useEffect(() => {
+    // Advance through steps. Last step stays "active" until the request resolves
+    // (parent unmounts this overlay on success/error).
+    const timers = [
+      setTimeout(() => setActiveStep(1), 1400),
+      setTimeout(() => setActiveStep(2), 3200),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  const steps = [
+    { icon: Search, label: t('loading.step1') },
+    { icon: Sparkles, label: t('loading.step2') },
+    { icon: MailCheck, label: t('loading.step3') },
+  ];
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-16">
+      <div className="bg-white rounded-2xl border border-gray-100 p-8 md:p-10 shadow-sm">
+        <div className="flex flex-col items-center text-center mb-7">
+          <div className="relative mb-4">
+            <div className="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center">
+              <Loader2 className="w-7 h-7 text-primary-600 animate-spin" />
+            </div>
+            <div className="absolute inset-0 rounded-full border-2 border-primary-200 animate-ping opacity-30" />
+          </div>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">{t('loading.title')}</h1>
+          <p className="text-sm text-gray-500">{t('loading.subtitle')}</p>
+        </div>
+
+        <ol className="space-y-3">
+          {steps.map((s, i) => {
+            const state: 'done' | 'active' | 'pending' =
+              i < activeStep ? 'done' : i === activeStep ? 'active' : 'pending';
+            const Icon = s.icon;
+            return (
+              <li
+                key={i}
+                className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${
+                  state === 'done'
+                    ? 'border-emerald-200 bg-emerald-50/50'
+                    : state === 'active'
+                      ? 'border-primary-200 bg-primary-50/60 shadow-sm'
+                      : 'border-gray-100 bg-gray-50/40 opacity-60'
+                }`}
+              >
+                <div
+                  className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    state === 'done'
+                      ? 'bg-emerald-500 text-white'
+                      : state === 'active'
+                        ? 'bg-primary-600 text-white'
+                        : 'bg-gray-200 text-gray-400'
+                  }`}
+                >
+                  {state === 'done' ? (
+                    <CheckCircle2 className="w-5 h-5" />
+                  ) : state === 'active' ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Icon className="w-5 h-5" />
+                  )}
+                </div>
+                <span
+                  className={`text-sm font-medium ${
+                    state === 'done'
+                      ? 'text-emerald-800'
+                      : state === 'active'
+                        ? 'text-gray-900'
+                        : 'text-gray-500'
+                  }`}
+                >
+                  {s.label}
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </div>
   );
 }

@@ -495,6 +495,13 @@
     "notesPlaceholder": "z. B. Meerblick, Parkplatz, Haustier...",
     "submit": "Anfrage senden",
     "submitting": "Wird gesendet...",
+    "loading": {
+      "title": "Ihre Anfrage wird bearbeitet...",
+      "subtitle": "Bitte schließen Sie die Seite nicht — es dauert nur wenige Sekunden.",
+      "step1": "Suche nach passenden Unterkünften",
+      "step2": "Abgleich mit Vermietern in der Region",
+      "step3": "Benachrichtigungen werden gesendet"
+    },
     "consent": "Mit dem Absenden stimmen Sie zu, dass Ihre Daten an passende Vermieter weitergegeben werden, damit sie Sie kontaktieren können.",
     "area": {
       "kassandra": "Kassandra (1. Finger)",

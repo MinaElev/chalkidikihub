@@ -239,9 +239,17 @@ export function buildOwnerEmailHtml(
       <a href="${responseUrl}" style="color:#0284c7;font-size:13px;text-decoration:underline;">Δες λεπτομέρειες & στείλε τιμή/μήνυμα →</a>
     </div>
 
-    <div style="margin-top:24px;padding-top:16px;border-top:1px solid #e5e7eb;font-size:12px;color:#9ca3af;line-height:1.5;">
+    <div style="margin-top:28px;padding:16px;background:#f9fafb;border-radius:12px;border:1px solid #f3f4f6;font-size:13px;color:#374151;line-height:1.6;">
+      <strong style="display:block;color:#0f172a;margin-bottom:6px;">💡 Νέα δυνατότητα του ChalkidikiHub</strong>
+      Οι επισκέπτες κάνουν αιτήματα για εύρεση διαμονής στη Χαλκιδική και η πλατφόρμα ειδοποιεί αυτόματα τους ιδιοκτήτες με ταιριαστά καταλύματα. <strong>Αν μπορείς να εξυπηρετήσεις τον επισκέπτη, επικοινώνησε απευθείας μαζί του</strong> στο τηλέφωνο που αναγράφεται παραπάνω.
+    </div>
+    <div style="margin-top:14px;padding:14px 16px;background:#fef3c7;border-radius:12px;border:1px solid #fde68a;font-size:13px;color:#78350f;line-height:1.6;">
+      <strong style="color:#92400e;">Δεν θες να λαμβάνεις τέτοια emails;</strong><br/>
+      Μπορείς να τα απενεργοποιήσεις από το <a href="${unsubscribeUrl}" style="color:#92400e;font-weight:600;text-decoration:underline;">Dashboard → Αιτήματα διαθεσιμότητας</a> και να ορίσεις τα πόδια που σε ενδιαφέρουν ή να βγεις τελείως με ένα κλικ.
+    </div>
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af;line-height:1.5;text-align:center;">
       Λαμβάνεις αυτό το email γιατί έχεις δημοσιευμένα καταλύματα στη ${escapeHtml(area)} στο ChalkidikiHub.<br/>
-      <a href="${unsubscribeUrl}" style="color:#9ca3af;">Διαγραφή από αιτήματα διαθεσιμότητας</a> · ChalkidikiHub
+      <a href="${unsubscribeUrl}" style="color:#9ca3af;">Διαχείριση ειδοποιήσεων / Unsubscribe</a> · ChalkidikiHub
     </div>
   </div>
 </div></body></html>`;
@@ -271,7 +279,11 @@ export function buildOwnerEmailText(
     `Δεν είμαι διαθέσιμος: ${responseUrl}?a=unavailable`,
     `Λεπτομέρειες & τιμή: ${responseUrl}`,
     ``,
-    `Διαγραφή από αιτήματα: ${unsubscribeUrl}`,
+    `--`,
+    `Νέα δυνατότητα του ChalkidikiHub: οι επισκέπτες κάνουν αιτήματα για εύρεση διαμονής και η πλατφόρμα ειδοποιεί τους ιδιοκτήτες με ταιριαστά καταλύματα. Αν μπορείς να εξυπηρετήσεις, επικοινώνησε απευθείας με τον επισκέπτη στο τηλέφωνο παραπάνω.`,
+    ``,
+    `Απενεργοποίηση/ρύθμιση: από το Dashboard → Αιτήματα διαθεσιμότητας μπορείς να σταματήσεις τέτοια emails ή να ορίσεις πόδια που σε ενδιαφέρουν.`,
+    `Link: ${unsubscribeUrl}`,
   ]
     .filter(Boolean)
     .join('\n');

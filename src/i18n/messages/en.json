@@ -495,6 +495,13 @@
     "notesPlaceholder": "e.g. sea view, parking, pet-friendly...",
     "submit": "Send request",
     "submitting": "Sending...",
+    "loading": {
+      "title": "Processing your request...",
+      "subtitle": "Don't close the page — it takes a few seconds.",
+      "step1": "Searching properties matching your needs",
+      "step2": "Matching with owners in the area",
+      "step3": "Sending notifications to owners"
+    },
     "consent": "By submitting you agree that your details will be shared with matching property owners so they can contact you.",
     "area": {
       "kassandra": "Kassandra (1st leg)",
