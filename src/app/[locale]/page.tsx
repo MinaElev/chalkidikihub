@@ -246,6 +246,18 @@ function HeroSection() {
 
           {/* Search Box */}
           <HeroSearchBox placeholder={t('searchPlaceholder')} buttonLabel={tCommon('search')} />
+
+          {/* Availability broadcast CTA — secondary action under hero */}
+          <div className="mt-5 flex flex-wrap items-center gap-3 animate-fade-up" style={{ animationDelay: '0.15s' }}>
+            <span className="text-sm text-white/60">{locale === 'el' ? 'Δεν βρίσκεις αυτό που θες;' : 'Can’t find what you want?'}</span>
+            <Link
+              href={'/availability-request'}
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold px-4 py-2 rounded-xl backdrop-blur transition"
+            >
+              {locale === 'el' ? 'Ζήτα διαθεσιμότητα σε όλη την περιοχή' : 'Request availability across the area'}
+              <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
 
         {/* Stats — glass cards */}

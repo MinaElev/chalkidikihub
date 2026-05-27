@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle, CalendarDays, Inbox, DollarSign, Sparkles as SparklesIcon, Wrench, Settings as SettingsIcon, TrendingUp, Zap } from 'lucide-react';
+import { LayoutDashboard, Home, List, User, LogOut, Loader2, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle, CalendarDays, Inbox, DollarSign, Sparkles as SparklesIcon, Wrench, Settings as SettingsIcon, TrendingUp, Zap, Bell } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -13,6 +13,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [pendingCount, setPendingCount] = useState(0);
+  const [broadcastWeek, setBroadcastWeek] = useState(0);
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations('nav');
@@ -34,6 +35,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           .eq('user_id', data.user.id)
           .eq('status', 'pending');
         setPendingCount(count || 0);
+
+        // Broadcast requests received last 7 days
+        const weekAgo = new Date(Date.now() - 7 * 86_400_000).toISOString();
+        const { count: bcCount } = await supabase
+          .from('availability_request_recipients')
+          .select('id', { count: 'exact', head: true })
+          .eq('owner_id', data.user.id)
+          .gte('sent_at', weekAgo);
+        setBroadcastWeek(bcCount || 0);
       }
       setLoading(false);
     });
@@ -95,6 +105,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       ],
     },
     {
+      title: locale === 'el' ? 'Αιτήματα επισκεπτών' : 'Guest requests',
+      items: [
+        { href: '/dashboard/broadcast-settings', icon: Bell, label: locale === 'el' ? 'Αιτήματα διαθεσιμότητας' : 'Availability requests' },
+      ],
+    },
+    {
       title: locale === 'el' ? 'Κοινότητα' : 'Community',
       items: [
         { href: '/dashboard/suggest-restaurant', icon: UtensilsCrossed, label: tSub('suggestRestaurant') },
@@ -142,6 +158,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         <span className={`min-w-[20px] h-5 flex items-center justify-center px-1.5 rounded-full text-[10px] font-semibold tabular-nums ${
                           active ? 'bg-emerald-500 text-white' : 'bg-amber-100 text-amber-700'
                         }`}>{pendingCount}</span>
+                      )}
+                      {item.href === '/dashboard/broadcast-settings' && broadcastWeek > 0 && (
+                        <span className={`min-w-[20px] h-5 flex items-center justify-center px-1.5 rounded-full text-[10px] font-semibold tabular-nums ${
+                          active ? 'bg-emerald-500 text-white' : 'bg-sky-100 text-sky-700'
+                        }`}>{broadcastWeek}</span>
                       )}
                     </Link>
                   );
