@@ -8,6 +8,17 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.38.0',
+      date: '27 Μαΐου 2026',
+      highlights: 'Guest confirmation email με dashboard link (i18n el/en), admin RLS fix + expandable recipients list ανά αίτημα. Ο επισκέπτης παίρνει αμέσως email με τη μοναδική του διεύθυνση παρακολούθησης· ο admin βλέπει σε ποιους ιδιοκτήτες πήγε το broadcast και ποιος απάντησε.',
+      features: [
+        { emoji: '📬', title: 'Guest confirmation email αμέσως μετά την υποβολή', desc: 'Νέα `sendGuestConfirmation()` στο `dispatch.ts` που τρέχει inline μετά το dispatchBroadcast. Branded email με heading "Λάβαμε το αίτημά σου ✨", δυναμική γραμμή ("Στείλαμε σε X ιδιοκτήτες" ή "Δεν βρήκαμε ταιριαστούς, παραμένει ενεργό"), σύνοψη αιτήματος (περιοχή/ημερομηνίες/άτομα), μεγάλο CTA "Δες την πορεία του αιτήματος →" προς το /requests/[public_token], και κίτρινο tip card "Αποθήκευσε αυτό το email — το link είναι μοναδικό για εσένα". Plain-text mirror για deliverability.' },
+        { emoji: '🌐', title: 'Locale-aware emails — δύο templates (el + en) με smart fallback', desc: 'Migration 045 πρόσθεσε `locale TEXT NOT NULL DEFAULT \'el\'` στο `availability_requests` με CHECK constraint για τα 7 supported locales. Form τώρα στέλνει το current locale μέσω useLocale() στο POST body, API validate-άρει + αποθηκεύει στη DB. Δύο plaintext copy maps (GUEST_COPY.confirmation/firstResponse × el/en), pickGuestLocale() επιστρέφει \'el\' για ελληνικά / \'en\' για όλα τα άλλα. Ο επισκέπτης λαμβάνει και τα δύο emails (confirmation + first-response notification) στην ίδια γλώσσα που επέλεξε στο site.' },
+        { emoji: '📊', title: 'Admin: prominent email count + expandable recipients list', desc: 'Το /admin/availability-requests row layout ξαναγράφτηκε με δύο colored stat cards πάνω από κάθε αίτημα: μπλε "Email στάλθηκαν → N ιδιοκτήτες" και πράσινο "Απαντήσεις → N (Y%)". Νέο "Δες τους N παραλήπτες" toggle κάνει lazy-fetch τα availability_request_recipients + availability_responses και εμφανίζει per-owner λίστα με: όνομα, status dot (sent/failed/skipped), badge απάντησης (Διαθέσιμο/Όχι διαθέσιμο/Αναμένει), failure error tooltip, ώρα αποστολής. Caching ανά request_id ώστε το re-expand να μη ξανατραβάει.' },
+        { emoji: '🛡️', title: 'Bugfix: Admin + owner SELECT policies στο RLS-gated availability schema', desc: 'Το migration 043 ενεργοποίησε RLS αλλά δεν είχε read policies, με αποτέλεσμα το /admin/availability-requests και το owner dashboard sidebar badge να επιστρέφουν πάντα 0 rows. Νέο migration 044 πρόσθεσε: "Superadmin reads" policies σε όλους τους 4 πίνακες (availability_requests, recipients, responses, owner_broadcast_settings) μέσω EXISTS check στο profiles.role=\'superadmin\', και "Owners read own" policies σε recipients + responses με auth.uid() = owner_id. Public flows (form submit, owner response, guest dashboard) παρέμειναν unaffected — πάνε από service-role client που bypass-άρει RLS.' },
+      ],
+    },
+    {
       version: 'v3.37.0',
       date: '27 Μαΐου 2026',
       highlights: 'Discovery boost για το broadcast feature — floating CTA button σε όλο το site, exit-intent popup σε search-intent pages, και form leave guard για να μη χάνονται μισοτελειωμένα αιτήματα. Όλα σε 7 γλώσσες, dismiss persistence στο localStorage.',
