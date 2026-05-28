@@ -7,7 +7,7 @@ const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; city: string }> }): Promise<Metadata> {
   const { locale, city } = await params;
   const guide = getFromCity(city);
-  if (!guide) return { title: 'Travel to Halkidiki | ChalkidikiHub' };
+  if (!guide) return { title: 'Travel to Halkidiki' };
   const title = guide.metaTitle[locale] || guide.metaTitle.en;
   const description = guide.metaDesc[locale] || guide.metaDesc.en;
   return {

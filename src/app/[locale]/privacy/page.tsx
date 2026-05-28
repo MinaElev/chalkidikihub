@@ -6,13 +6,13 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 const titles: Record<string, string> = {
-  el: 'Πολιτική Απορρήτου | ChalkidikiHub',
-  en: 'Privacy Policy | ChalkidikiHub',
-  de: 'Datenschutz | ChalkidikiHub',
-  bg: 'Политика за поверителност | ChalkidikiHub',
-  ru: 'Политика конфиденциальности | ChalkidikiHub',
-  ro: 'Politica de confidențialitate | ChalkidikiHub',
-  sr: 'Politika privatnosti | ChalkidikiHub',
+  el: 'Πολιτική Απορρήτου',
+  en: 'Privacy Policy',
+  de: 'Datenschutz',
+  bg: 'Политика за поверителност',
+  ru: 'Политика конфиденциальности',
+  ro: 'Politica de confidențialitate',
+  sr: 'Politika privatnosti',
 };
 
 type Section = {

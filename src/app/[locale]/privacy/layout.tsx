@@ -6,7 +6,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   return {
-    title: locale === 'el' ? 'Πολιτική Απορρήτου | ChalkidikiHub' : locale === 'sr' ? 'Politika privatnosti | ChalkidikiHub' : 'Privacy Policy | ChalkidikiHub',
+    title: locale === 'el' ? 'Πολιτική Απορρήτου' : locale === 'sr' ? 'Politika privatnosti' : 'Privacy Policy',
     alternates: {
       canonical: localeUrl(locale, 'privacy'),
       languages: {

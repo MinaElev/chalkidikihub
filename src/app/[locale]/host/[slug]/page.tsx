@@ -41,9 +41,9 @@ const HOME_LABEL: Record<string, string> = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const host = await getHostBySlug(slug);
-  if (!host) return { title: 'Host | ChalkidikiHub' };
+  if (!host) return { title: 'Host' };
 
-  const title = `${host.display_name} — ${host.listings.length} ${PROPS_LABEL[locale] || 'properties'} | ChalkidikiHub`;
+  const title = `${host.display_name} — ${host.listings.length} ${PROPS_LABEL[locale] || 'properties'}`;
   const description =
     host.bio[locale] ||
     host.bio.el ||

@@ -76,12 +76,18 @@ export async function getBeaches(): Promise<Beach[]> {
   return (data || []).map(transformBeach) as unknown as Beach[];
 }
 
+// Throws on transient errors (timeout, connection drop) so unstable_cache
+// does NOT cache the failure — previously a single timeout could poison the
+// cache with `null` for 10 hours and effectively hide the entire beach
+// catalogue from Google. Genuine "row not found" still returns null and is
+// safely cached because the slug genuinely doesn't exist.
 export const getBeachBySlug = unstable_cache(
   async (slug: string): Promise<Beach | null> => {
     const supabase = createApiClient();
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('beaches').select('*, beach_reviews(*)')
-      .eq('slug', slug).single();
+      .eq('slug', slug).maybeSingle();
+    if (error) throw new Error(`getBeachBySlug supabase error for ${slug}: ${error.message}`);
     if (!data) return null;
     return transformBeach(data) as unknown as Beach;
   },
@@ -142,9 +148,10 @@ export async function getRestaurants(): Promise<Restaurant[]> {
 export const getRestaurantBySlug = unstable_cache(
   async (slug: string): Promise<Restaurant | null> => {
     const supabase = createApiClient();
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('restaurants').select('*, restaurant_reviews(*)')
-      .eq('slug', slug).single();
+      .eq('slug', slug).maybeSingle();
+    if (error) throw new Error(`getRestaurantBySlug supabase error for ${slug}: ${error.message}`);
     if (!data) return null;
     return transformRestaurant(data) as unknown as Restaurant;
   },
@@ -200,9 +207,10 @@ export async function getActivities(): Promise<Activity[]> {
 export const getActivityBySlug = unstable_cache(
   async (slug: string): Promise<Activity | null> => {
     const supabase = createApiClient();
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('activities').select('*, activity_reviews(*)')
-      .eq('slug', slug).single();
+      .eq('slug', slug).maybeSingle();
+    if (error) throw new Error(`getActivityBySlug supabase error for ${slug}: ${error.message}`);
     if (!data) return null;
     return transformActivity(data) as unknown as Activity;
   },
@@ -255,9 +263,10 @@ export async function getBlogArticles(): Promise<BlogArticle[]> {
 export const getArticleBySlug = unstable_cache(
   async (slug: string): Promise<BlogArticle | null> => {
     const supabase = createApiClient();
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('blog_articles').select('*')
-      .eq('slug', slug).single();
+      .eq('slug', slug).maybeSingle();
+    if (error) throw new Error(`getArticleBySlug supabase error for ${slug}: ${error.message}`);
     if (!data) return null;
     return transformArticle(data) as unknown as BlogArticle;
   },
@@ -384,11 +393,8 @@ export const getListingBySlug = unstable_cache(
     const supabase = createApiClient();
     const { data, error } = await supabase
       .from('listings').select(LISTING_FIELDS)
-      .eq('status', 'published').eq('slug', slug).single();
-    if (error) {
-      console.error('[getListingBySlug] Supabase error for', slug, ':', error.message);
-      return null;
-    }
+      .eq('status', 'published').eq('slug', slug).maybeSingle();
+    if (error) throw new Error(`getListingBySlug supabase error for ${slug}: ${error.message}`);
     if (!data) return null;
     return transformListing(data as Record<string, unknown>) as unknown as Listing;
   },
@@ -602,8 +608,9 @@ function transformVillage(row: Record<string, unknown>): VillageRow {
 export const getVillageBySlug = unstable_cache(
   async (slug: string): Promise<VillageRow | null> => {
     const supabase = createApiClient();
-    const { data } = await supabase
-      .from('villages').select('*').eq('slug', slug).single();
+    const { data, error } = await supabase
+      .from('villages').select('*').eq('slug', slug).maybeSingle();
+    if (error) throw new Error(`getVillageBySlug supabase error for ${slug}: ${error.message}`);
     if (!data) return null;
     return transformVillage(data as Record<string, unknown>);
   },

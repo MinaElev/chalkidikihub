@@ -64,7 +64,7 @@ const TYPE_META: Record<string, Record<string, { title: string; desc: string }>>
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; type: string }> }): Promise<Metadata> {
   const { locale, type } = await params;
   const meta = TYPE_META[type]?.[locale] || TYPE_META[type]?.en;
-  if (!meta) return { title: 'Listings | ChalkidikiHub' };
+  if (!meta) return { title: 'Listings' };
   const image = ogImageUrl(meta.title, 'listing');
   return {
     title: meta.title, description: meta.desc,

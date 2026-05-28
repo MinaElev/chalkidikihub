@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const cl = CATEGORY_TITLES[cat]?.[l] || CATEGORY_TITLES[cat]?.en || cat;
     const iw = IN_WORD[l] || 'in';
     const hk = HALKIDIKI[l] || 'Halkidiki';
-    titles[l] = `${cl} ${iw} ${ln}, ${hk} | ChalkidikiHub`;
+    titles[l] = `${cl} ${iw} ${ln}, ${hk}`;
     descriptions[l] = l === 'el'
       ? `Ανακαλύψτε τα καλύτερα ${cl.toLowerCase()} ${iw} ${ln}, ${hk}. Φωτογραφίες, κριτικές & πληροφορίες.`
       : `Discover the best ${cl.toLowerCase()} ${iw} ${ln}, ${hk}. Photos, reviews & info.`;

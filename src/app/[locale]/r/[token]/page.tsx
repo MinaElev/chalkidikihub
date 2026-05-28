@@ -5,7 +5,7 @@ import OwnerResponseClient from './_client';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Αίτημα διαθεσιμότητας | ChalkidikiHub',
+  title: 'Αίτημα διαθεσιμότητας',
   robots: { index: false, follow: false },
 };
 

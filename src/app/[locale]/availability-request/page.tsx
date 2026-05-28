@@ -14,7 +14,7 @@ export async function generateMetadata({
   const messages = await getMessages();
   const block = (messages as Record<string, Record<string, string>>).availabilityRequest || {};
   return {
-    title: block.metaTitle || 'Request availability | ChalkidikiHub',
+    title: block.metaTitle || 'Request availability',
     description: block.metaDescription || '',
     robots: { index: true, follow: true },
   };

@@ -260,7 +260,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const label = CATEGORY_LABELS[category][locale] || CATEGORY_LABELS[category].en;
   const halkidiki = IN_HALKIDIKI[locale] || IN_HALKIDIKI.en;
-  const title = `${label} ${halkidiki} | ChalkidikiHub`;
+  const title = `${label} ${halkidiki}`;
   const description = CATEGORY_DESCRIPTIONS[category][locale] || CATEGORY_DESCRIPTIONS[category].en;
   const path = `activities/category/${category}`;
   const image = ogImageUrl(label, 'activity');

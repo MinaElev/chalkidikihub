@@ -206,10 +206,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title =
     locale === 'de'
-      ? `${typeLabel} in Chalkidiki | ChalkidikiHub`
+      ? `${typeLabel} in Chalkidiki`
       : locale === 'el'
-        ? `${typeLabel} στη Χαλκιδική | ChalkidikiHub`
-        : `${typeLabel} in Halkidiki | ChalkidikiHub`;
+        ? `${typeLabel} στη Χαλκιδική`
+        : `${typeLabel} in Halkidiki`;
 
   const desc =
     TYPE_META_DESC[type]?.[locale] ||

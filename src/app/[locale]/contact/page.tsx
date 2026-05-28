@@ -4,13 +4,13 @@ import { collectionMeta } from '@/lib/seo';
 import ContactClient from './_client';
 
 const titles: Record<string, string> = {
-  el: 'Επικοινωνία | ChalkidikiHub',
-  en: 'Contact Us | ChalkidikiHub',
-  de: 'Kontakt | ChalkidikiHub',
-  bg: 'Контакти | ChalkidikiHub',
-  ru: 'Контакты | ChalkidikiHub',
-  ro: 'Contact | ChalkidikiHub',
-  sr: 'Kontakt | ChalkidikiHub',
+  el: 'Επικοινωνία',
+  en: 'Contact Us',
+  de: 'Kontakt',
+  bg: 'Контакти',
+  ru: 'Контакты',
+  ro: 'Contact',
+  sr: 'Kontakt',
 };
 
 const descriptions: Record<string, string> = {

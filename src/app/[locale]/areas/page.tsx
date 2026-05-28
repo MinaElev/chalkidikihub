@@ -10,13 +10,13 @@ import PageClient from './_client';
 export const revalidate = 3600;
 
 const titles: Record<string, string> = {
-  el: 'Περιοχές Χαλκιδικής | ChalkidikiHub',
-  en: 'Halkidiki Areas | ChalkidikiHub',
-  de: 'Regionen Chalkidiki | ChalkidikiHub',
-  bg: 'Региони Халкидики | ChalkidikiHub',
-  ru: 'Районы Халкидики | ChalkidikiHub',
-  ro: 'Zone Halkidiki | ChalkidikiHub',
-  sr: 'Oblasti Halkidikija | ChalkidikiHub',
+  el: 'Περιοχές Χαλκιδικής',
+  en: 'Halkidiki Areas',
+  de: 'Regionen Chalkidiki',
+  bg: 'Региони Халкидики',
+  ru: 'Районы Халкидики',
+  ro: 'Zone Halkidiki',
+  sr: 'Oblasti Halkidikija',
 };
 
 const descriptions: Record<string, string> = {

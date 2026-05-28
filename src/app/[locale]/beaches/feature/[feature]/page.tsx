@@ -290,7 +290,7 @@ type Props = { params: Promise<{ locale: string; feature: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, feature } = await params;
   const featureLabel = FEATURE_LABELS[feature]?.[locale] || FEATURE_LABELS[feature]?.en || feature;
-  const title = `${featureLabel} Beaches | Halkidiki | ChalkidikiHub`;
+  const title = `${featureLabel} Beaches | Halkidiki`;
   const desc = FEATURE_DESCRIPTIONS[feature]?.[locale] || FEATURE_DESCRIPTIONS[feature]?.en || `${featureLabel} beaches in Halkidiki.`;
   return {
     title,

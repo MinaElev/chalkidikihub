@@ -4,7 +4,7 @@ import { localeUrl } from '@/lib/seo';
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   return {
-    title: locale === 'el' ? 'Χάρτης Χαλκιδικής | ChalkidikiHub' : locale === 'sr' ? 'Mapa Halkidikija | ChalkidikiHub' : 'Halkidiki Map | ChalkidikiHub',
+    title: locale === 'el' ? 'Χάρτης Χαλκιδικής' : locale === 'sr' ? 'Mapa Halkidikija' : 'Halkidiki Map',
     alternates: {
       canonical: localeUrl(locale, 'map'),
       languages: {

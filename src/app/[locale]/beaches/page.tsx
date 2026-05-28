@@ -8,13 +8,13 @@ import PageClient from './_client';
 export const revalidate = 3600; // ISR: 1 hour — on-demand revalidation handles instant updates
 
 const titles: Record<string, string> = {
-  el: 'Παραλίες Χαλκιδικής | ChalkidikiHub',
-  en: 'Halkidiki Beaches | ChalkidikiHub',
-  de: 'Strände Chalkidiki | ChalkidikiHub',
-  bg: 'Плажове Халкидики | ChalkidikiHub',
-  ru: 'Пляжи Халкидики | ChalkidikiHub',
-  ro: 'Plaje Halkidiki | ChalkidikiHub',
-  sr: 'Plaže Halkidikija | ChalkidikiHub',
+  el: 'Παραλίες Χαλκιδικής',
+  en: 'Halkidiki Beaches',
+  de: 'Strände Chalkidiki',
+  bg: 'Плажове Халкидики',
+  ru: 'Пляжи Халкидики',
+  ro: 'Plaje Halkidiki',
+  sr: 'Plaže Halkidikija',
 };
 
 const descriptions: Record<string, string> = {

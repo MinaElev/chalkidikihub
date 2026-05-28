@@ -5,7 +5,7 @@ import GuestDashboardClient from './_client';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Οι απαντήσεις στο αίτημά σου | ChalkidikiHub',
+  title: 'Οι απαντήσεις στο αίτημά σου',
   robots: { index: false, follow: false },
 };
 

@@ -100,8 +100,8 @@ export async function getVillageContentMeta(
   const halk = HALKIDIKI[locale] || 'Halkidiki';
 
   const title = ctx.total > 0
-    ? `${ctx.total} ${L.noun} ${L.near} ${ctx.villageName}, ${halk} | ChalkidikiHub`
-    : `${L.heading} ${L.near} ${ctx.villageName}, ${halk} | ChalkidikiHub`;
+    ? `${ctx.total} ${L.noun} ${L.near} ${ctx.villageName}, ${halk}`
+    : `${L.heading} ${L.near} ${ctx.villageName}, ${halk}`;
 
   const topStr = ctx.topNames.length > 0 ? ` — ${ctx.topNames.slice(0, 2).join(', ')}` : '';
   const description = ctx.total > 0

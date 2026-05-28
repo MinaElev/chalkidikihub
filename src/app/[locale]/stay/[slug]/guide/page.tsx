@@ -209,7 +209,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq('slug', slug)
     .eq('status', 'published')
     .single();
-  if (!listing) return { title: 'Area guide | ChalkidikiHub' };
+  if (!listing) return { title: 'Area guide' };
 
   const l = locale as Locale;
   const t = T[l] || T.en;
@@ -217,7 +217,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const propName = row[`title_${l}`] || row.title_el || row.title_en || '';
   const place = row.location_name || '';
 
-  const title = `${t.h1Prefix}: ${place} — ${propName} | ChalkidikiHub`;
+  const title = `${t.h1Prefix}: ${place} — ${propName}`;
   const description =
     l === 'el'
       ? `Ανακάλυψε παραλίες, εστιατόρια και δραστηριότητες γύρω από ${propName} στη ${place}. Πλήρης οδηγός με αποστάσεις, διαδρομή 3 ημερών και πρακτικές συμβουλές.`

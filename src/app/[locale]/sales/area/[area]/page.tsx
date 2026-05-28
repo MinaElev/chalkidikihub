@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const validArea = area as ValidArea;
   const titles = Object.fromEntries(
-    ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, `${areaTitle(validArea, l)} | ChalkidikiHub`]),
+    ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, `${areaTitle(validArea, l)}`]),
   );
   const descriptions = Object.fromEntries(
     ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, areaDescription(validArea, l)]),

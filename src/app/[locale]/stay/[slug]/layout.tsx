@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     .single();
 
   if (!data) {
-    return { title: 'Stay | ChalkidikiHub' };
+    return { title: 'Stay' };
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const story: string =
     row[`owner_story_${locale}`] || row.owner_story_el || row.owner_story_en || '';
 
-  const fullTitle = tagline ? `${title} — ${tagline}` : `${title} | ChalkidikiHub`;
+  const fullTitle = tagline ? `${title} — ${tagline}` : `${title}`;
   const description =
     (story || '').slice(0, 160) || tagline || `${title} in ${row.location_name}`;
 

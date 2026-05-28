@@ -4,13 +4,13 @@ import { collectionMeta } from '@/lib/seo';
 import MapClient from './_client';
 
 const titles: Record<string, string> = {
-  el: 'Χάρτης Χαλκιδικής | ChalkidikiHub',
-  en: 'Halkidiki Map | ChalkidikiHub',
-  de: 'Karte Chalkidiki | ChalkidikiHub',
-  bg: 'Карта Халкидики | ChalkidikiHub',
-  ru: 'Карта Халкидики | ChalkidikiHub',
-  ro: 'Hartă Halkidiki | ChalkidikiHub',
-  sr: 'Mapa Halkidikija | ChalkidikiHub',
+  el: 'Χάρτης Χαλκιδικής',
+  en: 'Halkidiki Map',
+  de: 'Karte Chalkidiki',
+  bg: 'Карта Халкидики',
+  ru: 'Карта Халкидики',
+  ro: 'Hartă Halkidiki',
+  sr: 'Mapa Halkidikija',
 };
 
 const descriptions: Record<string, string> = {

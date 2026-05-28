@@ -96,7 +96,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!VALID_TYPES.includes(type as (typeof VALID_TYPES)[number])) return {};
 
   const titles = Object.fromEntries(
-    ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, `${categoryTitle(type, l)} | ChalkidikiHub`]),
+    ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, `${categoryTitle(type, l)}`]),
   );
   const descriptions = Object.fromEntries(
     ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, TYPE_META_DESC[type]?.[l] || TYPE_META_DESC[type]?.en || `${TYPE_LABELS[type]?.en || type} for sale in Halkidiki`]),

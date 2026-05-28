@@ -8,13 +8,13 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 
 const titles: Record<string, string> = {
-  el: 'Όροι Χρήσης | ChalkidikiHub',
-  en: 'Terms of Use | ChalkidikiHub',
-  de: 'Nutzungsbedingungen | ChalkidikiHub',
-  bg: 'Условия за ползване | ChalkidikiHub',
-  ru: 'Условия использования | ChalkidikiHub',
-  ro: 'Termeni de utilizare | ChalkidikiHub',
-  sr: 'Uslovi korišćenja | ChalkidikiHub',
+  el: 'Όροι Χρήσης',
+  en: 'Terms of Use',
+  de: 'Nutzungsbedingungen',
+  bg: 'Условия за ползване',
+  ru: 'Условия использования',
+  ro: 'Termeni de utilizare',
+  sr: 'Uslovi korišćenja',
 };
 
 type Section = {

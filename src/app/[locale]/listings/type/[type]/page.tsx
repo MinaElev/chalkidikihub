@@ -77,7 +77,7 @@ type Props = { params: Promise<{ locale: string; type: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, type } = await params;
   const typeLabel = TYPE_LABELS[type]?.[locale] || TYPE_LABELS[type]?.en || type;
-  const title = `${typeLabel} | Halkidiki Rentals | ChalkidikiHub`;
+  const title = `${typeLabel} | Halkidiki Rentals`;
   const desc = TYPE_DESCRIPTIONS[type]?.[locale] || TYPE_DESCRIPTIONS[type]?.en || `${typeLabel} rentals in Halkidiki.`;
   return {
     title,

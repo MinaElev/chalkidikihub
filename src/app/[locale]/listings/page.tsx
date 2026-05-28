@@ -8,13 +8,13 @@ import PageClient from './_client';
 export const revalidate = 3600; // ISR: 1 hour — on-demand revalidation handles instant updates
 
 const titles: Record<string, string> = {
-  el: 'Ενοικιαζόμενα Καταλύματα Χαλκιδική | ChalkidikiHub',
-  en: 'Vacation Rentals Halkidiki | ChalkidikiHub',
-  de: 'Ferienwohnungen Chalkidiki | ChalkidikiHub',
-  bg: 'Настаняване Халкидики | ChalkidikiHub',
-  ru: 'Аренда жилья Халкидики | ChalkidikiHub',
-  ro: 'Cazare Halkidiki | ChalkidikiHub',
-  sr: 'Smeštaj Halkidiki | ChalkidikiHub',
+  el: 'Ενοικιαζόμενα Καταλύματα Χαλκιδική',
+  en: 'Vacation Rentals Halkidiki',
+  de: 'Ferienwohnungen Chalkidiki',
+  bg: 'Настаняване Халкидики',
+  ru: 'Аренда жилья Халкидики',
+  ro: 'Cazare Halkidiki',
+  sr: 'Smeštaj Halkidiki',
 };
 
 const descriptions: Record<string, string> = {

@@ -8,13 +8,13 @@ import PageClient from './_client';
 export const revalidate = 3600; // ISR: 1 hour — on-demand revalidation handles instant updates
 
 const titles: Record<string, string> = {
-  el: 'Εστιατόρια Χαλκιδικής | ChalkidikiHub',
-  en: 'Restaurants in Halkidiki | ChalkidikiHub',
-  de: 'Restaurants Chalkidiki | ChalkidikiHub',
-  bg: 'Ресторанти Халкидики | ChalkidikiHub',
-  ru: 'Рестораны Халкидики | ChalkidikiHub',
-  ro: 'Restaurante Halkidiki | ChalkidikiHub',
-  sr: 'Restorani Halkidiki | ChalkidikiHub',
+  el: 'Εστιατόρια Χαλκιδικής',
+  en: 'Restaurants in Halkidiki',
+  de: 'Restaurants Chalkidiki',
+  bg: 'Ресторанти Халкидики',
+  ru: 'Рестораны Халкидики',
+  ro: 'Restaurante Halkidiki',
+  sr: 'Restorani Halkidiki',
 };
 
 const descriptions: Record<string, string> = {

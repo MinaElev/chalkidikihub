@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .select('area, name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr, meta_title_el, meta_title_en, meta_title_de, meta_title_bg, meta_title_ru, meta_title_ro, meta_title_sr, meta_description_el, meta_description_en, meta_description_de, meta_description_bg, meta_description_ru, meta_description_ro, meta_description_sr, description_el, description_en, description_de, description_bg, description_ru, description_ro, description_sr, image_url, image_alt')
     .eq('slug', slug).single();
 
-  if (!data) return { title: 'Village | ChalkidikiHub' };
+  if (!data) return { title: 'Village' };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const row = data as any;

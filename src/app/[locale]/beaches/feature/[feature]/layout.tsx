@@ -117,7 +117,7 @@ const FEATURE_META: Record<string, Record<string, { title: string; desc: string 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; feature: string }> }): Promise<Metadata> {
   const { locale, feature } = await params;
   const meta = FEATURE_META[feature]?.[locale] || FEATURE_META[feature]?.en;
-  if (!meta) return { title: 'Beaches | ChalkidikiHub' };
+  if (!meta) return { title: 'Beaches' };
 
   const image = ogImageUrl(meta.title, 'beach');
   return {

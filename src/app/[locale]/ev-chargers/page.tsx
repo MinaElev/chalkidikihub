@@ -8,13 +8,13 @@ import EvChargersClient from './_client';
 export const revalidate = 86400;
 
 const titles: Record<string, string> = {
-  el: 'Φορτιστές EV Χαλκιδική | ChalkidikiHub',
-  en: 'EV Chargers Halkidiki | ChalkidikiHub',
-  de: 'EV-Ladestationen Chalkidiki | ChalkidikiHub',
-  bg: 'EV зарядни Халкидики | ChalkidikiHub',
-  ru: 'Зарядки EV Халкидики | ChalkidikiHub',
-  ro: 'Stații EV Halkidiki | ChalkidikiHub',
-  sr: 'EV punjači Halkidiki | ChalkidikiHub',
+  el: 'Φορτιστές EV Χαλκιδική',
+  en: 'EV Chargers Halkidiki',
+  de: 'EV-Ladestationen Chalkidiki',
+  bg: 'EV зарядни Халкидики',
+  ru: 'Зарядки EV Халкидики',
+  ro: 'Stații EV Halkidiki',
+  sr: 'EV punjači Halkidiki',
 };
 
 const descriptions: Record<string, string> = {

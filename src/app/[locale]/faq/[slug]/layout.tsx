@@ -8,7 +8,7 @@ const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
   const { locale, slug } = await params;
   const faq = getFaqPage(slug);
-  if (!faq) return { title: 'FAQ | ChalkidikiHub' };
+  if (!faq) return { title: 'FAQ' };
   const title = faq.metaTitle[locale] || faq.metaTitle.en;
   const description = faq.metaDesc[locale] || faq.metaDesc.en;
   return {

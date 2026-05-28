@@ -8,13 +8,13 @@ import PageClient from './_client';
 export const revalidate = 3600; // ISR: 1 hour — on-demand revalidation handles instant updates
 
 const titles: Record<string, string> = {
-  el: 'Ακίνητα Χαλκιδική | ChalkidikiHub',
-  en: 'Real Estate Halkidiki | ChalkidikiHub',
-  de: 'Immobilien Chalkidiki | ChalkidikiHub',
-  bg: 'Имоти Халкидики | ChalkidikiHub',
-  ru: 'Недвижимость Халкидики | ChalkidikiHub',
-  ro: 'Imobiliare Halkidiki | ChalkidikiHub',
-  sr: 'Nekretnine Halkidiki | ChalkidikiHub',
+  el: 'Ακίνητα Χαλκιδική',
+  en: 'Real Estate Halkidiki',
+  de: 'Immobilien Chalkidiki',
+  bg: 'Имоти Халкидики',
+  ru: 'Недвижимость Халкидики',
+  ro: 'Imobiliare Halkidiki',
+  sr: 'Nekretnine Halkidiki',
 };
 
 const descriptions: Record<string, string> = {
