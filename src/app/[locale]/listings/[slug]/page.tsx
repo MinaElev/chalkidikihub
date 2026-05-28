@@ -6,7 +6,12 @@ import { getContentMeta, generateLodgingLD, generateBreadcrumbLD, localeUrl } fr
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getListingBySlug } from '@/lib/data';
 
-export const dynamic = 'force-dynamic';
+// PILOT: switched from `force-dynamic` to ISR 2h. Originally forced dynamic
+// to work around a Next 16 SSG-fallback bug; testing whether it's still
+// present. On-demand revalidate (/api/revalidate) invalidates the cache
+// immediately when the owner saves, so 2h is just the upper-bound staleness.
+// Rollback = restore `export const dynamic = 'force-dynamic';`
+export const revalidate = 7200;
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
