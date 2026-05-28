@@ -291,6 +291,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     'halkidiki-vs-thassos', 'sithonia', 'kassandra', 'day-trips', 'wedding', 'driving-distances', 'aristotle-trail', 'sunset-spots', 'shopping-and-souvenirs',
     // TIER 4 — comparisons, niche audiences, tips
     'halkidiki-vs-crete', 'halkidiki-vs-rhodes', 'halkidiki-vs-corfu',
+    'halkidiki-vs-skiathos', 'halkidiki-vs-mykonos', 'halkidiki-vs-santorini',
     'for-seniors', 'for-couples', 'for-solo-travelers',
     'tips', 'mistakes-to-avoid', 'scams-to-avoid',
   ]) {
@@ -334,7 +335,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ── Itinerary pages ──
-  for (const d of ['3-days', '5-days', '7-days', '10-days', 'weekend']) {
+  for (const d of ['3-days', '5-days', '7-days', '10-days', 'weekend', 'family', 'romantic', 'budget']) {
     entries.push(...forLocales(`/itinerary/${d}`, { freq: 'monthly', priority: 0.8 }));
   }
 
