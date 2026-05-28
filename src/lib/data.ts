@@ -562,3 +562,70 @@ export async function getSales(): Promise<Sale[]> {
     .order('created_at', { ascending: false });
   return (data || []).map(transformSale) as unknown as Sale[];
 }
+
+// ─── Villages ───────────────────────────────────────────────
+// The village-by-slug supabase call was the most-frequent read in Query
+// Performance (~68k calls combined). Wrap to cut to a handful per day.
+
+export type VillageRow = {
+  id: string;
+  slug: string;
+  area: string;
+  name: Record<string, string>;
+  description: Record<string, string>;
+  meta_title: Record<string, string>;
+  meta_description: Record<string, string>;
+  latitude: number | null;
+  longitude: number | null;
+  image_url: string;
+  image_alt: string;
+  population: number | null;
+};
+
+function transformVillage(row: Record<string, unknown>): VillageRow {
+  return {
+    id: row.id as string,
+    slug: row.slug as string,
+    area: row.area as string,
+    name: toLocaleMap(row, 'name'),
+    description: toLocaleMap(row, 'description'),
+    meta_title: toLocaleMap(row, 'meta_title'),
+    meta_description: toLocaleMap(row, 'meta_description'),
+    latitude: (row.latitude as number) || null,
+    longitude: (row.longitude as number) || null,
+    image_url: (row.image_url as string) || '',
+    image_alt: (row.image_alt as string) || '',
+    population: (row.population as number) || null,
+  };
+}
+
+export const getVillageBySlug = unstable_cache(
+  async (slug: string): Promise<VillageRow | null> => {
+    const supabase = createApiClient();
+    const { data } = await supabase
+      .from('villages').select('*').eq('slug', slug).single();
+    if (!data) return null;
+    return transformVillage(data as Record<string, unknown>);
+  },
+  ['village-by-slug'],
+  { revalidate: DETAIL_TTL, tags: ['villages'] },
+);
+
+export const getVillagesList = unstable_cache(
+  async (area: string | null): Promise<Omit<VillageRow, 'meta_title' | 'meta_description'>[]> => {
+    const supabase = createApiClient();
+    let query = supabase.from('villages').select('*').order('sort_order', { ascending: true });
+    if (area) query = query.eq('area', area);
+    const { data } = await query.limit(100);
+    if (!data) return [];
+    return data.map((row: Record<string, unknown>) => {
+      const v = transformVillage(row);
+      // List view doesn't need meta_title/meta_description
+      const { meta_title: _mt, meta_description: _md, ...rest } = v;
+      void _mt; void _md;
+      return rest;
+    });
+  },
+  ['villages-list'],
+  { revalidate: DETAIL_TTL, tags: ['villages'] },
+);

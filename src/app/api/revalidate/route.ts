@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
       activities: 'activities',
       blog: 'blog',
       listings: 'listings',
+      villages: 'villages',
     };
     if (TAG_MAP[type]) {
       // Next 16: revalidateTag requires a cache profile as 2nd arg.

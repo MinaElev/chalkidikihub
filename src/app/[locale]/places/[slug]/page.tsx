@@ -46,7 +46,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // Replaces near-duplicate template descriptions ("Ανακαλύψτε X…") with unique
   // per-village signals Google ranks higher.
   const [beachesRes, restaurantsRes, activitiesRes] = await Promise.all([
-    supabase.from('beaches').select(`name_${locale}, name_el, name_en`, { count: 'exact' })
+    // Select ALL name_xx columns so the query text is identical across all 7
+    // locales — previously a per-locale `name_${locale}` template produced 7
+    // distinct queries in Supabase Query Performance with 2-3k calls each.
+    // Now Supabase + Vercel CDN see one query pattern → 7x fewer distinct entries.
+    supabase.from('beaches').select('name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr', { count: 'exact' })
       .eq('area', row.area).order('rating', { ascending: false }).limit(2),
     supabase.from('restaurants').select('*', { count: 'exact', head: true }).eq('area', row.area),
     supabase.from('activities').select('*', { count: 'exact', head: true }).eq('area', row.area),
