@@ -6,12 +6,18 @@ import { getContentMeta, generateLodgingLD, generateBreadcrumbLD, localeUrl } fr
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getListingBySlug } from '@/lib/data';
 
-// PILOT: switched from `force-dynamic` to ISR 2h. Originally forced dynamic
-// to work around a Next 16 SSG-fallback bug; testing whether it's still
-// present. On-demand revalidate (/api/revalidate) invalidates the cache
-// immediately when the owner saves, so 2h is just the upper-bound staleness.
+// PILOT: ISR with 2h revalidation. Without generateStaticParams Next 16
+// treats the route as fully dynamic and ignores `revalidate`, so we export
+// an empty array to mark it as a statically-routed page with on-demand
+// rendering for any slug not pre-built (dynamicParams=true is the default).
+// On-demand revalidate (/api/revalidate) invalidates the cache immediately
+// when the owner saves, so 2h is just the upper-bound staleness.
 // Rollback = restore `export const dynamic = 'force-dynamic';`
 export const revalidate = 7200;
+export const dynamicParams = true;
+export async function generateStaticParams() {
+  return [];
+}
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
