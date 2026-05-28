@@ -1,4 +1,4 @@
-// Coordinates for the 8 origin cities served by /from/[city]. Used as
+// Coordinates for the origin cities served by /from/[city]. Used as
 // anchors when computing approximate driving distance to Halkidiki villages.
 export const FROM_CITY_COORDS: Record<string, { lat: number; lon: number }> = {
   sofia: { lat: 42.6977, lon: 23.3219 },
@@ -9,6 +9,10 @@ export const FROM_CITY_COORDS: Record<string, { lat: number; lon: number }> = {
   istanbul: { lat: 41.0082, lon: 28.9784 },
   skopje: { lat: 41.9981, lon: 21.4254 },
   athens: { lat: 37.9838, lon: 23.7275 },
+  plovdiv: { lat: 42.1354, lon: 24.7453 },
+  pristina: { lat: 42.6629, lon: 21.1655 },
+  sarajevo: { lat: 43.8563, lon: 18.4131 },
+  tirana: { lat: 41.3275, lon: 19.8187 },
 };
 
 // Pure city names per locale (no "From X to Halkidiki" wrapper). Avoids the
@@ -22,6 +26,10 @@ export const FROM_CITY_NAMES: Record<string, Record<string, string>> = {
   istanbul:     { el: 'Κωνσταντινούπολη',  en: 'Istanbul',     de: 'Istanbul',  bg: 'Истанбул',    ru: 'Стамбул',   ro: 'Istanbul',   sr: 'Истанбул' },
   skopje:       { el: 'Σκόπια',            en: 'Skopje',       de: 'Skopje',    bg: 'Скопие',      ru: 'Скопье',    ro: 'Skopje',     sr: 'Скопље' },
   athens:       { el: 'Αθήνα',             en: 'Athens',       de: 'Athen',     bg: 'Атина',       ru: 'Афины',     ro: 'Atena',      sr: 'Атина' },
+  plovdiv:      { el: 'Φιλιππούπολη',      en: 'Plovdiv',      de: 'Plovdiv',   bg: 'Пловдив',     ru: 'Пловдив',   ro: 'Plovdiv',    sr: 'Пловдив' },
+  pristina:     { el: 'Πρίστινα',          en: 'Pristina',     de: 'Pristina',  bg: 'Прищина',     ru: 'Приштина',  ro: 'Pristina',   sr: 'Приштина' },
+  sarajevo:     { el: 'Σαράγεβο',          en: 'Sarajevo',     de: 'Sarajevo',  bg: 'Сараево',     ru: 'Сараево',   ro: 'Sarajevo',   sr: 'Сарајево' },
+  tirana:       { el: 'Τίρανα',            en: 'Tirana',       de: 'Tirana',    bg: 'Тирана',      ru: 'Тирана',    ro: 'Tirana',     sr: 'Тирана' },
 };
 
 export function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {

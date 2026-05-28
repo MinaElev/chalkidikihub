@@ -329,7 +329,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ── "Travel from [City]" pages ──
-  for (const c of ['sofia', 'bucharest', 'belgrade', 'thessaloniki', 'munich', 'istanbul', 'skopje', 'athens']) {
+  for (const c of ['sofia', 'bucharest', 'belgrade', 'thessaloniki', 'munich', 'istanbul', 'skopje', 'athens', 'plovdiv', 'pristina', 'sarajevo', 'tirana']) {
     entries.push(...forLocales(`/from/${c}`, { freq: 'monthly', priority: 0.8 }));
   }
 
