@@ -3,6 +3,8 @@ import dynamic from 'next/dynamic';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
 import { locales, type Locale } from '@/i18n/config';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -74,6 +76,8 @@ export default async function LocaleLayout({ children, params }: Props) {
         <CookieConsent />
         <LangSuggestBanner />
         <AvailabilityCTAs />
+        <SpeedInsights />
+        <Analytics />
       </div>
     </NextIntlClientProvider>
   );

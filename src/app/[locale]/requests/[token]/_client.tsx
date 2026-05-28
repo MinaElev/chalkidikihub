@@ -70,9 +70,23 @@ export default function GuestDashboardClient({ token }: { token: string }) {
 
   useEffect(() => {
     load();
-    // Auto-refresh every 60s while active
-    const id = setInterval(() => load(), 60_000);
-    return () => clearInterval(id);
+    // Auto-refresh every 5 minutes — but ONLY when the tab is actually visible.
+    // A guest who leaves a tab open in background used to burn one Supabase
+    // request per minute forever; with visibilityState gating, an idle tab
+    // costs zero, and the interval still ticks at 5min when they come back.
+    const id = setInterval(() => {
+      if (document.visibilityState === 'visible') load();
+    }, 300_000);
+    // Refresh once when the tab regains focus, so the guest sees fresh state
+    // immediately after coming back instead of waiting up to 5 minutes.
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') load();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
   }, [load]);
 
   async function close() {
