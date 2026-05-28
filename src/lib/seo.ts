@@ -103,7 +103,17 @@ export async function getContentMeta(
       .eq('slug', slug)
       .single();
 
-    if (error || !data) return getDefaultMeta(fallbackTitle, fallbackDescription, locale, pathSegment, slug);
+    // Row not found (or transient error). Mark the response noindex so Google
+    // doesn't catalogue these soft-404 pages with generic placeholder content
+    // — important since Next 16 + force-dynamic currently returns 200 even
+    // when the page calls notFound(). Without this, every deprecated/typo'd
+    // slug becomes an indexable duplicate against real pages.
+    if (error || !data) {
+      return {
+        ...getDefaultMeta(fallbackTitle, fallbackDescription, locale, pathSegment, slug),
+        robots: { index: false, follow: false },
+      };
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const row = data as any;
