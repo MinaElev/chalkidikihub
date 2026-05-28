@@ -169,11 +169,34 @@ export default function AdminDashboard() {
   });
 
   if (loading) {
+    // CLS fix: render a skeleton that matches the loaded layout's first
+    // viewport — header + action band + 4 metric cards. The previous centered
+    // 60vh spinner caused a ~2000px content swap on data arrival, registering
+    // CLS ≈ 0.95 on Vercel Speed Insights. Now the swap is in-place and the
+    // viewport content barely moves.
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="relative">
-          <div className="w-12 h-12 rounded-full border-2 border-slate-200"></div>
-          <div className="w-12 h-12 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin absolute inset-0"></div>
+      <div className="space-y-8 animate-pulse">
+        <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div className="space-y-2">
+            <div className="h-3 w-44 bg-slate-200 rounded" />
+            <div className="h-8 w-40 bg-slate-200 rounded" />
+            <div className="h-3 w-56 bg-slate-200 rounded" />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <div className="h-10 w-32 bg-slate-200 rounded-xl" />
+            <div className="h-10 w-32 bg-slate-100 rounded-xl" />
+            <div className="h-10 w-32 bg-slate-100 rounded-xl" />
+          </div>
+        </header>
+        <div className="h-20 bg-gradient-to-r from-amber-50 to-white border border-amber-100 rounded-2xl" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="h-28 bg-white border border-slate-200 rounded-2xl" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="h-64 bg-white border border-slate-200 rounded-2xl lg:col-span-2" />
+          <div className="h-64 bg-white border border-slate-200 rounded-2xl" />
         </div>
       </div>
     );
