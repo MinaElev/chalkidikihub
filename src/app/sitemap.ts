@@ -71,21 +71,52 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push(...forLocales(`/areas/${area.slug}`, { freq: 'weekly', priority: 0.8 }));
   }
 
+  // ── Parallel DB fetch — all independent collections in one round-trip
+  // window. Each query used to await sequentially (~5-7s total); running
+  // them in parallel collapses to ~the slowest single query (~1s typical).
+  // Same number of queries, same data, much faster sitemap regeneration.
+  const [
+    profilesRes,
+    beachesRes,
+    restaurantsRes,
+    businessTypesRes,
+    listingsRes,
+    activitiesRes,
+    articlesRes,
+    salesRes,
+    villagesRes,
+  ] = await Promise.all([
+    supabase.from('profiles').select('id, public_slug, updated_at').eq('public_page_enabled', true).not('public_slug', 'is', null),
+    supabase.from('beaches').select('slug, updated_at'),
+    supabase.from('restaurants').select('slug, updated_at'),
+    supabase.from('business_types').select('slug'),
+    supabase.from('listings').select('slug, updated_at, tagline_el, tagline_en, owner_story_el, owner_story_en').eq('status', 'published'),
+    supabase.from('activities').select('slug, updated_at'),
+    supabase.from('blog_articles').select('slug, published_at, updated_at'),
+    supabase.from('sales').select('slug, updated_at').eq('status', 'published'),
+    supabase.from('villages').select('slug'),
+  ]);
+
+  const publicProfiles = profilesRes.data;
+  const beaches = beachesRes.data;
+  const restaurants = restaurantsRes.data;
+  const businessTypes = businessTypesRes.data;
+  const listings = listingsRes.data;
+  const activities = activitiesRes.data;
+  const articles = articlesRes.data;
+  const sales = salesRes.data;
+  const villages = villagesRes.data;
+
   // ── Host pages (owners with ≥2 published listings + public_page_enabled) ──
-  const { data: publicProfiles } = await supabase
-    .from('profiles')
-    .select('id, public_slug, updated_at')
-    .eq('public_page_enabled', true)
-    .not('public_slug', 'is', null);
-  if (publicProfiles?.length) {
-    const ownerIds = publicProfiles.map((p: { id: string }) => p.id);
-    const { data: hostListings } = await supabase
-      .from('listings').select('owner_id')
-      .in('owner_id', ownerIds).eq('status', 'published');
+  // Depends on profilesRes + listingsRes — both already fetched in parallel above.
+  if (publicProfiles?.length && listings) {
+    const ownerIds = new Set(publicProfiles.map((p: { id: string }) => p.id));
     const counts = new Map<string, number>();
-    for (const l of hostListings || []) {
-      const k = (l as { owner_id: string }).owner_id;
-      counts.set(k, (counts.get(k) || 0) + 1);
+    for (const l of listings as Array<Record<string, unknown>>) {
+      const ownerId = l.owner_id as string | undefined;
+      if (ownerId && ownerIds.has(ownerId)) {
+        counts.set(ownerId, (counts.get(ownerId) || 0) + 1);
+      }
     }
     for (const p of publicProfiles as Array<{ id: string; public_slug: string; updated_at?: string }>) {
       if ((counts.get(p.id) || 0) >= 2) {
@@ -98,7 +129,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ── Beaches (DB + area + features) ──
-  const { data: beaches } = await supabase.from('beaches').select('slug, updated_at');
   if (beaches) {
     for (const item of beaches) {
       entries.push(...forLocales(`/beaches/${item.slug}`, {
@@ -115,7 +145,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ── Restaurants (DB + categories + area) ──
-  const { data: restaurants } = await supabase.from('restaurants').select('slug, updated_at');
   if (restaurants) {
     for (const item of restaurants) {
       entries.push(...forLocales(`/restaurants/${item.slug}`, {
@@ -124,7 +153,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }));
     }
   }
-  const { data: businessTypes } = await supabase.from('business_types').select('slug');
   if (businessTypes) {
     for (const bt of businessTypes) {
       entries.push(...forLocales(`/restaurants/category/${bt.slug}`, { freq: 'weekly', priority: 0.7 }));
@@ -135,10 +163,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ── Listings (DB) ──
-  const { data: listings } = await supabase
-    .from('listings')
-    .select('slug, updated_at, tagline_el, tagline_en, owner_story_el, owner_story_en')
-    .eq('status', 'published');
   if (listings) {
     for (const item of listings) {
       const modified = new Date(item.updated_at);
@@ -168,7 +192,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ── Activities (DB + categories + area) ──
-  const { data: activities } = await supabase.from('activities').select('slug, updated_at');
   if (activities) {
     for (const item of activities) {
       entries.push(...forLocales(`/activities/${item.slug}`, {
@@ -185,7 +208,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ── Blog (DB + categories) ──
-  const { data: articles } = await supabase.from('blog_articles').select('slug, published_at, updated_at');
   if (articles) {
     for (const item of articles) {
       entries.push(...forLocales(`/blog/${item.slug}`, {
@@ -199,7 +221,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ── Sales (DB + types + area) ──
-  const { data: sales } = await supabase.from('sales').select('slug, updated_at').eq('status', 'published');
   if (sales) {
     for (const item of sales) {
       entries.push(...forLocales(`/sales/${item.slug}`, {
@@ -216,7 +237,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ── Villages / Places (DB) ──
-  const { data: villages } = await supabase.from('villages').select('slug');
   if (villages) {
     for (const v of villages) {
       for (const ct of ['', '/beaches', '/restaurants', '/activities']) {
