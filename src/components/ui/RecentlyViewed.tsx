@@ -14,7 +14,16 @@ const typeConfig: Record<string, { icon: typeof Home; color: string; bgColor: st
 };
 
 export function RecentlyViewed({ currentSlug }: { currentSlug: string }) {
-  const items = useRecentlyViewed(currentSlug);
+  const { items, ready } = useRecentlyViewed(currentSlug);
+
+  // CLS fix: while the hook hasn't read localStorage yet, reserve the same
+  // ~280px height the rendered list would occupy. After ready=true the
+  // browser either swaps to real content (same height) or collapses to null
+  // — collapse is fine for true first-time visitors since nothing was visible
+  // below to push around.
+  if (!ready) {
+    return <div className="mt-12 border-t border-gray-200 pt-8 min-h-[260px]" aria-hidden="true" />;
+  }
 
   if (items.length === 0) return null;
 

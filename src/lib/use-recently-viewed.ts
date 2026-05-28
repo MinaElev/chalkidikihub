@@ -32,13 +32,26 @@ export function addRecentlyViewed(item: Omit<RecentItem, 'timestamp'>) {
   } catch {}
 }
 
-export function useRecentlyViewed(excludeSlug?: string): RecentItem[] {
+/**
+ * Reads the recently-viewed list from localStorage. Returns `{ items, ready }`
+ * — `ready` flips to true after the first useEffect tick, letting consumers
+ * distinguish "still hydrating, no decision yet" from "definitely empty".
+ * This is what lets the consumer reserve layout space and avoid CLS.
+ */
+export function useRecentlyViewed(excludeSlug?: string): { items: RecentItem[]; ready: boolean } {
   const [items, setItems] = useState<RecentItem[]>([]);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    // Reading from localStorage is exactly the "external store" pattern
+    // useEffect exists for, so the lint hint about cascading-render setState
+    // doesn't apply here — both writes happen once at mount.
     const all = getItems();
-    setItems(excludeSlug ? all.filter((i) => i.slug !== excludeSlug) : all);
+    const next = excludeSlug ? all.filter((i) => i.slug !== excludeSlug) : all;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setItems(next);
+    setReady(true);
   }, [excludeSlug]);
 
-  return items;
+  return { items, ready };
 }

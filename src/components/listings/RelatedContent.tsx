@@ -26,47 +26,57 @@ export function RelatedContent({ area, currentSlug }: RelatedContentProps) {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [articles, setArticles] = useState<BlogArticle[]>([]);
+  // Track whether all parallel fetches have settled, so we can swap the
+  // reserved-space placeholder for either real content or collapse-on-empty
+  // without a mid-page layout shift.
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/listings?area=${area}&limit=4`)
-      .then((r) => r.json())
-      .then((data: Listing[]) => {
-        if (Array.isArray(data)) setListings(data.filter((l) => l.slug !== currentSlug).slice(0, 3));
-      })
-      .catch(() => {});
-
-    fetch(`/api/beaches?area=${area}&limit=4`)
-      .then((r) => r.json())
-      .then((data: Beach[]) => {
-        if (Array.isArray(data)) setBeaches(data.slice(0, 3));
-      })
-      .catch(() => {});
-
-    fetch(`/api/restaurants?area=${area}&limit=4`)
-      .then((r) => r.json())
-      .then((data: Restaurant[]) => {
-        if (Array.isArray(data)) setRestaurants(data.slice(0, 3));
-      })
-      .catch(() => {});
-
-    fetch(`/api/activities?area=${area}&limit=3`)
-      .then((r) => r.json())
-      .then((data: Activity[]) => {
-        if (Array.isArray(data)) setActivities(data.slice(0, 2));
-      })
-      .catch(() => {});
-
-    fetch('/api/blog?limit=5')
-      .then((r) => r.json())
-      .then((data: BlogArticle[]) => {
-        if (Array.isArray(data)) {
-          setArticles(data.filter((a) => a.related_area_slugs?.includes(area)).slice(0, 2));
-        }
-      })
-      .catch(() => {});
+    Promise.allSettled([
+      fetch(`/api/listings?area=${area}&limit=4`)
+        .then((r) => r.json())
+        .then((data: Listing[]) => {
+          if (Array.isArray(data)) setListings(data.filter((l) => l.slug !== currentSlug).slice(0, 3));
+        }),
+      fetch(`/api/beaches?area=${area}&limit=4`)
+        .then((r) => r.json())
+        .then((data: Beach[]) => { if (Array.isArray(data)) setBeaches(data.slice(0, 3)); }),
+      fetch(`/api/restaurants?area=${area}&limit=4`)
+        .then((r) => r.json())
+        .then((data: Restaurant[]) => { if (Array.isArray(data)) setRestaurants(data.slice(0, 3)); }),
+      fetch(`/api/activities?area=${area}&limit=3`)
+        .then((r) => r.json())
+        .then((data: Activity[]) => { if (Array.isArray(data)) setActivities(data.slice(0, 2)); }),
+      fetch('/api/blog?limit=5')
+        .then((r) => r.json())
+        .then((data: BlogArticle[]) => {
+          if (Array.isArray(data)) {
+            setArticles(data.filter((a) => a.related_area_slugs?.includes(area)).slice(0, 2));
+          }
+        }),
+    ]).finally(() => setLoaded(true));
   }, [area, currentSlug]);
 
   const hasContent = listings.length > 0 || beaches.length > 0 || restaurants.length > 0 || activities.length > 0 || articles.length > 0;
+
+  // CLS fix: while fetches are in flight, reserve ~the typical rendered
+  // height (~640px) so anything below doesn't jump when data lands. After
+  // loaded=true with truly zero matches, collapse silently — no shift since
+  // nothing was visible below the reservation window.
+  if (!loaded) {
+    return (
+      <div className="border-t border-gray-200 pt-12 mt-12 min-h-[640px]" aria-hidden="true">
+        <div className="space-y-8 animate-pulse">
+          <div className="h-7 bg-gray-100 rounded w-1/3" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="aspect-[16/10] bg-gray-100 rounded-xl" />
+            <div className="aspect-[16/10] bg-gray-100 rounded-xl" />
+            <div className="aspect-[16/10] bg-gray-100 rounded-xl" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!hasContent) return null;
 
