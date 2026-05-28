@@ -20,7 +20,16 @@ import { unstable_cache } from 'next/cache';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
 import type { Area, Beach, Restaurant, Activity, BlogArticle, Listing, Sale, AreaInfo } from '@/types';
 
-const DETAIL_TTL = 7200; // 2 hours
+// Cache TTL for *BySlug detail fetchers. Set to 10 hours because:
+// - Prices on listings are indicative (real price negotiated owner↔guest),
+//   so "stale price" — usually the biggest staleness concern — doesn't apply.
+// - Owner-driven edits (description, photos) trigger /api/revalidate which
+//   calls revalidateTag(), so user-visible content changes propagate instantly
+//   regardless of TTL.
+// - Residual staleness (new reviews, related content shifts) is cosmetic.
+// - 10h = ~2.4 cache regenerations/day per slug, vs ~12 at 2h. Big drop in
+//   Supabase reads and function compute time for slugs with steady traffic.
+const DETAIL_TTL = 36000; // 10 hours
 
 // ─── Areas ─────────────────────────────────────────────────
 export async function getAreas(): Promise<AreaInfo[]> {
