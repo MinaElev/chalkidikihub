@@ -6,18 +6,11 @@ import { getContentMeta, generateLodgingLD, generateBreadcrumbLD, localeUrl } fr
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getListingBySlug } from '@/lib/data';
 
-// PILOT: ISR with 2h revalidation. Without generateStaticParams Next 16
-// treats the route as fully dynamic and ignores `revalidate`, so we export
-// an empty array to mark it as a statically-routed page with on-demand
-// rendering for any slug not pre-built (dynamicParams=true is the default).
-// On-demand revalidate (/api/revalidate) invalidates the cache immediately
-// when the owner saves, so 2h is just the upper-bound staleness.
-// Rollback = restore `export const dynamic = 'force-dynamic';`
-export const revalidate = 7200;
-export const dynamicParams = true;
-export async function generateStaticParams() {
-  return [];
-}
+// REVERTED to force-dynamic. ISR pilot (revalidate=7200 + generateStaticParams=[])
+// triggered the Next 16 + Turbopack SSG-fallback bug — all listing pages
+// returned "A server error occurred" in production. Keep force-dynamic until
+// the bug is fixed upstream (or we move to a different framework version).
+export const dynamic = 'force-dynamic';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
