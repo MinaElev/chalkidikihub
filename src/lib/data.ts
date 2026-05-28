@@ -1,9 +1,26 @@
 /**
  * Server-side data fetching functions.
  * Used by page.tsx (ISR) and API routes to share transform logic.
+ *
+ * CACHING NOTE
+ * ------------
+ * The hot `*BySlug` functions are wrapped with `unstable_cache` so even
+ * `force-dynamic` pages (which we currently can't escape because of a Next 16
+ * Turbopack SSG bug) skip the Supabase round-trip on subsequent requests.
+ *
+ * - Cache TTL: 2 hours (matches what the ISR pilot would have done).
+ * - Invalidation: the existing /api/revalidate route now calls
+ *   `revalidateTag(type)` so an owner edit clears the relevant cached
+ *   entries across all slugs of that content type in one shot.
+ * - Cost: the function body still runs on every request, but the work is
+ *   ~5ms (return cached JSON) instead of ~500-1500ms (Supabase round-trip
+ *   + cold connection pool). Massive Fast Origin Transfer + DB read savings.
  */
+import { unstable_cache } from 'next/cache';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
 import type { Area, Beach, Restaurant, Activity, BlogArticle, Listing, Sale, AreaInfo } from '@/types';
+
+const DETAIL_TTL = 7200; // 2 hours
 
 // ─── Areas ─────────────────────────────────────────────────
 export async function getAreas(): Promise<AreaInfo[]> {
@@ -50,14 +67,18 @@ export async function getBeaches(): Promise<Beach[]> {
   return (data || []).map(transformBeach) as unknown as Beach[];
 }
 
-export async function getBeachBySlug(slug: string): Promise<Beach | null> {
-  const supabase = createApiClient();
-  const { data } = await supabase
-    .from('beaches').select('*, beach_reviews(*)')
-    .eq('slug', slug).single();
-  if (!data) return null;
-  return transformBeach(data) as unknown as Beach;
-}
+export const getBeachBySlug = unstable_cache(
+  async (slug: string): Promise<Beach | null> => {
+    const supabase = createApiClient();
+    const { data } = await supabase
+      .from('beaches').select('*, beach_reviews(*)')
+      .eq('slug', slug).single();
+    if (!data) return null;
+    return transformBeach(data) as unknown as Beach;
+  },
+  ['beach-by-slug'],
+  { revalidate: DETAIL_TTL, tags: ['beaches'] },
+);
 
 // ─── Restaurants ────────────────────────────────────────────
 export function transformRestaurant(row: Record<string, unknown>) {
@@ -90,14 +111,18 @@ export async function getRestaurants(): Promise<Restaurant[]> {
   return (data || []).map(transformRestaurant) as unknown as Restaurant[];
 }
 
-export async function getRestaurantBySlug(slug: string): Promise<Restaurant | null> {
-  const supabase = createApiClient();
-  const { data } = await supabase
-    .from('restaurants').select('*, restaurant_reviews(*)')
-    .eq('slug', slug).single();
-  if (!data) return null;
-  return transformRestaurant(data) as unknown as Restaurant;
-}
+export const getRestaurantBySlug = unstable_cache(
+  async (slug: string): Promise<Restaurant | null> => {
+    const supabase = createApiClient();
+    const { data } = await supabase
+      .from('restaurants').select('*, restaurant_reviews(*)')
+      .eq('slug', slug).single();
+    if (!data) return null;
+    return transformRestaurant(data) as unknown as Restaurant;
+  },
+  ['restaurant-by-slug'],
+  { revalidate: DETAIL_TTL, tags: ['restaurants'] },
+);
 
 // ─── Activities ─────────────────────────────────────────────
 export function transformActivity(row: Record<string, unknown>) {
@@ -129,14 +154,18 @@ export async function getActivities(): Promise<Activity[]> {
   return (data || []).map(transformActivity) as unknown as Activity[];
 }
 
-export async function getActivityBySlug(slug: string): Promise<Activity | null> {
-  const supabase = createApiClient();
-  const { data } = await supabase
-    .from('activities').select('*, activity_reviews(*)')
-    .eq('slug', slug).single();
-  if (!data) return null;
-  return transformActivity(data) as unknown as Activity;
-}
+export const getActivityBySlug = unstable_cache(
+  async (slug: string): Promise<Activity | null> => {
+    const supabase = createApiClient();
+    const { data } = await supabase
+      .from('activities').select('*, activity_reviews(*)')
+      .eq('slug', slug).single();
+    if (!data) return null;
+    return transformActivity(data) as unknown as Activity;
+  },
+  ['activity-by-slug'],
+  { revalidate: DETAIL_TTL, tags: ['activities'] },
+);
 
 // ─── Blog ───────────────────────────────────────────────────
 export function transformArticle(row: Record<string, unknown>) {
@@ -165,14 +194,18 @@ export async function getBlogArticles(): Promise<BlogArticle[]> {
   return (data || []).map(transformArticle) as unknown as BlogArticle[];
 }
 
-export async function getArticleBySlug(slug: string): Promise<BlogArticle | null> {
-  const supabase = createApiClient();
-  const { data } = await supabase
-    .from('blog_articles').select('*')
-    .eq('slug', slug).single();
-  if (!data) return null;
-  return transformArticle(data) as unknown as BlogArticle;
-}
+export const getArticleBySlug = unstable_cache(
+  async (slug: string): Promise<BlogArticle | null> => {
+    const supabase = createApiClient();
+    const { data } = await supabase
+      .from('blog_articles').select('*')
+      .eq('slug', slug).single();
+    if (!data) return null;
+    return transformArticle(data) as unknown as BlogArticle;
+  },
+  ['article-by-slug'],
+  { revalidate: DETAIL_TTL, tags: ['blog'] },
+);
 
 // ─── Listings ───────────────────────────────────────────────
 // Use '*' so this query survives future schema changes. transformListing
@@ -288,18 +321,22 @@ export async function getListings(): Promise<Listing[]> {
   return pinFeaturedListings(listings);
 }
 
-export async function getListingBySlug(slug: string): Promise<Listing | null> {
-  const supabase = createApiClient();
-  const { data, error } = await supabase
-    .from('listings').select(LISTING_FIELDS)
-    .eq('status', 'published').eq('slug', slug).single();
-  if (error) {
-    console.error('[getListingBySlug] Supabase error for', slug, ':', error.message);
-    return null;
-  }
-  if (!data) return null;
-  return transformListing(data as Record<string, unknown>) as unknown as Listing;
-}
+export const getListingBySlug = unstable_cache(
+  async (slug: string): Promise<Listing | null> => {
+    const supabase = createApiClient();
+    const { data, error } = await supabase
+      .from('listings').select(LISTING_FIELDS)
+      .eq('status', 'published').eq('slug', slug).single();
+    if (error) {
+      console.error('[getListingBySlug] Supabase error for', slug, ':', error.message);
+      return null;
+    }
+    if (!data) return null;
+    return transformListing(data as Record<string, unknown>) as unknown as Listing;
+  },
+  ['listing-by-slug'],
+  { revalidate: DETAIL_TTL, tags: ['listings'] },
+);
 
 // ─── Hosts (public owner pages) ─────────────────────────────
 // A host page exists for an owner who: (a) has set public_page_enabled=true,

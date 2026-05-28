@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'];
 
@@ -46,6 +46,22 @@ export async function POST(request: NextRequest) {
       revalidatePath(`/${locale}`);
     }
 
+    // Clear the unstable_cache layer for *BySlug data fetchers in src/lib/data.ts.
+    // The tag names match what those functions are registered with.
+    const TAG_MAP: Record<string, string> = {
+      beaches: 'beaches',
+      restaurants: 'restaurants',
+      activities: 'activities',
+      blog: 'blog',
+      listings: 'listings',
+    };
+    if (TAG_MAP[type]) {
+      // Next 16: revalidateTag requires a cache profile as 2nd arg.
+      // 'default' matches the standard cacheLife profile and clears the
+      // cached entries with the same lifecycle they were stored under.
+      revalidateTag(TAG_MAP[type], 'default');
+    }
+
     return NextResponse.json({
       revalidated: true,
       type,
@@ -53,6 +69,7 @@ export async function POST(request: NextRequest) {
       paths: slug
         ? [`/${basePath}`, `/${basePath}/${slug}`, '/']
         : [`/${basePath}`, '/'],
+      tag: TAG_MAP[type] || null,
     });
   } catch {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
