@@ -1,30 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createApiClient } from '@/lib/api-helpers';
-import { transformBeach } from '@/lib/data';
+import { getBeachBySlug, getBeachesFiltered } from '@/lib/data';
 
 export async function GET(request: NextRequest) {
-  const supabase = createApiClient();
   const { searchParams } = new URL(request.url);
-  const area = searchParams.get('area');
   const slug = searchParams.get('slug');
 
   if (slug) {
-    const { data } = await supabase.from('beaches').select('*, beach_reviews(*)').eq('slug', slug).single();
-    if (!data) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-    return NextResponse.json(transformBeach(data), {
+    const beach = await getBeachBySlug(slug);
+    if (!beach) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    return NextResponse.json(beach, {
       headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
     });
   }
 
-  const limit = searchParams.get('limit');
+  const area = searchParams.get('area');
   const feature = searchParams.get('feature');
-  let query = supabase.from('beaches').select('*, beach_reviews(*)').order('rating', { ascending: false });
-  if (area) query = query.eq('area', area);
-  if (feature) query = query.contains('features', [feature]);
-  if (limit) query = query.limit(Number(limit));
-  const { data } = await query;
+  const limitParam = searchParams.get('limit');
+  const limit = limitParam ? Number(limitParam) : null;
 
-  return NextResponse.json((data || []).map(transformBeach), {
+  const beaches = await getBeachesFiltered(area, feature, limit);
+  return NextResponse.json(beaches, {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });
 }

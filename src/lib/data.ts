@@ -89,6 +89,25 @@ export const getBeachBySlug = unstable_cache(
   { revalidate: DETAIL_TTL, tags: ['beaches'] },
 );
 
+// Filtered beach list (area + feature + limit) — wraps the supabase call that
+// /api/beaches and several pages run. Hot path: per-area queries hit tens of
+// thousands of times. unstable_cache key includes args automatically.
+export const getBeachesFiltered = unstable_cache(
+  async (area: string | null, feature: string | null, limit: number | null): Promise<Beach[]> => {
+    const supabase = createApiClient();
+    let query = supabase
+      .from('beaches').select('*, beach_reviews(*)')
+      .order('rating', { ascending: false });
+    if (area) query = query.eq('area', area);
+    if (feature) query = query.contains('features', [feature]);
+    if (limit) query = query.limit(limit);
+    const { data } = await query;
+    return (data || []).map(transformBeach) as unknown as Beach[];
+  },
+  ['beaches-filtered'],
+  { revalidate: DETAIL_TTL, tags: ['beaches'] },
+);
+
 // ─── Restaurants ────────────────────────────────────────────
 export function transformRestaurant(row: Record<string, unknown>) {
   const reviews = (row.restaurant_reviews as Array<Record<string, unknown>> || []).map((r) => ({
@@ -133,6 +152,21 @@ export const getRestaurantBySlug = unstable_cache(
   { revalidate: DETAIL_TTL, tags: ['restaurants'] },
 );
 
+export const getRestaurantsFiltered = unstable_cache(
+  async (area: string | null, limit: number | null): Promise<Restaurant[]> => {
+    const supabase = createApiClient();
+    let query = supabase
+      .from('restaurants').select('*, restaurant_reviews(*)')
+      .order('rating', { ascending: false });
+    if (area) query = query.eq('area', area);
+    if (limit) query = query.limit(limit);
+    const { data } = await query;
+    return (data || []).map(transformRestaurant) as unknown as Restaurant[];
+  },
+  ['restaurants-filtered'],
+  { revalidate: DETAIL_TTL, tags: ['restaurants'] },
+);
+
 // ─── Activities ─────────────────────────────────────────────
 export function transformActivity(row: Record<string, unknown>) {
   const reviews = (row.activity_reviews as Array<Record<string, unknown>> || []).map((r) => ({
@@ -173,6 +207,21 @@ export const getActivityBySlug = unstable_cache(
     return transformActivity(data) as unknown as Activity;
   },
   ['activity-by-slug'],
+  { revalidate: DETAIL_TTL, tags: ['activities'] },
+);
+
+export const getActivitiesFiltered = unstable_cache(
+  async (area: string | null, limit: number | null): Promise<Activity[]> => {
+    const supabase = createApiClient();
+    let query = supabase
+      .from('activities').select('*, activity_reviews(*)')
+      .order('rating', { ascending: false });
+    if (area) query = query.eq('area', area);
+    if (limit) query = query.limit(limit);
+    const { data } = await query;
+    return (data || []).map(transformActivity) as unknown as Activity[];
+  },
+  ['activities-filtered'],
   { revalidate: DETAIL_TTL, tags: ['activities'] },
 );
 
@@ -344,6 +393,26 @@ export const getListingBySlug = unstable_cache(
     return transformListing(data as Record<string, unknown>) as unknown as Listing;
   },
   ['listing-by-slug'],
+  { revalidate: DETAIL_TTL, tags: ['listings'] },
+);
+
+// Filtered published-listings list, with optional area + limit. Wraps the
+// /api/listings query that was getting 17k+ calls in the supabase stats.
+export const getListingsFiltered = unstable_cache(
+  async (area: string | null, limit: number | null): Promise<Listing[]> => {
+    const supabase = createApiClient();
+    let query = supabase
+      .from('listings').select(LISTING_FIELDS)
+      .eq('status', 'published')
+      .order('created_at', { ascending: false });
+    if (area) query = query.eq('area', area);
+    if (limit) query = query.limit(limit);
+    const { data, error } = await query;
+    if (error || !data) return [];
+    const listings = (data || []).map((row) => transformListing(row as Record<string, unknown>)) as unknown as Listing[];
+    return pinFeaturedListings(listings);
+  },
+  ['listings-filtered'],
   { revalidate: DETAIL_TTL, tags: ['listings'] },
 );
 

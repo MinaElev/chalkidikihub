@@ -1,28 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createApiClient } from '@/lib/api-helpers';
-import { transformActivity } from '@/lib/data';
+import { getActivityBySlug, getActivitiesFiltered } from '@/lib/data';
 
 export async function GET(request: NextRequest) {
-  const supabase = createApiClient();
   const { searchParams } = new URL(request.url);
-  const area = searchParams.get('area');
   const slug = searchParams.get('slug');
 
   if (slug) {
-    const { data } = await supabase.from('activities').select('*, activity_reviews(*)').eq('slug', slug).single();
-    if (!data) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-    return NextResponse.json(transformActivity(data), {
+    const activity = await getActivityBySlug(slug);
+    if (!activity) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    return NextResponse.json(activity, {
       headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
     });
   }
 
-  const limit = searchParams.get('limit');
-  let query = supabase.from('activities').select('*, activity_reviews(*)').order('rating', { ascending: false });
-  if (area) query = query.eq('area', area);
-  if (limit) query = query.limit(Number(limit));
-  const { data } = await query;
+  const area = searchParams.get('area');
+  const limitParam = searchParams.get('limit');
+  const limit = limitParam ? Number(limitParam) : null;
 
-  return NextResponse.json((data || []).map(transformActivity), {
+  const activities = await getActivitiesFiltered(area, limit);
+  return NextResponse.json(activities, {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });
 }
