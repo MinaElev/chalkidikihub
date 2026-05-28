@@ -287,8 +287,18 @@ function buildSmartTitle(table: string, name: string, row: any, locale: string):
       return loc ? `${fullName}, ${loc} — ${suffix}` : `${fullName} — ${suffix}`;
     }
     case 'restaurants': {
-      // "Mr Coffee Πολύγυρος — Μενού, Τιμές & Κριτικές"
-      return loc ? `${name}, ${loc} — ${suffix}` : `${name} — ${suffix}`;
+      // "Mr Coffee (Café) στον Πολύγυρο — Μενού, Τιμές 2026"
+      const cuisine = (row.cuisine as string[]) || [];
+      const cuisineStr = cuisine.length > 0 ? String(cuisine[0]) : '';
+      const base = cuisineStr ? `${name} (${cuisineStr})` : name;
+      const inLoc = locale === 'el' ? `στη ${loc}`
+        : locale === 'de' ? `in ${loc}`
+        : locale === 'bg' ? `в ${loc}`
+        : locale === 'ru' ? `в ${loc}`
+        : locale === 'ro' ? `în ${loc}`
+        : locale === 'sr' ? `у ${loc}`
+        : `in ${loc}`;
+      return loc ? `${base} ${inLoc} — ${suffix} 2026` : `${base} — ${suffix} 2026`;
     }
     case 'activities': {
       return loc ? `${name}, ${loc} — ${suffix}` : `${name} — ${suffix}`;
