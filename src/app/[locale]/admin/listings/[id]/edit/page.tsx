@@ -181,26 +181,36 @@ export default function AdminEditListingPage() {
       </div>
 
       {/* Import from Airbnb/Booking */}
-      <ImportFromUrl onImport={(data) => {
-        setForm((prev) => ({
-          ...prev,
-          title_el: data.title || prev.title_el,
-          title_en: data.title_en || prev.title_en,
-          description_el: data.description || prev.description_el,
-          description_en: data.description_en || prev.description_en,
-          area: data.area || prev.area,
-          location_name: data.location_name || prev.location_name,
-          latitude: data.latitude || prev.latitude,
-          longitude: data.longitude || prev.longitude,
-          price_per_night: data.price_per_night || prev.price_per_night,
-          guests_max: data.guests_max || prev.guests_max,
-          bedrooms: data.bedrooms ?? prev.bedrooms,
-          bathrooms: data.bathrooms ?? prev.bathrooms,
-          amenities: data.amenities?.length ? data.amenities : prev.amenities,
-          booking_url: data.source_platform === 'Booking.com' ? (data.source_url || prev.booking_url) : prev.booking_url,
-          airbnb_url: data.source_platform === 'Airbnb' ? (data.source_url || prev.airbnb_url) : prev.airbnb_url,
-        }));
-      }} />
+      <ImportFromUrl
+        listingId={typeof id === 'string' ? id : undefined}
+        onImport={(data) => {
+          setForm((prev) => ({
+            ...prev,
+            title_el: data.title || prev.title_el,
+            title_en: data.title_en || prev.title_en,
+            description_el: data.description || prev.description_el,
+            description_en: data.description_en || prev.description_en,
+            area: data.area || prev.area,
+            location_name: data.location_name || prev.location_name,
+            latitude: data.latitude || prev.latitude,
+            longitude: data.longitude || prev.longitude,
+            price_per_night: data.price_per_night || prev.price_per_night,
+            guests_max: data.guests_max || prev.guests_max,
+            bedrooms: data.bedrooms ?? prev.bedrooms,
+            bathrooms: data.bathrooms ?? prev.bathrooms,
+            amenities: data.amenities?.length ? data.amenities : prev.amenities,
+            booking_url: data.source_platform === 'Booking.com' ? (data.source_url || prev.booking_url) : prev.booking_url,
+            airbnb_url: data.source_platform === 'Airbnb' ? (data.source_url || prev.airbnb_url) : prev.airbnb_url,
+          }));
+        }}
+        onImagesMigrated={async () => {
+          // Re-fetch listing_images after the migrate-images endpoint inserts
+          // new rows, so the gallery section below reflects the imported photos.
+          const supabase = createClient();
+          const { data: imgs } = await supabase.from('listing_images').select('*').eq('listing_id', id).order('sort_order');
+          if (imgs) setImages(imgs as typeof images);
+        }}
+      />
 
       {error && <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{error}</div>}
       {success && <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm">{success}</div>}

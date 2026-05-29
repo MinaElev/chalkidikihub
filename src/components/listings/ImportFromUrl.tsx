@@ -25,11 +25,26 @@ interface ImportedData {
 
 interface ImportFromUrlProps {
   onImport: (data: ImportedData) => void;
+  /**
+   * Listing ID for image migration. When provided, the imported `images[]`
+   * (which are external CDN URLs from Booking/Airbnb that get blocked or
+   * expire) are downloaded server-side and re-uploaded to our `listing-images`
+   * bucket, then added as `listing_images` rows. Called via
+   * `/api/admin/migrate-images` after the AI extraction completes.
+   *
+   * Without this prop the photo URLs are silently discarded — the old
+   * behaviour. Pass it whenever you have a listing row to attach images to.
+   */
+  listingId?: string;
+  /** Fires after images are migrated so the parent can refresh its gallery. */
+  onImagesMigrated?: () => void;
 }
 
-export function ImportFromUrl({ onImport }: ImportFromUrlProps) {
+export function ImportFromUrl({ onImport, listingId, onImagesMigrated }: ImportFromUrlProps) {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
+  const [migrating, setMigrating] = useState(false);
+  const [migrationStatus, setMigrationStatus] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
@@ -41,6 +56,7 @@ export function ImportFromUrl({ onImport }: ImportFromUrlProps) {
     setLoading(true);
     setError('');
     setSuccess(false);
+    setMigrationStatus('');
 
     try {
       const res = await fetch('/api/import-listing', {
@@ -57,12 +73,43 @@ export function ImportFromUrl({ onImport }: ImportFromUrlProps) {
       }
 
       onImport(data);
+
+      // Migrate external image URLs into Supabase storage so they don't expire
+      // / get blocked. Only when listingId is available (edit page).
+      const imageUrls: string[] = Array.isArray(data?.images) ? data.images : [];
+      if (listingId && imageUrls.length > 0) {
+        setMigrating(true);
+        setMigrationStatus(`Downloading ${imageUrls.length} photo${imageUrls.length === 1 ? '' : 's'}...`);
+        try {
+          const migRes = await fetch('/api/admin/migrate-images', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ listingId, imageUrls }),
+          });
+          const migData = await migRes.json();
+          if (migRes.ok) {
+            setMigrationStatus(
+              `Imported ${migData.migrated}/${imageUrls.length} photo${migData.migrated === 1 ? '' : 's'}.` +
+                (migData.errors?.length ? ` (${migData.errors.length} failed)` : ''),
+            );
+            onImagesMigrated?.();
+          } else {
+            setMigrationStatus(`Photo import failed: ${migData.error || 'unknown'}`);
+          }
+        } catch (e) {
+          setMigrationStatus(`Photo import error: ${e instanceof Error ? e.message : 'network'}`);
+        } finally {
+          setMigrating(false);
+        }
+      }
+
       setSuccess(true);
       setTimeout(() => {
         setOpen(false);
         setSuccess(false);
         setUrl('');
-      }, 1500);
+        setMigrationStatus('');
+      }, 2500);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Network error');
     } finally {
@@ -157,9 +204,22 @@ export function ImportFromUrl({ onImport }: ImportFromUrlProps) {
         </div>
       )}
 
-      {loading && (
+      {loading && !migrating && (
         <div className="mt-3 text-xs text-blue-600 animate-pulse">
           ⏳ Fetching page and extracting data with AI... This may take 5-10 seconds.
+        </div>
+      )}
+
+      {migrating && (
+        <div className="mt-3 flex items-center gap-2 text-xs text-blue-600">
+          <Loader2 className="w-3 h-3 animate-spin" />
+          <span className="animate-pulse">📸 {migrationStatus || 'Migrating photos to storage...'}</span>
+        </div>
+      )}
+
+      {migrationStatus && !migrating && (
+        <div className="mt-3 flex items-start gap-2 text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-lg p-2">
+          <span>📸 {migrationStatus}</span>
         </div>
       )}
     </div>
