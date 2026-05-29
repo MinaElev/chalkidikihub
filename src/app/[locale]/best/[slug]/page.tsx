@@ -10,6 +10,8 @@ import { createApiClient } from '@/lib/api-helpers';
 import { transformBeach, transformRestaurant, transformActivity } from '@/lib/data';
 import { getBestGuide, BEST_GUIDES, type BestGuide } from './best-data';
 import { localeUrl } from '@/lib/seo';
+import { FaqSection } from '@/components/ui/FaqSection';
+import { generateBestGuideFaqs } from '@/lib/faq-generators';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -167,6 +169,8 @@ export default async function BestOfPage({ params }: Props) {
           ))}
         </div>
       </div>
+
+      <FaqSection faqs={generateBestGuideFaqs(guide, items.length, locale)} />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </div>

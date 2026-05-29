@@ -8,6 +8,8 @@ import { localeUrl } from '@/lib/seo';
 import { createApiClient } from '@/lib/api-helpers';
 import { FROM_CITY_COORDS, FROM_CITY_NAMES } from '@/lib/driving-distances';
 import { DistanceTable } from '@/components/from/DistanceTable';
+import { FaqSection } from '@/components/ui/FaqSection';
+import { generateFromCityFaqs } from '@/lib/faq-generators';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -136,6 +138,8 @@ export default async function FromCityPage({ params }: Props) {
           { '@type': 'ListItem', position: 2, name: title, item: localeUrl(locale, `from/${city}`) },
         ],
       })}} />
+
+      <FaqSection faqs={generateFromCityFaqs(guide, locale)} />
     </div>
   );
 }

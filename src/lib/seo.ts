@@ -84,6 +84,19 @@ const tableToPath: Record<string, string> = {
   sales: 'sales',
 };
 
+// Tables that have a /api/md/<type>/<slug> markdown alternative. Used to
+// emit <link rel="alternate" type="text/markdown"> on detail pages, so AI
+// agents (Perplexity, Claude tool-use, Bing Copilot) discover the clean
+// machine-readable variant directly from the HTML page.
+const mdSupportedTables = new Set(['listings', 'beaches', 'restaurants', 'villages']);
+
+function mdTypeFor(table: string): string {
+  // Villages live at /places/<slug> on the site, and /api/md/places/<slug>
+  // in the markdown surface — keep the public route convention.
+  if (table === 'villages') return 'places';
+  return table;
+}
+
 export async function getContentMeta(
   table: string,
   slug: string,
@@ -178,6 +191,17 @@ export async function getContentMeta(
           ),
           'x-default': localeUrl(DEFAULT_LOCALE, `${pathSegment}/${slug}`),
         },
+        // Markdown alternate for entity types that expose /api/md/<type>/<slug>.
+        // Lets Perplexity / Claude tool-use / Bing Copilot etc. discover the
+        // clean markdown surface from the HTML page itself, without us having
+        // to negotiate via Accept: text/markdown.
+        ...(mdSupportedTables.has(table)
+          ? {
+              types: {
+                'text/markdown': `${SITE_URL}/api/md/${mdTypeFor(table)}/${slug}?locale=${locale}`,
+              },
+            }
+          : {}),
       },
     };
   } catch {
@@ -438,6 +462,12 @@ export function generateLodgingLD(listing: Record<string, unknown>, locale: stri
   const title = (listing.title as Record<string, string>)?.[locale] || (listing.title as Record<string, string>)?.el || '';
   const description = (listing.description as Record<string, string>)?.[locale] || (listing.description as Record<string, string>)?.el || '';
   const images = (listing.images as Array<{ image_url: string }>) || [];
+  const pricePerNight = listing.price_per_night ? Number(listing.price_per_night) : null;
+  const currency = (listing.currency as string) || 'EUR';
+  // Owner may override; otherwise sensible defaults for Greece (legally 14:00/12:00, in practice 16:00/11:00).
+  const checkin = (listing.checkin_time as string) || '16:00';
+  const checkout = (listing.checkout_time as string) || '11:00';
+  const guestsMax = listing.guests_max ? Number(listing.guests_max) : null;
 
   return {
     '@context': 'https://schema.org',
@@ -455,10 +485,31 @@ export function generateLodgingLD(listing: Record<string, unknown>, locale: stri
       latitude: listing.latitude,
       longitude: listing.longitude,
     },
-    priceRange: listing.price_per_night ? `€${listing.price_per_night} - €${Math.round(Number(listing.price_per_night) * 3)}` : '€€',
+    priceRange: pricePerNight ? `€${pricePerNight} - €${Math.round(pricePerNight * 3)}` : '€€',
+    ...(pricePerNight
+      ? {
+          // Richer offer block for AI agents / Google so they can quote concrete numbers.
+          makesOffer: {
+            '@type': 'Offer',
+            priceCurrency: currency,
+            price: pricePerNight,
+            priceSpecification: {
+              '@type': 'UnitPriceSpecification',
+              price: pricePerNight,
+              priceCurrency: currency,
+              unitText: 'NIGHT',
+            },
+            url: localeUrl(locale, `listings/${listing.slug}`),
+            availability: 'https://schema.org/InStock',
+          },
+        }
+      : {}),
     ...(images.length > 0 ? { image: images.map(i => i.image_url) } : {}),
     url: localeUrl(locale, `listings/${listing.slug}`),
     numberOfRooms: listing.bedrooms,
+    ...(guestsMax ? { occupancy: { '@type': 'QuantitativeValue', maxValue: guestsMax } } : {}),
+    checkinTime: checkin,
+    checkoutTime: checkout,
     amenityFeature: (listing.amenities as string[])?.map(a => ({ '@type': 'LocationFeatureSpecification', name: a, value: true })),
   };
 }

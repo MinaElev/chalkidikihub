@@ -4,6 +4,8 @@ import { ChevronRight } from 'lucide-react';
 import { getItinerary, ITINERARIES } from './itinerary-data';
 import { notFound } from 'next/navigation';
 import { localeUrl } from '@/lib/seo';
+import { FaqSection } from '@/components/ui/FaqSection';
+import { generateItineraryFaqs } from '@/lib/faq-generators';
 
 export const revalidate = 604800; // 1 week — static itinerary content
 
@@ -82,6 +84,8 @@ export default async function ItineraryPage({ params }: Props) {
           { '@type': 'ListItem', position: 3, name: title, item: localeUrl(locale, `itinerary/${days}`) },
         ],
       })}} />
+
+      <FaqSection faqs={generateItineraryFaqs(guide, locale)} />
     </div>
   );
 }

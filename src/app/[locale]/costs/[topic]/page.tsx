@@ -4,6 +4,8 @@ import { ChevronRight } from 'lucide-react';
 import { getCostGuide, COST_GUIDES } from './costs-data';
 import { notFound } from 'next/navigation';
 import { localeUrl } from '@/lib/seo';
+import { FaqSection } from '@/components/ui/FaqSection';
+import { generateCostsFaqs } from '@/lib/faq-generators';
 
 export const revalidate = 604800; // 1 week — static cost guides
 
@@ -82,6 +84,8 @@ export default async function CostGuidePage({ params }: Props) {
           { '@type': 'ListItem', position: 3, name: title, item: localeUrl(locale, `costs/${topic}`) },
         ],
       })}} />
+
+      <FaqSection faqs={generateCostsFaqs(guide, locale)} />
     </div>
   );
 }

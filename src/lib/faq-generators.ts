@@ -549,3 +549,400 @@ export function generateListingFaqs(
 
   return faqs;
 }
+
+// ─────────────────────────────────────────────────────────────────
+// Editorial guide FAQs (best / itinerary / from-city / costs).
+// These generate FAQPage schema for the templated SEO pages added in
+// commits b05882e, 7634c6c, 78e0fe9. They give Google rich-result
+// surfaces and let LLMs ingest concrete Q&As, not just prose.
+
+type L7 = Record<string, string>; // 7-locale string map; falls back to en/el.
+
+/** Resolve a 7-locale field; falls back through user-locale → en → el → first non-empty. */
+function pick(m: L7 | undefined, locale: string, fallback = ''): string {
+  if (!m) return fallback;
+  return m[locale] || m.en || m.el || Object.values(m).find(Boolean) || fallback;
+}
+
+// ─── /best/[slug] ─────────────────────────────────────────────────
+export function generateBestGuideFaqs(
+  guide: {
+    contentType: 'beaches' | 'restaurants' | 'activities' | 'mixed';
+    title: L7;
+  },
+  itemCount: number,
+  locale: string,
+): FaqItem[] {
+  const title = pick(guide.title, locale);
+  const t = guide.contentType;
+
+  const noun: L7 = t === 'beaches'
+    ? { el: 'παραλίες', en: 'beaches', de: 'Strände', bg: 'плажове', ru: 'пляжей', ro: 'plaje', sr: 'plaža' }
+    : t === 'restaurants'
+    ? { el: 'εστιατόρια', en: 'restaurants', de: 'Restaurants', bg: 'ресторанта', ru: 'ресторанов', ro: 'restaurante', sr: 'restorana' }
+    : { el: 'δραστηριότητες', en: 'activities', de: 'Aktivitäten', bg: 'дейности', ru: 'мероприятий', ro: 'activități', sr: 'aktivnosti' };
+  const nounStr = pick(noun, locale);
+
+  const q1: L7 = {
+    el: `Πόσες ${nounStr} περιλαμβάνει αυτός ο οδηγός;`,
+    en: `How many ${nounStr} does this guide cover?`,
+    de: `Wie viele ${nounStr} umfasst dieser Guide?`,
+    bg: `Колко ${nounStr} обхваща този справочник?`,
+    ru: `Сколько ${nounStr} включает этот гид?`,
+    ro: `Câte ${nounStr} include acest ghid?`,
+    sr: `Koliko ${nounStr} pokriva ovaj vodič?`,
+  };
+  const a1: L7 = {
+    el: `Ο οδηγός «${title}» καλύπτει ${itemCount} επιλεγμένες ${nounStr}, ταξινομημένες με βάση αξιολογήσεις και κριτήρια ποιότητας.`,
+    en: `The "${title}" guide covers ${itemCount} curated ${nounStr}, ranked by rating and quality criteria.`,
+    de: `Der Guide „${title}" deckt ${itemCount} ausgewählte ${nounStr} ab, sortiert nach Bewertung und Qualität.`,
+    bg: `Справочникът „${title}" обхваща ${itemCount} подбрани ${nounStr}, подредени по рейтинг и качество.`,
+    ru: `Гид «${title}» охватывает ${itemCount} отобранных ${nounStr}, отсортированных по рейтингу и качеству.`,
+    ro: `Ghidul „${title}" acoperă ${itemCount} ${nounStr} selectate, clasate după evaluare și calitate.`,
+    sr: `Vodič „${title}" pokriva ${itemCount} odabranih ${nounStr}, rangiranih po oceni i kvalitetu.`,
+  };
+
+  const q2: L7 = {
+    el: 'Πώς γίνεται η κατάταξη;',
+    en: 'How is the ranking decided?',
+    de: 'Wie wird die Reihenfolge bestimmt?',
+    bg: 'Как се определя класирането?',
+    ru: 'Как составляется рейтинг?',
+    ro: 'Cum este stabilit clasamentul?',
+    sr: 'Kako se utvrđuje rangiranje?',
+  };
+  const a2: L7 = {
+    el: 'Η κατάταξη βασίζεται σε αξιολογήσεις χρηστών, ποιότητα και δημοτικότητα. Δεν δεχόμαστε πληρωμές για κατάταξη — οι προτάσεις είναι αμερόληπτες.',
+    en: 'Ranking is based on user ratings, quality, and popularity. We do not accept payment for placement — recommendations are independent.',
+    de: 'Die Rangliste basiert auf Bewertungen, Qualität und Beliebtheit. Es gibt keine bezahlten Platzierungen.',
+    bg: 'Класирането се основава на оценки, качество и популярност. Не приемаме плащане за позициониране.',
+    ru: 'Рейтинг основан на оценках пользователей, качестве и популярности. Платных размещений нет.',
+    ro: 'Clasamentul se bazează pe evaluări, calitate și popularitate. Nu acceptăm plăți pentru poziționare.',
+    sr: 'Rangiranje se zasniva na ocenama, kvalitetu i popularnosti. Ne prihvatamo plaćanje za poziciju.',
+  };
+
+  const q3: L7 = {
+    el: 'Ποια εποχή είναι η καλύτερη για επίσκεψη;',
+    en: 'When is the best time to visit?',
+    de: 'Wann ist die beste Reisezeit?',
+    bg: 'Кое е най-доброто време за посещение?',
+    ru: 'Когда лучше всего посещать?',
+    ro: 'Care este cea mai bună perioadă pentru a vizita?',
+    sr: 'Kada je najbolje vreme za posetu?',
+  };
+  const a3: L7 = {
+    el: 'Η Χαλκιδική έχει υψηλή σεζόν Ιούνιο–Σεπτέμβριο. Για λιγότερο πλήθος και καλύτερες τιμές, προτιμήστε Μάιο, Ιούνιο αρχές ή Σεπτέμβριο.',
+    en: 'Halkidiki peak season is June–September. For fewer crowds and better prices, choose May, early June, or September.',
+    de: 'Hochsaison ist Juni–September. Für weniger Andrang Mai, Anfang Juni oder September wählen.',
+    bg: 'Пиковият сезон е юни–септември. За по-малко тълпи изберете май, началото на юни или септември.',
+    ru: 'Высокий сезон — июнь–сентябрь. Для меньшего наплыва выбирайте май, начало июня или сентябрь.',
+    ro: 'Sezonul de vârf este iunie–septembrie. Pentru mai puțină aglomerație, alegeți mai, începutul lui iunie sau septembrie.',
+    sr: 'Sezona je jun–septembar. Za manje gužve birajte maj, početak juna ili septembar.',
+  };
+
+  const q4: L7 = {
+    el: 'Πώς να χρησιμοποιήσω τις προτάσεις στον οδηγό;',
+    en: 'How do I use these recommendations?',
+    de: 'Wie nutze ich diese Empfehlungen?',
+    bg: 'Как да използвам тези препоръки?',
+    ru: 'Как пользоваться этими рекомендациями?',
+    ro: 'Cum folosesc aceste recomandări?',
+    sr: 'Kako da koristim ove preporuke?',
+  };
+  const a4: L7 = {
+    el: 'Κάθε επιλογή στον οδηγό έχει δική της σελίδα με φωτογραφίες, χάρτη, χαρακτηριστικά και κοντινά καταλύματα. Κάντε κλικ σε ό,τι σας ενδιαφέρει για λεπτομέρειες.',
+    en: 'Each pick has its own page with photos, map, features, and nearby accommodation. Click any item for full details.',
+    de: 'Jeder Eintrag hat eine eigene Seite mit Fotos, Karte, Merkmalen und nahegelegenen Unterkünften.',
+    bg: 'Всяка позиция има отделна страница със снимки, карта, характеристики и близки настанявания.',
+    ru: 'У каждого пункта своя страница с фото, картой, характеристиками и ближайшим жильем.',
+    ro: 'Fiecare opțiune are pagină proprie cu fotografii, hartă, caracteristici și cazări apropiate.',
+    sr: 'Svaka stavka ima svoju stranicu sa fotografijama, mapom, karakteristikama i obližnjim smeštajem.',
+  };
+
+  return [
+    { question: pick(q1, locale), answer: pick(a1, locale) },
+    { question: pick(q2, locale), answer: pick(a2, locale) },
+    { question: pick(q3, locale), answer: pick(a3, locale) },
+    { question: pick(q4, locale), answer: pick(a4, locale) },
+  ];
+}
+
+// ─── /itinerary/[days] ────────────────────────────────────────────
+export function generateItineraryFaqs(
+  guide: { slug: string; title: L7 },
+  locale: string,
+): FaqItem[] {
+  const days = parseInt(guide.slug.replace(/[^0-9]/g, ''), 10) || 0;
+  const dayWord: L7 = days === 1
+    ? { el: 'μέρα', en: 'day', de: 'Tag', bg: 'ден', ru: 'день', ro: 'zi', sr: 'dan' }
+    : { el: 'μέρες', en: 'days', de: 'Tage', bg: 'дни', ru: 'дней', ro: 'zile', sr: 'dana' };
+
+  return [
+    {
+      question: pick({
+        el: `Είναι αυτό το πρόγραμμα ${days} ${pick(dayWord, locale)} κατάλληλο για πρώτη επίσκεψη;`,
+        en: `Is this ${days}-${pick(dayWord, locale)} itinerary good for first-timers?`,
+        de: `Ist diese ${days}-${pick(dayWord, locale)}-Route für Erstbesucher geeignet?`,
+        bg: `Подходящ ли е този маршрут за първо посещение?`,
+        ru: `Подходит ли этот маршрут на ${days} ${pick(dayWord, locale)} для первой поездки?`,
+        ro: `Este acest itinerariu de ${days} ${pick(dayWord, locale)} potrivit pentru prima vizită?`,
+        sr: `Da li je ovaj plan od ${days} ${pick(dayWord, locale)} dobar za prvu posetu?`,
+      }, locale),
+      answer: pick({
+        el: 'Ναι. Καλύπτει τα κορυφαία αξιοθέατα και τις 3 περιοχές της Χαλκιδικής (Κασσάνδρα, Σιθωνία, Μαινλάντ) χωρίς να γίνεται κουραστικό.',
+        en: 'Yes. It covers the top sights across all three Halkidiki legs (Kassandra, Sithonia, mainland) without feeling rushed.',
+        de: 'Ja. Es deckt die Top-Sehenswürdigkeiten aller drei Halbinseln ab, ohne hektisch zu wirken.',
+        bg: 'Да. Покрива основните забележителности на трите полуострова без бързане.',
+        ru: 'Да. Маршрут охватывает главные места всех трёх «ног» Халкидики, без спешки.',
+        ro: 'Da. Acoperă principalele atracții ale celor trei peninsule, fără să fie agitat.',
+        sr: 'Da. Pokriva glavne znamenitosti sva tri poluostrva bez žurbe.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Χρειάζομαι αυτοκίνητο;',
+        en: 'Do I need a car?',
+        de: 'Brauche ich ein Auto?',
+        bg: 'Имам ли нужда от кола?',
+        ru: 'Нужна ли машина?',
+        ro: 'Am nevoie de mașină?',
+        sr: 'Da li mi treba auto?',
+      }, locale),
+      answer: pick({
+        el: 'Έντονα συνιστάται. Οι παραλίες και τα χωριά είναι διασκορπισμένα — τα λεωφορεία υπάρχουν αλλά είναι αραιά. Νοίκι αμαξιού από Θεσσαλονίκη ξεκινά ~25€/μέρα.',
+        en: 'Strongly recommended. Beaches and villages are spread out — buses exist but run rarely. Car rental from Thessaloniki starts ~€25/day.',
+        de: 'Sehr empfohlen. Strände und Dörfer sind weit verteilt — Busse fahren selten. Mietwagen ab Thessaloniki ab ca. 25€/Tag.',
+        bg: 'Силно препоръчително. Плажовете и селата са разпръснати; автобусите са редки. Кола под наем от Солун ~25€/ден.',
+        ru: 'Настоятельно рекомендуем. Пляжи и деревни разбросаны, автобусы ходят редко. Аренда от Салоник от ~25€/день.',
+        ro: 'Recomandat. Plajele și satele sunt răspândite; autobuzele sunt rare. Închiriere mașină de la Salonic ~25€/zi.',
+        sr: 'Snažno preporučujemo. Plaže i sela su raštrkani; autobusi su retki. Rentiranje od Soluna ~25€/dan.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Πόσο ευέλικτο είναι το πρόγραμμα;',
+        en: 'How flexible is this plan?',
+        de: 'Wie flexibel ist dieser Plan?',
+        bg: 'Колко гъвкав е този план?',
+        ru: 'Насколько гибок этот план?',
+        ro: 'Cât de flexibil este planul?',
+        sr: 'Koliko je ovaj plan fleksibilan?',
+      }, locale),
+      answer: pick({
+        el: 'Πλήρως ευέλικτο. Μπορείτε να ανταλλάξετε ημέρες, να αφαιρέσετε ή να προσθέσετε προορισμούς — το πρόγραμμα είναι οδηγός, όχι αυστηρή ατζέντα.',
+        en: 'Fully flexible. Swap days, drop or add destinations as you like — the plan is a guide, not a fixed schedule.',
+        de: 'Vollständig flexibel. Tauschen, weglassen oder ergänzen Sie Ziele nach Belieben.',
+        bg: 'Напълно гъвкав. Можете да разменяте дните, да премахвате или добавяте дестинации.',
+        ru: 'Полностью гибкий. Меняйте дни, убирайте или добавляйте места по желанию.',
+        ro: 'Complet flexibil. Schimbați zilele, eliminați sau adăugați destinații după preferințe.',
+        sr: 'Potpuno fleksibilan. Menjajte dane, izbacujte ili dodajte destinacije po želji.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Πού να μείνω για αυτή τη διαμονή;',
+        en: 'Where should I stay during this trip?',
+        de: 'Wo soll ich während dieser Reise übernachten?',
+        bg: 'Къде да отседна по време на това пътуване?',
+        ru: 'Где остановиться во время этой поездки?',
+        ro: 'Unde să stau în această călătorie?',
+        sr: 'Gde da odsednem tokom ovog putovanja?',
+      }, locale),
+      answer: pick({
+        el: 'Δείτε τα καταλύματά μας στο /listings — απευθείας με τον ιδιοκτήτη, χωρίς προμήθεια κράτησης. Φιλτράρετε ανά περιοχή (Κασσάνδρα, Σιθωνία, Μαινλάντ).',
+        en: 'Browse /listings — book directly with owners, no booking fees. Filter by area (Kassandra, Sithonia, mainland).',
+        de: 'Auf /listings — direkt beim Eigentümer ohne Buchungsgebühren. Filter nach Region.',
+        bg: 'Разгледайте /listings — директно от собственика, без такси. Филтър по район.',
+        ru: 'Смотрите /listings — бронирование напрямую без комиссий. Фильтр по региону.',
+        ro: 'Vedeți /listings — direct de la proprietar, fără comisioane. Filtru pe regiune.',
+        sr: 'Pogledajte /listings — direktno od vlasnika, bez provizije. Filter po regiji.',
+      }, locale),
+    },
+  ];
+}
+
+// ─── /from/[city] ────────────────────────────────────────────────
+export function generateFromCityFaqs(
+  guide: { slug: string; title: L7; description: L7 },
+  locale: string,
+): FaqItem[] {
+  const city = pick(guide.title, locale).replace(/^From\s+|^Από\s+|^Von\s+|^От\s+|^Из\s+|^De\s+la\s+|^Од\s+/i, '').replace(/\s+to.*$|\s+στη.*$|\s+nach.*$|\s+до.*$|\s+в.*$|\s+la\s+.*$|\s+do.*$/i, '');
+  // Pull distance/duration hint from description (e.g. "330 km, ~4 hours drive")
+  const descEn = pick(guide.description, 'en');
+  const km = descEn.match(/(\d{2,4})\s*km/i)?.[1];
+  const hrs = descEn.match(/~?\s*(\d{1,2})\s*hours?/i)?.[1];
+
+  return [
+    {
+      question: pick({
+        el: `Πόσο κάνει από ${city} στη Χαλκιδική;`,
+        en: `How long does the trip from ${city} to Halkidiki take?`,
+        de: `Wie lange dauert die Fahrt von ${city} nach Chalkidiki?`,
+        bg: `Колко време отнема пътуването от ${city} до Халкидики?`,
+        ru: `Сколько занимает дорога из ${city} в Халкидики?`,
+        ro: `Cât durează drumul de la ${city} la Halkidiki?`,
+        sr: `Koliko traje put od ${city} do Halkidikija?`,
+      }, locale),
+      answer: hrs && km
+        ? pick({
+            el: `Περίπου ${hrs} ώρες οδήγηση, ${km} χλμ.`,
+            en: `Roughly ${hrs} hours by car, ${km} km.`,
+            de: `Etwa ${hrs} Stunden mit dem Auto, ${km} km.`,
+            bg: `Около ${hrs} часа с кола, ${km} км.`,
+            ru: `Около ${hrs} часов на машине, ${km} км.`,
+            ro: `Aproximativ ${hrs} ore cu mașina, ${km} km.`,
+            sr: `Oko ${hrs} sati autom, ${km} km.`,
+          }, locale)
+        : pick(guide.description, locale),
+    },
+    {
+      question: pick({
+        el: 'Ποιες είναι οι επιλογές μεταφοράς;',
+        en: 'What are the transport options?',
+        de: 'Welche Verkehrsmittel gibt es?',
+        bg: 'Какви са транспортните опции?',
+        ru: 'Какие есть варианты транспорта?',
+        ro: 'Care sunt opțiunile de transport?',
+        sr: 'Koje su opcije prevoza?',
+      }, locale),
+      answer: pick({
+        el: 'Αυτοκίνητο (ιδανικό για ευελιξία), λεωφορείο (KTEL Χαλκιδικής από Θεσσαλονίκη), και πτήση προς Θεσσαλονίκη (SKG) με συνδυασμό αυτοκινήτου ή μεταφοράς. Δείτε λεπτομέρειες στον οδηγό παραπάνω.',
+        en: 'Car (best for flexibility), bus (KTEL Halkidiki from Thessaloniki), or fly to Thessaloniki (SKG) and continue by car/transfer. Details in the guide above.',
+        de: 'Auto (am flexibelsten), Bus (KTEL Chalkidiki ab Thessaloniki) oder Flug nach Thessaloniki (SKG) plus Auto/Transfer.',
+        bg: 'Кола (за гъвкавост), автобус (KTEL Халкидики от Солун) или полет до Солун (SKG) и допълнителен транспорт.',
+        ru: 'Машина (для гибкости), автобус (KTEL Халкидики из Салоник) или перелёт в Салоники (SKG) + трансфер.',
+        ro: 'Mașină (flexibilitate), autobuz (KTEL Halkidiki din Salonic) sau zbor la Salonic (SKG) + transfer.',
+        sr: 'Auto (najfleksibilnije), autobus (KTEL Halkidiki iz Soluna) ili let do Soluna (SKG) + transfer.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Χρειάζομαι βίζα;',
+        en: 'Do I need a visa?',
+        de: 'Brauche ich ein Visum?',
+        bg: 'Имам ли нужда от виза?',
+        ru: 'Нужна ли виза?',
+        ro: 'Am nevoie de viză?',
+        sr: 'Da li mi treba viza?',
+      }, locale),
+      answer: pick({
+        el: 'Η Ελλάδα είναι στη Σένγκεν. Πολίτες ΕΕ/ΕΟΧ δεν χρειάζονται βίζα. Άλλες υπηκοότητες — ελέγξτε με την αρμόδια προξενική αρχή.',
+        en: 'Greece is in Schengen. EU/EEA citizens need no visa. Other nationalities — check with the relevant consulate.',
+        de: 'Griechenland gehört zum Schengen-Raum. EU/EWR-Bürger benötigen kein Visum. Sonst beim Konsulat prüfen.',
+        bg: 'Гърция е в Шенген. Граждани на ЕС/ЕИП не се нуждаят от виза. Други — проверете в консулството.',
+        ru: 'Греция в Шенгене. Гражданам ЕС/ЕЭП виза не нужна. Остальным — уточняйте в консульстве.',
+        ro: 'Grecia este în Schengen. Cetățenii UE/SEE nu au nevoie de viză. Alții — verificați la consulat.',
+        sr: 'Grčka je u Šengenu. Građanima EU/EEA viza nije potrebna. Ostali — proverite kod konzulata.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Πότε είναι η καλύτερη εποχή για ταξίδι;',
+        en: 'When is the best time to travel?',
+        de: 'Wann ist die beste Reisezeit?',
+        bg: 'Кое е най-доброто време за пътуване?',
+        ru: 'Когда лучше всего ехать?',
+        ro: 'Care este cea mai bună perioadă de călătorie?',
+        sr: 'Kada je najbolje vreme za putovanje?',
+      }, locale),
+      answer: pick({
+        el: 'Μάιος – Σεπτέμβριος για παραλίες. Ιούλιος–Αύγουστος είναι η αιχμή (πιο ζεστά, πιο ακριβά). Για ήσυχες διακοπές με καλό καιρό, προτιμήστε Ιούνιο ή Σεπτέμβριο.',
+        en: 'May–September for beaches. July–August is peak (hottest, priciest). For quieter trips with great weather, pick June or September.',
+        de: 'Mai–September für Strände. Juli–August Hochsaison. Für ruhigere Reisen Juni oder September.',
+        bg: 'Май–септември за плажове. Юли–август е пикът. За по-спокойни почивки изберете юни или септември.',
+        ru: 'Май–сентябрь для пляжей. Июль–август — пик. Для спокойной поездки выбирайте июнь или сентябрь.',
+        ro: 'Mai–septembrie pentru plaje. Iulie–august este vârful. Pentru sejururi liniștite, alegeți iunie sau septembrie.',
+        sr: 'Maj–septembar za plaže. Jul–avgust je vrhunac. Za mirnije putovanje, jun ili septembar.',
+      }, locale),
+    },
+  ];
+}
+
+// ─── /costs/[topic] ──────────────────────────────────────────────
+export function generateCostsFaqs(
+  guide: { slug: string; title: L7 },
+  locale: string,
+): FaqItem[] {
+  return [
+    {
+      question: pick({
+        el: 'Πότε είναι φθηνότερη η Χαλκιδική;',
+        en: 'When is Halkidiki cheapest?',
+        de: 'Wann ist Chalkidiki am günstigsten?',
+        bg: 'Кога Халкидики е най-евтина?',
+        ru: 'Когда Халкидики дешевле всего?',
+        ro: 'Când este Halkidiki cel mai ieftin?',
+        sr: 'Kada je Halkidiki najjeftiniji?',
+      }, locale),
+      answer: pick({
+        el: 'Μάιος, αρχές Ιουνίου και Σεπτέμβριος έχουν τιμές 30-50% χαμηλότερες από Ιούλιο–Αύγουστο, με καλό καιρό και θερμή θάλασσα.',
+        en: 'May, early June, and September are 30–50% cheaper than July–August, with great weather and warm sea.',
+        de: 'Mai, Anfang Juni und September sind 30–50% günstiger als Juli–August.',
+        bg: 'Май, началото на юни и септември са 30–50% по-евтини от юли–август.',
+        ru: 'Май, начало июня и сентябрь — на 30–50% дешевле июля–августа.',
+        ro: 'Mai, începutul lui iunie și septembrie sunt cu 30–50% mai ieftine decât iulie–august.',
+        sr: 'Maj, početak juna i septembar su 30–50% jeftiniji od jula–avgusta.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Ποιο είναι το μεγαλύτερο έξοδο;',
+        en: 'What is the biggest expense?',
+        de: 'Was ist die größte Ausgabe?',
+        bg: 'Кой е най-големият разход?',
+        ru: 'Какая статья расходов самая большая?',
+        ro: 'Care este cea mai mare cheltuială?',
+        sr: 'Koji je najveći trošak?',
+      }, locale),
+      answer: pick({
+        el: 'Συνήθως το κατάλυμα. Κρατώντας απευθείας με τον ιδιοκτήτη (όχι μέσω Booking/Airbnb) γλιτώνετε 15–20% από προμήθειες.',
+        en: 'Accommodation usually. Booking directly with the owner (skipping Booking.com/Airbnb) saves 15–20% in fees.',
+        de: 'Meist die Unterkunft. Direkt beim Eigentümer buchen spart 15–20% an Gebühren.',
+        bg: 'Обикновено настаняването. Резервация директно от собственика спестява 15–20%.',
+        ru: 'Обычно проживание. Бронирование напрямую у владельца экономит 15–20% комиссий.',
+        ro: 'De obicei cazarea. Rezervând direct de la proprietar economisiți 15–20% din comisioane.',
+        sr: 'Najčešće smeštaj. Direktna rezervacija od vlasnika štedi 15–20% provizije.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Σε τι νόμισμα γίνονται οι πληρωμές;',
+        en: 'What currency is used?',
+        de: 'Welche Währung wird verwendet?',
+        bg: 'Каква валута се използва?',
+        ru: 'Какая валюта используется?',
+        ro: 'Ce monedă se folosește?',
+        sr: 'Koja valuta se koristi?',
+      }, locale),
+      answer: pick({
+        el: 'Ευρώ (EUR). Οι κάρτες γίνονται αποδεκτές παντού· σε μικρά χωριά και ταβέρνες κρατήστε λίγα μετρητά.',
+        en: 'Euro (EUR). Cards are accepted nearly everywhere; keep some cash for small villages and tavernas.',
+        de: 'Euro (EUR). Karten fast überall akzeptiert; etwas Bargeld für kleine Dörfer mitnehmen.',
+        bg: 'Евро (EUR). Карти се приемат почти навсякъде; пазете в брой за малки села.',
+        ru: 'Евро (EUR). Карты принимаются почти везде; немного наличных для деревень.',
+        ro: 'Euro (EUR). Cardurile sunt acceptate aproape peste tot; păstrați numerar pentru sate mici.',
+        sr: 'Evro (EUR). Kartice se prihvataju skoro svuda; ponesite nešto keša za mala sela.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Πώς να εξοικονομήσω χρήματα στις διακοπές;',
+        en: 'How can I save money on my trip?',
+        de: 'Wie spare ich Geld auf der Reise?',
+        bg: 'Как мога да спестя пари по време на пътуването?',
+        ru: 'Как сэкономить в поездке?',
+        ro: 'Cum pot economisi în călătorie?',
+        sr: 'Kako da uštedim na putovanju?',
+      }, locale),
+      answer: pick({
+        el: '1) Ταξίδι εκτός σεζόν (Μάιος/Σεπτέμβριος). 2) Απευθείας κράτηση με ιδιοκτήτη. 3) Ελεύθερες παραλίες αντί ξαπλώστρες (15–25€/μέρα). 4) Σούπερ μάρκετ για πρωινό/βραδινό· ταβέρνα για μεσημέρι (μεσημεριανό μενού ~10€).',
+        en: '1) Travel off-peak (May/Sept). 2) Book direct with owners. 3) Use free beaches instead of sunbed pairs (€15–25/day). 4) Supermarket for breakfast/snacks, taverna lunch menu ~€10.',
+        de: '1) Nebensaison (Mai/Sep). 2) Direkt beim Eigentümer buchen. 3) Freie Strände statt Liegen (15–25€/Tag). 4) Supermarkt für Frühstück, Taverne mittags ~10€.',
+        bg: '1) Извън сезона (май/септ). 2) Директна резервация. 3) Безплатни плажове вместо шезлонги (15–25€). 4) Супермаркет за закуска, обяд в таверна ~10€.',
+        ru: '1) Низкий сезон (май/сент). 2) Бронируйте напрямую. 3) Бесплатные пляжи вместо шезлонгов (15–25€). 4) Супермаркет на завтрак, таверна на обед ~10€.',
+        ro: '1) Extrasezon (mai/sept). 2) Rezervare directă. 3) Plaje libere în loc de șezlonguri (15–25€). 4) Supermarket pentru mic dejun, prânz la tavernă ~10€.',
+        sr: '1) Van sezone (maj/sept). 2) Direktna rezervacija. 3) Slobodne plaže umesto ležaljki (15–25€). 4) Supermarket za doručak, ručak u taverni ~10€.',
+      }, locale),
+    },
+  ];
+}
