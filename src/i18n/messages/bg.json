@@ -451,7 +451,11 @@
     "energyClass": "ЕПА",
     "viewMore": "Виж повече →",
     "notFound": "Не е намерено",
-    "salesBreadcrumb": "Продажби"
+    "salesBreadcrumb": "Продажби",
+    "trustNoFees": "Без такси за резервация",
+    "trustDirectOwner": "Директен контакт със собственика",
+    "trustFastReply": "Обикновено отговаря в рамките на часове",
+    "alsoAvailableOn": "Налично също в"
   },
   "inquiry": {
     "requestAvailability": "Запитване за наличност",
@@ -469,7 +473,12 @@
     "send": "Изпращане",
     "booking": "Резервация",
     "call": "Обаждане",
-    "contact": "Контакт"
+    "contact": "Контакт",
+    "continueLabel": "Продължи",
+    "back": "Назад",
+    "optional": "по избор",
+    "instantResponse": "Бърз отговор от собственика",
+    "stepOf": "Стъпка {current} от {total}"
   },
   "availabilityRequest": {
     "title": "Поискай свободни места в целия район",

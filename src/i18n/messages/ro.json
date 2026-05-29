@@ -451,7 +451,11 @@
     "energyClass": "Clasa en.",
     "viewMore": "Vezi mai mult →",
     "notFound": "Nu a fost găsit",
-    "salesBreadcrumb": "Vânzări"
+    "salesBreadcrumb": "Vânzări",
+    "trustNoFees": "Fără comisioane de rezervare",
+    "trustDirectOwner": "Contact direct cu proprietarul",
+    "trustFastReply": "De obicei răspunde în câteva ore",
+    "alsoAvailableOn": "Disponibil și pe"
   },
   "inquiry": {
     "requestAvailability": "Solicită disponibilitate",
@@ -469,7 +473,12 @@
     "send": "Trimite",
     "booking": "Rezervare",
     "call": "Apel",
-    "contact": "Contact"
+    "contact": "Contact",
+    "continueLabel": "Continuă",
+    "back": "Înapoi",
+    "optional": "opțional",
+    "instantResponse": "Răspuns rapid de la proprietar",
+    "stepOf": "Pasul {current} din {total}"
   },
   "availabilityRequest": {
     "title": "Solicită disponibilitate în întreaga zonă",

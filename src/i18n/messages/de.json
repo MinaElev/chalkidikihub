@@ -451,7 +451,11 @@
     "energyClass": "EPC",
     "viewMore": "Mehr sehen →",
     "notFound": "Nicht gefunden",
-    "salesBreadcrumb": "Verkäufe"
+    "salesBreadcrumb": "Verkäufe",
+    "trustNoFees": "Keine Buchungsgebühren",
+    "trustDirectOwner": "Direkter Kontakt zum Eigentümer",
+    "trustFastReply": "Antwortet meist innerhalb weniger Stunden",
+    "alsoAvailableOn": "Auch verfügbar auf"
   },
   "inquiry": {
     "requestAvailability": "Verfügbarkeit anfragen",
@@ -469,7 +473,12 @@
     "send": "Senden",
     "booking": "Buchung",
     "call": "Anruf",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "continueLabel": "Weiter",
+    "back": "Zurück",
+    "optional": "optional",
+    "instantResponse": "Schnelle Antwort vom Eigentümer",
+    "stepOf": "Schritt {current} von {total}"
   },
   "availabilityRequest": {
     "title": "Verfügbarkeit in der ganzen Region anfragen",

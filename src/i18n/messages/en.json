@@ -451,7 +451,11 @@
     "energyClass": "Energy class",
     "viewMore": "View more →",
     "notFound": "Not found",
-    "salesBreadcrumb": "Sales"
+    "salesBreadcrumb": "Sales",
+    "trustNoFees": "0% booking fees",
+    "trustDirectOwner": "Direct contact with the owner",
+    "trustFastReply": "Usually replies within hours",
+    "alsoAvailableOn": "Also available on"
   },
   "inquiry": {
     "requestAvailability": "Request Availability",
@@ -469,7 +473,12 @@
     "send": "Send",
     "booking": "Booking",
     "call": "Call",
-    "contact": "Contact"
+    "contact": "Contact",
+    "continueLabel": "Continue",
+    "back": "Back",
+    "optional": "optional",
+    "instantResponse": "Fast reply from the owner",
+    "stepOf": "Step {current} of {total}"
   },
   "availabilityRequest": {
     "title": "Request availability across the area",

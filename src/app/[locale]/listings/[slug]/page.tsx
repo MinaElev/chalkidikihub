@@ -6,11 +6,17 @@ import { getContentMeta, generateLodgingLD, generateBreadcrumbLD, localeUrl } fr
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getListingBySlug } from '@/lib/data';
 
-// REVERTED to force-dynamic. ISR pilot (revalidate=7200 + generateStaticParams=[])
-// triggered the Next 16 + Turbopack SSG-fallback bug — all listing pages
-// returned "A server error occurred" in production. Keep force-dynamic until
-// the bug is fixed upstream (or we move to a different framework version).
-export const dynamic = 'force-dynamic';
+// NOTE: We do NOT set `dynamic = 'force-dynamic'` here.
+//
+// The previous ISR pilot (revalidate=7200 + generateStaticParams=[]) tripped a
+// Next 16 + Turbopack SSG-fallback bug that returned "A server error occurred"
+// for every listing in prod. The fix-for-the-fix was force-dynamic, but that
+// disables React Data Cache entirely — making the unstable_cache wrappers added
+// in commits a68399e / f69a3f5 (`getListingBySlug` 10h TTL) useless on this route.
+//
+// Default dynamic rendering (no opt-out) lets the data layer cache fire while
+// still rendering the page per-request, avoiding the SSG bug. If a regression
+// appears, re-add `export const dynamic = 'force-dynamic'` and open an issue.
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;

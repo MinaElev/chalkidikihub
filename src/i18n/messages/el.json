@@ -451,7 +451,11 @@
     "energyClass": "ΕΠΑ",
     "viewMore": "Δες περισσότερα →",
     "notFound": "Δεν βρέθηκε",
-    "salesBreadcrumb": "Πωλήσεις"
+    "salesBreadcrumb": "Πωλήσεις",
+    "trustNoFees": "Χωρίς προμήθεια κράτησης",
+    "trustDirectOwner": "Απευθείας επικοινωνία με τον ιδιοκτήτη",
+    "trustFastReply": "Συνήθης απάντηση εντός ωρών",
+    "alsoAvailableOn": "Διαθέσιμο επίσης σε"
   },
   "inquiry": {
     "requestAvailability": "Ζητήστε Διαθεσιμότητα",
@@ -469,7 +473,12 @@
     "send": "Αποστολή",
     "booking": "Κράτηση",
     "call": "Κλήση",
-    "contact": "Επικοινωνία"
+    "contact": "Επικοινωνία",
+    "continueLabel": "Συνέχεια",
+    "back": "Πίσω",
+    "optional": "προαιρετικό",
+    "instantResponse": "Άμεση απάντηση από τον ιδιοκτήτη",
+    "stepOf": "Βήμα {current} από {total}"
   },
   "availabilityRequest": {
     "title": "Ζήτα διαθεσιμότητα σε όλη την περιοχή",

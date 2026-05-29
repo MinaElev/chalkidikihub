@@ -451,7 +451,11 @@
     "energyClass": "ЭПА",
     "viewMore": "Подробнее →",
     "notFound": "Не найдено",
-    "salesBreadcrumb": "Продажи"
+    "salesBreadcrumb": "Продажи",
+    "trustNoFees": "Без комиссии за бронирование",
+    "trustDirectOwner": "Прямой контакт с владельцем",
+    "trustFastReply": "Обычно отвечает в течение нескольких часов",
+    "alsoAvailableOn": "Также доступно на"
   },
   "inquiry": {
     "requestAvailability": "Запрос наличия",
@@ -469,7 +473,12 @@
     "send": "Отправить",
     "booking": "Бронирование",
     "call": "Звонок",
-    "contact": "Связаться"
+    "contact": "Связаться",
+    "continueLabel": "Продолжить",
+    "back": "Назад",
+    "optional": "необязательно",
+    "instantResponse": "Быстрый ответ от владельца",
+    "stepOf": "Шаг {current} из {total}"
   },
   "availabilityRequest": {
     "title": "Запросить доступность по всему региону",

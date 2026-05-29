@@ -452,7 +452,11 @@
     "energyClass": "Energ.",
     "viewMore": "Pogledaj više →",
     "notFound": "Nije pronađeno",
-    "salesBreadcrumb": "Prodaje"
+    "salesBreadcrumb": "Prodaje",
+    "trustNoFees": "Bez provizije za rezervaciju",
+    "trustDirectOwner": "Direktan kontakt sa vlasnikom",
+    "trustFastReply": "Obično odgovara u roku od nekoliko sati",
+    "alsoAvailableOn": "Takođe dostupno na"
   },
   "inquiry": {
     "requestAvailability": "Zatražite raspoloživost",
@@ -470,7 +474,12 @@
     "send": "Pošalji",
     "booking": "Rezervacija",
     "call": "Poziv",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "continueLabel": "Nastavi",
+    "back": "Nazad",
+    "optional": "opciono",
+    "instantResponse": "Brz odgovor od vlasnika",
+    "stepOf": "Korak {current} od {total}"
   },
   "availabilityRequest": {
     "title": "Zatraži dostupnost u celom regionu",
