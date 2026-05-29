@@ -279,6 +279,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   });
 
+  // ── llms.txt (canonical + per-locale variants) ──
+  // Listed so search engines that respect the sitemap pipe (Google,
+  // Bing, IndexNow, Yandex) explicitly discover the file. /api/md/*
+  // entries are NOT listed (would balloon the sitemap by thousands of
+  // duplicate-content rows); LLM crawlers find them via the
+  // <link rel="alternate" type="text/markdown"> in HTML detail pages
+  // and the explicit Allow: /api/md/ in robots.txt.
+  entries.push({
+    url: `${baseUrl}/llms.txt`,
+    lastModified: new Date(),
+    changeFrequency: 'daily',
+    priority: 0.6,
+  });
+  for (const locale of locales) {
+    if (locale === defaultLocale) continue; // root /llms.txt already listed
+    entries.push({
+      url: `${baseUrl}/${locale}/llms.txt`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.5,
+    });
+  }
+
   // ── Ghost pages (guides, best-of) ──
   for (const g of [
     'summer', 'easter', 'honeymoon', 'families', 'budget', 'winter', 'nightlife',

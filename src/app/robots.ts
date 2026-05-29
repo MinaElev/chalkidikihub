@@ -41,7 +41,10 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
+        // /api/md/ is the markdown alternative for entity detail pages —
+        // intentionally crawlable so LLM agents (Perplexity, Claude tool-use,
+        // ChatGPT browse) can fetch clean machine-readable content.
+        allow: ['/', '/api/md/'],
         disallow: [...privatePaths, '/api/'],
       },
       {
@@ -52,9 +55,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         // Explicit allow for AI/LLM crawlers — signals opt-in for search
         // indexing and (where applicable) training. Keeps private areas
-        // blocked, same as the default group.
+        // blocked, same as the default group. /api/md/ explicitly allowed
+        // so these bots discover the markdown variants.
         userAgent: aiBots,
-        allow: '/',
+        allow: ['/', '/api/md/'],
         disallow: [...privatePaths, '/api/'],
       },
     ],

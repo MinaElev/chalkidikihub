@@ -101,6 +101,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, `places/${slug}`)])),
         'x-default': localeUrl('el', `places/${slug}`),
       },
+      // Markdown alternative for AI agents (Perplexity, Claude tool-use, etc.)
+      types: {
+        'text/markdown': `${SITE_URL}/api/md/places/${slug}?locale=${locale}`,
+      },
     },
   };
 }
