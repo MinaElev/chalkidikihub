@@ -3,7 +3,7 @@ import { Link } from '@/i18n/navigation';
 import { ChevronRight } from 'lucide-react';
 import { getItinerary, ITINERARIES } from './itinerary-data';
 import { notFound } from 'next/navigation';
-import { localeUrl } from '@/lib/seo';
+import { localeUrl, generateTemplatedArticleLD } from '@/lib/seo';
 import { FaqSection } from '@/components/ui/FaqSection';
 import { generateItineraryFaqs } from '@/lib/faq-generators';
 
@@ -64,16 +64,14 @@ export default async function ItineraryPage({ params }: Props) {
         </div>
       </div>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Article',
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(generateTemplatedArticleLD({
+        url: localeUrl(locale, `itinerary/${days}`),
         headline: title,
         description,
-        datePublished: '2025-06-01',
-        dateModified: '2026-04-20',
-        author: { '@type': 'Organization', name: 'ChalkidikiHub' },
-        publisher: { '@type': 'Organization', name: 'ChalkidikiHub' },
-      })}} />
+        locale,
+        section: 'Itinerary',
+        htmlContent: content,
+      }))}} />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',

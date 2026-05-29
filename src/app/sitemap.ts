@@ -24,13 +24,23 @@ function alt(path: string) {
   };
 }
 
+// Bump this when static templated content (best/itinerary/from/costs/guide,
+// area filter pages, FAQ topics, etc.) changes meaningfully. Using a fixed
+// date instead of `new Date()` is the honest signal to Google: "this is when
+// the content was last touched". Every-page-modified-today defeats the
+// purpose of lastModified and wastes crawl budget on unchanged pages.
+const STATIC_CONTENT_DATE = new Date('2026-05-29');
+
 function forLocales(
   path: string,
   opts: { freq: MetadataRoute.Sitemap[0]['changeFrequency']; priority: number; modified?: Date },
 ): MetadataRoute.Sitemap {
   return locales.map((locale) => ({
     url: localeUrl(locale, path),
-    lastModified: opts.modified || new Date(),
+    // Real updated_at when caller supplies it (DB rows); otherwise the static
+    // content marker — NOT `new Date()`, which would mislead Google into
+    // re-crawling unchanged template pages daily.
+    lastModified: opts.modified || STATIC_CONTENT_DATE,
     changeFrequency: opts.freq,
     priority: opts.priority,
     alternates: alt(path),

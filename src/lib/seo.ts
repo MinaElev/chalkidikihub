@@ -97,6 +97,55 @@ function mdTypeFor(table: string): string {
   return table;
 }
 
+/**
+ * Builds a richer Article JSON-LD payload for the templated content pages
+ * (/itinerary, /from, /costs, /guide). Beyond the minimal headline/dates/
+ * author block, we add mainEntityOfPage, image, articleSection, inLanguage,
+ * and a wordCount estimate — properties Google uses for Discover/Top
+ * Stories eligibility and that AI assistants quote when summarising.
+ */
+export function generateTemplatedArticleLD(opts: {
+  url: string;
+  headline: string;
+  description: string;
+  locale: string;
+  section: string; // "Itinerary" | "Travel guide" | "Cost guide" | "Halkidiki guide"
+  htmlContent?: string;
+  imageUrl?: string;
+  datePublished?: string;
+  dateModified?: string;
+}) {
+  const wordCount = opts.htmlContent
+    ? opts.htmlContent
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .split(' ')
+        .filter(Boolean).length
+    : undefined;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': opts.url },
+    headline: opts.headline,
+    description: opts.description,
+    articleSection: opts.section,
+    inLanguage: opts.locale,
+    ...(wordCount ? { wordCount } : {}),
+    ...(opts.imageUrl ? { image: [opts.imageUrl] } : {}),
+    datePublished: opts.datePublished || '2025-06-01',
+    dateModified: opts.dateModified || '2026-05-29',
+    author: { '@type': 'Organization', name: 'ChalkidikiHub', url: SITE_URL },
+    publisher: {
+      '@type': 'Organization',
+      name: 'ChalkidikiHub',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/icons/icon-512.png` },
+    },
+  };
+}
+
 export async function getContentMeta(
   table: string,
   slug: string,

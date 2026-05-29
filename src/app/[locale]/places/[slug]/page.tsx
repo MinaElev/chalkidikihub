@@ -8,6 +8,8 @@ import { getVillagePriceStats, getVillageCuisineStats } from '@/lib/place-stats'
 import { JsonLd } from '@/components/ui/JsonLd';
 import { AREAS } from '@/lib/constants';
 import { isThinContent } from '@/lib/content-quality';
+import { FaqSection } from '@/components/ui/FaqSection';
+import { generateVillageFaqs } from '@/lib/faq-generators';
 import type { Metadata } from 'next';
 import type { Beach, Restaurant, Activity, Listing, Sale } from '@/types';
 
@@ -202,8 +204,13 @@ export default async function VillageDetailPage({ params }: Props) {
   const areaNameMap = (areaInfo?.name ?? {}) as Record<string, string>;
   const areaName = areaNameMap[locale] || areaNameMap.el || village.area;
 
-  // FAQ schema — common visitor questions, helps win rich results
-  const faqs = buildFaqs(villageName, areaName, locale, beaches.length, restaurants.length, activities.length);
+  // Generator emits 7-locale Q&As + visible accordion + Speakable schema
+  // via <FaqSection>. Replaces the previous EL/EN-only inline JSON-LD.
+  const faqs = generateVillageFaqs(
+    { name: villageName, area: areaName },
+    { beaches: beaches.length, restaurants: restaurants.length, activities: activities.length },
+    locale,
+  );
 
   return (
     <>
@@ -212,17 +219,6 @@ export default async function VillageDetailPage({ params }: Props) {
         { name: sectionLabel[locale] || 'Places', url: localeUrl(locale, 'places') },
         { name: villageName, url: localeUrl(locale, `places/${slug}`) },
       ]) as Record<string, unknown>} />
-      {faqs.length > 0 && (
-        <JsonLd data={{
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: faqs.map(f => ({
-            '@type': 'Question',
-            name: f.q,
-            acceptedAnswer: { '@type': 'Answer', text: f.a },
-          })),
-        }} />
-      )}
       <VillagePage
         locale={locale}
         village={village}
@@ -234,24 +230,12 @@ export default async function VillageDetailPage({ params }: Props) {
         priceStats={priceStats}
         cuisineStats={cuisineStats}
       />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FaqSection faqs={faqs} />
+      </div>
     </>
   );
 }
 
-function buildFaqs(village: string, area: string, locale: string, beaches: number, restaurants: number, activities: number) {
-  // Only include answers we can back with real data counts
-  if (locale === 'el') {
-    return [
-      { q: `Πού βρίσκεται η ${village};`, a: `Η ${village} βρίσκεται στην περιοχή ${area} της Χαλκιδικής, βόρεια Ελλάδα.` },
-      ...(beaches > 0 ? [{ q: `Υπάρχουν παραλίες κοντά στην ${village};`, a: `Ναι — υπάρχουν ${beaches}+ παραλίες κοντά στην ${village}, από οργανωμένες μέχρι απομονωμένες παραλίες.` }] : []),
-      ...(restaurants > 0 ? [{ q: `Πού να φάω στην ${village};`, a: `Η περιοχή διαθέτει ${restaurants}+ εστιατόρια και ταβέρνες με τοπική κουζίνα και φρέσκα ψάρια.` }] : []),
-      ...(activities > 0 ? [{ q: `Τι να κάνω στην ${village};`, a: `Υπάρχουν ${activities}+ δραστηριότητες και αξιοθέατα στην περιοχή — water sports, εκδρομές με σκάφος, πεζοπορία και πολιτιστικές επισκέψεις.` }] : []),
-    ];
-  }
-  return [
-    { q: `Where is ${village} located?`, a: `${village} is located in the ${area} peninsula of Halkidiki, northern Greece.` },
-    ...(beaches > 0 ? [{ q: `Are there beaches near ${village}?`, a: `Yes — there are ${beaches}+ beaches near ${village}, ranging from organized to secluded.` }] : []),
-    ...(restaurants > 0 ? [{ q: `Where to eat in ${village}?`, a: `The area has ${restaurants}+ restaurants and tavernas serving local cuisine and fresh seafood.` }] : []),
-    ...(activities > 0 ? [{ q: `What to do in ${village}?`, a: `There are ${activities}+ activities and attractions nearby — water sports, boat trips, hiking and cultural visits.` }] : []),
-  ];
-}
+// buildFaqs() replaced by generateVillageFaqs() in src/lib/faq-generators.ts
+// (7 locales, more questions, visible accordion + Speakable schema).

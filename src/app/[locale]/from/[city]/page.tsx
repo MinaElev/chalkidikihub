@@ -4,7 +4,7 @@ import { Link } from '@/i18n/navigation';
 import { ChevronRight } from 'lucide-react';
 import { getFromCity, FROM_CITIES } from './from-data';
 import { notFound } from 'next/navigation';
-import { localeUrl } from '@/lib/seo';
+import { localeUrl, generateTemplatedArticleLD } from '@/lib/seo';
 import { createApiClient } from '@/lib/api-helpers';
 import { FROM_CITY_COORDS, FROM_CITY_NAMES } from '@/lib/driving-distances';
 import { DistanceTable } from '@/components/from/DistanceTable';
@@ -119,16 +119,14 @@ export default async function FromCityPage({ params }: Props) {
         </div>
       </div>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Article',
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(generateTemplatedArticleLD({
+        url: localeUrl(locale, `from/${city}`),
         headline: title,
         description,
-        datePublished: '2025-06-01',
-        dateModified: '2026-04-20',
-        author: { '@type': 'Organization', name: 'ChalkidikiHub' },
-        publisher: { '@type': 'Organization', name: 'ChalkidikiHub' },
-      })}} />
+        locale,
+        section: 'Travel guide',
+        htmlContent: content,
+      }))}} />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',

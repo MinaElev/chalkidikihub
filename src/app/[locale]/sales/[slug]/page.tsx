@@ -4,6 +4,8 @@ import { DynamicSaleDetail } from '@/components/sales/DynamicSaleDetail';
 import { getContentMeta, generateSaleLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getSaleBySlug, getSales } from '@/lib/data';
+import { FaqSection } from '@/components/ui/FaqSection';
+import { generateSalesFaqs } from '@/lib/faq-generators';
 
 export const revalidate = 3600; // 1 hour — on-demand revalidation handles instant updates
 
@@ -40,6 +42,9 @@ export default async function SaleDetailPage({ params }: Props) {
         { name: itemName, url: localeUrl(locale, `sales/${slug}`) },
       ]) as Record<string, unknown>} />
       <DynamicSaleDetail slug={slug} initialData={sale} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FaqSection faqs={generateSalesFaqs({ title: itemName }, locale)} />
+      </div>
     </>
   );
 }

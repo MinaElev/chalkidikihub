@@ -858,6 +858,414 @@ export function generateFromCityFaqs(
   ];
 }
 
+// ─── /places/[slug] (villages) ────────────────────────────────────
+export function generateVillageFaqs(
+  village: { name: string; area: string },
+  counts: { beaches: number; restaurants: number; activities: number },
+  locale: string,
+): FaqItem[] {
+  const { name, area } = village;
+  const { beaches, restaurants, activities } = counts;
+  const items: FaqItem[] = [];
+
+  items.push({
+    question: pick({
+      el: `Πού βρίσκεται η ${name};`,
+      en: `Where is ${name} located?`,
+      de: `Wo befindet sich ${name}?`,
+      bg: `Къде се намира ${name}?`,
+      ru: `Где находится ${name}?`,
+      ro: `Unde se află ${name}?`,
+      sr: `Gde se nalazi ${name}?`,
+    }, locale),
+    answer: pick({
+      el: `Η ${name} βρίσκεται στην περιοχή ${area} της Χαλκιδικής, βόρεια Ελλάδα. Πρόσβαση με αυτοκίνητο ~1.5-2 ώρες από τη Θεσσαλονίκη.`,
+      en: `${name} is located in the ${area} peninsula of Halkidiki, northern Greece. Roughly 1.5–2 hours by car from Thessaloniki.`,
+      de: `${name} liegt auf der Halbinsel ${area} in Chalkidiki, Nordgriechenland. Etwa 1,5–2 Autostunden von Thessaloniki entfernt.`,
+      bg: `${name} се намира на полуостров ${area} в Халкидики, северна Гърция. Около 1,5–2 часа с кола от Солун.`,
+      ru: `${name} расположен на полуострове ${area} в Халкидики, северная Греция. Около 1,5–2 часов на машине от Салоник.`,
+      ro: `${name} se află pe peninsula ${area} din Halkidiki, nordul Greciei. Aproximativ 1,5–2 ore cu mașina de la Salonic.`,
+      sr: `${name} se nalazi na poluostrvu ${area} u Halkidikiju, severna Grčka. Oko 1,5–2 sata autom od Soluna.`,
+    }, locale),
+  });
+
+  if (beaches > 0) {
+    items.push({
+      question: pick({
+        el: `Υπάρχουν παραλίες κοντά στην ${name};`,
+        en: `Are there beaches near ${name}?`,
+        de: `Gibt es Strände in der Nähe von ${name}?`,
+        bg: `Има ли плажове близо до ${name}?`,
+        ru: `Есть ли пляжи рядом с ${name}?`,
+        ro: `Există plaje în apropiere de ${name}?`,
+        sr: `Postoje li plaže blizu ${name}?`,
+      }, locale),
+      answer: pick({
+        el: `Ναι — υπάρχουν ${beaches}+ παραλίες κοντά στην ${name}, από οργανωμένες με beach bars μέχρι ήσυχες ελεύθερες παραλίες.`,
+        en: `Yes — ${beaches}+ beaches near ${name}, ranging from organized with beach bars to secluded free beaches.`,
+        de: `Ja — ${beaches}+ Strände in der Nähe von ${name}, von organisierten Stränden bis zu ruhigen freien Stränden.`,
+        bg: `Да — ${beaches}+ плажа близо до ${name}, от организирани до тихи свободни плажове.`,
+        ru: `Да — ${beaches}+ пляжей рядом с ${name}, от организованных до тихих свободных.`,
+        ro: `Da — ${beaches}+ plaje în apropiere de ${name}, de la cele organizate până la cele libere.`,
+        sr: `Da — ${beaches}+ plaža u blizini ${name}, od organizovanih do mirnih slobodnih plaža.`,
+      }, locale),
+    });
+  }
+
+  if (restaurants > 0) {
+    items.push({
+      question: pick({
+        el: `Πού να φάω στην ${name};`,
+        en: `Where to eat in ${name}?`,
+        de: `Wo kann man in ${name} essen?`,
+        bg: `Къде да хапна в ${name}?`,
+        ru: `Где поесть в ${name}?`,
+        ro: `Unde să mănânc în ${name}?`,
+        sr: `Gde da jedem u ${name}?`,
+      }, locale),
+      answer: pick({
+        el: `Η περιοχή διαθέτει ${restaurants}+ εστιατόρια και ταβέρνες με τοπική κουζίνα, φρέσκα ψάρια και ψητά. Δείτε λεπτομέρειες στη σελίδα της ${name}.`,
+        en: `The area has ${restaurants}+ restaurants and tavernas serving local cuisine, fresh seafood, and grilled dishes. See the ${name} page for details.`,
+        de: `Die Gegend bietet ${restaurants}+ Restaurants und Tavernen mit lokaler Küche, frischen Meeresfrüchten und Grillgerichten.`,
+        bg: `В района има ${restaurants}+ ресторанта и таверни с местна кухня, прясна морска храна и грил.`,
+        ru: `В районе ${restaurants}+ ресторанов и таверн с местной кухней, морепродуктами и блюдами на гриле.`,
+        ro: `Zona are ${restaurants}+ restaurante și taverne cu bucătărie locală, fructe de mare proaspete și grătar.`,
+        sr: `U oblasti ima ${restaurants}+ restorana i taverni sa lokalnom kuhinjom, svežim plodovima mora i roštiljem.`,
+      }, locale),
+    });
+  }
+
+  if (activities > 0) {
+    items.push({
+      question: pick({
+        el: `Τι να κάνω στην ${name};`,
+        en: `What to do in ${name}?`,
+        de: `Was kann man in ${name} unternehmen?`,
+        bg: `Какво да правя в ${name}?`,
+        ru: `Чем заняться в ${name}?`,
+        ro: `Ce să fac în ${name}?`,
+        sr: `Šta da radim u ${name}?`,
+      }, locale),
+      answer: pick({
+        el: `Υπάρχουν ${activities}+ δραστηριότητες στην περιοχή — water sports, εκδρομές με σκάφος, πεζοπορία, πολιτιστικές επισκέψεις και τοπικά πανηγύρια το καλοκαίρι.`,
+        en: `${activities}+ activities nearby — water sports, boat trips, hiking, cultural visits, and local festivals in summer.`,
+        de: `${activities}+ Aktivitäten in der Nähe — Wassersport, Bootsausflüge, Wandern, Kulturbesuche und lokale Feste im Sommer.`,
+        bg: `${activities}+ дейности наблизо — водни спортове, лодки, туризъм, културни обиколки и местни празници през лятото.`,
+        ru: `${activities}+ занятий рядом — водные виды спорта, лодочные прогулки, походы, культурные визиты и местные фестивали летом.`,
+        ro: `${activities}+ activități în apropiere — sporturi nautice, plimbări cu barca, drumeții, vizite culturale și festivaluri locale vara.`,
+        sr: `${activities}+ aktivnosti u blizini — vodeni sportovi, izleti čamcem, planinarenje, kulturne posete i lokalni festivali leti.`,
+      }, locale),
+    });
+  }
+
+  items.push({
+    question: pick({
+      el: `Πού να μείνω κοντά στην ${name};`,
+      en: `Where to stay near ${name}?`,
+      de: `Wo kann man in der Nähe von ${name} übernachten?`,
+      bg: `Къде да отседна близо до ${name}?`,
+      ru: `Где остановиться рядом с ${name}?`,
+      ro: `Unde să stau în apropiere de ${name}?`,
+      sr: `Gde da odsednem blizu ${name}?`,
+    }, locale),
+    answer: pick({
+      el: `Δείτε τα καταλύματά μας στη σελίδα της ${name} — απευθείας με τον ιδιοκτήτη, χωρίς προμήθεια κράτησης.`,
+      en: `Browse the ${name} page for accommodations — book directly with owners, no booking fees.`,
+      de: `Auf der ${name}-Seite finden Sie Unterkünfte — direkt beim Eigentümer ohne Buchungsgebühren.`,
+      bg: `Разгледайте страницата на ${name} за настанявания — директно от собственика, без такси.`,
+      ru: `На странице ${name} — варианты жилья напрямую от владельца, без комиссий.`,
+      ro: `Pe pagina ${name} găsiți cazări — direct de la proprietar, fără comisioane.`,
+      sr: `Na stranici ${name} su smeštaji — direktno od vlasnika, bez provizije.`,
+    }, locale),
+  });
+
+  return items;
+}
+
+// ─── /mount-athos/* ──────────────────────────────────────────────
+export function generateMountAthosFaqs(locale: string): FaqItem[] {
+  return [
+    {
+      question: pick({
+        el: 'Ποιος μπορεί να επισκεφθεί το Άγιο Όρος;',
+        en: 'Who can visit Mount Athos?',
+        de: 'Wer darf den Berg Athos besuchen?',
+        bg: 'Кой може да посети Света гора?',
+        ru: 'Кто может посетить Афон?',
+        ro: 'Cine poate vizita Muntele Athos?',
+        sr: 'Ko može da poseti Svetu Goru?',
+      }, locale),
+      answer: pick({
+        el: 'Μόνο άνδρες, με ειδική άδεια (Διαμονητήριο). Οι γυναίκες δεν επιτρέπεται να εισέλθουν στη χερσόνησο εδώ και ~1000 χρόνια (Άβατον). Μπορούν να δουν τα μοναστήρια από κρουαζιέρα.',
+        en: 'Men only, with a special permit (Diamonitirion). Women have been forbidden from entering the peninsula for ~1000 years (Avaton rule). They can view monasteries from a sea cruise.',
+        de: 'Nur Männer, mit Sondergenehmigung (Diamonitirion). Frauen ist der Zutritt seit ~1000 Jahren verboten (Abaton-Regel). Klöster können vom Schiff aus besichtigt werden.',
+        bg: 'Само мъже с разрешение (Диамонитирион). Жените са забранени от ~1000 години (правило Аватон). Могат да видят манастирите от круиз.',
+        ru: 'Только мужчины с разрешением (Диамонитирион). Женщинам запрещён вход более 1000 лет (Аватон). Можно осматривать монастыри с морской прогулки.',
+        ro: 'Doar bărbați cu permis special (Diamonitirion). Femeile sunt interzise de ~1000 de ani (regula Avaton). Pot vedea mănăstirile dintr-o croazieră.',
+        sr: 'Samo muškarci sa posebnom dozvolom (Diamonitirion). Žene su zabranjene ~1000 godina (pravilo Avaton). Mogu videti manastire sa krstarenja.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Πώς βγάζω την άδεια εισόδου (Διαμονητήριο);',
+        en: 'How do I get the entry permit (Diamonitirion)?',
+        de: 'Wie erhalte ich die Einreisegenehmigung (Diamonitirion)?',
+        bg: 'Как да получа разрешението (Диамонитирион)?',
+        ru: 'Как получить разрешение (Диамонитирион)?',
+        ro: 'Cum obțin permisul (Diamonitirion)?',
+        sr: 'Kako da dobijem dozvolu (Diamonitirion)?',
+      }, locale),
+      answer: pick({
+        el: 'Επικοινωνείς με το Γραφείο Προσκυνητών στη Θεσσαλονίκη (+30 2310 252578) ~6 μήνες πριν. Χρειάζεται φωτογραφία διαβατηρίου και επιβεβαίωση από μοναστήρι. Κόστος 25–35€ ανά διανυκτέρευση.',
+        en: 'Contact the Pilgrims\' Office in Thessaloniki (+30 2310 252578) ~6 months ahead. You need a passport photo and a monastery confirmation. Cost €25–35 per night.',
+        de: 'Wenden Sie sich ca. 6 Monate vorher an das Pilgerbüro in Thessaloniki (+30 2310 252578). Passfoto und Klosterbestätigung erforderlich. Kosten 25–35 € pro Nacht.',
+        bg: 'Свържете се с Бюрото за поклонници в Солун (+30 2310 252578) ~6 месеца предварително. Нужни са снимка от паспорт и потвърждение от манастир. Цена 25–35€ на нощ.',
+        ru: 'Свяжитесь с Паломническим бюро в Салониках (+30 2310 252578) за ~6 месяцев. Нужны фото паспорта и подтверждение монастыря. Стоимость 25–35€/ночь.',
+        ro: 'Contactați Biroul Pelerinilor din Salonic (+30 2310 252578) cu ~6 luni înainte. Aveți nevoie de poză pașaport și confirmare de la mănăstire. Costul 25–35€/noapte.',
+        sr: 'Kontaktirajte Kancelariju za hodočasnike u Solunu (+30 2310 252578) ~6 meseci unapred. Potrebna je fotografija pasoša i potvrda iz manastira. Cena 25–35€ po noćenju.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Πώς φτάνω στο Άγιο Όρος;',
+        en: 'How do I get to Mount Athos?',
+        de: 'Wie komme ich zum Berg Athos?',
+        bg: 'Как стигам до Света гора?',
+        ru: 'Как добраться до Афона?',
+        ro: 'Cum ajung la Muntele Athos?',
+        sr: 'Kako da stignem do Svete Gore?',
+      }, locale),
+      answer: pick({
+        el: 'Με φέρι από την Ουρανούπολη (στην ηπειρωτική Χαλκιδική) προς τη Δάφνη — σημείο εισόδου στη χερσόνησο. Διαδρομή ~2 ώρες. Στην Ουρανούπολη ελέγχεται το Διαμονητήριο πριν επιβιβαστείς.',
+        en: 'Ferry from Ouranoupoli (on mainland Halkidiki) to Daphni — the entry port. ~2 hours. Your Diamonitirion is checked in Ouranoupoli before boarding.',
+        de: 'Fähre von Ouranoupoli (Festland Chalkidiki) nach Daphni — Einreisehafen. ~2 Stunden. Das Diamonitirion wird vor dem Einsteigen kontrolliert.',
+        bg: 'С ферибот от Уранополис (на континентална Халкидики) до Дафни — входен пункт. ~2 часа. Диамонитирионът се проверява преди качване.',
+        ru: 'Паромом из Уранополиса (материковая Халкидики) до Дафни — порт въезда. ~2 часа. Диамонитирион проверяется в Уранополисе.',
+        ro: 'Cu feribotul din Ouranoupoli (Halkidiki continentală) la Daphni — punctul de intrare. ~2 ore. Diamonitirionul este verificat înainte de îmbarcare.',
+        sr: 'Trajektom iz Uranopolisa (kontinentalna Halkidiki) do Dafnija — ulazna luka. ~2 sata. Diamonitirion se proverava pre ukrcavanja.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Πόσα μοναστήρια έχει το Άγιο Όρος;',
+        en: 'How many monasteries are there on Mount Athos?',
+        de: 'Wie viele Klöster gibt es auf dem Berg Athos?',
+        bg: 'Колко манастира има в Света гора?',
+        ru: 'Сколько монастырей на Афоне?',
+        ro: 'Câte mănăstiri sunt pe Muntele Athos?',
+        sr: 'Koliko manastira ima Sveta Gora?',
+      }, locale),
+      answer: pick({
+        el: '20 μοναστήρια κυρίαρχα (ηγουμενεία) και πολλές σκήτες/κελιά. Τα πιο γνωστά: Μεγίστη Λαύρα, Βατοπαίδι, Ιβήρων, Χιλανδαρίου, Σιμωνόπετρα, Αγίου Παύλου, Διονυσίου.',
+        en: '20 ruling monasteries plus many sketes and cells. Best-known: Megisti Lavra, Vatopedi, Iviron, Chilandariou, Simonos Petras, Agiou Pavlou, Dionysiou.',
+        de: '20 herrschende Klöster plus zahlreiche Sketen und Zellen. Bekannteste: Megisti Lavra, Vatopedi, Iviron, Chilandariou, Simonos Petras, Agiou Pavlou, Dionysiou.',
+        bg: '20 управляващи манастира плюс много скитове и килии. Най-известни: Велика Лавра, Ватопед, Ивирон, Хилендар, Симонопетра.',
+        ru: '20 правящих монастырей плюс многие скиты и кельи. Самые известные: Великая Лавра, Ватопед, Иверон, Хиландар, Симонопетра.',
+        ro: '20 de mănăstiri conducătoare plus multe schituri și chilii. Cele mai cunoscute: Marea Lavră, Vatoped, Iviron, Hilandar, Simonos Petras.',
+        sr: '20 vladajućih manastira i mnogo skitova i ćelija. Najpoznatiji: Velika Lavra, Vatoped, Iveron, Hilandar, Simonopetra.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Μπορώ να δω το Άγιο Όρος χωρίς να μπω;',
+        en: 'Can I see Mount Athos without entering?',
+        de: 'Kann ich den Berg Athos sehen, ohne einzureisen?',
+        bg: 'Мога ли да видя Света гора, без да влизам?',
+        ru: 'Можно ли увидеть Афон, не въезжая?',
+        ro: 'Pot vedea Muntele Athos fără să intru?',
+        sr: 'Mogu li da vidim Svetu Goru bez ulaska?',
+      }, locale),
+      answer: pick({
+        el: 'Ναι. Από την Ουρανούπολη φεύγουν καθημερινές κρουαζιέρες (καλοκαίρι) που πλέουν παράλληλα με τη δυτική ακτή — δες τα μοναστήρια από κοντά. Διαθέσιμο και για γυναίκες/παιδιά.',
+        en: 'Yes. Daily summer cruises leave Ouranoupoli sailing along the western coast — monasteries are visible from sea level. Open to women and children.',
+        de: 'Ja. Tägliche Sommerkreuzfahrten ab Ouranoupoli entlang der Westküste — Klöster vom Meer aus sichtbar. Auch für Frauen und Kinder.',
+        bg: 'Да. Ежедневни летни круизи от Уранополис покрай западния бряг — манастирите се виждат отдалеч. Допускат се жени и деца.',
+        ru: 'Да. Ежедневные летние круизы из Уранополиса вдоль западного побережья — монастыри видны с моря. Доступно женщинам и детям.',
+        ro: 'Da. Croaziere zilnice de vară din Ouranoupoli de-a lungul coastei vestice — mănăstirile sunt vizibile de la mare. Deschis femeilor și copiilor.',
+        sr: 'Da. Dnevna letnja krstarenja iz Uranopolisa duž zapadne obale — manastiri se vide sa mora. Otvoreno za žene i decu.',
+      }, locale),
+    },
+  ];
+}
+
+// ─── /sales/[slug] ───────────────────────────────────────────────
+export function generateSalesFaqs(
+  sale: { title: string; locationName?: string; priceLevel?: string },
+  locale: string,
+): FaqItem[] {
+  return [
+    {
+      question: pick({
+        el: 'Πώς γίνεται η αγορά ακινήτου στη Χαλκιδική;',
+        en: 'How does buying property in Halkidiki work?',
+        de: 'Wie funktioniert der Immobilienkauf in Chalkidiki?',
+        bg: 'Как се купува имот в Халкидики?',
+        ru: 'Как купить недвижимость в Халкидики?',
+        ro: 'Cum se cumpără o proprietate în Halkidiki?',
+        sr: 'Kako se kupuje nekretnina u Halkidikiju?',
+      }, locale),
+      answer: pick({
+        el: 'Χρειάζεσαι ΑΦΜ (από εφορία ή προξενείο), δικηγόρο, συμβολαιογράφο και τραπεζικό λογαριασμό στην Ελλάδα. Συμβόλαιο υπογράφεται ενώπιον συμβολαιογράφου. Χρόνος: 2-4 μήνες συνήθως.',
+        en: 'You need a Greek tax ID (AFM) from the tax office or consulate, a lawyer, a notary, and a Greek bank account. Contract signed before a notary. Typical timeline: 2–4 months.',
+        de: 'Sie benötigen eine griechische Steuernummer (AFM), einen Anwalt, Notar und griechisches Bankkonto. Vertrag wird vor dem Notar unterzeichnet. Dauer: typisch 2–4 Monate.',
+        bg: 'Нужни са гръцки данъчен номер (AFM), адвокат, нотариус и сметка в гръцка банка. Договорът се подписва пред нотариус. Обичайно 2–4 месеца.',
+        ru: 'Нужен греческий ИНН (AFM), адвокат, нотариус и счёт в греческом банке. Договор подписывается у нотариуса. Сроки: 2–4 месяца.',
+        ro: 'Aveți nevoie de cod fiscal grec (AFM), avocat, notar și cont bancar grec. Contractul se semnează la notar. Termen tipic: 2–4 luni.',
+        sr: 'Potreban je grčki poreski broj (AFM), advokat, notar i grčki bankovni račun. Ugovor se potpisuje pred notarom. Tipično 2–4 meseca.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Ποια είναι τα έξοδα αγοράς;',
+        en: 'What are the closing costs?',
+        de: 'Welche Nebenkosten fallen an?',
+        bg: 'Какви са разходите при покупка?',
+        ru: 'Какие сопутствующие расходы?',
+        ro: 'Care sunt costurile la cumpărare?',
+        sr: 'Koji su troškovi kupovine?',
+      }, locale),
+      answer: pick({
+        el: 'Συνολικά ~10-12% επί της τιμής: φόρος μεταβίβασης 3.09%, συμβολαιογραφικά ~1.5%, δικηγόρος ~1-1.5%, κτηματολόγιο ~0.5%, μεσιτικά (αν υπάρχει μεσίτης) 2-3%.',
+        en: 'Roughly 10–12% of the price total: transfer tax 3.09%, notary fees ~1.5%, lawyer ~1–1.5%, land registry ~0.5%, real estate agent (if any) 2–3%.',
+        de: 'Insgesamt ~10–12% des Kaufpreises: Übertragungssteuer 3,09 %, Notar ~1,5 %, Anwalt ~1–1,5 %, Grundbuch ~0,5 %, Makler 2–3 %.',
+        bg: 'Общо ~10–12% от цената: данък 3,09%, нотариус ~1,5%, адвокат ~1–1,5%, имотен регистър ~0,5%, агент 2–3%.',
+        ru: 'Всего ~10–12% от стоимости: налог 3,09%, нотариус ~1,5%, юрист ~1–1,5%, кадастр ~0,5%, агент 2–3%.',
+        ro: 'Total ~10–12% din preț: taxă transfer 3,09%, notar ~1,5%, avocat ~1–1,5%, cadastru ~0,5%, agent 2–3%.',
+        sr: 'Ukupno ~10–12% od cene: porez 3,09%, notar ~1,5%, advokat ~1–1,5%, katastar ~0,5%, agent 2–3%.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Μπορεί ξένος υπήκοος να αγοράσει ακίνητο;',
+        en: 'Can foreign nationals buy property?',
+        de: 'Können Ausländer Immobilien kaufen?',
+        bg: 'Могат ли чужденци да купуват имоти?',
+        ru: 'Могут ли иностранцы покупать недвижимость?',
+        ro: 'Pot cetățenii străini să cumpere proprietăți?',
+        sr: 'Mogu li stranci kupiti nekretninu?',
+      }, locale),
+      answer: pick({
+        el: 'Πολίτες ΕΕ: ναι, ελεύθερα. Εκτός ΕΕ: ναι, αλλά για περιοχές κοντά σε σύνορα χρειάζεται άδεια από το Υπουργείο Άμυνας. Χαλκιδική: επιτρέπεται χωρίς ειδική άδεια.',
+        en: 'EU citizens: yes, freely. Non-EU: yes, but areas near borders require Defence Ministry approval. Halkidiki: allowed without special permits.',
+        de: 'EU-Bürger: ja, frei. Nicht-EU: ja, aber Grenznähe braucht Verteidigungsministerium-Genehmigung. Chalkidiki: ohne Sondergenehmigung erlaubt.',
+        bg: 'Граждани ЕС: да, свободно. Извън ЕС: да, но граничните райони изискват одобрение. Халкидики: разрешено без специално разрешение.',
+        ru: 'Граждане ЕС: да, свободно. Не-ЕС: да, но в приграничных районах требуется разрешение МО. Халкидики: разрешено без особых разрешений.',
+        ro: 'Cetățenii UE: da, liber. Non-UE: da, dar zonele de graniță necesită aprobare. Halkidiki: permis fără autorizație specială.',
+        sr: 'Građani EU: da, slobodno. Van EU: da, ali pogranične zone traže odobrenje. Halkidiki: dozvoljeno bez posebne dozvole.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: `Πώς οργανώνω επίσκεψη για να δω το ακίνητο "${sale.title}";`,
+        en: `How do I arrange a viewing for "${sale.title}"?`,
+        de: `Wie vereinbare ich eine Besichtigung für "${sale.title}"?`,
+        bg: `Как да организирам оглед на "${sale.title}"?`,
+        ru: `Как организовать просмотр "${sale.title}"?`,
+        ro: `Cum aranjez o vizionare pentru "${sale.title}"?`,
+        sr: `Kako da organizujem obilazak "${sale.title}"?`,
+      }, locale),
+      answer: pick({
+        el: 'Επικοινωνία απευθείας μέσω της φόρμας στη σελίδα του ακινήτου — ο πωλητής σου απαντά συνήθως εντός ωρών.',
+        en: 'Contact the seller directly via the form on the listing page — replies usually within hours.',
+        de: 'Kontaktieren Sie den Verkäufer direkt über das Formular auf der Inserat-Seite — Antwort meist innerhalb Stunden.',
+        bg: 'Свържете се със собственика чрез формата на страницата — отговор обикновено в рамките на часове.',
+        ru: 'Свяжитесь с продавцом через форму на странице — ответ обычно в течение часов.',
+        ro: 'Contactați vânzătorul direct prin formularul de pe pagină — răspuns de obicei în câteva ore.',
+        sr: 'Kontaktirajte prodavca preko forme na stranici — odgovor obično u roku od nekoliko sati.',
+      }, locale),
+    },
+  ];
+}
+
+// ─── /guide/[slug] ───────────────────────────────────────────────
+export function generateGuideFaqs(
+  guide: { slug: string; title: L7 },
+  locale: string,
+): FaqItem[] {
+  return [
+    {
+      question: pick({
+        el: 'Ποια εποχή του χρόνου είναι η καλύτερη για επίσκεψη στη Χαλκιδική;',
+        en: 'When is the best time to visit Halkidiki?',
+        de: 'Wann ist die beste Zeit, um Chalkidiki zu besuchen?',
+        bg: 'Кога е най-доброто време за посещение на Халкидики?',
+        ru: 'Когда лучше всего посещать Халкидики?',
+        ro: 'Care este cea mai bună perioadă pentru a vizita Halkidiki?',
+        sr: 'Kada je najbolje vreme za posetu Halkidikiju?',
+      }, locale),
+      answer: pick({
+        el: 'Καλοκαίρι (Ιούνιος–Σεπτέμβριος) για παραλίες και κολύμπι. Ιούλιος–Αύγουστος είναι η αιχμή. Μάιος, αρχές Ιουνίου ή Σεπτέμβριος προσφέρουν καλό καιρό με λιγότερο πλήθος και 30–50% χαμηλότερες τιμές.',
+        en: 'Summer (June–September) for beaches and swimming. July–August is peak. May, early June, or September give great weather with fewer crowds and 30–50% lower prices.',
+        de: 'Sommer (Juni–September) für Strände und Schwimmen. Juli–August ist Hochsaison. Mai, Anfang Juni oder September bieten gutes Wetter mit weniger Andrang und 30–50% niedrigeren Preisen.',
+        bg: 'Лятото (юни–септември) за плажове и плуване. Юли–август е пиковият период. Май, началото на юни или септември — добро време, по-малко тълпи и 30–50% по-ниски цени.',
+        ru: 'Лето (июнь–сентябрь) для пляжей и купания. Июль–август — пик. Май, начало июня или сентябрь дают хорошую погоду с меньшим наплывом и ценами на 30–50% ниже.',
+        ro: 'Vara (iunie–septembrie) pentru plaje și înot. Iulie–august este vârful. Mai, începutul lui iunie sau septembrie oferă vreme bună, mai puține mulțimi și prețuri cu 30–50% mai mici.',
+        sr: 'Leto (jun–septembar) za plaže i plivanje. Jul–avgust je vrhunac. Maj, početak juna ili septembar daju dobro vreme, manje gužve i 30–50% niže cene.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Πώς να φτάσω στη Χαλκιδική;',
+        en: 'How do I get to Halkidiki?',
+        de: 'Wie komme ich nach Chalkidiki?',
+        bg: 'Как да стигна до Халкидики?',
+        ru: 'Как добраться до Халкидики?',
+        ro: 'Cum ajung la Halkidiki?',
+        sr: 'Kako da stignem do Halkidikija?',
+      }, locale),
+      answer: pick({
+        el: 'Πτήση στη Θεσσαλονίκη (SKG), μετά 1–2 ώρες με αυτοκίνητο. Νοίκι αμαξιού ξεκινά ~25€/μέρα. Εναλλακτικά λεωφορείο (KTEL Χαλκιδικής), αλλά συχνότητα είναι περιορισμένη. Δείτε αναλυτικά στους οδηγούς /from.',
+        en: 'Fly to Thessaloniki (SKG), then 1–2 hours by car. Car rental from ~€25/day. Alternatively bus (KTEL Halkidiki), but schedules are limited. Detailed routes in /from guides.',
+        de: 'Flug nach Thessaloniki (SKG), dann 1–2 Stunden mit dem Auto. Mietwagen ab ca. 25 €/Tag. Alternativ Bus (KTEL Chalkidiki), aber begrenzte Verbindungen. Details in /from-Guides.',
+        bg: 'Полет до Солун (SKG), след това 1–2 часа с кола. Кола под наем от ~25€/ден. Алтернатива — автобус (KTEL Халкидики), но има ограничен график. Подробно в /from.',
+        ru: 'Перелёт в Салоники (SKG), затем 1–2 часа на машине. Аренда от ~25€/день. Также автобус (KTEL Халкидики), но расписание ограниченное. Детали в /from.',
+        ro: 'Zbor la Salonic (SKG), apoi 1–2 ore cu mașina. Închiriere mașină de la ~25€/zi. Alternativ autobuz (KTEL Halkidiki), dar orare limitate. Detalii în /from.',
+        sr: 'Let do Soluna (SKG), zatim 1–2 sata autom. Rentiranje od ~25€/dan. Alternativa je autobus (KTEL Halkidiki), ali su rasporedi ograničeni. Detalji u /from.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Πού να μείνω στη Χαλκιδική;',
+        en: 'Where should I stay in Halkidiki?',
+        de: 'Wo soll ich in Chalkidiki übernachten?',
+        bg: 'Къде да отседна в Халкидики?',
+        ru: 'Где остановиться в Халкидики?',
+        ro: 'Unde să stau în Halkidiki?',
+        sr: 'Gde da odsednem u Halkidikiju?',
+      }, locale),
+      answer: pick({
+        el: 'Κασσάνδρα: ζωντανή, οικογενειακή, πιο τουριστική. Σιθωνία: ήσυχη, εξωτική, καλύτερη φύση. Άθως: πιο απομονωμένη, ιδανική για ηρεμία. Δείτε καταλύματα στο /listings — απευθείας με τον ιδιοκτήτη, χωρίς προμήθεια κράτησης.',
+        en: 'Kassandra: lively, family-friendly, more touristy. Sithonia: quieter, more exotic, better nature. Athos: remote, ideal for tranquility. Browse /listings — book directly with owners, no booking fees.',
+        de: 'Kassandra: lebendig, familienfreundlich, touristischer. Sithonia: ruhiger, exotischer, bessere Natur. Athos: abgelegen, ideal für Ruhe. /listings — direkt beim Eigentümer ohne Buchungsgebühren.',
+        bg: 'Касандра: жива, семейна, по-туристическа. Ситония: тиха, екзотична, по-добра природа. Атос: уединена, идеална за тишина. /listings — директно от собственика, без такси.',
+        ru: 'Кассандра: оживлённая, семейная, более туристическая. Ситония: тише, экзотичнее, лучше природа. Афон: уединённый, идеален для покоя. /listings — напрямую от владельца, без комиссий.',
+        ro: 'Kassandra: animată, prietenoasă cu familia, mai turistică. Sithonia: mai liniștită, mai exotică, natură mai bună. Athos: izolat, ideal pentru liniște. /listings — direct de la proprietar, fără comisioane.',
+        sr: 'Kasandra: živahna, porodična, turističkija. Sitonija: mirnija, egzotičnija, bolja priroda. Atos: izolovan, idealan za mir. /listings — direktno od vlasnika, bez provizije.',
+      }, locale),
+    },
+    {
+      question: pick({
+        el: 'Χρειάζομαι αυτοκίνητο για να εξερευνήσω;',
+        en: 'Do I need a car to explore?',
+        de: 'Brauche ich ein Auto zum Erkunden?',
+        bg: 'Имам ли нужда от кола, за да обикалям?',
+        ru: 'Нужна ли машина для путешествий?',
+        ro: 'Am nevoie de mașină pentru a explora?',
+        sr: 'Treba li mi auto za istraživanje?',
+      }, locale),
+      answer: pick({
+        el: 'Πολύ συνιστάται. Οι παραλίες και τα χωριά είναι διασκορπισμένα, και τα λεωφορεία είναι αραιά. Αν δεν θες αυτοκίνητο, διάλεξε ένα κατάλυμα κοντά σε δημοφιλές θέρετρο (Καλλιθέα, Χανιώτη, Νικήτη) με πρόσβαση σε εστιατόρια και παραλίες χωρίς μετακίνηση.',
+        en: 'Highly recommended. Beaches and villages are spread out, buses are sparse. If you skip the car, pick accommodation near a popular resort (Kallithea, Hanioti, Nikiti) with restaurants and beaches in walking distance.',
+        de: 'Sehr empfohlen. Strände und Dörfer sind weit verteilt, Busse fahren selten. Ohne Auto wählen Sie eine Unterkunft in einem beliebten Resort (Kallithea, Hanioti, Nikiti) mit fußläufigem Zugang zu Restaurants und Stränden.',
+        bg: 'Силно препоръчително. Плажовете и селата са разпръснати, автобусите редки. Без кола — изберете настаняване близо до популярен курорт (Калитея, Ханиоти, Никити).',
+        ru: 'Настоятельно рекомендуем. Пляжи и деревни разбросаны, автобусы редкие. Без машины — выберите жильё в популярном курорте (Каллитея, Ханиоти, Никити).',
+        ro: 'Recomandat. Plajele și satele sunt răspândite, autobuze rare. Fără mașină — alegeți cazare lângă o stațiune populară (Kallithea, Hanioti, Nikiti).',
+        sr: 'Snažno preporučujemo. Plaže i sela su raštrkani, autobusi retki. Bez auta — birajte smeštaj blizu popularnog letovališta (Kalitea, Hanioti, Nikiti).',
+      }, locale),
+    },
+  ];
+}
+
 // ─── /costs/[topic] ──────────────────────────────────────────────
 export function generateCostsFaqs(
   guide: { slug: string; title: L7 },

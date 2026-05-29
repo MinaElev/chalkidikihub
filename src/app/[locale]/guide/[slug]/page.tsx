@@ -4,9 +4,11 @@ import { Link } from '@/i18n/navigation';
 import { ChevronRight } from 'lucide-react';
 import { getGuide, GUIDES } from './guide-data';
 import { notFound } from 'next/navigation';
-import { localeUrl } from '@/lib/seo';
+import { localeUrl, generateTemplatedArticleLD } from '@/lib/seo';
 import { isThinContent } from '@/lib/content-quality';
 import { createApiClient } from '@/lib/api-helpers';
+import { FaqSection } from '@/components/ui/FaqSection';
+import { generateGuideFaqs } from '@/lib/faq-generators';
 
 export const revalidate = 3600;
 
@@ -122,16 +124,16 @@ export default async function GuidePage({ params }: Props) {
         </div>
       </div>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Article',
+      <FaqSection faqs={generateGuideFaqs(guide, locale)} />
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(generateTemplatedArticleLD({
+        url: localeUrl(locale, `guide/${slug}`),
         headline: title,
         description: guide.description[locale] || guide.description.en,
-        datePublished: '2025-06-01',
-        dateModified: '2026-04-20',
-        author: { '@type': 'Organization', name: 'ChalkidikiHub' },
-        publisher: { '@type': 'Organization', name: 'ChalkidikiHub' },
-      })}} />
+        locale,
+        section: 'Halkidiki guide',
+        htmlContent: content,
+      }))}} />
     </div>
   );
 }

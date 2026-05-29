@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import { Church, MapPin, Users, Bus, BedDouble, Clock, Mountain, BookOpen, ChevronRight } from 'lucide-react';
 import { tr } from './content';
 import { localeUrl } from '@/lib/seo';
+import { FaqSection } from '@/components/ui/FaqSection';
+import { generateMountAthosFaqs } from '@/lib/faq-generators';
 
 export const revalidate = 86400; // 1 day
 
@@ -84,6 +86,8 @@ export default async function MountAthosPage({ params }: Props) {
           </Link>
         ))}
       </div>
+
+      <FaqSection faqs={generateMountAthosFaqs(locale)} />
 
       {/* JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({

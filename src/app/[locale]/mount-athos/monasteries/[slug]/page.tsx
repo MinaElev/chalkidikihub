@@ -8,6 +8,8 @@ import { tr } from '../../content';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
 import { localeUrl } from '@/lib/seo';
 import Image from 'next/image';
+import { FaqSection } from '@/components/ui/FaqSection';
+import { generateMountAthosFaqs } from '@/lib/faq-generators';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
@@ -176,6 +178,8 @@ export default async function MonasteryDetailPage({ params }: Props) {
           </Link>
         ) : <span />}
       </div>
+
+      <FaqSection faqs={generateMountAthosFaqs(locale)} />
 
       {/* JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
