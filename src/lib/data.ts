@@ -345,6 +345,7 @@ export function transformListing(row: Record<string, unknown>) {
     contact_phone: row.contact_phone || null, contact_email: row.contact_email || null,
     booking_url: row.booking_url || null, airbnb_url: row.airbnb_url || null,
     website_url: row.website_url || null,
+    show_calendar: Boolean(row.show_calendar),
     images: (row.listing_images as Array<Record<string, unknown>> || []).map((img) => ({
       id: img.id, listing_id: row.id, image_url: img.image_url,
       sort_order: img.sort_order, is_cover: img.is_cover,
