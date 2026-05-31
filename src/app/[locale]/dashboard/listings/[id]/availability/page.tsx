@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
-import { ArrowLeft, Loader2, Check, X, Ban, Calendar as CalendarIcon, Save, Trash2 } from 'lucide-react';
+import { ArrowLeft, Loader2, Check, X, Ban, Calendar as CalendarIcon, Save, Trash2, Eye, EyeOff, Info } from 'lucide-react';
 
 interface AvailabilityRow {
   id: string;
@@ -21,7 +21,9 @@ export default function ListingAvailabilityPage() {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [listing, setListing] = useState<{ title_el: string; title_en: string } | null>(null);
+  const [listing, setListing] = useState<{ title_el: string; title_en: string; slug: string; show_calendar: boolean } | null>(null);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [togglingVisibility, setTogglingVisibility] = useState(false);
   const [rows, setRows] = useState<AvailabilityRow[]>([]);
   const [pendingChanges, setPendingChanges] = useState<Map<string, CellStatus>>(new Map());
   const [toolMode, setToolMode] = useState<CellStatus>('blocked');
@@ -37,10 +39,13 @@ export default function ListingAvailabilityPage() {
     (async () => {
       const supabase = createClient();
       const [{ data: listingData }, { data: availData }] = await Promise.all([
-        supabase.from('listings').select('title_el, title_en').eq('id', listingId).single(),
+        supabase.from('listings').select('title_el, title_en, slug, show_calendar').eq('id', listingId).single(),
         supabase.from('listing_availability').select('*').eq('listing_id', listingId),
       ]);
-      if (listingData) setListing(listingData);
+      if (listingData) {
+        setListing(listingData);
+        setShowCalendar(Boolean(listingData.show_calendar));
+      }
       if (availData) setRows(availData as AvailabilityRow[]);
       setLoading(false);
     })();
@@ -127,6 +132,24 @@ export default function ListingAvailabilityPage() {
     setPendingChanges(new Map());
   }
 
+  async function toggleShowCalendar() {
+    const next = !showCalendar;
+    setTogglingVisibility(true);
+    const supabase = createClient();
+    const { error } = await supabase
+      .from('listings')
+      .update({ show_calendar: next })
+      .eq('id', listingId);
+    if (error) {
+      alert('Σφάλμα: ' + error.message);
+    } else {
+      setShowCalendar(next);
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 2000);
+    }
+    setTogglingVisibility(false);
+  }
+
   async function clearAllBlocks() {
     if (!confirm('Να διαγραφούν ΟΛΕΣ οι μη διαθέσιμες μέρες;')) return;
     setSaving(true);
@@ -170,6 +193,81 @@ export default function ListingAvailabilityPage() {
           {listing && (
             <p className="text-sm text-gray-600">{listing.title_el || listing.title_en}</p>
           )}
+        </div>
+      </div>
+
+      {/* Instructions */}
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
+        <div className="flex items-start gap-2 mb-2">
+          <Info className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+          <h2 className="font-semibold text-blue-900">Πώς λειτουργεί</h2>
+        </div>
+        <ol className="text-sm text-blue-900/90 space-y-1.5 list-decimal list-inside ml-1">
+          <li>
+            <strong>Επίλεξε εργαλείο</strong> από την μπάρα παρακάτω: <em>Μπλοκαρισμένη</em> (πορτοκαλί — μη διαθέσιμη για άλλους λόγους) ή <em>Κρατημένη</em> (κόκκινη — υπάρχει κράτηση). Με το εργαλείο <em>Διαθέσιμη</em> καθαρίζεις μια μέρα.
+          </li>
+          <li>
+            <strong>Κάνε κλικ στις μέρες</strong> στο ημερολόγιο για να τις σημειώσεις. Μπορείς να αλλάξεις πολλές μέρες χωρίς αποθήκευση — οι αλλαγές κρατούνται προσωρινά.
+          </li>
+          <li>
+            Πάτησε <strong>Αποθήκευση</strong> στο κάτω μέρος της σελίδας για να καταχωρηθούν στη βάση. Με <strong>Ακύρωση</strong> αναιρείς τις μη αποθηκευμένες αλλαγές.
+          </li>
+          <li>
+            Όταν είσαι έτοιμος, <strong>ενεργοποίησε τη δημόσια εμφάνιση</strong> από το παρακάτω switch (ΝΑΙ/ΟΧΙ). Μόνο τότε θα φαίνεται το ημερολόγιο διαθεσιμότητας στη δημόσια σελίδα του καταλύματός σου. Στο κοινό εμφανίζονται μόνο οι μη διαθέσιμες μέρες (με κόκκινο) — οι λόγοι (μπλοκαρισμένη/κρατημένη) δεν είναι ορατοί στους επισκέπτες.
+          </li>
+          <li>
+            <strong>Default είναι ΟΧΙ</strong> — δηλαδή κανείς εκτός από εσένα δεν βλέπει το ημερολόγιο, μέχρι να το ενεργοποιήσεις.
+          </li>
+        </ol>
+      </div>
+
+      {/* Public visibility toggle */}
+      <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4 shadow-sm">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-start gap-3">
+            {showCalendar ? (
+              <Eye className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+            ) : (
+              <EyeOff className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
+            )}
+            <div>
+              <p className="font-semibold text-gray-900">Δημόσια εμφάνιση ημερολογίου</p>
+              <p className="text-sm text-gray-600 mt-0.5">
+                {showCalendar
+                  ? 'Το ημερολόγιο είναι ορατό στη σελίδα του καταλύματος.'
+                  : 'Το ημερολόγιο είναι κρυφό. Μόνο εσύ το βλέπεις.'}
+              </p>
+              {listing?.slug && showCalendar && (
+                <a
+                  href={`/listings/${listing.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-primary-600 hover:underline mt-1 inline-block"
+                >
+                  Δες πώς εμφανίζεται στο κοινό →
+                </a>
+              )}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={toggleShowCalendar}
+            disabled={togglingVisibility}
+            aria-pressed={showCalendar}
+            className={`relative inline-flex items-center gap-2 px-1 py-1 rounded-full transition-colors disabled:opacity-50 ${
+              showCalendar ? 'bg-green-500' : 'bg-gray-300'
+            }`}
+            style={{ width: '88px', height: '36px' }}
+          >
+            <span
+              className={`absolute top-1 left-1 w-7 h-7 bg-white rounded-full shadow transition-transform ${
+                showCalendar ? 'translate-x-[52px]' : 'translate-x-0'
+              }`}
+            />
+            <span className={`absolute text-xs font-bold ${showCalendar ? 'left-3 text-white' : 'right-3 text-gray-600'}`}>
+              {showCalendar ? 'ΝΑΙ' : 'ΟΧΙ'}
+            </span>
+          </button>
         </div>
       </div>
 
