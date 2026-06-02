@@ -8,6 +8,26 @@ export default async function ChangelogPage({ params }: Props) {
 
   const versions = [
     {
+      version: 'v3.40.0',
+      date: '3 Ιουνίου 2026',
+      highlights: 'Διόρθωση: τα τελευταία άρθρα blog δεν εμφανίζονταν στην αρχική. Νέο lightweight query (μόνο πεδία της κάρτας, limit 3, φιλτράρει drafts/χωρίς εικόνα) που λύνει το Supabase statement timeout και κρατά μόνο εμφανίσιμα άρθρα.',
+      features: [
+        { emoji: '🐛', title: 'Blog section στην αρχική — άδειο grid λόγω Supabase timeout', desc: 'Το `getBlogArticles()` έκανε `SELECT *` πάνω στο `blog_articles` (117 rows × 7 locale columns content_* που είναι τεράστια HTML strings) → Postgres επέστρεφε 57014 statement timeout. Η συνάρτηση κατάπινε το error και επέστρεφε `[]`, οπότε το grid render-αρε άδειο χωρίς οπτική ένδειξη. Ίδιο pattern εμφανιζόταν και στα logs για `getListings`. Νέα `getLatestBlogArticles(limit)` που επιλέγει μόνο τα πεδία που χρειάζεται η κάρτα (title/excerpt/image/slug/category/published_at/read_time_min + relateds), προσθέτει `.limit()` server-side, και logάρει errors αντί να τα καταπίνει.' },
+        { emoji: '🖼️', title: 'Φιλτράρισμα: μόνο δημοσιευμένα άρθρα με εικόνα στην αρχική', desc: 'Το προηγούμενο `order(published_at DESC)` με Postgres default έβαζε τα NULL published_at πρώτα — οπότε draft άρθρα μπορούσαν να εμφανιστούν στο home grid. Το νέο query προσθέτει `not(published_at, null)` ώστε να αποκλείονται drafts, και `not(image_url, null) + neq(image_url, "")` ώστε να εμφανίζονται μόνο άρθρα με cover image (αισθητικά συνεπές grid — όχι κενές γκρι κάρτες).' },
+      ],
+    },
+    {
+      version: 'v3.39.0',
+      date: '3 Ιουνίου 2026',
+      highlights: 'Μεγάλο content overhaul για AdSense: ~260 χειρόγραφες αναγραφές + ~1.700 μεταφράσεις σε 7 γλώσσες (blog, παραλίες, καταλύματα, εστιατόρια, μοναστήρια, περιοχές), 51 junk/duplicate διαγραφές, 100% image alt coverage. Νέα /editorial-policy, author bio στα άρθρα, πλουσιότερο Article schema. Διόρθωση price input στη φόρμα καταχώρησης.',
+      features: [
+        { emoji: '✍️', title: 'Content overhaul — ~260 rewrites σε 7 γλώσσες', desc: 'Συνολική αναβάθμιση ποιότητας: 81 blog άρθρα ξαναγράφτηκαν (avg 365→608 λέξεις), 130 παραλίες (90→168), 82 εστιατόρια (181→220), 28 thin καταλύματα, 20 μοναστήρια, 4 περιοχές, 5 thin δραστηριότητες, 3 sales. 13 εντελώς νέα άρθρα (7 fresh topics: Σιθωνία vs Κασσάνδρα, Πάσχα, budget, σκύλος, Οκτώβριος, ήσυχες παραλίες, Άγιο Όρος διαμονητήριο + 6 day trips: Θεσσαλονίκη, Βεργίνα, Όλυμπος/Δίον, Μετέωρα, Έδεσσα + hub). Κάθε ελληνικό master copy μεταφράστηκε σε en/de/bg/ru/ro/sr με gpt-4o-mini (HTML/τιμές/τοπωνύμια preserved). 51 spam/duplicate/off-topic entries διαγράφηκαν (carWash advertorial, spam slugs, διπλά). Blog: 104→117 άρθρα.' },
+        { emoji: '🔍', title: 'E-E-A-T: editorial policy, author bio, richer schema', desc: 'Νέα /editorial-policy σελίδα (7 γλώσσες) με διαφανή δήλωση χρήσης AI (human-edited, AI-assisted — σύμφωνη με Google AI guidelines), πηγές, διαδικασία επιμέλειας, 0% commission disclosure. Νέο AuthorBio component στο τέλος κάθε blog άρθρου (ChalkidikiHub Writer Team byline + ημερομηνίες δημοσίευσης/ενημέρωσης). Article JSON-LD εμπλουτίστηκε: Organization author με url στο /about, inLanguage, articleSection, keywords, wordCount. Footer link + sitemap entry.' },
+        { emoji: '🖼️', title: 'Image alt text — 100% coverage', desc: 'Auto-generated alt texts από structured data (όνομα + περιοχή + features) για 113 παραλίες (13%→100%) και 41 καταλύματα. Beaches alt στα ελληνικά, listings σε 7 γλώσσες (image_alt_<locale>). Σωστά ελληνικά άρθρα ανά περιοχή (στην Κασσάνδρα / στη Σιθωνία / στον Άθω), αφαίρεση διπλού "Παραλία" prefix.' },
+        { emoji: '💶', title: 'Διόρθωση price input στη φόρμα καταχώρησης', desc: 'Owners ανέφεραν ότι δεν μπορούσαν να βάλουν την τιμή που ήθελαν — το NumberStepper κρατούσε κολλημένο leading zero (πληκτρολόγηση έδινε "0100" αντί "100") και τα +/- κουμπιά εμπόδιζαν. Νέο PriceInput component: καθαρό text field χωρίς spinners, local string state ώστε να μπορεί να αδειάσει το πεδίο και να γράψει ελεύθερα, strip leading zeros, ένας δεκαδικός, min enforcement στο blur. Εφαρμόστηκε σε dashboard new/edit + admin edit (guests/bedrooms/bathrooms κρατούν NumberStepper). Owner helper + public priceNote (7 γλώσσες) ξαναγράφτηκε: ενδεικτική τιμή "από", η ακριβής επιβεβαιώνεται μετά από επικοινωνία.' },
+      ],
+    },
+    {
       version: 'v3.38.0',
       date: '27 Μαΐου 2026',
       highlights: 'Guest confirmation email με dashboard link (i18n el/en), admin RLS fix + expandable recipients list ανά αίτημα. Ο επισκέπτης παίρνει αμέσως email με τη μοναδική του διεύθυνση παρακολούθησης· ο admin βλέπει σε ποιους ιδιοκτήτες πήγε το broadcast και ποιος απάντησε.',

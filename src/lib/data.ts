@@ -260,6 +260,31 @@ export async function getBlogArticles(): Promise<BlogArticle[]> {
   return (data || []).map(transformArticle) as unknown as BlogArticle[];
 }
 
+// Lightweight variant for cards: skips the per-locale `content_*` columns
+// (which are huge and were causing statement timeouts when SELECT * pulled
+// all 117 rows). Filters out unpublished drafts so NULL published_at rows
+// don't take the top slot on the homepage.
+const ARTICLE_CARD_FIELDS = [
+  'id', 'slug', 'category', 'image_url', 'author', 'read_time_min',
+  'tags', 'related_area_slugs', 'related_beach_slugs',
+  'related_listing_slugs', 'related_article_slugs', 'published_at',
+  'title_el', 'title_en', 'title_de', 'title_bg', 'title_ru', 'title_ro', 'title_sr',
+  'excerpt_el', 'excerpt_en', 'excerpt_de', 'excerpt_bg', 'excerpt_ru', 'excerpt_ro', 'excerpt_sr',
+].join(',');
+
+export async function getLatestBlogArticles(limit: number): Promise<BlogArticle[]> {
+  const supabase = createApiClient();
+  const { data, error } = await supabase
+    .from('blog_articles').select(ARTICLE_CARD_FIELDS)
+    .not('published_at', 'is', null)
+    .not('image_url', 'is', null)
+    .neq('image_url', '')
+    .order('published_at', { ascending: false })
+    .limit(limit);
+  if (error) console.error('[getLatestBlogArticles] Supabase error:', error);
+  return (data || []).map(r => transformArticle(r as unknown as Record<string, unknown>)) as unknown as BlogArticle[];
+}
+
 export const getArticleBySlug = unstable_cache(
   async (slug: string): Promise<BlogArticle | null> => {
     const supabase = createApiClient();

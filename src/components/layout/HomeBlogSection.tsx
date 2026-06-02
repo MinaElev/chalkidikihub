@@ -1,13 +1,12 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { BlogCard } from '@/components/blog/BlogCard';
-import { getBlogArticles } from '@/lib/data';
+import { getLatestBlogArticles } from '@/lib/data';
 import { FileText, ArrowRight } from 'lucide-react';
 
 export async function HomeBlogSection({ locale }: { locale: string }) {
   const t = await getTranslations('blog');
-  const articles = await getBlogArticles();
-  const latest = articles.slice(0, 3);
+  const latest = await getLatestBlogArticles(3);
 
   return (
     <section className="py-20 md:py-28 bg-gray-50/80">
