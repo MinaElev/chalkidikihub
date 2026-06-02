@@ -13,6 +13,7 @@ import { Amenity } from '@/types';
 import { LocationPicker } from '@/components/ui/LocationPicker';
 import { ImportFromUrl } from '@/components/listings/ImportFromUrl';
 import NumberStepper from '@/components/ui/NumberStepper';
+import PriceInput from '@/components/ui/PriceInput';
 import { revalidateContent } from '@/lib/revalidate';
 
 export default function AdminEditListingPage() {
@@ -298,12 +299,10 @@ export default function AdminEditListingPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Τιμή από (EUR)</label>
-            <NumberStepper
+            <PriceInput
               value={Number(form.price_per_night) || 0}
               onChange={(v) => update('price_per_night', String(v))}
-              min={0}
-              step={5}
-              suffix="€"
+              min={1}
             />
           </div>
         </div>

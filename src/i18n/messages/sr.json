@@ -441,7 +441,7 @@
     "description": "Opis",
     "features": "Karakteristike",
     "hours": "Radno vreme",
-    "priceNote": "* Konačna cena može varirati u zavisnosti od sezone",
+    "priceNote": "* Okvirna cena „od“. Tačnu cenu potvrđuje vlasnik nakon što ga kontaktirate.",
     "sellingPrice": "Prodajna cena",
     "pricePerSqm": "€/kv.m.",
     "sqm": "kv.m.",

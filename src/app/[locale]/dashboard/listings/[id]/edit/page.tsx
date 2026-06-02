@@ -9,6 +9,7 @@ import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity, Area } from '@/types';
 import { LocationPicker } from '@/components/ui/LocationPicker';
 import NumberStepper from '@/components/ui/NumberStepper';
+import PriceInput from '@/components/ui/PriceInput';
 import { compressImage } from '@/lib/image-utils';
 
 const MAX_PHOTOS = 10;
@@ -280,14 +281,16 @@ export default function EditListingPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Τιμή από (EUR/βράδυ) *</label>
-            <NumberStepper
+            <PriceInput
               value={form.price_per_night}
               onChange={(v) => setForm(prev => ({ ...prev, price_per_night: v }))}
               min={1}
-              step={5}
               required
-              suffix="€"
             />
+            <p className="text-xs text-gray-500 mt-1 leading-snug">
+              Ενδεικτική τιμή «από». Ο επισκέπτης ενημερώνεται για την ακριβή τιμή
+              μετά από επικοινωνία μαζί σας.
+            </p>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Μέγιστοι επισκέπτες *</label>
