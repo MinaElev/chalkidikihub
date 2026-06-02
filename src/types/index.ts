@@ -271,6 +271,7 @@ export interface BlogArticle {
   related_listing_slugs: string[];
   related_article_slugs: string[];
   published_at: string;
+  updated_at?: string;
 }
 
 export interface BlogFilters {

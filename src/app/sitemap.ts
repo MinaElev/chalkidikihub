@@ -29,7 +29,7 @@ function alt(path: string) {
 // date instead of `new Date()` is the honest signal to Google: "this is when
 // the content was last touched". Every-page-modified-today defeats the
 // purpose of lastModified and wastes crawl budget on unchanged pages.
-const STATIC_CONTENT_DATE = new Date('2026-05-29');
+const STATIC_CONTENT_DATE = new Date('2026-06-02');
 
 function forLocales(
   path: string,
@@ -71,6 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/for-owners/services', priority: 0.8, freq: 'monthly' as const },
     { path: '/terms', priority: 0.3, freq: 'yearly' as const },
     { path: '/privacy', priority: 0.3, freq: 'yearly' as const },
+    { path: '/editorial-policy', priority: 0.5, freq: 'monthly' as const },
   ];
   for (const page of staticPages) {
     entries.push(...forLocales(page.path, { freq: page.freq, priority: page.priority }));

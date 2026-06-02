@@ -15,6 +15,7 @@ import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
 import { ShareButtons } from '@/components/ui/ShareButtons';
 import { CommentSection } from './CommentSection';
+import { AuthorBio } from './AuthorBio';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 
@@ -226,6 +227,8 @@ export function DynamicArticle({ slug, initialData }: { slug: string; initialDat
               </>
             )}
           </article>
+
+          <AuthorBio publishedAt={article.published_at} updatedAt={article.updated_at} />
 
           <CommentSection articleId={article.id} articleSlug={article.slug} />
 

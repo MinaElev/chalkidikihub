@@ -127,6 +127,7 @@ export function Footer() {
               <li><Link href="/about" className="text-sm text-gray-400 hover:text-white transition-colors">{tNav('about')}</Link></li>
               <li><Link href="/terms" className="text-sm text-gray-400 hover:text-white transition-colors">{t('terms')}</Link></li>
               <li><Link href="/privacy" className="text-sm text-gray-400 hover:text-white transition-colors">{t('privacy')}</Link></li>
+              <li><Link href="/editorial-policy" className="text-sm text-gray-400 hover:text-white transition-colors">{locale === 'el' ? 'Συντακτική Πολιτική' : locale === 'de' ? 'Redaktionsrichtlinien' : locale === 'bg' ? 'Редакционна политика' : locale === 'ru' ? 'Редакционная политика' : locale === 'ro' ? 'Politica Editorială' : locale === 'sr' ? 'Uređivačka politika' : 'Editorial Policy'}</Link></li>
               <li><Link href="/contact" className="text-sm text-gray-400 hover:text-white transition-colors">{locale === 'el' ? 'Επικοινωνία' : 'Contact'}</Link></li>
               <li><Link href="/sales" className="text-sm hover:text-emerald-400 transition-colors text-emerald-500">{locale === 'el' ? 'Πωλήσεις Ακινήτων' : 'Real Estate Sales'}</Link></li>
             </ul>
@@ -135,7 +136,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-6 text-center text-xs">
           <p className="text-gray-400" suppressHydrationWarning>{t('copyright', { year })}</p>
-          <Link href="/changelog" className="text-gray-400 hover:text-white mt-1 inline-block">v3.34.0</Link>
+          <Link href="/changelog" className="text-gray-400 hover:text-white mt-1 inline-block">v3.35.0</Link>
         </div>
       </div>
     </footer>

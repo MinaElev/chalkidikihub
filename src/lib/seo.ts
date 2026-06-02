@@ -621,21 +621,39 @@ export function generateBeachLD(beach: Record<string, unknown>, locale: string) 
 export function generateArticleLD(article: Record<string, unknown>, locale: string) {
   const title = (article.title as Record<string, string>)?.[locale] || (article.title as Record<string, string>)?.el || '';
   const description = (article.excerpt as Record<string, string>)?.[locale] || '';
+  const content = (article.content as Record<string, string>)?.[locale] || '';
+  // Word count from the body — Google uses this for "article depth" signals
+  // and it's a strong E-E-A-T quality indicator vs thin auto-generated stubs.
+  const wordCount = content ? content.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length : undefined;
+  const tags = (article.tags as string[]) || [];
+  const authorName = (article.author as string) || 'ChalkidikihubWriterTeam';
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: title,
     description,
-    author: { '@type': 'Person', name: (article.author as string) || 'Chalkidiki Hub' },
+    inLanguage: locale,
+    // OrganizationRole reflects team byline (vs Person for solo authors).
+    // Google accepts both for E-E-A-T as long as it's consistent and the
+    // about page documents the team.
+    author: {
+      '@type': 'Organization',
+      name: authorName,
+      url: localeUrl(locale, 'about'),
+    },
     publisher: {
       '@type': 'Organization',
       name: 'Chalkidiki Hub',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/icons/icon-512.png` },
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/icons/icon-512.png`, width: 512, height: 512 },
     },
     datePublished: article.published_at,
     dateModified: article.updated_at || article.published_at,
     ...(article.image_url ? { image: { '@type': 'ImageObject', url: article.image_url, width: 1200, height: 630 } } : {}),
+    ...(article.category ? { articleSection: article.category as string } : {}),
+    ...(tags.length > 0 ? { keywords: tags.join(', ') } : {}),
+    ...(wordCount && wordCount > 50 ? { wordCount } : {}),
     url: localeUrl(locale, `blog/${article.slug}`),
     mainEntityOfPage: { '@type': 'WebPage', '@id': localeUrl(locale, `blog/${article.slug}`) },
   };
