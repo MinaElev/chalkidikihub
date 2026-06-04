@@ -136,7 +136,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-6 text-center text-xs">
           <p className="text-gray-400" suppressHydrationWarning>{t('copyright', { year })}</p>
-          <Link href="/changelog" className="text-gray-400 hover:text-white mt-1 inline-block">v3.35.0</Link>
+          <Link href="/changelog" className="text-gray-400 hover:text-white mt-1 inline-block">v3.39.0</Link>
         </div>
       </div>
     </footer>
