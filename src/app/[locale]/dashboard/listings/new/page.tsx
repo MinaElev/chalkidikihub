@@ -39,7 +39,6 @@ export default function NewListingPage() {
     website_url: '',
     booking_url: '',
     airbnb_url: '',
-    status: 'published',
   });
 
   const areaLabels: Record<Area, string> = {
@@ -116,7 +115,7 @@ export default function NewListingPage() {
         website_url: form.website_url || null,
         booking_url: form.booking_url || null,
         airbnb_url: form.airbnb_url || null,
-        status: form.status,
+        status: 'pending',
         slug,
         owner_id: user.id,
       })
@@ -180,13 +179,23 @@ export default function NewListingPage() {
 
     setUploadProgress(null);
 
+    // Fire-and-forget notification emails (admin + owner confirmation).
+    // Pending status applies regardless of email success.
+    if (listing) {
+      fetch('/api/listings/notify-new', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ listing_id: listing.id }),
+      }).catch(() => {});
+    }
+
     if (uploadErrors.length > 0) {
-      setError('Listing saved but image issues: ' + uploadErrors.join('; '));
+      setError('Η καταχώρηση αποθηκεύτηκε (σε έλεγχο) αλλά υπήρξαν προβλήματα με εικόνες: ' + uploadErrors.join('; '));
       setLoading(false);
       return;
     }
 
-    router.push('/dashboard/listings');
+    router.push('/dashboard/listings?submitted=1');
   }
 
   return (
@@ -399,21 +408,22 @@ export default function NewListingPage() {
           </p>
         </div>
 
-        {/* Status & Submit */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={form.status === 'published'}
-              onChange={(e) => setForm(prev => ({ ...prev, status: e.target.checked ? 'published' : 'draft' }))}
-              className="rounded text-primary-600 focus:ring-primary-500" />
-            Publish immediately
-          </label>
+        {/* Review notice & Submit */}
+        <div className="pt-4 border-t border-gray-200 space-y-4">
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-900 leading-relaxed">
+            ⏳ <strong>Έλεγχος πριν τη δημοσίευση:</strong> Κάθε νέο κατάλυμα ελέγχεται από την ομάδα του ChalkidikiHub
+            προτού εμφανιστεί δημόσια. Θα λάβετε email επιβεβαίωσης στη διεύθυνσή σας και νέο email μόλις
+            δημοσιευτεί. Συνήθως ο έλεγχος ολοκληρώνεται εντός λίγων ωρών.
+          </div>
+          <div className="flex justify-end">
           <button type="submit" disabled={loading}
             className="flex items-center gap-2 px-8 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white font-medium rounded-xl transition-colors">
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
             {uploadProgress
               ? `Συμπίεση & ανέβασμα ${uploadProgress.current}/${uploadProgress.total}…`
-              : 'Save Listing'}
+              : 'Υποβολή για έλεγχο'}
           </button>
+          </div>
         </div>
       </form>
     </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { List, Eye, EyeOff, Trash2, Loader2, ExternalLink, ChevronDown, ChevronUp, Phone, Mail, Search, Filter, Pencil } from 'lucide-react';
+import { List, Eye, EyeOff, Trash2, Loader2, ExternalLink, ChevronDown, ChevronUp, Phone, Mail, Search, Filter, Pencil, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { Area } from '@/types';
@@ -66,6 +66,12 @@ export default function AdminListingsPage() {
     loadListings();
   }
 
+  async function approveListing(id: string) {
+    const supabase = createClient();
+    await supabase.from('listings').update({ status: 'published' }).eq('id', id);
+    loadListings();
+  }
+
   async function deleteListing(id: string) {
     if (!confirm('Διαγραφή αυτού του listing ΜΟΝΙΜΑ;')) return;
     const supabase = createClient();
@@ -115,6 +121,7 @@ export default function AdminListingsPage() {
         <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}
           className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
           <option value="">Όλα τα status</option>
+          <option value="pending">⏳ Pending (προς έγκριση)</option>
           <option value="published">Published</option>
           <option value="draft">Draft</option>
           <option value="archived">Archived</option>
@@ -161,10 +168,17 @@ export default function AdminListingsPage() {
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                     listing.status === 'published' ? 'bg-green-100 text-green-700' :
                     listing.status === 'archived' ? 'bg-gray-100 text-gray-700' :
+                    listing.status === 'pending' ? 'bg-orange-100 text-orange-700 ring-1 ring-orange-300' :
                     'bg-amber-100 text-amber-700'
-                  }`}>{listing.status}</span>
+                  }`}>{listing.status === 'pending' ? '⏳ pending' : listing.status}</span>
 
                   <div className="flex items-center gap-1">
+                    {listing.status === 'pending' && (
+                      <button onClick={(e) => { e.stopPropagation(); approveListing(listing.id); }}
+                        className="px-2 py-1 rounded-lg bg-green-600 hover:bg-green-700 text-white flex items-center gap-1 text-xs font-medium" title="Έγκριση & δημοσίευση">
+                        <CheckCircle className="w-3.5 h-3.5" />Έγκριση
+                      </button>
+                    )}
                     <Link href={`/admin/listings/${listing.id}/edit`} onClick={(e) => e.stopPropagation()}
                       className="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 flex items-center gap-1 text-xs font-medium" title="Edit">
                       <Pencil className="w-3.5 h-3.5" />Edit
