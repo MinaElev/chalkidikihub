@@ -5,20 +5,14 @@ import { getContentMeta, generateBeachLD, generateBreadcrumbLD, localeUrl } from
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getBeachBySlug } from '@/lib/data';
 
-// Next 16 + Turbopack: when generateStaticParams returns [], the runtime fails
-// to fall back to on-demand rendering cleanly and 500s. force-dynamic bypasses
-// the broken SSG path. Revisit once Next 16 fixes the empty-static-params case.
-export const dynamic = 'force-dynamic';
-
+// Default dynamic rendering (no force-dynamic, no generateStaticParams).
+// The Next 16 + Turbopack SSG-fallback bug is triggered by empty
+// generateStaticParams; force-dynamic bypassed it but also disabled the
+// React Data Cache. Removing both lets unstable_cache wrappers in
+// src/lib/data.ts handle caching. Mirrors listings/[slug].
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
-
-// On-demand rendering: pages built at first visit, cached per `revalidate`.
-// Keeps build time bounded as the DB grows; sitemap.xml still lists them.
-export async function generateStaticParams() {
-  return [];
-}
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;

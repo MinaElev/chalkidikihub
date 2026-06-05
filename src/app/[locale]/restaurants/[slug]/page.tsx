@@ -5,13 +5,8 @@ import { getContentMeta, generateRestaurantLD, generateBreadcrumbLD, localeUrl }
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getRestaurantBySlug } from '@/lib/data';
 
-export const dynamic = 'force-dynamic'; // Next 16 SSG-fallback bug; see listings/[slug]
-
+// Default dynamic rendering — see listings/[slug] for context.
 type Props = { params: Promise<{ locale: string; slug: string }> };
-
-export async function generateStaticParams() {
-  return [];
-}
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
