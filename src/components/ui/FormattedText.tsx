@@ -1,10 +1,25 @@
 'use client';
 
+// Some DB content mixes markdown with raw HTML tags (e.g. <strong>X</strong>).
+// Normalize those to their markdown equivalents so the parser below can
+// render them properly without resorting to dangerouslySetInnerHTML.
+function normalizeHtmlToMarkdown(text: string): string {
+  return text
+    .replace(/<\s*strong[^>]*>([\s\S]*?)<\s*\/\s*strong\s*>/gi, '**$1**')
+    .replace(/<\s*b[^>]*>([\s\S]*?)<\s*\/\s*b\s*>/gi, '**$1**')
+    .replace(/<\s*em[^>]*>([\s\S]*?)<\s*\/\s*em\s*>/gi, '**$1**')
+    .replace(/<\s*i[^>]*>([\s\S]*?)<\s*\/\s*i\s*>/gi, '**$1**')
+    .replace(/<\s*br\s*\/?\s*>/gi, '\n')
+    .replace(/<\s*\/?\s*p[^>]*>/gi, '\n\n')
+    // Strip any other HTML tags that slipped through — safer than rendering them.
+    .replace(/<[^>]+>/g, '');
+}
+
 // Renders simple markdown: ## headings, **bold**, - bullets, numbered lists, paragraphs
 export function FormattedText({ text, className }: { text: string; className?: string }) {
   if (!text) return null;
 
-  const lines = text.split('\n');
+  const lines = normalizeHtmlToMarkdown(text).split('\n');
 
   return (
     <div className={className}>
