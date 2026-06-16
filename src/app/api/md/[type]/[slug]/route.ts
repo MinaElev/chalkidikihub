@@ -23,6 +23,7 @@ import {
   getRestaurantBySlug,
   getVillageBySlug,
 } from '@/lib/data';
+import { EXTERNAL_BOOKING_LINKS_ENABLED } from '@/lib/feature-flags';
 
 export const revalidate = 36000; // 10h
 export const dynamic = 'force-static';
@@ -82,13 +83,16 @@ function listingToMd(l: Record<string, unknown>, locale: string): string {
     lines.push('## Description', '', desc, '');
   }
 
-  // Booking links — owner-direct prioritised (consistent with site CTA hierarchy)
+  // Booking links — owner-direct prioritised (consistent with site CTA hierarchy).
+  // External-channel URLs are gated by the same feature flag as the UI: when
+  // off, AI crawlers only see owner-direct contact details, matching what
+  // human visitors see on the listing page.
   const bookingLines: string[] = [];
   if (ext.contact_phone) bookingLines.push(`- 📞 Phone: ${ext.contact_phone}`);
   if (ext.contact_email) bookingLines.push(`- ✉️ Email: ${ext.contact_email}`);
-  if (ext.website_url) bookingLines.push(`- 🌐 Website: ${ext.website_url}`);
-  if (ext.booking_url) bookingLines.push(`- 🛏 Booking.com: ${ext.booking_url}`);
-  if (ext.airbnb_url) bookingLines.push(`- 🏠 Airbnb: ${ext.airbnb_url}`);
+  if (EXTERNAL_BOOKING_LINKS_ENABLED && ext.website_url) bookingLines.push(`- 🌐 Website: ${ext.website_url}`);
+  if (EXTERNAL_BOOKING_LINKS_ENABLED && ext.booking_url) bookingLines.push(`- 🛏 Booking.com: ${ext.booking_url}`);
+  if (EXTERNAL_BOOKING_LINKS_ENABLED && ext.airbnb_url) bookingLines.push(`- 🏠 Airbnb: ${ext.airbnb_url}`);
   if (bookingLines.length > 0) {
     lines.push('## How to book', '', '**0% booking fees when contacting the owner directly.**', '', ...bookingLines, '');
   }

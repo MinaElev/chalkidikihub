@@ -10,7 +10,7 @@ import { Building } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import type { PropertyType } from '@/types';
 
-export const revalidate = 3600; // ISR: 1 hour
+export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
 
 const VALID_TYPES = ['apartment', 'house', 'land', 'commercial', 'other'] as const;
 
@@ -96,10 +96,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!VALID_TYPES.includes(type as (typeof VALID_TYPES)[number])) return {};
 
   const titles = Object.fromEntries(
-    ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, `${categoryTitle(type, l)}`]),
+    ['el', 'en'].map(l => [l, `${categoryTitle(type, l)}`]),
   );
   const descriptions = Object.fromEntries(
-    ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, TYPE_META_DESC[type]?.[l] || TYPE_META_DESC[type]?.en || `${TYPE_LABELS[type]?.en || type} for sale in Halkidiki`]),
+    ['el', 'en'].map(l => [l, TYPE_META_DESC[type]?.[l] || TYPE_META_DESC[type]?.en || `${TYPE_LABELS[type]?.en || type} for sale in Halkidiki`]),
   );
 
   return collectionMeta({ titles, descriptions, path: `sales/category/${type}`, locale, ogType: 'sales' });

@@ -2,15 +2,22 @@
 
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
+import { ADSENSE_ENABLED } from '@/lib/feature-flags';
 
 const ADS_PUB = 'ca-pub-9694572418424066';
 
-// AdSense always loads (so the AdSense reviewer crawler detects the script).
+// AdSense + Analytics both deferred to first user interaction or browser-idle
+// fallback — keeps main thread free for LCP/TBT.
+//
+// AdSense is additionally gated by NEXT_PUBLIC_ADSENSE_ENABLED. While the
+// site is under review (or rejected for low-value content), keep the flag
+// off so the script doesn't ship to every visitor. Flip it on once the
+// account is approved, or briefly when re-submitting for review so the
+// AdSense crawler finds the script.
+//
 // Personalized vs non-personalized is gated by user consent via the NPA flag.
-// Analytics is non-essential and only loads with explicit consent + after
-// interaction/idle to protect LCP/TBT.
 export function DeferredScripts() {
-  const [loadAnalytics, setLoadAnalytics] = useState(false);
+  const [deferred, setDeferred] = useState(false);
   const [consent, setConsent] = useState<'accepted' | 'rejected' | 'unknown'>('unknown');
 
   useEffect(() => {
@@ -31,13 +38,13 @@ export function DeferredScripts() {
   }, []);
 
   useEffect(() => {
-    if (loadAnalytics) return;
+    if (deferred) return;
     let fired = false;
 
     const fire = () => {
       if (fired) return;
       fired = true;
-      setLoadAnalytics(true);
+      setDeferred(true);
     };
 
     const events: Array<keyof WindowEventMap> = [
@@ -57,7 +64,7 @@ export function DeferredScripts() {
       events.forEach((e) => window.removeEventListener(e, fire));
       clearTimeout(fallback);
     };
-  }, [loadAnalytics]);
+  }, [deferred]);
 
   // 'unknown' = visitor hasn't chosen yet → default to non-personalized,
   // GDPR-safe behaviour. Only explicit 'accepted' enables personalized ads
@@ -67,15 +74,19 @@ export function DeferredScripts() {
 
   return (
     <>
-      <Script id="adsbygoogle-init" strategy="afterInteractive">
-        {`(window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = ${npa ? 1 : 0};`}
-      </Script>
-      <Script
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADS_PUB}`}
-        strategy="afterInteractive"
-        crossOrigin="anonymous"
-      />
-      {loadAnalytics && allowAnalytics && (
+      {deferred && ADSENSE_ENABLED && (
+        <>
+          <Script id="adsbygoogle-init" strategy="afterInteractive">
+            {`(window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = ${npa ? 1 : 0};`}
+          </Script>
+          <Script
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADS_PUB}`}
+            strategy="afterInteractive"
+            crossOrigin="anonymous"
+          />
+        </>
+      )}
+      {deferred && allowAnalytics && (
         <>
           <Script
             id="gtag-init"

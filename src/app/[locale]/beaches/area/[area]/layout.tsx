@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { AREAS } from '@/lib/constants';
 import { localeUrl, ogImageUrl } from '@/lib/seo';
 
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
 
 const titleTemplates: Record<string, (area: string) => string> = {
   el: (a) => `Παραλίες ${a} — Χαλκιδική`,

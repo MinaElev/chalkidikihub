@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { getFromCity } from './from-data';
 import { localeUrl } from '@/lib/seo';
 
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; city: string }> }): Promise<Metadata> {
   const { locale, city } = await params;

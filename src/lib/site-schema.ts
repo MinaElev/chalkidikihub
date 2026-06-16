@@ -1,7 +1,10 @@
 import { SOCIAL_LINKS } from './seo';
+import { publicLocales } from '@/i18n/config';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+// WebSite.inLanguage advertises supported languages to crawlers — only the
+// public locales are listed so we don't promote translations we've hidden.
+const LOCALES = publicLocales;
 const DEFAULT_LOCALE = 'el';
 
 /**

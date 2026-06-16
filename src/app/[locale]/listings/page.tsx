@@ -5,7 +5,7 @@ import { getListings } from '@/lib/data';
 import { JsonLd } from '@/components/ui/JsonLd';
 import PageClient from './_client';
 
-export const revalidate = 3600; // ISR: 1 hour — on-demand revalidation handles instant updates
+export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
 
 const titles: Record<string, string> = {
   el: 'Ενοικιαζόμενα Καταλύματα Χαλκιδική',

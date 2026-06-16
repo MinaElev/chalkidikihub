@@ -6,9 +6,9 @@ import { localeUrl, generateBreadcrumbLD, ogImageUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
 
-export const revalidate = 3600; // ISR: 1 hour
+export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
 
 type CategoryKey = 'historical' | 'nature' | 'waterSports' | 'boatTrips' | 'wellness' | 'family' | 'nightlife' | 'religious';
 

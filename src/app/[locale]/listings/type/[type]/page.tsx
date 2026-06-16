@@ -4,7 +4,7 @@ import PageClient from './_client';
 import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
 
 const TYPE_LABELS: Record<string, Record<string, string>> = {
   'with-pool': { el: 'Με Πισίνα', en: 'With Pool', de: 'Mit Pool', bg: 'С басейн', ru: 'С бассейном', ro: 'Cu piscină', sr: 'Sa bazenom' },

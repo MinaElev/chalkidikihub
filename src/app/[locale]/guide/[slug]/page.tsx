@@ -10,7 +10,7 @@ import { createApiClient } from '@/lib/api-helpers';
 import { FaqSection } from '@/components/ui/FaqSection';
 import { generateGuideFaqs } from '@/lib/faq-generators';
 
-export const revalidate = 3600;
+export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
 
 // Module-level cache: load ALL guide overrides once per server process.
 // Prevents 378 prerendered guide pages from each issuing their own DB call
@@ -53,7 +53,7 @@ async function resolveContent(slug: string, locale: string, fallback: string): P
 }
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 

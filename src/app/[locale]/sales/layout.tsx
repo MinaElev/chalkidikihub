@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     alternates: {
       canonical: localeUrl(locale, 'sales'),
       languages: {
-        ...Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, 'sales')])),
+        ...Object.fromEntries(['el','en'].map(l => [l, localeUrl(l, 'sales')])),
         'x-default': localeUrl('el', 'sales'),
       },
     },

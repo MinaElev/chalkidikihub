@@ -9,7 +9,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Building } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
-export const revalidate = 3600; // ISR: 1 hour
+export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
 
 const VALID_AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'] as const;
 type ValidArea = (typeof VALID_AREAS)[number];
@@ -63,10 +63,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const validArea = area as ValidArea;
   const titles = Object.fromEntries(
-    ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, `${areaTitle(validArea, l)}`]),
+    ['el', 'en'].map(l => [l, `${areaTitle(validArea, l)}`]),
   );
   const descriptions = Object.fromEntries(
-    ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'].map(l => [l, areaDescription(validArea, l)]),
+    ['el', 'en'].map(l => [l, areaDescription(validArea, l)]),
   );
 
   return collectionMeta({ titles, descriptions, path: `sales/area/${area}`, locale, ogType: 'sales' });

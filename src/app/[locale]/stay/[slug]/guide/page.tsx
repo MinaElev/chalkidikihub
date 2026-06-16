@@ -8,8 +8,12 @@ import { JsonLd } from '@/components/ui/JsonLd';
 import { localeUrl } from '@/lib/seo';
 import { ChevronRight, MapPin, UtensilsCrossed, Waves, Compass, Clock, Phone, Star, Footprints, Car } from 'lucide-react';
 
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
-type Locale = typeof LOCALES[number];
+// ALL_LOCALES drives the runtime type so existing translation maps keep
+// compiling. HREFLANG_LOCALES is what we advertise to search engines —
+// keep this in sync with publicLocales in src/i18n/config.ts.
+const ALL_LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only
+type Locale = typeof ALL_LOCALES[number];
 
 // Page opts in to ISR; area + POI data doesn't change often.
 export const revalidate = 86400; // 24h
@@ -279,7 +283,7 @@ export default async function StayGuidePage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const l = (LOCALES.includes(locale as Locale) ? locale : 'el') as Locale;
+  const l = (ALL_LOCALES.includes(locale as Locale) ? locale : 'el') as Locale;
   const t = T[l];
 
   const supabase = createApiClient();

@@ -10,7 +10,11 @@ type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
-  return getContentMeta('restaurants', slug, locale, 'Restaurant | Chalkidiki Hub', 'Best restaurants in Halkidiki');
+  // Zero current impact (all restaurants are >1.250 chars), kept as a safety
+  // net for future entries that slip in below the quality bar.
+  return getContentMeta('restaurants', slug, locale, 'Restaurant | Chalkidiki Hub', 'Best restaurants in Halkidiki', {
+    thinThreshold: 400,
+  });
 }
 
 export default async function RestaurantDetailPage({ params }: Props) {

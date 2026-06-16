@@ -8,7 +8,7 @@ import { JsonLd } from '@/components/ui/JsonLd';
 import { generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { Mail, Phone, Globe, Star } from 'lucide-react';
 
-export const revalidate = 3600;
+export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
 
 export async function generateStaticParams() {
   const hosts = await getPublicHosts();

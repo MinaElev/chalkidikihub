@@ -6,8 +6,6 @@ import { Beach, Restaurant, Listing } from '@/types';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, ArrowRight, MapPin, Star, Waves } from 'lucide-react';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
-import { JsonLd } from '@/components/ui/JsonLd';
-import { generateBeachLD } from '@/lib/seo';
 import { generateBeachFaqs } from '@/lib/faq-generators';
 import { FaqSection } from '@/components/ui/FaqSection';
 import { BeachFeatureBadge } from './BeachFeatureBadge';
@@ -120,7 +118,8 @@ export function DynamicBeachDetail({ slug, initialData }: { slug: string; initia
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <JsonLd data={generateBeachLD(beach as unknown as Record<string, unknown>, locale)} />
+      {/* Beach JSON-LD is emitted in the parent route (beaches/[slug]/page.tsx).
+          Re-emitting it here used to produce duplicate schemas in HTML. */}
       <Breadcrumbs items={[
         { label: t('title') || 'Beaches', href: '/beaches' },
         { label: name }

@@ -3,7 +3,7 @@ import { localeUrl } from '@/lib/seo';
 import { AREAS } from '@/lib/constants';
 import type { Metadata } from 'next';
 
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
 
 type ContentType = 'beaches' | 'restaurants' | 'activities';
 

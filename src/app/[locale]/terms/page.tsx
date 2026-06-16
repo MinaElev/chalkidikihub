@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { localeUrl } from '@/lib/seo';
+import { publicLocales } from '@/i18n/config';
 
 export const revalidate = 604800; // 1 week — static legal content
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = publicLocales;
 
 const titles: Record<string, string> = {
   el: 'Όροι Χρήσης',

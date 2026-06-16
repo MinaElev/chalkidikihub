@@ -12,7 +12,7 @@ import { Link } from '@/i18n/navigation';
 import { Church, ChevronRight, MapPin } from 'lucide-react';
 import { Area } from '@/types';
 import { AreaVillages } from '@/components/listings/AreaVillages';
-import { localeUrl } from '@/lib/seo';
+import { localeUrl, generateBreadcrumbLD } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: localeUrl(locale, `areas/${slug}`),
       languages: {
-        ...Object.fromEntries(['el','en','de','bg','ru','ro','sr'].map(l => [l, localeUrl(l, `areas/${slug}`)])),
+        ...Object.fromEntries(['el','en'].map(l => [l, localeUrl(l, `areas/${slug}`)])),
         'x-default': localeUrl('el', `areas/${slug}`),
       },
     },
@@ -137,6 +137,13 @@ function AreaDetail({
 }) {
   const tNav = useTranslations('nav');
   const faqs = AREA_FAQS[areaSlug] || [];
+  const areaName = area.name[locale] || area.name.el;
+  const homeLabel: Record<string, string> = { el: 'Αρχική', en: 'Home' };
+  const breadcrumbLD = generateBreadcrumbLD([
+    { name: homeLabel[locale] || homeLabel.el, url: localeUrl(locale) },
+    { name: tNav('areas'), url: localeUrl(locale, 'areas') },
+    { name: areaName, url: localeUrl(locale, `areas/${areaSlug}`) },
+  ]);
 
   const faqSchema = faqs.length > 0 ? {
     '@context': 'https://schema.org',
@@ -153,6 +160,7 @@ function AreaDetail({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <JsonLd data={breadcrumbLD as unknown as Record<string, unknown>} />
       {faqSchema && <JsonLd data={faqSchema} />}
       <Breadcrumbs items={[{ label: tNav('areas'), href: '/areas' }, { label: area.name[locale] || area.name.el }]} />
 

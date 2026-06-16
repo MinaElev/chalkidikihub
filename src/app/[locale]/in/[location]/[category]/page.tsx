@@ -8,7 +8,7 @@ import { getLocation, LOCATIONS, CATEGORIES, type Category } from './location-da
 import { LocationResults } from './LocationResults';
 import type { Beach, Restaurant, Activity, Listing } from '@/types';
 
-export const revalidate = 3600; // ISR: 1 hour
+export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
 
 // ── Localized labels ────────────────────────────────────────
 const CATEGORY_TITLES: Record<Category, Record<string, string>> = {
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const titles: Record<string, string> = {};
   const descriptions: Record<string, string> = {};
-  for (const l of ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr']) {
+  for (const l of ['el', 'en']) {
     const ln = loc.locationName[l] || loc.locationName.en;
     const cl = CATEGORY_TITLES[cat]?.[l] || CATEGORY_TITLES[cat]?.en || cat;
     const iw = IN_WORD[l] || 'in';

@@ -5,22 +5,22 @@ import { FeaturedAreas } from '@/components/layout/FeaturedAreas';
 import { HomeBeachesSection } from '@/components/layout/HomeBeachesSection';
 import { HomeBlogSection } from '@/components/layout/HomeBlogSection';
 import { HomeFeaturedListings } from '@/components/layout/HomeFeaturedListings';
-import { JsonLd } from '@/components/ui/JsonLd';
 import { HeroSearchBox } from '@/components/layout/HeroSearchBox';
 import { HeroBackground } from '@/components/layout/HeroBackground';
 import { MapPin, Home, Star, QrCode, Shield, Globe, Award, Smartphone, Sparkles, BookOpen, HelpCircle, Compass, ChevronRight } from 'lucide-react';
-import { localeUrl, SOCIAL_LINKS } from '@/lib/seo';
+import { localeUrl } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
 
-// Static prerender at build time + ISR every 5 min. Without force-static,
+// Static prerender at build time + ISR every 24h. Without force-static,
 // next-intl internals opt the route into dynamic rendering and Vercel returns
 // Cache-Control: no-store. Combined they deliver CDN-cached HTML at ~200ms
-// TTFB instead of ~1100ms SSR.
+// TTFB instead of ~1100ms SSR. Admin saves call /api/revalidate to surface
+// new featured items immediately — the 24h TTL is only a safety net.
 export const dynamic = 'force-static';
-export const revalidate = 300;
+export const revalidate = 86400; // ISR: 24h - homepage is mostly static; admin saves trigger on-demand revalidation
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -87,46 +87,12 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const websiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Chalkidiki Hub',
-    url: SITE_URL,
-    description: 'Find the best accommodation, beaches, restaurants and activities in Halkidiki, Greece',
-    inLanguage: ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'],
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: `${localeUrl(locale, 'listings')}?q={search_term_string}`,
-      'query-input': 'required name=search_term_string',
-    },
-  };
-
-  const organizationSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Chalkidiki Hub',
-    url: SITE_URL,
-    logo: { '@type': 'ImageObject', url: `${SITE_URL}/icons/icon-512.png`, width: 512, height: 512 },
-    description: 'The ultimate tourism platform for Halkidiki, Greece — accommodation, beaches, restaurants, activities in 7 languages',
-    foundingDate: '2024',
-    areaServed: {
-      '@type': 'Place',
-      name: 'Halkidiki, Greece',
-      geo: { '@type': 'GeoCoordinates', latitude: 40.15, longitude: 23.6 },
-    },
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'customer service',
-      url: `${SITE_URL}/contact`,
-      availableLanguage: ['Greek', 'English', 'German', 'Bulgarian', 'Russian', 'Romanian', 'Serbian'],
-    },
-    ...(SOCIAL_LINKS.length > 0 ? { sameAs: SOCIAL_LINKS } : {}),
-  };
+  // Organization + WebSite JSON-LD is emitted once in [locale]/layout.tsx via
+  // generateSiteGraph (single @graph block). Emitting standalone copies here
+  // produced duplicate schemas + advertised hidden languages to crawlers.
 
   return (
     <>
-      <JsonLd data={websiteSchema} />
-      <JsonLd data={organizationSchema} />
       <HeroSection />
       <TrustStrip />
       <FeaturedAreas locale={locale} />

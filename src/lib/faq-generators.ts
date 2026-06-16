@@ -4,6 +4,8 @@
  * Used by FaqSection component for visible FAQ + FAQPage JSON-LD schema.
  */
 
+import { EXTERNAL_BOOKING_LINKS_ENABLED } from './feature-flags';
+
 export interface FaqItem {
   question: string;
   answer: string;
@@ -527,18 +529,24 @@ export function generateListingFaqs(
   // 5. How to book
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ext = listing as any;
-  const hasBooking = ext.booking_url || ext.airbnb_url || ext.website_url || ext.contact_phone;
+  // External-channel mentions (Booking.com, Airbnb, owner website) are gated
+  // by the feature flag — when off, only the phone fallback is offered, so
+  // the FAQ doesn't broadcast affiliate-style outbound destinations.
+  const includeExternal = EXTERNAL_BOOKING_LINKS_ENABLED;
+  const hasBooking =
+    (includeExternal && (ext.booking_url || ext.airbnb_url || ext.website_url)) ||
+    ext.contact_phone;
   if (hasBooking) {
     const channels: string[] = [];
     if (locale === 'el') {
-      if (ext.booking_url) channels.push('Booking.com');
-      if (ext.airbnb_url) channels.push('Airbnb');
-      if (ext.website_url) channels.push('την ιστοσελίδα του');
+      if (includeExternal && ext.booking_url) channels.push('Booking.com');
+      if (includeExternal && ext.airbnb_url) channels.push('Airbnb');
+      if (includeExternal && ext.website_url) channels.push('την ιστοσελίδα του');
       if (ext.contact_phone) channels.push(`τηλεφωνικά στο ${ext.contact_phone}`);
     } else {
-      if (ext.booking_url) channels.push('Booking.com');
-      if (ext.airbnb_url) channels.push('Airbnb');
-      if (ext.website_url) channels.push('the property website');
+      if (includeExternal && ext.booking_url) channels.push('Booking.com');
+      if (includeExternal && ext.airbnb_url) channels.push('Airbnb');
+      if (includeExternal && ext.website_url) channels.push('the property website');
       if (ext.contact_phone) channels.push(`phone at ${ext.contact_phone}`);
     }
     const answer = locale === 'el'

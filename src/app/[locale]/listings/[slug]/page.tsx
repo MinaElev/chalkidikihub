@@ -5,6 +5,7 @@ import { DynamicListingDetail } from '@/components/listings/DynamicListingDetail
 import { getContentMeta, generateLodgingLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getListingBySlug } from '@/lib/data';
+import { EXTERNAL_BOOKING_LINKS_ENABLED } from '@/lib/feature-flags';
 
 // NOTE: We do NOT set `dynamic = 'force-dynamic'` here.
 //
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: Props) {
     locale,
     'Accommodation | Chalkidiki Hub',
     'Find accommodation in Halkidiki',
-    { thinThreshold: 200 },
+    { thinThreshold: 300 },
   );
 }
 
@@ -40,6 +41,13 @@ export default async function ListingDetailPage({ params }: Props) {
 
   const listing = await getListingBySlug(slug);
   if (!listing) notFound();
+
+  // Strip external-channel URLs from the client payload when the flag is off
+  // so they don't leak into the RSC hydration script. The DB row keeps them;
+  // only the public surface is scrubbed.
+  const sanitizedListing = EXTERNAL_BOOKING_LINKS_ENABLED
+    ? listing
+    : { ...listing, booking_url: null, airbnb_url: null, website_url: null };
 
   const homeLabel: Record<string, string> = { el: 'Αρχική', en: 'Home', de: 'Startseite', bg: 'Начало', ru: 'Главная', ro: 'Acasă', sr: 'Početna' };
   const sectionLabel: Record<string, string> = { el: 'Καταλύματα', en: 'Listings', de: 'Unterkünfte', bg: 'Обяви', ru: 'Объявления', ro: 'Anunțuri', sr: 'Oglasi' };
@@ -54,7 +62,7 @@ export default async function ListingDetailPage({ params }: Props) {
         { name: sectionLabel[locale] || 'Listings', url: localeUrl(locale, 'listings') },
         { name: itemName, url: localeUrl(locale, `listings/${slug}`) },
       ]) as Record<string, unknown>} />
-      <DynamicListingDetail slug={slug} locale={locale} initialData={listing} />
+      <DynamicListingDetail slug={slug} locale={locale} initialData={sanitizedListing} />
     </>
   );
 }

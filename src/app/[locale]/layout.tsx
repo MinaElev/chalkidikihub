@@ -5,7 +5,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
-import { locales, type Locale } from '@/i18n/config';
+import { locales, isPublicLocale, type Locale } from '@/i18n/config';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { LangSync } from '@/components/layout/LangSync';
@@ -42,6 +42,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       template: `%s | ${t.siteName}`,
     },
     description: t.siteDescription,
+    // Hidden locales remain routable but are excluded from indexing — applies
+    // to every page under that locale unless a page metadata overrides it.
+    ...(isPublicLocale(locale) ? {} : { robots: { index: false, follow: false } }),
     openGraph: {
       siteName: t.siteName,
       locale: locale,

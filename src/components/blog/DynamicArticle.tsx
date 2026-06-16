@@ -6,8 +6,6 @@ import { BlogArticle } from '@/types';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, ArrowRight, Calendar, Clock, User, Tag, BookOpen } from 'lucide-react';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
-import { JsonLd } from '@/components/ui/JsonLd';
-import { generateArticleLD } from '@/lib/seo';
 import { AutoLinkedContent } from './AutoLinkedContent';
 import { AutoLinkedHtml } from './AutoLinkedHtml';
 import { BlogCard } from './BlogCard';
@@ -112,7 +110,8 @@ export function DynamicArticle({ slug, initialData }: { slug: string; initialDat
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <JsonLd data={generateArticleLD(article as unknown as Record<string, unknown>, locale)} />
+      {/* Article JSON-LD is emitted in the parent route (blog/[slug]/page.tsx).
+          Re-emitting here used to produce duplicates. */}
       <Breadcrumbs items={[
         { label: t('backToBlog') || 'Blog', href: '/blog' },
         { label: title }

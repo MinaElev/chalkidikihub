@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { localeUrl } from '@/lib/seo';
+import { publicLocales } from '@/i18n/config';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+// hreflang alternates ship only the publicly promoted locales — hidden
+// locales remain routable but excluded from search-engine signals.
+const LOCALES = publicLocales;
 
 const titles: Record<string, string> = {
   el: 'Πολιτική Απορρήτου',

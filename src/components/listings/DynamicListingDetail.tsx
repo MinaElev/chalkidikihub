@@ -23,6 +23,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { logEvent } from '@/lib/logger';
+import { EXTERNAL_BOOKING_LINKS_ENABLED } from '@/lib/feature-flags';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { AmenityBadge } from './AmenityBadge';
 import { ShareButtons } from '@/components/ui/ShareButtons';
@@ -31,8 +32,6 @@ import { ImageGallery } from '@/components/ui/ImageGallery';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
 import { generateListingFaqs } from '@/lib/faq-generators';
 import { FaqSection } from '@/components/ui/FaqSection';
-import { JsonLd } from '@/components/ui/JsonLd';
-import { generateLodgingLD } from '@/lib/seo';
 import { LocationMap } from '@/components/ui/LocationMap';
 import { PublicAvailabilityCalendar } from './PublicAvailabilityCalendar';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
@@ -94,7 +93,11 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
   const contactPhone = ext.contact_phone as string | null;
   const contactEmail = ext.contact_email as string | null;
   const verified = Boolean(ext.verified);
-  const hasExternal = Boolean(bookingUrl || airbnbUrl || websiteUrl);
+  // External links remain in the DB so owners can manage them, but rendering
+  // is gated by the feature flag to keep the public site free of affiliate
+  // outbound links while AdSense review is pending.
+  const hasExternal =
+    EXTERNAL_BOOKING_LINKS_ENABLED && Boolean(bookingUrl || airbnbUrl || websiteUrl);
   const hasBrandPage = Boolean(
     (ext.tagline?.el as string)?.trim() ||
     (ext.tagline?.en as string)?.trim() ||
@@ -113,7 +116,8 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <JsonLd data={generateLodgingLD(listing as unknown as Record<string, unknown>, locale)} />
+      {/* LodgingBusiness JSON-LD is emitted in the parent route
+          (listings/[slug]/page.tsx). Re-emitting here used to produce duplicates. */}
       <Breadcrumbs items={[{ label: tNav('listings'), href: '/listings' }, { label: title }]} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

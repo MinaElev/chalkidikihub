@@ -16,7 +16,14 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
-  return getContentMeta('beaches', slug, locale, 'Beach | Chalkidiki Hub', 'Discover beaches in Halkidiki');
+  // Auto-noindex beaches whose description is below the quality bar AdSense /
+  // Helpful Content evaluators look for. 800 chars is the cutoff where the
+  // page transitions from "generic AI stub" to "page that adds real signal".
+  // Reversible: bump a thin beach's description past the threshold and the
+  // next crawl re-indexes it automatically.
+  return getContentMeta('beaches', slug, locale, 'Beach | Chalkidiki Hub', 'Discover beaches in Halkidiki', {
+    thinThreshold: 800,
+  });
 }
 
 export default async function BeachDetailPage({ params }: Props) {

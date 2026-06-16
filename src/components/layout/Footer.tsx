@@ -25,7 +25,7 @@ export function Footer() {
               <ul className="space-y-3 text-sm">
                 <li className="flex items-start gap-2">
                   <ChevronRight className="w-4 h-4 text-primary-500 mt-0.5 shrink-0" />
-                  <span>{locale === 'el' ? 'Δωρεάν καταχώρηση καταλύματος σε 7 γλώσσες' : 'Free accommodation listing in 7 languages'}</span>
+                  <span>{locale === 'el' ? 'Δωρεάν καταχώρηση καταλύματος, στα ελληνικά & αγγλικά' : 'Free accommodation listing, in Greek & English'}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <ChevronRight className="w-4 h-4 text-primary-500 mt-0.5 shrink-0" />
@@ -50,7 +50,7 @@ export function Footer() {
                 {locale === 'el' ? 'Καταχωρήστε το κατάλυμά σας' : 'List your property'}
               </h3>
               <p className="text-sm text-primary-300 mb-4">
-                {locale === 'el' ? 'Δωρεάν, σε 5 λεπτά, σε 7 γλώσσες' : 'Free, in 5 minutes, in 7 languages'}
+                {locale === 'el' ? 'Δωρεάν, σε 5 λεπτά' : 'Free, in 5 minutes'}
               </p>
               <Link href="/auth/register"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors">

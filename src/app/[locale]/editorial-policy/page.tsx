@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { localeUrl } from '@/lib/seo';
+import { publicLocales } from '@/i18n/config';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = publicLocales;
 
 const titles: Record<string, string> = {
   el: 'Συντακτική Πολιτική',
@@ -136,10 +137,10 @@ const content: Record<string, PolicyContent> = {
         ],
       },
       {
-        heading: '8. Multilingual content',
+        heading: '8. Πολυγλωσσικό περιεχόμενο',
         body: [
-          'Το site διατίθεται σε 7 γλώσσες: ελληνικά (πρωτότυπη), αγγλικά, γερμανικά, βουλγαρικά, σερβικά, ρουμανικά, ρωσικά.',
-          'Το αρχικό περιεχόμενο γράφεται στα ελληνικά. Οι μεταφράσεις σε άλλες γλώσσες δημιουργούνται με AI translation tools (GPT-4) από το ελληνικό master copy. Αυτό μας επιτρέπει να σερβίρουμε πελάτες από όλη τη Νοτιοανατολική Ευρώπη χωρίς να χρειαζόμαστε πλήρη πολυγλωσσική συντακτική ομάδα.',
+          'Δημοσιεύουμε σε δύο γλώσσες: ελληνικά (πρωτότυπο) και αγγλικά. Το πρωτότυπο γράφεται στα ελληνικά από τη συντακτική ομάδα. Η αγγλική έκδοση προσαρμόζεται από το ελληνικό master copy και ελέγχεται από αγγλόφωνο επιμελητή πριν δημοσιευθεί.',
+          'Δοκιμαστικές εκδόσεις σε άλλες γλώσσες ενδέχεται να υπάρχουν στη βάση μας ως μέρος μελλοντικής επέκτασης, αλλά δεν προωθούνται σε χρήστες ή μηχανές αναζήτησης μέχρι να ολοκληρωθεί επιμέλεια από ντόπιο ομιλητή.',
           'Αν εντοπίσετε λάθος μετάφραση, παρακαλούμε επικοινωνήστε μαζί μας.',
         ],
       },
@@ -262,8 +263,8 @@ const content: Record<string, PolicyContent> = {
       {
         heading: '8. Multilingual content',
         body: [
-          'The site is available in 7 languages: Greek (original), English, German, Bulgarian, Serbian, Romanian, Russian.',
-          'Original content is written in Greek. Translations into other languages are generated using AI translation tools (GPT-4) from the Greek master copy. This allows us to serve travellers from across Southeast Europe without maintaining a full multilingual editorial team.',
+          'We publish in two languages: Greek (original) and English. The original is written in Greek by the editorial team. The English version is adapted from the Greek master copy and reviewed by an English-speaking editor before publication.',
+          'Draft versions in other languages may exist in our database as part of a planned future expansion, but they are not promoted to users or search engines until a native-speaker editorial pass is completed.',
           'If you spot a translation error, please contact us.',
         ],
       },

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { localeUrl, ogImageUrl } from '@/lib/seo';
 
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
 
 const FEATURE_META: Record<string, Record<string, { title: string; desc: string }>> = {
   sandy: {

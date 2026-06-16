@@ -69,6 +69,13 @@ const nextConfig: NextConfig = {
     // re-encode pass), so the optimizer's marginal benefit doesn't justify
     // burning the quota. Serve source URLs directly instead.
     unoptimized: true,
+    // Allowed quality values for <Image quality={...}>. Next 16 ships with a
+    // default of [75] only and emits a warning for anything else — the codebase
+    // uses 45, 50, 60 in various places (hero, areas, beaches, listings) so we
+    // list them here. With unoptimized:true the values are effectively no-ops
+    // at runtime, but declaring them silences the dev/prod warnings and keeps
+    // the door open for enabling the optimizer later without code changes.
+    qualities: [45, 50, 60, 75],
     remotePatterns: [
       { protocol: 'https', hostname: '*.supabase.co' },
       { protocol: 'https', hostname: 'oaidalleapiprodscus.blob.core.windows.net' },
@@ -95,6 +102,23 @@ const nextConfig: NextConfig = {
         source: '/icons/(.*)',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        // Sitemap responses — explicit Cache-Control so polite bots
+        // (Googlebot, Bingbot) and the Vercel edge respect a long TTL
+        // matching the ISR revalidate in src/app/sitemap.ts (48h).
+        //   max-age=86400        → bots cache locally for 24h
+        //   s-maxage=172800      → CDN holds the response for 48h
+        //   stale-while-revalidate=604800 → on cache miss serve the stale
+        //                                   copy instantly while regen runs,
+        //                                   smoothing the spike when TTL flips
+        source: '/(sitemap.xml|image-sitemap.xml)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, s-maxage=172800, stale-while-revalidate=604800',
+          },
         ],
       },
     ];

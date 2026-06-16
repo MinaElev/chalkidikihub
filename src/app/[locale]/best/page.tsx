@@ -5,7 +5,7 @@ import { Waves, UtensilsCrossed, Landmark, Sparkles, ChevronRight } from 'lucide
 import { BEST_GUIDES } from './[slug]/best-data';
 import { localeUrl } from '@/lib/seo';
 
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
 
 const INDEX_TITLE: Record<string, string> = {
   el: 'Best of Χαλκιδική — Ταξιδιωτικοί Οδηγοί',

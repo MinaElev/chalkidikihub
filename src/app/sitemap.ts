@@ -1,12 +1,17 @@
 import { MetadataRoute } from 'next';
-import { locales, defaultLocale } from '@/i18n/config';
+import { publicLocales, defaultLocale } from '@/i18n/config';
 import { createApiClient } from '@/lib/api-helpers';
 import { AREAS } from '@/lib/constants';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
-// Revalidate sitemap every hour (ISR)
-export const revalidate = 3600;
+// Revalidate sitemap every 48h. Sitemap content (URL set) changes slowly —
+// new beaches/listings/articles are typed in over days, not minutes. A 48h
+// TTL cuts ISR writes from 24/day to ~0.5/day with no SEO downside, since
+// Googlebot reads `lastmod` per-URL anyway and won't crawl a URL more often
+// just because the sitemap was regenerated. Bump down to 1h only if rapid
+// publishing demands faster surfacing.
+export const revalidate = 172800;
 
 /** Build locale-prefixed URL: default locale (el) has no prefix */
 function localeUrl(locale: string, path: string) {
@@ -18,7 +23,7 @@ function localeUrl(locale: string, path: string) {
 function alt(path: string) {
   return {
     languages: {
-      ...Object.fromEntries(locales.map((l) => [l, localeUrl(l, path)])),
+      ...Object.fromEntries(publicLocales.map((l) => [l, localeUrl(l, path)])),
       'x-default': localeUrl(defaultLocale, path),
     },
   };
@@ -35,7 +40,7 @@ function forLocales(
   path: string,
   opts: { freq: MetadataRoute.Sitemap[0]['changeFrequency']; priority: number; modified?: Date },
 ): MetadataRoute.Sitemap {
-  return locales.map((locale) => ({
+  return publicLocales.map((locale) => ({
     url: localeUrl(locale, path),
     // Real updated_at when caller supplies it (DB rows); otherwise the static
     // content marker — NOT `new Date()`, which would mislead Google into
@@ -303,7 +308,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'daily',
     priority: 0.6,
   });
-  for (const locale of locales) {
+  for (const locale of publicLocales) {
     if (locale === defaultLocale) continue; // root /llms.txt already listed
     entries.push({
       url: `${baseUrl}/${locale}/llms.txt`,

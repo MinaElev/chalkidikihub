@@ -14,13 +14,13 @@ import type { Metadata } from 'next';
 import type { Beach, Restaurant, Activity, Listing, Sale } from '@/types';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export const revalidate = 3600; // ISR: 1 hour
+export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
 
 // Pre-render every village slug at build time so Googlebot hits edge cache
 // instead of running a Supabase query per crawl.

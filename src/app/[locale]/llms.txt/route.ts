@@ -8,11 +8,14 @@
  */
 
 import { generateLlmsTxt } from '@/lib/llms-txt';
+import { publicLocales } from '@/i18n/config';
 
 export const revalidate = 86400;
 export const dynamic = 'force-static';
 
-const SUPPORTED = new Set(['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr']);
+// Only the public locales get a pregenerated /llms.txt — hidden locales
+// resolve at the route level but are not promoted to LLM crawlers.
+const SUPPORTED = new Set<string>(publicLocales);
 
 export function generateStaticParams() {
   return Array.from(SUPPORTED).map(locale => ({ locale }));

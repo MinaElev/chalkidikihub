@@ -2,7 +2,7 @@
 
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
-import { locales, localeNames, localeFlags, type Locale } from '@/i18n/config';
+import { publicLocales, localeNames, localeFlags, type Locale } from '@/i18n/config';
 import { useState, useRef, useEffect } from 'react';
 import { Globe } from 'lucide-react';
 
@@ -42,7 +42,7 @@ export function LanguageSwitcher() {
 
       {open && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-          {locales.map((l) => (
+          {publicLocales.map((l) => (
             <button
               key={l}
               onClick={() => switchLocale(l)}

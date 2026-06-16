@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import { createApiClient, toLocaleMap } from './api-helpers';
+import { publicLocales } from '@/i18n/config';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+// hreflang alternates ship only the public locales — hidden locales still
+// resolve at the route level but we don't advertise them to search engines.
+const LOCALES = publicLocales;
 const DEFAULT_LOCALE = 'el';
 
 /**

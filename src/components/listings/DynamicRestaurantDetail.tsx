@@ -7,8 +7,6 @@ import { useCuisineLabel } from '@/lib/use-business-types';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, ArrowRight, MapPin, Star, Clock, Phone, Eye, Music, CalendarCheck, Tag, UtensilsCrossed } from 'lucide-react';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
-import { JsonLd } from '@/components/ui/JsonLd';
-import { generateRestaurantLD } from '@/lib/seo';
 import { generateRestaurantFaqs } from '@/lib/faq-generators';
 import { FaqSection } from '@/components/ui/FaqSection';
 import { RestaurantCard } from './RestaurantCard';
@@ -119,7 +117,8 @@ export function DynamicRestaurantDetail({ slug, initialData }: { slug: string; i
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <JsonLd data={generateRestaurantLD(restaurant as unknown as Record<string, unknown>, locale)} />
+      {/* Restaurant JSON-LD is emitted in the parent route (restaurants/[slug]/page.tsx).
+          Re-emitting it here used to produce duplicate schemas in HTML. */}
       <Breadcrumbs items={[
         { label: t('title') || 'Restaurants', href: '/restaurants' },
         { label: name }

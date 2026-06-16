@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { localeUrl, ogImageUrl } from '@/lib/seo';
 import { ABOUT } from './about-content';
+import { publicLocales } from '@/i18n/config';
 
-const LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
+const LOCALES = publicLocales;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
