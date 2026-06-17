@@ -60,15 +60,34 @@ export default function AdminListingsPage() {
     setLoading(false);
   }
 
+  // Best-effort owner notification when a listing transitions to published.
+  // Awaited so the email lands before loadListings re-renders (and any UI
+  // hint the admin gets), but failures don't roll back the DB update —
+  // the status change is the source of truth, the email is the courtesy.
+  async function notifyOwnerPublished(listingId: string) {
+    try {
+      await fetch('/api/listings/notify-published', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ listing_id: listingId }),
+      });
+    } catch (e) {
+      console.error('notify-published failed', e);
+    }
+  }
+
   async function toggleStatus(id: string, current: string) {
     const supabase = createClient();
-    await supabase.from('listings').update({ status: current === 'published' ? 'draft' : 'published' }).eq('id', id);
+    const next = current === 'published' ? 'draft' : 'published';
+    await supabase.from('listings').update({ status: next }).eq('id', id);
+    if (next === 'published') await notifyOwnerPublished(id);
     loadListings();
   }
 
   async function approveListing(id: string) {
     const supabase = createClient();
     await supabase.from('listings').update({ status: 'published' }).eq('id', id);
+    await notifyOwnerPublished(id);
     loadListings();
   }
 

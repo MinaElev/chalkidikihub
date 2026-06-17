@@ -198,6 +198,21 @@ export default function MyListingsPage() {
     const supabase = createClient();
     const newStatus = currentStatus === 'published' ? 'draft' : 'published';
     await supabase.from('listings').update({ status: newStatus }).eq('id', id);
+    // Fire the "your listing is live" email on every transition to published.
+    // If the owner self-publishes (vs admin approval) they still get the
+    // platform-benefits walkthrough, which is the higher-signal scenario
+    // to optimise for — a missing email is worse than a duplicate one.
+    if (newStatus === 'published') {
+      try {
+        await fetch('/api/listings/notify-published', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ listing_id: id }),
+        });
+      } catch (e) {
+        console.error('notify-published failed', e);
+      }
+    }
     loadListings();
   }
 
