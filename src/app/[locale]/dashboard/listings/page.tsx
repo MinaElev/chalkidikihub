@@ -9,8 +9,23 @@ import {
   Plus, Edit, Trash2, Eye, EyeOff, Loader2, QrCode, Calendar,
   Users, BedDouble, Bath, Wand2, MapPin, ExternalLink,
   MoreHorizontal, Lock, Search, TrendingUp, Palette,
+  Sparkles, Camera, Clock, AlertCircle, CheckCircle2, ChevronDown,
 } from 'lucide-react';
 import { HostPagePromoBanner } from '@/components/dashboard/HostPagePromoBanner';
+
+// Below this character count the public listing page emits robots noindex
+// (see src/lib/seo.ts `thinThreshold` hook + listings/[slug] metadata),
+// so Google won't surface it in search. We nudge owners to enrich the
+// description so their property becomes discoverable again.
+const THIN_DESCRIPTION_THRESHOLD = 300;
+// Below this photo count the listing presents as visually thin to both
+// guests and Google's image search. Five is the threshold the literature
+// (and the booking-platform UX defaults) consistently agree on.
+const THIN_PHOTO_THRESHOLD = 5;
+// How long a listing can go without an update before we surface a gentle
+// freshness hint. Six months covers the seasonal-content edge case where
+// prices, hours, and policies typically drift.
+const STALE_LISTING_DAYS = 180;
 
 interface Img { image_url: string; is_cover: boolean; sort_order: number; }
 
@@ -19,6 +34,7 @@ interface DbListing {
   slug: string;
   title_el: string;
   title_en: string;
+  description_el: string | null;
   area: string;
   location_name: string | null;
   price_per_night: number;
@@ -28,7 +44,96 @@ interface DbListing {
   status: string;
   is_closed: boolean;
   created_at: string;
+  updated_at: string | null;
   listing_images: Img[];
+  // Optional completeness fields — all-strings, all nullable
+  tagline_el: string | null;
+  owner_story_el: string | null;
+  how_to_reach_el: string | null;
+  wifi_info_el: string | null;
+  parking_info_el: string | null;
+  check_in_info_el: string | null;
+  check_in_time: string | null;
+  check_out_time: string | null;
+  amenities: string[] | null;
+  rule_smoking: boolean | null;
+  rule_pets: boolean | null;
+  rule_parties: boolean | null;
+  rule_kids: boolean | null;
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Completeness scoring
+// ─────────────────────────────────────────────────────────────────────
+// Weighted across the fields that drive both SEO surfacing and guest
+// confidence. The three "critical" items (description, photos, amenities)
+// carry most of the weight because they're what the public detail page
+// actually renders prominently — and what the AdSense / Helpful Content
+// evaluators sample against.
+type MissingKey =
+  | 'description' | 'photos' | 'amenities'
+  | 'tagline' | 'ownerStory' | 'howToReach' | 'wifi' | 'parking'
+  | 'checkInInfo' | 'checkInOutTimes' | 'price' | 'capacity' | 'houseRules';
+
+interface Completeness {
+  score: number;        // 0-100
+  missing: MissingKey[];
+  photoCount: number;
+}
+
+function computeCompleteness(l: DbListing): Completeness {
+  const photoCount = Array.isArray(l.listing_images) ? l.listing_images.length : 0;
+  const missing: MissingKey[] = [];
+  let earned = 0;
+  let total = 0;
+
+  const credit = (cond: boolean, w: number, key: MissingKey) => {
+    total += w;
+    if (cond) earned += w;
+    else missing.push(key);
+  };
+
+  // Critical (heavy weight) — what Google + AdSense reviewer + guests all see first
+  credit((l.description_el || '').length >= THIN_DESCRIPTION_THRESHOLD, 3, 'description');
+  credit(photoCount >= THIN_PHOTO_THRESHOLD, 3, 'photos');
+  credit((l.amenities?.length || 0) >= 5, 2, 'amenities');
+
+  // Important (medium weight) — guest-facing detail that builds trust
+  credit(Boolean(l.check_in_info_el?.trim()), 1, 'checkInInfo');
+  credit(Boolean(l.wifi_info_el?.trim()), 1, 'wifi');
+  credit(Boolean(l.parking_info_el?.trim()), 1, 'parking');
+  credit(Boolean(l.how_to_reach_el?.trim()), 1, 'howToReach');
+  credit(Boolean(l.owner_story_el?.trim()), 1, 'ownerStory');
+  credit(Boolean(l.tagline_el?.trim()), 1, 'tagline');
+  credit(Boolean(l.check_in_time && l.check_out_time), 1, 'checkInOutTimes');
+
+  // Basic (lightweight) — the must-fill numerical fields that every listing needs
+  credit(Boolean(l.price_per_night), 1, 'price');
+  credit(Boolean(l.guests_max && l.bedrooms && l.bathrooms), 1, 'capacity');
+  // At least one house rule expressed (any of smoking/pets/parties/kids)
+  credit(
+    [l.rule_smoking, l.rule_pets, l.rule_parties, l.rule_kids].some((v) => v !== null && v !== undefined),
+    1,
+    'houseRules',
+  );
+
+  const score = total > 0 ? Math.round((earned / total) * 100) : 0;
+  return { score, missing, photoCount };
+}
+
+function formatRelativeTime(dateStr: string | null, locale: string): string | null {
+  if (!dateStr) return null;
+  const date = new Date(dateStr);
+  const diffMs = Date.now() - date.getTime();
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (days < 1) return locale === 'el' ? 'σήμερα' : 'today';
+  if (days < 7) return locale === 'el' ? `${days} μέρες` : `${days} days ago`;
+  const weeks = Math.floor(days / 7);
+  if (weeks < 5) return locale === 'el' ? `${weeks} ${weeks === 1 ? 'εβδομάδα' : 'εβδομάδες'}` : `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+  const months = Math.floor(days / 30);
+  if (months < 12) return locale === 'el' ? `${months} ${months === 1 ? 'μήνα' : 'μήνες'}` : `${months} ${months === 1 ? 'month' : 'months'} ago`;
+  const years = Math.floor(days / 365);
+  return locale === 'el' ? `${years} ${years === 1 ? 'χρόνο' : 'χρόνια'}` : `${years} ${years === 1 ? 'year' : 'years'} ago`;
 }
 
 export default function MyListingsPage() {
@@ -195,6 +300,11 @@ export default function MyListingsPage() {
         </div>
       ) : (
         <>
+          {/* Aggregated health summary — surfaces the most impactful issues
+              across the whole portfolio so owners don't have to scan every
+              card to find what needs attention. */}
+          <ListingHealthBanner listings={listings} locale={locale} />
+
           {/* QR Code promo banner — owner's biggest traffic driver */}
           <QrPromoBanner locale={locale} />
 
@@ -241,6 +351,11 @@ export default function MyListingsPage() {
               const cover = images.find(i => i.is_cover)?.image_url || images[0]?.image_url;
               const isPublished = listing.status === 'published';
               const isClosed = !!listing.is_closed;
+              const completeness = computeCompleteness(listing);
+              const updatedRelative = formatRelativeTime(listing.updated_at, locale);
+              const isStale = listing.updated_at
+                ? (Date.now() - new Date(listing.updated_at).getTime()) / (1000 * 60 * 60 * 24) > STALE_LISTING_DAYS
+                : false;
 
               return (
                 <div key={listing.id} className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-sm transition-shadow">
@@ -263,7 +378,7 @@ export default function MyListingsPage() {
 
                     {/* Content */}
                     <div className="flex-1 min-w-0 p-4 flex flex-col">
-                      {/* Title + status */}
+                      {/* Title + status + completeness */}
                       <div className="flex items-start gap-2 flex-wrap">
                         <h3 className="text-base font-semibold text-gray-900 min-w-0 flex-1 truncate">{title}</h3>
                         {!isClosed && (
@@ -276,6 +391,7 @@ export default function MyListingsPage() {
                         }`}>
                           {listing.status}
                         </span>
+                        <CompletenessBadge completeness={completeness} locale={locale} />
                       </div>
 
                       {/* Meta */}
@@ -288,6 +404,19 @@ export default function MyListingsPage() {
                         {listing.guests_max != null && <span className="inline-flex items-center gap-1"><Users className="w-3 h-3" /> {listing.guests_max}</span>}
                         {listing.bedrooms != null && <span className="inline-flex items-center gap-1"><BedDouble className="w-3 h-3" /> {listing.bedrooms}</span>}
                         {listing.bathrooms != null && <span className="inline-flex items-center gap-1"><Bath className="w-3 h-3" /> {listing.bathrooms}</span>}
+                        {updatedRelative && (
+                          <span
+                            className={`inline-flex items-center gap-1 ${isStale ? 'text-amber-700' : 'text-gray-400'}`}
+                            title={isStale
+                              ? (locale === 'el'
+                                  ? 'Δεν έχει ενημερωθεί εδώ και πολύ καιρό — έλεγξε αν οι πληροφορίες είναι ακόμα ακριβείς.'
+                                  : 'Hasn’t been touched in a while — double-check the info is still accurate.')
+                              : (locale === 'el' ? 'Τελευταία ενημέρωση' : 'Last updated')}
+                          >
+                            <Clock className="w-3 h-3" />
+                            {updatedRelative}
+                          </span>
+                        )}
                         {listing.price_per_night != null && (
                           <span className="font-semibold text-gray-900 ml-auto">
                             €{listing.price_per_night}<span className="font-normal text-gray-500 text-[10px]">{L.perNight}</span>
@@ -295,104 +424,131 @@ export default function MyListingsPage() {
                         )}
                       </div>
 
-                      {/* Actions */}
-                      <div className="mt-auto pt-4 flex flex-wrap items-center gap-2">
-                        <Link
-                          href={`/dashboard/listings/${listing.id}/edit`}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs font-medium rounded-lg"
-                        >
-                          <Edit className="w-3.5 h-3.5" />
-                          {L.details}
-                        </Link>
-                        <Link
-                          href={`/dashboard/listings/${listing.id}/brand`}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold rounded-lg shadow-sm"
-                        >
-                          <Wand2 className="w-3.5 h-3.5" />
-                          {L.siteEditor}
-                        </Link>
-                        <Link
-                          href={`/dashboard/listings/${listing.id}/availability`}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-medium rounded-lg border border-emerald-200"
-                        >
-                          <Calendar className="w-3.5 h-3.5" />
-                          {L.calendar}
-                        </Link>
-                        <Link
-                          href={`/dashboard/listings/${listing.id}/qr`}
-                          className="group relative inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-700 hover:to-fuchsia-700 text-white text-xs font-semibold rounded-lg shadow-sm"
-                          title={locale === 'el' ? 'Φτιάξε QR Code για τους επισκέπτες σου' : 'Create a QR code for your guests'}
-                        >
-                          <QrCode className="w-3.5 h-3.5" />
-                          {locale === 'el' ? 'QR για επισκέπτες' : 'Guest QR'}
-                          <span className="absolute -top-1 -right-1 flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
-                          </span>
-                        </Link>
-                        <Link
-                          href={`/dashboard/listings/${listing.id}/social-kit`}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-xs font-semibold rounded-lg shadow-sm"
-                          title={locale === 'el' ? 'Έτοιμα γραφιστικά για Instagram, Facebook, TikTok' : 'Ready-made graphics for Instagram, Facebook, TikTok'}
-                        >
-                          <Palette className="w-3.5 h-3.5" />
-                          {locale === 'el' ? 'Social Kit' : 'Social Kit'}
-                        </Link>
-                        <Link
-                          href={`/dashboard/listings/${listing.id}/analytics`}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white hover:bg-gray-50 text-gray-600 hover:text-sky-700 text-xs font-medium rounded-lg border border-gray-200"
-                          title={locale === 'el' ? 'Στατιστικά & επισκεψιμότητα (υπό δημιουργία)' : 'Analytics & traffic (beta)'}
-                        >
-                          <TrendingUp className="w-3.5 h-3.5" />
-                          <span className="px-1 py-0.5 rounded text-[9px] font-bold bg-sky-100 text-sky-700 uppercase tracking-wide">
-                            Beta
-                          </span>
-                        </Link>
+                      {/* Nudges — friendly reminders for the two most impactful
+                          quality gaps (description + photos). */}
+                      <ThinDescriptionNudge
+                        listingId={listing.id}
+                        descriptionLength={(listing.description_el || '').length}
+                        locale={locale}
+                      />
+                      <PhotoCountNudge
+                        listingId={listing.id}
+                        photoCount={completeness.photoCount}
+                        locale={locale}
+                      />
 
-                        {/* Preview */}
-                        <Link
-                          href={`/stay/${listing.slug}`}
-                          target="_blank"
-                          className="ml-auto p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-primary-700"
-                          title={L.preview}
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </Link>
+                      {/* Actions — primary row stays inline on desktop, scrolls
+                          horizontally on narrow screens so the user keeps full
+                          access without ugly wrap. Inline publish toggle
+                          surfaces the most common action; preview + overflow
+                          menu stay pinned to the right on desktop. */}
+                      <div className="mt-auto pt-4 -mx-4 sm:mx-0 px-4 sm:px-0 overflow-x-auto sm:overflow-visible">
+                        <div className="flex items-center gap-2 min-w-max sm:min-w-0 sm:flex-wrap">
+                          <Link
+                            href={`/dashboard/listings/${listing.id}/edit`}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs font-medium rounded-lg whitespace-nowrap"
+                          >
+                            <Edit className="w-3.5 h-3.5" />
+                            {L.details}
+                          </Link>
+                          <Link
+                            href={`/dashboard/listings/${listing.id}/brand`}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold rounded-lg shadow-sm whitespace-nowrap"
+                          >
+                            <Wand2 className="w-3.5 h-3.5" />
+                            {L.siteEditor}
+                          </Link>
+                          <Link
+                            href={`/dashboard/listings/${listing.id}/availability`}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-medium rounded-lg border border-emerald-200 whitespace-nowrap"
+                          >
+                            <Calendar className="w-3.5 h-3.5" />
+                            {L.calendar}
+                          </Link>
+                          <Link
+                            href={`/dashboard/listings/${listing.id}/qr`}
+                            className="group relative inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-700 hover:to-fuchsia-700 text-white text-xs font-semibold rounded-lg shadow-sm whitespace-nowrap"
+                            title={locale === 'el' ? 'Φτιάξε QR Code για τους επισκέπτες σου' : 'Create a QR code for your guests'}
+                          >
+                            <QrCode className="w-3.5 h-3.5" />
+                            {locale === 'el' ? 'QR για επισκέπτες' : 'Guest QR'}
+                            <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+                            </span>
+                          </Link>
+                          <Link
+                            href={`/dashboard/listings/${listing.id}/social-kit`}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-xs font-semibold rounded-lg shadow-sm whitespace-nowrap"
+                            title={locale === 'el' ? 'Έτοιμα γραφιστικά για Instagram, Facebook, TikTok' : 'Ready-made graphics for Instagram, Facebook, TikTok'}
+                          >
+                            <Palette className="w-3.5 h-3.5" />
+                            {locale === 'el' ? 'Social Kit' : 'Social Kit'}
+                          </Link>
+                          <Link
+                            href={`/dashboard/listings/${listing.id}/analytics`}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white hover:bg-gray-50 text-gray-600 hover:text-sky-700 text-xs font-medium rounded-lg border border-gray-200 whitespace-nowrap"
+                            title={locale === 'el' ? 'Στατιστικά & επισκεψιμότητα (υπό δημιουργία)' : 'Analytics & traffic (beta)'}
+                          >
+                            <TrendingUp className="w-3.5 h-3.5" />
+                            <span className="px-1 py-0.5 rounded text-[9px] font-bold bg-sky-100 text-sky-700 uppercase tracking-wide">
+                              Beta
+                            </span>
+                          </Link>
 
-                        {/* Overflow menu */}
-                        <div className="relative">
+                          {/* Inline publish/unpublish toggle — the most-used
+                              action gets pulled out of the overflow menu. */}
                           <button
                             type="button"
-                            onClick={(e) => { e.stopPropagation(); setMenuOpenId(menuOpenId === listing.id ? null : listing.id); }}
-                            className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100"
-                            aria-label="More actions"
+                            onClick={() => toggleStatus(listing.id, listing.status)}
+                            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg border whitespace-nowrap transition-colors ${
+                              isPublished
+                                ? 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                                : 'bg-amber-50 border-amber-200 text-amber-800 hover:bg-amber-100'
+                            }`}
+                            title={isPublished ? L.unpublish : L.publish}
                           >
-                            <MoreHorizontal className="w-4 h-4" />
+                            {isPublished ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                            <span className="hidden sm:inline">{isPublished ? L.unpublish : L.publish}</span>
                           </button>
-                          {menuOpenId === listing.id && (
-                            <div
-                              className="absolute right-0 bottom-full mb-1 bg-white border border-gray-200 rounded-xl shadow-lg py-1 z-20 w-48"
-                              onClick={(e) => e.stopPropagation()}
+
+                          {/* Preview */}
+                          <Link
+                            href={`/stay/${listing.slug}`}
+                            target="_blank"
+                            className="sm:ml-auto p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-primary-700 shrink-0"
+                            title={L.preview}
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </Link>
+
+                          {/* Overflow menu — delete only now that publish
+                              has been promoted out. */}
+                          <div className="relative shrink-0">
+                            <button
+                              type="button"
+                              onClick={(e) => { e.stopPropagation(); setMenuOpenId(menuOpenId === listing.id ? null : listing.id); }}
+                              className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100"
+                              aria-label="More actions"
                             >
-                              <button
-                                type="button"
-                                onClick={() => { toggleStatus(listing.id, listing.status); setMenuOpenId(null); }}
-                                className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                              <MoreHorizontal className="w-4 h-4" />
+                            </button>
+                            {menuOpenId === listing.id && (
+                              <div
+                                className="absolute right-0 bottom-full mb-1 bg-white border border-gray-200 rounded-xl shadow-lg py-1 z-20 w-48"
+                                onClick={(e) => e.stopPropagation()}
                               >
-                                {isPublished ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                                {isPublished ? L.unpublish : L.publish}
-                              </button>
-                              <div className="my-1 border-t border-gray-100" />
-                              <button
-                                type="button"
-                                onClick={() => { deleteListing(listing.id); setMenuOpenId(null); }}
-                                className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                                {L.delete}
-                              </button>
-                            </div>
-                          )}
+                                <button
+                                  type="button"
+                                  onClick={() => { deleteListing(listing.id); setMenuOpenId(null); }}
+                                  className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                  {L.delete}
+                                </button>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -488,6 +644,319 @@ function QrPromoBanner({ locale }: { locale: string }) {
             ))}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Friendly nudge shown on listing cards whose description is below the
+// thin-content threshold. When the description is too short the public
+// listing page emits robots noindex, so Google won't show it. We frame
+// the message around what the owner gains, not what the platform needs.
+// ─────────────────────────────────────────────────────────────────────
+function ThinDescriptionNudge({
+  listingId,
+  descriptionLength,
+  locale,
+}: {
+  listingId: string;
+  descriptionLength: number;
+  locale: string;
+}) {
+  if (descriptionLength >= THIN_DESCRIPTION_THRESHOLD) return null;
+
+  const remaining = THIN_DESCRIPTION_THRESHOLD - descriptionLength;
+  const isGreek = locale === 'el';
+
+  const text = isGreek
+    ? {
+        title: 'Λίγη επιπλέον περιγραφή κάνει μεγάλη διαφορά',
+        body:
+          descriptionLength === 0
+            ? `Δεν έχεις προσθέσει ακόμα περιγραφή. Πρόσθεσε τουλάχιστον ${THIN_DESCRIPTION_THRESHOLD} χαρακτήρες — βοηθάει την Google να εντοπίσει το κατάλυμά σου και να το προτείνει σε ταξιδιώτες που ψάχνουν για διαμονή στη Χαλκιδική.`
+            : `Η περιγραφή σου έχει ${descriptionLength} χαρακτήρες. Πρόσθεσε ακόμα ~${remaining} — βοηθάει την Google να εντοπίσει το κατάλυμά σου και να το προτείνει σε ταξιδιώτες που ψάχνουν για διαμονή στη Χαλκιδική.`,
+        cta: 'Επεξεργασία περιγραφής',
+      }
+    : {
+        title: 'A bit more detail makes a big difference',
+        body:
+          descriptionLength === 0
+            ? `You haven't added a description yet. Aim for at least ${THIN_DESCRIPTION_THRESHOLD} characters — it helps Google discover your property and recommend it to travellers searching for places to stay in Halkidiki.`
+            : `Your description has ${descriptionLength} characters. Add about ${remaining} more — it helps Google discover your property and recommend it to travellers searching for places to stay in Halkidiki.`,
+        cta: 'Edit description',
+      };
+
+  return (
+    <div className="mt-3 flex items-start gap-2.5 p-2.5 bg-amber-50 border border-amber-200 rounded-xl">
+      <Sparkles className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+      <div className="flex-1 min-w-0">
+        <p className="text-xs font-semibold text-amber-900">{text.title}</p>
+        <p className="text-xs text-amber-800 mt-0.5 leading-relaxed">{text.body}</p>
+      </div>
+      <Link
+        href={`/dashboard/listings/${listingId}/edit`}
+        className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-semibold rounded-lg self-center"
+      >
+        {text.cta}
+      </Link>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Photo count nudge — same pattern as ThinDescriptionNudge, applied to
+// the visual side of the listing. Listings with <5 photos consistently
+// underperform on guest-facing platforms and Google image search.
+// ─────────────────────────────────────────────────────────────────────
+function PhotoCountNudge({
+  listingId,
+  photoCount,
+  locale,
+}: {
+  listingId: string;
+  photoCount: number;
+  locale: string;
+}) {
+  if (photoCount >= THIN_PHOTO_THRESHOLD) return null;
+
+  const remaining = THIN_PHOTO_THRESHOLD - photoCount;
+  const isGreek = locale === 'el';
+  const text = isGreek
+    ? {
+        title: 'Λίγες ακόμα φωτογραφίες κάνουν τη διαφορά',
+        body:
+          photoCount === 0
+            ? `Δεν έχεις ανεβάσει φωτογραφίες ακόμα. Πρόσθεσε τουλάχιστον ${THIN_PHOTO_THRESHOLD} — listings με 5+ φωτό προσελκύουν σταθερά περισσότερα views & αιτήματα κράτησης.`
+            : `Έχεις ${photoCount} ${photoCount === 1 ? 'φωτογραφία' : 'φωτογραφίες'}. Πρόσθεσε άλλες ${remaining} — listings με 5+ φωτό προσελκύουν σταθερά περισσότερα views & αιτήματα κράτησης.`,
+        cta: 'Προσθήκη φωτογραφιών',
+      }
+    : {
+        title: 'A few more photos make a difference',
+        body:
+          photoCount === 0
+            ? `No photos yet. Aim for at least ${THIN_PHOTO_THRESHOLD} — listings with 5+ photos consistently attract more views and booking requests.`
+            : `You have ${photoCount} ${photoCount === 1 ? 'photo' : 'photos'}. Add ${remaining} more — listings with 5+ photos consistently attract more views and booking requests.`,
+        cta: 'Add photos',
+      };
+
+  return (
+    <div className="mt-2 flex items-start gap-2.5 p-2.5 bg-sky-50 border border-sky-200 rounded-xl">
+      <Camera className="w-4 h-4 text-sky-600 mt-0.5 shrink-0" />
+      <div className="flex-1 min-w-0">
+        <p className="text-xs font-semibold text-sky-900">{text.title}</p>
+        <p className="text-xs text-sky-800 mt-0.5 leading-relaxed">{text.body}</p>
+      </div>
+      <Link
+        href={`/dashboard/listings/${listingId}/edit`}
+        className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 bg-sky-600 hover:bg-sky-700 text-white text-[11px] font-semibold rounded-lg self-center"
+      >
+        {text.cta}
+      </Link>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Completeness % badge — small chip in the title row, color-coded by
+// bucket. Click expands a popover with the itemized missing list so the
+// owner immediately knows what to fix. Click-outside closes it.
+// ─────────────────────────────────────────────────────────────────────
+const MISSING_LABELS_EL: Record<MissingKey, string> = {
+  description: 'Περιγραφή',
+  photos: '5+ φωτογραφίες',
+  amenities: 'Παροχές (5+)',
+  tagline: 'Σύντομο tagline',
+  ownerStory: 'Ιστορία ιδιοκτήτη',
+  howToReach: 'Οδηγίες πρόσβασης',
+  wifi: 'Στοιχεία Wi-Fi',
+  parking: 'Πληροφορίες parking',
+  checkInInfo: 'Οδηγίες check-in',
+  checkInOutTimes: 'Ώρες check-in / check-out',
+  price: 'Τιμή / βράδυ',
+  capacity: 'Άτομα / δωμάτια / μπάνια',
+  houseRules: 'Κανόνες καταλύματος',
+};
+const MISSING_LABELS_EN: Record<MissingKey, string> = {
+  description: 'Description',
+  photos: '5+ photos',
+  amenities: 'Amenities (5+)',
+  tagline: 'Short tagline',
+  ownerStory: 'Owner story',
+  howToReach: 'How to reach',
+  wifi: 'Wi-Fi details',
+  parking: 'Parking info',
+  checkInInfo: 'Check-in instructions',
+  checkInOutTimes: 'Check-in / check-out times',
+  price: 'Price per night',
+  capacity: 'Guests / bedrooms / baths',
+  houseRules: 'House rules',
+};
+
+function CompletenessBadge({
+  completeness,
+  locale,
+}: {
+  completeness: Completeness;
+  locale: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const { score, missing } = completeness;
+
+  // Bucket: red <50, amber 50-79, green 80+
+  const tone =
+    score >= 80
+      ? 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200'
+      : score >= 50
+        ? 'bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200'
+        : 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200';
+  const dotTone =
+    score >= 80 ? 'bg-green-500' : score >= 50 ? 'bg-amber-500' : 'bg-red-500';
+
+  const labelMap = locale === 'el' ? MISSING_LABELS_EL : MISSING_LABELS_EN;
+  const tooltipTitle = locale === 'el' ? 'Συμπληρωσιμότητα' : 'Completeness';
+  const allFilled = locale === 'el' ? 'Όλα τα πεδία είναι συμπληρωμένα.' : 'All fields are filled.';
+  const missingHeading = locale === 'el' ? 'Λείπουν:' : 'Missing:';
+
+  return (
+    <div className="relative shrink-0">
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); setOpen((v) => !v); }}
+        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border transition-colors ${tone}`}
+        title={tooltipTitle}
+      >
+        <span className={`w-1.5 h-1.5 rounded-full ${dotTone}`} />
+        {score}%
+        <ChevronDown className={`w-3 h-3 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+      {open && (
+        <div
+          className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg p-3 z-30 w-56 text-left"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-gray-900">{tooltipTitle}</span>
+            <span className="text-xs font-bold text-gray-700">{score}%</span>
+          </div>
+          <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden mb-3">
+            <div
+              className={`h-full rounded-full transition-all ${
+                score >= 80 ? 'bg-green-500' : score >= 50 ? 'bg-amber-500' : 'bg-red-500'
+              }`}
+              style={{ width: `${score}%` }}
+            />
+          </div>
+          {missing.length === 0 ? (
+            <p className="text-xs text-gray-500 flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-green-600" /> {allFilled}
+            </p>
+          ) : (
+            <>
+              <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mb-1.5">{missingHeading}</p>
+              <ul className="space-y-1">
+                {missing.map((key) => (
+                  <li key={key} className="text-xs text-gray-700 flex items-start gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-gray-400 mt-1.5 shrink-0" />
+                    {labelMap[key]}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Health summary banner — aggregates the most common issues across all
+// listings so the owner sees the punch list at the top of the page,
+// rather than having to scan every card. Dismissible for 7 days to keep
+// it from becoming noise.
+// ─────────────────────────────────────────────────────────────────────
+function ListingHealthBanner({ listings, locale }: { listings: DbListing[]; locale: string }) {
+  const [dismissed, setDismissed] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const until = Number(localStorage.getItem('listings-health-dismissed-until') || 0);
+    if (until && Date.now() < until) setDismissed(true);
+  }, []);
+
+  function dismiss() {
+    setDismissed(true);
+    if (typeof window !== 'undefined') {
+      const until = Date.now() + 7 * 24 * 60 * 60 * 1000;
+      localStorage.setItem('listings-health-dismissed-until', String(until));
+    }
+  }
+
+  const issues = useMemo(() => {
+    let thinDesc = 0;
+    let noPhotos = 0;
+    let lowPhotos = 0;
+    let stale = 0;
+    let veryIncomplete = 0;
+    for (const l of listings) {
+      if ((l.description_el || '').length < THIN_DESCRIPTION_THRESHOLD) thinDesc++;
+      const pc = Array.isArray(l.listing_images) ? l.listing_images.length : 0;
+      if (pc === 0) noPhotos++;
+      else if (pc < THIN_PHOTO_THRESHOLD) lowPhotos++;
+      if (l.updated_at && (Date.now() - new Date(l.updated_at).getTime()) / (1000 * 60 * 60 * 24) > STALE_LISTING_DAYS) stale++;
+      if (computeCompleteness(l).score < 50) veryIncomplete++;
+    }
+    return { thinDesc, noPhotos, lowPhotos, stale, veryIncomplete };
+  }, [listings]);
+
+  const total =
+    issues.thinDesc + issues.noPhotos + issues.lowPhotos + issues.stale + issues.veryIncomplete;
+  if (dismissed || total === 0) return null;
+
+  const isGreek = locale === 'el';
+  const lines: string[] = [];
+  if (issues.noPhotos > 0) lines.push(isGreek ? `${issues.noPhotos} χωρίς φωτογραφίες` : `${issues.noPhotos} without any photos`);
+  if (issues.lowPhotos > 0) lines.push(isGreek ? `${issues.lowPhotos} με λιγότερες από ${THIN_PHOTO_THRESHOLD} φωτό` : `${issues.lowPhotos} with fewer than ${THIN_PHOTO_THRESHOLD} photos`);
+  if (issues.thinDesc > 0) lines.push(isGreek ? `${issues.thinDesc} με σύντομη περιγραφή` : `${issues.thinDesc} with a short description`);
+  if (issues.veryIncomplete > 0) lines.push(isGreek ? `${issues.veryIncomplete} με συμπληρωσιμότητα < 50%` : `${issues.veryIncomplete} below 50% completeness`);
+  if (issues.stale > 0) lines.push(isGreek ? `${issues.stale} χωρίς ενημέρωση πάνω από 6 μήνες` : `${issues.stale} not updated in 6+ months`);
+
+  const heading = isGreek
+    ? 'Λίγες βελτιώσεις θα βοηθούσαν τα καταλύματά σου'
+    : 'A few touch-ups would help your listings';
+  const sub = isGreek
+    ? 'Όσο πιο συμπληρωμένο είναι ένα κατάλυμα, τόσο πιο εύκολα το βρίσκουν οι ταξιδιώτες στο Google και τόσο πιο πιθανό είναι να καταλήξουν σε κράτηση.'
+    : 'The more complete a listing is, the more easily travellers find it on Google and the more likely they are to book.';
+  const dismissLabel = isGreek ? 'Κρύψε για 7 ημέρες' : 'Hide for 7 days';
+
+  return (
+    <div className="mb-4 p-4 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl">
+      <div className="flex items-start gap-3">
+        <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
+          <AlertCircle className="w-5 h-5 text-amber-700" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-sm font-semibold text-amber-900">{heading}</h3>
+          <p className="text-xs text-amber-800 mt-0.5 leading-relaxed">{sub}</p>
+          {lines.length > 0 && (
+            <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+              {lines.map((line, i) => (
+                <li key={i} className="text-xs text-amber-900 flex items-center gap-1.5">
+                  <span className="w-1 h-1 rounded-full bg-amber-600" />
+                  {line}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={dismiss}
+          className="shrink-0 text-[11px] font-medium text-amber-800 hover:text-amber-900 underline-offset-2 hover:underline self-start"
+        >
+          {dismissLabel}
+        </button>
       </div>
     </div>
   );
