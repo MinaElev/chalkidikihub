@@ -195,4 +195,184 @@ export const ENRICHMENTS: Record<string, BestGuideEnrichment> = {
       },
     ],
   },
+
+  // ───────────────────────────────────────────────────────────────────
+  'beach-bars': {
+    intro: {
+      el: '<p>Τα beach bars της Χαλκιδικής είναι από τα πιο εξελιγμένα στη βόρεια Ελλάδα. Πέρα από έναν απλό χώρο για cocktail κάτω από την ομπρέλα, πολλά λειτουργούν ως πλήρη day-to-night destinations: ξεκινούν με coffee και smoothies στις 9 το πρωί, σερβίρουν μεσημεριανό από καλά μενού, αλλάζουν σε beach party με DJs τα απογεύματα, και κλείνουν με sunset cocktails ή ολονύκτια events. Η Κασσάνδρα (κυρίως Καλλιθέα, Χανιώτη, Πευκοχώρι) έχει τα πιο πολυσύχναστα και κοσμοπολίτικα — η Σιθωνία (Βουρβουρού, Νικήτη) πιο χαλαρά αλλά εξίσου ποιοτικά. Αυτή η λίστα συγκεντρώνει τα beach bars με υψηλότερες αξιολογήσεις, βάσει εμπειρίας επισκεπτών μας.</p>',
+      en: '<p>Halkidiki\'s beach bars are some of the most evolved in northern Greece. Beyond just a place for a cocktail under an umbrella, many run as full day-to-night destinations: opening with coffee and smoothies at 9 AM, serving solid lunch menus, switching to beach parties with DJs in the afternoon, and closing with sunset cocktails or late-night events. Kassandra (mainly Kallithea, Hanioti, Pefkochori) has the most popular, cosmopolitan venues — Sithonia (Vourvourou, Nikiti) is more relaxed but equally high quality. This list collects beach bars with the highest visitor ratings.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να πας</h2><p><strong>Πρωί 9:00-12:00:</strong> Brunch + φρουτοχυμοί, ηρεμία, καλό για couples ή solo travelers. <strong>Μεσημέρι 13:00-16:00:</strong> Lunch, λίγος κόσμος. <strong>17:00-20:00:</strong> Cocktail hour με DJ, peak ατμόσφαιρας. <strong>20:00 και μετά:</strong> Είτε relax mode (Σιθωνία) είτε party mode (Κασσάνδρα Σαββατοκύριακα). <strong>Σεζόν:</strong> Μάιος-Σεπτέμβριος. Τα μεγαλύτερα beach clubs ανοίγουν Ιούνιο και κλείνουν στις 20-25 Σεπτεμβρίου.</p>',
+      en: '<h2>When to visit</h2><p><strong>Morning 9:00-12:00:</strong> Brunch + fresh juices, quieter, good for couples or solo travellers. <strong>Midday 13:00-16:00:</strong> Lunch, fewer crowds. <strong>17:00-20:00:</strong> Cocktail hour with a DJ, peak atmosphere. <strong>20:00 onwards:</strong> Either relax mode (Sithonia) or party mode (Kassandra weekends). <strong>Season:</strong> May-September. The bigger beach clubs open in June and close around September 20-25.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές</h2><ul><li><strong>Κράτηση sun bed:</strong> Στα δημοφιλή beach clubs (κυρίως Κασσάνδρα), online κράτηση 1-2 μέρες πριν για Σαββατοκύριακα. Premium σετ €30-60/μέρα για 2.</li><li><strong>Dress code:</strong> Καθαρό beachwear το μεσημέρι, smart casual μετά τις 19:00. Πολλά δεν αφήνουν φόρμα φλιπ-φλοπ μετά τις 21:00.</li><li><strong>Παιδιά:</strong> Πολλά beach bars είναι family-friendly μέχρι τις 18:00. Μετά γίνονται adult-only ατμόσφαιρας.</li><li><strong>Pricing:</strong> Cocktail €8-14, beer €5-7. Συνήθως service fee 10% περιλαμβάνεται.</li><li><strong>Δείτε επίσης:</strong> <a href="/best/romantic-restaurants">Ρομαντικά εστιατόρια</a> για μετά το beach bar dinner.</li></ul>',
+      en: '<h2>Tips</h2><ul><li><strong>Sun-bed reservation:</strong> At popular beach clubs (mainly Kassandra), book online 1-2 days ahead for weekends. Premium sets €30-60/day for two.</li><li><strong>Dress code:</strong> Clean beachwear at midday, smart-casual after 19:00. Many won\'t let flip-flops in after 21:00.</li><li><strong>Kids:</strong> Many beach bars are family-friendly until 18:00. After that they shift to an adult-only vibe.</li><li><strong>Pricing:</strong> Cocktail €8-14, beer €5-7. A 10% service fee is usually included.</li><li><strong>See also:</strong> <a href="/best/romantic-restaurants">Romantic restaurants</a> for the post-beach-bar dinner.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Ποια είναι τα καλύτερα beach clubs στη Χαλκιδική;', en: 'Which are the best beach clubs in Halkidiki?' },
+        a: { el: 'Στην <strong>Καλλιθέα</strong> τα Cabana, Coco Beach Bar. Στη <strong>Χανιώτη</strong> τα Caribbean, Plaja. Στη <strong>Σιθωνία</strong> πιο χαλαρά αλλά ποιοτικά (Vourvourou area). Δες όλες τις τοποθεσίες σε αυτή τη λίστα — οι πραγματικές αξιολογήσεις των επισκεπτών είναι ο καλύτερος οδηγός.', en: 'In <strong>Kallithea</strong>: Cabana, Coco Beach Bar. In <strong>Hanioti</strong>: Caribbean, Plaja. In <strong>Sithonia</strong> more chilled but high quality (Vourvourou area). Browse all the listings — actual visitor ratings are the best guide.' },
+      },
+      {
+        q: { el: 'Πληρώνω είσοδο σε beach club;', en: 'Do I pay an entrance fee at a beach club?' },
+        a: { el: 'Όχι entry fee σε καμία περίπτωση. Πληρώνεις για ξαπλώστρες/ομπρέλες και τις παραγγελίες σου. Σε ειδικά events ή Saturday parties μπορεί να ζητάνε reservation με minimum spend €40-80.', en: 'No entry fee in any case. You pay for loungers/umbrellas and your orders. For special events or Saturday parties, some venues require a reservation with a €40-80 minimum spend.' },
+      },
+      {
+        q: { el: 'Πιο ωραίο Κασσάνδρα ή Σιθωνία για beach bars;', en: 'More fun: Kassandra or Sithonia for beach bars?' },
+        a: { el: 'Διάλεξε <strong>Κασσάνδρα</strong> για high-energy, big-DJ atmosphere, parties. Διάλεξε <strong>Σιθωνία</strong> για χαλαρά cocktails, sunset, photography. Δες και τις <a href="/best/beaches-kassandra">καλύτερες παραλίες Κασσάνδρας</a> ή <a href="/best/beaches-sithonia">Σιθωνίας</a>.', en: 'Pick <strong>Kassandra</strong> for high-energy, big-DJ atmosphere and parties. Pick <strong>Sithonia</strong> for chilled cocktails, sunsets, photography. See the <a href="/best/beaches-kassandra">best beaches of Kassandra</a> or <a href="/best/beaches-sithonia">Sithonia</a>.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'romantic-restaurants': {
+    intro: {
+      el: '<p>Όταν ψάχνεις ρομαντικό δείπνο στη Χαλκιδική, ο σημαντικότερος παράγοντας είναι η <strong>θέα στη θάλασσα</strong> κατά το σούρουπο. Η ηπειρωτική γεωγραφία της Χαλκιδικής με τις τρεις χερσονήσους δημιουργεί φυσικά μοναδικά τοπία: εστιατόρια που κοιτάζουν τη μία χερσόνησο μπροστά τους ή τη μεγάλη λίμνη ανάμεσα στη Σιθωνία και τον Άθω. Αυτή η λίστα συγκεντρώνει εστιατόρια με προφίλ "sea view" από τη βάση μας — από κομψά rooftop restaurants σε boutique hotels μέχρι παραδοσιακές ταβέρνες σε γραφικά λιμανάκια. Όλα κερδίζουν πραγματικές αξιολογήσεις από couples που δοκίμασαν τις εμπειρίες αυτές.</p>',
+      en: '<p>When you\'re looking for a romantic dinner in Halkidiki, the most important factor is the <strong>sea view at sunset</strong>. Halkidiki\'s mainland geography with three peninsulas creates uniquely framed landscapes: restaurants looking out at the next peninsula or at the large lagoon between Sithonia and Athos. This list collects restaurants tagged with "sea view" in our database — from elegant rooftop restaurants in boutique hotels to traditional tavernas in picturesque little harbours. All earn real ratings from couples who tried the experience.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να κρατήσεις</h2><p><strong>Σούρουπο:</strong> Σε όλα τα sea-view εστιατόρια, κράτηση για 19:30-20:30 το καλοκαίρι — βλέπεις το ηλιοβασίλεμα. Σεπτέμβριο νωρίτερα (18:30-19:30). <strong>Νεκρή ώρα:</strong> 16:00-18:00 αν θες απόλυτη ησυχία και πιθανώς open-bar specials. <strong>Νύχτα κάτω από τα αστέρια:</strong> 21:30+ ιδανικό αν δεν θες ζέστη.</p>',
+      en: '<h2>When to book</h2><p><strong>Sunset:</strong> At every sea-view restaurant, book for 19:30-20:30 in summer — you\'ll catch the sunset. In September, earlier (18:30-19:30). <strong>Quiet hour:</strong> 16:00-18:00 if you want total calm and possibly open-bar specials. <strong>Under the stars:</strong> 21:30+ ideal if you want to avoid the heat.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για ρομαντικό δείπνο</h2><ul><li><strong>Κράτηση εκ των προτέρων:</strong> 2-3 μέρες πριν για Σαββατοκύριακα Ιουλίου-Αυγούστου, ειδικά για θέσεις με την καλύτερη θέα.</li><li><strong>Ζητάς "outside terrace":</strong> Σε όσα έχουν επιλογές inside/outside, το terrace με sea view είναι το ζητούμενο.</li><li><strong>Bottle of wine:</strong> Επίλεξε ντόπιο λευκό (Μαλαγουζιά Σιθωνίας, Ασύρτικο Σαντορίνης) για να ταιριάζει με το ψάρι.</li><li><strong>Dress code:</strong> Smart casual συνήθως. Σε premium boutique restaurants συνιστάται πιο επιμελής.</li><li><strong>Special occasions:</strong> Ζητάς εκ των προτέρων για κάτι ξεχωριστό (κερί, λουλούδι στο τραπέζι, τούρτα γενεθλίων). Συνήθως δωρεάν.</li></ul>',
+      en: '<h2>Tips for a romantic dinner</h2><ul><li><strong>Book ahead:</strong> 2-3 days in advance for July-August weekends, especially for the best-view tables.</li><li><strong>Ask for the outside terrace:</strong> At venues with inside/outside options, the terrace with sea view is what you want.</li><li><strong>Bottle of wine:</strong> Pick a local white (Sithonia Malagouzia, Santorini Assyrtiko) to match the fish.</li><li><strong>Dress code:</strong> Smart casual usually. Premium boutique restaurants prefer something more polished.</li><li><strong>Special occasions:</strong> Ask in advance for something extra (candle, flower on the table, birthday cake). Usually free.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Ποιο είναι το ρομαντικότερο εστιατόριο της Χαλκιδικής;', en: 'Which is the most romantic restaurant in Halkidiki?' },
+        a: { el: 'Δύσκολο να ξεχωρίσει ένα. Στη <strong>Βουρβουρού</strong> εξαιρετική θέα προς τα νησάκια. Στη <strong>Σάνη Marina</strong> ελεγμένα γαστρονομικά εστιατόρια. Στην <strong>Ουρανούπολη</strong> θέα στο Άγιο Όρος. Δες όλα τα sea-view εστιατόρια σε αυτή τη λίστα.', en: 'Hard to pick just one. <strong>Vourvourou</strong> has stunning views over the islets. <strong>Sani Marina</strong> features curated gastro restaurants. <strong>Ouranoupoli</strong> has Mount Athos views. Browse all sea-view restaurants in this list.' },
+      },
+      {
+        q: { el: 'Πόσο κοστίζει ρομαντικό δείπνο 2 ατόμων;', en: 'How much for a romantic dinner for two?' },
+        a: { el: 'Mid-range: €60-100 (3-course + κρασί). Premium boutique: €100-180. Με ψάρι ολόκληρο ψυτό + premium κρασί: €150-250.', en: 'Mid-range: €60-100 (3-course + wine). Premium boutique: €100-180. With whole grilled fish + premium wine: €150-250.' },
+      },
+      {
+        q: { el: 'Που υπάρχουν εστιατόρια με sunset θέα;', en: 'Where are restaurants with sunset views?' },
+        a: { el: '<strong>Δυτική Χαλκιδική</strong> για ηλιοβασίλεμα (Ποσείδι, Καλλιθέα δυτικά). <strong>Σιθωνία ανατολική</strong> αν θες απόσταξη στο Άγιο Όρος αντί ηλιοβασιλέματος. <strong>Ουρανούπολη</strong> έχει και τα δύο μέσα από διαφορετικά εστιατόρια.', en: '<strong>Western Halkidiki</strong> for sunsets (Possidi, western Kallithea). <strong>Eastern Sithonia</strong> if you prefer Mount Athos views over sunset. <strong>Ouranoupoli</strong> offers both depending on the restaurant.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'traditional-tavernas': {
+    intro: {
+      el: '<p>Οι παραδοσιακές ταβέρνες της Χαλκιδικής είναι το αυθεντικό πρόσωπο της τοπικής γαστρονομίας — μακριά από τις τουριστικές beach restaurants, βαθιά στα γραφικά εσωτερικά χωριά. Παρθενώνας, Άφυτος, Καλαμίτσι, Πυργαδίκια, Καστρί. Σπιτικά μαγειρευτά, ψητά κρέατα στα κάρβουνα, ντόπιο τυρί, ψωμί ζυμωτό. Τιμές 30-50% κάτω από τη παραλιακή ζώνη. Πολλές διατηρούν την οικογενειακή λειτουργία 3 και 4 γενεών. Αυτή η λίστα συγκεντρώνει τις ταβέρνες που σταθερά εκπροσωπούν τη χαλκιδικιώτικη παράδοση με βάση τις αξιολογήσεις των επισκεπτών μας.</p>',
+      en: '<p>Halkidiki\'s traditional tavernas are the authentic face of local gastronomy — far from tourist beach restaurants, deep in the picturesque inland villages. Parthenonas, Afytos, Kalamitsi, Pyrgadikia, Kastri. Home-cooked dishes, charcoal-grilled meats, local cheese, hand-kneaded bread. Prices 30-50% below the seafront zone. Many remain family-run across 3-4 generations. This list collects the tavernas that consistently represent Halkidiki tradition, based on visitor ratings.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να πας</h2><p><strong>Όλο τον χρόνο:</strong> Σε αντίθεση με τις παραλιακές, οι παραδοσιακές ταβέρνες είναι ανοιχτές όλη χρονιά. <strong>Καλύτερη εμπειρία:</strong> Σεπτέμβριο-Οκτώβριο όταν φεύγει ο μαζικός τουρισμός — οι ντόπιοι επιστρέφουν, βλέπεις πραγματική ατμόσφαιρα. <strong>Άνοιξη:</strong> Φρέσκα τυριά, βότανα. Καλό timing για μεζέδες με ούζο. <strong>Δείπνο:</strong> 20:00-22:00 παραδοσιακά — οι Έλληνες τρώνε αργά.</p>',
+      en: '<h2>When to visit</h2><p><strong>Year-round:</strong> Unlike beachside restaurants, traditional tavernas are open all year. <strong>Best experience:</strong> September-October when mass tourism leaves — locals return, you see the real atmosphere. <strong>Spring:</strong> Fresh cheeses, herbs. Great timing for meze with ouzo. <strong>Dinner:</strong> 20:00-22:00 traditionally — Greeks eat late.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για παραδοσιακή εμπειρία</h2><ul><li><strong>Άσε τον ιδιοκτήτη να σου προτείνει:</strong> "Τι έχεις σήμερα φρέσκο/καλό;" — τυπικός κανόνας. Παίρνεις πάντα το πιο νόστιμο της ημέρας.</li><li><strong>Μεζέδες:</strong> Παράγγειλε 4-6 για 2 άτομα: τυρί φέτα, ντομάτα, γεμιστά, κεφτεδάκια, τυροπιτάκια, ντόπιο σαλάμι. Συνοδεία ούζο ή ρακή.</li><li><strong>Κύριο:</strong> Σουβλάκι, μοσχαρίσιο σπαλομπριζόλα, αρνί παϊδάκια. Σπιτικά γεμιστά, μουσακάς.</li><li><strong>Επιδόρπιο:</strong> Σπιτικό γιαούρτι με μέλι. Φρεσκοτηγανισμένο λουκουμάδες.</li><li><strong>Πληρωμή:</strong> Συχνά μόνο μετρητά. Έχε €30-60 cash για 2 άτομα.</li><li><strong>Καλύτερα χωριά:</strong> Παρθενώνας (Σιθωνία), Άφυτος (Κασσάνδρα), Καλαμίτσι (Σιθωνία ανατολική), Πυργαδίκια (μεταξύ Σιθωνίας-Άθω).</li></ul>',
+      en: '<h2>Tips for the traditional experience</h2><ul><li><strong>Let the owner suggest:</strong> "What\'s fresh / good today?" — a typical rule. You always get the tastiest dish of the day.</li><li><strong>Meze:</strong> Order 4-6 for two people: feta, tomatoes, stuffed vegetables, meatballs, tiropitakia, local salami. Pair with ouzo or raki.</li><li><strong>Main:</strong> Souvlaki, beef rib steak, lamb chops. Homemade stuffed vegetables, moussaka.</li><li><strong>Dessert:</strong> Homemade yogurt with honey. Fresh loukoumades.</li><li><strong>Payment:</strong> Often cash only. Bring €30-60 cash for two.</li><li><strong>Best villages:</strong> Parthenonas (Sithonia), Afytos (Kassandra), Kalamitsi (eastern Sithonia), Pyrgadikia (between Sithonia-Athos).</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Σε ποιο χωριό να πάω για παραδοσιακή ταβέρνα;', en: 'Which village for a traditional taverna?' },
+        a: { el: '<strong>Άφυτος</strong> για κλασική Κασσάνδρα εμπειρία με θέα. <strong>Παρθενώνας</strong> για ορεινή Σιθωνία. <strong>Καλαμίτσι</strong> για ψαρομεζέδες. <strong>Πυργαδίκια</strong> για παραθαλάσσια ταβέρνες με παράδοση. Βλέπε όλες τις τοποθεσίες σε αυτή τη λίστα.', en: '<strong>Afytos</strong> for a classic Kassandra experience with a view. <strong>Parthenonas</strong> for hillside Sithonia. <strong>Kalamitsi</strong> for fish meze. <strong>Pyrgadikia</strong> for seafront tavernas with tradition. See all locations in this list.' },
+      },
+      {
+        q: { el: 'Είναι κατάλληλο για παιδιά;', en: 'Suitable for kids?' },
+        a: { el: 'Ναι — οι ελληνικές ταβέρνες είναι extra φιλικές με παιδιά. Συνήθως ηγέτης οικογενειακή ατμόσφαιρα. Επιπλέον σνακς (πατάτες τηγανητές, τυρόπιτα), παγωτό από το ψυγείο.', en: 'Yes — Greek tavernas are extra kid-friendly. Family atmosphere is the norm. Easy snacks (fries, tyropita), ice cream from the fridge.' },
+      },
+      {
+        q: { el: 'Πόσο κοστίζει 4-μελής οικογένεια;', en: 'How much for a family of four?' },
+        a: { el: 'Παραδοσιακό δείπνο με 6 μεζέδες + 2 κύρια + κρασί + νερό για 4 άτομα: €45-80. Σαφώς πιο φθηνά από beach restaurants.', en: 'A traditional dinner with 6 meze + 2 mains + wine + water for 4 people: €45-80. Clearly cheaper than beach restaurants.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'restaurants-kassandra': {
+    intro: {
+      el: '<p>Η Κασσάνδρα έχει την πιο πυκνή γαστρονομική σκηνή της Χαλκιδικής — από διεθνή cuisine και sushi bars στις πιο τουριστικές περιοχές (Καλλιθέα, Σάνη, Χανιώτη), μέχρι παραδοσιακές ταβέρνες με ψαρομεζέδες στα παραδοσιακά χωριά (Άφυτος, Νέα Φώκαια). Αυτή η λίστα συγκεντρώνει τα εστιατόρια της Κασσάνδρας με τις υψηλότερες αξιολογήσεις, φιλτραρισμένα ανά κουζίνα. Είτε ψάχνεις χαλαρό μεσημεριανό beach lunch, είτε ρομαντικό δείπνο sunset, είτε αυθεντική greek experience — υπάρχει κατάλληλο εστιατόριο για σένα.</p>',
+      en: '<p>Kassandra has Halkidiki\'s densest gastronomy scene — from international cuisine and sushi bars in the most touristy areas (Kallithea, Sani, Hanioti) to traditional tavernas with seafood meze in the historic villages (Afytos, Nea Fokaia). This list collects Kassandra\'s highest-rated restaurants, filterable by cuisine. Whether you\'re after a relaxed beach lunch, a romantic sunset dinner, or an authentic Greek experience — there\'s a restaurant for you.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να κρατήσεις</h2><p><strong>Peak season (Ιούλιος-Αύγουστος):</strong> Κράτηση υποχρεωτική 2-3 μέρες πριν σε γνωστές μονάδες. Σαββατοκύριακα οι παραλιακές γεμίζουν 20:30-22:30. <strong>Σεπτέμβριος:</strong> Καλύτερη εμπειρία — σταθερά διαθέσιμα τραπέζια, χαλαρό σέρβις, ίδια ποιότητα. <strong>Μη-σεζόν (Νοέμβριος-Μάρτιος):</strong> Πολλές παραλιακές κλειστές, αλλά οι παραδοσιακές στο εσωτερικό (Άφυτος) ανοιχτές.</p>',
+      en: '<h2>When to book</h2><p><strong>Peak season (July-August):</strong> Booking is essential 2-3 days ahead at popular venues. On weekends, beachfront tables fill up 20:30-22:30. <strong>September:</strong> Better experience — tables consistently available, relaxed service, same quality. <strong>Off-season (November-March):</strong> Many beachside spots closed, but inland traditional tavernas (Afytos) stay open.</p>',
+    },
+    tips: {
+      el: '<h2>Που να φας ανά κατηγορία</h2><ul><li><strong>Beach lunch:</strong> Σάνη Marina, Καλλιθέα παραλιακά. Mid-range €25-40/άτομο.</li><li><strong>Sunset dinner:</strong> Άφυτος για χωριό + sea view. Δες <a href="/best/romantic-restaurants">ρομαντικά εστιατόρια</a>.</li><li><strong>Ψαρομεζέδες:</strong> Νέα Φώκαια λιμανάκι, Άφυτος ταβέρνες. Δες <a href="/best/seafood-restaurants">ψαροταβέρνες</a>.</li><li><strong>Παραδοσιακή ταβέρνα:</strong> Άφυτος εσωτερικό, παρόμοιες πιο φθηνές. Δες <a href="/best/traditional-tavernas">παραδοσιακές ταβέρνες</a>.</li><li><strong>International:</strong> Σάνη Marina έχει sushi, italian, asian fusion για όσους θέλουν αλλαγή.</li></ul>',
+      en: '<h2>Where to eat by category</h2><ul><li><strong>Beach lunch:</strong> Sani Marina, Kallithea seafront. Mid-range €25-40/person.</li><li><strong>Sunset dinner:</strong> Afytos village with sea view. See <a href="/best/romantic-restaurants">romantic restaurants</a>.</li><li><strong>Seafood meze:</strong> Nea Fokaia harbour, Afytos tavernas. See <a href="/best/seafood-restaurants">seafood restaurants</a>.</li><li><strong>Traditional taverna:</strong> Inland Afytos, similar villages cheaper. See <a href="/best/traditional-tavernas">traditional tavernas</a>.</li><li><strong>International:</strong> Sani Marina has sushi, Italian, Asian fusion if you want a change.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Που να φάω καλύτερα στην Κασσάνδρα;', en: 'Where to eat best in Kassandra?' },
+        a: { el: 'Εξαρτάται τι θες: <strong>Άφυτος</strong> για παραδοσιακό + θέα. <strong>Σάνη Marina</strong> για premium variety. <strong>Καλλιθέα παραλιακά</strong> για cosmopolitan. <strong>Νέα Φώκαια</strong> για authentic ψαρομεζέδες. Δες όλες σε αυτή τη λίστα.', en: 'Depends on what you want: <strong>Afytos</strong> for traditional + view. <strong>Sani Marina</strong> for premium variety. <strong>Kallithea seafront</strong> for cosmopolitan. <strong>Nea Fokaia</strong> for authentic seafood meze. See all in this list.' },
+      },
+      {
+        q: { el: 'Πληρώνω more στα παραλιακά;', en: 'Do I pay more at the beachfront places?' },
+        a: { el: 'Ναι, 20-40% παραπάνω από αντίστοιχης ποιότητας εστιατόρια στα χωριά εσωτερικά. Η θέα κοστίζει.', en: 'Yes, 20-40% more than equivalent-quality restaurants in inland villages. The view comes at a price.' },
+      },
+      {
+        q: { el: 'Πιο φθηνά Κασσάνδρα ή Σιθωνία;', en: 'Cheaper: Kassandra or Sithonia?' },
+        a: { el: '<strong>Σιθωνία:</strong> Λίγο πιο φθηνά γενικά (-10-15%) επειδή πιο λιγότερο τουριστικά αναπτυγμένη. Δες τα <a href="/best/restaurants-sithonia">εστιατόρια Σιθωνίας</a>.', en: '<strong>Sithonia:</strong> Slightly cheaper overall (-10-15%) because it\'s less touristically developed. See <a href="/best/restaurants-sithonia">Sithonia restaurants</a>.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'restaurants-sithonia': {
+    intro: {
+      el: '<p>Η γαστρονομική σκηνή της Σιθωνίας είναι πιο χαλαρή και φυσική από αυτή της Κασσάνδρας — λιγότερα διεθνή concept, περισσότερες ψαροταβέρνες σε γραφικά λιμανάκια και παραδοσιακές ταβέρνες στα ορεινά χωριά. Είναι ιδανική για όσους ψάχνουν αυθεντική ελληνική γαστρονομία χωρίς τον αναπτυγμένο τουριστικό χαρακτήρα. Από τα ψαρολίμανα του Πυργαδίκι και της Σάρτης, μέχρι τις παραδοσιακές ταβέρνες του Παρθενώνα και της Νικήτης — η Σιθωνία είναι το παράδειγμα της απλής, ποιοτικής ελληνικής εστίασης. Αυτή η λίστα συγκεντρώνει τα κορυφαία εστιατόρια της περιοχής.</p>',
+      en: '<p>Sithonia\'s gastronomy scene is more relaxed and natural than Kassandra\'s — fewer international concepts, more seafood tavernas in picturesque harbours and traditional tavernas in mountain villages. Ideal for those wanting authentic Greek gastronomy without the developed tourist character. From the fishing harbours of Pyrgadikia and Sarti to the traditional tavernas of Parthenonas and Nikiti — Sithonia exemplifies simple, quality Greek dining. This list collects the area\'s top restaurants.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να πας</h2><p><strong>Καλοκαίρι:</strong> Σαββατοκύριακα Ιουλίου-Αυγούστου, κράτηση συνιστάται. Καθημερινές παίρνεις τραπέζι εύκολα. <strong>Σεπτέμβριος:</strong> Ιδανικό — οι ντόπιοι επιστρέφουν στις παραδοσιακές. Χαλαρό σέρβις, μεγαλύτερη ποικιλία (ψάρια). <strong>Χειμώνας:</strong> Λιγοστές επιλογές, ταβέρνες χωριών εσωτερικού (Παρθενώνας) ανοιχτές. Ζεστή σόμπα, σπιτικό κρασί, χειμωνιάτικα μενού.</p>',
+      en: '<h2>When to visit</h2><p><strong>Summer:</strong> July-August weekends, booking advised. Weekdays, getting a table is easy. <strong>September:</strong> Ideal — locals return to traditional tavernas. Relaxed service, more fish on the menu. <strong>Winter:</strong> Fewer options, but inland village tavernas (Parthenonas) stay open. Warm stove, house wine, winter menus.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για Σιθωνία γαστρονομία</h2><ul><li><strong>Πυργαδίκια:</strong> Παραθαλάσσιες ψαροταβέρνες, σχεδόν όλες ποιοτικές. Sunset δείπνο εξαιρετικό.</li><li><strong>Σάρτη:</strong> Παραλιακές ψαροταβέρνες με θέα Άθω. Φρέσκα ψάρια από καθημερινό ψάρεμα.</li><li><strong>Νικήτη παλιά:</strong> Πάνω από τη νέα Νικήτη — εστιατόρια με προδιάθεση στη γεωγραφική ιδιαιτερότητα του χωριού.</li><li><strong>Παρθενώνας:</strong> Ορεινό χωριό, παραδοσιακές ταβέρνες με κρέατα, τυριά, μεζέδες.</li><li><strong>Βουρβουρού:</strong> Πιο cosmopolitan, sea-view εστιατόρια με θέα στα νησάκια. Πιο pricey.</li><li><strong>Καλαμίτσι:</strong> Παραδοσιακό, ποιοτικά, σπιτικά γλυκά.</li></ul>',
+      en: '<h2>Tips for Sithonia gastronomy</h2><ul><li><strong>Pyrgadikia:</strong> Seafront seafood tavernas, almost all high quality. Sunset dinner is exceptional.</li><li><strong>Sarti:</strong> Beachfront seafood tavernas with views of Mount Athos. Fresh fish from daily catch.</li><li><strong>Old Nikiti:</strong> Above new Nikiti — restaurants leaning into the village\'s geographic character.</li><li><strong>Parthenonas:</strong> Mountain village, traditional tavernas with meats, cheeses, meze.</li><li><strong>Vourvourou:</strong> More cosmopolitan, sea-view restaurants over the islets. Pricier.</li><li><strong>Kalamitsi:</strong> Traditional, high quality, homemade desserts.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Που να φάω καλύτερα στη Σιθωνία;', en: 'Where to eat best in Sithonia?' },
+        a: { el: 'Για ψαρομεζέδες: <strong>Πυργαδίκια</strong> ή <strong>Σάρτη</strong>. Για παραδοσιακό: <strong>Παρθενώνας</strong> ή <strong>Καλαμίτσι</strong>. Για premium θέα: <strong>Βουρβουρού</strong>. Δες όλες σε αυτή τη λίστα φιλτραρισμένες κατά rating.', en: 'For seafood meze: <strong>Pyrgadikia</strong> or <strong>Sarti</strong>. For traditional: <strong>Parthenonas</strong> or <strong>Kalamitsi</strong>. For premium view: <strong>Vourvourou</strong>. See all in this list sorted by rating.' },
+      },
+      {
+        q: { el: 'Σιθωνία vs Κασσάνδρα για φαγητό;', en: 'Sithonia vs Kassandra for food?' },
+        a: { el: '<strong>Σιθωνία:</strong> Πιο αυθεντικό, φρέσκα ψαρικά, χαλαρή ατμόσφαιρα. <strong>Κασσάνδρα:</strong> Μεγαλύτερη ποικιλία, διεθνές cuisine, πιο πολυσύχναστα. Δες και τα <a href="/best/restaurants-kassandra">εστιατόρια Κασσάνδρας</a>.', en: '<strong>Sithonia:</strong> More authentic, fresh seafood, relaxed atmosphere. <strong>Kassandra:</strong> Wider variety, international cuisine, more crowded. See <a href="/best/restaurants-kassandra">Kassandra restaurants</a> too.' },
+      },
+      {
+        q: { el: 'Είναι ανοιχτές οι ταβέρνες χειμώνα;', en: 'Are tavernas open in winter?' },
+        a: { el: 'Στα παραθαλάσσια — όχι ή ελάχιστα. Στα εσωτερικά χωριά (Παρθενώνας, Καλαμίτσι) ναι, και έχουν ωραία χειμωνιάτικη ατμόσφαιρα με σόμπα.', en: 'Seafront — no or very few. Inland villages (Parthenonas, Kalamitsi) yes, with a nice winter atmosphere around the stove.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'free-beaches': {
+    intro: {
+      el: '<p>Ελεύθερες παραλίες — χωρίς ξαπλώστρες, χωρίς beach bar, χωρίς οργανωμένη λειτουργία. Στρώνεις την πετσέτα σου, βάζεις τη σκιά σου, και χαλαρώνεις χωρίς κανονικά να ξοδεύεις τίποτα. Στη Χαλκιδική, αυτές οι παραλίες είναι συνήθως ή απομονωμένες (Καβουρότρυπες, διαπόρου, μικρές παραλίες Σιθωνίας) ή απλώς λιγότερο διαφημισμένες. Πολλές έχουν τα καθαρότερα νερά και την πιο αυθεντική εμπειρία. Αυτή η λίστα συγκεντρώνει τις παραλίες που χαρακτηρίζονται "free" στη βάση μας — μπορείς να στρώσεις όπου θες, χωρίς πληρωμή.</p>',
+      en: '<p>Free beaches — no loungers, no beach bar, no organised setup. Spread your towel, set up your shade, and relax without spending anything. In Halkidiki these beaches are usually either isolated (Kavourotrypes, Diaporos, small Sithonia beaches) or simply less advertised. Many have the cleanest water and most authentic experience. This list collects beaches tagged as "free" in our database — you can spread out anywhere without paying.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να πας</h2><p><strong>Όλο τον χρόνο σχεδόν:</strong> Αυτές οι παραλίες δεν γεμίζουν ποτέ. Μόνη εξαίρεση: τα γνωστά Καβουρότρυπες/Orange Beach γεμίζουν 9-12 Σαββατοκύριακα Ιουλίου-Αυγούστου. <strong>Καλύτερη εποχή:</strong> Μάιος-Ιούνιος και Σεπτέμβριος-Οκτώβριος — έχεις την παραλία σχεδόν για εσάς. <strong>Ωραίος καιρός χωρίς κόσμο:</strong> Καθημερινές Σεπτεμβρίου είναι το απόλυτο sweet spot.</p>',
+      en: '<h2>When to visit</h2><p><strong>Almost year-round:</strong> These beaches never really fill up. The only exception: the famous Kavourotrypes/Orange Beach fills up 9-12 on July-August weekends. <strong>Best season:</strong> May-June and September-October — you basically have the beach to yourself. <strong>Nice weather without crowds:</strong> September weekdays are the absolute sweet spot.</p>',
+    },
+    tips: {
+      el: '<h2>Πρακτικές συμβουλές για ελεύθερες παραλίες</h2><ul><li><strong>Πάρε τα πάντα:</strong> Νερό (τουλάχιστον 2L/άτομο), σνακ, ομπρέλα, αντηλιακό. Δεν υπάρχει καντίνα.</li><li><strong>Καθαριότητα:</strong> Σακούλα για σκουπίδια — πάρε τα μαζί σου. Αυτές οι παραλίες διατηρούνται καθαρές γιατί οι επισκέπτες σέβονται.</li><li><strong>Parking:</strong> Σε ορισμένες (Καβουρότρυπες) είναι μακριά + 5-15\' περπάτημα. Παπούτσια κατάλληλα.</li><li><strong>Snorkeling:</strong> Οι ελεύθερες παραλίες έχουν συχνά τα καθαρότερα νερά. Δες τις <a href="/best/snorkeling-spots">καλύτερες snorkeling παραλίες</a>.</li><li><strong>Σκιά:</strong> Συνήθως πεύκα προσφέρουν φυσική σκιά — αλλά όχι παντού. Φέρε ομπρέλα ή tarp.</li><li><strong>Σήμα κινητού:</strong> Σε απομονωμένες περιοχές μπορεί να μην έχει — ενημέρωσε κάποιον πού πας.</li></ul>',
+      en: '<h2>Practical tips for free beaches</h2><ul><li><strong>Bring everything:</strong> Water (at least 2L/person), snacks, umbrella, sunscreen. No canteen.</li><li><strong>Cleanliness:</strong> Pack a rubbish bag — take it with you. These beaches stay clean because visitors respect them.</li><li><strong>Parking:</strong> Some (Kavourotrypes) need a 5-15-min walk. Bring suitable shoes.</li><li><strong>Snorkelling:</strong> Free beaches often have the clearest water. See our <a href="/best/snorkeling-spots">best snorkelling beaches</a>.</li><li><strong>Shade:</strong> Pine trees usually provide natural shade — but not everywhere. Bring an umbrella or tarp.</li><li><strong>Mobile signal:</strong> May be patchy in isolated spots — tell someone where you\'re going.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Είναι όλες οι παραλίες Χαλκιδικής ελεύθερες;', en: 'Are all Halkidiki beaches free?' },
+        a: { el: 'Νομικά ναι — όλες οι ακτές είναι δημόσιες στην Ελλάδα. Στην πράξη, οι "οργανωμένες" παραλίες έχουν ξαπλώστρες/ομπρέλες (€8-15 σετ/μέρα). Σε αυτή τη λίστα συγκεντρώνουμε τις πλήρως φυσικές, χωρίς οργανωμένη λειτουργία.', en: 'Legally yes — all coast is public in Greece. In practice, "organised" beaches have loungers/umbrellas (€8-15 set/day). This list collects fully natural beaches without organised facilities.' },
+      },
+      {
+        q: { el: 'Πιο καλό για ησυχία ελεύθερες ή ήσυχες;', en: 'Better for peace: free or quiet beaches?' },
+        a: { el: 'Πολλές <a href="/best/quiet-beaches">ήσυχες παραλίες</a> είναι ταυτόχρονα ελεύθερες. Διαφορά: "ελεύθερες" είναι χωρίς υποδομές. "Ήσυχες" είναι χωρίς πολυκοσμία (μπορεί να έχουν beach bar χωρίς να γεμίζουν).', en: 'Many <a href="/best/quiet-beaches">quiet beaches</a> are also free. Difference: "free" means no facilities. "Quiet" means no crowds (may have a beach bar that doesn\'t fill up).' },
+      },
+      {
+        q: { el: 'Είναι ασφαλές να αφήσω πράγματα όταν κολυμπώ;', en: 'Is it safe to leave belongings while swimming?' },
+        a: { el: 'Η Χαλκιδική έχει χαμηλό crime rate — οι κλοπές σε παραλίες είναι σπάνιες αλλά δεν εκμηδενίζονται. Άσε ομαδική τσάντα με 1 άτομο, ή έχε waterproof pouch με κινητό/χρήματα μαζί σου στο νερό.', en: 'Halkidiki has a low crime rate — beach thefts are rare but not zero. Leave a group bag with one person, or carry a waterproof pouch with phone/cash into the water.' },
+      },
+    ],
+  },
 };
