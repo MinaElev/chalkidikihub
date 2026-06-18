@@ -9,9 +9,10 @@ import { ActivityCard } from '@/components/listings/ActivityCard';
 import { createApiClient } from '@/lib/api-helpers';
 import { transformBeach, transformRestaurant, transformActivity } from '@/lib/data';
 import { getBestGuide, BEST_GUIDES, type BestGuide } from './best-data';
+import { ENRICHMENTS } from './enrichments';
 import { localeUrl } from '@/lib/seo';
 import { FaqSection } from '@/components/ui/FaqSection';
-import { generateBestGuideFaqs } from '@/lib/faq-generators';
+import { generateBestGuideFaqs, type FaqItem } from '@/lib/faq-generators';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
@@ -102,6 +103,23 @@ export default async function BestOfPage({ params }: Props) {
 
   const items = await fetchGuideItems(guide);
 
+  // Optional long-form enrichment (hand-written content per guide). Pages
+  // without an entry fall back to the lean default render — no change.
+  const enrichment = ENRICHMENTS[slug];
+  const introHtml = enrichment?.intro?.[locale] || enrichment?.intro?.en;
+  const seasonalHtml = enrichment?.seasonal?.[locale] || enrichment?.seasonal?.en;
+  const tipsHtml = enrichment?.tips?.[locale] || enrichment?.tips?.en;
+  const criteriaHtml = enrichment?.criteria?.[locale] || enrichment?.criteria?.en;
+  const customFaqs: FaqItem[] | null = enrichment?.faqs
+    ? enrichment.faqs.map((f) => ({
+        question: f.q[locale] || f.q.en || '',
+        answer: f.a[locale] || f.a.en || '',
+      }))
+    : null;
+  const faqs = customFaqs && customFaqs.length > 0
+    ? customFaqs
+    : generateBestGuideFaqs(guide, items.length, locale);
+
   const tHome = locale === 'el' ? 'Αρχική' : 'Home';
   const tResults = locale === 'el' ? 'αποτελέσματα' : 'results';
   const tNoResults = locale === 'el' ? 'Δεν βρέθηκαν αποτελέσματα' : 'No results found';
@@ -144,6 +162,21 @@ export default async function BestOfPage({ params }: Props) {
         <p className="text-white/60 text-sm mt-3">{items.length} {tResults}</p>
       </div>
 
+      {/* Long-form editorial intro — rendered only for enriched guides. */}
+      {introHtml && (
+        <div
+          className="prose prose-gray max-w-none mb-8 text-gray-700 leading-relaxed [&_a]:text-primary-700 [&_a]:underline [&_a:hover]:text-primary-800 [&_strong]:text-gray-900"
+          dangerouslySetInnerHTML={{ __html: introHtml }}
+        />
+      )}
+
+      {criteriaHtml && (
+        <div
+          className="prose prose-gray max-w-none mb-8 p-5 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 leading-relaxed [&_a]:text-primary-700 [&_a]:underline [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-gray-900 [&_h2]:mt-0 [&_h2]:mb-2"
+          dangerouslySetInnerHTML={{ __html: criteriaHtml }}
+        />
+      )}
+
       {items.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
@@ -158,6 +191,22 @@ export default async function BestOfPage({ params }: Props) {
         <div className="text-center py-16 text-gray-400">{tNoResults}</div>
       )}
 
+      {/* Seasonal context — only for enriched guides. */}
+      {seasonalHtml && (
+        <div
+          className="prose prose-gray max-w-none mt-10 p-5 bg-amber-50/60 border border-amber-200 rounded-xl text-gray-800 leading-relaxed [&_a]:text-amber-900 [&_a]:underline [&_a:hover]:text-amber-700 [&_strong]:text-gray-900 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-amber-900 [&_h2]:mt-0 [&_h2]:mb-2 [&_h2]:flex [&_h2]:items-center [&_h2]:gap-2"
+          dangerouslySetInnerHTML={{ __html: seasonalHtml }}
+        />
+      )}
+
+      {/* Practical tips — only for enriched guides. */}
+      {tipsHtml && (
+        <div
+          className="prose prose-gray max-w-none mt-6 p-5 bg-sky-50/60 border border-sky-200 rounded-xl text-gray-800 leading-relaxed [&_a]:text-sky-900 [&_a]:underline [&_a:hover]:text-sky-700 [&_strong]:text-gray-900 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-sky-900 [&_h2]:mt-0 [&_h2]:mb-3 [&_ul]:my-2 [&_ul]:pl-5 [&_ul]:list-disc [&_li]:my-1"
+          dangerouslySetInnerHTML={{ __html: tipsHtml }}
+        />
+      )}
+
       <div className="mt-12 pt-8 border-t border-gray-200">
         <h2 className="text-lg font-bold text-gray-900 mb-4">{tMore}</h2>
         <div className="flex flex-wrap gap-2">
@@ -170,7 +219,7 @@ export default async function BestOfPage({ params }: Props) {
         </div>
       </div>
 
-      <FaqSection faqs={generateBestGuideFaqs(guide, items.length, locale)} />
+      <FaqSection faqs={faqs} />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </div>
