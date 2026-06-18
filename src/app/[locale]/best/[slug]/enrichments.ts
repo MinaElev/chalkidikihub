@@ -375,4 +375,274 @@ export const ENRICHMENTS: Record<string, BestGuideEnrichment> = {
       },
     ],
   },
+
+  // ───────────────────────────────────────────────────────────────────
+  'hiking-trails': {
+    intro: {
+      el: '<p>Η Χαλκιδική δεν είναι μόνο παραλίες — πίσω από την ακτογραμμή απλώνεται ένα πευκόδασος που καλύπτει σχεδόν όλο το εσωτερικό. Οι χερσόνησοι έχουν χαμηλά βουνά (Ίταμος στη Σιθωνία, Κασσάνδρα ορεινή), μονοπάτια προς ξωκλήσια, βυζαντινούς πύργους και κρυμμένα μικρά μπαλκόνια θέας. Το διασημότερο πεζοπορικό δίκτυο είναι το <strong>Aristotle Trail</strong> — οδική σήμανση που συνδέει χωριά της ορεινής Χαλκιδικής με μοναστήρια του Αγίου Όρους. Αυτή η λίστα συγκεντρώνει τις πεζοπορικές διαδρομές και τα ορεινά αξιοθέατα με τις υψηλότερες αξιολογήσεις.</p>',
+      en: '<p>Halkidiki isn\'t only beaches — behind the coastline stretches a pine forest covering almost the entire inland. The peninsulas have low mountains (Itamos in Sithonia, mountainous Kassandra), trails to chapels, Byzantine towers and hidden viewpoints. The most famous hiking network is the <strong>Aristotle Trail</strong> — signed routes connecting mountain villages with Mount Athos monasteries. This list collects the highest-rated hiking routes and mountain attractions.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να πεζοπορήσεις</h2><p><strong>Άνοιξη (Μάιος-Ιούνιος):</strong> Η ιδανική εποχή — δροσερός καιρός, λουλουδιασμένο τοπίο, καθαρή ορατότητα. <strong>Φθινόπωρο (Σεπτέμβριος-Νοέμβριος):</strong> Εξαιρετικά — χρώματα φύλλων, καμία βροχή, λιγότερος κόσμος. <strong>Καλοκαίρι (Ιούλιος-Αύγουστος):</strong> Πεζοπορία πρωί 7-10 ή αργά απόγευμα 17-19 — μεσημέρι 35°C+ επικίνδυνο. <strong>Χειμώνας:</strong> Δροσερά πρωινά, σπάνιο χιόνι στις κορυφές, καλύτερη ορατότητα.</p>',
+      en: '<h2>When to hike</h2><p><strong>Spring (May-June):</strong> Ideal — cool weather, blooming landscape, clear visibility. <strong>Autumn (September-November):</strong> Excellent — autumn colours, no rain, fewer people. <strong>Summer (July-August):</strong> Hike morning 7-10 or late afternoon 17-19 — midday 35°C+ is dangerous. <strong>Winter:</strong> Cool mornings, rare snow on peaks, best visibility.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για πεζοπορία στη Χαλκιδική</h2><ul><li><strong>Νερό:</strong> 2L/άτομο τουλάχιστον. Πηγές νερού υπάρχουν αλλά σπάνια.</li><li><strong>Παπούτσια:</strong> Πεζοπορικά παπούτσια με grip. Tα μονοπάτια έχουν πέτρες και βρύα.</li><li><strong>Aristotle Trail:</strong> Σηματοδοτημένο, χωρισμένο σε στάδια. Πλήρης διάβαση 2-3 ημέρες με διανυκτερεύσεις σε χωριά.</li><li><strong>Πιστοί δρομολόγια:</strong> Όχι offline maps μόνο — οι σηματοδοτήσεις είναι αξιόπιστες αλλά κάνε download χάρτη πριν.</li><li><strong>Σήμα κινητού:</strong> Αδύναμο σε ορεινά. Πες σε κάποιον πού πας.</li><li><strong>Φίδια:</strong> Σπάνια αλλά υπάρχουν. Μην σηκώνεις πέτρες, ψηλά παπούτσια.</li><li><strong>Συνδυασμός με beaches:</strong> Πρωινή πεζοπορία + μεσημέρι παραλία = ιδανικό. Δες τις <a href="/best/beaches-sithonia">παραλίες Σιθωνίας</a>.</li></ul>',
+      en: '<h2>Hiking tips for Halkidiki</h2><ul><li><strong>Water:</strong> At least 2L/person. Water sources exist but rare.</li><li><strong>Shoes:</strong> Hiking shoes with grip. Trails have rocks and moss.</li><li><strong>Aristotle Trail:</strong> Signed, divided into stages. Full crossing 2-3 days with overnight stops in villages.</li><li><strong>Trusted routes:</strong> Not offline maps only — signage is reliable but download a map beforehand.</li><li><strong>Mobile signal:</strong> Weak in the mountains. Tell someone where you\'re going.</li><li><strong>Snakes:</strong> Rare but exist. Don\'t lift rocks, wear ankle-high shoes.</li><li><strong>Combine with beaches:</strong> Morning hike + afternoon swim = ideal. See <a href="/best/beaches-sithonia">Sithonia beaches</a>.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Είναι το Aristotle Trail κατάλληλο για αρχάριους;', en: 'Is the Aristotle Trail suitable for beginners?' },
+        a: { el: 'Ναι, σε στάδια. Είναι χωρισμένο σε τμήματα 8-15 χλμ που ξεπερνιούνται σε 3-5 ώρες. Κάνε ένα στάδιο σαν day hike. Φάση 2-3 ημερών χρειάζεται μέτρια φυσική κατάσταση.', en: 'Yes, in stages. It\'s divided into 8-15 km sections finishable in 3-5 hours. Do one stage as a day hike. The full 2-3 day trek needs moderate fitness.' },
+      },
+      {
+        q: { el: 'Που να μείνω για πεζοπορία;', en: 'Where to stay for hiking?' },
+        a: { el: 'Παραδοσιακά χωριά της Σιθωνίας (Παρθενώνας, Νεοχώρι) ή της Κασσάνδρας ορεινής. <a href="/listings">Δες διαθέσιμα καταλύματα</a> στη βάση μας.', en: 'Traditional Sithonia villages (Parthenonas, Neochori) or mountain Kassandra. <a href="/listings">Check available accommodation</a>.' },
+      },
+      {
+        q: { el: 'Χρειάζομαι οδηγό;', en: 'Do I need a guide?' },
+        a: { el: 'Όχι για βασικές διαδρομές με καλή σήμανση. Για διέλευση Αγίου Όρους από τα μοναστήρια προαπαιτεί διαμονητήριο και τοπικό οδηγό.', en: 'Not for the basic well-signed routes. For Mount Athos monastery crossings, a diamonitirion permit and local guide are required.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'water-sports': {
+    intro: {
+      el: '<p>Η ακτογραμμή της Χαλκιδικής, με 550 χλμ και τρεις χερσονήσους που δημιουργούν μικρές προστατευμένες ζώνες, είναι ιδανική για water sports. Τα beach clubs της Κασσάνδρας προσφέρουν jet ski, parasailing, banana boat. Η Σιθωνία είναι παράδεισος για SUP, kayak, snorkeling, scuba diving — λόγω της προστατευμένης γεωγραφίας με μικρά νησάκια και κόλπους. Στη Βουρβουρού και τα γύρω νησάκια κάνεις windsurfing και sailing. Αυτή η λίστα συγκεντρώνει τα κέντρα water sports και τις δραστηριότητες με τις υψηλότερες αξιολογήσεις.</p>',
+      en: '<p>Halkidiki\'s coastline, with 550 km and three peninsulas creating small protected zones, is ideal for water sports. Kassandra\'s beach clubs offer jet skis, parasailing, banana boats. Sithonia is a paradise for SUP, kayak, snorkelling, scuba diving — thanks to its sheltered geography with small islets and bays. In Vourvourou and the surrounding islets you can do windsurfing and sailing. This list collects the highest-rated water sports centres and activities.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να κάνεις water sports</h2><p><strong>Καλοκαίρι (Ιούνιος-Σεπτέμβριος):</strong> Όλες οι δραστηριότητες λειτουργούν. Καλύτερο σερφ, kite, windsurf με τους ετήσιους ανέμους ιδίως στη βορεινή Σιθωνία. <strong>Άνοιξη/Φθινόπωρο:</strong> Sailing και SUP εξαιρετικά, λιγότερος κόσμος, καλύτερες τιμές. <strong>Καλύτερη ώρα μέρας:</strong> Πρωί 9-12 για ηρεμία, απόγευμα 16-18 για άνεμο.</p>',
+      en: '<h2>When to do water sports</h2><p><strong>Summer (June-September):</strong> All activities operate. Best surf, kite, windsurf with seasonal winds, especially on northern Sithonia. <strong>Spring/Autumn:</strong> Sailing and SUP are excellent, fewer crowds, better prices. <strong>Best time of day:</strong> Morning 9-12 for calm, afternoon 16-18 for wind.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για water sports</h2><ul><li><strong>Κράτηση 1 μέρα πριν:</strong> Τα νοίκια εξοπλισμού γεμίζουν Σαββατοκύριακα. Online ή τηλεφωνική.</li><li><strong>Τιμές 2026:</strong> SUP €15-25/ώρα, jet ski €60-100/15min, parasailing €40-60/άτομο, scuba intro €70-100, kayak €15-25/ώρα.</li><li><strong>Ασφάλεια:</strong> Βεβαιώσου ότι το νοίκι έχει licensed instructors. Ζητάς συμβόλαιο.</li><li><strong>Snorkeling:</strong> Δες τις <a href="/best/snorkeling-spots">καλύτερες παραλίες snorkeling</a> για free αντίστοιχα.</li><li><strong>Sailing:</strong> Day cruises από Νέο Μαρμαρά ή Πόρτο Κουφό — €50-100/άτομο για 4-6 ώρες με γεύμα.</li><li><strong>Scuba diving:</strong> Καλύτερα κέντρα σε Νέο Μαρμαρά και Καλιθέα. Βυθίσματα 10-25m, καθαρότητα 15-25m.</li></ul>',
+      en: '<h2>Water sports tips</h2><ul><li><strong>Book 1 day ahead:</strong> Equipment rentals fill up on weekends. Online or by phone.</li><li><strong>2026 prices:</strong> SUP €15-25/hour, jet ski €60-100/15min, parasailing €40-60/person, scuba intro €70-100, kayak €15-25/hour.</li><li><strong>Safety:</strong> Make sure the rental has licensed instructors. Ask for a contract.</li><li><strong>Snorkelling:</strong> See our <a href="/best/snorkeling-spots">best snorkelling beaches</a> for free alternatives.</li><li><strong>Sailing:</strong> Day cruises from Neos Marmaras or Porto Koufo — €50-100/person for 4-6 hours with lunch.</li><li><strong>Scuba diving:</strong> Best centres in Neos Marmaras and Kalithea. 10-25m dives, 15-25m visibility.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Που να κάνω scuba diving;', en: 'Where to go scuba diving?' },
+        a: { el: 'Καλύτερα κέντρα: <strong>Νέος Μαρμαράς</strong> και <strong>Καλιθέα</strong>. Όλα τα κέντρα είναι PADI certified. Intro dive για αρχάριους €70-100.', en: 'Best centres: <strong>Neos Marmaras</strong> and <strong>Kallithea</strong>. All are PADI certified. Intro dive for beginners €70-100.' },
+      },
+      {
+        q: { el: 'Κατάλληλο για παιδιά;', en: 'Suitable for kids?' },
+        a: { el: 'SUP, kayak, banana boat από 6 ετών με συνοδό. Jet ski από 16 ετών με ενήλικα οδηγό. Scuba από 10 ετών (μόνο Discover Scuba).', en: 'SUP, kayak, banana boat from age 6 with adult. Jet ski from age 16 with adult driver. Scuba from age 10 (Discover Scuba only).' },
+      },
+      {
+        q: { el: 'Που να κάνω SUP/kayak με ηρεμία;', en: 'Where for relaxed SUP/kayak?' },
+        a: { el: '<strong>Βουρβουρού</strong> — προστατευμένος κόλπος με μικρά νησάκια ιδανικά για εξερεύνηση. <strong>Πόρτο Κουφό</strong> — μικρός φυσικός κόλπος, ήρεμη θάλασσα.', en: '<strong>Vourvourou</strong> — sheltered bay with small islets ideal for exploring. <strong>Porto Koufo</strong> — small natural bay, calm water.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'historical-sites': {
+    intro: {
+      el: '<p>Η Χαλκιδική κατοικείται συνεχώς από την προϊστορική εποχή και είναι ο γενέτειρος τόπος του <strong>Αριστοτέλη</strong> (Στάγειρα) και του <strong>Αλέξανδρου του Μεγάλου</strong> (γέννηση στις Αιγές αλλά μεγάλωμα στη γραμμή Χαλκιδικής). Η περιοχή έχει αρχαιολογικά ίχνη από ελληνιστική εποχή, βυζαντινούς πύργους από τους Σταυροφόρους, και μοναστήρια του Αγίου Όρους από τον 10ο αιώνα. Η <strong>Πετράλωνα</strong> είναι από τις σημαντικότερες παλαιολιθικές θέσεις της Ευρώπης (ηλικία ευρημάτων 200.000+ έτη). Αυτή η λίστα συγκεντρώνει τα κορυφαία ιστορικά μνημεία και αξιοθέατα.</p>',
+      en: '<p>Halkidiki has been continuously inhabited since prehistoric times and is the birthplace of <strong>Aristotle</strong> (Stagira) and where <strong>Alexander the Great</strong> grew up. The region has archaeological remains from the Hellenistic era, Byzantine towers from the Crusaders, and Mount Athos monasteries from the 10th century. <strong>Petralona</strong> is one of Europe\'s most important Palaeolithic sites (200,000+ year-old finds). This list collects the top historical monuments and attractions.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να επισκεφτείς</h2><p><strong>Άνοιξη και φθινόπωρο:</strong> Ιδανικά — δροσερός καιρός, λιγότερος κόσμος, καλύτερες ώρες ορατότητας. <strong>Καλοκαίρι:</strong> Επισκέψεις πρωί 9-12 πριν τη ζέστη. <strong>Χειμώνας:</strong> Πολλά αρχαιολογικά ανοιχτά αλλά με μειωμένο ωράριο.</p>',
+      en: '<h2>When to visit</h2><p><strong>Spring and autumn:</strong> Ideal — cool weather, fewer crowds, better visibility. <strong>Summer:</strong> Visit morning 9-12 before the heat. <strong>Winter:</strong> Many archaeological sites are open but with reduced hours.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για ιστορικές επισκέψεις</h2><ul><li><strong>Είσοδοι:</strong> Συνήθως €4-8/άτομο. Παιδιά και ηλικιωμένοι έχουν εκπτώσεις.</li><li><strong>Πετράλωνα:</strong> Συνδυασμός σπηλιάς + Μουσείου Παλαιολιθικού. 2-3 ώρες επίσκεψης.</li><li><strong>Στάγειρα (γενέτειρα Αριστοτέλη):</strong> Αρχαιολογικός χώρος + θεματικό πάρκο. Καλό για παιδιά που μαθαίνουν.</li><li><strong>Άγιο Όρος:</strong> Άνδρες μόνο με διαμονητήριο. Γυναίκες κάνουν κρουαζιέρα από Ουρανούπολη — βλέπουν τα μοναστήρια από τη θάλασσα.</li><li><strong>Πύργος Προσφορίου (Ουρανούπολη):</strong> Βυζαντινός πύργος 14ου αιώνα. Δωρεάν επίσκεψη εξωτερικού, μουσείο μέσα.</li><li><strong>Συνδυασμός:</strong> Πρωινό αρχαιολογικό + μεσημέρι παραλία είναι ιδανική ροή.</li></ul>',
+      en: '<h2>Historical visit tips</h2><ul><li><strong>Entry fees:</strong> Usually €4-8/person. Discounts for children and seniors.</li><li><strong>Petralona:</strong> Combined cave + Palaeolithic Museum visit. 2-3 hours.</li><li><strong>Stagira (Aristotle\'s birthplace):</strong> Archaeological site + theme park. Great for learning kids.</li><li><strong>Mount Athos:</strong> Men only, with a diamonitirion permit. Women take a cruise from Ouranoupoli — see the monasteries from the sea.</li><li><strong>Prosforion Tower (Ouranoupoli):</strong> 14th-century Byzantine tower. Free exterior visit, museum inside.</li><li><strong>Combine:</strong> Morning archaeology + afternoon beach is the ideal flow.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Είναι αξίζει η επίσκεψη στην Πετράλωνα;', en: 'Is Petralona worth visiting?' },
+        a: { el: 'Ναι, ιδιαίτερα. Η σπηλιά είναι ένα από τα σημαντικότερα παλαιολιθικά ευρήματα της Ευρώπης. Καλό και για παιδιά. Είσοδος €8, μέρα 9-17.', en: 'Yes, very much. The cave is one of Europe\'s most important Palaeolithic finds. Great for kids too. Entry €8, hours 9-17.' },
+      },
+      {
+        q: { el: 'Μπορώ να επισκεφτώ το Άγιο Όρος;', en: 'Can I visit Mount Athos?' },
+        a: { el: 'Άνδρες ναι με διαμονητήριο (κρατηση 6 μήνες πριν, €25/μέρα). Γυναίκες όχι — απαγορεύεται η είσοδος εδώ και αιώνες. Όμως οι κρουαζιέρες από Ουρανούπολη πλησιάζουν 500m από την ακτή.', en: 'Men yes, with a diamonitirion (book 6 months ahead, €25/day). Women no — entry has been forbidden for centuries. But cruises from Ouranoupoli approach within 500m of the coast.' },
+      },
+      {
+        q: { el: 'Που είναι τα Στάγειρα;', en: 'Where is Stagira?' },
+        a: { el: 'Στη βορειοανατολική Χαλκιδική, κοντά στη σύγχρονη Στρατώνι. Το αρχαιολογικό πάρκο έχει αρχαία ερείπια + θεματικό πάρκο για παιδιά αφιερωμένο στον Αριστοτέλη.', en: 'In northeastern Halkidiki, near modern Stratoni. The archaeological park has ancient ruins + a kids\' theme park dedicated to Aristotle.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'snorkeling-spots': {
+    intro: {
+      el: '<p>Η Χαλκιδική, ιδίως η Σιθωνία, είναι από τους καλύτερους προορισμούς snorkeling στη βόρεια Ελλάδα. Τα νερά είναι ιδιαίτερα διαυγή (15-25m visibility τις περισσότερες μέρες), η ακτογραμμή έχει πλήθος μικρών κόλπων με βραχώδεις βυθούς που φιλοξενούν θαλάσσια ζωή, και οι περισσότερες παραλίες είναι προσβάσιμες χωρίς βάρκα. Δεν χρειάζεσαι εξοπλισμό πέρα από μάσκα και αναπνευστήρα — που μπορείς να αγοράσεις από οποιαδήποτε supermarket για €15-25. Αυτή η λίστα συγκεντρώνει τις παραλίες με τα καλύτερα snorkeling spots.</p>',
+      en: '<p>Halkidiki, especially Sithonia, is one of northern Greece\'s top snorkelling destinations. The water is particularly clear (15-25m visibility on most days), the coastline has many small bays with rocky bottoms hosting marine life, and most beaches are accessible without a boat. You don\'t need equipment beyond a mask and snorkel — buy them at any supermarket for €15-25. This list collects beaches with the best snorkelling spots.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να snorkeleάρεις</h2><p><strong>Καλύτερη ορατότητα:</strong> Σεπτέμβριος-Οκτώβριος (έως 25m). Καλοκαίρι 15-20m λόγω αλγών. <strong>Καλύτερη θερμοκρασία νερού:</strong> Αύγουστος-Σεπτέμβριος (25-26°C). <strong>Καλύτερη ώρα:</strong> Πρωί 8-11 πριν τον αέρα και την ανατάραξη του νερού. <strong>Αποφυγή:</strong> Μετά από μπόρα — αυξάνεται η θολούρα για 24-48h.</p>',
+      en: '<h2>When to snorkel</h2><p><strong>Best visibility:</strong> September-October (up to 25m). Summer 15-20m due to algae. <strong>Best water temperature:</strong> August-September (25-26°C). <strong>Best time of day:</strong> Morning 8-11 before wind stirs the water. <strong>Avoid:</strong> After a storm — turbidity stays for 24-48h.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για snorkeling</h2><ul><li><strong>Εξοπλισμός:</strong> Μάσκα + snorkel + παπούτσια ρηχών νερών. Δεν χρειάζονται πτερύγια αν είσαι σε ρηχά (1-3m).</li><li><strong>Καλύτερα spots:</strong> Βραχώδεις άκρες κόλπων με μικρά "παράθυρα" από το open sea — εκεί συγκεντρώνονται τα ψάρια.</li><li><strong>Τι θα δεις:</strong> Συνεχώς — βρώμικα (sea bream), σαρπες, λαβράκια. Σπάνια — χταπόδια, οκταπόδια, αχινούς. Πολύ σπάνια — μέδουσες.</li><li><strong>Ασφάλεια:</strong> Ποτέ μόνος. Ομόρευσε με snorkeling buddy.</li><li><strong>Sun protection:</strong> Reef-safe αντηλιακό. Καλύπτεις την πλάτη με rash guard — καίγεται.</li><li><strong>Συνδυασμός με water sports:</strong> Δες τα <a href="/best/water-sports">water sports</a> για guided tours.</li></ul>',
+      en: '<h2>Snorkelling tips</h2><ul><li><strong>Gear:</strong> Mask + snorkel + water shoes. Fins aren\'t needed in the shallows (1-3m).</li><li><strong>Best spots:</strong> Rocky edges of bays with small openings to the open sea — that\'s where fish gather.</li><li><strong>What you\'ll see:</strong> Common — sea bream, salpa, sea bass. Rare — octopus, sea urchins. Very rare — jellyfish.</li><li><strong>Safety:</strong> Never alone. Pair up with a snorkelling buddy.</li><li><strong>Sun protection:</strong> Reef-safe sunscreen. Cover your back with a rash guard — it burns.</li><li><strong>Combine with water sports:</strong> See our <a href="/best/water-sports">water sports</a> page for guided tours.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Που είναι τα καλύτερα νερά για snorkeling;', en: 'Where is the best water for snorkelling?' },
+        a: { el: '<strong>Σιθωνία</strong> γενικά — δες <a href="/best/beaches-sithonia">όλες τις παραλίες Σιθωνίας</a>. Συγκεκριμένα: Διάπορος, Καρύδι, Φάβα, Λιμανάκι (Blue Lagoon).', en: '<strong>Sithonia</strong> overall — see <a href="/best/beaches-sithonia">all Sithonia beaches</a>. Specifically: Diaporos, Karydi, Fava, Limanaki (Blue Lagoon).' },
+      },
+      {
+        q: { el: 'Υπάρχουν επικίνδυνα ζώα στο νερό;', en: 'Are there dangerous animals in the water?' },
+        a: { el: 'Όχι ουσιαστικά. Σπάνια μέδουσες τον Αύγουστο. Δεν υπάρχουν επικίνδυνα ψάρια ή καρχαρίες στις ακτές της Χαλκιδικής.', en: 'Essentially no. Rare jellyfish in August. No dangerous fish or sharks along Halkidiki\'s coast.' },
+      },
+      {
+        q: { el: 'Χρειάζομαι δίπλωμα/εκπαίδευση;', en: 'Do I need certification/training?' },
+        a: { el: 'Όχι για βασικό snorkeling. Είναι ασφαλές για όποιον μπορεί να κολυμπήσει. Για scuba diving βλέπε <a href="/best/water-sports">water sports</a>.', en: 'No for basic snorkelling. Safe for anyone who can swim. For scuba diving see <a href="/best/water-sports">water sports</a>.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'instagram-spots': {
+    intro: {
+      el: '<p>Η Χαλκιδική, με τις τρεις χερσονήσους, τα τυρκουάζ νερά, τα ξωκλήσια στους λόφους και τα γραφικά λιμανάκια, είναι ένας πραγματικός θησαυρός για photographers και Instagram creators. Από τις χαρακτηριστικές <strong>Καβουρότρυπες (Orange Beach)</strong> με τους πορτοκαλί βραχώδεις σχηματισμούς, μέχρι την <strong>Παραλία Ποσειδίου</strong> με τη μοναδική γλώσσα γης και τον φάρο, η περιοχή έχει αρκετά iconic σημεία για να γεμίσεις ένα ολόκληρο Instagram archive. Αυτή η λίστα συγκεντρώνει τα πιο φωτογενή spots — από τα διάσημα μέχρι μυστικά που λίγοι ξέρουν.</p>',
+      en: '<p>Halkidiki, with its three peninsulas, turquoise water, hillside chapels and picturesque little harbours, is a real treasure for photographers and Instagram creators. From the iconic <strong>Kavourotrypes (Orange Beach)</strong> with its orange rock formations to <strong>Possidi Beach</strong> with its unique sand spit and lighthouse, the area has enough iconic spots to fill an entire Instagram archive. This list collects the most photogenic spots — from the famous to little-known secrets.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε για τις καλύτερες φωτογραφίες</h2><p><strong>Golden hour:</strong> 30 λεπτά μετά την ανατολή και 30 λεπτά πριν τη δύση — το μαλακό φως κάνει τα νερά να ακτινοβολούν. <strong>Καλοκαίρι:</strong> Μέγιστη φωτεινότητα, καθαρά νερά. <strong>Φθινόπωρο:</strong> Καλύτερα χρώματα, αδειασμένες παραλίες — τέλειο για landscape photography. <strong>Καλύτερη ώρα παραλίας:</strong> 7-9 το πρωί χωρίς κόσμο. Μετά τις 11 γεμίζει.</p>',
+      en: '<h2>When for the best shots</h2><p><strong>Golden hour:</strong> 30 minutes after sunrise and 30 minutes before sunset — soft light makes the water glow. <strong>Summer:</strong> Maximum brightness, clear water. <strong>Autumn:</strong> Better colours, empty beaches — perfect for landscape photography. <strong>Best beach time:</strong> 7-9 AM with no crowds. After 11 it fills up.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για φωτογράφιση</h2><ul><li><strong>Εξοπλισμός:</strong> Drone (επιτρέπεται με άδεια), wide-angle lens για beaches, polarizer για νερά. Mobile camera με filter απόλυτα επαρκής.</li><li><strong>Iconic spots:</strong> Φάρος Ποσειδίου, Καβουρότρυπες, Πύργος Προσφορίου (Ουρανούπολη), Άφυτος παλαιό χωριό, Βουρβουρού.</li><li><strong>Drone:</strong> Άδεια απαιτείται για εμπορική χρήση. Προσωπική χρήση επιτρέπεται κάτω από 120m. Όχι πάνω από κόσμο.</li><li><strong>Αποφυγή:</strong> Μην ενοχλείς ντόπιους ή ταβέρνες ζητώντας να βγάλεις stories. Ζητάς πρώτα.</li><li><strong>Sunset shots:</strong> Δυτική Χαλκιδική (Ποσείδι, δυτική Καλλιθέα) — όχι ανατολικά πόδια.</li><li><strong>Combine:</strong> Δες τις <a href="/best/beaches-sithonia">παραλίες Σιθωνίας</a> για photogenic επιλογές.</li></ul>',
+      en: '<h2>Photography tips</h2><ul><li><strong>Gear:</strong> Drone (permitted with license), wide-angle for beaches, polariser for water. A mobile camera with filters is plenty.</li><li><strong>Iconic spots:</strong> Possidi lighthouse, Kavourotrypes, Prosforion Tower (Ouranoupoli), old Afytos village, Vourvourou.</li><li><strong>Drone:</strong> Permit required for commercial use. Personal use allowed below 120m. Not over people.</li><li><strong>Etiquette:</strong> Don\'t bother locals or tavernas asking to shoot stories. Ask first.</li><li><strong>Sunset shots:</strong> Western Halkidiki (Possidi, western Kallithea) — not the eastern legs.</li><li><strong>Combine:</strong> See our <a href="/best/beaches-sithonia">Sithonia beaches</a> for photogenic picks.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Ποιο είναι το πιο iconic Instagram spot;', en: 'What\'s the most iconic Instagram spot?' },
+        a: { el: '<strong>Καβουρότρυπες (Orange Beach)</strong> στη Σιθωνία — οι πορτοκαλί βράχοι + τυρκουάζ νερά είναι signature shot Χαλκιδικής. Δεύτερο: <strong>Φάρος Ποσειδίου</strong> με τη γλώσσα γης από drone.', en: '<strong>Kavourotrypes (Orange Beach)</strong> in Sithonia — orange rocks + turquoise water is Halkidiki\'s signature shot. Second: <strong>Possidi lighthouse</strong> with the sand spit shot from a drone.' },
+      },
+      {
+        q: { el: 'Επιτρέπεται το drone στις παραλίες;', en: 'Are drones allowed at beaches?' },
+        a: { el: 'Ναι για προσωπική χρήση κάτω από 120m. Όχι πάνω από κόσμο. Εμπορική χρήση απαιτεί άδεια. Σε στρατιωτικές ζώνες (κοντά σύνορα) απαγορεύεται.', en: 'Yes for personal use below 120m. Not over people. Commercial use requires a permit. Forbidden in military zones (near borders).' },
+      },
+      {
+        q: { el: 'Που για sunset shots;', en: 'Where for sunset shots?' },
+        a: { el: '<strong>Ποσείδι</strong> — δυτική Κασσάνδρα, ηλιοβασίλεμα πάνω από τη γλώσσα γης. <strong>Δυτική Καλλιθέα</strong>. Σιθωνία δυτική (Πόρτο Κουφό). Φωτογραφία κατά της ανατολής/δύσης κάνει νερά να αστράφτουν.', en: '<strong>Possidi</strong> — western Kassandra, sunset over the sand spit. <strong>Western Kallithea</strong>. Western Sithonia (Porto Koufo). Shooting into the sunset makes the water sparkle.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'kids-activities': {
+    intro: {
+      el: '<p>Η Χαλκιδική είναι από τους πιο family-friendly προορισμούς της Ελλάδας — δεν είναι μόνο παραλίες με ρηχά νερά (δες τις <a href="/best/family-beaches">οικογενειακές παραλίες</a>), αλλά και ποικιλία δραστηριοτήτων για παιδιά κάθε ηλικίας. Από water parks και adventure parks, μέχρι θεματικά μουσεία και ζωολογικά πάρκα. Πολλά καταλύματα έχουν kids clubs και mini disco. Αυτή η λίστα συγκεντρώνει τις δραστηριότητες που σταθερά κερδίζουν θετικά reviews από οικογένειες.</p>',
+      en: '<p>Halkidiki is one of Greece\'s most family-friendly destinations — not just shallow-water beaches (see our <a href="/best/family-beaches">family beaches</a>), but a variety of activities for kids of every age. From water parks and adventure parks to themed museums and zoos. Many accommodations have kids clubs and mini discos. This list collects activities that consistently earn positive reviews from families.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να πας με παιδιά</h2><p><strong>Ιούνιος:</strong> Ιδανικό — όλες οι δραστηριότητες ανοιχτές, λίγος κόσμος, καιρός 28-30°C. <strong>Ιούλιος-Αύγουστος:</strong> Peak, χρειάζεται κράτηση. Καλό για kids clubs καταλυμάτων. <strong>Σεπτέμβριος:</strong> Καλύτερες τιμές, λιγότερος κόσμος, αλλά μερικά κλείνουν στα τέλη του μήνα.</p>',
+      en: '<h2>When to visit with kids</h2><p><strong>June:</strong> Ideal — all activities open, fewer crowds, weather 28-30°C. <strong>July-August:</strong> Peak, needs booking. Great for accommodation kids clubs. <strong>September:</strong> Better prices, fewer crowds, but some close at end of month.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για διακοπές με παιδιά</h2><ul><li><strong>Σχεδιασμός:</strong> Πρωί παραλία (ρηχά + λιγότερη ζέστη) + απόγευμα δραστηριότητα + βραδινό φαγητό στις 19:00 (όχι 22:00 ελληνικό style).</li><li><strong>Kids equipment:</strong> Βραχιολάκι/σαμπρέλα, καπέλα, αντηλιακό SPF 50, φουσκωτό για μωρά.</li><li><strong>Water park:</strong> Aqualand Water Fun Park στη Νέα Πλάγια — μεγαλύτερο της περιοχής. Εισιτήριο €20-30/άτομο.</li><li><strong>Καταλύματα με kids club:</strong> Πολλά resorts στην Κασσάνδρα (Σάνη, Πευκοχώρι) έχουν επαγγελματικά kids clubs, mini disco, παιδικές πισίνες.</li><li><strong>Παραδοσιακή ταβέρνα:</strong> Δοκίμασε <a href="/best/traditional-tavernas">παραδοσιακές ταβέρνες</a> — οι Έλληνες είναι extra φιλικοί με παιδιά.</li><li><strong>Παιδικά μενού:</strong> Σχεδόν παντού. Συνήθως πατάτες/τυρόπιτα/σπαγγέτι.</li></ul>',
+      en: '<h2>Tips for a kids holiday</h2><ul><li><strong>Plan:</strong> Morning beach (shallow + less heat) + afternoon activity + 19:00 dinner (not 22:00 Greek style).</li><li><strong>Kids equipment:</strong> Armband/float, hats, SPF 50 sunscreen, baby float.</li><li><strong>Water park:</strong> Aqualand Water Fun Park in Nea Plagia — largest in the region. Ticket €20-30/person.</li><li><strong>Kids-club accommodation:</strong> Many Kassandra resorts (Sani, Pefkochori) have proper kids clubs, mini disco, kid pools.</li><li><strong>Traditional taverna:</strong> Try our <a href="/best/traditional-tavernas">traditional tavernas</a> — Greeks are extra kid-friendly.</li><li><strong>Kids menus:</strong> Almost everywhere. Usually fries/tyropita/pasta.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Υπάρχει water park κοντά;', en: 'Is there a water park nearby?' },
+        a: { el: '<strong>Aqualand Water Fun Park</strong> στη Νέα Πλάγια είναι το μεγαλύτερο. Εισιτήριο €25-30/ενήλικα, €18-20/παιδί. Ανοιχτό Ιούνιος-Σεπτέμβριος.', en: '<strong>Aqualand Water Fun Park</strong> in Nea Plagia is the biggest. Ticket €25-30/adult, €18-20/child. Open June-September.' },
+      },
+      {
+        q: { el: 'Πιο κατάλληλη χερσόνησος για παιδιά;', en: 'Best peninsula for kids?' },
+        a: { el: '<strong>Κασσάνδρα</strong> — πιο αναπτυγμένη, καλύτερες υποδομές, kids clubs, water park κοντά. <strong>Σιθωνία</strong> πιο ήρεμη αλλά λιγότερες δομές για παιδιά.', en: '<strong>Kassandra</strong> — more developed, better facilities, kids clubs, water park nearby. <strong>Sithonia</strong> is calmer but has fewer kid-specific facilities.' },
+      },
+      {
+        q: { el: 'Είναι ασφαλή τα νερά για μωρά;', en: 'Is the water safe for babies?' },
+        a: { el: 'Ναι, στις <a href="/best/family-beaches">οικογενειακές παραλίες</a> με ρηχό βυθό. Σάνη Marina, Σιβηρή, Νέα Φώκαια έχουν 20-30m ρηχής ζώνης.', en: 'Yes, on our <a href="/best/family-beaches">family beaches</a> with shallow bottoms. Sani Marina, Siviri, Nea Fokaia have 20-30m of shallows.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'romantic-getaways': {
+    intro: {
+      el: '<p>Η Χαλκιδική είναι ιδανική για romantic getaways χωρίς να θυσιάζεις την πρόσβαση — σε αντίθεση με τα νησιά που χρειάζονται ferry, εδώ μπαίνεις και βγαίνεις με αυτοκίνητο. Boutique hotels με sea-view σουίτες, ιδιωτικές παραλίες, sunset δείπνα, spa treatments σε resorts — όλα διαθέσιμα. Τα πιο ρομαντικά spots: <strong>Σιθωνία</strong> για φυσικό romance (παραλίες, sunset σε Vourvourou), <strong>Άφυτος</strong> για χαριτωμένο παραδοσιακό χωριό με sea view, <strong>Ουρανούπολη</strong> για μυστικιστική απόσταξη του Άθω. Αυτή η λίστα συγκεντρώνει τα κορυφαία επιλογές για ζευγάρια και honeymooners.</p>',
+      en: '<p>Halkidiki is ideal for romantic getaways without sacrificing access — unlike Greek islands needing a ferry, here you drive in and out. Boutique hotels with sea-view suites, private beaches, sunset dinners, spa treatments at resorts — all available. The most romantic spots: <strong>Sithonia</strong> for natural romance (beaches, Vourvourou sunset), <strong>Afytos</strong> for a charming traditional village with sea view, <strong>Ouranoupoli</strong> for mystical Mount Athos vibes. This list collects the top picks for couples and honeymooners.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε για romantic break</h2><p><strong>Μάιος-Ιούνιος:</strong> Ιδανικό — δροσερά απογεύματα, λουλούδια ανθίζουν, λίγος κόσμος, καλές τιμές. <strong>Σεπτέμβριος:</strong> Equally ideal — ζεστή θάλασσα, λιγότερος κόσμος, sunset δείπνα στα terraces. <strong>Καλοκαίρι:</strong> Pricey, busy. <strong>Χειμώνας:</strong> Cosy alternative — fireplace cabins, παραδοσιακά χωριά με fireplaces, λιγότερα ανοιχτά εστιατόρια.</p>',
+      en: '<h2>When for a romantic break</h2><p><strong>May-June:</strong> Ideal — cool afternoons, flowers blooming, fewer crowds, better prices. <strong>September:</strong> Equally ideal — warm sea, fewer crowds, sunset dinners on terraces. <strong>Summer:</strong> Pricey, busy. <strong>Winter:</strong> Cosy alternative — fireplace cabins, traditional villages, but fewer open restaurants.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για ζευγάρια</h2><ul><li><strong>Κράτηση 3-6 μήνες πριν:</strong> Τα κορυφαία boutique hotels (Νέος Μαρμαράς, Σάνη, Άφυτος) γεμίζουν νωρίς για peak season.</li><li><strong>Επιπλέον επιλογές:</strong> Σε resorts (Σάνη, Ekies) μπορείς να ζητήσεις champagne welcome, rose petals, special dinner — δωρεάν συνήθως.</li><li><strong>Day trips:</strong> Day cruise από Νέο Μαρμαρά (€80-150/couple για 4-6 ώρες με γεύμα). Sunset cruise από Ουρανούπολη.</li><li><strong>Δείπνα:</strong> Δες <a href="/best/romantic-restaurants">ρομαντικά εστιατόρια</a> για sunset views.</li><li><strong>Spa:</strong> Πολλά resorts έχουν couples treatments. Mediterranean massage €70-150.</li><li><strong>Off the beaten path:</strong> Πιο ρομαντική εμπειρία: μικρό boutique guest house σε παραδοσιακό χωριό αντί για mega resort.</li></ul>',
+      en: '<h2>Couples tips</h2><ul><li><strong>Book 3-6 months ahead:</strong> Top boutique hotels (Neos Marmaras, Sani, Afytos) fill up early for peak season.</li><li><strong>Extras:</strong> At resorts (Sani, Ekies) you can request champagne welcome, rose petals, special dinner — usually free.</li><li><strong>Day trips:</strong> Day cruise from Neos Marmaras (€80-150/couple for 4-6 hours with lunch). Sunset cruise from Ouranoupoli.</li><li><strong>Dinners:</strong> See our <a href="/best/romantic-restaurants">romantic restaurants</a> for sunset views.</li><li><strong>Spa:</strong> Many resorts have couples treatments. Mediterranean massage €70-150.</li><li><strong>Off the beaten path:</strong> A small boutique guest house in a traditional village is more romantic than a mega resort.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Καλύτερο μέρος για honeymoon;', en: 'Best for a honeymoon?' },
+        a: { el: '<strong>Σιθωνία</strong> για φυσικά απομονωμένη εμπειρία — boutique hotels με sea view, ιδιωτικές παραλίες. <strong>Σάνη/Καλλιθέα</strong> Κασσάνδρας για 5* luxury experience.', en: '<strong>Sithonia</strong> for naturally secluded experience — boutique hotels with sea views, private beaches. <strong>Sani/Kallithea</strong> in Kassandra for 5* luxury experience.' },
+      },
+      {
+        q: { el: 'Κόστος για 7 βραδινά honeymoon;', en: 'Cost for a 7-night honeymoon?' },
+        a: { el: '<strong>Mid-luxury:</strong> €1500-3000/couple για 7 βραδιές με δείπνα. <strong>Premium:</strong> €3000-6000+ σε resorts όπως Σάνη ή Ekies.', en: '<strong>Mid-luxury:</strong> €1500-3000/couple for 7 nights with dinners. <strong>Premium:</strong> €3000-6000+ at resorts like Sani or Ekies.' },
+      },
+      {
+        q: { el: 'Υπάρχουν private beaches;', en: 'Are there private beaches?' },
+        a: { el: 'Νομικά όχι — όλες οι ακτές είναι δημόσιες. Στην πράξη, resorts όπως η Σάνη έχουν παραλίες που λειτουργούν "ιδιωτικά" λόγω αποκλειστικής πρόσβασης από το hotel.', en: 'Legally no — all coast is public. In practice, resorts like Sani have beaches that operate "privately" thanks to exclusive hotel access.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'luxury-hotels': {
+    intro: {
+      el: '<p>Η Χαλκιδική φιλοξενεί μερικά από τα πιο αναγνωρισμένα luxury resorts της Ελλάδας — Σάνη Resort, Ikos Resorts, Eagles Palace, Ekies All Senses. Δεν είναι μόνο μεγάλα ξενοδοχεία, είναι ολοκληρωμένες εμπειρίες με ιδιωτικές παραλίες, fine dining εστιατόρια, spa centers, kids clubs επαγγελματικού επιπέδου και activities. Οι περισσότερα από αυτά συγκεντρώνονται στη <strong>δυτική Κασσάνδρα</strong> (Σάνη, Καλλιθέα) και ορισμένα boutique στη <strong>Σιθωνία</strong> (Νέος Μαρμαράς, Βουρβουρού). Αυτή η λίστα συγκεντρώνει τις premium επιλογές καταλύματος που σταθερά κερδίζουν 5* αξιολογήσεις.</p>',
+      en: '<p>Halkidiki hosts some of Greece\'s most recognised luxury resorts — Sani Resort, Ikos Resorts, Eagles Palace, Ekies All Senses. Not just big hotels — they\'re complete experiences with private beaches, fine-dining restaurants, spa centres, professional kids clubs and activities. Most are concentrated in <strong>western Kassandra</strong> (Sani, Kallithea), with some boutique options in <strong>Sithonia</strong> (Neos Marmaras, Vourvourou). This list collects premium accommodation that consistently earns 5* ratings.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να κρατήσεις</h2><p><strong>Peak season (Ιούλιος-Αύγουστος):</strong> Κρατήσεις 6-12 μήνες πριν για τα top resorts. <strong>Shoulder (Μάιος-Ιούνιος, Σεπτέμβριος):</strong> Καλύτερη value — όλες οι υπηρεσίες ανοιχτές, τιμές 20-30% κάτω. <strong>Σεπτέμβριος:</strong> sweet spot για honeymoon — λιγότερα παιδιά, ζεστή θάλασσα. <strong>Off-season (Νοέμβριος-Μάρτιος):</strong> Πολλά κλειστά, εκτός από Σάνη και κάποια all-year.</p>',
+      en: '<h2>When to book</h2><p><strong>Peak season (July-August):</strong> Book 6-12 months ahead at top resorts. <strong>Shoulder (May-June, September):</strong> Best value — all services open, prices 20-30% lower. <strong>September:</strong> Sweet spot for honeymoon — fewer kids, warm sea. <strong>Off-season (November-March):</strong> Many closed except Sani and a few year-round operators.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για luxury stay</h2><ul><li><strong>All-inclusive vs B&B:</strong> Στα μεγάλα resorts (Ikos) το all-inclusive είναι value γιατί περιλαμβάνει premium φαγητά. Σε boutique hotels (Ekies) προτίμα B&B και βγες σε ταβέρνες.</li><li><strong>Sea view vs garden view:</strong> Διαφορά €50-150/βράδυ. Άξιο για sunset views ή Άγιο Όρος (Ουρανούπολη).</li><li><strong>Suite upgrade:</strong> Στο check-in συνήθως υπάρχει διαθεσιμότητα. Πληρωμή €100-300 extra για suite με ιδιωτική πισίνα.</li><li><strong>Spa:</strong> Couples ritual €150-300. Κράτηση 1-2 μέρες πριν.</li><li><strong>Excursions:</strong> Όλα τα resorts προσφέρουν private day cruises, helicopter tours σε Άγιο Όρος, fine dining specials.</li><li><strong>Loyalty:</strong> Σε επανεπίσκεψη πάντα ζητάς upgrade ή welcome amenity.</li></ul>',
+      en: '<h2>Luxury stay tips</h2><ul><li><strong>All-inclusive vs B&B:</strong> At big resorts (Ikos) all-inclusive is great value because it includes premium dining. At boutique hotels (Ekies) prefer B&B and go out to tavernas.</li><li><strong>Sea view vs garden view:</strong> €50-150/night difference. Worth it for sunsets or Mount Athos (Ouranoupoli).</li><li><strong>Suite upgrade:</strong> Often available at check-in. Pay €100-300 extra for a suite with private pool.</li><li><strong>Spa:</strong> Couples ritual €150-300. Book 1-2 days ahead.</li><li><strong>Excursions:</strong> All resorts offer private day cruises, helicopter tours to Mount Athos, fine-dining specials.</li><li><strong>Loyalty:</strong> On a return visit always ask for an upgrade or welcome amenity.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Καλύτερο luxury resort της Χαλκιδικής;', en: 'Best luxury resort in Halkidiki?' },
+        a: { el: 'Δύσκολη επιλογή — <strong>Σάνη Resort</strong> για variety, <strong>Ikos Olivia</strong> για premium all-inclusive, <strong>Eagles Palace</strong> για location στην Ουρανούπολη, <strong>Ekies All Senses</strong> για boutique experience στη Σιθωνία. Όλα στην λίστα.', en: 'Tough call — <strong>Sani Resort</strong> for variety, <strong>Ikos Olivia</strong> for premium all-inclusive, <strong>Eagles Palace</strong> for Ouranoupoli location, <strong>Ekies All Senses</strong> for boutique Sithonia experience. All in the list.' },
+      },
+      {
+        q: { el: 'Κόστος ανά βράδυ;', en: 'Cost per night?' },
+        a: { el: '<strong>Mid-luxury (4*):</strong> €200-400/βράδυ peak season. <strong>Premium (5*):</strong> €400-800. <strong>Suite με ιδιωτική πισίνα:</strong> €800-2500. Σεπτέμβριος -30%.', en: '<strong>Mid-luxury (4*):</strong> €200-400/night peak season. <strong>Premium (5*):</strong> €400-800. <strong>Suite with private pool:</strong> €800-2500. -30% in September.' },
+      },
+      {
+        q: { el: 'Καλύτερη χερσόνησος για luxury;', en: 'Best peninsula for luxury?' },
+        a: { el: '<strong>Κασσάνδρα</strong> για variety και υποδομές (Σάνη, Καλλιθέα). <strong>Άθως</strong> για μυστηριώδη εμπειρία (Ουρανούπολη). <strong>Σιθωνία</strong> για boutique και ησυχία.', en: '<strong>Kassandra</strong> for variety and facilities (Sani, Kallithea). <strong>Athos</strong> for mystical experience (Ouranoupoli). <strong>Sithonia</strong> for boutique and quiet.' },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────
+  'camping-spots': {
+    intro: {
+      el: '<p>Η Χαλκιδική έχει μερικά από τα καλύτερα οργανωμένα campings της Ελλάδας — με την ιδιαιτερότητα ότι πολλά βρίσκονται κατευθείαν δίπλα σε υπέροχες παραλίες με πευκοδάσος, χωρίς να χρειάζεσαι μετακίνηση. Από beachfront σε <strong>Κασσάνδρα</strong> (Πευκοχώρι, Καλλιθέα), μέχρι πιο φυσικά σε <strong>Σιθωνία</strong> (Παραλία Άρμενιστής, Καλαμίτσι) και <strong>Άθως</strong> (Ουρανούπολη). Οι περισσότερες έχουν πισίνες, εστιατόρια, μίνι-μάρκετ. Αυτή η λίστα συγκεντρώνει τα top-rated camping spots — ιδανικά για budget-friendly οικογενειακές διακοπές ή road trip με trailer.</p>',
+      en: '<p>Halkidiki has some of Greece\'s best organised campsites — with the bonus that many sit directly next to stunning beaches with pine forest, no need to travel. From beachfront in <strong>Kassandra</strong> (Pefkochori, Kallithea) to more natural in <strong>Sithonia</strong> (Armenistis Beach, Kalamitsi) and <strong>Athos</strong> (Ouranoupoli). Most have pools, restaurants, mini-markets. This list collects top-rated camping spots — ideal for budget family holidays or trailer road trips.</p>',
+    },
+    seasonal: {
+      el: '<h2>Πότε να κάνεις camping</h2><p><strong>Ιούνιος-Σεπτέμβριος:</strong> Main season — όλα ανοιχτά, καλύτερα προϊόντα. <strong>Πιο μετά:</strong> Λίγα μένουν ανοιχτά (Καλαμίτσι, Άρμενιστής σε Σιθωνία). <strong>Χειμώνας:</strong> Camping κλειστά. <strong>Καλύτερη ώρα στήσιμο:</strong> Νωρίς πρωί όταν φτάνεις. Πιάνεις το καλύτερο spot.</p>',
+      en: '<h2>When to camp</h2><p><strong>June-September:</strong> Main season — all open, best offerings. <strong>Beyond:</strong> A few stay open (Kalamitsi, Armenistis in Sithonia). <strong>Winter:</strong> Campsites closed. <strong>Best pitch time:</strong> Early morning on arrival. You get the best spot.</p>',
+    },
+    tips: {
+      el: '<h2>Συμβουλές για camping</h2><ul><li><strong>Κράτηση:</strong> Online ή τηλεφωνική 1-2 βδομάδες πριν για peak season. Στις πιο γνωστές γεμίζει.</li><li><strong>Τιμές 2026:</strong> Σκηνή €15-25/βράδυ + €5-10/άτομο. Caravan €25-40/βράδυ. Bungalow €60-120/βράδυ.</li><li><strong>Εξοπλισμός:</strong> Πάρε σκηνή με αντοχή στον αέρα (μερικά campings σε εκτεθειμένες παραλίες). Σλίπινγκ μπαγκ, στρώμα.</li><li><strong>Φαγητό:</strong> Πολλά campings έχουν εστιατόριο/καντίνα. Mini market για supplies. BBQ συχνά επιτρέπεται.</li><li><strong>Beach access:</strong> Άμεση από όλα τα campings — αυτό είναι το πλεονέκτημα. Δες τις <a href="/best/family-beaches">οικογενειακές παραλίες</a> για κοντινές επιλογές.</li><li><strong>Παροχές:</strong> Wifi συχνά δωρεάν (slow στις πιο φυσικές). Ντουζ, πλυντήρια ρούχων, παιδική χαρά.</li></ul>',
+      en: '<h2>Camping tips</h2><ul><li><strong>Reservation:</strong> Online or phone 1-2 weeks ahead for peak season. The most famous ones fill up.</li><li><strong>2026 prices:</strong> Tent €15-25/night + €5-10/person. Caravan €25-40/night. Bungalow €60-120/night.</li><li><strong>Gear:</strong> Bring a wind-resistant tent (some sites are on exposed beaches). Sleeping bag, mat.</li><li><strong>Food:</strong> Many campsites have a restaurant/canteen. Mini market for supplies. BBQ usually allowed.</li><li><strong>Beach access:</strong> Direct from all campsites — that\'s the perk. See our <a href="/best/family-beaches">family beaches</a> for nearby options.</li><li><strong>Amenities:</strong> Wi-Fi often free (slow at the more natural ones). Showers, laundry, playground.</li></ul>',
+    },
+    faqs: [
+      {
+        q: { el: 'Καλύτερο camping στη Χαλκιδική;', en: 'Best camping in Halkidiki?' },
+        a: { el: '<strong>Camping Sithonia</strong> (Σιθωνία) για φυσικό setting και άμεση πρόσβαση παραλία. <strong>Camping Armenistis</strong> για ωραίο sandy beach. <strong>Camping Pefkochori</strong> (Κασσάνδρα) για υποδομές. Δες όλα τα locations στην λίστα.', en: '<strong>Camping Sithonia</strong> (Sithonia) for natural setting and direct beach access. <strong>Camping Armenistis</strong> for a nice sandy beach. <strong>Camping Pefkochori</strong> (Kassandra) for facilities. See all locations in the list.' },
+      },
+      {
+        q: { el: 'Δέχονται caravans;', en: 'Do they accept caravans?' },
+        a: { el: 'Ναι σχεδόν παντού. Έχουν specific spots για caravan και motorhome με ηλεκτρισμό. Τιμή 30-50% παραπάνω από σκηνή.', en: 'Yes, almost everywhere. They have specific caravan and motorhome spots with electricity. 30-50% more than a tent pitch.' },
+      },
+      {
+        q: { el: 'Κατάλληλο για παιδιά;', en: 'Suitable for kids?' },
+        a: { el: 'Πολύ. Όλα τα μεγάλα campings έχουν παιδικές χαρές, πισίνες με ρηχό κομμάτι, animation, snack bars. Πολλά παιδιά κάνουν φίλους.', en: 'Very much. All major campsites have playgrounds, pools with shallow sections, animation, snack bars. Lots of kids make friends.' },
+      },
+    ],
+  },
 };
