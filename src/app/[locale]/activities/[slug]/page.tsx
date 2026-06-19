@@ -4,6 +4,7 @@ import { DynamicActivityDetail } from '@/components/listings/DynamicActivityDeta
 import { getContentMeta, generateActivityLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getActivityBySlug } from '@/lib/data';
+import { RelatedItems } from '@/components/related/RelatedItems';
 
 // Default dynamic rendering — see listings/[slug] for context.
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -36,6 +37,9 @@ export default async function ActivityDetailPage({ params }: Props) {
         { name: itemName, url: localeUrl(locale, `activities/${slug}`) },
       ]) as Record<string, unknown>} />
       <DynamicActivityDetail slug={slug} initialData={activity} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RelatedItems type="activities" currentSlug={slug} area={(activity as unknown as { area?: string }).area} locale={locale} />
+      </div>
     </>
   );
 }

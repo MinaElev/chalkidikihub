@@ -4,6 +4,7 @@ import { DynamicBeachDetail } from '@/components/listings/DynamicBeachDetail';
 import { getContentMeta, generateBeachLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getBeachBySlug } from '@/lib/data';
+import { RelatedItems } from '@/components/related/RelatedItems';
 
 // Default dynamic rendering (no force-dynamic, no generateStaticParams).
 // The Next 16 + Turbopack SSG-fallback bug is triggered by empty
@@ -47,6 +48,9 @@ export default async function BeachDetailPage({ params }: Props) {
         { name: itemName, url: localeUrl(locale, `beaches/${slug}`) },
       ]) as Record<string, unknown>} />
       <DynamicBeachDetail slug={slug} initialData={beach} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RelatedItems type="beaches" currentSlug={slug} area={(beach as unknown as { area?: string }).area} locale={locale} />
+      </div>
     </>
   );
 }

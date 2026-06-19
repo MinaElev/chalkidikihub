@@ -4,6 +4,7 @@ import { DynamicRestaurantDetail } from '@/components/listings/DynamicRestaurant
 import { getContentMeta, generateRestaurantLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getRestaurantBySlug } from '@/lib/data';
+import { RelatedItems } from '@/components/related/RelatedItems';
 
 // Default dynamic rendering — see listings/[slug] for context.
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -38,6 +39,9 @@ export default async function RestaurantDetailPage({ params }: Props) {
         { name: itemName, url: localeUrl(locale, `restaurants/${slug}`) },
       ]) as Record<string, unknown>} />
       <DynamicRestaurantDetail slug={slug} initialData={restaurant} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RelatedItems type="restaurants" currentSlug={slug} area={(restaurant as unknown as { area?: string }).area} locale={locale} />
+      </div>
     </>
   );
 }

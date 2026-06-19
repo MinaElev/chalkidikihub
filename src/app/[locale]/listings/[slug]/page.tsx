@@ -6,6 +6,7 @@ import { getContentMeta, generateLodgingLD, generateBreadcrumbLD, localeUrl } fr
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getListingBySlug } from '@/lib/data';
 import { EXTERNAL_BOOKING_LINKS_ENABLED } from '@/lib/feature-flags';
+import { RelatedItems } from '@/components/related/RelatedItems';
 
 // NOTE: We do NOT set `dynamic = 'force-dynamic'` here.
 //
@@ -63,6 +64,14 @@ export default async function ListingDetailPage({ params }: Props) {
         { name: itemName, url: localeUrl(locale, `listings/${slug}`) },
       ]) as Record<string, unknown>} />
       <DynamicListingDetail slug={slug} locale={locale} initialData={sanitizedListing} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RelatedItems
+          type="listings"
+          currentSlug={slug}
+          area={(listing as unknown as { area?: string }).area}
+          locale={locale}
+        />
+      </div>
     </>
   );
 }
