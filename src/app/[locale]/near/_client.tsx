@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from '@/i18n/navigation';
-import { Waves, UtensilsCrossed, Compass, MapPin, Loader2, Navigation, Building2, ExternalLink, AlertCircle } from 'lucide-react';
+import { Waves, UtensilsCrossed, Compass, MapPin, Loader2, Navigation, Building2, ExternalLink, AlertCircle, Wind, Droplets } from 'lucide-react';
 
 interface NearbyEntity {
   id: string;
@@ -23,6 +23,15 @@ interface NearbyResponse {
   listings: NearbyEntity[];
 }
 
+interface WeatherData {
+  temp: number;
+  feels_like: number;
+  description: string;
+  icon: string;
+  wind_speed: number;
+  humidity: number;
+}
+
 type Status = 'idle' | 'requesting' | 'loading' | 'ready' | 'denied' | 'error';
 
 type Strings = {
@@ -30,6 +39,7 @@ type Strings = {
   denied: string; deniedRetry: string; error: string; beaches: string; restaurants: string;
   activities: string; listings: string; km: string; openMaps: string; moreDetails: string;
   noResults: string; locationFound: string; refresh: string;
+  weatherNow: string; feelsLike: string; wind: string; humidity: string;
 };
 
 const STRINGS: Record<'el' | 'en', Strings> = {
@@ -52,6 +62,10 @@ const STRINGS: Record<'el' | 'en', Strings> = {
     noResults: 'Δεν βρέθηκαν αποτελέσματα σε ακτίνα 30km. Δοκίμασε να μετακινηθείς πιο κοντά στη Χαλκιδική.',
     locationFound: 'Η τοποθεσία σου εντοπίστηκε',
     refresh: 'Ανανέωση',
+    weatherNow: 'Καιρός τώρα',
+    feelsLike: 'Αίσθηση',
+    wind: 'Άνεμος',
+    humidity: 'Υγρασία',
   },
   en: {
     title: 'Near you now',
@@ -72,6 +86,10 @@ const STRINGS: Record<'el' | 'en', Strings> = {
     noResults: 'No results within 30 km. Try moving closer to Halkidiki.',
     locationFound: 'Location found',
     refresh: 'Refresh',
+    weatherNow: 'Weather now',
+    feelsLike: 'Feels like',
+    wind: 'Wind',
+    humidity: 'Humidity',
   },
 };
 
@@ -98,6 +116,7 @@ export function NearClient({ locale }: { locale: string }) {
   const [status, setStatus] = useState<Status>('idle');
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [data, setData] = useState<NearbyResponse | null>(null);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const requestLocation = useCallback(() => {
@@ -125,6 +144,9 @@ export function NearClient({ locale }: { locale: string }) {
   useEffect(() => {
     if (!coords) return;
     let active = true;
+    // Parallel fire-and-forget: weather is cosmetic, nearby is the page's job.
+    // We don't gate readiness on weather so a slow OWM call never blocks the
+    // main content.
     fetch(`/api/nearby?lat=${coords.lat}&lng=${coords.lng}`)
       .then((r) => r.json())
       .then((d: NearbyResponse) => {
@@ -133,6 +155,10 @@ export function NearClient({ locale }: { locale: string }) {
         setStatus('ready');
       })
       .catch(() => { if (active) { setStatus('error'); setErrorMsg(t.error); } });
+    fetch(`/api/weather?lat=${coords.lat}&lng=${coords.lng}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((w: WeatherData | null) => { if (active && w) setWeather(w); })
+      .catch(() => {});
     return () => { active = false; };
   }, [coords, t.error]);
 
@@ -196,6 +222,27 @@ export function NearClient({ locale }: { locale: string }) {
             </div>
             <button onClick={requestLocation} className="text-sm text-primary-600 hover:underline">{t.refresh}</button>
           </div>
+
+          {weather && (
+            <div className="mb-6 p-4 bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-100 rounded-2xl">
+              <div className="flex items-center gap-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt={weather.description} className="w-16 h-16 -my-2" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-medium text-sky-700 uppercase tracking-wider">{t.weatherNow}</div>
+                  <div className="flex items-baseline gap-2 mt-0.5">
+                    <span className="text-2xl font-bold text-gray-900">{weather.temp}°C</span>
+                    <span className="text-sm text-gray-600 capitalize">{weather.description}</span>
+                  </div>
+                  <div className="mt-1 flex items-center gap-3 text-xs text-gray-600 flex-wrap">
+                    <span>{t.feelsLike} {weather.feels_like}°C</span>
+                    <span className="inline-flex items-center gap-1"><Wind className="w-3 h-3" /> {weather.wind_speed} m/s</span>
+                    <span className="inline-flex items-center gap-1"><Droplets className="w-3 h-3" /> {weather.humidity}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           <Section title={t.beaches} icon={<Waves className="w-5 h-5 text-cyan-600" />} items={data.beaches} locale={locale} t={t} />
           <Section title={t.restaurants} icon={<UtensilsCrossed className="w-5 h-5 text-orange-600" />} items={data.restaurants} locale={locale} t={t} />
