@@ -27,7 +27,6 @@ import { EXTERNAL_BOOKING_LINKS_ENABLED } from '@/lib/feature-flags';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { AmenityBadge } from './AmenityBadge';
 import { ShareButtons } from '@/components/ui/ShareButtons';
-import { RelatedContent } from './RelatedContent';
 import { ImageGallery } from '@/components/ui/ImageGallery';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
 import { generateListingFaqs } from '@/lib/faq-generators';
@@ -291,7 +290,8 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
         </div>
       </div>
 
-      <RelatedContent area={listing.area} currentSlug={listing.slug} />
+      {/* Bottom "related items" is now SSR via RelatedItems on the route page —
+          eliminates 5 parallel client fetches + 640px CLS reservation here. */}
 
       <RecentlyViewed currentSlug={slug} />
 
