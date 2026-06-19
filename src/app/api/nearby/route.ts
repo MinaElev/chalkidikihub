@@ -20,7 +20,7 @@ const MAX_RADIUS_KM = 30; // anything farther is filtered
 
 export interface NearbyEntity {
   id: string;
-  type: 'beach' | 'restaurant' | 'activity' | 'village';
+  type: 'beach' | 'restaurant' | 'activity' | 'village' | 'listing';
   slug: string;
   name: Record<string, string>;
   distance_km: number;
@@ -75,12 +75,14 @@ export async function GET(request: NextRequest) {
   const lngMin = lng - dLng, lngMax = lng + dLng;
 
   const imgField = 'image_url';
-  const baseSelect = `id, slug, latitude, longitude, ${imgField}, name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr`;
+  const nameSelect = 'name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr';
+  const titleSelect = 'title_el, title_en, title_de, title_bg, title_ru, title_ro, title_sr';
 
-  async function fetchNear(table: string, type: NearbyEntity['type']) {
+  async function fetchNear(table: string, type: NearbyEntity['type'], useTitle = false) {
+    const select = `id, slug, latitude, longitude, ${imgField}, ${useTitle ? titleSelect : nameSelect}`;
     const { data } = await supabase
       .from(table)
-      .select(baseSelect)
+      .select(select)
       .gte('latitude', latMin).lte('latitude', latMax)
       .gte('longitude', lngMin).lte('longitude', lngMax)
       .limit(200);
@@ -94,7 +96,7 @@ export async function GET(request: NextRequest) {
           id: r.id as string,
           type,
           slug: r.slug as string,
-          name: toLocaleMap(r, 'name'),
+          name: toLocaleMap(r, useTitle ? 'title' : 'name'),
           distance_km: Math.round(d * 10) / 10,
           latitude: r.latitude as number,
           longitude: r.longitude as number,
@@ -108,11 +110,12 @@ export async function GET(request: NextRequest) {
 
   // restaurants/activities don't all have name_sr, but toLocaleMap falls
   // back gracefully.
-  const [beaches, restaurants, activities, villages] = await Promise.all([
+  const [beaches, restaurants, activities, villages, listings] = await Promise.all([
     fetchNear('beaches', 'beach'),
     fetchNear('restaurants', 'restaurant'),
     fetchNear('activities', 'activity'),
     fetchNear('villages', 'village'),
+    fetchNear('listings', 'listing', true),
   ]);
 
   // Apply owner overrides when we have a listing id
@@ -156,6 +159,7 @@ export async function GET(request: NextRequest) {
       restaurants: applyOverrides(restaurants),
       activities: applyOverrides(activities),
       villages: applyOverrides(villages),
+      listings: applyOverrides(listings),
     },
     {
       headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
