@@ -7,7 +7,7 @@ import { getSaleBySlug, getSales } from '@/lib/data';
 import { FaqSection } from '@/components/ui/FaqSection';
 import { generateSalesFaqs } from '@/lib/faq-generators';
 
-export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
+export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 

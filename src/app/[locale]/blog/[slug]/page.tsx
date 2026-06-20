@@ -5,7 +5,12 @@ import { getContentMeta, generateArticleLD, generateBreadcrumbLD, localeUrl } fr
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getArticleBySlug } from '@/lib/data';
 
-// Default dynamic rendering — see listings/[slug] for context.
+// ISR: 30d — CDN-cacheable. See beaches/[slug] for the full rationale; both
+// revalidate AND an empty generateStaticParams are required (mirrors ev-chargers).
+export const revalidate = 2592000;
+export function generateStaticParams() {
+  return [];
+}
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };

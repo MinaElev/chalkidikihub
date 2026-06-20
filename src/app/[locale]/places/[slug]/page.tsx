@@ -20,7 +20,7 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
+export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 
 // Pre-render every village slug at build time so Googlebot hits edge cache
 // instead of running a Supabase query per crawl.

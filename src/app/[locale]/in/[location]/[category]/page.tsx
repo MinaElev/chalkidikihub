@@ -8,7 +8,7 @@ import { getLocation, LOCATIONS, CATEGORIES, type Category } from './location-da
 import { LocationResults } from './LocationResults';
 import type { Beach, Restaurant, Activity, Listing } from '@/types';
 
-export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
+export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 
 // ── Localized labels ────────────────────────────────────────
 const CATEGORY_TITLES: Record<Category, Record<string, string>> = {

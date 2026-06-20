@@ -10,7 +10,7 @@ import { createApiClient } from '@/lib/api-helpers';
 import { FaqSection } from '@/components/ui/FaqSection';
 import { generateGuideFaqs } from '@/lib/faq-generators';
 
-export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
+export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 
 // Module-level cache: load ALL guide overrides once per server process.
 // Prevents 378 prerendered guide pages from each issuing their own DB call

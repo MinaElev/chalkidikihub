@@ -9,7 +9,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Building } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
-export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
+export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 
 const VALID_AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'] as const;
 type ValidArea = (typeof VALID_AREAS)[number];

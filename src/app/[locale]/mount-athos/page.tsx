@@ -7,7 +7,7 @@ import { localeUrl } from '@/lib/seo';
 import { FaqSection } from '@/components/ui/FaqSection';
 import { generateMountAthosFaqs } from '@/lib/faq-generators';
 
-export const revalidate = 86400; // 1 day
+export const revalidate = 2592000; // 30 days
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed

@@ -15,7 +15,7 @@ type Props = {
 // Data comes from the OCM API via getChargers(); a daily ISR window is
 // plenty (chargers don't move). Static params are skipped — pages are
 // generated on first hit and cached for `revalidate`.
-export const revalidate = 86400;
+export const revalidate = 2592000;
 
 export function generateStaticParams() {
   return [];

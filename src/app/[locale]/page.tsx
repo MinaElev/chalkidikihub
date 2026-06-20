@@ -20,7 +20,7 @@ const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden 
 // TTFB instead of ~1100ms SSR. Admin saves call /api/revalidate to surface
 // new featured items immediately — the 24h TTL is only a safety net.
 export const dynamic = 'force-static';
-export const revalidate = 86400; // ISR: 24h - homepage is mostly static; admin saves trigger on-demand revalidation
+export const revalidate = 2592000; // ISR: 30d - homepage is mostly static; admin saves trigger on-demand revalidation
 
 type Props = {
   params: Promise<{ locale: string }>;

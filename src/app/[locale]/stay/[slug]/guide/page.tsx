@@ -16,7 +16,7 @@ const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only
 type Locale = typeof ALL_LOCALES[number];
 
 // Page opts in to ISR; area + POI data doesn't change often.
-export const revalidate = 86400; // 24h
+export const revalidate = 2592000; // 24h
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 

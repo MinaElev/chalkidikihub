@@ -5,7 +5,7 @@ import { getRestaurants } from '@/lib/data';
 import { JsonLd } from '@/components/ui/JsonLd';
 import PageClient from './_client';
 
-export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
+export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 
 const titles: Record<string, string> = {
   el: 'Εστιατόρια Χαλκιδικής',

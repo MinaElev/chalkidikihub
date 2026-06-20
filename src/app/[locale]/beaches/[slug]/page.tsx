@@ -6,11 +6,20 @@ import { JsonLd } from '@/components/ui/JsonLd';
 import { getBeachBySlug } from '@/lib/data';
 import { RelatedItems } from '@/components/related/RelatedItems';
 
-// Default dynamic rendering (no force-dynamic, no generateStaticParams).
-// The Next 16 + Turbopack SSG-fallback bug is triggered by empty
-// generateStaticParams; force-dynamic bypassed it but also disabled the
-// React Data Cache. Removing both lets unstable_cache wrappers in
-// src/lib/data.ts handle caching. Mirrors listings/[slug].
+// ISR: render-on-demand, then cache. `revalidate` + a (deliberately empty)
+// generateStaticParams registers the route as SSG/ISR, so Next emits
+// `Cache-Control: s-maxage=86400, stale-while-revalidate` and the Vercel CDN
+// serves the rendered HTML from the edge — repeat hits (incl. AI crawlers) stop
+// re-invoking the function, which is the Active-CPU saving. Empty array means
+// nothing is prerendered at build; dynamicParams (default true) renders each
+// slug on first hit and caches it. Mirrors the working ev-chargers/[slug].
+// `revalidate` ALONE is not enough — without generateStaticParams Next keeps
+// the route fully dynamic (no-store). unstable_cache wrappers in
+// src/lib/data.ts still back the data layer.
+export const revalidate = 2592000; // ISR: 30d
+export function generateStaticParams() {
+  return [];
+}
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };

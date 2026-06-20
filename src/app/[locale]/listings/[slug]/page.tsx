@@ -8,17 +8,22 @@ import { getListingBySlug } from '@/lib/data';
 import { EXTERNAL_BOOKING_LINKS_ENABLED } from '@/lib/feature-flags';
 import { RelatedItems } from '@/components/related/RelatedItems';
 
-// NOTE: We do NOT set `dynamic = 'force-dynamic'` here.
+// ISR: render-on-demand, then cache. `revalidate` + an empty generateStaticParams
+// register the route as SSG/ISR, so Next emits `Cache-Control: s-maxage=86400,
+// stale-while-revalidate` and the Vercel CDN serves rendered HTML from the edge —
+// repeat hits stop re-invoking the function (the Active-CPU saving).
 //
-// The previous ISR pilot (revalidate=7200 + generateStaticParams=[]) tripped a
-// Next 16 + Turbopack SSG-fallback bug that returned "A server error occurred"
-// for every listing in prod. The fix-for-the-fix was force-dynamic, but that
-// disables React Data Cache entirely — making the unstable_cache wrappers added
-// in commits a68399e / f69a3f5 (`getListingBySlug` 10h TTL) useless on this route.
-//
-// Default dynamic rendering (no opt-out) lets the data layer cache fire while
-// still rendering the page per-request, avoiding the SSG bug. If a regression
-// appears, re-add `export const dynamic = 'force-dynamic'` and open an issue.
+// History: an earlier ISR pilot (`revalidate=7200 + generateStaticParams=[]`) was
+// blamed for a Next 16 + Turbopack SSG-fallback "server error" in prod and rolled
+// back to force-dynamic (which disabled the React Data Cache). On Next 16.2.2 that
+// pattern builds clean — the live ev-chargers/[slug] route uses exactly this — so
+// it's restored here. unstable_cache wrappers (getListingBySlug, 10h TTL) still
+// back the data layer. If the prod "server error" returns, the fallback is
+// `export const dynamic = 'force-dynamic'` — open an issue.
+export const revalidate = 2592000; // ISR: 30d
+export function generateStaticParams() {
+  return [];
+}
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;

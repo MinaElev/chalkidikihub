@@ -10,7 +10,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 type Props = { params: Promise<{ locale: string }> };
 
 export const dynamic = 'force-static';
-export const revalidate = 86400;
+export const revalidate = 2592000;
 
 export default async function AboutPage({ params }: Props) {
   const { locale } = await params;

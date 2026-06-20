@@ -9,7 +9,7 @@ import type { Restaurant } from '@/types';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
+export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 
 export async function generateStaticParams() {
   const supabase = createApiClient();

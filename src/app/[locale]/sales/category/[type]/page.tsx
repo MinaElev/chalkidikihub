@@ -10,7 +10,7 @@ import { Building } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import type { PropertyType } from '@/types';
 
-export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
+export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 
 const VALID_TYPES = ['apartment', 'house', 'land', 'commercial', 'other'] as const;
 

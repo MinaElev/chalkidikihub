@@ -8,7 +8,7 @@ import { BlogCard } from '@/components/blog/BlogCard';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import type { BlogCategory, BlogArticle } from '@/types';
 
-export const revalidate = 86400; // ISR: 24h - on-demand revalidation from admin saves keeps content fresh
+export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 
 const VALID_CATEGORIES: BlogCategory[] = ['activities', 'guides', 'tips', 'beaches', 'culture', 'food'];
 

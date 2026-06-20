@@ -5,7 +5,7 @@ import EvChargersClient from './_client';
 
 // Static shell — data is fetched client-side from the OCM API, no server
 // data dependency, so no reason to regenerate per request.
-export const revalidate = 86400;
+export const revalidate = 2592000;
 
 const titles: Record<string, string> = {
   el: 'Φορτιστές EV Χαλκιδική',
