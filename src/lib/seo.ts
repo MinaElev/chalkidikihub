@@ -10,12 +10,16 @@ const DEFAULT_LOCALE = 'el';
 
 /**
  * Social profile URLs for the Organization schema's `sameAs` property.
- * Populated from env vars — leave blank in `.env` to omit specific networks.
  * Google uses these to merge the Knowledge Graph entity with social handles.
+ *
+ * Each entry prefers an env override (so a network can be swapped without a
+ * deploy) and falls back to the known public profile, so the `sameAs` block
+ * always renders in production even before env vars are configured on Vercel.
+ * Set the matching env var to a single space to suppress a default.
  */
 export const SOCIAL_LINKS: string[] = [
-  process.env.NEXT_PUBLIC_FACEBOOK_URL,
-  process.env.NEXT_PUBLIC_INSTAGRAM_URL,
+  process.env.NEXT_PUBLIC_FACEBOOK_URL ?? 'https://www.facebook.com/groups/1738995400608595',
+  process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? 'https://www.instagram.com/chalkidikihub/',
   process.env.NEXT_PUBLIC_TWITTER_URL,
   process.env.NEXT_PUBLIC_YOUTUBE_URL,
   process.env.NEXT_PUBLIC_TIKTOK_URL,
@@ -91,7 +95,7 @@ const tableToPath: Record<string, string> = {
 // emit <link rel="alternate" type="text/markdown"> on detail pages, so AI
 // agents (Perplexity, Claude tool-use, Bing Copilot) discover the clean
 // machine-readable variant directly from the HTML page.
-const mdSupportedTables = new Set(['listings', 'beaches', 'restaurants', 'villages']);
+const mdSupportedTables = new Set(['listings', 'beaches', 'restaurants', 'activities', 'sales', 'villages']);
 
 function mdTypeFor(table: string): string {
   // Villages live at /places/<slug> on the site, and /api/md/places/<slug>
@@ -590,7 +594,21 @@ export function generateRestaurantLD(restaurant: Record<string, unknown>, locale
     openingHours: restaurant.hours || '',
     priceRange: restaurant.price_level === 'budget' ? '€' : restaurant.price_level === 'moderate' ? '€€' : restaurant.price_level === 'upscale' ? '€€€' : '€€€€',
     servesCuisine: (restaurant.cuisine as string[]) || [],
-    ...(restaurant.rating ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: restaurant.rating, bestRating: 5, ratingCount: restaurant.reviews_count || 1 } } : {}),
+    // Only emit aggregateRating when there are REAL reviews. Fabricating a
+    // ratingCount of 1 for unrated places is spammy structured data and risks
+    // a Google manual action — gate on reviews_count > 0 (same rule as activities).
+    ...(restaurant.rating && Number(restaurant.reviews_count) > 0
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: restaurant.rating,
+            bestRating: 5,
+            worstRating: 1,
+            ratingCount: restaurant.reviews_count,
+            reviewCount: restaurant.reviews_count,
+          },
+        }
+      : {}),
     url: localeUrl(locale, `restaurants/${restaurant.slug}`),
   };
 }
@@ -662,6 +680,17 @@ export function generateArticleLD(article: Record<string, unknown>, locale: stri
   };
 }
 
+/** ISO date ~1 year ahead of the listing's last update (min: ~1y from now). */
+function saleOfferValidUntil(updatedAt?: string): string {
+  const base = updatedAt ? new Date(updatedAt) : new Date();
+  const candidate = new Date(base);
+  candidate.setFullYear(candidate.getFullYear() + 1);
+  const floor = new Date();
+  floor.setFullYear(floor.getFullYear() + 1);
+  const chosen = candidate > floor ? candidate : floor;
+  return chosen.toISOString().slice(0, 10);
+}
+
 export function generateSaleLD(sale: Record<string, unknown>, locale: string) {
   const title = (sale.title as Record<string, string>)?.[locale] || (sale.title as Record<string, string>)?.el || '';
   const description = (sale.description as Record<string, string>)?.[locale] || (sale.description as Record<string, string>)?.el || '';
@@ -683,6 +712,11 @@ export function generateSaleLD(sale: Record<string, unknown>, locale: string) {
       '@type': 'Offer',
       price: sale.price,
       priceCurrency: (sale.currency as string) || 'EUR',
+      // Google requires priceValidUntil for Product/Offer rich results;
+      // omitting it triggers a Search Console "missing field" warning and
+      // suppresses the snippet. Real estate prices are stable, so roll it
+      // ~1 year out from the last edit (or now, whichever is later).
+      priceValidUntil: saleOfferValidUntil(sale.updated_at as string | undefined),
       availability: sale.status === 'published'
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',

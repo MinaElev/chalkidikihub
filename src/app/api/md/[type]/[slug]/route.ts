@@ -4,6 +4,8 @@
  *   /api/md/listings/<slug>
  *   /api/md/beaches/<slug>
  *   /api/md/restaurants/<slug>
+ *   /api/md/activities/<slug>
+ *   /api/md/sales/<slug>
  *   /api/md/places/<slug>      ← villages
  *
  * Why: Perplexity, Claude tool-use, ChatGPT browse, and other AI agents
@@ -22,6 +24,8 @@ import {
   getBeachBySlug,
   getRestaurantBySlug,
   getVillageBySlug,
+  getActivityBySlug,
+  getSaleBySlug,
 } from '@/lib/data';
 import { EXTERNAL_BOOKING_LINKS_ENABLED } from '@/lib/feature-flags';
 
@@ -29,7 +33,7 @@ export const revalidate = 36000; // 10h
 export const dynamic = 'force-static';
 
 const ORIGIN = 'https://chalkidikihub.gr';
-const SUPPORTED = ['listings', 'beaches', 'restaurants', 'places'] as const;
+const SUPPORTED = ['listings', 'beaches', 'restaurants', 'activities', 'sales', 'places'] as const;
 type SupportedType = (typeof SUPPORTED)[number];
 
 function isSupported(s: string): s is SupportedType {
@@ -176,6 +180,98 @@ function restaurantToMd(r: Record<string, unknown>, locale: string): string {
   return lines.join('\n');
 }
 
+function activityToMd(a: Record<string, unknown>, locale: string): string {
+  const name = pickMulti(a.name as Record<string, string>, locale);
+  const desc = pickMulti(a.description as Record<string, string>, locale);
+  const url = `${ORIGIN}/${locale}/activities/${a.slug}`;
+  const tags = (a.tags as string[] | undefined) || [];
+
+  const lines = [
+    `# ${name}`,
+    '',
+    `> ${desc.replace(/\r?\n/g, ' ').slice(0, 300)}`,
+    '',
+    '## Quick facts',
+    '',
+    `| Field | Value |`,
+    `| --- | --- |`,
+    `| Location | ${mdEscape(String(a.location_name || ''))} |`,
+    `| Area | ${mdEscape(String(a.area || ''))} |`,
+    `| Category | ${mdEscape(String(a.category || '—'))} |`,
+    `| Price range | ${mdEscape(String(a.price_range || '—'))} |`,
+    `| Duration | ${mdEscape(String(a.duration || '—'))} |`,
+    `| Rating | ${a.rating ? `${a.rating} (${a.reviews_count || 0} reviews)` : '—'} |`,
+    `| Coordinates | ${a.latitude}, ${a.longitude} |`,
+    '',
+  ];
+
+  if (tags.length > 0) {
+    lines.push('## Tags', '', tags.map(t => `- ${t}`).join('\n'), '');
+  }
+
+  if (desc) {
+    lines.push('## Description', '', desc, '');
+  }
+
+  lines.push('---', `Source: <${url}>`, `Type: TouristAttraction · Halkidiki, Greece`);
+  return lines.join('\n');
+}
+
+function saleToMd(s: Record<string, unknown>, locale: string): string {
+  const title = pickMulti(s.title as Record<string, string>, locale);
+  const desc = pickMulti(s.description as Record<string, string>, locale);
+  const url = `${ORIGIN}/${locale}/sales/${s.slug}`;
+  const features = (s.features as string[] | undefined) || [];
+  const images = (s.images as Array<{ image_url: string }> | undefined) || [];
+  const price = s.price ? `${(s.currency as string) || 'EUR'} ${Number(s.price).toLocaleString('en-US')}` : '—';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const ext = s as any;
+
+  const lines = [
+    `# ${title}`,
+    '',
+    `> ${desc.replace(/\r?\n/g, ' ').slice(0, 300)}`,
+    '',
+    '## Quick facts',
+    '',
+    `| Field | Value |`,
+    `| --- | --- |`,
+    `| Property type | ${mdEscape(String(s.property_type || '—'))} |`,
+    `| Price | ${price} |`,
+    `| Location | ${mdEscape(String(s.location_name || ''))} |`,
+    `| Area | ${mdEscape(String(s.area || ''))} |`,
+    `| Size | ${s.size_sqm ? `${s.size_sqm} m²` : '—'} |`,
+    `| Bedrooms | ${s.bedrooms ?? '—'} |`,
+    `| Bathrooms | ${s.bathrooms ?? '—'} |`,
+    `| Year built | ${s.year_built ?? '—'} |`,
+    `| Energy class | ${mdEscape(String(s.energy_class || '—'))} |`,
+    `| Coordinates | ${s.latitude ?? '—'}, ${s.longitude ?? '—'} |`,
+    '',
+  ];
+
+  if (features.length > 0) {
+    lines.push('## Features', '', features.map(f => `- ${f}`).join('\n'), '');
+  }
+
+  if (desc) {
+    lines.push('## Description', '', desc, '');
+  }
+
+  const contactLines: string[] = [];
+  if (ext.contact_phone) contactLines.push(`- 📞 Phone: ${ext.contact_phone}`);
+  if (ext.contact_email) contactLines.push(`- ✉️ Email: ${ext.contact_email}`);
+  if (contactLines.length > 0) {
+    lines.push('## Contact', '', ...contactLines, '');
+  }
+
+  if (images.length > 0) {
+    lines.push('## Images', '', images.slice(0, 8).map(i => `- ${i.image_url}`).join('\n'), '');
+  }
+
+  lines.push('---', `Source: <${url}>`, `Type: Product / RealEstateListing · Halkidiki, Greece`);
+  return lines.join('\n');
+}
+
 function villageToMd(v: Record<string, unknown>, locale: string): string {
   const name = pickMulti(v.name as Record<string, string>, locale);
   const desc = pickMulti(v.description as Record<string, string>, locale);
@@ -231,6 +327,16 @@ export async function GET(req: NextRequest, ctx: RouteCtx) {
       case 'restaurants': {
         const r = await getRestaurantBySlug(slug);
         if (r) md = restaurantToMd(r as unknown as Record<string, unknown>, locale);
+        break;
+      }
+      case 'activities': {
+        const a = await getActivityBySlug(slug);
+        if (a) md = activityToMd(a as unknown as Record<string, unknown>, locale);
+        break;
+      }
+      case 'sales': {
+        const s = await getSaleBySlug(slug);
+        if (s) md = saleToMd(s as unknown as Record<string, unknown>, locale);
         break;
       }
       case 'places': {
