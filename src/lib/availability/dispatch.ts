@@ -2,21 +2,21 @@
  * Availability broadcast dispatch
  * -----------------------------------------------------------------------
  * Matches a request to candidate owners and sends the broadcast email via
- * Gmail/nodemailer. Called inline from the POST handler — 8 emails × ~300ms
- * fits in a Vercel serverless invocation, no cron needed.
+ * Gmail/nodemailer. Called inline from the POST handler — up to 30 emails ×
+ * ~150ms fits in a Vercel serverless invocation (route maxDuration=60s).
  *
  * Hard Gmail-friendly caps:
- *   - MAX_RECIPIENTS_PER_REQUEST = 8
- *   - MAX_REQUESTS_PER_DAY       = 30 (~240 broadcast emails/day)
- *   - 300ms delay between sends
+ *   - MAX_RECIPIENTS_PER_REQUEST = 30 (notify every matching owner)
+ *   - MAX_REQUESTS_PER_DAY       = 30 (~900 broadcast emails/day max)
+ *   - 150ms delay between sends
  *   - Per-owner weekly cap honoured via owner_broadcast_settings.max_per_week
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
 import nodemailer from 'nodemailer';
 
-export const MAX_RECIPIENTS_PER_REQUEST = 8;
+export const MAX_RECIPIENTS_PER_REQUEST = 30;
 export const MAX_REQUESTS_PER_DAY = 30;
-export const SEND_DELAY_MS = 300;
+export const SEND_DELAY_MS = 150;
 const DEFAULT_MAX_PER_WEEK = 10;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';

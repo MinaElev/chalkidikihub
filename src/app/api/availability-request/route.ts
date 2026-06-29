@@ -9,6 +9,10 @@ import {
   type AvailabilityRequestRow,
 } from '@/lib/availability/dispatch';
 
+// Broadcast is dispatched inline (up to 30 emails × ~150ms + send time).
+// Give the function room so it doesn't time out on the default budget.
+export const maxDuration = 60;
+
 const SUPPORTED_LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'];
 
 // Small list — extend over time. Cheap disposable-mail block.
