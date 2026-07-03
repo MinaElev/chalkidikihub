@@ -17,7 +17,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
-  return getContentMeta('blog_articles', slug, locale, 'Blog | Chalkidiki Hub', 'Travel guide for Halkidiki');
+  return getContentMeta('blog_articles', slug, locale, 'Blog | Chalkidiki Hub', 'Travel guide for Halkidiki', { thinField: 'content' });
 }
 
 export default async function BlogArticlePage({ params }: Props) {

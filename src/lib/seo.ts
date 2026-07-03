@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { createApiClient, toLocaleMap } from './api-helpers';
 import { publicLocales } from '@/i18n/config';
+import { isThinContent } from './content-quality';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 // hreflang alternates ship only the public locales — hidden locales still
@@ -159,7 +160,7 @@ export async function getContentMeta(
   locale: string,
   fallbackTitle: string,
   fallbackDescription: string,
-  opts?: { thinThreshold?: number },
+  opts?: { thinThreshold?: number; thinField?: string },
 ): Promise<Metadata> {
   const pathSegment = tableToPath[table] || table;
   try {
@@ -216,10 +217,23 @@ export async function getContentMeta(
     // for AdSense/Google quality bars. Falls back to the source description
     // (not meta_description) so listings with rich meta but empty body
     // still get filtered.
-    const sourceDesc =
-      row[`description_${locale}`] || row.description_el || row.description_en || '';
-    const isThin =
-      opts?.thinThreshold != null && sourceDesc.trim().length < opts.thinThreshold;
+    //
+    // Two measurement modes: char-length against `description_<locale>`
+    // (thinThreshold — the original mechanism, still used by listings/sales/
+    // restaurants/activities/beaches), or word-count against a different
+    // field (thinField — for tables like blog_articles where the real body
+    // lives in `content_<locale>` and `description_<locale>` doesn't exist).
+    // Same isThinContent() helper /guide and /places already use.
+    let isThin = false;
+    if (opts?.thinField) {
+      const field = opts.thinField;
+      const body = row[`${field}_${locale}`] || row[`${field}_el`] || row[`${field}_en`] || '';
+      isThin = isThinContent(body);
+    } else if (opts?.thinThreshold != null) {
+      const sourceDesc =
+        row[`description_${locale}`] || row.description_el || row.description_en || '';
+      isThin = sourceDesc.trim().length < opts.thinThreshold;
+    }
 
     return {
       title,

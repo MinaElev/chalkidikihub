@@ -256,6 +256,7 @@ export async function getBlogArticles(): Promise<BlogArticle[]> {
   const supabase = createApiClient();
   const { data } = await supabase
     .from('blog_articles').select('*')
+    .not('published_at', 'is', null)
     .order('published_at', { ascending: false });
   return (data || []).map(transformArticle) as unknown as BlogArticle[];
 }
