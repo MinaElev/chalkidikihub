@@ -14,7 +14,8 @@
     "search": "Αναζήτηση",
     "noResults": "Δεν βρέθηκαν αποτελέσματα",
     "readMore": "Περισσότερα",
-    "contactOwner": "Επικοινωνία με ιδιοκτήτη"
+    "contactOwner": "Επικοινωνία με ιδιοκτήτη",
+    "results": "αποτελέσματα"
   },
   "nav": {
     "home": "Αρχική",
@@ -124,7 +125,8 @@
       "sortName": "Όνομα",
       "sortReviews": "Κριτικές",
       "clearFilters": "Καθαρισμός φίλτρων"
-    }
+    },
+    "results": "αποτελέσματα"
   },
   "beachFeatures": {
     "sandy": "Αμμουδιά",
@@ -138,7 +140,11 @@
     "accessible": "Προσβάσιμη",
     "sunbeds": "Ξαπλώστρες",
     "lifeguard": "Ναυαγοσώστης",
-    "nudist": "Γυμνιστών"
+    "nudist": "Γυμνιστών",
+    "secluded": "Απομονωμένες",
+    "family-friendly": "Οικογενειακές",
+    "blue-flag": "Γαλάζια Σημαία",
+    "water-sports": "Θαλάσσια Σπορ"
   },
   "evChargers": {
     "title": "Φορτιστές EV",
@@ -233,7 +239,8 @@
       "sortName": "Όνομα",
       "sortReviews": "Κριτικές",
       "clearFilters": "Καθαρισμός"
-    }
+    },
+    "results": "αποτελέσματα"
   },
   "activityCategories": {
     "historical": "Ιστορικά",
@@ -281,7 +288,8 @@
       "sortReviews": "Κριτικές",
       "sortPrice": "Τιμή",
       "clearFilters": "Καθαρισμός"
-    }
+    },
+    "results": "αποτελέσματα"
   },
   "cuisineTypes": {
     "seafood": "Θαλασσινά",

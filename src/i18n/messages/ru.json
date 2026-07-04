@@ -14,7 +14,8 @@
     "search": "Поиск",
     "noResults": "Результатов не найдено",
     "readMore": "Подробнее",
-    "contactOwner": "Связаться с владельцем"
+    "contactOwner": "Связаться с владельцем",
+    "results": "результатов"
   },
   "nav": {
     "home": "Главная",
@@ -124,7 +125,8 @@
       "sortName": "Название",
       "sortReviews": "Отзывы",
       "clearFilters": "Сбросить фильтры"
-    }
+    },
+    "results": "результатов"
   },
   "beachFeatures": {
     "sandy": "Песчаный",
@@ -138,7 +140,11 @@
     "accessible": "Доступный",
     "sunbeds": "Шезлонги",
     "lifeguard": "Спасатель",
-    "nudist": "Нудистский"
+    "nudist": "Нудистский",
+    "secluded": "Уединённые",
+    "family-friendly": "Семейные",
+    "blue-flag": "Голубой флаг",
+    "water-sports": "Водные виды спорта"
   },
   "evChargers": {
     "title": "Зарядные станции",
@@ -233,7 +239,8 @@
       "sortName": "Название",
       "sortReviews": "Отзывы",
       "clearFilters": "Сбросить"
-    }
+    },
+    "results": "результатов"
   },
   "activityCategories": {
     "historical": "Исторические",
@@ -281,7 +288,8 @@
       "sortReviews": "Отзывы",
       "sortPrice": "Цена",
       "clearFilters": "Сбросить"
-    }
+    },
+    "results": "результатов"
   },
   "cuisineTypes": {
     "seafood": "Морепродукты",

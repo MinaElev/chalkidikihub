@@ -14,7 +14,8 @@
     "search": "Pretraga",
     "noResults": "Nema rezultata",
     "readMore": "Pročitaj više",
-    "contactOwner": "Kontaktiraj vlasnika"
+    "contactOwner": "Kontaktiraj vlasnika",
+    "results": "rezultata"
   },
   "nav": {
     "home": "Početna",
@@ -139,7 +140,11 @@
     "accessible": "Pristupačna",
     "sunbeds": "Ležaljke",
     "lifeguard": "Spasilac",
-    "nudist": "Nudistička"
+    "nudist": "Nudistička",
+    "secluded": "Skrivene",
+    "family-friendly": "Za porodice",
+    "blue-flag": "Plava zastava",
+    "water-sports": "Vodeni sportovi"
   },
   "evChargers": {
     "title": "Stanice za punjenje EV",
@@ -234,7 +239,8 @@
       "sortName": "Naziv",
       "sortReviews": "Recenzije",
       "clearFilters": "Obriši"
-    }
+    },
+    "results": "rezultata"
   },
   "activityCategories": {
     "historical": "Istorijsko",
@@ -282,7 +288,8 @@
       "sortReviews": "Recenzije",
       "sortPrice": "Cena",
       "clearFilters": "Obriši"
-    }
+    },
+    "results": "rezultata"
   },
   "cuisineTypes": {
     "seafood": "Morski plodovi",

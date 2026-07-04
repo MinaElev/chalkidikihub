@@ -14,7 +14,8 @@
     "search": "Caută",
     "noResults": "Nu s-au găsit rezultate",
     "readMore": "Citește mai mult",
-    "contactOwner": "Contactează proprietarul"
+    "contactOwner": "Contactează proprietarul",
+    "results": "rezultate"
   },
   "nav": {
     "home": "Acasă",
@@ -124,7 +125,8 @@
       "sortName": "Nume",
       "sortReviews": "Recenzii",
       "clearFilters": "Șterge filtrele"
-    }
+    },
+    "results": "rezultate"
   },
   "beachFeatures": {
     "sandy": "Nisip",
@@ -138,7 +140,11 @@
     "accessible": "Accesibilă",
     "sunbeds": "Șezlonguri",
     "lifeguard": "Salvamar",
-    "nudist": "Nudiști"
+    "nudist": "Nudiști",
+    "secluded": "Izolate",
+    "family-friendly": "Pentru familii",
+    "blue-flag": "Steag Albastru",
+    "water-sports": "Sporturi nautice"
   },
   "evChargers": {
     "title": "Stații de încărcare EV",
@@ -233,7 +239,8 @@
       "sortName": "Nume",
       "sortReviews": "Recenzii",
       "clearFilters": "Șterge"
-    }
+    },
+    "results": "rezultate"
   },
   "activityCategories": {
     "historical": "Istoric",
@@ -281,7 +288,8 @@
       "sortReviews": "Recenzii",
       "sortPrice": "Preț",
       "clearFilters": "Șterge"
-    }
+    },
+    "results": "rezultate"
   },
   "cuisineTypes": {
     "seafood": "Fructe de mare",

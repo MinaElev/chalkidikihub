@@ -14,7 +14,8 @@
     "search": "Search",
     "noResults": "No results found",
     "readMore": "Read more",
-    "contactOwner": "Contact owner"
+    "contactOwner": "Contact owner",
+    "results": "results"
   },
   "nav": {
     "home": "Home",
@@ -124,7 +125,8 @@
       "sortName": "Name",
       "sortReviews": "Reviews",
       "clearFilters": "Clear filters"
-    }
+    },
+    "results": "results"
   },
   "beachFeatures": {
     "sandy": "Sandy",
@@ -138,7 +140,11 @@
     "accessible": "Accessible",
     "sunbeds": "Sunbeds",
     "lifeguard": "Lifeguard",
-    "nudist": "Nudist"
+    "nudist": "Nudist",
+    "secluded": "Secluded",
+    "family-friendly": "Family-Friendly",
+    "blue-flag": "Blue Flag",
+    "water-sports": "Water Sports"
   },
   "evChargers": {
     "title": "EV Chargers",
@@ -233,7 +239,8 @@
       "sortName": "Name",
       "sortReviews": "Reviews",
       "clearFilters": "Clear"
-    }
+    },
+    "results": "results"
   },
   "activityCategories": {
     "historical": "Historical",
@@ -281,7 +288,8 @@
       "sortReviews": "Reviews",
       "sortPrice": "Price",
       "clearFilters": "Clear"
-    }
+    },
+    "results": "results"
   },
   "cuisineTypes": {
     "seafood": "Seafood",

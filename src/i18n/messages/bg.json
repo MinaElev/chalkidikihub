@@ -14,7 +14,8 @@
     "search": "Търсене",
     "noResults": "Няма намерени резултати",
     "readMore": "Прочетете повече",
-    "contactOwner": "Свържете се със собственика"
+    "contactOwner": "Свържете се със собственика",
+    "results": "резултата"
   },
   "nav": {
     "home": "Начало",
@@ -124,7 +125,8 @@
       "sortName": "Име",
       "sortReviews": "Отзиви",
       "clearFilters": "Изчистване на филтри"
-    }
+    },
+    "results": "резултата"
   },
   "beachFeatures": {
     "sandy": "Пясъчен",
@@ -138,7 +140,11 @@
     "accessible": "Достъпен",
     "sunbeds": "Шезлонги",
     "lifeguard": "Спасител",
-    "nudist": "Нудистки"
+    "nudist": "Нудистки",
+    "secluded": "Уединени",
+    "family-friendly": "За семейства",
+    "blue-flag": "Син флаг",
+    "water-sports": "Водни спортове"
   },
   "evChargers": {
     "title": "EV Зарядни станции",
@@ -233,7 +239,8 @@
       "sortName": "Име",
       "sortReviews": "Отзиви",
       "clearFilters": "Изчистване"
-    }
+    },
+    "results": "резултата"
   },
   "activityCategories": {
     "historical": "Исторически",
@@ -281,7 +288,8 @@
       "sortReviews": "Отзиви",
       "sortPrice": "Цена",
       "clearFilters": "Изчистване"
-    }
+    },
+    "results": "резултата"
   },
   "cuisineTypes": {
     "seafood": "Морски дарове",

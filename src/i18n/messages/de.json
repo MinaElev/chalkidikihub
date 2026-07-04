@@ -14,7 +14,8 @@
     "search": "Suchen",
     "noResults": "Keine Ergebnisse gefunden",
     "readMore": "Mehr lesen",
-    "contactOwner": "Eigentümer kontaktieren"
+    "contactOwner": "Eigentümer kontaktieren",
+    "results": "Ergebnisse"
   },
   "nav": {
     "home": "Startseite",
@@ -124,7 +125,8 @@
       "sortName": "Name",
       "sortReviews": "Bewertungen",
       "clearFilters": "Filter zurücksetzen"
-    }
+    },
+    "results": "Ergebnisse"
   },
   "beachFeatures": {
     "sandy": "Sandstrand",
@@ -138,7 +140,11 @@
     "accessible": "Barrierefrei",
     "sunbeds": "Sonnenliegen",
     "lifeguard": "Rettungsschwimmer",
-    "nudist": "FKK"
+    "nudist": "FKK",
+    "secluded": "Abgelegene",
+    "family-friendly": "Familienfreundliche",
+    "blue-flag": "Blaue Flagge",
+    "water-sports": "Wassersport"
   },
   "evChargers": {
     "title": "E-Ladestationen",
@@ -233,7 +239,8 @@
       "sortName": "Name",
       "sortReviews": "Bewertungen",
       "clearFilters": "Zurücksetzen"
-    }
+    },
+    "results": "Ergebnisse"
   },
   "activityCategories": {
     "historical": "Historisch",
@@ -281,7 +288,8 @@
       "sortReviews": "Bewertungen",
       "sortPrice": "Preis",
       "clearFilters": "Zurücksetzen"
-    }
+    },
+    "results": "Ergebnisse"
   },
   "cuisineTypes": {
     "seafood": "Meeresfrüchte",
