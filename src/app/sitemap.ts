@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { publicLocales, defaultLocale } from '@/i18n/config';
 import { createApiClient } from '@/lib/api-helpers';
 import { AREAS } from '@/lib/constants';
+import { LOCATIONS, CATEGORIES } from '@/app/[locale]/in/[location]/[category]/location-data';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
@@ -103,11 +104,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     villagesRes,
   ] = await Promise.all([
     supabase.from('profiles').select('id, public_slug, updated_at').eq('public_page_enabled', true).not('public_slug', 'is', null),
-    supabase.from('beaches').select('slug, updated_at'),
-    supabase.from('restaurants').select('slug, updated_at'),
+    supabase.from('beaches').select('slug, updated_at, location_name'),
+    supabase.from('restaurants').select('slug, updated_at, location_name'),
     supabase.from('business_types').select('slug'),
-    supabase.from('listings').select('slug, updated_at, tagline_el, tagline_en, owner_story_el, owner_story_en').eq('status', 'published'),
-    supabase.from('activities').select('slug, updated_at'),
+    supabase.from('listings').select('slug, updated_at, location_name, tagline_el, tagline_en, owner_story_el, owner_story_en').eq('status', 'published'),
+    supabase.from('activities').select('slug, updated_at, location_name'),
     supabase.from('blog_articles').select('slug, published_at, updated_at'),
     supabase.from('sales').select('slug, updated_at').eq('status', 'published'),
     supabase.from('villages').select('slug'),
@@ -278,12 +279,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push(...forLocales(`/mount-athos/monasteries/${slug}`, { freq: 'monthly', priority: 0.8 }));
   }
 
-  // ── Programmatic location pages ──
-  const locationSlugs = ['afytos','kallithea','hanioti','pefkohori','siviri','polychrono','possidi','nea-fokea','nikiti','vourvourou','neos-marmaras','sarti','toroni','porto-koufo','ouranoupoli','arnea','nea-moudania'];
-  const locationCategories = ['beaches','restaurants','activities','listings'];
-  for (const loc of locationSlugs) {
-    for (const cat of locationCategories) {
-      entries.push(...forLocales(`/in/${loc}/${cat}`, { freq: 'weekly', priority: 0.7 }));
+  // ── Programmatic location pages (/in/{location}/{category}) ──
+  // The page 404s any location×category combo with zero matching rows (a
+  // thin-content guard). Emit only combos that actually have data so the
+  // sitemap never points at a soft-404. Match logic mirrors the page exactly:
+  // a case-insensitive substring of locationNameDb within a row's location_name
+  // (the page queries `ilike(location_name, '%dbName%')`).
+  const catRows: Record<string, Array<{ location_name?: string | null }>> = {
+    beaches: beaches || [],
+    restaurants: restaurants || [],
+    activities: activities || [],
+    listings: listings || [],
+  };
+  const seenLocationDb = new Set<string>();
+  for (const loc of LOCATIONS) {
+    // Some slugs are aliases for the same DB place (e.g. possidi/posidi) — list
+    // each place once to avoid duplicate near-identical URLs in the sitemap.
+    if (seenLocationDb.has(loc.locationNameDb)) continue;
+    seenLocationDb.add(loc.locationNameDb);
+    const needle = loc.locationNameDb.toLowerCase();
+    for (const cat of CATEGORIES) {
+      const hasData = catRows[cat].some(
+        (r) => (r.location_name || '').toLowerCase().includes(needle),
+      );
+      if (hasData) {
+        entries.push(...forLocales(`/in/${loc.locationSlug}/${cat}`, { freq: 'weekly', priority: 0.7 }));
+      }
     }
   }
 
