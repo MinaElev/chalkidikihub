@@ -1,14 +1,110 @@
+import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { createApiClient } from '@/lib/api-helpers';
 import { transformListing } from '@/lib/data';
 import { StayPage } from '@/components/stay/StayPage';
 import { JsonLd } from '@/components/ui/JsonLd';
-import { generateLodgingLD, generateBreadcrumbLD, localeUrl } from '@/lib/seo';
+import { generateLodgingLD, generateBreadcrumbLD, localeUrl, ogImageUrl } from '@/lib/seo';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
+const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only — hidden locales stay routable but unindexed
+
 export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
+
+/** Strip HTML/markdown and collapse whitespace; trim to a meta-length snippet. */
+function snippet(html: string | null | undefined, max = 160): string {
+  if (!html) return '';
+  const clean = html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).trim()}…`;
+}
+
+// ─── Metadata ───────────────────────────────────────────────────────
+// The /stay/<slug> brand page is a DISTINCT SEO surface from the directory
+// /listings/<slug>: it leads with the owner's tagline + story, not the
+// amenity grid. So it is SELF-canonical (not canonicalised to /listings) —
+// but ONLY when there's real brand copy. Without a tagline/owner_story the
+// page is a near-duplicate of the listing, so we noindex it. This mirrors
+// the `hasBrand` gate in sitemap.ts that decides whether /stay is even
+// submitted for indexing, keeping the on-page tag and the sitemap in sync.
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const l = locale as string;
+  const supabase = createApiClient();
+  // Dedup language suffixes so el/en requests don't select `title_el` twice
+  // (PostgREST can reject a duplicated column in the select list).
+  const suffixes = Array.from(new Set(['el', 'en', l]));
+  const langCols = ['title', 'tagline', 'owner_story', 'description']
+    .flatMap(f => suffixes.map(s => `${f}_${s}`))
+    .join(', ');
+  const { data } = await supabase
+    .from('listings')
+    .select(`slug, area, location_name, status, ${langCols}, listing_images(image_url, is_cover, sort_order)`)
+    .eq('slug', slug)
+    .eq('status', 'published')
+    .single();
+
+  const pageUrl = localeUrl(locale, `stay/${slug}`);
+  const baseAlternates = {
+    canonical: pageUrl,
+    languages: {
+      ...Object.fromEntries(LOCALES.map(loc => [loc, localeUrl(loc, `stay/${slug}`)])),
+      'x-default': localeUrl('el', `stay/${slug}`),
+    },
+  };
+
+  // Row not found → noindex soft-404 (Next 16 + dynamic returns 200 even on notFound()).
+  if (!data) {
+    return {
+      title: 'Chalkidiki Hub',
+      robots: { index: false, follow: false },
+      alternates: baseAlternates,
+    };
+  }
+
+  const row = data as unknown as Record<string, string | null>;
+  const name = row[`title_${l}`] || row.title_el || row.title_en || '';
+  const place = row.location_name || '';
+  const tagline = row[`tagline_${l}`] || row.tagline_el || row.tagline_en || '';
+  const story = row[`owner_story_${l}`] || row.owner_story_el || row.owner_story_en || '';
+  const desc = row[`description_${l}`] || row.description_el || row.description_en || '';
+
+  // Brand gate: no tagline AND no owner story → near-duplicate of /listings.
+  const hasBrand = Boolean(tagline.trim() || story.trim());
+
+  const title = place ? `${name} — ${place}, ${l === 'el' ? 'Χαλκιδική' : 'Halkidiki'}` : name || 'Chalkidiki Hub';
+  const description =
+    snippet(tagline, 160) ||
+    snippet(story, 160) ||
+    snippet(desc, 160) ||
+    (l === 'el'
+      ? `${name}${place ? ` στη ${place}` : ''}, Χαλκιδική — απευθείας κράτηση χωρίς προμήθεια.`
+      : `${name}${place ? ` in ${place}` : ''}, Halkidiki — book directly, no commission.`);
+
+  const images = ((data as unknown as { listing_images?: Array<{ image_url: string; is_cover: boolean; sort_order: number }> }).listing_images || [])
+    .sort((a, b) => (b.is_cover ? 1 : 0) - (a.is_cover ? 1 : 0) || a.sort_order - b.sort_order);
+  const coverImage = images[0]?.image_url || ogImageUrl(title, 'listing');
+
+  return {
+    title,
+    description,
+    ...(hasBrand ? {} : { robots: { index: false, follow: true } }),
+    alternates: baseAlternates,
+    openGraph: {
+      title, description, type: 'website', locale, url: pageUrl,
+      siteName: 'Chalkidiki Hub',
+      images: [{ url: coverImage, width: 1200, height: 630, alt: `${name}${place ? ` — ${place}` : ''}` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title, description, images: [coverImage],
+    },
+  };
+}
 
 export default async function StayRoute({ params }: Props) {
   const { locale, slug } = await params;

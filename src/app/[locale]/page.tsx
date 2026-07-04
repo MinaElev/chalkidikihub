@@ -8,7 +8,8 @@ import { HomeFeaturedListings } from '@/components/layout/HomeFeaturedListings';
 import { HeroSearchBox } from '@/components/layout/HeroSearchBox';
 import { HeroBackground } from '@/components/layout/HeroBackground';
 import { MapPin, Home, Star, QrCode, Shield, Globe, Award, Smartphone, Sparkles, BookOpen, HelpCircle, Compass, ChevronRight } from 'lucide-react';
-import { localeUrl } from '@/lib/seo';
+import { localeUrl, generateItemListLD } from '@/lib/seo';
+import { JsonLd } from '@/components/ui/JsonLd';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -83,6 +84,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// ── Homepage FAQPage + ItemList JSON-LD ──────────────────────────────
+// Organization + WebSite JSON-LD already ship once from [locale]/layout.tsx.
+// Here we add two page-scoped graphs Google/LLMs quote directly:
+//  • ItemList of the four Halkidiki "legs" (helps sitelinks + AI area answers)
+//  • FAQPage answering the highest-intent planning questions (rich results +
+//    the exact snippets ChatGPT/Perplexity pull for "which part of Halkidiki…").
+// Static (homepage is force-static) — el/en only, other locales fall back to en.
+const HOME_AREAS: Array<{ slug: string; name: Record<string, string> }> = [
+  { slug: 'kassandra', name: { el: 'Κασσάνδρα', en: 'Kassandra' } },
+  { slug: 'sithonia', name: { el: 'Σιθωνία', en: 'Sithonia' } },
+  { slug: 'athos', name: { el: 'Άθως / Ουρανούπολη', en: 'Athos / Ouranoupoli' } },
+  { slug: 'mainland', name: { el: 'Ηπειρωτική Χαλκιδική', en: 'Mainland Halkidiki' } },
+];
+
+const HOME_FAQS: Record<string, Array<{ q: string; a: string }>> = {
+  el: [
+    { q: 'Ποιο «πόδι» της Χαλκιδικής να επιλέξω;', a: 'Η Κασσάνδρα (1ο πόδι) είναι πιο κοσμική και οργανωμένη με πολλά beach bars και ζωντάνια. Η Σιθωνία (2ο πόδι) είναι πιο άγρια και φυσική με εξωτικές παραλίες. Το 3ο πόδι (Άθως) φιλοξενεί το μοναστικό κράτος και την Ουρανούπολη.' },
+    { q: 'Πότε είναι η καλύτερη εποχή για διακοπές στη Χαλκιδική;', a: 'Ιούνιος και Σεπτέμβριος προσφέρουν ζεστή θάλασσα, λιγότερο κόσμο και καλύτερες τιμές. Ιούλιος–Αύγουστος είναι η αιχμή με τη μεγαλύτερη ζωντάνια αλλά και πλήθος.' },
+    { q: 'Πώς φτάνω στη Χαλκιδική;', a: 'Το πλησιέστερο αεροδρόμιο είναι της Θεσσαλονίκης (SKG), 1–2 ώρες οδικώς από τα περισσότερα θέρετρα. Το ενοικιαζόμενο αυτοκίνητο είναι ο πιο βολικός τρόπος μετακίνησης.' },
+    { q: 'Χρειάζομαι αυτοκίνητο στη Χαλκιδική;', a: 'Συνιστάται ιδιαίτερα. Οι παραλίες, τα χωριά και τα εστιατόρια είναι διάσπαρτα και τα ΜΜΜ περιορισμένα, οπότε το αυτοκίνητο δίνει ελευθερία εξερεύνησης.' },
+  ],
+  en: [
+    { q: 'Which "leg" of Halkidiki should I choose?', a: 'Kassandra (1st leg) is livelier and more developed, with plenty of beach bars and nightlife. Sithonia (2nd leg) is wilder and more natural, with exotic beaches. The 3rd leg (Athos) holds the monastic state and the town of Ouranoupoli.' },
+    { q: 'When is the best time to visit Halkidiki?', a: 'June and September offer warm sea, thinner crowds and better prices. July–August is peak season — the busiest and most vibrant, but also the most crowded.' },
+    { q: 'How do I get to Halkidiki?', a: 'The nearest airport is Thessaloniki (SKG), 1–2 hours by road from most resorts. Renting a car is the most convenient way to get around.' },
+    { q: 'Do I need a car in Halkidiki?', a: 'Highly recommended. Beaches, villages and tavernas are spread out and public transport is limited, so a car gives you the freedom to explore.' },
+  ],
+};
+
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -90,9 +120,26 @@ export default async function HomePage({ params }: Props) {
   // Organization + WebSite JSON-LD is emitted once in [locale]/layout.tsx via
   // generateSiteGraph (single @graph block). Emitting standalone copies here
   // produced duplicate schemas + advertised hidden languages to crawlers.
+  const areaListName = locale === 'el' ? 'Περιοχές της Χαλκιδικής' : 'Areas of Halkidiki';
+  const areaItems = HOME_AREAS.map(a => ({
+    name: a.name[locale] || a.name.en,
+    url: localeUrl(locale, `areas/${a.slug}`),
+  }));
+  const faqs = HOME_FAQS[locale] || HOME_FAQS.en;
+  const faqLD = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
 
   return (
     <>
+      <JsonLd data={generateItemListLD(areaListName, areaItems) as Record<string, unknown>} />
+      <JsonLd data={faqLD} />
       <HeroSection />
       <TrustStrip />
       <FeaturedAreas locale={locale} />
