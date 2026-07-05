@@ -94,6 +94,29 @@ export function nearestByDistance<T extends GeoRow>(
     .slice(0, limit);
 }
 
+export type NearbyVillage = { slug: string; name: string; km: number };
+
+/**
+ * Nearest villages on the same leg, for hub-and-spoke internal linking at the
+ * bottom of each village content page. Same-area only (cross-leg villages are
+ * far and irrelevant), ranked by real distance, excluding the current village.
+ */
+export async function getNearbyVillages(
+  slug: string, area: string, lat: number | null, lng: number | null, locale: string, limit = 4,
+): Promise<NearbyVillage[]> {
+  if (lat == null || lng == null || !area) return [];
+  const supabase = createApiClient();
+  const { data } = await supabase.from('villages')
+    .select('slug, latitude, longitude, name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr')
+    .eq('area', area);
+  const rows = ((data || []) as GeoRow[]).filter((v) => v.slug !== slug);
+  return nearestByDistance(lat, lng, rows, limit).map((r) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    slug: r.slug, name: (r as any)[`name_${locale}`] || (r as any).name_el || (r as any).name_en || r.slug,
+    km: r.distanceKm,
+  }));
+}
+
 async function fetchContext(slug: string, locale: string, contentType: ContentType) {
   const supabase = createApiClient();
   const { data: villageData } = await supabase.from('villages')

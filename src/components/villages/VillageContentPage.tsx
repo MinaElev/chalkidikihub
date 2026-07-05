@@ -1,10 +1,18 @@
 import { Link } from '@/i18n/navigation';
-import { Waves, UtensilsCrossed, Landmark, ChevronRight, MapPin } from 'lucide-react';
+import { Waves, UtensilsCrossed, Landmark, ChevronRight, MapPin, ArrowRight } from 'lucide-react';
 import { BeachCard } from '@/components/listings/BeachCard';
 import { RestaurantCard } from '@/components/listings/RestaurantCard';
 import { ActivityCard } from '@/components/listings/ActivityCard';
-import { formatKm } from '@/app/[locale]/places/[slug]/meta-helper';
+import { formatKm, type NearbyVillage } from '@/app/[locale]/places/[slug]/meta-helper';
 import type { Beach, Restaurant, Activity } from '@/types';
+
+// Localized leg names for the "all X in [leg]" hub link.
+const AREA_LABELS: Record<string, Record<string, string>> = {
+  kassandra: { el: 'Κασσάνδρα', en: 'Kassandra' },
+  sithonia: { el: 'Σιθωνία', en: 'Sithonia' },
+  athos: { el: 'Άθως', en: 'Athos' },
+  mainland: { el: 'Ηπειρωτική Χαλκιδική', en: 'Mainland Halkidiki' },
+};
 
 interface VillageRef {
   slug: string;
@@ -32,15 +40,18 @@ interface VillageContentPageProps {
   intro?: string;
   /** slug → distance in km from the village, for the per-card badge. */
   distances?: Record<string, number>;
+  /** Nearest villages on the same leg — hub-and-spoke internal links. */
+  nearbyVillages?: NearbyVillage[];
 }
 
-export function VillageContentPage({ locale, village, contentType, items, heading, intro, distances }: VillageContentPageProps) {
+export function VillageContentPage({ locale, village, contentType, items, heading, intro, distances, nearbyVillages }: VillageContentPageProps) {
   const config = TYPE_CONFIG[contentType];
   const villageName = village.name[locale] || village.name.el || village.name.en;
   const label = locale === 'el' ? config.labelEl : config.labelEn;
   const Icon = config.icon;
   const h1 = heading || `${label} ${locale === 'el' ? 'κοντά στο' : 'near'} ${villageName}`;
   const awayWord = locale === 'el' ? 'από το' : locale === 'de' ? 'von' : 'from';
+  const areaLabel = AREA_LABELS[village.area]?.[locale] || AREA_LABELS[village.area]?.en || village.area;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -89,6 +100,40 @@ export function VillageContentPage({ locale, village, contentType, items, headin
           {locale === 'el' ? 'Δεν βρέθηκαν αποτελέσματα' : 'No results found'}
         </div>
       )}
+
+      {/* Hub-and-spoke internal links: nearest villages on the same leg + the
+          area-wide index. Spreads crawl/link equity across the village cluster. */}
+      {(nearbyVillages?.length || village.area) ? (
+        <section className="mt-12 pt-8 border-t border-gray-200">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
+            {locale === 'el' ? `${label} σε κοντινά χωριά` : `${label} in nearby villages`}
+          </h2>
+          {nearbyVillages && nearbyVillages.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+              {nearbyVillages.map((nv) => (
+                <Link
+                  key={nv.slug}
+                  href={`/places/${nv.slug}/${contentType}`}
+                  className="flex items-center justify-between gap-2 p-3 bg-white border border-gray-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition-colors group"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-gray-900 group-hover:text-primary-700 truncate">{nv.name}</span>
+                    <span className="block text-xs text-gray-500">{formatKm(nv.km, locale)} {awayWord} {villageName}</span>
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary-500 shrink-0" />
+                </Link>
+              ))}
+            </div>
+          )}
+          <Link
+            href={`/${contentType}/area/${village.area}`}
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:underline"
+          >
+            {locale === 'el' ? `Δες όλες τις ${label.toLowerCase()} στην ${areaLabel}` : `See all ${label.toLowerCase()} in ${areaLabel}`}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </section>
+      ) : null}
 
       {/* Back link */}
       <div className="mt-8 pt-6 border-t border-gray-200">

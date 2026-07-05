@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getVillageContentMeta, getVillageContext, nearestByDistance } from '../meta-helper';
+import { getVillageContentMeta, getVillageContext, nearestByDistance, getNearbyVillages } from '../meta-helper';
 import { VillageContentPage } from '@/components/villages/VillageContentPage';
 import { createApiClient } from '@/lib/api-helpers';
 import { transformRestaurant } from '@/lib/data';
@@ -55,11 +55,13 @@ export default async function VillageRestaurantsPage({ params }: Props) {
   for (const r of ranked) distances[r.slug] = r.distanceKm;
 
   const { heading, intro } = await getVillageContext(slug, locale, 'restaurants');
+  const nearbyVillages = await getNearbyVillages(slug, village.area, vr.latitude, vr.longitude, locale);
 
   return (
     <VillageContentPage
       locale={locale} village={village} contentType="restaurants"
       items={items} heading={heading} intro={intro} distances={distances}
+      nearbyVillages={nearbyVillages}
     />
   );
 }
