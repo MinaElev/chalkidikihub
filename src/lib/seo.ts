@@ -494,6 +494,28 @@ function buildSmartDescription(table: string, name: string, row: any, locale: st
 
 // JSON-LD generators
 
+/**
+ * Map stored reviews to Schema.org Review nodes for an entity's `review` array.
+ * Enables review rich snippets (Restaurant/Activity) and gives LLM crawlers
+ * quotable UGC. Handles both the transformed `comment` locale-map and the raw
+ * `comment_el` column. Capped at 5 to keep the payload lean.
+ */
+function mapReviewsLD(reviews: unknown, locale: string): object[] {
+  if (!Array.isArray(reviews)) return [];
+  return reviews.slice(0, 5).map((raw) => {
+    const r = raw as Record<string, unknown>;
+    const commentMap = r.comment as Record<string, string> | undefined;
+    const body = commentMap?.[locale] || commentMap?.el || commentMap?.en || (r.comment_el as string) || '';
+    return {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: (r.author_name as string) || 'Guest' },
+      reviewRating: { '@type': 'Rating', ratingValue: Number(r.rating) || 0, bestRating: 5, worstRating: 1 },
+      ...(body ? { reviewBody: body } : {}),
+      ...(r.created_at ? { datePublished: String(r.created_at).slice(0, 10) } : {}),
+    };
+  });
+}
+
 /** Generate a BreadcrumbList JSON-LD schema for detail pages */
 export function generateBreadcrumbLD(items: { name: string; url: string }[]): object {
   return {
@@ -623,6 +645,7 @@ export function generateRestaurantLD(restaurant: Record<string, unknown>, locale
           },
         }
       : {}),
+    ...(() => { const rv = mapReviewsLD(restaurant.reviews, locale); return rv.length ? { review: rv } : {}; })(),
     url: localeUrl(locale, `restaurants/${restaurant.slug}`),
   };
 }
@@ -671,7 +694,9 @@ export function generateBeachLD(beach: Record<string, unknown>, locale: string) 
     },
     ...(amenityFeature.length > 0 ? { amenityFeature } : {}),
     ...(beach.image_url ? { image: beach.image_url } : {}),
-    // Note: aggregateRating omitted — Google doesn't support review snippets for Beach type
+    // aggregateRating omitted — Google doesn't support review snippets for Beach
+    // type — but individual Review nodes still give LLM crawlers quotable UGC.
+    ...(() => { const rv = mapReviewsLD(beach.reviews, locale); return rv.length ? { review: rv } : {}; })(),
     url: localeUrl(locale, `beaches/${beach.slug}`),
   };
 }
@@ -850,6 +875,7 @@ export function generateActivityLD(activity: Record<string, unknown>, locale: st
           },
         }
       : {}),
+    ...(() => { const rv = mapReviewsLD(activity.reviews, locale); return rv.length ? { review: rv } : {}; })(),
     url: localeUrl(locale, `activities/${activity.slug}`),
   };
 }

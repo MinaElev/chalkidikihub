@@ -5,8 +5,16 @@ const VALID_TYPES = ['beach', 'restaurant', 'activity'];
 
 export async function POST(request: NextRequest) {
   try {
-    const { type, itemId, rating, comment, authorName } = await request.json();
+    const { type, itemId, rating, comment, authorName, website } = await request.json();
     if (!type || !itemId || !rating) return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+
+    // Honeypot: the hidden `website` field is invisible to humans. If it's
+    // filled, a bot submitted the form — return a fake success (so the bot
+    // moves on) without persisting anything. Guests can review without login,
+    // so this is the first line of defence alongside moderation (status:pending).
+    if (typeof website === 'string' && website.trim().length > 0) {
+      return NextResponse.json({ success: true }, { status: 201 });
+    }
 
     // Input validation
     if (!VALID_TYPES.includes(type)) return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
