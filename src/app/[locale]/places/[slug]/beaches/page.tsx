@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getVillageContentMeta, getVillageContext } from '../meta-helper';
+import { getVillageContentMeta, getVillageContext, nearestByDistance } from '../meta-helper';
 import { VillageContentPage } from '@/components/villages/VillageContentPage';
 import { createApiClient } from '@/lib/api-helpers';
 import { transformBeach } from '@/lib/data';
@@ -28,7 +28,7 @@ export default async function VillageBeachesPage({ params }: Props) {
 
   const supabase = createApiClient();
   const { data: villageRow } = await supabase.from('villages')
-    .select('slug, area, name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr')
+    .select('slug, area, latitude, longitude, name_el, name_en, name_de, name_bg, name_ru, name_ro, name_sr')
     .eq('slug', slug).single();
   if (!villageRow) notFound();
 
@@ -43,19 +43,24 @@ export default async function VillageBeachesPage({ params }: Props) {
   const { data: beachRows } = await supabase.from('beaches')
     .select('*, beach_reviews(*)')
     .eq('area', village.area)
-    .order('rating', { ascending: false })
-    .limit(30);
-  const items = (beachRows || []).map(transformBeach) as unknown as Beach[];
+    .limit(200);
+  const allItems = (beachRows || []).map(transformBeach) as unknown as Beach[];
 
-  const { heading, description } = await getVillageContext(slug, locale, 'beaches');
+  // Rank by real distance from the village (not area-wide rating), so this
+  // page is genuinely distinct from every other village on the same leg.
+  const ranked = vr.latitude != null && vr.longitude != null
+    ? nearestByDistance(vr.latitude, vr.longitude, allItems)
+    : allItems.slice(0, 12).map((i) => ({ ...i, distanceKm: 0 }));
+  const items = ranked as unknown as Beach[];
+  const distances: Record<string, number> = {};
+  for (const r of ranked) distances[r.slug] = r.distanceKm;
+
+  const { heading, intro } = await getVillageContext(slug, locale, 'beaches');
 
   return (
-    <>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{heading}</h1>
-        <p className="text-gray-600 mb-6">{description}</p>
-      </div>
-      <VillageContentPage locale={locale} village={village} contentType="beaches" items={items} />
-    </>
+    <VillageContentPage
+      locale={locale} village={village} contentType="beaches"
+      items={items} heading={heading} intro={intro} distances={distances}
+    />
   );
 }

@@ -1,8 +1,9 @@
 import { Link } from '@/i18n/navigation';
-import { Waves, UtensilsCrossed, Landmark, ChevronRight } from 'lucide-react';
+import { Waves, UtensilsCrossed, Landmark, ChevronRight, MapPin } from 'lucide-react';
 import { BeachCard } from '@/components/listings/BeachCard';
 import { RestaurantCard } from '@/components/listings/RestaurantCard';
 import { ActivityCard } from '@/components/listings/ActivityCard';
+import { formatKm } from '@/app/[locale]/places/[slug]/meta-helper';
 import type { Beach, Restaurant, Activity } from '@/types';
 
 interface VillageRef {
@@ -25,13 +26,21 @@ interface VillageContentPageProps {
   village: VillageRef;
   contentType: ContentType;
   items: Item[];
+  /** H1 text (unique per village, built server-side). Falls back to a label. */
+  heading?: string;
+  /** Unique, distance-aware intro paragraph. */
+  intro?: string;
+  /** slug → distance in km from the village, for the per-card badge. */
+  distances?: Record<string, number>;
 }
 
-export function VillageContentPage({ locale, village, contentType, items }: VillageContentPageProps) {
+export function VillageContentPage({ locale, village, contentType, items, heading, intro, distances }: VillageContentPageProps) {
   const config = TYPE_CONFIG[contentType];
   const villageName = village.name[locale] || village.name.el || village.name.en;
   const label = locale === 'el' ? config.labelEl : config.labelEn;
   const Icon = config.icon;
+  const h1 = heading || `${label} ${locale === 'el' ? 'κοντά στο' : 'near'} ${villageName}`;
+  const awayWord = locale === 'el' ? 'από το' : locale === 'de' ? 'von' : 'from';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -44,21 +53,35 @@ export function VillageContentPage({ locale, village, contentType, items }: Vill
         <span className="text-gray-900 font-medium">{label}</span>
       </nav>
 
-      <div className="flex items-center gap-3 mb-2">
+      {/* Single H1 for the page */}
+      <div className="flex items-center gap-3 mb-3">
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${config.color}`}>
           <Icon className="w-5 h-5" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">{label} {locale === 'el' ? 'κοντά στο' : 'near'} {villageName}</h1>
+        <h1 className="text-3xl font-bold text-gray-900">{h1}</h1>
       </div>
-      <p className="text-gray-500 mb-8">{items.length} {locale === 'el' ? 'αποτελέσματα' : 'results'}</p>
+
+      {/* Unique, distance-aware intro */}
+      {intro && <p className="text-gray-600 leading-relaxed max-w-3xl mb-8">{intro}</p>}
 
       {items.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item) => {
-            if (contentType === 'beaches') return <BeachCard key={item.id} beach={item as Beach} />;
-            if (contentType === 'restaurants') return <RestaurantCard key={item.id} restaurant={item as Restaurant} />;
-            if (contentType === 'activities') return <ActivityCard key={item.id} activity={item as Activity} />;
-            return null;
+            const km = distances?.[item.slug];
+            const badge = typeof km === 'number' && km > 0 ? (
+              <p className="flex items-center gap-1 text-xs font-medium text-primary-600 mb-1.5">
+                <MapPin className="w-3.5 h-3.5" />
+                {formatKm(km, locale)} {awayWord} {villageName}
+              </p>
+            ) : null;
+            return (
+              <div key={item.id}>
+                {badge}
+                {contentType === 'beaches' && <BeachCard beach={item as Beach} />}
+                {contentType === 'restaurants' && <RestaurantCard restaurant={item as Restaurant} />}
+                {contentType === 'activities' && <ActivityCard activity={item as Activity} />}
+              </div>
+            );
           })}
         </div>
       ) : (
@@ -74,13 +97,13 @@ export function VillageContentPage({ locale, village, contentType, items }: Vill
         </Link>
       </div>
 
-      {/* JSON-LD */}
+      {/* JSON-LD — ItemList in real (nearest-first) order, with distance in the name. */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'ItemList',
         name: `${label} near ${villageName}, Halkidiki`,
         numberOfItems: items.length,
-        itemListElement: items.slice(0, 10).map((item, i: number) => ({
+        itemListElement: items.slice(0, 12).map((item, i: number) => ({
           '@type': 'ListItem',
           position: i + 1,
           item: { '@type': 'Thing', name: item.name?.[locale] || item.name?.el || '' },
