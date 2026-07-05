@@ -9,6 +9,7 @@ import { DetailSkeleton } from '@/components/ui/Skeleton';
 import { generateBeachFaqs } from '@/lib/faq-generators';
 import { FaqSection } from '@/components/ui/FaqSection';
 import { BeachFeatureBadge } from './BeachFeatureBadge';
+import { BeachQuickFacts } from './BeachQuickFacts';
 import { BeachReviews } from './BeachReviews';
 import { CrowdIndicator } from './CrowdIndicator';
 import { SeaTemperatureCard } from './SeaTemperatureCard';
@@ -159,6 +160,9 @@ export function DynamicBeachDetail({ slug, initialData }: { slug: string; initia
           {beach.latitude != null && beach.longitude != null && beach.latitude !== 0 && (
             <SeaTemperatureCard lat={beach.latitude} lon={beach.longitude} />
           )}
+
+          {/* Scannable facts box — featured-snippet & LLM friendly */}
+          <BeachQuickFacts beach={beach} />
 
           {/* Description with in-article CTA */}
           <div className="mt-6 space-y-4">

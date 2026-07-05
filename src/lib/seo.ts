@@ -627,9 +627,31 @@ export function generateRestaurantLD(restaurant: Record<string, unknown>, locale
   };
 }
 
+// Beach feature flag → human-readable amenity name for the schema's
+// amenityFeature. Lets AI crawlers extract structured attributes (sandy,
+// organized, parking…) without parsing prose.
+const BEACH_AMENITY_NAMES: Record<string, string> = {
+  sandy: 'Sandy beach',
+  pebble: 'Pebble beach',
+  organized: 'Organized (sunbeds & umbrellas)',
+  free: 'Free / unorganized access',
+  sunbeds: 'Sunbeds & umbrellas',
+  beachBar: 'Beach bar',
+  waterSports: 'Water sports',
+  shallowWater: 'Shallow water',
+  parking: 'Parking',
+  lifeguard: 'Lifeguard',
+  accessible: 'Wheelchair accessible',
+  nudist: 'Naturist area',
+};
+
 export function generateBeachLD(beach: Record<string, unknown>, locale: string) {
   const name = (beach.name as Record<string, string>)?.[locale] || (beach.name as Record<string, string>)?.el || '';
   const description = (beach.description as Record<string, string>)?.[locale] || '';
+  const features = (beach.features as string[]) || [];
+  const amenityFeature = features
+    .filter((f) => BEACH_AMENITY_NAMES[f])
+    .map((f) => ({ '@type': 'LocationFeatureSpecification', name: BEACH_AMENITY_NAMES[f], value: true }));
 
   return {
     '@context': 'https://schema.org',
@@ -647,6 +669,7 @@ export function generateBeachLD(beach: Record<string, unknown>, locale: string) 
       latitude: beach.latitude,
       longitude: beach.longitude,
     },
+    ...(amenityFeature.length > 0 ? { amenityFeature } : {}),
     ...(beach.image_url ? { image: beach.image_url } : {}),
     // Note: aggregateRating omitted — Google doesn't support review snippets for Beach type
     url: localeUrl(locale, `beaches/${beach.slug}`),

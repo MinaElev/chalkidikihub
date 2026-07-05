@@ -70,6 +70,24 @@ const t = {
       ro: () => `Există parcare lângă plajă?`,
       sr: () => `Da li postoji parking blizu plaže?`,
     },
+    hasBeachBar: {
+      el: (name: string) => `Έχει beach bar η ${name};`,
+      en: (name: string) => `Does ${name} have a beach bar?`,
+      de: (name: string) => `Hat ${name} eine Strandbar?`,
+      bg: (name: string) => `Има ли ${name} плажен бар?`,
+      ru: (name: string) => `Есть ли на ${name} пляжный бар?`,
+      ro: (name: string) => `Are ${name} un beach bar?`,
+      sr: (name: string) => `Da li ${name} ima beach bar?`,
+    },
+    hasWaterSports: {
+      el: (name: string) => `Υπάρχουν θαλάσσια σπορ στην ${name};`,
+      en: (name: string) => `Are there water sports at ${name}?`,
+      de: (name: string) => `Gibt es Wassersport am ${name}?`,
+      bg: (name: string) => `Има ли водни спортове на ${name}?`,
+      ru: (name: string) => `Есть ли водные виды спорта на ${name}?`,
+      ro: (name: string) => `Există sporturi nautice la ${name}?`,
+      sr: (name: string) => `Da li ${name} ima vodene sportove?`,
+    },
     rating: {
       el: (name: string) => `Τι βαθμολογία έχει η παραλία ${name};`,
       en: (name: string) => `What is the rating of ${name} beach?`,
@@ -333,7 +351,23 @@ export function generateBeachFaqs(
     faqs.push({ question: loc(t.beach.hasParking, locale, name), answer });
   }
 
-  // 6. Rating
+  // 6. Beach bar
+  if (features.includes('beachBar')) {
+    const answer = locale === 'el'
+      ? `Ναι, η ${name} διαθέτει beach bar για ποτά, καφέ και σνακ.`
+      : `Yes, ${name} has a beach bar serving drinks, coffee and snacks.`;
+    faqs.push({ question: loc(t.beach.hasBeachBar, locale, name), answer });
+  }
+
+  // 7. Water sports
+  if (features.includes('waterSports')) {
+    const answer = locale === 'el'
+      ? `Ναι, στην ${name} υπάρχουν θαλάσσια σπορ (π.χ. SUP, καγιάκ, jet ski, θαλάσσιο ποδήλατο), ανάλογα με την εποχή.`
+      : `Yes, ${name} offers water sports (e.g. SUP, kayak, jet ski, pedal boats), depending on the season.`;
+    faqs.push({ question: loc(t.beach.hasWaterSports, locale, name), answer });
+  }
+
+  // 8. Rating
   if (rating && rating > 0) {
     const answer = locale === 'el'
       ? `Η παραλία ${name} έχει βαθμολογία ${rating}/5${reviewsCount ? ` βασισμένη σε ${reviewsCount} κριτικές` : ''}.`
