@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Users, List, MapPin, Waves, UtensilsCrossed,
   Landmark, Wrench, FileText, Settings, Home, LogOut, Loader2, Shield,
   ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail,
-  Sparkles, Star, Building, Tag, Languages, ShieldCheck, Church, Link2, QrCode, Wand2, Bell,
+  Sparkles, Star, Building, Tag, Languages, ShieldCheck, Church, Link2, QrCode, Wand2, Bell, Zap,
 } from 'lucide-react';
 
 const navSections = [
@@ -59,6 +59,7 @@ const navSections = [
       { href: '/admin/submissions', icon: ClipboardList, label: 'Submissions' },
       { href: '/admin/messages', icon: MessageSquare, label: 'Messages' },
       { href: '/admin/availability-requests', icon: Bell, label: 'Availability Requests' },
+      { href: '/admin/last-minute', icon: Zap, label: 'Last-Minute Deals' },
       { href: '/admin/email', icon: Mail, label: 'Mass Email' },
       { href: '/admin/qr-email', icon: QrCode, label: 'QR Email' },
     ],
@@ -99,13 +100,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       if (data?.role !== 'superadmin') { router.push('/dashboard'); return; }
       setRole(data.role);
       // Fetch badge counts
-      const [subRes, msgRes, revBeach, revRest, revAct, availRes] = await Promise.all([
+      const todayStr = new Date().toISOString().slice(0, 10);
+      const [subRes, msgRes, revBeach, revRest, revAct, availRes, lmdRes] = await Promise.all([
         supabase.from('user_submissions').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
         supabase.from('contact_messages').select('subject').eq('read', false),
         supabase.from('beach_reviews').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
         supabase.from('restaurant_reviews').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
         supabase.from('activity_reviews').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
         supabase.from('availability_requests').select('*', { count: 'exact', head: true }).eq('status', 'active'),
+        supabase.from('last_minute_deals').select('*', { count: 'exact', head: true }).eq('status', 'active').gte('end_date', todayStr),
       ]);
       const unreadMsgs = (msgRes.data || []).filter(m => !m.subject?.startsWith('Αίτημα διαθεσιμότητας')).length;
       const pendingReviews = (revBeach.count || 0) + (revRest.count || 0) + (revAct.count || 0);
@@ -114,6 +117,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         '/admin/messages': unreadMsgs || 0,
         '/admin/reviews': pendingReviews,
         '/admin/availability-requests': availRes.count || 0,
+        '/admin/last-minute': lmdRes.count || 0,
       });
       setLoading(false);
     });
