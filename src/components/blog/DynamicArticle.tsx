@@ -15,6 +15,7 @@ import { ShareButtons } from '@/components/ui/ShareButtons';
 import { CommentSection } from './CommentSection';
 import { AuthorBio } from './AuthorBio';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { getAuthor, authorUrl } from '@/lib/authors';
 import Image from 'next/image';
 
 export function DynamicArticle({ slug, initialData }: { slug: string; initialData?: BlogArticle | null }) {
@@ -138,7 +139,7 @@ export function DynamicArticle({ slug, initialData }: { slug: string; initialDat
           </div>
 
           <div className="flex flex-wrap items-center gap-4 mt-4 text-sm text-gray-500">
-            <div className="flex items-center gap-1.5"><User className="w-4 h-4" /><span>{article.author}</span></div>
+            <div className="flex items-center gap-1.5"><User className="w-4 h-4" /><Link href={authorUrl(getAuthor(article.author).username)} className="hover:text-primary-600 hover:underline">{getAuthor(article.author).name}</Link></div>
             <div className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /><span>{new Date(article.published_at).toLocaleDateString(locale)}</span></div>
             <div className="flex items-center gap-1.5"><Clock className="w-4 h-4" /><span>{t('readTime', { min: article.read_time_min })}</span></div>
           </div>
@@ -227,7 +228,7 @@ export function DynamicArticle({ slug, initialData }: { slug: string; initialDat
             )}
           </article>
 
-          <AuthorBio publishedAt={article.published_at} updatedAt={article.updated_at} />
+          <AuthorBio authorUsername={article.author} publishedAt={article.published_at} updatedAt={article.updated_at} />
 
           <CommentSection articleId={article.id} articleSlug={article.slug} />
 

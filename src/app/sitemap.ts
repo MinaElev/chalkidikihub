@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { publicLocales, defaultLocale } from '@/i18n/config';
 import { createApiClient } from '@/lib/api-helpers';
 import { AREAS } from '@/lib/constants';
+import { AUTHOR_LIST } from '@/lib/authors';
 import { LOCATIONS, CATEGORIES } from '@/app/[locale]/in/[location]/[category]/location-data';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -402,6 +403,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ── Cost guide pages ──
   for (const t of ['daily-budget', 'food-prices', 'accommodation-prices', 'car-rental-prices', 'family-budget']) {
     entries.push(...forLocales(`/costs/${t}`, { freq: 'monthly', priority: 0.8 }));
+  }
+
+  // ── Author profiles (E-E-A-T) ──
+  entries.push(...forLocales('/authors', { freq: 'monthly', priority: 0.5 }));
+  for (const author of AUTHOR_LIST) {
+    entries.push(...forLocales(`/authors/${author.username}`, { freq: 'weekly', priority: 0.6 }));
   }
 
   return entries;

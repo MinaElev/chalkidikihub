@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { createApiClient, toLocaleMap } from './api-helpers';
 import { publicLocales } from '@/i18n/config';
 import { isThinContent } from './content-quality';
+import { getAuthor, authorUrl } from './authors';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 // hreflang alternates ship only the public locales — hidden locales still
@@ -709,7 +710,7 @@ export function generateArticleLD(article: Record<string, unknown>, locale: stri
   // and it's a strong E-E-A-T quality indicator vs thin auto-generated stubs.
   const wordCount = content ? content.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length : undefined;
   const tags = (article.tags as string[]) || [];
-  const authorName = (article.author as string) || 'ChalkidikihubWriterTeam';
+  const author = getAuthor(article.author as string | undefined);
 
   return {
     '@context': 'https://schema.org',
@@ -717,13 +718,16 @@ export function generateArticleLD(article: Record<string, unknown>, locale: stri
     headline: title,
     description,
     inLanguage: locale,
-    // OrganizationRole reflects team byline (vs Person for solo authors).
-    // Google accepts both for E-E-A-T as long as it's consistent and the
-    // about page documents the team.
+    // Named Person author with a resolvable profile URL + jobTitle + knowsAbout
+    // — the concrete E-E-A-T authorship signal Google looks for on YMYL-adjacent
+    // travel content.
     author: {
-      '@type': 'Organization',
-      name: authorName,
-      url: localeUrl(locale, 'about'),
+      '@type': 'Person',
+      name: author.name,
+      url: localeUrl(locale, authorUrl(author.username).replace(/^\//, '')),
+      jobTitle: author.role[locale] || author.role.en,
+      knowsAbout: author.knowsAbout,
+      worksFor: { '@id': `${SITE_URL}/#organization` },
     },
     publisher: {
       '@type': 'Organization',
