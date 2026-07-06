@@ -8,6 +8,7 @@ import { localeUrl, generateTemplatedArticleLD } from '@/lib/seo';
 import { isThinContent } from '@/lib/content-quality';
 import { createApiClient } from '@/lib/api-helpers';
 import { FaqSection } from '@/components/ui/FaqSection';
+import { ComparisonTable } from '@/components/ui/ComparisonTable';
 import { generateGuideFaqs } from '@/lib/faq-generators';
 
 export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
@@ -107,6 +108,10 @@ export default async function GuidePage({ params }: Props) {
       </nav>
 
       <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">{title}</h1>
+
+      {/* Comparison table (only on "X vs Y" guides) — featured-snippet & LLM
+          answer bait, placed above the prose so it's the first thing lifted. */}
+      <ComparisonTable slug={slug} locale={locale} />
 
       <div className="prose prose-gray max-w-none prose-headings:text-gray-900 prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-lg prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:text-gray-900 prose-ul:my-3 prose-blockquote:border-primary-500 prose-blockquote:text-gray-600"
         dangerouslySetInnerHTML={{ __html: content }} />

@@ -141,6 +141,8 @@ export function generateTemplatedArticleLD(opts: {
     description: opts.description,
     articleSection: opts.section,
     inLanguage: opts.locale,
+    // Speakable — the headline + intro paragraph a voice/AI assistant reads aloud.
+    speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', '.prose p'] },
     ...(wordCount ? { wordCount } : {}),
     ...(opts.imageUrl ? { image: [opts.imageUrl] } : {}),
     datePublished: opts.datePublished || '2025-06-01',
@@ -718,6 +720,8 @@ export function generateArticleLD(article: Record<string, unknown>, locale: stri
     headline: title,
     description,
     inLanguage: locale,
+    // Speakable — headline + article body intro for voice/AI read-aloud.
+    speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', '.prose p'] },
     // Named Person author with a resolvable profile URL + jobTitle + knowsAbout
     // — the concrete E-E-A-T authorship signal Google looks for on YMYL-adjacent
     // travel content.
