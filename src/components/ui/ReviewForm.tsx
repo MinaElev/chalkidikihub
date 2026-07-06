@@ -79,7 +79,7 @@ export function ReviewForm({ type, itemId, itemName }: Props) {
   }
 
   return (
-    <div className="mt-6">
+    <div id="review-form" className="mt-6 scroll-mt-24">
       <h3 className="text-lg font-semibold text-gray-900 mb-3">{t(T.heading)}</h3>
       <form onSubmit={handleSubmit} className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
         {/* Honeypot — bots fill this; humans never see it */}

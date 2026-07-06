@@ -9,7 +9,7 @@ import { BeachCard } from '@/components/listings/BeachCard';
 import { RestaurantCard } from '@/components/listings/RestaurantCard';
 import { ActivityCard } from '@/components/listings/ActivityCard';
 import { LocationMap } from '@/components/ui/LocationMap';
-import { MapPin, Waves, UtensilsCrossed, Landmark, Phone, Shield, Heart, Flame, Car, Loader2 } from 'lucide-react';
+import { MapPin, Waves, UtensilsCrossed, Landmark, Phone, Shield, Heart, Flame, Car, Loader2, Star } from 'lucide-react';
 import { logEvent } from '@/lib/logger';
 import Image from 'next/image';
 
@@ -102,6 +102,23 @@ export default function GuestPage() {
       </div>
 
       <div className="max-w-lg mx-auto px-4 py-6 space-y-8">
+        {/* Review nudge — turns concierge traffic (guests on-site) into UGC.
+            Tapping any beach/taverna below opens its page, which now has an
+            open guest review form (no login). */}
+        {(beaches.length > 0 || restaurants.length > 0) && (
+          <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4 flex items-start gap-3">
+            <Star className="w-6 h-6 text-amber-500 fill-amber-500 shrink-0 mt-0.5" />
+            <div>
+              <h2 className="text-sm font-bold text-amber-900">
+                {locale === 'el' ? 'Απόλαυσες μια παραλία ή ταβέρνα;' : locale === 'de' ? 'Einen Strand oder eine Taverne genossen?' : locale === 'bg' ? 'Хареса ли ти плаж или таверна?' : locale === 'ru' ? 'Понравился пляж или таверна?' : locale === 'ro' ? 'Ți-a plăcut o plajă sau o tavernă?' : locale === 'sr' ? 'Uživali ste na plaži ili u taverni?' : 'Enjoyed a beach or taverna?'}
+              </h2>
+              <p className="text-xs text-amber-800 mt-1">
+                {locale === 'el' ? 'Πάτησε σε ένα μέρος παρακάτω και άφησε μια γρήγορη κριτική — βοηθάς άλλους ταξιδιώτες. Χωρίς εγγραφή.' : locale === 'de' ? 'Tippe unten auf einen Ort und hinterlasse eine kurze Bewertung — ohne Anmeldung.' : locale === 'bg' ? 'Докосни място по-долу и остави кратък отзив — без регистрация.' : locale === 'ru' ? 'Нажми на место ниже и оставь короткий отзыв — без регистрации.' : locale === 'ro' ? 'Atinge un loc mai jos și lasă o recenzie rapidă — fără cont.' : locale === 'sr' ? 'Dodirni mesto ispod i ostavi kratku recenziju — bez naloga.' : 'Tap a place below and leave a quick review to help other travelers — no sign-up needed.'}
+              </p>
+            </div>
+          </section>
+        )}
+
         {/* Beaches */}
         {beaches.length > 0 && (
           <section>
