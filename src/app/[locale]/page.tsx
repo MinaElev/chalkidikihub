@@ -10,6 +10,7 @@ import { HeroBackground } from '@/components/layout/HeroBackground';
 import { MapPin, Home, Star, QrCode, Shield, Globe, Award, Smartphone, Sparkles, BookOpen, HelpCircle, Compass, ChevronRight } from 'lucide-react';
 import { localeUrl, generateItemListLD } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
+import { LastMinuteDealsPopup } from '@/components/LastMinuteDealsPopup';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
@@ -148,6 +149,7 @@ export default async function HomePage({ params }: Props) {
       <HomeBlogSection locale={locale} />
       <ExploreHubsSection locale={locale} />
       <QRFeatureSection />
+      <LastMinuteDealsPopup />
     </>
   );
 }

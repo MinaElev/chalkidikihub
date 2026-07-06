@@ -9,7 +9,7 @@ import { EXTERNAL_BOOKING_LINKS_ENABLED } from '@/lib/feature-flags';
 import { RelatedItems } from '@/components/related/RelatedItems';
 
 // ISR: render-on-demand, then cache. `revalidate` + an empty generateStaticParams
-// register the route as SSG/ISR, so Next emits `Cache-Control: s-maxage=86400,
+// register the route as SSG/ISR, so Next emits `Cache-Control: s-maxage=2592000,
 // stale-while-revalidate` and the Vercel CDN serves rendered HTML from the edge —
 // repeat hits stop re-invoking the function (the Active-CPU saving).
 //

@@ -8,7 +8,7 @@ import { RelatedItems } from '@/components/related/RelatedItems';
 
 // ISR: render-on-demand, then cache. `revalidate` + a (deliberately empty)
 // generateStaticParams registers the route as SSG/ISR, so Next emits
-// `Cache-Control: s-maxage=86400, stale-while-revalidate` and the Vercel CDN
+// `Cache-Control: s-maxage=2592000, stale-while-revalidate` and the Vercel CDN
 // serves the rendered HTML from the edge — repeat hits (incl. AI crawlers) stop
 // re-invoking the function, which is the Active-CPU saving. Empty array means
 // nothing is prerendered at build; dynamicParams (default true) renders each

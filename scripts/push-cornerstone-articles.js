@@ -13,6 +13,8 @@ for (const line of fs.readFileSync('.env.local', 'utf8').split(/\r?\n/)) {
   if (m) process.env[m[1]] = m[2];
 }
 
+const { revalidate } = require('./lib/revalidate');
+
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const DRY = !process.argv.includes('--commit');
@@ -30,6 +32,7 @@ const NOW = new Date().toISOString();
 (async () => {
   console.log(`Mode: ${DRY ? 'DRY-RUN' : 'COMMIT'} | ${FILES.length} articles`);
 
+  const changed = [];
   for (const file of FILES) {
     const art = JSON.parse(fs.readFileSync(path.join('backups', file), 'utf8'));
     const wordsEl = art.content_el.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
@@ -71,7 +74,12 @@ const NOW = new Date().toISOString();
       },
       body: JSON.stringify(row),
     });
-    if (res.ok) console.log('  OK inserted');
+    if (res.ok) { console.log('  OK inserted'); changed.push(art.slug); }
     else console.log(`  ERROR ${res.status}: ${await res.text()}`);
+  }
+
+  if (!DRY && changed.length) {
+    console.log(`\nRevalidating ${changed.length} article(s) on the live site...`);
+    await revalidate('blog', changed);
   }
 })();

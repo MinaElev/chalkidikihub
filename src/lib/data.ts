@@ -449,6 +449,26 @@ export const getListingsFiltered = unstable_cache(
   { revalidate: DETAIL_TTL, tags: ['listings'] },
 );
 
+// Lightweight rotation index for the marketing feed: just the columns needed
+// to build a stable day→listing mapping. Avoids the heavy `SELECT *,
+// listing_images(*)` full-table pull (which hits statement timeouts), so the
+// feed route can fetch only the single chosen listing in full afterwards.
+export const getListingRotationKeys = unstable_cache(
+  async (area: string | null): Promise<{ id: string; slug: string; created_at: string }[]> => {
+    const supabase = createApiClient();
+    let query = supabase
+      .from('listings').select('id, slug, created_at')
+      .eq('status', 'published')
+      .order('created_at', { ascending: true });
+    if (area) query = query.eq('area', area);
+    const { data, error } = await query;
+    if (error || !data) return [];
+    return data as { id: string; slug: string; created_at: string }[];
+  },
+  ['listing-rotation-keys'],
+  { revalidate: DETAIL_TTL, tags: ['listings'] },
+);
+
 // ─── Hosts (public owner pages) ─────────────────────────────
 // A host page exists for an owner who: (a) has set public_page_enabled=true,
 // (b) has a public_slug, and (c) has ≥2 published listings.
