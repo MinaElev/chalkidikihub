@@ -45,3 +45,10 @@ next-env.d.ts
 
 # Claude local state
 /.claude/scheduled_tasks.lock
+/.claude/worktrees/
+
+# Marketing assets — kept locally only (social-media exports, not served by the site)
+/public/marketing/
+
+.vercel
+.env*

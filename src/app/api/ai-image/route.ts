@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import sharp from 'sharp';
 import { createApiClient } from '@/lib/api-helpers';
 
 export const maxDuration = 60;
@@ -45,16 +46,23 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
     const imageUrl = data.data[0].url;
 
-    // Download image and upload to Supabase Storage
+    // Download image and re-encode to WebP before upload. DALL-E returns a
+    // ~1.5-3 MB PNG; with next/image optimization disabled (unoptimized:true)
+    // that raw PNG would be served as-is to every visitor. WebP at 1600px wide
+    // cuts it to ~120-200 KB with no visible quality loss.
     const imageResponse = await fetch(imageUrl);
-    const imageBuffer = await imageResponse.arrayBuffer();
+    const rawBuffer = Buffer.from(await imageResponse.arrayBuffer());
+    const imageBuffer = await sharp(rawBuffer)
+      .resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true })
+      .webp({ quality: 72 })
+      .toBuffer();
 
     const supabase = createApiClient();
-    const filePath = `${folder}/ai-${Date.now()}.png`;
+    const filePath = `${folder}/ai-${Date.now()}.webp`;
 
     const { error: uploadError } = await supabase.storage
       .from('content-images')
-      .upload(filePath, imageBuffer, { cacheControl: '31536000', contentType: 'image/png', upsert: true });
+      .upload(filePath, imageBuffer, { cacheControl: '31536000', contentType: 'image/webp', upsert: true });
 
     if (uploadError) {
       // Return the temporary DALL-E URL as fallback
