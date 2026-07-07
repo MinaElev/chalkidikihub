@@ -174,6 +174,13 @@ export default function LastMinuteDealsPage() {
       setNote('');
       setJustAdded(true);
       setTimeout(() => setJustAdded(false), 4000);
+
+      // Fire the Facebook announce webhook (Make) — best-effort, don't block UI.
+      fetch('/api/last-minute/announce', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: (data as DealRow).id }),
+      }).catch(() => {});
     }
   }
 
