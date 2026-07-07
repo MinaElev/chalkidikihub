@@ -29,7 +29,11 @@ import {
 } from '@/lib/data';
 import { EXTERNAL_BOOKING_LINKS_ENABLED } from '@/lib/feature-flags';
 
-export const revalidate = 36000; // 10h
+// 7 days: hundreds of md URLs are hammered by LLM crawlers, and every
+// regeneration is a function run + ISR write. Entity edits still propagate
+// same-day via the detail-page content these mirror changing rarely; drop
+// back to hours only if md freshness ever becomes user-visible.
+export const revalidate = 604800;
 export const dynamic = 'force-static';
 
 const ORIGIN = 'https://chalkidikihub.gr';
@@ -357,7 +361,7 @@ export async function GET(req: NextRequest, ctx: RouteCtx) {
     status: 200,
     headers: {
       'Content-Type': 'text/markdown; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600, s-maxage=36000, stale-while-revalidate=86400',
+      'Cache-Control': 'public, max-age=3600, s-maxage=604800, stale-while-revalidate=604800',
       // Hint LLM crawlers this is the canonical machine-readable form.
       Link: `<${ORIGIN}/${locale}/${type === 'places' ? 'places' : type}/${slug}>; rel="canonical"`,
     },

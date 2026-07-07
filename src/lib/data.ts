@@ -27,9 +27,10 @@ import type { Area, Beach, Restaurant, Activity, BlogArticle, Listing, Sale, Are
 //   calls revalidateTag(), so user-visible content changes propagate instantly
 //   regardless of TTL.
 // - Residual staleness (new reviews, related content shifts) is cosmetic.
-// - 10h = ~2.4 cache regenerations/day per slug, vs ~12 at 2h. Big drop in
-//   Supabase reads and function compute time for slugs with steady traffic.
-const DETAIL_TTL = 36000; // 10 hours
+// - 24h = 1 cache regeneration/day per slug (was 2.4 at 10h, ~12 at 2h).
+//   Every regen is an ISR write + Supabase round-trip + function compute,
+//   and owner edits already bypass the TTL via revalidateTag.
+const DETAIL_TTL = 86400; // 24 hours
 
 // ─── Areas ─────────────────────────────────────────────────
 export async function getAreas(): Promise<AreaInfo[]> {

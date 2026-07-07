@@ -4,7 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Analytics } from '@vercel/analytics/react';
-import { locales, isPublicLocale, type Locale } from '@/i18n/config';
+import { locales, publicLocales, isPublicLocale, type Locale } from '@/i18n/config';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { LangSync } from '@/components/layout/LangSync';
@@ -22,7 +22,12 @@ type Props = {
 };
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  // Prerender only the public locales (el/en). The 5 hidden locales are
+  // noindexed, robots-disallowed and absent from sitemap/hreflang — yet
+  // prerendering them meant every deploy built & ISR-wrote ~5.600 pages
+  // instead of ~1.600. They stay fully routable (dynamicParams default):
+  // a rare direct visit renders on demand and caches individually.
+  return publicLocales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

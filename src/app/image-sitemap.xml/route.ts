@@ -3,8 +3,9 @@ import { createApiClient } from '@/lib/api-helpers';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
-// Revalidate every 6 hours
-export const revalidate = 21600;
+// 48h, matching sitemap.xml: image URLs change on the same cadence as the
+// URL set (admin edits), and Googlebot-Image reads lastmod per entry anyway.
+export const revalidate = 172800;
 
 function escapeXml(s: string): string {
   return s
@@ -188,7 +189,7 @@ export async function GET() {
   return new NextResponse(xml, {
     headers: {
       'Content-Type': 'application/xml',
-      'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=43200',
+      'Cache-Control': 'public, s-maxage=172800, stale-while-revalidate=172800',
     },
   });
 }
