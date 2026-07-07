@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import { toBeachCard, toRestaurantCard, toActivityCard, toListingCard } from '@/lib/data';
 import { collectionMeta, localeUrl, generateItemListLD, generateBreadcrumbLD } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { getLocation, LOCATIONS, CATEGORIES, type Category } from './location-data';
@@ -171,7 +172,7 @@ export default async function LocationCategoryPage({ params }: Props) {
         .ilike('location_name', `%${dbName}%`)
         .order('rating', { ascending: false })
         .limit(20);
-      beaches = (data || []).map(transformBeach);
+      beaches = (data || []).map(transformBeach).map(toBeachCard);
       break;
     }
     case 'restaurants': {
@@ -180,7 +181,7 @@ export default async function LocationCategoryPage({ params }: Props) {
         .ilike('location_name', `%${dbName}%`)
         .order('rating', { ascending: false })
         .limit(20);
-      restaurants = (data || []).map(transformRestaurant);
+      restaurants = (data || []).map(transformRestaurant).map(toRestaurantCard);
       break;
     }
     case 'activities': {
@@ -189,7 +190,7 @@ export default async function LocationCategoryPage({ params }: Props) {
         .ilike('location_name', `%${dbName}%`)
         .order('rating', { ascending: false })
         .limit(20);
-      activities = (data || []).map(transformActivity);
+      activities = (data || []).map(transformActivity).map(toActivityCard);
       break;
     }
     case 'listings': {
@@ -199,7 +200,7 @@ export default async function LocationCategoryPage({ params }: Props) {
         .eq('status', 'published')
         .order('created_at', { ascending: false })
         .limit(20);
-      listings = (data || []).map(transformListing);
+      listings = (data || []).map(transformListing).map(toListingCard);
       break;
     }
   }

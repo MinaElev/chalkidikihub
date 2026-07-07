@@ -28,7 +28,7 @@ export default function RestaurantTypePage() {
     async function load() {
       const [typesRes, restRes] = await Promise.all([
         fetch('/api/business-types').then(r => r.json()).catch(() => []),
-        fetch('/api/restaurants').then(r => r.json()).catch(() => []),
+        fetch('/api/restaurants?fields=card').then(r => r.json()).catch(() => []),
       ]);
       const bt = (typesRes as BusinessType[]).find(t => t.slug === type);
       if (bt) setBusinessType(bt);

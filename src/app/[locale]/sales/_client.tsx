@@ -24,7 +24,7 @@ export default function SalesPageClient({ initialData = [] }: { initialData?: Sa
   const tProp = useTranslations('propertyTypes');
   const tAreas = useTranslations('areas');
   const [filters, setFilters] = useState<SaleFilters>({});
-  const { data: sales } = useLiveData<Sale>('/api/sales', initialData);
+  const { data: sales } = useLiveData<Sale>('/api/sales?fields=card', initialData);
   const [showAll, setShowAll] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 

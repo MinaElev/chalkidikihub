@@ -7,7 +7,10 @@ import { BeachCard } from '@/components/listings/BeachCard';
 import { RestaurantCard } from '@/components/listings/RestaurantCard';
 import { ActivityCard } from '@/components/listings/ActivityCard';
 import { createApiClient } from '@/lib/api-helpers';
-import { transformBeach, transformRestaurant, transformActivity } from '@/lib/data';
+import {
+  transformBeach, transformRestaurant, transformActivity,
+  toBeachCard, toRestaurantCard, toActivityCard,
+} from '@/lib/data';
 import { getBestGuide, BEST_GUIDES, type BestGuide } from './best-data';
 import { ENRICHMENTS } from './enrichments';
 import { localeUrl } from '@/lib/seo';
@@ -63,19 +66,19 @@ async function fetchGuideItems(guide: BestGuide): Promise<Record<string, unknown
     if (feature) q = q.contains('features', [feature]);
     if (limit) q = q.limit(limit);
     const { data } = await q;
-    items = (data || []).map((r) => transformBeach(r as Record<string, unknown>) as Record<string, unknown>);
+    items = (data || []).map((r) => toBeachCard(transformBeach(r as Record<string, unknown>) as never) as unknown as Record<string, unknown>);
   } else if (guide.contentType === 'restaurants') {
     let q = supabase.from('restaurants').select('*, restaurant_reviews(*)').order('rating', { ascending: false });
     if (area) q = q.eq('area', area);
     if (limit) q = q.limit(limit);
     const { data } = await q;
-    items = (data || []).map((r) => transformRestaurant(r as Record<string, unknown>) as Record<string, unknown>);
+    items = (data || []).map((r) => toRestaurantCard(transformRestaurant(r as Record<string, unknown>) as never) as unknown as Record<string, unknown>);
   } else if (guide.contentType === 'activities') {
     let q = supabase.from('activities').select('*, activity_reviews(*)').order('rating', { ascending: false });
     if (area) q = q.eq('area', area);
     if (limit) q = q.limit(limit);
     const { data } = await q;
-    items = (data || []).map((r) => transformActivity(r as Record<string, unknown>) as Record<string, unknown>);
+    items = (data || []).map((r) => toActivityCard(transformActivity(r as Record<string, unknown>) as never) as unknown as Record<string, unknown>);
   }
 
   if (guide.filterFn && guide.filterValue) {

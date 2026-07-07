@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { getSales } from '@/lib/data';
+import { getSales, toSaleCard } from '@/lib/data';
 import { collectionMeta, generateItemListLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { SaleCard } from '@/components/sales/SaleCard';
@@ -113,7 +113,7 @@ export default async function SalesCategoryPage({ params }: Props) {
   setRequestLocale(locale);
 
   const allSales = await getSales();
-  const sales = allSales.filter(s => s.property_type === (type as PropertyType));
+  const sales = allSales.filter(s => s.property_type === (type as PropertyType)).map(toSaleCard);
 
   const typeLabel = TYPE_LABELS[type]?.[locale] || TYPE_LABELS[type]?.en || type;
   const title = categoryTitle(type, locale);

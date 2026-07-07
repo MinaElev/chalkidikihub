@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { collectionMeta, generateItemListLD, localeUrl } from '@/lib/seo';
-import { getBlogArticles } from '@/lib/data';
+import { getBlogArticleCards } from '@/lib/data';
 import { JsonLd } from '@/components/ui/JsonLd';
 import PageClient from './_client';
 
@@ -37,7 +37,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const articles = await getBlogArticles();
+  // Card fetch: skips the multi-locale `content_*` bodies that used to bloat
+  // this page's RSC payload to ~15 MB — the index only renders cards.
+  const articles = await getBlogArticleCards();
   const itemListLD = generateItemListLD(
     titles[locale] || titles.en,
     articles.map((a) => ({

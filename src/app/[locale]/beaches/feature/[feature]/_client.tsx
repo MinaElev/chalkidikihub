@@ -20,7 +20,7 @@ export default function BeachesByFeaturePageClient() {
   try { featureName = tFeatures(feature); } catch { featureName = feature; }
 
   useEffect(() => {
-    fetch(`/api/beaches?feature=${feature}&limit=30`)
+    fetch(`/api/beaches?feature=${feature}&limit=30&fields=card`)
       .then(r => r.json())
       .then(d => { if (Array.isArray(d)) setItems(d); })
       .catch(() => {})

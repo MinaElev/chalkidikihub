@@ -20,7 +20,7 @@ export default function RestaurantsByAreaPage() {
   const areaName = areaInfo?.name[locale] || areaInfo?.name.en || area;
 
   useEffect(() => {
-    fetch(`/api/restaurants?area=${area}&limit=20`)
+    fetch(`/api/restaurants?area=${area}&limit=20&fields=card`)
       .then(r => r.json())
       .then(d => { if (Array.isArray(d)) setItems(d); })
       .catch(() => {})

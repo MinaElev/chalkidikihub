@@ -1,14 +1,14 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { ListingCard } from '@/components/listings/ListingCard';
-import { getListings } from '@/lib/data';
+import { getListings, toListingCard } from '@/lib/data';
 import { Home, ArrowRight } from 'lucide-react';
 
 export async function HomeFeaturedListings({ locale }: { locale: string }) {
   const t = await getTranslations('common');
   const tListings = await getTranslations('listings');
   const listings = await getListings();
-  const featured = listings.slice(0, 6);
+  const featured = listings.slice(0, 6).map(toListingCard);
 
   if (featured.length === 0) return null;
 

@@ -17,7 +17,7 @@ export default function BeachesPageClient({ initialData = [] }: { initialData?: 
   const tFeatures = useTranslations('beachFeatures');
   const [filters, setFilters] = useState<BeachFiltersType>({});
   const [showFeatures, setShowFeatures] = useState(false);
-  const { data: beaches } = useLiveData<Beach>('/api/beaches', initialData);
+  const { data: beaches } = useLiveData<Beach>('/api/beaches?fields=card', initialData);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'),

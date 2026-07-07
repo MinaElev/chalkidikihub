@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/api-helpers';
-import { transformSale } from '@/lib/data';
+import { transformSale, toSaleCard } from '@/lib/data';
+import type { Sale } from '@/types';
 
 export async function GET(request: NextRequest) {
   const supabase = createApiClient();
@@ -24,7 +25,10 @@ export async function GET(request: NextRequest) {
   if (limit) query = query.limit(Number(limit));
   const { data } = await query;
 
-  return NextResponse.json((data || []).map(transformSale), {
+  let sales = (data || []).map(transformSale) as unknown as Sale[];
+  // ?fields=card → card-grid consumers skip the multilingual descriptions.
+  if (searchParams.get('fields') === 'card') sales = sales.map(toSaleCard);
+  return NextResponse.json(sales, {
     headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' },
   });
 }

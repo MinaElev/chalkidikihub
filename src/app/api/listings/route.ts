@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getListingBySlug, getListingsFiltered } from '@/lib/data';
+import { getListingBySlug, getListingsFiltered, toListingCard } from '@/lib/data';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -17,7 +17,9 @@ export async function GET(request: NextRequest) {
   const limitParam = searchParams.get('limit');
   const limit = limitParam ? Number(limitParam) : null;
 
-  const listings = await getListingsFiltered(area, limit);
+  let listings = await getListingsFiltered(area, limit);
+  // ?fields=card → card-grid consumers skip the long multilingual fields.
+  if (searchParams.get('fields') === 'card') listings = listings.map(toListingCard);
   return NextResponse.json(listings, {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });

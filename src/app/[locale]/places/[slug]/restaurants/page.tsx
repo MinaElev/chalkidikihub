@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { getVillageContentMeta, getVillageContext, nearestByDistance, getNearbyVillages } from '../meta-helper';
 import { VillageContentPage } from '@/components/villages/VillageContentPage';
 import { createApiClient } from '@/lib/api-helpers';
-import { transformRestaurant } from '@/lib/data';
+import { transformRestaurant, toRestaurantCard } from '@/lib/data';
 import type { Restaurant } from '@/types';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -50,7 +50,7 @@ export default async function VillageRestaurantsPage({ params }: Props) {
   const ranked = vr.latitude != null && vr.longitude != null
     ? nearestByDistance(vr.latitude, vr.longitude, allItems)
     : allItems.slice(0, 12).map((i) => ({ ...i, distanceKm: 0 }));
-  const items = ranked as unknown as Restaurant[];
+  const items = (ranked as unknown as Restaurant[]).map(toRestaurantCard);
   const distances: Record<string, number> = {};
   for (const r of ranked) distances[r.slug] = r.distanceKm;
 

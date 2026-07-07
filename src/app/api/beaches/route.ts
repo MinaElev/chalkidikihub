@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getBeachBySlug, getBeachesFiltered } from '@/lib/data';
+import { getBeachBySlug, getBeachesFiltered, toBeachCard } from '@/lib/data';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -18,7 +18,10 @@ export async function GET(request: NextRequest) {
   const limitParam = searchParams.get('limit');
   const limit = limitParam ? Number(limitParam) : null;
 
-  const beaches = await getBeachesFiltered(area, feature, limit);
+  let beaches = await getBeachesFiltered(area, feature, limit);
+  // ?fields=card → strip descriptions/review bodies for card-grid consumers
+  // (index page, area pages). Search & map keep the full payload.
+  if (searchParams.get('fields') === 'card') beaches = beaches.map(toBeachCard);
   return NextResponse.json(beaches, {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });

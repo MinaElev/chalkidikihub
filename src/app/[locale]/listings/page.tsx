@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { collectionMeta, generateItemListLD, localeUrl } from '@/lib/seo';
-import { getListings } from '@/lib/data';
+import { getListings, toListingCard } from '@/lib/data';
 import { JsonLd } from '@/components/ui/JsonLd';
 import PageClient from './_client';
 
@@ -76,7 +76,7 @@ export default async function Page({ params }: Props) {
           ))}
         </nav>
       </div>
-      <PageClient initialData={listings} />
+      <PageClient initialData={listings.map(toListingCard)} />
     </>
   );
 }

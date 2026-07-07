@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { createApiClient } from '@/lib/api-helpers';
-import { transformArticle } from '@/lib/data';
+import { transformArticle, ARTICLE_CARD_FIELDS } from '@/lib/data';
 import { generateItemListLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { BlogCard } from '@/components/blog/BlogCard';
@@ -51,13 +51,15 @@ export default async function BlogCategoryPage({ params }: Props) {
   const label = categoryLabels[cat][locale] || categoryLabels[cat].en;
 
   const supabase = createApiClient();
+  // Card columns only: the grid renders title/excerpt/image — pulling the
+  // multi-locale `content_*` bodies here just bloated the RSC payload.
   const { data } = await supabase
     .from('blog_articles')
-    .select('*')
+    .select(ARTICLE_CARD_FIELDS)
     .eq('category', category)
     .order('created_at', { ascending: false });
 
-  const articles: BlogArticle[] = (data || []).map(transformArticle) as unknown as BlogArticle[];
+  const articles: BlogArticle[] = (data || []).map((r) => transformArticle(r as unknown as Record<string, unknown>)) as unknown as BlogArticle[];
 
   const itemListLD = generateItemListLD(
     `${label} — ChalkidikiHub`,

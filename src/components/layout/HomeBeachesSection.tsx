@@ -1,14 +1,14 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { BeachCard } from '@/components/listings/BeachCard';
-import { getBeaches } from '@/lib/data';
+import { getBeaches, toBeachCard } from '@/lib/data';
 import { Waves, ArrowRight } from 'lucide-react';
 
 export async function HomeBeachesSection({ locale }: { locale: string }) {
   const tBeaches = await getTranslations('beaches');
   const tCommon = await getTranslations('common');
   const beaches = await getBeaches();
-  const featured = beaches.slice(0, 6);
+  const featured = beaches.slice(0, 6).map(toBeachCard);
 
   if (featured.length === 0) return null;
 

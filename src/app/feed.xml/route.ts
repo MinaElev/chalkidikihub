@@ -1,4 +1,4 @@
-import { getBlogArticles } from '@/lib/data';
+import { getBlogArticleCards } from '@/lib/data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
@@ -12,7 +12,8 @@ function escapeXml(str: string): string {
 }
 
 export async function GET() {
-  const articles = await getBlogArticles();
+  // RSS only uses title/excerpt/image — the card fetch skips article bodies.
+  const articles = await getBlogArticleCards();
 
   const items = articles
     .slice(0, 50) // Latest 50 articles

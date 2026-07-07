@@ -265,7 +265,7 @@ export async function getBlogArticles(): Promise<BlogArticle[]> {
 // (which are huge and were causing statement timeouts when SELECT * pulled
 // all 117 rows). Filters out unpublished drafts so NULL published_at rows
 // don't take the top slot on the homepage.
-const ARTICLE_CARD_FIELDS = [
+export const ARTICLE_CARD_FIELDS = [
   'id', 'slug', 'category', 'image_url', 'author', 'read_time_min',
   'tags', 'related_area_slugs', 'related_beach_slugs',
   'related_listing_slugs', 'related_article_slugs', 'published_at',
@@ -683,3 +683,74 @@ export const getVillagesList = unstable_cache(
   ['villages-list'],
   { revalidate: DETAIL_TTL, tags: ['villages'] },
 );
+
+// ─── Card variants (payload diet for list surfaces) ─────────
+// Every object passed from a server page into a client component gets
+// serialized whole into the page's RSC payload — even fields the component
+// never renders. On list surfaces (index/area/category pages, homepage
+// sections) the cards only show title/name, excerpt, image, rating & facts,
+// yet the items carried full multilingual bodies and review threads: /blog
+// shipped ~15 MB of HTML (1.85 MB gzipped) per locale variant. That dead
+// weight is what burned Fast Origin Transfer, ISR write units and render CPU.
+// These mappers keep the exact object shape (types, filters and card
+// components keep working untouched) but blank the never-rendered fields.
+// Detail pages, search and llms.txt keep using the full getters.
+
+function blankLocaleMap(map: Record<string, string>): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const key of Object.keys(map)) out[key] = '';
+  return out;
+}
+
+export function toBeachCard(beach: Beach): Beach {
+  return { ...beach, description: blankLocaleMap(beach.description), reviews: [] };
+}
+
+export function toRestaurantCard(restaurant: Restaurant): Restaurant {
+  return { ...restaurant, description: blankLocaleMap(restaurant.description), reviews: [] };
+}
+
+export function toActivityCard(activity: Activity): Activity {
+  return { ...activity, description: blankLocaleMap(activity.description), reviews: [] };
+}
+
+export function toArticleCard(article: BlogArticle): BlogArticle {
+  return { ...article, content: blankLocaleMap(article.content) };
+}
+
+export function toSaleCard(sale: Sale): Sale {
+  return { ...sale, description: blankLocaleMap(sale.description) };
+}
+
+// transformListing returns more multilingual fields than the Listing
+// interface declares (tagline, owner_story, house rules, practical info —
+// consumed only by the detail/brand pages), so blank those at runtime too.
+const LISTING_CARD_BLANKED = [
+  'description', 'tagline', 'owner_story', 'house_rules_extra',
+  'closed_reason', 'how_to_reach', 'wifi_info', 'parking_info', 'check_in_info',
+] as const;
+
+export function toListingCard(listing: Listing): Listing {
+  const card = { ...listing } as unknown as Record<string, unknown>;
+  for (const field of LISTING_CARD_BLANKED) {
+    const value = card[field];
+    if (value && typeof value === 'object') {
+      card[field] = blankLocaleMap(value as Record<string, string>);
+    }
+  }
+  return card as unknown as Listing;
+}
+
+// Column-level card fetch for blog: articles are the heaviest rows in the DB
+// (full guide bodies × 7 locales), so unlike the other types we avoid even
+// pulling `content_*` out of Supabase — SELECT * on all rows was the cause of
+// statement timeouts (see ARTICLE_CARD_FIELDS above).
+export async function getBlogArticleCards(): Promise<BlogArticle[]> {
+  const supabase = createApiClient();
+  const { data, error } = await supabase
+    .from('blog_articles').select(ARTICLE_CARD_FIELDS)
+    .not('published_at', 'is', null)
+    .order('published_at', { ascending: false });
+  if (error) console.error('[getBlogArticleCards] Supabase error:', error);
+  return (data || []).map(r => transformArticle(r as unknown as Record<string, unknown>)) as unknown as BlogArticle[];
+}

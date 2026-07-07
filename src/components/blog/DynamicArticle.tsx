@@ -29,14 +29,14 @@ export function DynamicArticle({ slug, initialData }: { slug: string; initialDat
   useEffect(() => {
     if (initialData) {
       // Already have article from server, just fetch sidebar articles
-      fetch('/api/blog?limit=50').then((r) => r.json())
+      fetch('/api/blog?limit=50&fields=card').then((r) => r.json())
         .then((allData) => { if (Array.isArray(allData)) setAllArticles(allData); })
         .catch(() => {});
     } else {
       // Fallback: fetch everything client-side
       Promise.all([
         fetch(`/api/blog?slug=${slug}`).then((r) => r.json()),
-        fetch('/api/blog?limit=50').then((r) => r.json()),
+        fetch('/api/blog?limit=50&fields=card').then((r) => r.json()),
       ])
         .then(([articleData, allData]) => {
           if (articleData && articleData.id) setArticle(articleData);

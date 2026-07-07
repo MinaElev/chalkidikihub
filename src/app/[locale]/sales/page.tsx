@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { collectionMeta, generateItemListLD, localeUrl } from '@/lib/seo';
-import { getSales } from '@/lib/data';
+import { getSales, toSaleCard } from '@/lib/data';
 import { JsonLd } from '@/components/ui/JsonLd';
 import PageClient from './_client';
 
@@ -48,7 +48,7 @@ export default async function Page({ params }: Props) {
   return (
     <>
       <JsonLd data={itemListLD as Record<string, unknown>} />
-      <PageClient initialData={sales} />
+      <PageClient initialData={sales.map(toSaleCard)} />
     </>
   );
 }

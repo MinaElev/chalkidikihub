@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { getSales } from '@/lib/data';
+import { getSales, toSaleCard } from '@/lib/data';
 import { collectionMeta, generateItemListLD, localeUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { SaleCard } from '@/components/sales/SaleCard';
@@ -81,7 +81,7 @@ export default async function SalesAreaPage({ params }: Props) {
   setRequestLocale(locale);
 
   const allSales = await getSales();
-  const sales = allSales.filter(s => s.area === validArea);
+  const sales = allSales.filter(s => s.area === validArea).map(toSaleCard);
 
   const areaName = AREA_NAMES[validArea]?.[locale] || AREA_NAMES[validArea]?.en || area;
   const title = areaTitle(validArea, locale);

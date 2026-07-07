@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { getVillageContentMeta, getVillageContext, nearestByDistance, getNearbyVillages } from '../meta-helper';
 import { VillageContentPage } from '@/components/villages/VillageContentPage';
 import { createApiClient } from '@/lib/api-helpers';
-import { transformBeach } from '@/lib/data';
+import { transformBeach, toBeachCard } from '@/lib/data';
 import type { Beach } from '@/types';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -51,7 +51,9 @@ export default async function VillageBeachesPage({ params }: Props) {
   const ranked = vr.latitude != null && vr.longitude != null
     ? nearestByDistance(vr.latitude, vr.longitude, allItems)
     : allItems.slice(0, 12).map((i) => ({ ...i, distanceKm: 0 }));
-  const items = ranked as unknown as Beach[];
+  // Card mapping: BeachCard never renders descriptions/review bodies, so keep
+  // them out of the serialized props (distanceKm survives the spread).
+  const items = (ranked as unknown as Beach[]).map(toBeachCard);
   const distances: Record<string, number> = {};
   for (const r of ranked) distances[r.slug] = r.distanceKm;
 

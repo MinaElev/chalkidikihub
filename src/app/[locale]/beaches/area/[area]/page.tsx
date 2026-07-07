@@ -20,7 +20,7 @@ export default function BeachesByAreaPage() {
   const areaName = areaInfo?.name[locale] || areaInfo?.name.en || area;
 
   useEffect(() => {
-    fetch(`/api/beaches?area=${area}&limit=20`)
+    fetch(`/api/beaches?area=${area}&limit=20&fields=card`)
       .then(r => r.json())
       .then(d => { if (Array.isArray(d)) setItems(d); })
       .catch(() => {})

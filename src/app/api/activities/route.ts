@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getActivityBySlug, getActivitiesFiltered } from '@/lib/data';
+import { getActivityBySlug, getActivitiesFiltered, toActivityCard } from '@/lib/data';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -17,7 +17,9 @@ export async function GET(request: NextRequest) {
   const limitParam = searchParams.get('limit');
   const limit = limitParam ? Number(limitParam) : null;
 
-  const activities = await getActivitiesFiltered(area, limit);
+  let activities = await getActivitiesFiltered(area, limit);
+  // ?fields=card → card-grid consumers skip descriptions/review bodies.
+  if (searchParams.get('fields') === 'card') activities = activities.map(toActivityCard);
   return NextResponse.json(activities, {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });

@@ -48,10 +48,10 @@ export default function MapClient() {
   // Fetch all data
   useEffect(() => {
     Promise.all([
-      fetch('/api/listings?limit=100').then(r => r.json()).catch(() => []),
-      fetch('/api/beaches?limit=100').then(r => r.json()).catch(() => []),
-      fetch('/api/restaurants?limit=100').then(r => r.json()).catch(() => []),
-      fetch('/api/activities?limit=100').then(r => r.json()).catch(() => []),
+      fetch('/api/listings?limit=100&fields=card').then(r => r.json()).catch(() => []),
+      fetch('/api/beaches?limit=100&fields=card').then(r => r.json()).catch(() => []),
+      fetch('/api/restaurants?limit=100&fields=card').then(r => r.json()).catch(() => []),
+      fetch('/api/activities?limit=100&fields=card').then(r => r.json()).catch(() => []),
     ]).then(([listings, beaches, restaurants, activities]) => {
       const all: MapItem[] = [];
 

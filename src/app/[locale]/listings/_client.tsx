@@ -26,7 +26,7 @@ export default function ListingsPageClient({ initialData = [] }: { initialData?:
 
   // Refresh listings from API (live update after ISR)
   useEffect(() => {
-    fetch('/api/listings')
+    fetch('/api/listings?fields=card')
       .then((r) => r.json())
       .then((data: Listing[]) => {
         if (Array.isArray(data)) setDbListings(data);

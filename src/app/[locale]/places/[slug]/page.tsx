@@ -2,7 +2,10 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { VillagePage } from '@/components/villages/VillagePage';
 import { createApiClient } from '@/lib/api-helpers';
-import { transformBeach, transformRestaurant, transformActivity, transformListing, transformSale } from '@/lib/data';
+import {
+  transformBeach, transformRestaurant, transformActivity, transformListing, transformSale,
+  toBeachCard, toRestaurantCard, toActivityCard, toListingCard, toSaleCard,
+} from '@/lib/data';
 import { localeUrl, generateBreadcrumbLD } from '@/lib/seo';
 import { getVillagePriceStats, getVillageCuisineStats } from '@/lib/place-stats';
 import { JsonLd } from '@/components/ui/JsonLd';
@@ -190,11 +193,13 @@ export default async function VillageDetailPage({ params }: Props) {
     getVillageCuisineStats(supabase, villageMatchNames, village.area),
   ]);
 
-  const beaches = (beachesRes.data || []).map(transformBeach) as unknown as Beach[];
-  const restaurants = (restaurantsRes.data || []).map(transformRestaurant) as unknown as Restaurant[];
-  const activities = (activitiesRes.data || []).map(transformActivity) as unknown as Activity[];
-  const listings = (listingsRes.data || []).map((r) => transformListing(r as Record<string, unknown>)) as unknown as Listing[];
-  const sales = (salesRes.data || []).map(transformSale) as unknown as Sale[];
+  // Card mapping: the section grids only render card components, so the
+  // multilingual bodies/review threads stay out of the serialized props.
+  const beaches = ((beachesRes.data || []).map(transformBeach) as unknown as Beach[]).map(toBeachCard);
+  const restaurants = ((restaurantsRes.data || []).map(transformRestaurant) as unknown as Restaurant[]).map(toRestaurantCard);
+  const activities = ((activitiesRes.data || []).map(transformActivity) as unknown as Activity[]).map(toActivityCard);
+  const listings = ((listingsRes.data || []).map((r) => transformListing(r as Record<string, unknown>)) as unknown as Listing[]).map(toListingCard);
+  const sales = ((salesRes.data || []).map(transformSale) as unknown as Sale[]).map(toSaleCard);
 
   const homeLabel: Record<string, string> = { el: 'Αρχική', en: 'Home', de: 'Startseite', bg: 'Начало', ru: 'Главная', ro: 'Acasă', sr: 'Početna' };
   const sectionLabel: Record<string, string> = { el: 'Χωριά', en: 'Places', de: 'Orte', bg: 'Места', ru: 'Места', ro: 'Locuri', sr: 'Mesta' };

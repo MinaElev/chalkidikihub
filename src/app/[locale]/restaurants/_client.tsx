@@ -23,7 +23,7 @@ export default function RestaurantsPageClient({ initialData = [] }: { initialDat
   useEffect(() => {
     fetch('/api/business-types').then(r => r.json()).then(d => { if (Array.isArray(d)) setCuisineTypes(d); }).catch(() => {});
   }, []);
-  const { data: restaurants } = useLiveData<Restaurant>('/api/restaurants', initialData);
+  const { data: restaurants } = useLiveData<Restaurant>('/api/restaurants?fields=card', initialData);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'), sithonia: tAreas('sithonia.name'),

@@ -16,7 +16,7 @@ export default function ActivitiesPageClient({ initialData = [] }: { initialData
   const tAreas = useTranslations('areas');
   const tCommon = useTranslations('common');
   const [filters, setFilters] = useState<ActivityFilters>({});
-  const { data: activities } = useLiveData<Activity>('/api/activities', initialData);
+  const { data: activities } = useLiveData<Activity>('/api/activities?fields=card', initialData);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'), sithonia: tAreas('sithonia.name'),

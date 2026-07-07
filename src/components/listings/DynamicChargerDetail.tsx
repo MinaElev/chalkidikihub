@@ -29,7 +29,7 @@ export function DynamicChargerDetail({ slug }: { slug: string }) {
           setCharger(data);
           // Fetch nearby beaches by IDs
           if (data.nearby_beach_ids?.length > 0) {
-            fetch('/api/beaches')
+            fetch('/api/beaches?fields=card')
               .then((r) => r.json())
               .then((beaches: Beach[]) => {
                 if (Array.isArray(beaches)) {

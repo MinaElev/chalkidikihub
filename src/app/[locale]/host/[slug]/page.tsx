@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { getHostBySlug, getPublicHosts } from '@/lib/data';
+import { getHostBySlug, getPublicHosts, toListingCard } from '@/lib/data';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { generateBreadcrumbLD, localeUrl } from '@/lib/seo';
@@ -235,7 +235,7 @@ export default async function HostPage({ params }: Props) {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {host.listings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
+            <ListingCard key={listing.id} listing={toListingCard(listing)} />
           ))}
         </div>
       </div>

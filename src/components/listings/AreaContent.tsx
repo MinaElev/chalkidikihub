@@ -14,7 +14,7 @@ export function AreaBeaches({ area }: { area: string }) {
   const [beaches, setBeaches] = useState<Beach[]>([]);
 
   useEffect(() => {
-    fetch(`/api/beaches?area=${area}&limit=6`)
+    fetch(`/api/beaches?area=${area}&limit=6&fields=card`)
       .then(r => r.json())
       .then((data: Beach[]) => setBeaches(Array.isArray(data) ? data : []))
       .catch(() => {});
@@ -40,7 +40,7 @@ export function AreaRestaurants({ area }: { area: string }) {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
   useEffect(() => {
-    fetch(`/api/restaurants?area=${area}&limit=6`)
+    fetch(`/api/restaurants?area=${area}&limit=6&fields=card`)
       .then(r => r.json())
       .then((data: Restaurant[]) => setRestaurants(Array.isArray(data) ? data : []))
       .catch(() => {});
@@ -66,7 +66,7 @@ export function AreaActivities({ area }: { area: string }) {
   const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
-    fetch(`/api/activities?area=${area}&limit=6`)
+    fetch(`/api/activities?area=${area}&limit=6&fields=card`)
       .then(r => r.json())
       .then((data: Activity[]) => setActivities(Array.isArray(data) ? data : []))
       .catch(() => {});

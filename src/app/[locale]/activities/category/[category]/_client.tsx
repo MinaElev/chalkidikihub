@@ -19,7 +19,7 @@ export default function ActivitiesByCategoryPage() {
   const categoryLabel = tCat(category);
 
   useEffect(() => {
-    fetch('/api/activities')
+    fetch('/api/activities?fields=card')
       .then(r => r.json())
       .then(d => {
         if (Array.isArray(d)) {

@@ -50,7 +50,18 @@ export default function robots(): MetadataRoute.Robots {
   // major ones we care about (ChatGPT, Claude, Gemini, Perplexity) crawl
   // us directly via their own bots, so dropping CCBot has minimal real
   // downside. Re-enable any of these by moving them to the `aiBots` list.
-  const blockedBots = ['Bytespider', 'CCBot', 'Amazonbot'];
+  const blockedBots = [
+    'Bytespider', 'CCBot', 'Amazonbot',
+    // SEO-tool crawlers: they index the site for THEIR paying customers
+    // (competitor backlink reports), send zero referral traffic, and were
+    // part of the bot swarm burning Fast Origin Transfer / function
+    // invocations. Blocking them has no effect on Google/Bing rankings.
+    'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'BLEXBot',
+    'DataForSeoBot', 'serpstatbot', 'ZoomBot', 'MegaIndex.ru',
+    // PetalBot (Huawei/Petal Search) crawls aggressively; negligible reach
+    // for a Greek tourism audience.
+    'PetalBot',
+  ];
 
   return {
     rules: [

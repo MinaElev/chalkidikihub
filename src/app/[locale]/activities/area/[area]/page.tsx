@@ -5,7 +5,8 @@ import { ChevronRight, MapPin } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { ActivityCard } from '@/components/listings/ActivityCard';
 import { createApiClient } from '@/lib/api-helpers';
-import { transformActivity } from '@/lib/data';
+import { transformActivity, toActivityCard } from '@/lib/data';
+import type { Activity } from '@/types';
 import { AREAS, AREA_SLUGS } from '@/lib/constants';
 import { localeUrl } from '@/lib/seo';
 import { FaqSection } from '@/components/ui/FaqSection';
@@ -63,7 +64,10 @@ export default async function ActivitiesByAreaPage({ params }: Props) {
     .eq('area', area)
     .order('rating', { ascending: false })
     .limit(40);
-  const items = (data || []).map((r) => transformActivity(r as Record<string, unknown>) as Record<string, unknown>);
+  // Card mapping keeps reviews_count (computed in the transform) but drops
+  // review bodies + descriptions from the serialized ActivityCard props.
+  const items = (data || []).map((r) =>
+    toActivityCard(transformActivity(r as Record<string, unknown>) as unknown as Activity) as unknown as Record<string, unknown>);
 
   const enrichment = ENRICHMENTS[area];
   const introHtml = enrichment?.intro?.[locale] || enrichment?.intro?.en;

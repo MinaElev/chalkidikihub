@@ -18,7 +18,7 @@ export default function BlogPageClient({ initialData = [] }: { initialData?: Blo
   const tAreas = useTranslations('areas');
   const tCommon = useTranslations('common');
   const [filters, setFilters] = useState<BlogFilters>({});
-  const { data: articles } = useLiveData<BlogArticle>('/api/blog', initialData);
+  const { data: articles } = useLiveData<BlogArticle>('/api/blog?fields=card', initialData);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'),
