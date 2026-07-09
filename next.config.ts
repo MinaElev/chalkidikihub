@@ -83,6 +83,43 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
   },
+  async redirects() {
+    // Duplicate-article consolidation (2026-07-10): each pair competed for the
+    // same query (keyword cannibalization). Content merged into the surviving
+    // slug; the DB rows of the sources are deleted, so these 301s are the only
+    // thing keeping old URLs/backlinks alive. Default locale (el) is unprefixed.
+    const mergedArticles: Array<[string, string]> = [
+      ['odigos-gia-afytos', 'afytos-village-guide'],
+      ['odigos-gia-sikia', 'sykia-chalkidiki'],
+      ['odigos-gia-pyrgadikia-mainland', 'odigos-gia-pyrgadikia'],
+      ['when-to-visit-halkidiki', 'best-time-to-visit-halkidiki'],
+      ['family-vacation-halkidiki', 'halkidiki-with-kids-complete-guide'],
+    ];
+    // Single-beach blog posts that competed with the (richer) beach detail
+    // pages for the same queries — folded into /beaches/[slug].
+    const articlesToBeaches: Array<[string, string]> = [
+      ['paralia-sani-kassandra', 'sani-kassandra'],
+      ['paralia-sithonia-klimataria-beach', 'sithonia-klimataria-beach'],
+    ];
+    return [
+      ...mergedArticles.flatMap(([from, to]) => [
+        { source: `/blog/${from}`, destination: `/blog/${to}`, permanent: true },
+        {
+          source: `/:locale(en|de|bg|ru|ro|sr)/blog/${from}`,
+          destination: `/:locale/blog/${to}`,
+          permanent: true,
+        },
+      ]),
+      ...articlesToBeaches.flatMap(([from, to]) => [
+        { source: `/blog/${from}`, destination: `/beaches/${to}`, permanent: true },
+        {
+          source: `/:locale(en|de|bg|ru|ro|sr)/blog/${from}`,
+          destination: `/:locale/beaches/${to}`,
+          permanent: true,
+        },
+      ]),
+    ];
+  },
   async headers() {
     return [
       {
