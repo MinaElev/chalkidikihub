@@ -52,6 +52,34 @@ function isAuthorized(request: NextRequest): boolean {
   return request.headers.get('origin') === request.nextUrl.origin;
 }
 
+// IndexNow: instantly notify Bing (which also feeds ChatGPT Search) and other
+// IndexNow-enabled engines about changed URLs, instead of waiting for a crawl.
+// The key file is served from public/<key>.txt. Fire-and-forget with a short
+// timeout — indexing hints must never fail or slow down a revalidation.
+const INDEXNOW_KEY = 'd1e25f18a689c0de50f07d9237835dc0';
+
+async function pingIndexNow(baseUrl: string, paths: string[]) {
+  if (paths.length === 0) return;
+  const host = new URL(baseUrl).host;
+  // Public locales only: el is unprefixed, en is prefixed.
+  const urlList = paths.flatMap((p) => [`${baseUrl}${p}`, `${baseUrl}/en${p}`]).slice(0, 500);
+  try {
+    await fetch('https://api.indexnow.org/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({
+        host,
+        key: INDEXNOW_KEY,
+        keyLocation: `${baseUrl}/${INDEXNOW_KEY}.txt`,
+        urlList,
+      }),
+      signal: AbortSignal.timeout(3000),
+    });
+  } catch {
+    // Best-effort only — a failed ping must not affect the revalidation result.
+  }
+}
+
 /**
  * On-demand revalidation endpoint.
  *
@@ -117,6 +145,11 @@ export async function POST(request: NextRequest) {
     if (TAG_MAP[type]) {
       revalidateTag(TAG_MAP[type], 'default');
     }
+
+    // Tell IndexNow-enabled engines (Bing/ChatGPT Search, Yandex, Seznam…)
+    // exactly which pages changed — collection page + each detail page.
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
+    await pingIndexNow(baseUrl, [`/${basePath}`, ...slugList.map((s) => `/${basePath}/${s}`)]);
 
     return NextResponse.json({
       revalidated: true,
