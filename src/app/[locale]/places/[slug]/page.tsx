@@ -1,4 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
+import { publicLocales } from '@/i18n/config';
 import { notFound } from 'next/navigation';
 import { VillagePage } from '@/components/villages/VillagePage';
 import { createApiClient } from '@/lib/api-helpers';
@@ -17,7 +18,7 @@ import type { Metadata } from 'next';
 import type { Beach, Restaurant, Activity, Listing, Sale } from '@/types';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
+const LOCALES = publicLocales;
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;

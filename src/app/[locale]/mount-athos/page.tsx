@@ -1,4 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
+import { publicLocales } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import type { Metadata } from 'next';
 import { Church, MapPin, Users, Bus, BedDouble, Clock, Mountain, BookOpen, ChevronRight } from 'lucide-react';
@@ -10,7 +11,7 @@ import { generateMountAthosFaqs } from '@/lib/faq-generators';
 export const revalidate = 2592000; // 30 days
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
+const LOCALES = publicLocales;
 
 type Props = { params: Promise<{ locale: string }> };
 

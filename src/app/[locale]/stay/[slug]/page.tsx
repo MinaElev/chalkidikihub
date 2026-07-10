@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { createApiClient } from '@/lib/api-helpers';
@@ -9,7 +10,7 @@ import { generateLodgingLD, generateBreadcrumbLD, localeUrl, ogImageUrl } from '
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only — hidden locales stay routable but unindexed
+const LOCALES = publicLocales;
 
 export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 

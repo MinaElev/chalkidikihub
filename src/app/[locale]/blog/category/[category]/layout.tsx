@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import { localeUrl, ogImageUrl } from '@/lib/seo';
 
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
+const LOCALES = publicLocales;
 
 const CATEGORY_NAMES: Record<string, Record<string, string>> = {
   guides: {

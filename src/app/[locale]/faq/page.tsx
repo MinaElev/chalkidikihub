@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { ChevronRight, Waves, Hotel, Car, UtensilsCrossed, Info, Compass } from 'lucide-react';
@@ -6,7 +7,7 @@ import { FAQ_PAGES } from './[slug]/faq-data';
 import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
+const LOCALES = publicLocales;
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Waves, Hotel, Car, UtensilsCrossed, Info, Compass,

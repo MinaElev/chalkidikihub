@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
@@ -10,7 +11,7 @@ import { localeUrl, generateBreadcrumbLD } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only
+const LOCALES = publicLocales;
 
 export const revalidate = 2592000; // ISR: 30d — bylines change rarely; admin saves revalidate blog
 

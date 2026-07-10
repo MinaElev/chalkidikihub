@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { ChevronRight, MapPin } from 'lucide-react';
@@ -14,7 +15,7 @@ import type { FaqItem } from '@/lib/faq-generators';
 import { ENRICHMENTS } from './enrichments';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only
+const LOCALES = publicLocales;
 
 type Props = { params: Promise<{ locale: string; area: string }> };
 

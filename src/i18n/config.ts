@@ -8,7 +8,7 @@ export const defaultLocale: Locale = 'el';
 // language switcher UI, and emit a noindex robots tag — keeping crawl budget
 // focused on the languages we can stand behind quality-wise. Expand this list
 // once a hidden language has gone through human review.
-export const publicLocales: readonly Locale[] = ['el', 'en'];
+export const publicLocales: readonly Locale[] = ['el', 'en', 'de'];
 export const hiddenLocales: readonly Locale[] = locales.filter(
   (l) => !publicLocales.includes(l),
 );

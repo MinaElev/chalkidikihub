@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import { setRequestLocale } from 'next-intl/server';
 import PageClient from './_client';
 import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
+const LOCALES = publicLocales;
 
 const TYPE_LABELS: Record<string, Record<string, string>> = {
   'with-pool': { el: 'Με Πισίνα', en: 'With Pool', de: 'Mit Pool', bg: 'С басейн', ru: 'С бассейном', ro: 'Cu piscină', sr: 'Sa bazenom' },

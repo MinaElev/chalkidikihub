@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { ChevronRight } from 'lucide-react';
 import { AUTHOR_LIST, authorInitials } from '@/lib/authors';
 import { localeUrl } from '@/lib/seo';
 
-const LOCALES = ['el', 'en'] as const;
+const LOCALES = publicLocales;
 export const revalidate = 2592000; // ISR: 30d
 
 type Props = { params: Promise<{ locale: string }> };

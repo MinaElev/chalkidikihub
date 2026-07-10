@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -12,7 +13,7 @@ import { ChevronRight, MapPin, UtensilsCrossed, Waves, Compass, Clock, Phone, St
 // compiling. HREFLANG_LOCALES is what we advertise to search engines —
 // keep this in sync with publicLocales in src/i18n/config.ts.
 const ALL_LOCALES = ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr'] as const;
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only
+const LOCALES = publicLocales;
 type Locale = typeof ALL_LOCALES[number];
 
 // Page opts in to ISR; area + POI data doesn't change often.

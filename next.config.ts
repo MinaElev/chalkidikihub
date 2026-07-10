@@ -94,6 +94,9 @@ const nextConfig: NextConfig = {
       ['odigos-gia-pyrgadikia-mainland', 'odigos-gia-pyrgadikia'],
       ['when-to-visit-halkidiki', 'best-time-to-visit-halkidiki'],
       ['family-vacation-halkidiki', 'halkidiki-with-kids-complete-guide'],
+      // Admin-authored 2026-07-10, competed with the strengthened keyword guide
+      // for the exact same query. Unique image kept; text offered nothing new.
+      ['oi-kalyteres-paralies-kassandras', 'keyword-oi-kalyteres-paralies-kassandras'],
     ];
     // Single-beach blog posts that competed with the (richer) beach detail
     // pages for the same queries — folded into /beaches/[slug].

@@ -1,4 +1,5 @@
 import { useTranslations, useLocale } from 'next-intl';
+import { publicLocales } from '@/i18n/config';
 import { setRequestLocale, getMessages } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { FeaturedAreas } from '@/components/layout/FeaturedAreas';
@@ -14,7 +15,7 @@ import { LastMinuteDealsPopup } from '@/components/LastMinuteDealsPopup';
 import type { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
+const LOCALES = publicLocales;
 
 // Static prerender at build time + ISR every 24h. Without force-static,
 // next-intl internals opt the route into dynamic rendering and Vercel returns

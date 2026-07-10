@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import PageClient from './_client';
@@ -6,7 +7,7 @@ import { localeUrl, generateBreadcrumbLD, ogImageUrl } from '@/lib/seo';
 import { JsonLd } from '@/components/ui/JsonLd';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
+const LOCALES = publicLocales;
 
 export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 

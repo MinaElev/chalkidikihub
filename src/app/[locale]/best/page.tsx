@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import { setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { Waves, UtensilsCrossed, Landmark, Sparkles, ChevronRight } from 'lucide-react';
 import { BEST_GUIDES } from './[slug]/best-data';
 import { localeUrl } from '@/lib/seo';
 
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
+const LOCALES = publicLocales;
 
 const INDEX_TITLE: Record<string, string> = {
   el: 'Best of Χαλκιδική — Ταξιδιωτικοί Οδηγοί',

@@ -1,10 +1,11 @@
 import { createApiClient } from '@/lib/api-helpers';
+import { publicLocales } from '@/i18n/config';
 import { localeUrl } from '@/lib/seo';
 import { haversineKm } from '@/lib/driving-distances';
 import { AREAS } from '@/lib/constants';
 import type { Metadata } from 'next';
 
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
+const LOCALES = publicLocales;
 
 type ContentType = 'beaches' | 'restaurants' | 'activities';
 

@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
+import { publicLocales } from '@/i18n/config';
 import { setRequestLocale } from 'next-intl/server';
 import { NearClient } from './_client';
 import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en'] as const;
+const LOCALES = publicLocales;
 
 type Props = { params: Promise<{ locale: string }> };
 

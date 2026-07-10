@@ -1,4 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
+import { publicLocales } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import type { Metadata } from 'next';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
@@ -7,7 +8,7 @@ import { MONASTERIES as MONASTERY_DATA } from '../monastery-data';
 import { localeUrl } from '@/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = ['el', 'en'] as const; // hreflang: publicLocales only - hidden locales remain routable but unindexed
+const LOCALES = publicLocales;
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
