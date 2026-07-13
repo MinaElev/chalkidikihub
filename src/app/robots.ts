@@ -23,8 +23,9 @@ export default function robots(): MetadataRoute.Robots {
   // the absence of these from sitemap/hreflang. Re-enable a locale by
   // adding it to publicLocales in src/i18n/config.ts and removing it
   // from this list.
-  // de went public 2026-07-10 after a full human-reviewed re-translation.
-  const hiddenLocalePaths = ['/bg/', '/ru/', '/ro/', '/sr/'];
+  // de + ro went public 2026-07-10 after a full re-translation from the
+  // corrected Greek (ro is the largest foreign-visitor market — drive-in).
+  const hiddenLocalePaths = ['/bg/', '/ru/', '/sr/'];
 
   // LLM / AI crawlers we allow — major Western search/training bots that
   // can drive real referral traffic or AI-chat citations. Each bot matches
