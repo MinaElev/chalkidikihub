@@ -282,10 +282,10 @@ const amenityLabels: Record<string, Record<string, string>> = {
 };
 
 const priceLevels: Record<string, Record<string, string>> = {
-  budget: { el: 'Οικονομικό (€)', en: 'Budget (€)', de: 'Günstig (€)' },
-  moderate: { el: 'Μέτριο (€€)', en: 'Moderate (€€)', de: 'Moderat (€€)' },
-  upscale: { el: 'Υψηλό (€€€)', en: 'Upscale (€€€)', de: 'Gehoben (€€€)' },
-  fineDining: { el: 'Fine Dining (€€€€)', en: 'Fine Dining (€€€€)', de: 'Fine Dining (€€€€)' },
+  budget: { el: 'Οικονομικό (€)', en: 'Budget (€)', de: 'Günstig (€)', ro: 'Economic (€)' },
+  moderate: { el: 'Μέτριο (€€)', en: 'Moderate (€€)', de: 'Moderat (€€)', ro: 'Moderat (€€)' },
+  upscale: { el: 'Υψηλό (€€€)', en: 'Upscale (€€€)', de: 'Gehoben (€€€)', ro: 'Premium (€€€)' },
+  fineDining: { el: 'Fine Dining (€€€€)', en: 'Fine Dining (€€€€)', de: 'Fine Dining (€€€€)', ro: 'Fine Dining (€€€€)' },
 };
 
 // ── Beach FAQ Generator ──────────────────────────────────────────────
