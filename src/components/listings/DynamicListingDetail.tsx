@@ -36,6 +36,8 @@ import { PublicAvailabilityCalendar } from './PublicAvailabilityCalendar';
 import { AutoLinkedContent } from '@/components/blog/AutoLinkedContent';
 import { addRecentlyViewed } from '@/lib/use-recently-viewed';
 import { RecentlyViewed } from '@/components/ui/RecentlyViewed';
+import { ListingReviews } from './ListingReviews';
+import { ReviewForm } from '@/components/ui/ReviewForm';
 
 export function DynamicListingDetail({ slug, locale, initialData }: { slug: string; locale: string; initialData?: Listing | null }) {
   const [listing, setListing] = useState<Listing | null>(initialData || null);
@@ -172,6 +174,12 @@ export function DynamicListingDetail({ slug, locale, initialData }: { slug: stri
               </div>
             </div>
           )}
+
+          {/* Guest reviews + submission form */}
+          {listing.reviews && listing.reviews.length > 0 && (
+            <ListingReviews reviews={listing.reviews} rating={listing.rating || 0} count={listing.reviews_count || listing.reviews.length} />
+          )}
+          <ReviewForm type="listing" itemId={listing.id} itemName={title} />
 
           {/* Map */}
           {listing.latitude && listing.longitude && listing.latitude !== 0 && (

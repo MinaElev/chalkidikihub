@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Star, Check, X, Loader2, Waves, UtensilsCrossed, Landmark, MessageSquare, ChevronDown, ChevronUp } from 'lucide-react';
+import { Star, Check, X, Loader2, Waves, UtensilsCrossed, Landmark, MessageSquare, ChevronDown, ChevronUp, Home } from 'lucide-react';
 
 interface PendingItem {
   id: string;
@@ -18,6 +18,7 @@ const typeConfig: Record<string, { icon: typeof Waves; color: string; label: str
   beach: { icon: Waves, color: 'bg-cyan-100 text-cyan-700', label: 'Παραλία' },
   restaurant: { icon: UtensilsCrossed, color: 'bg-red-100 text-red-700', label: 'Εστιατόριο' },
   activity: { icon: Landmark, color: 'bg-amber-100 text-amber-700', label: 'Δραστηριότητα' },
+  listing: { icon: Home, color: 'bg-emerald-100 text-emerald-700', label: 'Κατάλυμα' },
   comment: { icon: MessageSquare, color: 'bg-indigo-100 text-indigo-700', label: 'Blog Comment' },
 };
 
@@ -70,6 +71,7 @@ export default function AdminReviewsPage() {
           { key: 'beach', label: `Παραλίες (${items.filter(i => i.type === 'beach').length})` },
           { key: 'restaurant', label: `Εστιατόρια (${items.filter(i => i.type === 'restaurant').length})` },
           { key: 'activity', label: `Δραστηριότητες (${items.filter(i => i.type === 'activity').length})` },
+          { key: 'listing', label: `Καταλύματα (${items.filter(i => i.type === 'listing').length})` },
           { key: 'comment', label: `Blog (${items.filter(i => i.type === 'comment').length})` },
         ].map(f => (
           <button key={f.key} onClick={() => setFilter(f.key)}

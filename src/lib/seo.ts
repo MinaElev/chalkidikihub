@@ -606,6 +606,21 @@ export function generateLodgingLD(listing: Record<string, unknown>, locale: stri
     checkinTime: checkin,
     checkoutTime: checkout,
     amenityFeature: (listing.amenities as string[])?.map(a => ({ '@type': 'LocationFeatureSpecification', name: a, value: true })),
+    // LodgingBusiness ⊂ LocalBusiness — one of the parent types Google DOES
+    // accept for review snippets (unlike Beach). Same gating rule as
+    // restaurants/activities: only emit when there are real approved reviews.
+    ...(Number(listing.rating) > 0 && Number(listing.reviews_count) > 0
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: listing.rating,
+            reviewCount: listing.reviews_count,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        }
+      : {}),
+    ...(() => { const rv = mapReviewsLD(listing.reviews, locale); return rv.length ? { review: rv } : {}; })(),
   };
 }
 
@@ -697,9 +712,10 @@ export function generateBeachLD(beach: Record<string, unknown>, locale: string) 
     },
     ...(amenityFeature.length > 0 ? { amenityFeature } : {}),
     ...(beach.image_url ? { image: beach.image_url } : {}),
-    // aggregateRating omitted — Google doesn't support review snippets for Beach
-    // type — but individual Review nodes still give LLM crawlers quotable UGC.
-    ...(() => { const rv = mapReviewsLD(beach.reviews, locale); return rv.length ? { review: rv } : {}; })(),
+    // NO review/aggregateRating here: Beach is a Place subtype, not a
+    // LocalBusiness, so Google flags reviews under it as "Invalid object type
+    // for field <parent_node>" in GSC. Reviews stay visible as page text,
+    // which is what LLM crawlers read anyway.
     url: localeUrl(locale, `beaches/${beach.slug}`),
   };
 }
@@ -830,6 +846,14 @@ const ACTIVITY_CATEGORY_TO_SCHEMA: Record<string, string> = {
   religious: 'PlaceOfWorship',
 };
 
+// Schema types (from ACTIVITY_CATEGORY_TO_SCHEMA) that are LocalBusiness
+// subtypes — the only parents Google accepts review snippets under.
+const REVIEWABLE_ACTIVITY_SCHEMA_TYPES = new Set([
+  'SportsActivityLocation',
+  'HealthAndBeautyBusiness',
+  'NightClub',
+]);
+
 // Map our category keys to touristType labels Google understands.
 const ACTIVITY_CATEGORY_TOURIST_TYPE: Record<string, string> = {
   historical: 'History enthusiast',
@@ -872,7 +896,10 @@ export function generateActivityLD(activity: Record<string, unknown>, locale: st
     ...(touristType ? { touristType } : {}),
     ...(activity.price_range ? { priceRange: activity.price_range as string } : {}),
     ...(activity.duration ? { duration: activity.duration as string } : {}),
-    ...(rating > 0 && reviewsCount > 0
+    // review/aggregateRating only under LocalBusiness subtypes — Google rejects
+    // them under TouristAttraction/PlaceOfWorship with the same GSC
+    // "<parent_node>" error the Beach type used to trigger.
+    ...(REVIEWABLE_ACTIVITY_SCHEMA_TYPES.has(schemaType) && rating > 0 && reviewsCount > 0
       ? {
           aggregateRating: {
             '@type': 'AggregateRating',
@@ -883,7 +910,9 @@ export function generateActivityLD(activity: Record<string, unknown>, locale: st
           },
         }
       : {}),
-    ...(() => { const rv = mapReviewsLD(activity.reviews, locale); return rv.length ? { review: rv } : {}; })(),
+    ...(REVIEWABLE_ACTIVITY_SCHEMA_TYPES.has(schemaType)
+      ? (() => { const rv = mapReviewsLD(activity.reviews, locale); return rv.length ? { review: rv } : {}; })()
+      : {}),
     url: localeUrl(locale, `activities/${activity.slug}`),
   };
 }

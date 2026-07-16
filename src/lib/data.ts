@@ -305,9 +305,18 @@ export const getArticleBySlug = unstable_cache(
 // Use '*' so this query survives future schema changes. transformListing
 // only reads the fields it knows about, so extra columns are harmless
 // and missing optional columns (on older DB snapshots) don't crash.
-const LISTING_FIELDS = `*, listing_images(*)`;
+const LISTING_FIELDS = `*, listing_images(*), listing_reviews(*)`;
 
 export function transformListing(row: Record<string, unknown>) {
+  // RLS already limits anon reads to approved reviews; the filter here keeps
+  // pending ones out even when the row comes from a service-role client.
+  const reviews = (row.listing_reviews as Array<Record<string, unknown>> || [])
+    .filter((r) => r.status === 'approved')
+    .map((r) => ({
+      id: r.id, listing_id: r.listing_id, author_name: r.author_name, rating: r.rating,
+      comment: { el: r.comment_el || '', en: r.comment_en || '', de: '', bg: '', ru: '', ro: '' },
+      created_at: r.created_at,
+    }));
   return {
     id: row.id, slug: row.slug, owner_id: row.owner_id,
     title: {
@@ -373,6 +382,9 @@ export function transformListing(row: Record<string, unknown>) {
     booking_url: row.booking_url || null, airbnb_url: row.airbnb_url || null,
     website_url: row.website_url || null,
     show_calendar: Boolean(row.show_calendar),
+    rating: Number(row.rating) || 0,
+    reviews_count: Number(row.reviews_count) || reviews.length,
+    reviews,
     images: (row.listing_images as Array<Record<string, unknown>> || []).map((img) => ({
       id: img.id, listing_id: row.id, image_url: img.image_url,
       sort_order: img.sort_order, is_cover: img.is_cover,

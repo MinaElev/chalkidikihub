@@ -34,8 +34,20 @@ export interface Listing {
   amenities: Amenity[];
   status: ListingStatus;
   images: ListingImage[];
+  rating?: number;
+  reviews_count?: number;
+  reviews?: ListingReview[];
   created_at: string;
   updated_at: string;
+}
+
+export interface ListingReview {
+  id: string;
+  listing_id: string;
+  author_name: string;
+  rating: number;
+  comment: Record<string, string>;
+  created_at: string;
 }
 
 export interface ListingImage {

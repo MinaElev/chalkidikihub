@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/api-helpers';
 
-const VALID_TYPES = ['beach', 'restaurant', 'activity'];
+const VALID_TYPES = ['beach', 'restaurant', 'activity', 'listing'];
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,8 +24,8 @@ export async function POST(request: NextRequest) {
     const cleanName = (authorName || 'Anonymous').slice(0, 100);
 
     const supabase = createAdminClient();
-    const table = type === 'beach' ? 'beach_reviews' : type === 'restaurant' ? 'restaurant_reviews' : 'activity_reviews';
-    const fkField = type === 'beach' ? 'beach_id' : type === 'restaurant' ? 'restaurant_id' : 'activity_id';
+    const table = type === 'beach' ? 'beach_reviews' : type === 'restaurant' ? 'restaurant_reviews' : type === 'activity' ? 'activity_reviews' : 'listing_reviews';
+    const fkField = type === 'beach' ? 'beach_id' : type === 'restaurant' ? 'restaurant_id' : type === 'activity' ? 'activity_id' : 'listing_id';
 
     const { error } = await supabase.from(table).insert({
       [fkField]: itemId,

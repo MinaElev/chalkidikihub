@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { createAdminClient } from '@/lib/api-helpers';
 import { requireSuperAdmin } from '@/lib/admin-auth';
 
@@ -37,6 +38,15 @@ export async function GET() {
       created_at: r.created_at,
     }));
 
+    // Listing reviews
+    const { data: listR } = await supabase.from('listing_reviews').select('*, listings(title_el)').eq('status', 'pending');
+    (listR || []).forEach((r: any) => pending.push({
+      id: r.id, table: 'listing_reviews', type: 'listing',
+      author_name: r.author_name, rating: r.rating,
+      comment: r.comment_el || '', item_name: r.listings?.title_el || '',
+      created_at: r.created_at,
+    }));
+
     // Blog comments
     const { data: blogC } = await supabase.from('blog_comments').select('*, blog_articles(title_el)').eq('status', 'pending');
     (blogC || []).forEach((c: any) => pending.push({
@@ -66,8 +76,8 @@ export async function PATCH(request: NextRequest) {
 
     // Recalculate rating if approved review
     if (action === 'approved' && table !== 'blog_comments') {
-      const fkField = table === 'beach_reviews' ? 'beach_id' : table === 'restaurant_reviews' ? 'restaurant_id' : 'activity_id';
-      const parentTable = table === 'beach_reviews' ? 'beaches' : table === 'restaurant_reviews' ? 'restaurants' : 'activities';
+      const fkField = table === 'beach_reviews' ? 'beach_id' : table === 'restaurant_reviews' ? 'restaurant_id' : table === 'activity_reviews' ? 'activity_id' : 'listing_id';
+      const parentTable = table === 'beach_reviews' ? 'beaches' : table === 'restaurant_reviews' ? 'restaurants' : table === 'activity_reviews' ? 'activities' : 'listings';
 
       const { data: review } = await supabase.from(table).select(fkField).eq('id', id).single();
       if (review) {
@@ -79,6 +89,19 @@ export async function PATCH(request: NextRequest) {
             rating: Math.round(avg * 10) / 10,
             reviews_count: allReviews.length,
           }).eq('id', parentId);
+        }
+
+        // Bust the ISR/data caches so the approved review (and the updated
+        // aggregate rating in the JSON-LD) shows up without waiting out the
+        // 10h data TTL / 30d ISR window on detail pages.
+        const { data: parent } = await supabase.from(parentTable).select('slug').eq('id', parentId).single();
+        if (parent?.slug) {
+          const basePath = parentTable === 'listings' ? 'listings' : parentTable;
+          revalidateTag(parentTable, 'default');
+          for (const locale of ['el', 'en', 'de', 'bg', 'ru', 'ro', 'sr']) {
+            revalidatePath(`/${locale}/${basePath}/${parent.slug}`);
+            if (parentTable === 'listings') revalidatePath(`/${locale}/stay/${parent.slug}`);
+          }
         }
       }
     }

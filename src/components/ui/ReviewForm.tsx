@@ -7,7 +7,7 @@ import { Star, Loader2, CheckCircle } from 'lucide-react';
 import { logEvent } from '@/lib/logger';
 
 interface Props {
-  type: 'beach' | 'restaurant' | 'activity';
+  type: 'beach' | 'restaurant' | 'activity' | 'listing';
   itemId: string;
   itemName: string;
 }
