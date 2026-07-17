@@ -5,17 +5,13 @@ export default function robots(): MetadataRoute.Robots {
 
   // Block private areas across all locales. With `localePrefix: 'as-needed'`
   // the default locale ('el') is unprefixed, so we also list raw paths.
-  const privatePaths = [
-    '/dashboard/',
-    '/auth/',
-    '/admin/',
-    '/en/dashboard/', '/en/auth/', '/en/admin/',
-    '/de/dashboard/', '/de/auth/', '/de/admin/',
-    '/bg/dashboard/', '/bg/auth/', '/bg/admin/',
-    '/ru/dashboard/', '/ru/auth/', '/ru/admin/',
-    '/ro/dashboard/', '/ro/auth/', '/ro/admin/',
-    '/sr/dashboard/', '/sr/auth/', '/sr/admin/',
-  ];
+  // Each path appears both with and without the trailing slash: `/dashboard/`
+  // alone does NOT match the bare `/dashboard` index route (Bing crawled and
+  // flagged it 2026-07-16).
+  const privateBases = ['dashboard', 'auth', 'admin'];
+  const privatePaths = ['', '/en', '/de', '/bg', '/ru', '/ro', '/sr'].flatMap(
+    (prefix) => privateBases.flatMap((base) => [`${prefix}/${base}`, `${prefix}/${base}/`]),
+  );
 
   // Hidden locales (auto-translated, not human-reviewed). Routes still
   // resolve so any inbound link keeps working, but crawlers are asked

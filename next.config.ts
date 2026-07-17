@@ -97,12 +97,20 @@ const nextConfig: NextConfig = {
       // Admin-authored 2026-07-10, competed with the strengthened keyword guide
       // for the exact same query. Unique image kept; text offered nothing new.
       ['oi-kalyteres-paralies-kassandras', 'keyword-oi-kalyteres-paralies-kassandras'],
+      // Ghost URL found via Bing WMT 2026-07-16: row long gone but Bing (and
+      // stale ISR cache) still served a zombie 200 shell for the old slug.
+      ['odigos-gia-ammouliani', 'ammouliani-island-complete-guide'],
     ];
     // Single-beach blog posts that competed with the (richer) beach detail
     // pages for the same queries — folded into /beaches/[slug].
     const articlesToBeaches: Array<[string, string]> = [
       ['paralia-sani-kassandra', 'sani-kassandra'],
       ['paralia-sithonia-klimataria-beach', 'sithonia-klimataria-beach'],
+      ['paralia-sarti-athos', 'sarti-sithonia'],
+    ];
+    // Renamed beach slugs — old URLs still crawled by Bing (ghost 200s).
+    const renamedBeaches: Array<[string, string]> = [
+      ['vourvourou-beach-sithonia', 'vourvourou-sithonia'],
     ];
     return [
       ...mergedArticles.flatMap(([from, to]) => [
@@ -117,6 +125,14 @@ const nextConfig: NextConfig = {
         { source: `/blog/${from}`, destination: `/beaches/${to}`, permanent: true },
         {
           source: `/:locale(en|de|bg|ru|ro|sr)/blog/${from}`,
+          destination: `/:locale/beaches/${to}`,
+          permanent: true,
+        },
+      ]),
+      ...renamedBeaches.flatMap(([from, to]) => [
+        { source: `/beaches/${from}`, destination: `/beaches/${to}`, permanent: true },
+        {
+          source: `/:locale(en|de|bg|ru|ro|sr)/beaches/${from}`,
           destination: `/:locale/beaches/${to}`,
           permanent: true,
         },
