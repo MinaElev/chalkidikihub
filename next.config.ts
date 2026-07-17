@@ -112,6 +112,10 @@ const nextConfig: NextConfig = {
     const renamedBeaches: Array<[string, string]> = [
       ['vourvourou-beach-sithonia', 'vourvourou-sithonia'],
     ];
+    // Deleted articles with no successor (removed business posts). They soft-404
+    // (streamed noindex, HTTP 200 — see Next loading.md Status Codes), which is
+    // harmless but keeps them in Bing's error report; 301 to the listing ends that.
+    const deletedArticles = ['carWash', 'tiki-Floating'];
     return [
       ...mergedArticles.flatMap(([from, to]) => [
         { source: `/blog/${from}`, destination: `/blog/${to}`, permanent: true },
@@ -134,6 +138,14 @@ const nextConfig: NextConfig = {
         {
           source: `/:locale(en|de|bg|ru|ro|sr)/beaches/${from}`,
           destination: `/:locale/beaches/${to}`,
+          permanent: true,
+        },
+      ]),
+      ...deletedArticles.flatMap((from) => [
+        { source: `/blog/${from}`, destination: '/blog', permanent: true },
+        {
+          source: `/:locale(en|de|bg|ru|ro|sr)/blog/${from}`,
+          destination: '/:locale/blog',
           permanent: true,
         },
       ]),
