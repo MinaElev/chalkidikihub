@@ -33,10 +33,15 @@ export async function POST(request: NextRequest) {
     if (listing.owner_id) {
       const { data: owner } = await supabase
         .from('profiles')
-        .select('email, full_name, phone')
+        .select('email, full_name, phone, email_verified_at')
         .eq('id', listing.owner_id)
         .single();
       if (owner) {
+        // Owner hasn't verified their email yet — hold the notification.
+        // verify-code re-fires notify-new for pending listings once verified.
+        if (!owner.email_verified_at) {
+          return NextResponse.json({ skipped: 'owner_unverified' });
+        }
         ownerEmail = owner.email || null;
         ownerName = owner.full_name || null;
         ownerPhone = owner.phone || null;

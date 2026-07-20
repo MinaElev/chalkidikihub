@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { LayoutDashboard, Home, List, User, LogOut, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle, Bell, Zap } from 'lucide-react';
+import { LayoutDashboard, Home, List, User, LogOut, UtensilsCrossed, Landmark, FileText, ClipboardList, Menu, X, Building, Plus, PlusCircle, Bell, Zap, MailWarning } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -14,6 +14,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [pendingCount, setPendingCount] = useState(0);
   const [broadcastWeek, setBroadcastWeek] = useState(0);
+  const [emailUnverified, setEmailUnverified] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations('nav');
@@ -28,6 +29,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         router.push('/auth/login');
       } else {
         setUser(data.user);
+        // Email verification status (existing users are grandfathered as verified)
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('email_verified_at')
+          .eq('id', data.user.id)
+          .single();
+        setEmailUnverified(!!profile && !profile.email_verified_at);
+
         // Fetch pending submission count
         const { count } = await supabase
           .from('user_submissions')
@@ -236,7 +245,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
           </aside>
 
-          <main className="flex-1 min-w-0">{children}</main>
+          <main className="flex-1 min-w-0">
+            {emailUnverified && (
+              <div className="mb-4 flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3">
+                <MailWarning className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <div className="flex-1 text-sm text-amber-800">
+                  {locale === 'el'
+                    ? 'Το email σας δεν έχει επιβεβαιωθεί. Τα καταλύματά σας δεν θα δημοσιευτούν μέχρι να το επιβεβαιώσετε.'
+                    : 'Your email is not verified yet. Your listings will not be published until you verify it.'}
+                </div>
+                <Link
+                  href="/auth/verify"
+                  className="shrink-0 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  {locale === 'el' ? 'Επιβεβαίωση' : 'Verify now'}
+                </Link>
+              </div>
+            )}
+            {children}
+          </main>
         </div>
       </div>
     </div>

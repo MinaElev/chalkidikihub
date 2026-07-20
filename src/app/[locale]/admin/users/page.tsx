@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Users, Shield, User, Loader2, Trash2, KeyRound } from 'lucide-react';
+import { Users, Shield, User, Loader2, Trash2, KeyRound, MailCheck, MailWarning } from 'lucide-react';
 
 interface Profile {
   id: string;
@@ -11,6 +11,7 @@ interface Profile {
   phone: string;
   role: string;
   created_at: string;
+  email_verified_at: string | null;
 }
 
 export default function AdminUsersPage() {
@@ -102,6 +103,7 @@ export default function AdminUsersPage() {
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">User</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Phone</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Role</th>
+              <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Email</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Joined</th>
               <th className="text-left px-4 py-3 text-sm font-medium text-gray-600 min-w-[160px]">Actions</th>
             </tr>
@@ -131,6 +133,20 @@ export default function AdminUsersPage() {
                   }`}>
                     {user.role}
                   </span>
+                </td>
+                <td className="px-4 py-3">
+                  {user.email_verified_at ? (
+                    <span
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700"
+                      title={`Επιβεβαιώθηκε: ${new Date(user.email_verified_at).toLocaleString('el-GR')}`}
+                    >
+                      <MailCheck className="w-3 h-3" /> Επιβεβαιωμένο
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                      <MailWarning className="w-3 h-3" /> Εκκρεμεί
+                    </span>
+                  )}
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-500">
                   {new Date(user.created_at).toLocaleDateString()}

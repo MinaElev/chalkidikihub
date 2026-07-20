@@ -56,6 +56,7 @@ export default function EditListingPage() {
     airbnb_url: '',
     status: 'draft',
   });
+  const [approvedAt, setApprovedAt] = useState<string | null>(null);
 
   const areaLabels: Record<Area, string> = {
     kassandra: tAreas('kassandra.name'), sithonia: tAreas('sithonia.name'),
@@ -92,6 +93,7 @@ export default function EditListingPage() {
           airbnb_url: data.airbnb_url || '',
           status: data.status,
         });
+        setApprovedAt(data.approved_at || null);
         setExistingImages(
           (data.listing_images || [])
             .sort((a: DbImage, b: DbImage) => a.sort_order - b.sort_order)
@@ -447,14 +449,21 @@ export default function EditListingPage() {
           </p>
         </div>
 
-        {/* Status & Submit */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={form.status === 'published'}
-              onChange={(e) => setForm(prev => ({ ...prev, status: e.target.checked ? 'published' : 'draft' }))}
-              className="rounded text-primary-600 focus:ring-primary-500" />
-            Published
-          </label>
+        {/* Status & Submit — publishing requires prior admin approval (approved_at);
+            a DB trigger enforces the same rule server-side */}
+        <div className="flex items-center justify-between gap-4 pt-4 border-t border-gray-200">
+          {approvedAt ? (
+            <label className="flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={form.status === 'published'}
+                onChange={(e) => setForm(prev => ({ ...prev, status: e.target.checked ? 'published' : 'draft' }))}
+                className="rounded text-primary-600 focus:ring-primary-500" />
+              Published
+            </label>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+              Σε αναμονή έγκρισης — θα δημοσιευτεί μετά τον έλεγχο από την ομάδα μας
+            </span>
+          )}
           <button type="submit" disabled={saving}
             className="flex items-center gap-2 px-8 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white font-medium rounded-xl transition-colors">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}

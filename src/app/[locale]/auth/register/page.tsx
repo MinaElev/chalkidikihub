@@ -5,7 +5,7 @@ import { Link, useRouter } from '@/i18n/navigation';
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { logEvent } from '@/lib/logger';
-import { Loader2, CheckCircle } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 export default function RegisterPage() {
   const t = useTranslations('nav');
@@ -17,7 +17,6 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [honeypot, setHoneypot] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -58,29 +57,10 @@ export default function RegisterPage() {
     }
 
     logEvent('user_action', 'info', 'New user registered', { email });
-    // Auto login after register (email confirmation is OFF)
-    router.push('/dashboard');
-  }
-
-  if (false) {
-    // Unused - kept for when email confirmation is enabled
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center px-4">
-        <div className="w-full max-w-md bg-white border border-gray-200 rounded-2xl p-8 shadow-sm text-center">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Check your email!</h2>
-          <p className="text-gray-600 mb-6">
-            We sent a confirmation link to <strong>{email}</strong>. Click it to activate your account.
-          </p>
-          <Link
-            href="/auth/login"
-            className="inline-flex px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors"
-          >
-            {t('login')}
-          </Link>
-        </div>
-      </div>
-    );
+    // Supabase email confirmation is OFF — user is auto-logged-in. Our own
+    // 4-digit code flow takes over: send the code, then ask for it.
+    await fetch('/api/auth/send-verification', { method: 'POST' }).catch(() => {});
+    router.push('/auth/verify');
   }
 
   return (
