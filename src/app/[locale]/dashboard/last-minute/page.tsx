@@ -131,6 +131,19 @@ export default function LastMinuteDealsPage() {
     return m;
   }, [listings, el]);
 
+  // A deal is "live" only while it's active AND its end date hasn't passed —
+  // exactly the rule the public RLS policy enforces. Everything else has closed
+  // (auto-expired by the nightly cron, or already flipped in the DB).
+  const today = todayStr();
+  const activeDeals = useMemo(
+    () => deals.filter(d => d.status === 'active' && d.end_date >= today),
+    [deals, today],
+  );
+  const closedDeals = useMemo(
+    () => deals.filter(d => !(d.status === 'active' && d.end_date >= today)),
+    [deals, today],
+  );
+
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -310,15 +323,15 @@ export default function LastMinuteDealsPage() {
             </button>
           </form>
 
-          {/* Existing deals */}
+          {/* Active openings */}
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">
             {el ? 'Ενεργές διαθεσιμότητες' : 'Active openings'}
           </h2>
-          {deals.length === 0 ? (
-            <p className="text-sm text-slate-400">{el ? 'Καμία ακόμη.' : 'None yet.'}</p>
+          {activeDeals.length === 0 ? (
+            <p className="text-sm text-slate-400">{el ? 'Καμία ενεργή αυτή τη στιγμή.' : 'None active right now.'}</p>
           ) : (
             <ul className="space-y-2">
-              {deals.map(d => (
+              {activeDeals.map(d => (
                 <li key={d.id} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
                   <CalendarIcon className="w-4 h-4 text-slate-400 shrink-0" />
                   <div className="min-w-0 flex-1">
@@ -343,6 +356,41 @@ export default function LastMinuteDealsPage() {
                 </li>
               ))}
             </ul>
+          )}
+
+          {/* Closed openings — auto-expired once their end date passed. Kept
+              visible (greyed) so the owner sees they closed on their own; still
+              deletable to tidy up. */}
+          {closedDeals.length > 0 && (
+            <>
+              <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-slate-400 mb-3">
+                {el ? 'Έκλεισαν' : 'Closed'}
+              </h2>
+              <ul className="space-y-2">
+                {closedDeals.map(d => (
+                  <li key={d.id} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 opacity-70">
+                    <CalendarIcon className="w-4 h-4 text-slate-300 shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-medium text-slate-500 truncate">{titleById.get(d.listing_id) || '—'}</div>
+                      <div className="text-xs text-slate-400">
+                        {fmtRange(d.start_date, d.end_date)}
+                        {d.note ? ` · ${d.note}` : ''}
+                      </div>
+                    </div>
+                    <span className="shrink-0 rounded-full bg-slate-200 px-2.5 py-0.5 text-[11px] font-semibold text-slate-500">
+                      {el ? 'Έκλεισε' : 'Closed'}
+                    </span>
+                    <button
+                      onClick={() => handleDelete(d.id)}
+                      className="p-1.5 rounded-lg text-slate-400 hover:bg-rose-50 hover:text-rose-600"
+                      title={el ? 'Διαγραφή' : 'Delete'}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
         </>
       )}
