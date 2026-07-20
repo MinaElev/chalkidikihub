@@ -49,6 +49,7 @@ next-env.d.ts
 
 # Marketing assets — kept locally only (social-media exports, not served by the site)
 /public/marketing/
+/marketing/
 
 .vercel
 .env*
