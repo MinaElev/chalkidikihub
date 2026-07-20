@@ -5,15 +5,16 @@
 //
 // Endpoints used:
 //   - oauth2.googleapis.com/token (refresh)
-//   - searchconsole.googleapis.com/v1/sites/<site>/searchAnalytics/query
-//   - searchconsole.googleapis.com/v1/urlInspection/index:inspect (URL Inspection)
+//   - searchconsole.googleapis.com/webmasters/v3/sites/<site>/searchAnalytics/query
+//     (the sites/searchAnalytics resources live under /webmasters/v3, NOT /v1 —
+//      only urlInspection is under /v1. Hitting /v1 returns a generic HTML 404.)
 
 import type { createAdminClient } from './api-helpers';
 
 type AdminSupabase = ReturnType<typeof createAdminClient>;
 
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
-const SC_BASE = 'https://searchconsole.googleapis.com/v1';
+const SC_BASE = 'https://searchconsole.googleapis.com/webmasters/v3';
 
 const CLIENT_ID = () => process.env.GOOGLE_CLIENT_ID || '';
 const CLIENT_SECRET = () => process.env.GOOGLE_CLIENT_SECRET || '';
@@ -119,6 +120,59 @@ export async function fetchTopQueries(supabase: AdminSupabase, daysBack = 28, li
   return searchAnalyticsQuery(supabase, {
     ...range,
     dimensions: ['query', 'page'],
+    rowLimit: limit,
+    type: 'web',
+  });
+}
+
+// Fetch page-level performance for an *explicit* date window (YYYY-MM-DD).
+// Used by the monthly snapshot cron to pull a whole calendar month at once,
+// independent of the rolling-28-day cache.
+export async function fetchPagesForRange(
+  supabase: AdminSupabase,
+  startDate: string,
+  endDate: string,
+  limit = 5000,
+) {
+  return searchAnalyticsQuery(supabase, {
+    startDate,
+    endDate,
+    dimensions: ['page'],
+    rowLimit: limit,
+    type: 'web',
+  });
+}
+
+// Fetch (query, page) performance for an explicit date window. Lets the
+// snapshot attribute top search terms to each listing for that month.
+export async function fetchQueriesForRange(
+  supabase: AdminSupabase,
+  startDate: string,
+  endDate: string,
+  limit = 5000,
+) {
+  return searchAnalyticsQuery(supabase, {
+    startDate,
+    endDate,
+    dimensions: ['query', 'page'],
+    rowLimit: limit,
+    type: 'web',
+  });
+}
+
+// Site-wide performance by visitor country for an explicit date window.
+// keys[0] is an ISO 3166-1 alpha-3 code (e.g. 'grc', 'deu'). Used for the
+// monthly report's "where our visitors come from" breakdown + site totals.
+export async function fetchCountriesForRange(
+  supabase: AdminSupabase,
+  startDate: string,
+  endDate: string,
+  limit = 250,
+) {
+  return searchAnalyticsQuery(supabase, {
+    startDate,
+    endDate,
+    dimensions: ['country'],
     rowLimit: limit,
     type: 'web',
   });

@@ -8,6 +8,14 @@
     {
       "path": "/api/cron/auto-blog",
       "schedule": "0 8 * * 1"
+    },
+    {
+      "path": "/api/cron/expire-deals",
+      "schedule": "5 1 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-snapshot",
+      "schedule": "0 6 3 * *"
     }
   ],
   "headers": [
