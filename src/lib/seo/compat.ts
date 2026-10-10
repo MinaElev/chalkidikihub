@@ -18,3 +18,21 @@ export function finalizeTitle(raw: string): string {
   const cut = base.slice(0, 59);
   return `${cut.slice(0, cut.lastIndexOf(' '))}…`;
 }
+
+export const SOCIAL_LINKS: string[] = [
+  process.env.NEXT_PUBLIC_FACEBOOK_URL ?? 'https://www.facebook.com/groups/1738995400608595',
+  process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? 'https://www.instagram.com/chalkidikihub/',
+].filter(Boolean) as string[];
+
+export const ogImageUrl = (title: string, _type?: string) => `/api/og?title=${encodeURIComponent(title)}`;
+
+import { buildMetadata } from './metadata';
+export function collectionMeta(opts: { titles: Record<string, string>; descriptions: Record<string, string>; path: string; locale: string; ogType?: string; mdSection?: string }) {
+  const locale = opts.locale as Locale;
+  return buildMetadata({
+    locale,
+    path: `/${opts.path.replace(/^\//, '')}`,
+    title: opts.titles[locale] || opts.titles.en,
+    description: opts.descriptions[locale] || opts.descriptions.en,
+  });
+}
