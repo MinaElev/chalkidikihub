@@ -343,5 +343,22 @@
     "ownersTitle": "Sie vermieten auf Chalkidiki?",
     "ownersText": "Tragen Sie Ihre Unterkunft ein und erhalten Sie Anfragen direkt von Gästen – ohne Provision pro Buchung.",
     "ownersCta": "Mehr erfahren"
+  },
+  "guides": {
+    "hubTitle": "Reiseführer für Chalkidiki",
+    "hubMetaTitle": "Chalkidiki-Reiseführer: Reisezeit, Anreise, Kosten",
+    "hubLead": "Alles für die Urlaubsplanung: wann man kommt, wie man aus Ihrem Land anreist, was Essen und Unterkunft kosten, fertige Routen und die besten Tipps nach Thema.",
+    "secPlan": "Planung",
+    "secFrom": "Anreise",
+    "secCosts": "Kosten",
+    "secItineraries": "Routen",
+    "secBest": "Das Beste",
+    "secMore": "Mehr",
+    "related": "Weitere Reiseführer",
+    "fromHubTitle": "Anreise nach Chalkidiki",
+    "fromHubLead": "Mit dem Auto über den Balkan, per Flug nach Thessaloniki oder mit dem Bus: Routen, Entfernungen, Maut und Grenzübergänge aus allen großen Städten.",
+    "bestListTitle": "Die Liste",
+    "faqTitle": "Häufige Fragen zu Chalkidiki",
+    "faqLead": "Kurze, praktische Antworten zu Anreise, Stränden, Essen, Unterkunft und Alltag."
   }
 }

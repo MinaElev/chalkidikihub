@@ -173,6 +173,7 @@ export function buildRedirects(): Rule[] {
 
   rules.push(...both('/activities/category/boatTrips', '/guide/boat-tours'));
   rules.push(...both('/from/munich', '/from'));
+  rules.push(...both('/best', '/guide'));
 
   // Remaining facet families: every member folds into its collection. These
   // come last so the specific rules above win (Next matches in order).

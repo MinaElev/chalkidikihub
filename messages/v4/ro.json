@@ -343,5 +343,22 @@
     "ownersTitle": "Ai o proprietate de închiriat în Halkidiki?",
     "ownersText": "Adaug-o și primește cereri direct de la turiști, fără comision pe rezervare.",
     "ownersCta": "Află mai multe"
+  },
+  "guides": {
+    "hubTitle": "Ghiduri pentru Halkidiki",
+    "hubMetaTitle": "Ghiduri Halkidiki: când să mergi, cum ajungi, cât costă",
+    "hubLead": "Tot ce îți trebuie ca să-ți planifici vacanța: când să vii, cum ajungi din țara ta, cât costă mâncarea și cazarea, itinerarii gata făcute și cele mai bune alegeri pe teme.",
+    "secPlan": "Planificare",
+    "secFrom": "Cum ajungi",
+    "secCosts": "Costuri",
+    "secItineraries": "Itinerarii",
+    "secBest": "Cele mai bune",
+    "secMore": "Mai multe",
+    "related": "Alte ghiduri",
+    "fromHubTitle": "Cum ajungi în Halkidiki",
+    "fromHubLead": "Cu mașina prin Balcani, cu avionul până la Salonic sau cu autocarul: rute, distanțe, taxe de drum și puncte de frontieră din fiecare oraș mare.",
+    "bestListTitle": "Lista",
+    "faqTitle": "Întrebări frecvente despre Halkidiki",
+    "faqLead": "Răspunsuri scurte și practice despre transport, plaje, mâncare, cazare și viața de zi cu zi."
   }
 }

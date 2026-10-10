@@ -343,5 +343,22 @@
     "ownersTitle": "Own a holiday rental in Halkidiki?",
     "ownersText": "List it and receive requests directly from visitors, with no commission per booking.",
     "ownersCta": "Find out more"
+  },
+  "guides": {
+    "hubTitle": "Halkidiki travel guides",
+    "hubMetaTitle": "Halkidiki guides: when to go, how to get there, what it costs",
+    "hubLead": "Everything you need to plan your holiday: when to come, how to get here from your country, what food and accommodation cost, ready-made itineraries and the best picks by theme.",
+    "secPlan": "Planning",
+    "secFrom": "Getting here",
+    "secCosts": "Costs",
+    "secItineraries": "Itineraries",
+    "secBest": "Best of",
+    "secMore": "More",
+    "related": "More guides",
+    "fromHubTitle": "How to get to Halkidiki",
+    "fromHubLead": "By road from the Balkans, by plane to Thessaloniki or by bus: routes, distances, tolls and border crossings from every major city.",
+    "bestListTitle": "The list",
+    "faqTitle": "Halkidiki FAQ",
+    "faqLead": "Short, practical answers about transport, beaches, food, accommodation and everyday questions."
   }
 }

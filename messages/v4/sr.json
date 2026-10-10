@@ -343,5 +343,22 @@
     "ownersTitle": "Imate smeštaj na Halkidikiju?",
     "ownersText": "Oglasite ga i primajte upite direktno od gostiju, bez provizije po rezervaciji.",
     "ownersCta": "Saznajte više"
+  },
+  "guides": {
+    "hubTitle": "Vodiči za Halkidiki",
+    "hubMetaTitle": "Vodiči za Halkidiki: kada, kako i koliko košta",
+    "hubLead": "Sve što vam treba za planiranje odmora: kada doći, kako stići iz vaše zemlje, koliko koštaju hrana i smeštaj, gotovi itinereri i najbolji izbor po temama.",
+    "secPlan": "Planiranje",
+    "secFrom": "Kako stići",
+    "secCosts": "Troškovi",
+    "secItineraries": "Itinereri",
+    "secBest": "Najbolje",
+    "secMore": "Još",
+    "related": "Drugi vodiči",
+    "fromHubTitle": "Kako stići na Halkidiki",
+    "fromHubLead": "Kolima preko Balkana, avionom do Soluna ili autobusom: rute, udaljenosti, putarine i granični prelazi iz svakog većeg grada.",
+    "bestListTitle": "Spisak",
+    "faqTitle": "Česta pitanja o Halkidikiju",
+    "faqLead": "Kratki, praktični odgovori o prevozu, plažama, hrani, smeštaju i svakodnevnim pitanjima."
   }
 }
