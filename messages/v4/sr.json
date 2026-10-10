@@ -376,5 +376,30 @@
     "nearbyBeaches": "Plaže u blizini",
     "metaTitle": "{name}: {when}, {place}",
     "metaDesc": "{name} na Halkidikiju: kada se održava ({when}), gde, šta očekivati i gde odsesti u blizini."
+  },
+  "search": {
+    "title": "Pretraga",
+    "placeholder": "Plaža, mesto, lokal ili smeštaj…",
+    "submit": "Traži",
+    "results": "{count, plural, one {# rezultat} few {# rezultata} other {# rezultata}} za „{q}”",
+    "none": "Nismo ništa našli za „{q}”. Probajte ime mesta ili plaže.",
+    "hint": "Upišite ime plaže, mesta, lokala ili smeštaja — grčkim ili latiničnim slovima.",
+    "kind_beach": "Plaža",
+    "kind_village": "Mesto",
+    "kind_restaurant": "Hrana",
+    "kind_activity": "Aktivnost",
+    "kind_listing": "Smeštaj",
+    "kind_article": "Članak"
+  },
+  "ev": {
+    "title": "Punjači za električna vozila na Halkidikiju",
+    "metaTitle": "Punjenje električnih vozila na Halkidikiju: stanice po oblastima",
+    "lead": "Sve evidentirane stanice za punjenje na Halkidikiju, po poluostrvima, sa tipovima utičnica i snagom. Podaci su sa Open Charge Map — proverite dostupnost i cenu u aplikaciji operatera pre polaska.",
+    "points": "{count, plural, one {# priključak} few {# priključka} other {# priključaka}}",
+    "operator": "Operater",
+    "cost": "Cena",
+    "source": "Izvor podataka: Open Charge Map",
+    "none": "Trenutno nismo uspeli da učitamo stanice.",
+    "near": "kod mesta {place}"
   }
 }

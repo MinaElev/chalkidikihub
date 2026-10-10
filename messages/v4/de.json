@@ -376,5 +376,30 @@
     "nearbyBeaches": "Strände in der Nähe",
     "metaTitle": "{name}: {when}, {place}",
     "metaDesc": "{name} auf Chalkidiki: wann es stattfindet ({when}), wo, was Sie erwartet und wo Sie in der Nähe übernachten."
+  },
+  "search": {
+    "title": "Suche",
+    "placeholder": "Strand, Ort, Lokal oder Unterkunft …",
+    "submit": "Suchen",
+    "results": "{count, plural, one {# Ergebnis} other {# Ergebnisse}} für „{q}“",
+    "none": "Keine Treffer für „{q}“. Versuchen Sie den Namen eines Ortes oder Strandes.",
+    "hint": "Geben Sie den Namen eines Strandes, Ortes, Lokals oder einer Unterkunft ein – auf Griechisch oder in lateinischen Buchstaben.",
+    "kind_beach": "Strand",
+    "kind_village": "Ort",
+    "kind_restaurant": "Essen",
+    "kind_activity": "Aktivität",
+    "kind_listing": "Unterkunft",
+    "kind_article": "Artikel"
+  },
+  "ev": {
+    "title": "E-Ladestationen auf Chalkidiki",
+    "metaTitle": "E-Auto laden auf Chalkidiki: Ladestationen nach Region",
+    "lead": "Alle erfassten Ladestationen auf Chalkidiki, nach Halbinsel gruppiert, mit Steckertypen und Leistung. Die Daten stammen von Open Charge Map – prüfen Sie Verfügbarkeit und Preis vor der Fahrt in der App des Betreibers.",
+    "points": "{count, plural, one {# Ladepunkt} other {# Ladepunkte}}",
+    "operator": "Betreiber",
+    "cost": "Preis",
+    "source": "Datenquelle: Open Charge Map",
+    "none": "Die Ladestationen konnten gerade nicht geladen werden.",
+    "near": "bei {place}"
   }
 }

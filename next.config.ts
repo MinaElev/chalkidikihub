@@ -34,7 +34,9 @@ const nextConfig: NextConfig = {
   compiler: { removeConsole: { exclude: ['error', 'warn'] } },
   experimental: {
     optimizePackageImports: ['lucide-react'],
-    inlineCss: true,
+    // inlineCss is deliberately OFF: it embeds the stylesheet three times per
+    // page (once in <style>, twice in the RSC payload) — 235 KB of a 425 KB
+    // beach page. A linked, immutable CSS file is fetched once per visit.
   },
   images: {
     // Vercel's optimizer is capped on the Hobby plan (402 once exceeded);

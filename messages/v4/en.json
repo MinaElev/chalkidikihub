@@ -376,5 +376,30 @@
     "nearbyBeaches": "Beaches nearby",
     "metaTitle": "{name}: {when}, {place}",
     "metaDesc": "{name} in Halkidiki: when it takes place ({when}), where, what to expect and where to stay nearby."
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Beach, village, place to eat or stay…",
+    "submit": "Search",
+    "results": "{count, plural, one {# result} other {# results}} for “{q}”",
+    "none": "Nothing found for “{q}”. Try a village or beach name.",
+    "hint": "Type the name of a beach, village, restaurant or place to stay — in Greek or Latin letters.",
+    "kind_beach": "Beach",
+    "kind_village": "Village",
+    "kind_restaurant": "Food",
+    "kind_activity": "Activity",
+    "kind_listing": "Stay",
+    "kind_article": "Article"
+  },
+  "ev": {
+    "title": "EV charging stations in Halkidiki",
+    "metaTitle": "EV charging in Halkidiki: stations by area",
+    "lead": "Every recorded charging station in Halkidiki, grouped by peninsula, with plug types and power. Data comes from Open Charge Map — check availability and price in the operator's app before you set off.",
+    "points": "{count, plural, one {# point} other {# points}}",
+    "operator": "Operator",
+    "cost": "Pricing",
+    "source": "Data source: Open Charge Map",
+    "none": "We couldn't load the stations right now.",
+    "near": "near {place}"
   }
 }

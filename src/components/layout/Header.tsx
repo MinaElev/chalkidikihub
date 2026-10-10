@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { Menu, X, UserRound } from 'lucide-react';
+import { Menu, Search, X, UserRound } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { localeNames, locales, type Locale } from '@/i18n/config';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -43,6 +43,9 @@ export async function Header({ locale }: { locale: Locale }) {
         </nav>
 
         <div className="ml-auto flex items-center gap-1">
+          <Link href="/search" className="flex size-10 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100" aria-label={t('search')}>
+            <Search className="size-5" aria-hidden />
+          </Link>
           <LanguageSwitcher current={locale} languages={languages} label={t('language')} />
           <Link
             href="/dashboard"

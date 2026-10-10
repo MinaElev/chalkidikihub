@@ -376,5 +376,30 @@
     "nearbyBeaches": "Plaje în apropiere",
     "metaTitle": "{name}: {when}, {place}",
     "metaDesc": "{name} în Halkidiki: când are loc ({when}), unde, la ce să te aștepți și unde să te cazezi în apropiere."
+  },
+  "search": {
+    "title": "Căutare",
+    "placeholder": "Plajă, localitate, local sau cazare…",
+    "submit": "Caută",
+    "results": "{count, plural, one {# rezultat} few {# rezultate} other {# de rezultate}} pentru „{q}”",
+    "none": "Nu am găsit nimic pentru „{q}”. Încearcă numele unei localități sau plaje.",
+    "hint": "Scrie numele unei plaje, localități, restaurant sau cazări — cu litere grecești sau latine.",
+    "kind_beach": "Plajă",
+    "kind_village": "Localitate",
+    "kind_restaurant": "Mâncare",
+    "kind_activity": "Activitate",
+    "kind_listing": "Cazare",
+    "kind_article": "Articol"
+  },
+  "ev": {
+    "title": "Stații de încărcare pentru mașini electrice în Halkidiki",
+    "metaTitle": "Încărcare EV în Halkidiki: stații pe zone",
+    "lead": "Toate stațiile de încărcare înregistrate în Halkidiki, grupate pe peninsule, cu tipuri de mufe și putere. Datele provin de la Open Charge Map — verifică disponibilitatea și prețul în aplicația operatorului înainte să pleci.",
+    "points": "{count, plural, one {# punct} few {# puncte} other {# de puncte}}",
+    "operator": "Operator",
+    "cost": "Tarif",
+    "source": "Sursa datelor: Open Charge Map",
+    "none": "Nu am putut încărca stațiile acum.",
+    "near": "lângă {place}"
   }
 }

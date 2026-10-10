@@ -24,17 +24,33 @@ type Spec = {
   image?: (row: Record<string, unknown>) => boolean;
 };
 
+/**
+ * Long text in 7 languages is heavy (blog bodies run to megabytes), so rows
+ * are read in pages: one huge statement hit Supabase's statement timeout when
+ * several build workers ran it at once.
+ */
+const PAGE = 20;
+
+async function fetchAll(spec: Spec) {
+  const rows: Array<Record<string, unknown> & { slug: string }> = [];
+  for (let from = 0; ; from += PAGE) {
+    let query = publicDb()
+      .from(spec.table)
+      .select(`slug, image_url, ${localizedColumns(spec.field)}${spec.extra ? `, ${spec.extra}` : ''}`)
+      .order('slug')
+      .range(from, from + PAGE - 1);
+    if (spec.table === 'listings') query = query.eq('status', 'published');
+    if (spec.table === 'blog_articles') query = query.not('published_at', 'is', null);
+    const { data, error } = await query;
+    if (error) throw new Error(`indexability ${spec.table}: ${error.message}`);
+    rows.push(...((data ?? []) as unknown as typeof rows));
+    if (!data || data.length < PAGE) return rows;
+  }
+}
+
 async function compute(spec: Spec): Promise<Record<string, Locale[]>> {
-  let query = publicDb()
-    .from(spec.table)
-    .select(`slug, image_url, ${localizedColumns(spec.field)}${spec.extra ? `, ${spec.extra}` : ''}`)
-    .limit(5000);
-  if (spec.table === 'listings') query = query.eq('status', 'published');
-  if (spec.table === 'blog_articles') query = query.not('published_at', 'is', null);
-  const { data, error } = await query;
-  if (error) throw new Error(`indexability ${spec.table}: ${error.message}`);
   const out: Record<string, Locale[]> = {};
-  for (const row of (data ?? []) as unknown as Array<Record<string, unknown> & { slug: string }>) {
+  for (const row of await fetchAll(spec)) {
     const hasImage = spec.image ? spec.image(row) : Boolean(row.image_url);
     out[row.slug] = locales.filter((l) => {
       const b = localize(row, spec.field, l);

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { locales, ogLocale, type Locale } from '@/i18n/config';
-import { hreflangMap, localeUrl, SITE_NAME } from './site';
+import { DEFAULT_OG_IMAGE, hreflangMap, localeUrl, SITE_NAME } from './site';
 import { isProven } from './quality';
 
 export type PageSeo = {
@@ -45,7 +45,7 @@ export function buildMetadata(seo: PageSeo): Metadata {
   const withBrand = seo.absoluteTitle || seo.title.length + SITE_NAME.length + 3 > TITLE_MAX;
   const title = clip(withBrand ? seo.title : `${seo.title} | ${SITE_NAME}`, TITLE_MAX + 10);
   const description = clip(seo.description, DESC_MAX);
-  const images = seo.image ? [{ url: seo.image, alt: seo.imageAlt || seo.title }] : undefined;
+  const images = [{ url: seo.image || DEFAULT_OG_IMAGE, alt: seo.imageAlt || seo.title }];
 
   return {
     title: { absolute: title },
@@ -69,7 +69,7 @@ export function buildMetadata(seo: PageSeo): Metadata {
         ? { publishedTime: seo.publishedTime, modifiedTime: seo.modifiedTime }
         : {}),
     },
-    twitter: { card: images ? 'summary_large_image' : 'summary', title, description, images: images?.map((i) => i.url) },
+    twitter: { card: 'summary_large_image', title, description, images: images.map((i) => i.url) },
   };
 }
 

@@ -1,4 +1,4 @@
-import { localeUrl as url } from './site';
+import { localeUrl as url, DEFAULT_OG_IMAGE } from './site';
 import { SITE_NAME } from './site';
 import type { Locale } from '@/i18n/config';
 
@@ -24,8 +24,9 @@ export const SOCIAL_LINKS: string[] = [
   process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? 'https://www.instagram.com/chalkidikihub/',
 ].filter(Boolean) as string[];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- v3 signature
-export const ogImageUrl = (title: string, _type?: string) => `/api/og?title=${encodeURIComponent(title)}`;
+/** v3 dynamic OG images are replaced by the page's own photo or the site default. */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- v3 call sites pass (title, type)
+export const ogImageUrl = (..._args: unknown[]) => DEFAULT_OG_IMAGE;
 
 import { buildMetadata } from './metadata';
 export function collectionMeta(opts: { titles: Record<string, string>; descriptions: Record<string, string>; path: string; locale: string; ogType?: string; mdSection?: string }) {

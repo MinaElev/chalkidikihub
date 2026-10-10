@@ -2,6 +2,7 @@ import { defaultLocale, locales, type Locale } from '@/i18n/config';
 
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr').replace(/\/$/, '');
 export const SITE_NAME = 'ChalkidikiHub';
+export const DEFAULT_OG_IMAGE = '/images/hero/halkidiki-hero.webp';
 
 /** Absolute URL for a locale + unprefixed path ("/beaches/x"). Greek is unprefixed. */
 export function localeUrl(locale: Locale, path: string): string {
