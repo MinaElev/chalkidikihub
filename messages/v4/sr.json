@@ -360,5 +360,20 @@
     "bestListTitle": "Spisak",
     "faqTitle": "Česta pitanja o Halkidikiju",
     "faqLead": "Kratki, praktični odgovori o prevozu, plažama, hrani, smeštaju i svakodnevnim pitanjima."
+  },
+  "events": {
+    "hubTitle": "Događaji i festivali na Halkidikiju",
+    "hubMetaTitle": "Događaji na Halkidikiju: festivali i seoske slave po mesecima",
+    "hubLead": "Festivali, seoske slave (panigiri) i proslave na Halkidikiju — sa ovogodišnjim datumima tamo gde su objavljeni i uobičajenim periodom svake godine.",
+    "when": "Kada",
+    "where": "Gde",
+    "category": "Vrsta",
+    "entry": "Ulaz",
+    "freeEntry": "Slobodan",
+    "official": "Zvanični sajt",
+    "nearbyStays": "Smeštaj u blizini",
+    "nearbyBeaches": "Plaže u blizini",
+    "metaTitle": "{name}: {when}, {place}",
+    "metaDesc": "{name} na Halkidikiju: kada se održava ({when}), gde, šta očekivati i gde odsesti u blizini."
   }
 }

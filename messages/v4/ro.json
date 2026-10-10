@@ -360,5 +360,20 @@
     "bestListTitle": "Lista",
     "faqTitle": "Întrebări frecvente despre Halkidiki",
     "faqLead": "Răspunsuri scurte și practice despre transport, plaje, mâncare, cazare și viața de zi cu zi."
+  },
+  "events": {
+    "hubTitle": "Evenimente și festivaluri în Halkidiki",
+    "hubMetaTitle": "Evenimente în Halkidiki: festivaluri și sărbători locale pe luni",
+    "hubLead": "Festivalurile, sărbătorile satelor (panigiria) și evenimentele din Halkidiki — cu datele de anul acesta, acolo unde sunt anunțate, și perioada obișnuită din fiecare an.",
+    "when": "Când",
+    "where": "Unde",
+    "category": "Tip",
+    "entry": "Intrare",
+    "freeEntry": "Liberă",
+    "official": "Site oficial",
+    "nearbyStays": "Cazare în apropiere",
+    "nearbyBeaches": "Plaje în apropiere",
+    "metaTitle": "{name}: {when}, {place}",
+    "metaDesc": "{name} în Halkidiki: când are loc ({when}), unde, la ce să te aștepți și unde să te cazezi în apropiere."
   }
 }

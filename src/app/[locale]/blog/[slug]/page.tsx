@@ -1,14 +1,14 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { locales, type Locale } from '@/i18n/config';
+import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getArticle, getArticles, getBeaches } from '@/lib/db/content';
 import { localize, pick } from '@/lib/i18n/localize';
 import { displayName, ratingProps } from '@/lib/content/nearby';
 import { formatDate } from '@/lib/content/format';
 import { plainText, renderRichText, withHeadingIds } from '@/lib/content/render';
-import { assessQuality } from '@/lib/seo/quality';
 import { buildMetadata } from '@/lib/seo/metadata';
+import { articleIndex } from '@/lib/seo/indexability';
 import { localeUrl, SITE_NAME, SITE_URL } from '@/lib/seo/site';
 import { getAuthor, authorInitials } from '@/content/authors';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -44,10 +44,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/blog/[sl
     type: 'article',
     publishedTime: a.published_at,
     modifiedTime: a.updated_at,
-    indexableLocales: locales.filter((l) => {
-      const body = localize(a, 'content', l);
-      return assessQuality({ body: body.text, nativeBody: body.native, hasImage: Boolean(a.image_url) }, 'article').indexable;
-    }),
+    indexableLocales: (await articleIndex())[slug] ?? [],
   });
 }
 

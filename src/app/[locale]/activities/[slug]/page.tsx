@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { locales, type Locale } from '@/i18n/config';
+import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getActivities, getActivity, type ActivityCard } from '@/lib/db/content';
 import { hasCoords } from '@/lib/geo';
@@ -11,8 +11,8 @@ import { formatDistance } from '@/lib/content/format';
 import { localizeToken } from '@/lib/content/hours';
 import { plainText, renderRichText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
-import { assessQuality } from '@/lib/seo/quality';
 import { buildMetadata } from '@/lib/seo/metadata';
+import { activityIndex } from '@/lib/seo/indexability';
 import { addressLd, geoLd, ratingLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -62,10 +62,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/activiti
       ? metaDesc.text
       : t('metaDesc', { name, inPlace: village ? inPlace(village.item.slug, locale) : place, category }),
     image: a.image_url,
-    indexableLocales: locales.filter((l) => {
-      const body = localize(a, 'description', l);
-      return assessQuality({ body: body.text, nativeBody: body.native, hasImage: Boolean(a.image_url) }, 'detail').indexable;
-    }),
+    indexableLocales: (await activityIndex())[slug] ?? [],
   });
 }
 

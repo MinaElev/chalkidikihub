@@ -360,5 +360,20 @@
     "bestListTitle": "Die Liste",
     "faqTitle": "Häufige Fragen zu Chalkidiki",
     "faqLead": "Kurze, praktische Antworten zu Anreise, Stränden, Essen, Unterkunft und Alltag."
+  },
+  "events": {
+    "hubTitle": "Veranstaltungen und Feste auf Chalkidiki",
+    "hubMetaTitle": "Veranstaltungen auf Chalkidiki: Festivals und Dorffeste nach Monat",
+    "hubLead": "Festivals, Dorffeste (Panigiria) und Feiern auf Chalkidiki – mit den diesjährigen Terminen, sofern bekannt, und dem üblichen Zeitraum jedes Jahres.",
+    "when": "Wann",
+    "where": "Wo",
+    "category": "Art",
+    "entry": "Eintritt",
+    "freeEntry": "Frei",
+    "official": "Offizielle Website",
+    "nearbyStays": "Unterkünfte in der Nähe",
+    "nearbyBeaches": "Strände in der Nähe",
+    "metaTitle": "{name}: {when}, {place}",
+    "metaDesc": "{name} auf Chalkidiki: wann es stattfindet ({when}), wo, was Sie erwartet und wo Sie in der Nähe übernachten."
   }
 }

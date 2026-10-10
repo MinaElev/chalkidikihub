@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { BedDouble, Bath, Check, Phone, Users } from 'lucide-react';
-import { locales, type Locale } from '@/i18n/config';
+import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getListing, getListings, type ListingCard } from '@/lib/db/content';
 import { hasCoords } from '@/lib/geo';
@@ -12,6 +12,7 @@ import { formatDate, formatDistance, formatPrice } from '@/lib/content/format';
 import { plainText, renderRichText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
 import { buildMetadata } from '@/lib/seo/metadata';
+import { listingIndex } from '@/lib/seo/indexability';
 import { addressLd, geoLd, ratingLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
 import { localeUrl } from '@/lib/seo/site';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -39,8 +40,6 @@ type Row = ListingCard & Record<string, unknown> & {
   listing_extras?: Array<Record<string, unknown> & { sort_order: number; price: number | null; currency: string | null; price_unit: string | null; included: boolean }>;
 };
 
-/** Owners write shorter texts than our editors; the page also carries facts, rules and map. */
-const LISTING_MIN_WORDS = 60;
 
 async function load(slug: string) {
   const l = (await getListing(slug)) as Row | null;
@@ -57,13 +56,6 @@ function photos(l: Row, locale: Locale, name: string): Photo[] {
   return list;
 }
 
-function indexable(l: Row, hasImage: boolean): Locale[] {
-  return locales.filter((loc) => {
-    const body = localize(l, 'description', loc);
-    const words = body.text.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
-    return body.native && words >= LISTING_MIN_WORDS && hasImage;
-  });
-}
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/listings/[slug]'>) {
   const { locale: raw, slug } = await params;
@@ -82,7 +74,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/listings
     title: t('metaTitle', { name, inPlace: ip, guests: l.guests_max }),
     description: t('metaDesc', { name, inPlace: ip, bedrooms: l.bedrooms, guests: l.guests_max, price }),
     image: pics[0]?.url,
-    indexableLocales: l.is_closed ? [] : indexable(l, pics.length > 0),
+    indexableLocales: l.is_closed ? [] : ((await listingIndex())[slug] ?? []),
   });
 }
 

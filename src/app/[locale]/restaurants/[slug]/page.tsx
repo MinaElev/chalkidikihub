@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Phone, Star } from 'lucide-react';
-import { locales, type Locale } from '@/i18n/config';
+import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getRestaurant, getRestaurants, type RestaurantCard } from '@/lib/db/content';
 import { hasCoords } from '@/lib/geo';
@@ -11,8 +11,8 @@ import { AREA_NAMES, inPlace, placeName } from '@/lib/content/place-names';
 import { formatDistance, formatList } from '@/lib/content/format';
 import { parseHours, hoursSummary } from '@/lib/content/hours';
 import { plainText, renderRichText } from '@/lib/content/render';
-import { assessQuality } from '@/lib/seo/quality';
 import { buildMetadata } from '@/lib/seo/metadata';
+import { restaurantIndex } from '@/lib/seo/indexability';
 import { addressLd, geoLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -60,10 +60,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/restaura
     title: t('metaTitle', { name, place }),
     description: t('metaDesc', { name, inPlace: village ? inPlace(village.item.slug, locale) : place, cuisine }),
     image: r.image_url,
-    indexableLocales: locales.filter((l) => {
-      const body = localize(r, 'description', l);
-      return assessQuality({ body: body.text, nativeBody: body.native, hasImage: Boolean(r.image_url) }, 'detail').indexable;
-    }),
+    indexableLocales: (await restaurantIndex())[slug] ?? [],
   });
 }
 

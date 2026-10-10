@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { locales, type Locale } from '@/i18n/config';
+import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getBeach, getBeaches, type BeachCard } from '@/lib/db/content';
 import { driveMinutes, hasCoords } from '@/lib/geo';
@@ -13,8 +13,8 @@ import { AREA_LOCATIVE, AREA_NAMES, fromPlace, inPlace, placeName } from '@/lib/
 import { formatDistance, formatList } from '@/lib/content/format';
 import { plainText, renderRichText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
-import { assessQuality } from '@/lib/seo/quality';
 import { buildMetadata } from '@/lib/seo/metadata';
+import { beachIndex } from '@/lib/seo/indexability';
 import { addressLd, geoLd, ratingLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -44,12 +44,6 @@ async function load(slug: string) {
 
 const features = (b: BeachRow) => (b.features as string[]) ?? [];
 
-function indexable(beach: BeachRow): Locale[] {
-  return locales.filter((l) => {
-    const body = localize(beach, 'description', l);
-    return assessQuality({ body: body.text, nativeBody: body.native, hasImage: Boolean(beach.image_url) }, 'detail').indexable;
-  });
-}
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/[slug]'>) {
   const { locale: raw, slug } = await params;
@@ -75,7 +69,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/
       : t('metaDesc', { name, inPlace: village ? inPlace(village.item.slug, locale) : place, features: featureText || plainText(pick(beach, 'description', locale), 60) }),
     image: beach.image_url,
     imageAlt: beach.image_alt ?? name,
-    indexableLocales: indexable(beach),
+    indexableLocales: (await beachIndex())[slug] ?? [],
   });
 }
 

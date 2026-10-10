@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { locales, type Locale } from '@/i18n/config';
+import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getVillage, getVillages, type VillageCard } from '@/lib/db/content';
 import { hasCoords } from '@/lib/geo';
@@ -11,8 +11,8 @@ import {
 import { AREA_NAMES, HALKIDIKI, inPlace, placeName } from '@/lib/content/place-names';
 import { formatDistance } from '@/lib/content/format';
 import { renderRichText } from '@/lib/content/render';
-import { assessQuality } from '@/lib/seo/quality';
 import { buildMetadata } from '@/lib/seo/metadata';
+import { villageIndex } from '@/lib/seo/indexability';
 import { geoLd } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -34,12 +34,6 @@ async function load(slug: string) {
   return { village, beaches, image };
 }
 
-function indexableLocales(village: Record<string, unknown>, hasImage: boolean): Locale[] {
-  return locales.filter((l) => {
-    const body = localize(village, 'description', l);
-    return assessQuality({ body: body.text, nativeBody: body.native, hasImage }, 'detail').indexable;
-  });
-}
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/places/[slug]'>) {
   const { locale: raw, slug } = await params;
@@ -54,7 +48,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/places/[
     title: t('villageMetaTitle', { name }),
     description: t('villageMetaDesc', { name, inPlace: inPlace(slug, locale), beaches: data.beaches.length }),
     image: data.image,
-    indexableLocales: indexableLocales(data.village, Boolean(data.image)),
+    indexableLocales: (await villageIndex())[slug] ?? [],
   });
 }
 

@@ -360,5 +360,20 @@
     "bestListTitle": "The list",
     "faqTitle": "Halkidiki FAQ",
     "faqLead": "Short, practical answers about transport, beaches, food, accommodation and everyday questions."
+  },
+  "events": {
+    "hubTitle": "Events and festivals in Halkidiki",
+    "hubMetaTitle": "Halkidiki events: festivals and village feasts by month",
+    "hubLead": "Halkidiki's festivals, village feasts (panigiria) and celebrations — with this year's dates where announced and the usual window every year.",
+    "when": "When",
+    "where": "Where",
+    "category": "Type",
+    "entry": "Entry",
+    "freeEntry": "Free",
+    "official": "Official website",
+    "nearbyStays": "Places to stay nearby",
+    "nearbyBeaches": "Beaches nearby",
+    "metaTitle": "{name}: {when}, {place}",
+    "metaDesc": "{name} in Halkidiki: when it takes place ({when}), where, what to expect and where to stay nearby."
   }
 }

@@ -80,3 +80,26 @@ describe('redirects', () => {
     expect(resolveInLocation('nowhere', 'beaches')).toBeNull();
   });
 });
+
+import robots from '@/app/robots';
+
+describe('robots.txt', () => {
+  // Google's matching: a rule matches if the path starts with it; "$" anchors the end.
+  const matches = (rule: string, path: string) => {
+    const anchored = rule.endsWith('$');
+    const body = (anchored ? rule.slice(0, -1) : rule).replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
+    return new RegExp(`^${body}${anchored ? '$' : ''}`).test(path);
+  };
+
+  it('never blocks a public section', () => {
+    const rules = robots().rules;
+    const star = (Array.isArray(rules) ? rules : [rules]).find((r) => r.userAgent === '*')!;
+    const disallow = ([] as string[]).concat(star.disallow ?? []);
+    for (const path of ['/authors/dimitris-karagiannis', '/restaurants', '/en/restaurants/x', '/beaches', '/blog/x', '/de/authors/x', '/places/x']) {
+      expect(disallow.filter((r) => matches(r, path)), path).toEqual([]);
+    }
+    for (const path of ['/auth', '/auth/login', '/en/dashboard', '/admin/users', '/r/abc']) {
+      expect(disallow.some((r) => matches(r, path)), path).toBe(true);
+    }
+  });
+});
