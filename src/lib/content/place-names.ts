@@ -101,8 +101,8 @@ export const PLACE_NAMES: Record<string, PlaceName> = {
 export const AREA_NAMES: Record<'kassandra' | 'sithonia' | 'athos' | 'mainland', PlaceName> = {
   kassandra: { el: 'Κασσάνδρα', inEl: 'στην Κασσάνδρα', en: 'Kassandra', de: 'Kassandra', ro: 'Kassandra', bg: 'Касандра', sr: 'Kasandra', ru: 'Кассандра' },
   sithonia: { el: 'Σιθωνία', inEl: 'στη Σιθωνία', en: 'Sithonia', de: 'Sithonia', ro: 'Sithonia', bg: 'Ситония', sr: 'Sitonija', ru: 'Ситония' },
-  athos: { el: 'χερσόνησος του Άθω', inEl: 'στη χερσόνησο του Άθω', en: 'Athos peninsula', de: 'Athos-Halbinsel', ro: 'Peninsula Athos', bg: 'полуостров Атон', sr: 'poluostrvo Atos', ru: 'полуостров Афон' },
-  mainland: { el: 'ενδοχώρα της Χαλκιδικής', inEl: 'στην ενδοχώρα της Χαλκιδικής', en: 'inland Halkidiki', de: 'Hinterland von Chalkidiki', ro: 'interiorul Halkidikiului', bg: 'вътрешността на Халкидики', sr: 'unutrašnjost Halkidikija', ru: 'внутренние районы Халкидики' },
+  athos: { el: 'Χερσόνησος του Άθω', inEl: 'στη χερσόνησο του Άθω', en: 'Athos peninsula', de: 'Athos-Halbinsel', ro: 'Peninsula Athos', bg: 'Полуостров Атон', sr: 'Poluostrvo Atos', ru: 'Полуостров Афон' },
+  mainland: { el: 'Ενδοχώρα Χαλκιδικής', inEl: 'στην ενδοχώρα της Χαλκιδικής', en: 'Inland Halkidiki', de: 'Hinterland von Chalkidiki', ro: 'Interiorul Halkidikiului', bg: 'Вътрешността на Халкидики', sr: 'Unutrašnjost Halkidikija', ru: 'Внутренние районы Халкидики' },
 };
 
 type AreaSlug = keyof typeof AREA_NAMES;
@@ -149,3 +149,7 @@ export function inPlace(slug: string, locale: Locale): string {
   if (!known) return slug;
   return locale === 'el' ? known.inEl : known[locale];
 }
+
+/** Value for the places.villagesIn message: Greek needs the genitive ("Χωριά της Κασσάνδρας"). */
+export const villagesInArea = (area: AreaSlug, locale: Locale) =>
+  locale === 'el' ? AREA_OF[area].el : AREA_NAMES[area][locale];

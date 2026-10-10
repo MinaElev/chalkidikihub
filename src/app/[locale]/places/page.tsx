@@ -2,7 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
 import { getBeaches, getVillages, AREA_SLUGS } from '@/lib/db/content';
 import { nearest } from '@/lib/geo';
-import { AREA_NAMES, placeName } from '@/lib/content/place-names';
+import { placeName, villagesInArea } from '@/lib/content/place-names';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { itemListLd } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -57,7 +57,7 @@ export default async function PlacesPage({ params }: PageProps<'/[locale]/places
           .sort((a, b) => b.beachCount - a.beachCount || (a.v.sort_order ?? 0) - (b.v.sort_order ?? 0));
         if (!list.length) return null;
         return (
-          <Section key={area} id={area} title={t('villagesIn', { area: AREA_NAMES[area][locale] })}>
+          <Section key={area} id={area} title={t('villagesIn', { area: villagesInArea(area, locale) })}>
             <CardGrid>
               {list.map(({ v, image, beachCount }) => (
                 <Card
