@@ -1,0 +1,20 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/expire-deals",
+      "schedule": "5 1 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-snapshot",
+      "schedule": "0 6 3 * *"
+    },
+    {
+      "path": "/api/cron/gsc-inspect",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/billing-reminders",
+      "schedule": "30 7 * * *"
+    }
+  ]
+}

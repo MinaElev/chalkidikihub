@@ -4,6 +4,7 @@ import {
   AREA_SLUGS, getActivities, getArticles, getBeaches, getEvents, getListings, getRestaurants, getVillages,
 } from '@/lib/db/content';
 import { nearest } from '@/lib/geo';
+import { publicDb } from '@/lib/supabase/clients';
 import { bestGuides, costs, fromCities, guides, indexableLocales as editorialLocales, itineraries } from '@/lib/editorial';
 import { KEPT_FEATURES, KEPT_RESTAURANT_CATEGORIES } from './redirects';
 import { isProven } from './quality';
@@ -87,6 +88,18 @@ export async function inventory(): Promise<Entry[]> {
   for (const g of bestGuides()) {
     const path = `/best/${g.slug}`;
     entries.push({ path, locales: withProven(path, ALL.filter((l) => Boolean(ENRICHMENTS[g.slug]?.intro?.[l]))), priority: 0.6 });
+  }
+
+  // Owners' public pages: only hosts with at least two published listings (as in v3).
+  const { data: hosts } = await publicDb()
+    .from('profiles')
+    .select('id, public_slug, updated_at')
+    .eq('public_page_enabled', true)
+    .not('public_slug', 'is', null);
+  for (const h of hosts ?? []) {
+    if (listings.filter((l) => l.owner_id === h.id).length >= 2) {
+      entries.push({ path: `/host/${h.public_slug}`, locales: ALL, lastModified: h.updated_at ?? undefined, priority: 0.5 });
+    }
   }
 
   return entries.filter((e) => e.locales.length > 0);

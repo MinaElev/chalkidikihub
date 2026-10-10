@@ -5,7 +5,8 @@ import { routing } from '@/i18n/routing';
 
 const intl = createIntlMiddleware(routing);
 
-const PRIVATE = /^\/(?:(?:en|de|ro|bg|sr|ru)\/)?(?:admin|dashboard|auth)(?:\/|$)/;
+// Signed-in areas plus token links (guest guides, availability replies, bookings).
+const PRIVATE = /^\/(?:(?:en|de|ro|bg|sr|ru)\/)?(?:admin|dashboard|auth|requests|r|book|guest|favorites)(?:\/|$)/;
 
 export async function proxy(request: NextRequest) {
   let response = intl(request);
