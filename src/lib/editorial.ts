@@ -41,7 +41,7 @@ export const bestGuides = () => by(BEST_GUIDES as unknown as EditorialDoc[], KEP
 
 /** Value in `locale`, falling back like the DB fields do; reports nativeness. */
 export function field(map: L | undefined, locale: Locale) {
-  for (const l of fallbackChain[locale]) {
+  for (const l of fallbackChain[locale] ?? fallbackChain.en) {
     const v = map?.[l]?.trim();
     if (v) return { text: v, native: l === locale, from: l as Locale };
   }

@@ -19,7 +19,9 @@ const clean = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
  */
 export function localize(row: Row | null | undefined, field: string, locale: Locale): LocalizedText {
   if (!row) return { text: '', from: null, native: false };
-  for (const candidate of fallbackChain[locale]) {
+  // Junk URLs (e.g. /apple-touch-icon.png) reach [locale] pages before the
+  // layout 404s them; never crash on an unknown locale.
+  for (const candidate of fallbackChain[locale] ?? fallbackChain.en) {
     const value = clean(row[`${field}_${candidate}`]);
     if (value) return { text: value, from: candidate, native: candidate === locale };
   }
