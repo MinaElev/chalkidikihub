@@ -3,6 +3,7 @@ import { publicDb } from '@/lib/supabase/clients';
 import { localizedColumns } from '@/lib/i18n/localize';
 import { cached, TAGS } from './cache';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
+import { withRewrite } from '@/content/rewrites';
 
 /*
  * Public content loaders. Tables are small (≤ ~150 rows), so "card" lists are
@@ -131,9 +132,10 @@ export const getRestaurants = cached('restaurants:cards', [TAGS.restaurants], ()
     `id, slug, area, latitude, longitude, image_url, image_alt, cuisine, price_level, rating, reviews_count, updated_at, ${NAME}`,
   ),
 );
-export const getRestaurant = cached('restaurants:one', [TAGS.restaurants, TAGS.reviews], async (slug: string) =>
-  one<RestaurantCard & Record<string, unknown>>('restaurants', slug, '*, restaurant_reviews(id, author_name, rating, comment_el, created_at, status)'),
-);
+export const getRestaurant = cached('restaurants:one', [TAGS.restaurants, TAGS.reviews], async (slug: string) => {
+  const row = await one<RestaurantCard & Record<string, unknown>>('restaurants', slug, '*, restaurant_reviews(id, author_name, rating, comment_el, created_at, status)');
+  return row ? withRewrite('restaurants', row) : null;
+});
 
 // ── Activities ─────────────────────────────────────────────────────────────
 export const getActivities = cached('activities:cards', [TAGS.activities, TAGS.reviews], async () =>

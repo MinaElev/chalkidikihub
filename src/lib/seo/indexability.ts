@@ -4,6 +4,7 @@ import { publicDb } from '@/lib/supabase/clients';
 import { cached, TAGS, type Tag } from '@/lib/db/cache';
 import { localize, localizedColumns } from '@/lib/i18n/localize';
 import { assessQuality, wordCount, type MIN_WORDS } from './quality';
+import { withRewrite } from '@/content/rewrites';
 
 /**
  * Per-table "which locales is each row indexable in", computed in one query
@@ -50,7 +51,8 @@ async function fetchAll(spec: Spec) {
 
 async function compute(spec: Spec): Promise<Record<string, Locale[]>> {
   const out: Record<string, Locale[]> = {};
-  for (const row of await fetchAll(spec)) {
+  for (const raw of await fetchAll(spec)) {
+    const row = withRewrite(spec.table, raw, spec.field);
     const hasImage = spec.image ? spec.image(row) : Boolean(row.image_url);
     out[row.slug] = locales.filter((l) => {
       const b = localize(row, spec.field, l);
@@ -64,7 +66,7 @@ async function compute(spec: Spec): Promise<Record<string, Locale[]>> {
 const make = (spec: Spec) => cached(`indexability:${spec.table}`, [spec.tag], () => compute(spec));
 
 export const beachIndex = make({ table: 'beaches', field: 'description', kind: 'detail', tag: TAGS.beaches });
-export const restaurantIndex = make({ table: 'restaurants', field: 'description', kind: 'detail', tag: TAGS.restaurants });
+export const restaurantIndex = make({ table: 'restaurants', field: 'description', kind: 'venue', tag: TAGS.restaurants });
 export const activityIndex = make({ table: 'activities', field: 'description', kind: 'detail', tag: TAGS.activities });
 export const articleIndex = make({ table: 'blog_articles', field: 'content', kind: 'article', tag: TAGS.blog });
 export const eventIndex = make({ table: 'events', field: 'description', kind: 'hub', tag: TAGS.events, image: () => true });

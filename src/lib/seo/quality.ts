@@ -28,6 +28,8 @@ export type QualityVerdict = { indexable: boolean; reasons: string[] };
 
 export const MIN_WORDS = {
   detail: 120,
+  /** Restaurants/cafés: short factual copy; the page carries hours, map and contacts. */
+  venue: 80,
   hub: 80,
   article: 400,
 } as const;
