@@ -14,7 +14,8 @@ for (const f of fs.readdirSync(dir).filter((f) => f.endsWith('.json'))) {
   const data = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
   for (const [slug, rw] of Object.entries(data)) {
     total++;
-    const counts = LOCALES.map((l) => [l, rw[l] ? wc(rw[l]) : 0]);
+    // Partial rewrites (e.g. translations of a few locales) are checked only where present.
+    const counts = LOCALES.filter((l) => rw[l]).map((l) => [l, wc(rw[l])]);
     const MIN = minFor(f);
     const low = counts.filter(([, n]) => n < MIN);
     if (low.length) { bad++; console.log(`${f} ${slug}: ${counts.map(([l, n]) => `${l}=${n}`).join(' ')}`); }
