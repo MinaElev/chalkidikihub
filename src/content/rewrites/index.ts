@@ -26,6 +26,7 @@ export const REWRITES: Record<string, Record<string, Rewrite>> = {
 export const NAME_FIXES: Record<string, Record<string, Record<string, string>>> = {
   restaurants: {
     'cafe-kleio': { name_en: 'Cafe Kleio' },
+    'macaw-tropical-bar': { name_en: 'Macaw Tropical Bar' },
   },
 };
 
