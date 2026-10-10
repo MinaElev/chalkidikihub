@@ -16,13 +16,15 @@ export type CardProps = {
   badges?: string[];
   /** e.g. "2.4 km" — shown with a pin. */
   distance?: string;
+  /** Corner badge, e.g. "Featured" for premium listings. */
+  highlight?: string;
   priority?: boolean;
   sizes?: string;
 };
 
 /** The one card used across beaches, villages, restaurants, stays and articles. */
 export function Card({
-  href, title, image, imageAlt, eyebrow, meta, rating, reviews, ratingSource, badges, distance, priority,
+  href, title, image, imageAlt, eyebrow, meta, rating, reviews, ratingSource, badges, distance, highlight, priority,
   sizes = '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw',
 }: CardProps) {
   return (
@@ -39,6 +41,9 @@ export function Card({
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-sea-100 to-sand-100" aria-hidden />
+        )}
+        {highlight && (
+          <span className="absolute right-3 top-3 rounded-full bg-amber-400 px-2.5 py-1 text-xs font-semibold text-amber-950 shadow-sm">{highlight}</span>
         )}
         {distance && (
           <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-slate-800 shadow-sm">

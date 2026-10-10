@@ -81,6 +81,8 @@ export type ListingCard = Row & {
   is_closed: boolean | null;
   updated_at: string;
   cover_url: string | null;
+  /** Premium plan active: ranked first and badged (the 149€ tier promises both). */
+  featured: boolean;
 };
 
 const NAME = localizedColumns('name');
@@ -164,7 +166,7 @@ export const getListings = cached('listings:cards', [TAGS.listings, TAGS.reviews
     .from('listings')
     .select(
       `id, slug, owner_id, area, location_name, latitude, longitude, image_url, price_per_night, guests_max,
-       bedrooms, bathrooms, amenities, rating, reviews_count, is_closed, updated_at, ${localizedColumns('title', 'tagline')},
+       bedrooms, bathrooms, amenities, rating, reviews_count, is_closed, updated_at, plan, plan_status, plan_expires_at, ${localizedColumns('title', 'tagline')},
        listing_images(image_url, is_cover, sort_order)`,
     )
     .eq('status', 'published')
@@ -182,8 +184,10 @@ export const getListings = cached('listings:cards', [TAGS.listings, TAGS.reviews
       r.image_url;
     const { listing_images: _omit, ...rest } = r;
     void _omit;
-    return { ...rest, cover_url: (cover as string) || null } as unknown as ListingCard;
-  });
+    const featured =
+      r.plan === 'premium' && r.plan_status === 'active' && (!r.plan_expires_at || Date.parse(String(r.plan_expires_at)) > Date.now());
+    return { ...rest, cover_url: (cover as string) || null, featured } as unknown as ListingCard;
+  }).sort((a, b) => Number(b.featured) - Number(a.featured));
 });
 
 export const getListing = cached('listings:one', [TAGS.listings, TAGS.reviews], async (slug: string) => {

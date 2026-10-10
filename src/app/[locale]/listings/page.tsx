@@ -59,6 +59,7 @@ export default async function ListingsPage({ params }: PageProps<'/[locale]/list
                   eyebrow={villages.get(l.slug)}
                   image={l.cover_url}
                   priority={area === 'kassandra' && i < 2}
+                  highlight={l.featured ? t('featured') : undefined}
                   meta={[
                     t('guests', { count: l.guests_max }),
                     l.price_per_night ? `${common('from')} ${formatPrice(Number(l.price_per_night), locale)} ${t('perNight')}` : null,

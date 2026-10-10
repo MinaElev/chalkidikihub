@@ -146,9 +146,9 @@ export function buildRedirects(): Rule[] {
   for (const [from, to] of LEGACY_SLUG_FIXES) rules.push(...both(from, to));
   rules.push(...both('/places/pyrgadikia-mainland/:path*', '/places/pyrgadikia/:path*'));
 
-  // /stay/{slug}[/guide] was a second URL for every listing.
-  rules.push(...both('/stay/:slug/guide', '/listings/:slug'));
-  rules.push(...both('/stay/:slug', '/listings/:slug'));
+  // /stay/{slug} stays live as the owner's shareable brand page (noindex,
+  // canonical → /listings/{slug}); its area guide folds into the QR guest guide.
+  rules.push(...both('/stay/:slug/guide', '/guest/:slug'));
 
   // /in/{location}/{category} (duplicate of /places/{village}/{category}) is
   // answered by app/[locale]/in/[location]/[category]/route.ts through

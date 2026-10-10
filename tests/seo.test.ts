@@ -53,8 +53,9 @@ describe('redirects', () => {
   const find = (source: string) => rules.find((r) => r.source === source);
 
   it('folds duplicate patterns into the canonical page, for every locale', () => {
-    expect(find('/stay/:slug')?.destination).toBe('/listings/:slug');
-    expect(find('/:locale(en|de|ro|bg|sr|ru)/stay/:slug')?.destination).toBe('/:locale/listings/:slug');
+    expect(find('/stay/:slug')).toBeUndefined();
+    expect(find('/stay/:slug/guide')?.destination).toBe('/guest/:slug');
+    expect(find('/:locale(en|de|ro|bg|sr|ru)/stay/:slug/guide')?.destination).toBe('/:locale/guest/:slug');
     expect(find('/beaches/area/sithonia')?.destination).toBe('/areas/sithonia');
   });
 
