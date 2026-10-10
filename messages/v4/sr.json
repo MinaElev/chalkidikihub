@@ -286,5 +286,28 @@
     "call": "Pozovite",
     "bookNow": "Rezervišite onlajn",
     "alsoOn": "Dostupno i na"
+  },
+  "articles": {
+    "hubTitle": "Članci i vodiči o Halkidikiju",
+    "hubMetaTitle": "Vodiči za Halkidiki: {count} članaka o plažama, hrani i putovanju",
+    "hubLead": "Praktični vodiči ljudi koji žive i putuju po Halkidikiju: gde se kupati, kada doći, šta jesti i kako isplanirati odmor.",
+    "latest": "Najnovije",
+    "cat_guides": "Vodiči",
+    "cat_beaches": "Plaže",
+    "cat_food": "Hrana",
+    "cat_tips": "Praktični saveti",
+    "cat_culture": "Kultura",
+    "cat_activities": "Aktivnosti",
+    "readTime": "{minutes} min čitanja",
+    "published": "Objavljeno {date}",
+    "updated": "Ažurirano {date}",
+    "contents": "Sadržaj",
+    "relatedBeaches": "Plaže iz ovog članka",
+    "relatedArticles": "Pročitajte i",
+    "aboutAuthor": "O autoru",
+    "allByAuthor": "Svi članci autora: {name}",
+    "authorsTitle": "Naši autori",
+    "authorsLead": "Upoznajte ljude koji stoje iza vodiča ChalkidikiHub.",
+    "articlesCount": "{count, plural, one {# članak} few {# članka} other {# članaka}}"
   }
 }

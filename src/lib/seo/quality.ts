@@ -1,5 +1,7 @@
 import type { Locale } from '@/i18n/config';
 import { localize } from '@/lib/i18n/localize';
+import proven from '@/content/proven-urls.json';
+import { localePath } from './site';
 
 /**
  * The quality gate. A page is advertised to search engines (index + sitemap +
@@ -67,3 +69,17 @@ export function assessEntity(
     kind,
   );
 }
+
+
+const PROVEN = new Set(proven as string[]);
+
+/**
+ * URLs that earned clicks in the 90 days before the rewrite (GSC export in
+ * audit/gsc-coverage-2026-09.csv). They stay indexable even if their text is
+ * below the gate, so the rewrite never drops a page that already works —
+ * improving them is the content team's job, de-indexing them is not.
+ */
+export function isProven(locale: Locale, path: string): boolean {
+  return PROVEN.has(localePath(locale, path));
+}
+

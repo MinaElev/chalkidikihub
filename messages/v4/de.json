@@ -286,5 +286,28 @@
     "call": "Anrufen",
     "bookNow": "Online buchen",
     "alsoOn": "Auch verfügbar auf"
+  },
+  "articles": {
+    "hubTitle": "Artikel und Reiseführer zu Chalkidiki",
+    "hubMetaTitle": "Chalkidiki-Reiseführer: {count} Artikel zu Stränden, Essen und Reisen",
+    "hubLead": "Praktische Ratgeber von Menschen, die auf Chalkidiki leben und reisen: wo man badet, wann man kommt, was man isst und wie man den Urlaub plant.",
+    "latest": "Neueste Artikel",
+    "cat_guides": "Reiseführer",
+    "cat_beaches": "Strände",
+    "cat_food": "Essen",
+    "cat_tips": "Praktische Tipps",
+    "cat_culture": "Kultur",
+    "cat_activities": "Aktivitäten",
+    "readTime": "{minutes} Min. Lesezeit",
+    "published": "Veröffentlicht am {date}",
+    "updated": "Aktualisiert am {date}",
+    "contents": "Inhalt",
+    "relatedBeaches": "Strände in diesem Artikel",
+    "relatedArticles": "Weiterlesen",
+    "aboutAuthor": "Über die Autorin / den Autor",
+    "allByAuthor": "Alle Artikel von {name}",
+    "authorsTitle": "Unsere Autoren",
+    "authorsLead": "Lernen Sie die Menschen hinter den Reiseführern von ChalkidikiHub kennen.",
+    "articlesCount": "{count, plural, one {# Artikel} other {# Artikel}}"
   }
 }

@@ -286,5 +286,28 @@
     "call": "Sună",
     "bookNow": "Rezervă online",
     "alsoOn": "Disponibil și pe"
+  },
+  "articles": {
+    "hubTitle": "Articole și ghiduri despre Halkidiki",
+    "hubMetaTitle": "Ghiduri Halkidiki: {count} de articole despre plaje, mâncare și călătorii",
+    "hubLead": "Ghiduri practice de la oameni care locuiesc și călătoresc în Halkidiki: unde să înoți, când să vii, ce să mănânci și cum să-ți planifici vacanța.",
+    "latest": "Cele mai noi",
+    "cat_guides": "Ghiduri",
+    "cat_beaches": "Plaje",
+    "cat_food": "Mâncare",
+    "cat_tips": "Sfaturi practice",
+    "cat_culture": "Cultură",
+    "cat_activities": "Activități",
+    "readTime": "{minutes} min de citit",
+    "published": "Publicat pe {date}",
+    "updated": "Actualizat pe {date}",
+    "contents": "Cuprins",
+    "relatedBeaches": "Plaje din acest articol",
+    "relatedArticles": "Citește și",
+    "aboutAuthor": "Despre autor",
+    "allByAuthor": "Toate articolele scrise de {name}",
+    "authorsTitle": "Autorii noștri",
+    "authorsLead": "Cunoaște oamenii din spatele ghidurilor ChalkidikiHub.",
+    "articlesCount": "{count, plural, one {# articol} few {# articole} other {# de articole}}"
   }
 }

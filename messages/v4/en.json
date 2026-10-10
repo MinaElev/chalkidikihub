@@ -286,5 +286,28 @@
     "call": "Call",
     "bookNow": "Book online",
     "alsoOn": "Also available on"
+  },
+  "articles": {
+    "hubTitle": "Articles and guides about Halkidiki",
+    "hubMetaTitle": "Halkidiki guides: {count} articles on beaches, food and travel",
+    "hubLead": "Practical guides from people who live in and travel around Halkidiki: where to swim, when to come, what to eat and how to plan your holiday.",
+    "latest": "Latest",
+    "cat_guides": "Guides",
+    "cat_beaches": "Beaches",
+    "cat_food": "Food",
+    "cat_tips": "Practical tips",
+    "cat_culture": "Culture",
+    "cat_activities": "Activities",
+    "readTime": "{minutes} min read",
+    "published": "Published {date}",
+    "updated": "Updated {date}",
+    "contents": "Contents",
+    "relatedBeaches": "Beaches in this article",
+    "relatedArticles": "Read next",
+    "aboutAuthor": "About the author",
+    "allByAuthor": "All articles by {name}",
+    "authorsTitle": "Our writers",
+    "authorsLead": "Meet the people behind ChalkidikiHub's guides.",
+    "articlesCount": "{count, plural, one {# article} other {# articles}}"
   }
 }

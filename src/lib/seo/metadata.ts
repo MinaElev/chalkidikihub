@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { locales, ogLocale, type Locale } from '@/i18n/config';
 import { hreflangMap, localeUrl, SITE_NAME } from './site';
+import { isProven } from './quality';
 
 export type PageSeo = {
   locale: Locale;
@@ -36,7 +37,9 @@ function clip(text: string, max: number) {
  * `noindex, follow` so it still passes link equity.
  */
 export function buildMetadata(seo: PageSeo): Metadata {
-  const indexable = seo.indexableLocales ?? locales;
+  // Pages that already earn clicks stay indexed even below the gate.
+  const passing = seo.indexableLocales ?? locales;
+  const indexable = locales.filter((l) => passing.includes(l) || isProven(l, seo.path));
   const isIndexable = indexable.includes(seo.locale);
   const canonical = localeUrl(seo.locale, seo.path);
   const withBrand = seo.absoluteTitle || seo.title.length + SITE_NAME.length + 3 > TITLE_MAX;
