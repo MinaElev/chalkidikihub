@@ -1,0 +1,67 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Local PSI audit reports (dev only)
+/.psi/
+
+# SEO/content/image crawl output (machine-generated, regenerate via scripts/seo-audit-crawl.js)
+/audit/
+
+# Claude local state
+/.claude/scheduled_tasks.lock
+/.claude/worktrees/
+
+# Marketing assets — kept locally only (social-media exports, not served by the site)
+/public/marketing/
+/marketing/
+
+.vercel
+.env*
+
+# supabase CLI local artifacts
+supabase/.temp/
+
+# env
+.env*.local
+.vercel
+*.tsbuildinfo
+next-env.d.ts
