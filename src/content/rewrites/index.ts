@@ -27,6 +27,13 @@ export const NAME_FIXES: Record<string, Record<string, Record<string, string>>> 
   restaurants: {
     'cafe-kleio': { name_en: 'Cafe Kleio' },
     'macaw-tropical-bar': { name_en: 'Macaw Tropical Bar' },
+    'avra-restaurant': { name_en: 'Avra Restaurant' },
+    'nami-brunch-house': { name_en: 'NAMI the brunch house' },
+    'white-season-beach-bar-nea-skioni': { name_en: 'White Season Beach Bar', name_el: 'White Season Beach Bar' },
+    // Machine-translated brand names: keep the Greek name, transliterated.
+    'tzitzikas-porto-koufo': { name_en: 'Tzitzikas' },
+    'to-ellinikon-hanioti': { name_en: 'To Ellinikon' },
+    'pente-vimata-stin-ammo': { name_el: '5 Βήματα στην Άμμο' },
   },
 };
 
