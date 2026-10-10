@@ -30,7 +30,7 @@ const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABA
 });
 
 const LOCALES = ['el', 'en', 'de', 'ro', 'bg', 'sr', 'ru'];
-const MIN_WORDS = { beaches: 120, restaurants: 120, activities: 120, villages: 150, listings: 100, monasteries: 150, blog_articles: 400, events: 100 };
+const MIN_WORDS = { beaches: 120, restaurants: 55, activities: 120, villages: 150, listings: 100, monasteries: 150, blog_articles: 400, events: 100 };
 const FAR_KM = 25;
 
 const CLICHES = [
@@ -80,6 +80,21 @@ const [beaches, restaurants, activities, villages, listings, monasteries, articl
   all('blog_articles', `slug,published_at,${nameCols('title')},${nameCols('content')}`),
   all('events', `slug,latitude,longitude,${nameCols('name')},${nameCols('description')}`),
 ]);
+
+// Apply the editorial rewrites in src/content/rewrites (<table>-<n>.json), the
+// same overlay v4 serves, unless --raw asks for the database text as stored.
+if (!process.argv.includes('--raw')) {
+  const byTable = { beaches, restaurants, activities, villages, listings, monasteries, blog_articles: articles, events };
+  const dir = path.join(ROOT, 'src/content/rewrites');
+  for (const file of fs.readdirSync(dir).filter((x) => /^[a-z_]+-\d+\.json$/.test(x))) {
+    const table = file.replace(/-\d+\.json$/, '');
+    const field = table === 'blog_articles' ? 'content' : 'description';
+    const rewrites = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
+    for (const row of byTable[table] ?? []) {
+      for (const [l, text] of Object.entries(rewrites[row.slug] ?? {})) if (text) row[`${field}_${l}`] = text;
+    }
+  }
+}
 
 // Gazetteer: every named place we know, in every language, with coordinates.
 const gazetteer = [];
