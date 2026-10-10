@@ -1,6 +1,7 @@
 import type { Locale } from '@/i18n/config';
 import restaurants1 from './restaurants-1.json';
 import activities1 from './activities-1.json';
+import villages1 from './villages-1.json';
 
 /**
  * Editorial rewrites that replace the stored description_* text.
@@ -19,6 +20,7 @@ const merge = (...parts: Array<Record<string, Rewrite>>) => Object.assign({}, ..
 export const REWRITES: Record<string, Record<string, Rewrite>> = {
   restaurants: merge(restaurants1),
   activities: merge(activities1),
+  villages: merge(villages1),
 };
 
 /**
