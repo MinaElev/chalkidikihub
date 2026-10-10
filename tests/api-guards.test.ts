@@ -16,7 +16,7 @@ function routes(dir: string): string[] {
   });
 }
 
-const GUARD = /require(SuperAdmin|User|ListingOwner|Cron|SuperAdminOrCron)\(|allowRequest\(|\/\/ Guard:/;
+const GUARD = /require(SuperAdmin|User|ListingOwner|Cron|SuperAdminOrCron|InternalOrSuperAdmin|CronOrSuperAdmin|OwnerOrInternal)\(|allowRequest\(|\/\/ Guard:/;
 
 describe('API guards', () => {
   const files = routes(join(process.cwd(), 'src', 'app', 'api'));

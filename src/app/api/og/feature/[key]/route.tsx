@@ -1,0 +1,2156 @@
+// Guard: public read-only image rendering.
+import { ImageResponse } from 'next/og';
+import { NextRequest } from 'next/server';
+
+export const runtime = 'edge';
+
+async function loadFontSubset(weight: 400 | 700 | 800, subset: 'latin' | 'greek'): Promise<ArrayBuffer | null> {
+  try {
+    const url = `https://cdn.jsdelivr.net/fontsource/fonts/noto-sans@latest/${subset}-${weight}-normal.ttf`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    return await res.arrayBuffer();
+  } catch {
+    return null;
+  }
+}
+
+const W = 1080;
+const H = 1080;
+
+// ─────────────────────────────────────────────────────────────
+// Shared building blocks
+// ─────────────────────────────────────────────────────────────
+
+type Accent = 'emerald' | 'violet' | 'sky' | 'rose' | 'amber' | 'indigo' | 'teal' | 'pink' | 'orange' | 'lime';
+
+const PALETTE: Record<Accent, { bg: string; fg: string; bgSolid: string; strong: string; glow: string }> = {
+  emerald: { bg: 'rgba(16,185,129,0.25)', fg: '#a7f3d0', bgSolid: '#10b981', strong: '#34d399', glow: 'rgba(16,185,129,0.4)' },
+  violet:  { bg: 'rgba(139,92,246,0.25)', fg: '#ddd6fe', bgSolid: '#8b5cf6', strong: '#c4b5fd', glow: 'rgba(139,92,246,0.4)' },
+  sky:     { bg: 'rgba(14,165,233,0.25)', fg: '#bae6fd', bgSolid: '#0ea5e9', strong: '#38bdf8', glow: 'rgba(14,165,233,0.4)' },
+  rose:    { bg: 'rgba(244,63,94,0.25)',  fg: '#fecdd3', bgSolid: '#f43f5e', strong: '#fb7185', glow: 'rgba(244,63,94,0.4)' },
+  amber:   { bg: 'rgba(245,158,11,0.3)',  fg: '#fde68a', bgSolid: '#f59e0b', strong: '#fcd34d', glow: 'rgba(245,158,11,0.4)' },
+  indigo:  { bg: 'rgba(99,102,241,0.25)', fg: '#c7d2fe', bgSolid: '#6366f1', strong: '#a5b4fc', glow: 'rgba(99,102,241,0.4)' },
+  teal:    { bg: 'rgba(20,184,166,0.25)', fg: '#99f6e4', bgSolid: '#14b8a6', strong: '#5eead4', glow: 'rgba(20,184,166,0.4)' },
+  pink:    { bg: 'rgba(236,72,153,0.25)', fg: '#fbcfe8', bgSolid: '#ec4899', strong: '#f9a8d4', glow: 'rgba(236,72,153,0.4)' },
+  orange:  { bg: 'rgba(249,115,22,0.25)', fg: '#fed7aa', bgSolid: '#f97316', strong: '#fb923c', glow: 'rgba(249,115,22,0.4)' },
+  lime:    { bg: 'rgba(132,204,22,0.25)', fg: '#d9f99d', bgSolid: '#84cc16', strong: '#bef264', glow: 'rgba(132,204,22,0.4)' },
+};
+
+function BrandChip({ accent = 'emerald', label = 'ChalkidikiHub · Για ιδιοκτήτες' }: { accent?: Accent; label?: string }) {
+  const c = PALETTE[accent];
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center',
+      backgroundColor: c.bg, color: c.fg,
+      borderRadius: 9999, padding: '10px 22px',
+      fontSize: 22, fontWeight: 700,
+      letterSpacing: '0.08em', textTransform: 'uppercase',
+    }}>{label}</div>
+  );
+}
+
+function Footer({ tagline = 'Δωρεάν. Χωρίς όρους.' }: { tagline?: string }) {
+  return (
+    <div style={{
+      position: 'absolute', bottom: 48, left: 60, right: 60,
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      fontSize: 28, fontWeight: 700, color: '#a7f3d0',
+    }}>
+      <div style={{ display: 'flex', color: 'rgba(255,255,255,0.5)', fontSize: 22 }}>{tagline}</div>
+      <div style={{ display: 'flex' }}>chalkidikihub.gr →</div>
+    </div>
+  );
+}
+
+function Glow({ accent, pos = 'tr' }: { accent: Accent; pos?: 'tr' | 'tl' | 'br' | 'bl' }) {
+  const posStyle =
+    pos === 'tr' ? { top: -140, right: -140 } :
+    pos === 'tl' ? { top: -140, left: -140 } :
+    pos === 'br' ? { bottom: -140, right: -140 } :
+                   { bottom: -140, left: -140 };
+  return (
+    <div style={{
+      display: 'flex', position: 'absolute',
+      ...posStyle,
+      width: 420, height: 420, borderRadius: 9999,
+      backgroundImage: `radial-gradient(circle, ${PALETTE[accent].glow}, transparent 70%)`,
+    }} />
+  );
+}
+
+function Canvas({ bg, children }: { bg: string; children: React.ReactNode }) {
+  return (
+    <div style={{
+      width: W, height: H, position: 'relative',
+      display: 'flex', flexDirection: 'column',
+      backgroundImage: bg, color: 'white', padding: '60px',
+    }}>{children}</div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 1. OWNERS — pain point posts
+// ─────────────────────────────────────────────────────────────
+
+function FreeSignup() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
+      <Glow accent="emerald" />
+      <div style={{ display: 'flex', marginBottom: 32 }}><BrandChip /></div>
+      <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 44 }}>
+        <div style={{ fontSize: 38, fontWeight: 700, color: '#34d399', marginBottom: 10 }}>#1 · Δωρεάν εγγραφή</div>
+        <div style={{ fontSize: 102, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.03em' }}>2 λεπτά.</div>
+        <div style={{ fontSize: 102, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.03em', color: '#34d399' }}>Καμία</div>
+        <div style={{ fontSize: 102, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.03em', color: '#34d399' }}>πιστωτική.</div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        {[['1','Δίνεις email + κωδικό'],['2','Ανεβάζεις φωτογραφίες & πληροφορίες'],['3','Τέλος. Είσαι live.']].map(([n,t]) => (
+          <div key={n} style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 60, height: 60, borderRadius: 9999, backgroundColor: '#10b981', color: 'white', fontSize: 30, fontWeight: 800 }}>{n}</div>
+            <div style={{ display: 'flex', fontSize: 32, fontWeight: 600 }}>{t}</div>
+          </div>
+        ))}
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function PersonalSite() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)">
+      <Glow accent="violet" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="violet" /></div>
+      <div style={{ fontSize: 38, fontWeight: 700, color: '#c4b5fd', marginBottom: 10 }}>#2 · Προσωπικό site</div>
+      <div style={{ fontSize: 92, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.03em', marginBottom: 20 }}>Δικό σου brand.</div>
+      <div style={{ fontSize: 30, lineHeight: 1.35, color: 'rgba(255,255,255,0.85)', marginBottom: 28, maxWidth: 920 }}>
+        Cover, ιστορία, γκαλερί, χάρτης, amenities, FAQs, κανόνες, emergency numbers — σε 6 γλώσσες.
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', width: 780, height: 400, backgroundColor: 'white', borderRadius: 18, overflow: 'hidden', alignSelf: 'center', boxShadow: '0 30px 80px rgba(0,0,0,0.6)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, backgroundColor: '#f1f5f9', padding: '14px 18px' }}>
+          {['#ef4444','#f59e0b','#10b981'].map(c => <div key={c} style={{ display: 'flex', width: 14, height: 14, borderRadius: 9999, backgroundColor: c }} />)}
+          <div style={{ display: 'flex', flex: 1, marginLeft: 14, backgroundColor: 'white', borderRadius: 8, padding: '6px 14px', fontSize: 16, color: '#64748b' }}>chalkidikihub.gr/listings/…</div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', padding: 24, color: '#0f172a' }}>
+          <div style={{ display: 'flex', height: 150, backgroundImage: 'linear-gradient(135deg, #8b5cf6, #0ea5e9)', borderRadius: 12, marginBottom: 16 }} />
+          <div style={{ fontSize: 26, fontWeight: 800, marginBottom: 6 }}>Το κατάλυμά σου</div>
+          <div style={{ fontSize: 16, color: '#64748b', marginBottom: 14 }}>Σιθωνία, Χαλκιδική</div>
+          <div style={{ display: 'flex', gap: 8 }}>{[0,1,2,3,4].map(i => <div key={i} style={{ display: 'flex', height: 48, width: 100, backgroundColor: '#e2e8f0', borderRadius: 8 }} />)}</div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginTop: 28 }}>
+        {['ΕΛ','EN','DE','BG','RU','RO'].map(l => (
+          <div key={l} style={{ display: 'flex', backgroundColor: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', borderRadius: 10, padding: '10px 18px', fontSize: 24, fontWeight: 700, color: '#ddd6fe' }}>{l}</div>
+        ))}
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function QrCode() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0c4a6e 0%, #0f172a 100%)">
+      <Glow accent="sky" pos="tl" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="sky" /></div>
+      <div style={{ fontSize: 38, fontWeight: 700, color: '#7dd3fc', marginBottom: 10 }}>#3 · QR για επισκέπτες</div>
+      <div style={{ fontSize: 88, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.03em' }}>Ο guest ρωτάει.</div>
+      <div style={{ fontSize: 88, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.03em', color: '#38bdf8', marginBottom: 28 }}>Το QR απαντάει.</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 40, justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: 320, height: 320, backgroundColor: 'white', borderRadius: 18, padding: 20, boxShadow: '0 30px 70px rgba(0,0,0,0.5)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', gap: 3 }}>
+            {Array.from({ length: 12 }).map((_, row) => (
+              <div key={row} style={{ display: 'flex', flex: 1, gap: 3 }}>
+                {Array.from({ length: 12 }).map((_, col) => {
+                  const filled = ((row * 3 + col * 7 + row * col) % 3) !== 0;
+                  const corner = (row < 3 && col < 3) || (row < 3 && col > 8) || (row > 8 && col < 3);
+                  return <div key={col} style={{ display: 'flex', flex: 1, backgroundColor: corner ? '#0f172a' : (filled ? '#0f172a' : 'transparent'), borderRadius: 2 }} />;
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {['📶 Wi-Fi password','🚨 Emergency numbers','🏖️ Κοντινές παραλίες','🍽️ Εστιατόρια','🏛️ Αξιοθέατα'].map(t => (
+            <div key={t} style={{ display: 'flex', fontSize: 26, color: 'rgba(255,255,255,0.92)', fontWeight: 600 }}>{t}</div>
+          ))}
+        </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 30, fontSize: 26, fontWeight: 700, color: '#bae6fd' }}>Μηδέν ερωτήσεις στο 11 το βράδυ 😴</div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function SocialKit() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #4c0519 0%, #0f172a 100%)">
+      <Glow accent="rose" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="rose" /></div>
+      <div style={{ fontSize: 38, fontWeight: 700, color: '#fda4af', marginBottom: 10 }}>#4 · Social Media Kit</div>
+      <div style={{ fontSize: 92, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.03em' }}>1 κλικ.</div>
+      <div style={{ fontSize: 92, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.03em', color: '#fb7185', marginBottom: 20 }}>3 graphics.</div>
+      <div style={{ display: 'flex', fontSize: 26, color: 'rgba(255,255,255,0.85)', marginBottom: 36, lineHeight: 1.35, maxWidth: 920 }}>
+        IG Square, IG Story, FB/X Card — έτοιμα με τη φωτογραφία σου & QR.
+      </div>
+      <div style={{ display: 'flex', gap: 20, alignItems: 'flex-end', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: 260, height: 260, backgroundImage: 'linear-gradient(160deg, #f59e0b, #ef4444, #ec4899)', borderRadius: 14, padding: 18, boxShadow: '0 25px 60px rgba(0,0,0,0.5)' }}>
+          <div style={{ display: 'flex', fontSize: 13, fontWeight: 700, color: 'white', opacity: 0.85 }}>IG SQUARE</div>
+          <div style={{ display: 'flex', flex: 1 }} />
+          <div style={{ display: 'flex', fontSize: 24, fontWeight: 800, color: 'white' }}>Το κατάλυμά σου</div>
+          <div style={{ display: 'flex', marginTop: 12, width: 50, height: 50, backgroundColor: 'white', borderRadius: 8 }} />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', width: 200, height: 360, backgroundImage: 'linear-gradient(180deg, #0ea5e9, #1e1b4b)', borderRadius: 14, padding: 18, boxShadow: '0 25px 60px rgba(0,0,0,0.5)' }}>
+          <div style={{ display: 'flex', fontSize: 12, fontWeight: 700, color: 'white', opacity: 0.85 }}>IG STORY</div>
+          <div style={{ display: 'flex', flex: 1 }} />
+          <div style={{ display: 'flex', fontSize: 22, fontWeight: 800, color: 'white' }}>Book now</div>
+          <div style={{ display: 'flex', marginTop: 10, width: 46, height: 46, backgroundColor: 'white', borderRadius: 8 }} />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', width: 380, height: 210, backgroundImage: 'linear-gradient(135deg, #10b981, #0f172a)', borderRadius: 14, padding: 18, boxShadow: '0 25px 60px rgba(0,0,0,0.5)' }}>
+          <div style={{ display: 'flex', fontSize: 13, fontWeight: 700, color: 'white', opacity: 0.85 }}>FB / X CARD</div>
+          <div style={{ display: 'flex', flex: 1 }} />
+          <div style={{ display: 'flex', fontSize: 26, fontWeight: 800, color: 'white' }}>Share anywhere</div>
+          <div style={{ display: 'flex', marginTop: 10, width: 46, height: 46, backgroundColor: 'white', borderRadius: 8 }} />
+        </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 36, fontSize: 26, fontWeight: 600, color: 'rgba(255,255,255,0.8)' }}>
+        Αντί για <span style={{ fontWeight: 800, color: '#fda4af', margin: '0 10px' }}>2-3 ώρες</span> στο Canva.
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function Analytics() {
+  const bars = [4, 8, 6, 12, 10, 16, 14, 22, 18, 26, 24, 32, 28, 36, 40];
+  const maxBar = Math.max(...bars);
+  return (
+    <Canvas bg="linear-gradient(135deg, #78350f 0%, #0f172a 100%)">
+      <Glow accent="amber" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="amber" /></div>
+      <div style={{ fontSize: 38, fontWeight: 700, color: '#fcd34d', marginBottom: 10 }}>#5 · Στατιστικά προβολών</div>
+      <div style={{ fontSize: 88, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.03em' }}>Ξέρεις.</div>
+      <div style={{ fontSize: 88, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.03em', color: '#fcd34d', marginBottom: 24 }}>Δεν μαντεύεις.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 20, padding: 32 }}>
+        <div style={{ display: 'flex', fontSize: 20, color: 'rgba(255,255,255,0.6)', marginBottom: 6 }}>Τελευταίες 30 ημέρες</div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 20, marginBottom: 24 }}>
+          <div style={{ display: 'flex', fontSize: 70, fontWeight: 800, letterSpacing: '-0.02em' }}>2.847</div>
+          <div style={{ display: 'flex', fontSize: 24, color: '#34d399', fontWeight: 700 }}>↗ +34%</div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: 170 }}>
+          {bars.map((h, i) => (
+            <div key={i} style={{ display: 'flex', flex: 1, height: `${(h / maxBar) * 100}%`, backgroundImage: 'linear-gradient(180deg, #fcd34d, #f59e0b)', borderRadius: 6 }} />
+          ))}
+        </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 28, marginTop: 30, fontSize: 22, color: 'rgba(255,255,255,0.85)', fontWeight: 600 }}>
+        <div style={{ display: 'flex' }}>🌍 Χώρες</div>
+        <div style={{ display: 'flex' }}>🔗 Πηγές</div>
+        <div style={{ display: 'flex' }}>📅 Μέρες</div>
+        <div style={{ display: 'flex' }}>🌐 Γλώσσες</div>
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function ZeroCommission() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #312e81 0%, #0f172a 100%)">
+      <Glow accent="indigo" pos="tl" />
+      <Glow accent="emerald" pos="br" />
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+        <div style={{ display: 'flex', marginBottom: 40 }}><BrandChip accent="indigo" /></div>
+        <div style={{ display: 'flex', fontSize: 34, fontWeight: 700, color: '#a5b4fc', marginBottom: 8 }}>#6 · Προμήθεια σε κάθε κράτηση</div>
+        <div style={{ display: 'flex', fontSize: 420, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.05em', backgroundImage: 'linear-gradient(135deg, #34d399, #6366f1)', backgroundClip: 'text', color: 'transparent' }}>0%</div>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: 'rgba(255,255,255,0.95)', marginTop: 10 }}>Καμία προμήθεια. Ποτέ.</div>
+        <div style={{ display: 'flex', fontSize: 26, color: 'rgba(255,255,255,0.65)', marginTop: 14, maxWidth: 900, lineHeight: 1.4, textAlign: 'center' }}>Οι επισκέπτες σε καλούν απευθείας. Όλη η κράτηση μένει σε εσένα.</div>
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 2. OWNERS — extra pain points
+// ─────────────────────────────────────────────────────────────
+
+function AskAgain() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #422006 0%, #0f172a 100%)">
+      <Glow accent="orange" pos="tl" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="orange" /></div>
+      <div style={{ display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 32, color: '#fed7aa', marginBottom: 14 }}>«Πώς θα έρθω;»</div>
+        <div style={{ display: 'flex', fontSize: 32, color: '#fed7aa', marginBottom: 14 }}>«Ποιο είναι το Wi-Fi;»</div>
+        <div style={{ display: 'flex', fontSize: 32, color: '#fed7aa', marginBottom: 40 }}>«Πού θα φάμε;»</div>
+        <div style={{ display: 'flex', fontSize: 260, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: '#fb923c' }}>47×</div>
+        <div style={{ display: 'flex', fontSize: 42, fontWeight: 700, marginTop: 10 }}>φέτος το εξήγησες.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.7)', marginTop: 16, lineHeight: 1.35, maxWidth: 900 }}>
+          Με το <span style={{ color: '#fb923c', fontWeight: 800, margin: '0 8px' }}>δωρεάν QR</span> του ChalkidikiHub — μηδέν φορές.
+        </div>
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function CanvaVsUs() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+      <Glow accent="emerald" pos="br" />
+      <div style={{ display: 'flex', marginBottom: 32 }}><BrandChip /></div>
+      <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, lineHeight: 1.05, marginBottom: 6 }}>Κάνεις τα ίδια.</div>
+      <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, lineHeight: 1.05, color: '#34d399', marginBottom: 40 }}>Γλιτώνεις €144/χρόνο.</div>
+      <div style={{ display: 'flex', gap: 20, flex: 1 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, backgroundColor: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 28 }}>
+          <div style={{ display: 'flex', fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.5)', marginBottom: 8 }}>Canva Pro</div>
+          <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1, color: '#f87171' }}>€12</div>
+          <div style={{ display: 'flex', fontSize: 20, color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>/ μήνα</div>
+          {['Templates','DIY graphics','Manual export','Δίχως QR','Δίχως analytics'].map(t => (
+            <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 22, color: 'rgba(255,255,255,0.75)', marginBottom: 8 }}>
+              <span style={{ display: 'flex', width: 22, height: 22, borderRadius: 9999, backgroundColor: '#7f1d1d', color: '#fca5a5', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800 }}>×</span>
+              {t}
+            </div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, backgroundImage: 'linear-gradient(160deg, rgba(16,185,129,0.18), rgba(16,185,129,0.04))', border: '1px solid rgba(52,211,153,0.4)', borderRadius: 16, padding: 28 }}>
+          <div style={{ display: 'flex', fontSize: 24, fontWeight: 700, color: '#a7f3d0', marginBottom: 8 }}>ChalkidikiHub</div>
+          <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1, color: '#34d399' }}>€0</div>
+          <div style={{ display: 'flex', fontSize: 20, color: 'rgba(255,255,255,0.7)', marginBottom: 24 }}>για πάντα</div>
+          {['Auto από τα στοιχεία σου','3 formats ready','1-click ZIP','QR κάθε graphic','Analytics μέσα'].map(t => (
+            <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 22, color: 'white', marginBottom: 8 }}>
+              <span style={{ display: 'flex', width: 22, height: 22, borderRadius: 9999, backgroundColor: '#10b981', color: 'white', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800 }}>✓</span>
+              {t}
+            </div>
+          ))}
+        </div>
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function CommissionCalc() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #450a0a 0%, #0f172a 100%)">
+      <Glow accent="rose" pos="tr" />
+      <div style={{ display: 'flex', marginBottom: 32 }}><BrandChip accent="rose" /></div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, marginBottom: 36 }}>
+        Πόσα χάνεις σε προμήθειες;
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 18, padding: 32, gap: 20 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.7)' }}>Μέση τιμή/βράδυ</div>
+          <div style={{ display: 'flex', fontSize: 40, fontWeight: 800 }}>€100</div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.7)' }}>Βράδια / σεζόν</div>
+          <div style={{ display: 'flex', fontSize: 40, fontWeight: 800 }}>60</div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.7)' }}>Πλατφόρμα προμήθεια</div>
+          <div style={{ display: 'flex', fontSize: 40, fontWeight: 800, color: '#fb7185' }}>15%</div>
+        </div>
+        <div style={{ display: 'flex', height: 1, backgroundColor: 'rgba(255,255,255,0.15)' }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', fontSize: 32, fontWeight: 700 }}>Χάνεις</div>
+          <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, color: '#f43f5e' }}>€900</div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 30 }}>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.7)' }}>Με ChalkidikiHub;</div>
+        <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, color: '#34d399' }}>€0 — όλα δικά σου.</div>
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function ThreeMinuteSite() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #065f46 100%)">
+      <Glow accent="teal" pos="br" />
+      <div style={{ display: 'flex', marginBottom: 32 }}><BrandChip accent="teal" /></div>
+      <div style={{ display: 'flex', fontSize: 56, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>Φτιάξε το site σου</div>
+      <div style={{ display: 'flex', fontSize: 56, fontWeight: 800, lineHeight: 1.05, color: '#5eead4', marginBottom: 40 }}>πριν πιεις τον καφέ σου.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, justifyContent: 'center', gap: 20 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 520, height: 520, borderRadius: 9999, border: '12px solid rgba(94,234,212,0.3)', justifyContent: 'center', backgroundColor: 'rgba(20,184,166,0.08)' }}>
+          <div style={{ display: 'flex', fontSize: 180, fontWeight: 800, lineHeight: 1, color: '#5eead4', letterSpacing: '-0.05em' }}>3:24</div>
+          <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>min : sec</div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', fontSize: 28, color: 'rgba(255,255,255,0.85)', marginTop: 16 }}>☕ Πιο γρήγορο από ένα espresso.</div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function SixLanguages() {
+  const quotes = [
+    { flag: '🇬🇧', txt: '"Everything was clear."', lang: 'English' },
+    { flag: '🇩🇪', txt: '"Alles war perfekt."', lang: 'Deutsch' },
+    { flag: '🇧🇬', txt: '"Всичко беше ясно."', lang: 'Български' },
+    { flag: '🇷🇺', txt: '"Всё было понятно."', lang: 'Русский' },
+    { flag: '🇷🇴', txt: '"Totul a fost clar."', lang: 'Română' },
+    { flag: '🇬🇷', txt: '"Όλα καθαρά."', lang: 'Ελληνικά' },
+  ];
+  return (
+    <Canvas bg="linear-gradient(135deg, #0c4a6e 0%, #0f172a 100%)">
+      <Glow accent="sky" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="sky" /></div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>Μιλάμε τη γλώσσα</div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, color: '#38bdf8', marginBottom: 34 }}>του guest σου.</div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, flex: 1 }}>
+        {quotes.map(q => (
+          <div key={q.lang} style={{ display: 'flex', flexDirection: 'column', width: 460, backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 24, fontWeight: 700, color: '#bae6fd', marginBottom: 8 }}>
+              <span style={{ display: 'flex', fontSize: 32 }}>{q.flag}</span>{q.lang}
+            </div>
+            <div style={{ display: 'flex', fontSize: 26, color: 'white', fontWeight: 600 }}>{q.txt}</div>
+          </div>
+        ))}
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function SeasonCountdown() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #7c2d12 0%, #0f172a 100%)">
+      <Glow accent="orange" pos="tr" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="orange" /></div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 36, color: '#fed7aa', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700 }}>Countdown</div>
+        <div style={{ display: 'flex', fontSize: 340, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.05em', backgroundImage: 'linear-gradient(135deg, #fb923c, #f43f5e)', backgroundClip: 'text', color: 'transparent' }}>57</div>
+        <div style={{ display: 'flex', fontSize: 48, fontWeight: 800, marginTop: 8 }}>μέρες μέχρι</div>
+        <div style={{ display: 'flex', fontSize: 48, fontWeight: 800, color: '#fb923c' }}>την πρώτη κράτηση.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.75)', marginTop: 24, lineHeight: 1.4, maxWidth: 900, textAlign: 'center' }}>
+          Ανέβασε το κατάλυμά σου σήμερα στο ChalkidikiHub. Έτοιμο για τη σεζόν 2026.
+        </div>
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function AirbnbVsUs() {
+  const rows = [
+    ['Προμήθεια', '~15%', '€0'],
+    ['Επικοινωνία', 'Μέσα από platform', 'Απευθείας'],
+    ['QR για επισκέπτες', 'Όχι', 'Ναι'],
+    ['Social Media Kit', 'Όχι', 'Ναι'],
+    ['6 γλώσσες', 'Αυτόματο', 'Auto + editable'],
+    ['Δικό σου site', 'Όχι', 'Ναι'],
+  ];
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+      <Glow accent="emerald" pos="br" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip /></div>
+      <div style={{ display: 'flex', fontSize: 56, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>Γιατί να μην είσαι</div>
+      <div style={{ display: 'flex', fontSize: 56, fontWeight: 800, lineHeight: 1.05, marginBottom: 36 }}>μόνο στα big players;</div>
+      <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <div style={{ display: 'flex', fontSize: 20, color: 'rgba(255,255,255,0.5)', paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+          <div style={{ display: 'flex', flex: 2 }}>Feature</div>
+          <div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>Τα γνωστά</div>
+          <div style={{ display: 'flex', flex: 1, justifyContent: 'center', color: '#34d399', fontWeight: 700 }}>ChalkidikiHub</div>
+        </div>
+        {rows.map(([k, a, b], i) => (
+          <div key={i} style={{ display: 'flex', fontSize: 22, padding: '14px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ display: 'flex', flex: 2, color: 'rgba(255,255,255,0.85)' }}>{k}</div>
+            <div style={{ display: 'flex', flex: 1, justifyContent: 'center', color: 'rgba(255,255,255,0.5)' }}>{a}</div>
+            <div style={{ display: 'flex', flex: 1, justifyContent: 'center', color: '#34d399', fontWeight: 700 }}>{b}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20, fontSize: 24, color: 'rgba(255,255,255,0.7)' }}>Είσαι και στα δύο. Κερδίζεις διπλά.</div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 3. TRAVELERS — demand-side
+// ─────────────────────────────────────────────────────────────
+
+function ThreeLegs() {
+  const legs = [
+    { name: 'Κασσάνδρα', tag: 'Party · Beach · Nightlife', color: '#fb923c', bg: 'linear-gradient(180deg, #ea580c, #7c2d12)' },
+    { name: 'Σιθωνία',   tag: 'Wild · Untouched · Cove', color: '#34d399', bg: 'linear-gradient(180deg, #059669, #064e3b)' },
+    { name: 'Άθως',      tag: 'Spiritual · Ancient · Deep', color: '#a78bfa', bg: 'linear-gradient(180deg, #7c3aed, #1e1b4b)' },
+  ];
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="teal" label="ChalkidikiHub · Discover" /></div>
+      <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>3 πόδια.</div>
+      <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, lineHeight: 1.05, marginBottom: 40, color: '#5eead4' }}>3 διαφορετικοί κόσμοι.</div>
+      <div style={{ display: 'flex', gap: 18, flex: 1 }}>
+        {legs.map(leg => (
+          <div key={leg.name} style={{ display: 'flex', flexDirection: 'column', flex: 1, backgroundImage: leg.bg, borderRadius: 18, padding: 22, justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', fontSize: 20, fontWeight: 700, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Halkidiki</div>
+              <div style={{ display: 'flex', fontSize: 40, fontWeight: 800, lineHeight: 1.05, marginTop: 4 }}>{leg.name}</div>
+            </div>
+            <div style={{ display: 'flex', fontSize: 22, color: leg.color, fontWeight: 700 }}>{leg.tag}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 28, fontSize: 24, color: 'rgba(255,255,255,0.7)' }}>Ποιο είναι το δικό σου;</div>
+      <Footer tagline="Discover Halkidiki" />
+    </Canvas>
+  );
+}
+
+function SunsetSpots() {
+  const spots = [
+    { n: '1', name: 'Nikiti Waterfront', where: 'Σιθωνία' },
+    { n: '2', name: 'Kassandra Tip (Possidi)', where: 'Κασσάνδρα' },
+    { n: '3', name: 'Κούφος', where: 'Σιθωνία' },
+    { n: '4', name: 'Σάρτη — Kavourotripes', where: 'Σιθωνία' },
+    { n: '5', name: 'Πευκοχώρι beach', where: 'Κασσάνδρα' },
+  ];
+  return (
+    <Canvas bg="linear-gradient(160deg, #7c2d12 0%, #f97316 40%, #be123c 100%)">
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="orange" label="ChalkidikiHub · Sunsets" /></div>
+      <div style={{ display: 'flex', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 6 }}>5 ηλιοβασιλέματα</div>
+      <div style={{ display: 'flex', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 36, color: '#fef3c7' }}>που αξίζουν το ταξίδι.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, flex: 1 }}>
+        {spots.map(s => (
+          <div key={s.n} style={{ display: 'flex', alignItems: 'center', gap: 20, backgroundColor: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 14, padding: '18px 22px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 60, height: 60, borderRadius: 9999, backgroundColor: '#fef3c7', color: '#7c2d12', fontSize: 28, fontWeight: 800 }}>{s.n}</div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', fontSize: 30, fontWeight: 800 }}>{s.name}</div>
+              <div style={{ display: 'flex', fontSize: 20, color: 'rgba(255,255,255,0.8)' }}>{s.where}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <Footer tagline="📍 chalkidikihub.gr" />
+    </Canvas>
+  );
+}
+
+function HiddenVillages() {
+  const villages = ['Παρθενώνας', 'Άγιος Νικόλαος', 'Νικήτη Παλιά', 'Αρναία', 'Παλαιοχώρι', 'Ολυμπιάδα'];
+  return (
+    <Canvas bg="linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%)">
+      <Glow accent="indigo" pos="tl" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="indigo" label="ChalkidikiHub · Off the path" /></div>
+      <div style={{ display: 'flex', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>Χωριά που οι</div>
+      <div style={{ display: 'flex', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 40, color: '#a5b4fc' }}>τουρίστες δεν βρίσκουν.</div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, flex: 1 }}>
+        {villages.map(v => (
+          <div key={v} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', width: 300, height: 200, backgroundImage: 'linear-gradient(160deg, rgba(99,102,241,0.2), rgba(15,23,42,0.8))', border: '1px solid rgba(99,102,241,0.3)', borderRadius: 14, padding: 18 }}>
+            <div style={{ display: 'flex', fontSize: 28, fontWeight: 800 }}>{v}</div>
+            <div style={{ display: 'flex', fontSize: 18, color: '#a5b4fc' }}>🌿 Παραδοσιακό</div>
+          </div>
+        ))}
+      </div>
+      <Footer tagline="🌿 chalkidikihub.gr/villages" />
+    </Canvas>
+  );
+}
+
+function DidYouKnow() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #831843 0%, #0f172a 100%)">
+      <Glow accent="pink" pos="tr" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="pink" label="Did you know?" /></div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 34, color: '#fbcfe8', marginBottom: 16, fontWeight: 700 }}>Η Χαλκιδική έχει</div>
+        <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: '#f472b6' }}>550+</div>
+        <div style={{ display: 'flex', fontSize: 52, fontWeight: 800, marginTop: 10 }}>χιλιόμετρα ακτογραμμής.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.7)', marginTop: 24, lineHeight: 1.4, maxWidth: 900 }}>
+          Περισσότερα από κάθε άλλη περιοχή της Βόρειας Ελλάδας. Κάθε παραλία έχει τη δική της προσωπικότητα.
+        </div>
+      </div>
+      <Footer tagline="🏖️ Discover them all" />
+    </Canvas>
+  );
+}
+
+function MountAthos() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #1e1b4b 0%, #3b0764 50%, #0f172a 100%)">
+      <Glow accent="violet" pos="br" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="violet" label="Mount Athos · Άγιον Όρος" /></div>
+      <div style={{ display: 'flex', fontSize: 62, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>20 μοναστήρια.</div>
+      <div style={{ display: 'flex', fontSize: 62, fontWeight: 800, lineHeight: 1.05, marginBottom: 10, color: '#c4b5fd' }}>1.000+ χρόνια.</div>
+      <div style={{ display: 'flex', fontSize: 62, fontWeight: 800, lineHeight: 1.05, marginBottom: 36 }}>1 UNESCO τόπος.</div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, flex: 1 }}>
+        {['Μ. Λαύρα','Βατοπέδι','Ιβήρων','Χιλανδάρι','Διονυσίου','Κουτλουμούσι','Παντοκράτορος','Ξηροποτάμου','Ζωγράφου','Δοχειαρίου','Καρακάλλου','Φιλοθέου','Σίμωνος Πέτρα','Αγ. Παύλος','Σταυρονικήτα','Ξενοφώντος','Γρηγορίου','Εσφιγμένου','Παντελεήμονος','Κωνσταμονίτου'].map(m => (
+            <div key={m} style={{ display: 'flex', backgroundColor: 'rgba(139,92,246,0.15)', border: '1px solid rgba(196,181,253,0.3)', borderRadius: 10, padding: '10px 16px', fontSize: 19, fontWeight: 600, color: '#ddd6fe' }}>{m}</div>
+        ))}
+      </div>
+      <Footer tagline="⛪ Πλήρης οδηγός στο chalkidikihub.gr/mount-athos" />
+    </Canvas>
+  );
+}
+
+function BestTime() {
+  const months = [
+    { m: 'Ιαν', h: 3, lbl: 'Ήσυχα' }, { m: 'Φεβ', h: 4, lbl: 'Ήσυχα' },
+    { m: 'Μαρ', h: 6, lbl: 'Άνοιξη' }, { m: 'Απρ', h: 9, lbl: 'Άνοιξη' },
+    { m: 'Μαϊ', h: 14, lbl: 'Ζεστά' }, { m: 'Ιουν', h: 20, lbl: 'Peak' },
+    { m: 'Ιουλ', h: 28, lbl: 'Peak' }, { m: 'Αυγ', h: 30, lbl: 'Peak' },
+    { m: 'Σεπ', h: 22, lbl: 'Ιδανικό' }, { m: 'Οκτ', h: 12, lbl: 'Ιδανικό' },
+    { m: 'Νοε', h: 5, lbl: 'Ήσυχα' }, { m: 'Δεκ', h: 4, lbl: 'Ήσυχα' },
+  ];
+  const maxH = 30;
+  return (
+    <Canvas bg="linear-gradient(135deg, #0c4a6e 0%, #0f172a 100%)">
+      <Glow accent="sky" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="sky" label="When to visit" /></div>
+      <div style={{ display: 'flex', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>Πότε να έρθεις;</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.75)', marginBottom: 30 }}>Crowd level · μήνας προς μήνα</div>
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, height: 460, paddingBottom: 40, borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
+        {months.map(mo => {
+          const isPeak = mo.h > 24;
+          return (
+            <div key={mo.m} style={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'center' }}>
+              <div style={{ display: 'flex', fontSize: 14, color: 'rgba(255,255,255,0.6)', marginBottom: 6 }}>{mo.lbl}</div>
+              <div style={{ display: 'flex', width: '80%', height: `${(mo.h / maxH) * 380}px`, backgroundImage: isPeak ? 'linear-gradient(180deg, #f87171, #dc2626)' : 'linear-gradient(180deg, #38bdf8, #0369a1)', borderRadius: 6 }} />
+              <div style={{ display: 'flex', fontSize: 18, fontWeight: 700, color: 'white', marginTop: 8 }}>{mo.m}</div>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 30, marginTop: 20, fontSize: 20, color: 'rgba(255,255,255,0.7)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ display: 'flex', width: 14, height: 14, backgroundColor: '#38bdf8', borderRadius: 3 }} />Quiet / Shoulder</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ display: 'flex', width: 14, height: 14, backgroundColor: '#dc2626', borderRadius: 3 }} />Peak season</div>
+      </div>
+      <Footer tagline="📅 Πλήρης guide online" />
+    </Canvas>
+  );
+}
+
+function Activities() {
+  const acts = [
+    { e: '🤿', name: 'Scuba diving', where: 'Σιθωνία · Αμμουλιανή' },
+    { e: '⛵', name: 'Boat trips', where: 'Από 6 λιμάνια' },
+    { e: '🥾', name: 'Hiking', where: 'Mount Itamos · Cholomontas' },
+    { e: '🏍️', name: 'ATV & buggy', where: 'Off-road trails' },
+    { e: '🏄', name: 'Windsurf · SUP', where: 'Πευκοχώρι · Σάρτη' },
+    { e: '🍷', name: 'Wine tours', where: 'Παραγωγοί της περιοχής' },
+  ];
+  return (
+    <Canvas bg="linear-gradient(135deg, #064e3b 0%, #0f172a 100%)">
+      <Glow accent="lime" pos="tr" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="lime" label="Activities" /></div>
+      <div style={{ display: 'flex', fontSize: 62, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>Όχι μόνο παραλία.</div>
+      <div style={{ display: 'flex', fontSize: 62, fontWeight: 800, lineHeight: 1.05, marginBottom: 36, color: '#bef264' }}>Αυτή είναι Χαλκιδική.</div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, flex: 1 }}>
+        {acts.map(a => (
+          <div key={a.name} style={{ display: 'flex', alignItems: 'center', gap: 18, width: 460, backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(190,242,100,0.25)', borderRadius: 14, padding: 20 }}>
+            <div style={{ display: 'flex', fontSize: 50 }}>{a.e}</div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', fontSize: 28, fontWeight: 800 }}>{a.name}</div>
+              <div style={{ display: 'flex', fontSize: 18, color: '#bef264' }}>{a.where}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <Footer tagline="🎯 chalkidikihub.gr/activities" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 4. SOCIAL PROOF
+// ─────────────────────────────────────────────────────────────
+
+function ByTheNumbers() {
+  const stats = [
+    { n: '350+', l: 'Beaches indexed' },
+    { n: '200+', l: 'Εστιατόρια' },
+    { n: '150+', l: 'Activities' },
+    { n: '20',   l: 'Μοναστήρια Άθω' },
+    { n: '6',    l: 'Γλώσσες' },
+    { n: '∞',    l: 'Listings · δωρεάν' },
+  ];
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="emerald" label="By the numbers" /></div>
+      <div style={{ display: 'flex', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>Η Χαλκιδική.</div>
+      <div style={{ display: 'flex', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 40, color: '#34d399' }}>Σε ένα μέρος.</div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, flex: 1 }}>
+        {stats.map(s => (
+          <div key={s.l} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: 300, height: 220, backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(52,211,153,0.2)', borderRadius: 16, padding: 24 }}>
+            <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', backgroundImage: 'linear-gradient(135deg, #34d399, #14b8a6)', backgroundClip: 'text', color: 'transparent' }}>{s.n}</div>
+            <div style={{ display: 'flex', fontSize: 22, color: 'rgba(255,255,255,0.75)', fontWeight: 600, marginTop: 6 }}>{s.l}</div>
+          </div>
+        ))}
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function NewFeature() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)">
+      <Glow accent="violet" pos="tr" />
+      <Glow accent="pink" pos="bl" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="pink" label="NEW · καινούργιο" /></div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 50, fontWeight: 700, color: '#f9a8d4', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Just shipped</div>
+        <div style={{ display: 'flex', fontSize: 120, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 10 }}>Social Media</div>
+        <div style={{ display: 'flex', fontSize: 120, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: '#f9a8d4' }}>Kit.</div>
+        <div style={{ display: 'flex', fontSize: 32, color: 'rgba(255,255,255,0.8)', marginTop: 30, maxWidth: 900, lineHeight: 1.4 }}>
+          3 έτοιμα graphics + QR + caption — με 1 κλικ. Δωρεάν για κάθε listing.
+        </div>
+      </div>
+      <Footer tagline="🎉 /dashboard/listings" />
+    </Canvas>
+  );
+}
+
+function Milestone() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #164e63 0%, #0f172a 100%)">
+      <Glow accent="teal" pos="tl" />
+      <Glow accent="emerald" pos="br" />
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', marginBottom: 40 }}><BrandChip accent="teal" label="🎉 Milestone" /></div>
+        <div style={{ display: 'flex', fontSize: 32, color: '#99f6e4', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Αυτόν τον μήνα</div>
+        <div style={{ display: 'flex', fontSize: 240, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.04em', backgroundImage: 'linear-gradient(135deg, #5eead4, #14b8a6)', backgroundClip: 'text', color: 'transparent' }}>10K</div>
+        <div style={{ display: 'flex', fontSize: 48, fontWeight: 800, marginTop: 10 }}>ταξιδιώτες</div>
+        <div style={{ display: 'flex', fontSize: 48, fontWeight: 800, color: '#5eead4' }}>ανακάλυψαν τη Χαλκιδική.</div>
+        <div style={{ display: 'flex', fontSize: 24, color: 'rgba(255,255,255,0.6)', marginTop: 24 }}>Ευχαριστούμε που είστε μαζί μας 🙏</div>
+      </div>
+      <Footer tagline="Thank you ❤️" />
+    </Canvas>
+  );
+}
+
+function Testimonial() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+      <Glow accent="emerald" pos="tl" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip label="Από έναν ιδιοκτήτη" /></div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 200, fontWeight: 800, color: '#34d399', lineHeight: 0.7 }}>"</div>
+        <div style={{ display: 'flex', fontSize: 48, fontWeight: 700, lineHeight: 1.25, marginTop: -30, maxWidth: 920 }}>
+          Σε 5 λεπτά είχα site, QR, graphics. Ο πρώτος guest με κάλεσε απευθείας.
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginTop: 40 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 70, height: 70, borderRadius: 9999, backgroundImage: 'linear-gradient(135deg, #10b981, #14b8a6)', fontSize: 32, fontWeight: 800 }}>Γ</div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', fontSize: 28, fontWeight: 700 }}>Γιώργος Π.</div>
+            <div style={{ display: 'flex', fontSize: 20, color: '#34d399' }}>Owner · Σιθωνία</div>
+          </div>
+        </div>
+      </div>
+      <Footer tagline="Μπες κι εσύ στο ChalkidikiHub" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 5. EDUCATIONAL
+// ─────────────────────────────────────────────────────────────
+
+function PhotoTips() {
+  const tips = [
+    { n: '1', t: 'Πρωί φως · όχι μεσημέρι', desc: '8-10πμ ή 5-7μμ' },
+    { n: '2', t: 'Δωμάτια καθαρά & αραιά', desc: 'Χωρίς σκορπισμένα' },
+    { n: '3', t: 'Cover με θέα', desc: 'Πρώτη εικόνα = κλικ' },
+    { n: '4', t: 'Λεπτομέρειες που "πουλάνε"', desc: 'Bar, μπαλκόνι, BBQ' },
+    { n: '5', t: 'Ένα βίντεο 10s', desc: 'Τριπλασιάζει engagement' },
+  ];
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+      <Glow accent="amber" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="amber" label="Educational · Tips" /></div>
+      <div style={{ display: 'flex', fontSize: 58, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>5 λάθη στις φωτογραφίες</div>
+      <div style={{ display: 'flex', fontSize: 58, fontWeight: 800, lineHeight: 1.05, marginBottom: 34, color: '#fcd34d' }}>του καταλύματός σου.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, flex: 1 }}>
+        {tips.map(t => (
+          <div key={t.n} style={{ display: 'flex', alignItems: 'center', gap: 22, backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '16px 22px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 56, height: 56, borderRadius: 12, backgroundColor: '#f59e0b', color: '#0f172a', fontSize: 28, fontWeight: 800 }}>{t.n}</div>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+              <div style={{ display: 'flex', fontSize: 28, fontWeight: 800 }}>{t.t}</div>
+              <div style={{ display: 'flex', fontSize: 20, color: 'rgba(255,255,255,0.65)' }}>{t.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <Footer tagline="💡 Save this post" />
+    </Canvas>
+  );
+}
+
+function LegalAMA() {
+  const items = [
+    { ok: true,  t: 'ΑΜΑ (Αριθμός Μητρώου Ακινήτου)' },
+    { ok: true,  t: 'ΑΦΜ + Ε2 στη ΔΟΥ' },
+    { ok: true,  t: 'Δήλωση βραχυχρόνιας μίσθωσης' },
+    { ok: true,  t: 'Πυρασφάλεια (εξοπλισμός)' },
+    { ok: true,  t: 'Απαραίτητα στοιχεία στο listing' },
+    { ok: false, t: 'Άδεια ΕΟΤ (προαιρετικό · όχι για βραχυχρόνια)' },
+  ];
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #7f1d1d 100%)">
+      <Glow accent="rose" pos="br" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="rose" label="Legal checklist" /></div>
+      <div style={{ display: 'flex', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 10 }}>Τι χρειάζεσαι</div>
+      <div style={{ display: 'flex', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 34, color: '#fb7185' }}>νόμιμα για AirBnB/βραχυχρόνια.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
+        {items.map((it, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 18, backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '16px 20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, borderRadius: 9999, backgroundColor: it.ok ? '#10b981' : 'rgba(148,163,184,0.3)', color: 'white', fontSize: 22, fontWeight: 800 }}>{it.ok ? '✓' : '—'}</div>
+            <div style={{ display: 'flex', fontSize: 26, color: it.ok ? 'white' : 'rgba(255,255,255,0.6)', fontWeight: 600 }}>{it.t}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 14, fontSize: 18, color: 'rgba(255,255,255,0.55)', textAlign: 'center' }}>
+        * Μη νομική συμβουλή. Επιβεβαίωσε με λογιστή.
+      </div>
+      <Footer tagline="📋 Save for later" />
+    </Canvas>
+  );
+}
+
+function EnDescription() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0c4a6e 0%, #0f172a 100%)">
+      <Glow accent="sky" pos="tr" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="sky" label="Data-driven tip" /></div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 44, color: 'rgba(255,255,255,0.75)', fontWeight: 700, marginBottom: 10 }}>Η αγγλική περιγραφή</div>
+        <div style={{ display: 'flex', fontSize: 44, color: 'rgba(255,255,255,0.75)', fontWeight: 700, marginBottom: 40 }}>φέρνει</div>
+        <div style={{ display: 'flex', fontSize: 360, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.05em', backgroundImage: 'linear-gradient(135deg, #38bdf8, #0ea5e9)', backgroundClip: 'text', color: 'transparent' }}>3×</div>
+        <div style={{ display: 'flex', fontSize: 52, fontWeight: 800, marginTop: 10 }}>περισσότερες προβολές.</div>
+        <div style={{ display: 'flex', fontSize: 26, color: 'rgba(255,255,255,0.7)', marginTop: 20, lineHeight: 1.4, maxWidth: 900 }}>
+          70% των τουριστών στη Χαλκιδική ψάχνουν στα αγγλικά. Η δωρεάν AI μετάφραση του ChalkidikiHub το κάνει για σένα.
+        </div>
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+function CommonQuestions() {
+  const qs = [
+    '«Τι ώρα είναι το check-in;»',
+    '«Υπάρχει parking;»',
+    '«Πώς θα έρθω;»',
+    '«Ποιο είναι το Wi-Fi;»',
+    '«Έχει κλιματιστικό;»',
+    '«Πού θα φάμε κοντά;»',
+    '«Μπορούμε με κατοικίδιο;»',
+  ];
+  return (
+    <Canvas bg="linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)">
+      <Glow accent="violet" pos="tl" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="violet" label="Τα 7 που ρωτάνε όλοι" /></div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, marginBottom: 8 }}>Οι ερωτήσεις που</div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, marginBottom: 30, color: '#c4b5fd' }}>απαντάς ξανά & ξανά.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1 }}>
+        {qs.map((q, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(196,181,253,0.2)', borderRadius: 12, padding: '14px 20px' }}>
+            <div style={{ display: 'flex', fontSize: 28 }}>💬</div>
+            <div style={{ display: 'flex', fontSize: 26, color: 'white' }}>{q}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20, fontSize: 26, fontWeight: 700, color: '#c4b5fd' }}>
+        → Γι&apos; αυτό το ChalkidikiHub έχει FAQs feature. Δωρεάν.
+      </div>
+      <Footer />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 6. ENGAGEMENT
+// ─────────────────────────────────────────────────────────────
+
+function WhichBeach() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #0f172a 0%, #1e293b 100%)">
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="teal" label="A · B" /></div>
+      <div style={{ display: 'flex', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 34 }}>Ποια θα διάλεγες;</div>
+      <div style={{ display: 'flex', gap: 18, flex: 1 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, backgroundImage: 'linear-gradient(180deg, #0ea5e9, #0369a1)', borderRadius: 18, padding: 28, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 70, height: 70, borderRadius: 9999, backgroundColor: 'white', color: '#0369a1', fontSize: 36, fontWeight: 800 }}>A</div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', fontSize: 44, fontWeight: 800, lineHeight: 1.05 }}>Οργανωμένη</div>
+            <div style={{ display: 'flex', fontSize: 24, color: 'rgba(255,255,255,0.85)', marginTop: 8 }}>🏖️ Ομπρέλες · Beach bar · Volley</div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, backgroundImage: 'linear-gradient(180deg, #059669, #064e3b)', borderRadius: 18, padding: 28, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 70, height: 70, borderRadius: 9999, backgroundColor: 'white', color: '#065f46', fontSize: 36, fontWeight: 800 }}>B</div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', fontSize: 44, fontWeight: 800, lineHeight: 1.05 }}>Άγρια</div>
+            <div style={{ display: 'flex', fontSize: 24, color: 'rgba(255,255,255,0.85)', marginTop: 8 }}>🌿 Ερημική · Βότσαλα · Πεύκα</div>
+          </div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20, fontSize: 26, color: 'rgba(255,255,255,0.7)' }}>Σχολίασε A ή B 👇</div>
+      <Footer tagline="Poll · Comment below" />
+    </Canvas>
+  );
+}
+
+function TagFriend() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #164e63 0%, #0f172a 100%)">
+      <Glow accent="teal" pos="tr" />
+      <Glow accent="sky" pos="bl" />
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="teal" label="Καλοκαίρι mood" /></div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 160 }}>🏖️</div>
+        <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, lineHeight: 1.1, textAlign: 'center', marginTop: 30, maxWidth: 900 }}>
+          Tag κάποιον που
+        </div>
+        <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, lineHeight: 1.1, textAlign: 'center', color: '#5eead4' }}>
+          χρωστάς διακοπές.
+        </div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.75)', marginTop: 30, textAlign: 'center', maxWidth: 900, lineHeight: 1.4 }}>
+          Χαλκιδική · 550+ χλμ ακτογραμμής. Κάπου εδώ είναι το δικό σας μέρος.
+        </div>
+      </div>
+      <Footer tagline="📍 chalkidikihub.gr" />
+    </Canvas>
+  );
+}
+
+function GuessBeach() {
+  return (
+    <Canvas bg="linear-gradient(160deg, #0c4a6e 0%, #164e63 50%, #0f172a 100%)">
+      <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip accent="sky" label="Guess the beach" /></div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 140, fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.03em' }}>Ποια</div>
+        <div style={{ display: 'flex', fontSize: 140, fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.03em', color: '#38bdf8' }}>παραλία</div>
+        <div style={{ display: 'flex', fontSize: 140, fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.03em' }}>είναι;</div>
+        <div style={{ display: 'flex', flexDirection: 'column', marginTop: 40, gap: 10 }}>
+          {['🔸 Βότσαλα · όχι άμμος', '🔸 Τυρκουάζ νερά', '🔸 Μέσα σε πευκόδασος', '🔸 10 λεπτά από Νικήτη'].map(c => (
+            <div key={c} style={{ display: 'flex', fontSize: 26, color: 'rgba(255,255,255,0.85)' }}>{c}</div>
+          ))}
+        </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', fontSize: 24, color: 'rgba(255,255,255,0.7)' }}>👇 Πες μας στα σχόλια!</div>
+      <Footer tagline="Swipe for answer" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 7. INSTAGRAM PROFILE PHOTOS (center-safe, circle-crop friendly)
+// ─────────────────────────────────────────────────────────────
+
+// Three iconic peninsulas of Halkidiki — Kassandra (west, medium),
+// Sithonia (middle, longest), Athos (east, medium). Pure white on
+// emerald → teal gradient. Instantly readable as Halkidiki to anyone
+// who has ever looked at a map.
+function ProfilePeninsulas() {
+  return (
+    <div style={{
+      width: W, height: H,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      backgroundImage: 'linear-gradient(135deg, #10b981 0%, #0d9488 50%, #0f766e 100%)',
+      position: 'relative',
+    }}>
+      {/* Soft glow */}
+      <div style={{ position: 'absolute', top: -200, right: -200, width: 680, height: 680, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%)', display: 'flex' }} />
+      <div style={{ position: 'absolute', bottom: -240, left: -240, width: 640, height: 640, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.2), transparent 70%)', display: 'flex' }} />
+
+      {/* Three peninsulas — varied heights for organic feel */}
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 38 }}>
+        <div style={{ display: 'flex', width: 130, height: 380, backgroundColor: 'white', borderRadius: '70px 70px 55px 55px', boxShadow: '0 30px 60px rgba(0,0,0,0.25)' }} />
+        <div style={{ display: 'flex', width: 130, height: 540, backgroundColor: 'white', borderRadius: '70px 70px 55px 55px', boxShadow: '0 30px 60px rgba(0,0,0,0.25)' }} />
+        <div style={{ display: 'flex', width: 130, height: 440, backgroundColor: 'white', borderRadius: '70px 70px 55px 55px', boxShadow: '0 30px 60px rgba(0,0,0,0.25)' }} />
+      </div>
+    </div>
+  );
+}
+
+function ProfileMonogram() {
+  return (
+    <div style={{
+      width: W, height: H,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      backgroundImage: 'linear-gradient(135deg, #0f172a 0%, #064e3b 50%, #10b981 100%)',
+      position: 'relative',
+    }}>
+      <div style={{ position: 'absolute', top: -200, right: -200, width: 680, height: 680, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(52,211,153,0.3), transparent 70%)', display: 'flex' }} />
+      <div style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        width: 780, height: 780, borderRadius: 9999,
+        backgroundColor: 'rgba(255,255,255,0.05)',
+        border: '14px solid rgba(255,255,255,0.12)',
+      }}>
+        <div style={{
+          display: 'flex',
+          fontSize: 440, fontWeight: 800,
+          lineHeight: 0.85,
+          letterSpacing: '-0.08em',
+          backgroundImage: 'linear-gradient(135deg, #ffffff 0%, #a7f3d0 100%)',
+          backgroundClip: 'text',
+          color: 'transparent',
+        }}>CH</div>
+        <div style={{ display: 'flex', fontSize: 32, fontWeight: 700, color: '#a7f3d0', letterSpacing: '0.25em', marginTop: 8 }}>HALKIDIKI</div>
+      </div>
+    </div>
+  );
+}
+
+function ProfileBadge() {
+  // Combined: peninsulas inside a circular badge with "HUB" wordmark below.
+  // Best compromise between iconic and brand-recognition.
+  return (
+    <div style={{
+      width: W, height: H,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      backgroundImage: 'linear-gradient(135deg, #064e3b 0%, #0f172a 100%)',
+      position: 'relative',
+    }}>
+      <div style={{ position: 'absolute', top: -160, left: -160, width: 620, height: 620, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(52,211,153,0.35), transparent 70%)', display: 'flex' }} />
+      <div style={{ position: 'absolute', bottom: -200, right: -200, width: 640, height: 640, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(20,184,166,0.3), transparent 70%)', display: 'flex' }} />
+
+      <div style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        width: 820, height: 820, borderRadius: 9999,
+        backgroundImage: 'linear-gradient(135deg, #10b981, #0d9488)',
+        boxShadow: '0 40px 80px rgba(0,0,0,0.4), inset 0 0 60px rgba(255,255,255,0.08)',
+      }}>
+        {/* 3 peninsulas */}
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 26, marginBottom: 40 }}>
+          <div style={{ display: 'flex', width: 90, height: 240, backgroundColor: 'white', borderRadius: '50px 50px 40px 40px' }} />
+          <div style={{ display: 'flex', width: 90, height: 340, backgroundColor: 'white', borderRadius: '50px 50px 40px 40px' }} />
+          <div style={{ display: 'flex', width: 90, height: 280, backgroundColor: 'white', borderRadius: '50px 50px 40px 40px' }} />
+        </div>
+        <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>ChalkidikiHub</div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 8. CAROUSEL — "Πώς να ανεβάσεις το κατάλυμά σου σε 5 λεπτά" (8 slides)
+// Designed as a cohesive set: same palette, top progress bar, big step
+// number, consistent "swipe →" hint. Share as a multi-photo IG post.
+// ─────────────────────────────────────────────────────────────
+
+const CAROUSEL_TOTAL = 8;
+
+function ProgressBar({ step }: { step: number }) {
+  return (
+    <div style={{ display: 'flex', gap: 6, marginBottom: 30 }}>
+      {Array.from({ length: CAROUSEL_TOTAL }).map((_, i) => {
+        const done = i < step;
+        const current = i === step - 1;
+        return (
+          <div key={i} style={{
+            display: 'flex',
+            flex: 1,
+            height: 5,
+            borderRadius: 9999,
+            backgroundColor: done ? '#34d399' : current ? '#34d399' : 'rgba(255,255,255,0.15)',
+            opacity: current ? 1 : done ? 0.5 : 1,
+          }} />
+        );
+      })}
+    </div>
+  );
+}
+
+function SwipeHint() {
+  return (
+    <div style={{
+      position: 'absolute', right: 60, bottom: 110,
+      display: 'flex', alignItems: 'center', gap: 10,
+      fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)',
+    }}>
+      Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+    </div>
+  );
+}
+
+function SlideBase({ step, children, showSwipe = true }: { step: number; children: React.ReactNode; showSwipe?: boolean }) {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <ProgressBar step={step} />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip label={`Step ${step} / ${CAROUSEL_TOTAL}`} />
+      </div>
+      {children}
+      {showSwipe && <SwipeHint />}
+      <Footer tagline={`${step} / ${CAROUSEL_TOTAL}  ·  chalkidikihub.gr`} />
+    </Canvas>
+  );
+}
+
+// Slide 1 — COVER
+function Carousel1() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #064e3b 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <Glow accent="teal" pos="bl" />
+      <ProgressBar step={1} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip label="Owner guide · ChalkidikiHub" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 42, fontWeight: 700, color: '#34d399', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>
+          Οδηγός · 5 λεπτά
+        </div>
+        <div style={{ display: 'flex', fontSize: 108, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em' }}>
+          Ανέβασε
+        </div>
+        <div style={{ display: 'flex', fontSize: 108, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em' }}>
+          το κατάλυμά
+        </div>
+        <div style={{ display: 'flex', fontSize: 108, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: '#34d399' }}>
+          σου.
+        </div>
+        <div style={{ display: 'flex', fontSize: 32, color: 'rgba(255,255,255,0.75)', marginTop: 40, lineHeight: 1.3, maxWidth: 900 }}>
+          Χωρίς προμήθεια. Χωρίς πιστωτική. 5 απλά βήματα — και βγαίνεις live.
+        </div>
+      </div>
+      <SwipeHint />
+      <Footer tagline="1 / 8  ·  Swipe για αρχή" />
+    </Canvas>
+  );
+}
+
+// Slide 2 — Step 1: Signup
+function Carousel2() {
+  return (
+    <SlideBase step={2}>
+      <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>1</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Κάνε εγγραφή.</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
+        Email + κωδικός. Χωρίς πιστωτική κάρτα. Χωρίς "free trial που γίνεται paid". Δωρεάν για πάντα.
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 40, width: 700 }}>
+        <div style={{ display: 'flex', backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 12, padding: '18px 22px', fontSize: 22, color: 'rgba(255,255,255,0.55)' }}>
+          you@example.com
+        </div>
+        <div style={{ display: 'flex', backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 12, padding: '18px 22px', fontSize: 22, color: 'rgba(255,255,255,0.55)' }}>
+          • • • • • • • •
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#10b981', borderRadius: 12, padding: '18px 22px', fontSize: 24, fontWeight: 700 }}>
+          Ξεκίνα →
+        </div>
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 3 — Step 2: Photos
+function Carousel3() {
+  return (
+    <SlideBase step={3}>
+      <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>2</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Βάλε φωτογραφίες.</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
+        5-10 φωτό φτάνουν. Η 1η είναι η πιο σημαντική — είναι το cover που βλέπει όλος ο κόσμος.
+      </div>
+      <div style={{ display: 'flex', gap: 14, marginTop: 40, flexWrap: 'wrap' }}>
+        {[['#0ea5e9','#8b5cf6'], ['#f59e0b','#ef4444'], ['#10b981','#0ea5e9'], ['#ec4899','#8b5cf6'], ['#14b8a6','#10b981']].map(([a,b], i) => (
+          <div key={i} style={{
+            display: 'flex',
+            width: 170, height: 170,
+            backgroundImage: `linear-gradient(135deg, ${a}, ${b})`,
+            borderRadius: 14,
+            ...(i === 0 ? { border: '4px solid #34d399' } : {}),
+          }}>
+            {i === 0 && <div style={{ display: 'flex', position: 'absolute', backgroundColor: '#34d399', color: '#0f172a', fontSize: 14, fontWeight: 800, padding: '4px 10px', borderRadius: 999, margin: 10 }}>COVER</div>}
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 24, fontSize: 22, color: '#fcd34d' }}>
+        <span style={{ display: 'flex', fontSize: 28 }}>💡</span>
+        Πρωί ή απόγευμα φως. Δωμάτια τακτοποιημένα. Καμία compression.
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 4 — Step 3: Describe (Greek only)
+function Carousel4() {
+  return (
+    <SlideBase step={4}>
+      <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>3</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Γράψε στα ελληνικά.</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
+        Μόνο αυτό. Το AI μεταφράζει σε 6 γλώσσες δωρεάν. Όχι copy-paste με Google Translate.
+      </div>
+      <div style={{ display: 'flex', gap: 16, marginTop: 36, alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 14, padding: 20, width: 350 }}>
+          <div style={{ display: 'flex', fontSize: 20, fontWeight: 700, color: '#34d399', marginBottom: 8 }}>🇬🇷 Ελληνικά (γράφεις)</div>
+          <div style={{ display: 'flex', fontSize: 18, color: 'rgba(255,255,255,0.85)', lineHeight: 1.4 }}>Ήσυχο σπίτι με θέα στη Σιθωνία...</div>
+        </div>
+        <div style={{ display: 'flex', fontSize: 40, color: '#34d399' }}>→</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
+          {['🇬🇧 Auto', '🇩🇪 Auto', '🇧🇬 Auto', '🇷🇺 Auto', '🇷🇴 Auto'].map(l => (
+            <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 10, backgroundColor: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.25)', borderRadius: 10, padding: '8px 14px', fontSize: 18, fontWeight: 600 }}>
+              <span style={{ display: 'flex', width: 8, height: 8, borderRadius: 9999, backgroundColor: '#34d399' }} />{l}
+            </div>
+          ))}
+        </div>
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 5 — Step 4: Amenities
+function Carousel5() {
+  const amen = ['📶 WiFi', '🅿️ Parking', '❄️ A/C', '🏊 Pool', '🍳 Κουζίνα', '📺 TV', '🌊 Θέα', '🐾 Pet-friendly', '🚭 Non-smoking'];
+  return (
+    <SlideBase step={5}>
+      <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>4</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Τσέκαρε amenities.</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
+        Όσα προσφέρεις — ο guest το βλέπει και ξέρει τι να περιμένει. 0 ερωτήσεις μετά.
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 36 }}>
+        {amen.map(a => (
+          <div key={a} style={{ display: 'flex', alignItems: 'center', gap: 10, backgroundColor: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.4)', borderRadius: 12, padding: '14px 22px', fontSize: 26, fontWeight: 700 }}>
+            <span style={{ display: 'flex', color: '#34d399', fontSize: 20, fontWeight: 800 }}>✓</span>{a}
+          </div>
+        ))}
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 6 — Step 5: Publish
+function Carousel6() {
+  return (
+    <SlideBase step={6}>
+      <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>5</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Publish.</div>
+      <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
+        Ένα κουμπί. Το κατάλυμά σου είναι live σε 2 δευτερόλεπτα και αρχίζει να εμφανίζεται σε αναζητήσεις.
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: 30 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backgroundImage: 'linear-gradient(135deg, #10b981, #14b8a6)',
+            padding: '28px 60px', borderRadius: 16,
+            fontSize: 44, fontWeight: 800,
+            boxShadow: '0 30px 60px rgba(16,185,129,0.4)',
+          }}>🚀 Publish</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 28, color: '#34d399', fontWeight: 700 }}>
+            <span style={{ display: 'flex', width: 14, height: 14, borderRadius: 9999, backgroundColor: '#34d399' }} />
+            Live · δες το στο chalkidikihub.gr
+          </div>
+        </div>
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 7 — Bonus: auto features
+function Carousel7() {
+  const bonuses = [
+    { emoji: '📱', title: 'QR για guests', sub: 'Αυτόματα' },
+    { emoji: '🎨', title: 'Social Kit', sub: '3 graphics με 1 κλικ' },
+    { emoji: '📊', title: 'Στατιστικά', sub: 'Views · countries · sources' },
+    { emoji: '🌐', title: 'Brand site', sub: 'Δική σου σελίδα' },
+  ];
+  return (
+    <SlideBase step={7}>
+      <div style={{ display: 'flex', fontSize: 48, fontWeight: 700, color: '#34d399', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Bonus · Αυτόματα</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.02em' }}>Μόλις έγινες live</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.02em' }}>έχεις ΗΔΗ:</div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginTop: 36, flex: 1 }}>
+        {bonuses.map(b => (
+          <div key={b.title} style={{ display: 'flex', flexDirection: 'column', width: 460, backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 16, padding: 24 }}>
+            <div style={{ display: 'flex', fontSize: 48, marginBottom: 8 }}>{b.emoji}</div>
+            <div style={{ display: 'flex', fontSize: 30, fontWeight: 800 }}>{b.title}</div>
+            <div style={{ display: 'flex', fontSize: 20, color: '#a7f3d0', marginTop: 4 }}>{b.sub}</div>
+          </div>
+        ))}
+      </div>
+    </SlideBase>
+  );
+}
+
+// Slide 8 — CTA
+function Carousel8() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #064e3b 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <Glow accent="teal" pos="bl" />
+      <ProgressBar step={8} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip label="Τέλος · Ξεκίνα τώρα" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 100, fontWeight: 800, lineHeight: 1.02, textAlign: 'center' }}>Το κατάλυμά σου</div>
+        <div style={{ display: 'flex', fontSize: 100, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', color: '#34d399' }}>αξίζει καλύτερα.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.8)', marginTop: 36, textAlign: 'center', maxWidth: 900, lineHeight: 1.4 }}>
+          Ξεκίνα τώρα. 5 λεπτά, καμία προμήθεια, όλα τα bonuses μέσα.
+        </div>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          backgroundImage: 'linear-gradient(135deg, #10b981, #14b8a6)',
+          padding: '26px 60px', borderRadius: 16, marginTop: 50,
+          fontSize: 38, fontWeight: 800,
+          boxShadow: '0 30px 60px rgba(16,185,129,0.4)',
+        }}>chalkidikihub.gr →</div>
+        <div style={{ display: 'flex', marginTop: 24, fontSize: 22, color: 'rgba(255,255,255,0.55)' }}>Save this post · Tag έναν ιδιοκτήτη 👇</div>
+      </div>
+      <Footer tagline="8 / 8  ·  Ευχαριστούμε που διάβασες!" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 9. CAROUSEL — "7 λάθη που κάνουν οι owners" (9 slides)
+// Distinct visual identity from the onboarding carousel: rose accent
+// for mistakes, emerald for fixes — visible tension at a glance.
+// ─────────────────────────────────────────────────────────────
+
+const MISTAKES_TOTAL = 9;
+
+function MistakeProgress({ step }: { step: number }) {
+  return (
+    <div style={{ display: 'flex', gap: 5, marginBottom: 30 }}>
+      {Array.from({ length: MISTAKES_TOTAL }).map((_, i) => (
+        <div key={i} style={{
+          display: 'flex', flex: 1, height: 5, borderRadius: 9999,
+          backgroundColor: i < step ? '#fb7185' : 'rgba(255,255,255,0.15)',
+        }} />
+      ))}
+    </div>
+  );
+}
+
+function MistakeSlide({ num, title, hurt, fix, step }: {
+  num: string; title: string; hurt: string; fix: string; step: number;
+}) {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #4c0519 100%)">
+      <Glow accent="rose" pos="tr" />
+      <MistakeProgress step={step} />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip accent="rose" label={`Λάθος ${num} / 7`} />
+      </div>
+      <div style={{ display: 'flex', fontSize: 180, fontWeight: 800, lineHeight: 0.9, color: 'rgba(251,113,133,0.25)', letterSpacing: '-0.05em' }}>#{num}</div>
+      <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.02em', marginTop: 10, maxWidth: 960 }}>{title}</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 36, flex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, backgroundColor: 'rgba(244,63,94,0.1)', border: '1px solid rgba(244,63,94,0.3)', borderRadius: 14, padding: 22 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 9999, backgroundColor: '#f43f5e', color: 'white', fontSize: 20, fontWeight: 800, flexShrink: 0 }}>✕</div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', fontSize: 20, fontWeight: 700, color: '#fb7185', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Γιατί πονάει</div>
+            <div style={{ display: 'flex', fontSize: 26, color: 'white', lineHeight: 1.35 }}>{hurt}</div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, backgroundColor: 'rgba(16,185,129,0.1)', border: '1px solid rgba(52,211,153,0.4)', borderRadius: 14, padding: 22 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 9999, backgroundColor: '#10b981', color: 'white', fontSize: 20, fontWeight: 800, flexShrink: 0 }}>✓</div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', fontSize: 20, fontWeight: 700, color: '#34d399', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Πώς λύνεται</div>
+            <div style={{ display: 'flex', fontSize: 26, color: 'white', lineHeight: 1.35 }}>{fix}</div>
+          </div>
+        </div>
+      </div>
+      <div style={{
+        position: 'absolute', right: 60, bottom: 110,
+        display: 'flex', alignItems: 'center', gap: 10,
+        fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)',
+      }}>Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span></div>
+      <Footer tagline={`${step} / ${MISTAKES_TOTAL}  ·  chalkidikihub.gr`} />
+    </Canvas>
+  );
+}
+
+// Slide 1 — COVER
+function Mistakes1() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #4c0519 0%, #0f172a 50%, #7f1d1d 100%)">
+      <Glow accent="rose" pos="tr" />
+      <Glow accent="rose" pos="bl" />
+      <MistakeProgress step={1} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="rose" label="Owner mistakes · ChalkidikiHub" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: '#fb7185', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>Προσοχή!</div>
+        <div style={{ display: 'flex', fontSize: 130, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em' }}>7 λάθη</div>
+        <div style={{ display: 'flex', fontSize: 74, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em', marginTop: 14 }}>που κάνουν οι owners</div>
+        <div style={{ display: 'flex', fontSize: 74, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em', color: '#fb7185' }}>και χάνουν κρατήσεις.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 40, lineHeight: 1.35, maxWidth: 900 }}>
+          Save αυτό το post — θα σε βγάλει από πολύ μπελά. 👇
+        </div>
+      </div>
+      <div style={{
+        position: 'absolute', right: 60, bottom: 110,
+        display: 'flex', alignItems: 'center', gap: 10,
+        fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)',
+      }}>Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span></div>
+      <Footer tagline="1 / 9  ·  Απολύτως δωρεάν" />
+    </Canvas>
+  );
+}
+
+// Slides 2-8 — The 7 mistakes
+function Mistakes2() {
+  return <MistakeSlide step={2} num="01"
+    title="Φωτογραφίες κινητού στο μεσημέρι"
+    hurt="Σκληρό φως, σκιές, κατακόρυφες λήψεις. Ο guest κάνει scroll και σε προσπερνάει σε 0.3 δευτερόλεπτα."
+    fix="5-10 φωτό, πρωί ή απόγευμα, horizontal. Cover με την καλύτερη θέα. Δωρεάν photo tips στο ChalkidikiHub."
+  />;
+}
+
+function Mistakes3() {
+  return <MistakeSlide step={3} num="02"
+    title="Description μόνο στα ελληνικά"
+    hurt="70% των τουριστών στη Χαλκιδική ψάχνουν στα αγγλικά. Αν δεν σε βρίσκουν στη γλώσσα τους, δεν υπάρχεις."
+    fix="Γράφε στα ελληνικά. Το ChalkidikiHub μεταφράζει αυτόματα σε 6 γλώσσες (EN, DE, BG, RU, RO). Δωρεάν."
+  />;
+}
+
+function Mistakes4() {
+  return <MistakeSlide step={4} num="03"
+    title="Απαντάς σε 6 ώρες"
+    hurt="75% των κρατήσεων πάνε σε αυτόν που απαντά πρώτος. Ο guest ρωτάει 3-5 καταλύματα ταυτόχρονα."
+    fix="Απευθείας τηλέφωνο + WhatsApp στο brand page σου. Ο guest σε καλεί — όχι message που το βλέπεις αύριο."
+  />;
+}
+
+function Mistakes5() {
+  return <MistakeSlide step={5} num="04"
+    title="Αδειάζεις το amenities checklist"
+    hurt="Οι guests φιλτράρουν με Pool, WiFi, Parking, A/C. Αν δεν έχεις τσεκάρει, δεν εμφανίζεσαι στα filter results."
+    fix="5 λεπτά να τσεκάρεις όσα έχεις. Το ChalkidikiHub έχει 40+ amenities organized — και εμφανίζεσαι σε όλα τα relevant searches."
+  />;
+}
+
+function Mistakes6() {
+  return <MistakeSlide step={6} num="05"
+    title="Δεν ζητάς reviews από τους guests"
+    hurt="0 reviews = φοβάται ο νέος guest. Social proof είναι ο #1 παράγοντας απόφασης — πριν την τιμή, πριν τη φωτό."
+    fix="Στο check-out στείλε ένα ευγενικό «τι σας άρεσε περισσότερο;». 1 στους 3 θα σου γράψει. Μέσα σε 2-3 μήνες έχεις 10+ reviews."
+  />;
+}
+
+function Mistakes7() {
+  return <MistakeSlide step={7} num="06"
+    title="Ίδια τιμή όλο τον χρόνο"
+    hurt="Χρεώνεις €80 σε Ιούλιο όπως και σε Μάρτιο. Peak season = +40-60% — αφήνεις λεφτά στο τραπέζι."
+    fix="Δυναμική τιμολόγηση: χαμηλή σεζόν, regular, peak. Ανέβαζέ την Ιούλιο-Αύγουστο, ρίξ' την Οκτώβριο-Μάιο."
+  />;
+}
+
+function Mistakes8() {
+  return <MistakeSlide step={8} num="07"
+    title="Εξάρτηση 100% από μία πλατφόρμα"
+    hurt="Αν αλλάξει αλγόριθμος, αν σε suspend'άρουν, αν κόψουν προβολή — χάνεις όλη τη χρονιά. Άμεσα."
+    fix="Ανέβασε παντού: ChalkidikiHub + τα γνωστά. Δικό σου site + QR για direct bookings. 0% προμήθεια, 100% δικό σου."
+  />;
+}
+
+// Slide 9 — CTA
+function Mistakes9() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #064e3b 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <Glow accent="teal" pos="bl" />
+      <MistakeProgress step={9} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip label="Τέλος · Save + Share" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 80, fontWeight: 800, lineHeight: 1.02, textAlign: 'center' }}>Διόρθωσε αυτά τα 7.</div>
+        <div style={{ display: 'flex', fontSize: 80, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', color: '#34d399' }}>Θα δεις διαφορά.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.8)', marginTop: 36, textAlign: 'center', maxWidth: 920, lineHeight: 1.4 }}>
+          Όλα τα παραπάνω είναι δωρεάν στο ChalkidikiHub:<br />
+          auto-translate, QR, brand site, analytics, social kit.
+        </div>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          backgroundImage: 'linear-gradient(135deg, #10b981, #14b8a6)',
+          padding: '26px 60px', borderRadius: 16, marginTop: 48,
+          fontSize: 38, fontWeight: 800,
+          boxShadow: '0 30px 60px rgba(16,185,129,0.4)',
+        }}>chalkidikihub.gr →</div>
+        <div style={{ display: 'flex', marginTop: 28, fontSize: 24, color: 'rgba(255,255,255,0.7)', textAlign: 'center', maxWidth: 900 }}>
+          💾 Save αυτό το post  ·  🔁 Tag έναν ιδιοκτήτη που ξέρεις
+        </div>
+      </div>
+      <Footer tagline="9 / 9  ·  Ευχαριστούμε!" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 10. CAROUSEL — "Top 10 παραλίες Χαλκιδικής" (12 slides)
+// ─────────────────────────────────────────────────────────────
+
+const BEACHES_TOTAL = 12;
+function BeachProgress({ step }: { step: number }) {
+  return (
+    <div style={{ display: 'flex', gap: 4, marginBottom: 30 }}>
+      {Array.from({ length: BEACHES_TOTAL }).map((_, i) => (
+        <div key={i} style={{ display: 'flex', flex: 1, height: 4, borderRadius: 9999, backgroundColor: i < step ? '#38bdf8' : 'rgba(255,255,255,0.15)' }} />
+      ))}
+    </div>
+  );
+}
+
+interface Beach { rank: number; name: string; where: string; tags: string[]; why: string; gradient: string; }
+const BEACH_DATA: Beach[] = [
+  { rank: 10, name: 'Καλόγρια',         where: 'Κασσάνδρα',  tags: ['Crystal waters','Βράχοι'],           why: 'Τα πιο καθαρά νερά στη δυτική πλευρά — ήρεμο σημείο, ιδανικό για snorkeling.', gradient: 'linear-gradient(180deg, #0ea5e9, #0369a1, #0c4a6e)' },
+  { rank: 9,  name: 'Παλιούρι',         where: 'Κασσάνδρα',  tags: ['Hidden','Ήσυχο'],                    why: 'Μικρός κόλπος, λίγοι ξέρουν το μονοπάτι. Άγρια ομορφιά, χωρίς πλήθη.', gradient: 'linear-gradient(180deg, #14b8a6, #0f766e, #064e3b)' },
+  { rank: 8,  name: 'Γλαροκάβος',       where: 'Κασσάνδρα',  tags: ['Lagoon','Unique'],                   why: 'Η μοναδική φυσική λιμνοθάλασσα της Χαλκιδικής. Ρηχά πράσινα νερά.', gradient: 'linear-gradient(180deg, #22c55e, #15803d, #14532d)' },
+  { rank: 7,  name: 'Σάρτη / Κριαρίτσι', where: 'Σιθωνία',    tags: ['Wild','Camping'],                    why: 'Πολλά μικρά βοτσαλένια bays. Ερημικά, πευκόδασος μέχρι τη θάλασσα.', gradient: 'linear-gradient(180deg, #10b981, #065f46, #064e3b)' },
+  { rank: 6,  name: 'Συκιά',            where: 'Σιθωνία',    tags: ['Long bay','Chilled'],                why: 'Τεράστιος αμμώδης κόλπος με πολλά beach bars και ταβέρνες. All-rounder.', gradient: 'linear-gradient(180deg, #06b6d4, #0e7490, #164e63)' },
+  { rank: 5,  name: 'Ammolofoi',        where: 'Κασσάνδρα',  tags: ['Χρυσή άμμος','Οργανωμένη'],          why: 'Χρυσή λεπτή άμμος, καλοοργανωμένη, beach bar με μουσική. Family favorite.', gradient: 'linear-gradient(180deg, #fbbf24, #f59e0b, #b45309)' },
+  { rank: 4,  name: 'Ακρωτήρι Ποσείδι', where: 'Κασσάνδρα',  tags: ['Cape','Sandbar'],                    why: 'Φαρδιά γλώσσα άμμου εκτείνεται στη θάλασσα. Sunset από τα top της Ελλάδας.', gradient: 'linear-gradient(180deg, #f97316, #c2410c, #7c2d12)' },
+  { rank: 3,  name: 'Καρύδι',           where: 'Σιθωνία',    tags: ['Turquoise','Photogenic'],            why: 'Ένα από τα πιο φωτογραφιζόμενα beaches. Τυρκουάζ νερά, λευκή άμμος.', gradient: 'linear-gradient(180deg, #67e8f9, #06b6d4, #0e7490)' },
+  { rank: 2,  name: 'Porto Karras',     where: 'Σιθωνία',    tags: ['Organized','Resort'],                why: 'Blue flag. Watersports, beach bars, θέα το βραδινό φως. Resort-level.', gradient: 'linear-gradient(180deg, #0ea5e9, #0284c7, #0c4a6e)' },
+  { rank: 1,  name: 'Καβουρότρυπες',     where: 'Σιθωνία',    tags: ['Iconic','Paradise'],                 why: 'Η #1 της Χαλκιδικής. Μικρά βοτσαλένια bays, τυρκουάζ, πευκόδασος από πάνω.', gradient: 'linear-gradient(180deg, #22d3ee, #0891b2, #083344)' },
+];
+
+function Beach1() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #082f49 0%, #0c4a6e 50%, #164e63 100%)">
+      <Glow accent="sky" pos="tr" />
+      <Glow accent="teal" pos="bl" />
+      <BeachProgress step={1} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="sky" label="Halkidiki · Travel guide" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 40, fontWeight: 700, color: '#7dd3fc', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>Ranked · 2026</div>
+        <div style={{ display: 'flex', fontSize: 180, fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.04em' }}>Top 10</div>
+        <div style={{ display: 'flex', fontSize: 78, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.02em', marginTop: 12 }}>παραλίες</div>
+        <div style={{ display: 'flex', fontSize: 78, fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.02em', color: '#38bdf8' }}>της Χαλκιδικής.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 40, lineHeight: 1.35, maxWidth: 900 }}>
+          Save this post. Φέτος το καλοκαίρι δεν θα ξέρεις που να πας πρώτα.
+        </div>
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="1 / 12  ·  chalkidikihub.gr/beaches" />
+    </Canvas>
+  );
+}
+
+function BeachSlide({ b, slideIdx }: { b: Beach; slideIdx: number }) {
+  return (
+    <Canvas bg={b.gradient}>
+      {/* Subtle overlay for contrast */}
+      <div style={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.4) 100%)' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', position: 'relative', zIndex: 1 }}>
+        <BeachProgress step={slideIdx} />
+        <div style={{ display: 'flex', marginBottom: 20 }}>
+          <BrandChip accent="sky" label={`Top 10 · ${b.where}`} />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, marginTop: 20 }}>
+          <div style={{ display: 'flex', fontSize: 300, fontWeight: 800, lineHeight: 0.8, color: 'rgba(255,255,255,0.92)', letterSpacing: '-0.05em' }}>#{b.rank}</div>
+        </div>
+        <div style={{ display: 'flex', fontSize: 82, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em', marginTop: 10 }}>{b.name}</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 20 }}>
+          {b.tags.map(t => (
+            <div key={t} style={{ display: 'flex', backgroundColor: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 9999, padding: '8px 18px', fontSize: 22, fontWeight: 700, backdropFilter: 'blur(20px)' }}>{t}</div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', fontSize: 30, lineHeight: 1.4, marginTop: 30, color: 'rgba(255,255,255,0.95)', maxWidth: 920, fontWeight: 500 }}>
+          {b.why}
+        </div>
+        <div style={{ display: 'flex', flex: 1 }} />
+        <div style={{ position: 'absolute', right: 0, bottom: 60, display: 'flex', alignItems: 'center', gap: 10, fontSize: 22, fontWeight: 700, color: 'rgba(255,255,255,0.75)' }}>
+          Swipe <span style={{ display: 'flex', fontSize: 26 }}>→</span>
+        </div>
+        <Footer tagline={`${slideIdx} / 12  ·  chalkidikihub.gr`} />
+      </div>
+    </Canvas>
+  );
+}
+
+// Slides 2-11: 10 beaches (rank 10 → 1 countdown)
+function Beach2()  { return <BeachSlide b={BEACH_DATA[0]} slideIdx={2}  />; }
+function Beach3()  { return <BeachSlide b={BEACH_DATA[1]} slideIdx={3}  />; }
+function Beach4()  { return <BeachSlide b={BEACH_DATA[2]} slideIdx={4}  />; }
+function Beach5()  { return <BeachSlide b={BEACH_DATA[3]} slideIdx={5}  />; }
+function Beach6()  { return <BeachSlide b={BEACH_DATA[4]} slideIdx={6}  />; }
+function Beach7()  { return <BeachSlide b={BEACH_DATA[5]} slideIdx={7}  />; }
+function Beach8()  { return <BeachSlide b={BEACH_DATA[6]} slideIdx={8}  />; }
+function Beach9()  { return <BeachSlide b={BEACH_DATA[7]} slideIdx={9}  />; }
+function Beach10() { return <BeachSlide b={BEACH_DATA[8]} slideIdx={10} />; }
+function Beach11() { return <BeachSlide b={BEACH_DATA[9]} slideIdx={11} />; }
+
+function Beach12() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #083344 0%, #164e63 50%, #0c4a6e 100%)">
+      <Glow accent="sky" pos="tr" />
+      <Glow accent="teal" pos="bl" />
+      <BeachProgress step={12} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="sky" label="Save · Share · Visit" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 84, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', letterSpacing: '-0.02em' }}>350+ ακόμη</div>
+        <div style={{ display: 'flex', fontSize: 84, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', letterSpacing: '-0.02em', color: '#38bdf8' }}>σε περιμένουν.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.85)', marginTop: 34, textAlign: 'center', maxWidth: 920, lineHeight: 1.4 }}>
+          Κάθε παραλία της Χαλκιδικής indexed με φωτογραφίες, πρόσβαση, reviews — σε 6 γλώσσες.
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'linear-gradient(135deg, #0ea5e9, #06b6d4)', padding: '26px 56px', borderRadius: 16, marginTop: 50, fontSize: 36, fontWeight: 800, boxShadow: '0 30px 60px rgba(14,165,233,0.4)' }}>
+          chalkidikihub.gr/beaches →
+        </div>
+        <div style={{ display: 'flex', marginTop: 26, fontSize: 24, color: 'rgba(255,255,255,0.7)' }}>
+          💾 Save  ·  🏖️ Tag έναν που θα πήγαινες μαζί
+        </div>
+      </div>
+      <Footer tagline="12 / 12  ·  Discover Halkidiki" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 11. CAROUSEL — "Οι 3 πλευρές της Χαλκιδικής" (8 slides)
+// ─────────────────────────────────────────────────────────────
+
+const LEGS_TOTAL = 8;
+function LegsProgress({ step, accent }: { step: number; accent: Accent }) {
+  return (
+    <div style={{ display: 'flex', gap: 5, marginBottom: 30 }}>
+      {Array.from({ length: LEGS_TOTAL }).map((_, i) => (
+        <div key={i} style={{ display: 'flex', flex: 1, height: 5, borderRadius: 9999, backgroundColor: i < step ? PALETTE[accent].bgSolid : 'rgba(255,255,255,0.15)' }} />
+      ))}
+    </div>
+  );
+}
+
+function Legs1() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+      <div style={{ display: 'flex', position: 'absolute', top: -150, right: -150, width: 450, height: 450, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(249,115,22,0.35), transparent 70%)' }} />
+      <div style={{ display: 'flex', position: 'absolute', top: '30%', left: -150, width: 450, height: 450, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(52,211,153,0.35), transparent 70%)' }} />
+      <div style={{ display: 'flex', position: 'absolute', bottom: -150, right: -50, width: 450, height: 450, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(139,92,246,0.35), transparent 70%)' }} />
+      <LegsProgress step={1} accent="teal" />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="teal" label="Halkidiki · 3 legs" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 120, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em' }}>Kassandra.</div>
+        <div style={{ display: 'flex', fontSize: 120, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em', color: '#34d399' }}>Sithonia.</div>
+        <div style={{ display: 'flex', fontSize: 120, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em', color: '#c4b5fd' }}>Athos.</div>
+        <div style={{ display: 'flex', fontSize: 36, color: 'rgba(255,255,255,0.85)', marginTop: 40, fontWeight: 600, lineHeight: 1.3 }}>3 πόδια. 3 κόσμοι.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.65)', marginTop: 10, lineHeight: 1.4, maxWidth: 900 }}>
+          Οδηγός για να διαλέξεις ποιο είναι το δικό σου.
+        </div>
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="1 / 8  ·  Discover Halkidiki" />
+    </Canvas>
+  );
+}
+
+function Legs2() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #7c2d12 0%, #ea580c 50%, #fb923c 100%)">
+      <div style={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.35))' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', position: 'relative', zIndex: 1 }}>
+        <LegsProgress step={2} accent="orange" />
+        <div style={{ display: 'flex', marginBottom: 24 }}>
+          <BrandChip accent="orange" label="1o πόδι" />
+        </div>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: '#fef3c7', marginBottom: 6, letterSpacing: '0.08em' }}>I · KASSANDRA</div>
+        <div style={{ display: 'flex', fontSize: 130, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em' }}>Κασσάνδρα.</div>
+        <div style={{ display: 'flex', fontSize: 42, fontWeight: 800, marginTop: 20, color: '#fef3c7' }}>Party · Beach · Nightlife.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.95)', marginTop: 24, lineHeight: 1.4, maxWidth: 920 }}>
+          Η πιο κοσμοπολίτικη πλευρά της Χαλκιδικής. Οργανωμένες παραλίες, beach bars, clubs, ατμόσφαιρα νεανική και ζωντανή.
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 28 }}>
+          {['🏖️ Organized','🍹 Beach bars','🎵 Clubs','👨‍👩‍👧 Family'].map(t => (
+            <div key={t} style={{ display: 'flex', backgroundColor: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 9999, padding: '10px 20px', fontSize: 22, fontWeight: 700 }}>{t}</div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', flex: 1 }} />
+        <div style={{ position: 'absolute', right: 0, bottom: 60, display: 'flex', alignItems: 'center', gap: 10, fontSize: 22, fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>
+          Swipe <span style={{ display: 'flex', fontSize: 26 }}>→</span>
+        </div>
+        <Footer tagline="2 / 8  ·  Κασσάνδρα" />
+      </div>
+    </Canvas>
+  );
+}
+
+function Legs3() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #7c2d12 0%, #0f172a 100%)">
+      <Glow accent="orange" pos="tr" />
+      <LegsProgress step={3} accent="orange" />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip accent="orange" label="Κασσάνδρα · highlights" />
+      </div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, marginBottom: 36 }}>Τι θα βρεις εδώ.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, flex: 1 }}>
+        {[
+          { emoji: '🏖️', title: 'Ammolofoi · Possidi · Glarokavos', sub: 'Οι πιο γνωστές παραλίες' },
+          { emoji: '🎉', title: 'Kallithea nightlife', sub: 'Clubs με live μουσική μέχρι το πρωί' },
+          { emoji: '💎', title: 'Sani Resort', sub: 'Luxury resort experience · watersports' },
+          { emoji: '🌅', title: 'Sunset στο Possidi Cape', sub: 'Sandbar που μπαίνει στη θάλασσα' },
+        ].map(h => (
+          <div key={h.title} style={{ display: 'flex', alignItems: 'center', gap: 18, backgroundColor: 'rgba(251,146,60,0.1)', border: '1px solid rgba(251,146,60,0.3)', borderRadius: 14, padding: 20 }}>
+            <div style={{ display: 'flex', fontSize: 46 }}>{h.emoji}</div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', fontSize: 26, fontWeight: 800 }}>{h.title}</div>
+              <div style={{ display: 'flex', fontSize: 18, color: '#fed7aa' }}>{h.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="3 / 8  ·  Κασσάνδρα highlights" />
+    </Canvas>
+  );
+}
+
+function Legs4() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #064e3b 0%, #10b981 50%, #34d399 100%)">
+      <div style={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.35))' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', position: 'relative', zIndex: 1 }}>
+        <LegsProgress step={4} accent="emerald" />
+        <div style={{ display: 'flex', marginBottom: 24 }}>
+          <BrandChip label="2o πόδι" />
+        </div>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: '#a7f3d0', marginBottom: 6, letterSpacing: '0.08em' }}>II · SITHONIA</div>
+        <div style={{ display: 'flex', fontSize: 130, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em' }}>Σιθωνία.</div>
+        <div style={{ display: 'flex', fontSize: 42, fontWeight: 800, marginTop: 20, color: '#d1fae5' }}>Wild · Untouched · Cove.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.95)', marginTop: 24, lineHeight: 1.4, maxWidth: 920 }}>
+          Η μέση χερσόνησος. Πιο άγρια, λιγότερο τουριστική. Κρυμμένα bay, τυρκουάζ νερά, πευκόδασος μέχρι τη θάλασσα.
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 28 }}>
+          {['🌿 Wild','💎 Hidden bays','🏕️ Camping','📸 Iconic'].map(t => (
+            <div key={t} style={{ display: 'flex', backgroundColor: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 9999, padding: '10px 20px', fontSize: 22, fontWeight: 700 }}>{t}</div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', flex: 1 }} />
+        <div style={{ position: 'absolute', right: 0, bottom: 60, display: 'flex', alignItems: 'center', gap: 10, fontSize: 22, fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>
+          Swipe <span style={{ display: 'flex', fontSize: 26 }}>→</span>
+        </div>
+        <Footer tagline="4 / 8  ·  Σιθωνία" />
+      </div>
+    </Canvas>
+  );
+}
+
+function Legs5() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #064e3b 0%, #0f172a 100%)">
+      <Glow accent="emerald" pos="tr" />
+      <LegsProgress step={5} accent="emerald" />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip label="Σιθωνία · highlights" />
+      </div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, marginBottom: 36 }}>Τι θα βρεις εδώ.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, flex: 1 }}>
+        {[
+          { emoji: '💙', title: 'Καβουρότρυπες', sub: 'Η #1 παραλία της Χαλκιδικής' },
+          { emoji: '🌿', title: 'Νικήτη · Άγιος Νικόλαος', sub: 'Αυθεντικά χωριά χωρίς πλήθη' },
+          { emoji: '⛵', title: 'Σάρτη · Καλαμίτσι · Συκιά', sub: 'Μικρά bay για explore με βάρκα' },
+          { emoji: '🍇', title: 'Porto Carras Wine Estate', sub: 'Wine tours στο μεγαλύτερο αμπελώνα' },
+        ].map(h => (
+          <div key={h.title} style={{ display: 'flex', alignItems: 'center', gap: 18, backgroundColor: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 14, padding: 20 }}>
+            <div style={{ display: 'flex', fontSize: 46 }}>{h.emoji}</div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', fontSize: 26, fontWeight: 800 }}>{h.title}</div>
+              <div style={{ display: 'flex', fontSize: 18, color: '#a7f3d0' }}>{h.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="5 / 8  ·  Σιθωνία highlights" />
+    </Canvas>
+  );
+}
+
+function Legs6() {
+  return (
+    <Canvas bg="linear-gradient(180deg, #1e1b4b 0%, #4c1d95 50%, #7c3aed 100%)">
+      <div style={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.4))' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', position: 'relative', zIndex: 1 }}>
+        <LegsProgress step={6} accent="violet" />
+        <div style={{ display: 'flex', marginBottom: 24 }}>
+          <BrandChip accent="violet" label="3o πόδι" />
+        </div>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: '#ddd6fe', marginBottom: 6, letterSpacing: '0.08em' }}>III · ATHOS</div>
+        <div style={{ display: 'flex', fontSize: 130, fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em' }}>Άθως.</div>
+        <div style={{ display: 'flex', fontSize: 42, fontWeight: 800, marginTop: 20, color: '#e9d5ff' }}>Spiritual · Ancient · Deep.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.95)', marginTop: 24, lineHeight: 1.4, maxWidth: 920 }}>
+          Το τρίτο πόδι. UNESCO, 20 μοναστήρια, 1.000+ χρόνια αδιάκοπης μοναστικής ζωής. Μοναδικό στον κόσμο.
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 28 }}>
+          {['⛪ 20 monasteries','🏛️ UNESCO','📿 1000+ years','🚫 Men only*'].map(t => (
+            <div key={t} style={{ display: 'flex', backgroundColor: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 9999, padding: '10px 20px', fontSize: 22, fontWeight: 700 }}>{t}</div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', fontSize: 18, color: 'rgba(255,255,255,0.7)', marginTop: 10 }}>*Μόνο άνδρες. Γυναίκες: boat cruise γύρω από τη χερσόνησο.</div>
+        <div style={{ display: 'flex', flex: 1 }} />
+        <div style={{ position: 'absolute', right: 0, bottom: 60, display: 'flex', alignItems: 'center', gap: 10, fontSize: 22, fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>
+          Swipe <span style={{ display: 'flex', fontSize: 26 }}>→</span>
+        </div>
+        <Footer tagline="6 / 8  ·  Άθως" />
+      </div>
+    </Canvas>
+  );
+}
+
+function Legs7() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)">
+      <Glow accent="violet" pos="tr" />
+      <LegsProgress step={7} accent="violet" />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip accent="violet" label="Άθως · highlights" />
+      </div>
+      <div style={{ display: 'flex', fontSize: 54, fontWeight: 800, lineHeight: 1.05, marginBottom: 36 }}>Τι θα βρεις εδώ.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, flex: 1 }}>
+        {[
+          { emoji: '⛪', title: 'Μ. Λαύρα · Βατοπέδι · Ιβήρων', sub: 'Τα 3 μεγαλύτερα μοναστήρια' },
+          { emoji: '🛶', title: 'Cruises από Ουρανούπολη', sub: 'Γυναίκες: καθημερινά sea tours' },
+          { emoji: '📜', title: 'Diamonissia σπήλαια & κελλιά', sub: 'Ισιχαστήρια στα βράχια' },
+          { emoji: '🌲', title: 'Orange Cedar forest', sub: 'Μοναδικό οικοσύστημα για snorkel/hike' },
+        ].map(h => (
+          <div key={h.title} style={{ display: 'flex', alignItems: 'center', gap: 18, backgroundColor: 'rgba(139,92,246,0.1)', border: '1px solid rgba(196,181,253,0.3)', borderRadius: 14, padding: 20 }}>
+            <div style={{ display: 'flex', fontSize: 46 }}>{h.emoji}</div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', fontSize: 26, fontWeight: 800 }}>{h.title}</div>
+              <div style={{ display: 'flex', fontSize: 18, color: '#ddd6fe' }}>{h.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="7 / 8  ·  Άθως highlights" />
+    </Canvas>
+  );
+}
+
+function Legs8() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+      <div style={{ display: 'flex', position: 'absolute', top: -160, left: -100, width: 420, height: 420, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(251,146,60,0.3), transparent 70%)' }} />
+      <div style={{ display: 'flex', position: 'absolute', top: '30%', right: -100, width: 420, height: 420, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(52,211,153,0.3), transparent 70%)' }} />
+      <div style={{ display: 'flex', position: 'absolute', bottom: -160, left: '30%', width: 420, height: 420, borderRadius: 9999, backgroundImage: 'radial-gradient(circle, rgba(139,92,246,0.3), transparent 70%)' }} />
+      <LegsProgress step={8} accent="teal" />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="teal" label="Your pick" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 92, fontWeight: 800, lineHeight: 1.02, textAlign: 'center' }}>Ποιο είναι</div>
+        <div style={{ display: 'flex', fontSize: 92, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', color: '#5eead4' }}>το δικό σου;</div>
+        <div style={{ display: 'flex', gap: 14, marginTop: 40 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fb923c', color: '#0f172a', padding: '14px 24px', borderRadius: 9999, fontSize: 22, fontWeight: 800 }}>🍹 Κασσάνδρα</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#34d399', color: '#0f172a', padding: '14px 24px', borderRadius: 9999, fontSize: 22, fontWeight: 800 }}>🌿 Σιθωνία</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#c4b5fd', color: '#0f172a', padding: '14px 24px', borderRadius: 9999, fontSize: 22, fontWeight: 800 }}>⛪ Άθως</div>
+        </div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.8)', marginTop: 36, textAlign: 'center', maxWidth: 900, lineHeight: 1.4 }}>
+          Άνοιξε το ChalkidikiHub, διάλεξε περιοχή, βρες κατάλυμα.
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'linear-gradient(135deg, #14b8a6, #0ea5e9)', padding: '22px 50px', borderRadius: 14, marginTop: 34, fontSize: 32, fontWeight: 800, boxShadow: '0 30px 60px rgba(20,184,166,0.4)' }}>
+          chalkidikihub.gr →
+        </div>
+      </div>
+      <Footer tagline="8 / 8  ·  Comment A · B · C" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 12. CAROUSEL — "Πώς φτιάχνω listing που γεμίζει" (8 slides)
+// ─────────────────────────────────────────────────────────────
+
+const TIPS_TOTAL = 8;
+function TipsProgress({ step }: { step: number }) {
+  return (
+    <div style={{ display: 'flex', gap: 5, marginBottom: 30 }}>
+      {Array.from({ length: TIPS_TOTAL }).map((_, i) => (
+        <div key={i} style={{ display: 'flex', flex: 1, height: 5, borderRadius: 9999, backgroundColor: i < step ? '#fcd34d' : 'rgba(255,255,255,0.15)' }} />
+      ))}
+    </div>
+  );
+}
+
+function TipSlide({ num, title, body, stat, step }: {
+  num: string; title: string; body: string; stat?: { value: string; label: string }; step: number;
+}) {
+  return (
+    <Canvas bg="linear-gradient(135deg, #0f172a 0%, #78350f 100%)">
+      <Glow accent="amber" pos="tr" />
+      <TipsProgress step={step} />
+      <div style={{ display: 'flex', marginBottom: 24 }}>
+        <BrandChip accent="amber" label={`Tip ${num} / 6`} />
+      </div>
+      <div style={{ display: 'flex', fontSize: 180, fontWeight: 800, lineHeight: 0.9, color: 'rgba(252,211,77,0.2)', letterSpacing: '-0.05em' }}>#{num}</div>
+      <div style={{ display: 'flex', fontSize: 64, fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.02em', marginTop: 10, maxWidth: 960 }}>{title}</div>
+      <div style={{ display: 'flex', fontSize: 28, lineHeight: 1.45, marginTop: 24, color: 'rgba(255,255,255,0.9)', maxWidth: 920 }}>{body}</div>
+      {stat && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginTop: 36, backgroundColor: 'rgba(252,211,77,0.1)', border: '1px solid rgba(252,211,77,0.3)', borderRadius: 16, padding: 24 }}>
+          <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, color: '#fcd34d', letterSpacing: '-0.02em' }}>{stat.value}</div>
+          <div style={{ display: 'flex', fontSize: 22, color: 'rgba(255,255,255,0.85)', fontWeight: 600, lineHeight: 1.3 }}>{stat.label}</div>
+        </div>
+      )}
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline={`${step} / 8  ·  chalkidikihub.gr`} />
+    </Canvas>
+  );
+}
+
+function Tips1() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #78350f 0%, #0f172a 50%, #78350f 100%)">
+      <Glow accent="amber" pos="tr" />
+      <Glow accent="amber" pos="bl" />
+      <TipsProgress step={1} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="amber" label="Owner masterclass" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 44, fontWeight: 700, color: '#fcd34d', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>Masterclass · 6 tips</div>
+        <div style={{ display: 'flex', fontSize: 88, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em' }}>Πώς φτιάχνω</div>
+        <div style={{ display: 'flex', fontSize: 88, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em' }}>listing που</div>
+        <div style={{ display: 'flex', fontSize: 120, fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.03em', color: '#fcd34d', marginTop: 14 }}>γεμίζει.</div>
+        <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 36, lineHeight: 1.35, maxWidth: 900 }}>
+          6 tips που βάζω σε κάθε κατάλυμα και διπλασιάζουν τις κρατήσεις.
+        </div>
+      </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 110, display: 'flex', alignItems: 'center', gap: 10, fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>
+        Swipe <span style={{ display: 'flex', fontSize: 28 }}>→</span>
+      </div>
+      <Footer tagline="1 / 8  ·  Save this post" />
+    </Canvas>
+  );
+}
+
+function Tips2() {
+  return <TipSlide step={2} num="01"
+    title="Ο τίτλος ΔΕΝ είναι περιγραφή."
+    body='Όχι "Διαμέρισμα με 2 δωμάτια στη Σιθωνία". Ναι: "Πετρόσπιτο 3′ από παραλία · θέα Άθω · BBQ". Βάλε 3 benefits, όχι features.'
+    stat={{ value: '+46%', label: 'CTR με benefit-driven titles vs generic' }}
+  />;
+}
+
+function Tips3() {
+  return <TipSlide step={3} num="02"
+    title="Cover photo = hook."
+    body="Η 1η φωτό παίρνει 80% της απόφασης. Βάλε τη πιο «πουλιάρικη» λήψη: θέα, pool, μπαλκόνι με φαγητό. ΟΧΙ το εσωτερικό δωμάτιο."
+    stat={{ value: '0.3s', label: 'Χρόνος που παίρνει ο guest για να σε προσπεράσει' }}
+  />;
+}
+
+function Tips4() {
+  return <TipSlide step={4} num="03"
+    title="Description σε 3 paragraphs."
+    body="1. Hook (ποιος είναι ο τύπος του σπιτιού + USP). 2. Εμπειρία (τι θα ζήσει ο guest). 3. Practical (beds, check-in, amenities)."
+    stat={{ value: '3×', label: 'Reading completion rate με structured format' }}
+  />;
+}
+
+function Tips5() {
+  return <TipSlide step={5} num="04"
+    title="Λίστα amenities · όχι τσιγκουνιά."
+    body="Κάθε amenity = 1 επιπλέον filter που σε εμφανίζει. Tickare ΟΛΑ όσα πραγματικά έχεις. Pool, Pet-friendly, Family-friendly, BBQ — όλα μετράνε."
+    stat={{ value: '+2.8×', label: 'Περισσότερες εμφανίσεις σε searches' }}
+  />;
+}
+
+function Tips6() {
+  return <TipSlide step={6} num="05"
+    title="Τιμή: peak · shoulder · low."
+    body="ΟΧΙ ίδια τιμή όλο τον χρόνο. Peak (Ιούλ-Αυγ): +40-60%. Shoulder (Ιουν/Σεπ): normal. Low (Μαι/Οκτ): -30% για να γεμίζεις σε slow περιόδους."
+    stat={{ value: '+€1.800', label: 'Μέσος όρος επιπλέον/σεζόν με dynamic pricing' }}
+  />;
+}
+
+function Tips7() {
+  return <TipSlide step={7} num="06"
+    title="Απάντα μέσα σε 15 λεπτά."
+    body="Η ταχύτητα απάντησης είναι #1 ranking factor. Αν δεν μπορείς, βάλε auto-reply «είδα το μήνυμα — απαντώ σε 1 ώρα»."
+    stat={{ value: '75%', label: 'Κρατήσεις πάνε στον πρώτο που απαντά' }}
+  />;
+}
+
+function Tips8() {
+  return (
+    <Canvas bg="linear-gradient(135deg, #78350f 0%, #0f172a 50%, #064e3b 100%)">
+      <Glow accent="amber" pos="tr" />
+      <Glow accent="emerald" pos="bl" />
+      <TipsProgress step={8} />
+      <div style={{ display: 'flex', marginBottom: 40 }}>
+        <BrandChip accent="emerald" label="Τέλος · Do it now" />
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', fontSize: 82, fontWeight: 800, lineHeight: 1.02, textAlign: 'center' }}>6 tips.</div>
+        <div style={{ display: 'flex', fontSize: 82, fontWeight: 800, lineHeight: 1.02, textAlign: 'center', color: '#fcd34d' }}>1 όσπαστη διαφορά.</div>
+        <div style={{ display: 'flex', fontSize: 28, color: 'rgba(255,255,255,0.85)', marginTop: 36, textAlign: 'center', maxWidth: 920, lineHeight: 1.4 }}>
+          Το ChalkidikiHub σου δίνει δωρεάν όλα όσα ανέφερα: filters, dynamic pricing ready, instant notifications, analytics.
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'linear-gradient(135deg, #f59e0b, #10b981)', padding: '26px 56px', borderRadius: 16, marginTop: 48, fontSize: 36, fontWeight: 800, boxShadow: '0 30px 60px rgba(245,158,11,0.3)' }}>
+          chalkidikihub.gr →
+        </div>
+        <div style={{ display: 'flex', marginTop: 28, fontSize: 24, color: 'rgba(255,255,255,0.7)', textAlign: 'center' }}>
+          💾 Save  ·  🔁 Tag έναν ιδιοκτήτη
+        </div>
+      </div>
+      <Footer tagline="8 / 8  ·  Ευχαριστούμε!" />
+    </Canvas>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Router
+// ─────────────────────────────────────────────────────────────
+
+const RENDERERS: Record<string, () => React.ReactElement> = {
+  // Owners — core features (6)
+  'free-signup':     FreeSignup,
+  'personal-site':   PersonalSite,
+  'qr-code':         QrCode,
+  'social-kit':      SocialKit,
+  'analytics':       Analytics,
+  'zero-commission': ZeroCommission,
+  // Owners — extra (7)
+  'ask-again':        AskAgain,
+  'canva-vs-us':      CanvaVsUs,
+  'commission-calc':  CommissionCalc,
+  'three-minute-site': ThreeMinuteSite,
+  'six-languages':    SixLanguages,
+  'season-countdown': SeasonCountdown,
+  'airbnb-vs-us':     AirbnbVsUs,
+  // Travelers (7)
+  'three-legs':       ThreeLegs,
+  'sunset-spots':     SunsetSpots,
+  'hidden-villages':  HiddenVillages,
+  'did-you-know':     DidYouKnow,
+  'mount-athos':      MountAthos,
+  'best-time':        BestTime,
+  'activities':       Activities,
+  // Social proof (4)
+  'by-the-numbers':   ByTheNumbers,
+  'new-feature':      NewFeature,
+  'milestone':        Milestone,
+  'testimonial':      Testimonial,
+  // Educational (4)
+  'photo-tips':       PhotoTips,
+  'legal-ama':        LegalAMA,
+  'en-description':   EnDescription,
+  'common-questions': CommonQuestions,
+  // Engagement (3)
+  'which-beach':      WhichBeach,
+  'tag-friend':       TagFriend,
+  'guess-beach':      GuessBeach,
+  // Profile photos (3 variants)
+  'profile-peninsulas': ProfilePeninsulas,
+  'profile-monogram':   ProfileMonogram,
+  'profile-badge':      ProfileBadge,
+  // Carousel: "Ανέβασε το κατάλυμά σου σε 5 λεπτά" (8 slides)
+  'carousel-onboard-1': Carousel1,
+  'carousel-onboard-2': Carousel2,
+  'carousel-onboard-3': Carousel3,
+  'carousel-onboard-4': Carousel4,
+  'carousel-onboard-5': Carousel5,
+  'carousel-onboard-6': Carousel6,
+  'carousel-onboard-7': Carousel7,
+  'carousel-onboard-8': Carousel8,
+  // Carousel: "7 λάθη που κάνουν οι owners" (9 slides)
+  'carousel-mistakes-1': Mistakes1,
+  'carousel-mistakes-2': Mistakes2,
+  'carousel-mistakes-3': Mistakes3,
+  'carousel-mistakes-4': Mistakes4,
+  'carousel-mistakes-5': Mistakes5,
+  'carousel-mistakes-6': Mistakes6,
+  'carousel-mistakes-7': Mistakes7,
+  'carousel-mistakes-8': Mistakes8,
+  'carousel-mistakes-9': Mistakes9,
+  // Carousel: "Top 10 παραλίες Χαλκιδικής" (12 slides)
+  'carousel-beaches-1':  Beach1,
+  'carousel-beaches-2':  Beach2,
+  'carousel-beaches-3':  Beach3,
+  'carousel-beaches-4':  Beach4,
+  'carousel-beaches-5':  Beach5,
+  'carousel-beaches-6':  Beach6,
+  'carousel-beaches-7':  Beach7,
+  'carousel-beaches-8':  Beach8,
+  'carousel-beaches-9':  Beach9,
+  'carousel-beaches-10': Beach10,
+  'carousel-beaches-11': Beach11,
+  'carousel-beaches-12': Beach12,
+  // Carousel: "Kassandra · Sithonia · Athos" (8 slides)
+  'carousel-legs-1': Legs1,
+  'carousel-legs-2': Legs2,
+  'carousel-legs-3': Legs3,
+  'carousel-legs-4': Legs4,
+  'carousel-legs-5': Legs5,
+  'carousel-legs-6': Legs6,
+  'carousel-legs-7': Legs7,
+  'carousel-legs-8': Legs8,
+  // Carousel: "Πώς φτιάχνω listing που γεμίζει" (8 slides)
+  'carousel-tips-1': Tips1,
+  'carousel-tips-2': Tips2,
+  'carousel-tips-3': Tips3,
+  'carousel-tips-4': Tips4,
+  'carousel-tips-5': Tips5,
+  'carousel-tips-6': Tips6,
+  'carousel-tips-7': Tips7,
+  'carousel-tips-8': Tips8,
+};
+
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ key: string }> },
+) {
+  const { key } = await params;
+
+  if (key === '_list') {
+    return Response.json({ keys: Object.keys(RENDERERS), count: Object.keys(RENDERERS).length });
+  }
+
+  const Renderer = RENDERERS[key];
+  if (!Renderer) {
+    return new Response(`Unknown feature key: ${key}. Valid: ${Object.keys(RENDERERS).join(', ')}`, { status: 400 });
+  }
+
+  const [latin400, latin700, latin800, greek400, greek700, greek800] = await Promise.all([
+    loadFontSubset(400, 'latin'),
+    loadFontSubset(700, 'latin'),
+    loadFontSubset(800, 'latin'),
+    loadFontSubset(400, 'greek'),
+    loadFontSubset(700, 'greek'),
+    loadFontSubset(800, 'greek'),
+  ]);
+
+  const fonts = [
+    latin400 && { name: 'Noto Sans', data: latin400, weight: 400 as const, style: 'normal' as const },
+    latin700 && { name: 'Noto Sans', data: latin700, weight: 700 as const, style: 'normal' as const },
+    latin800 && { name: 'Noto Sans', data: latin800, weight: 800 as const, style: 'normal' as const },
+    greek400 && { name: 'Noto Sans', data: greek400, weight: 400 as const, style: 'normal' as const },
+    greek700 && { name: 'Noto Sans', data: greek700, weight: 700 as const, style: 'normal' as const },
+    greek800 && { name: 'Noto Sans', data: greek800, weight: 800 as const, style: 'normal' as const },
+  ].filter(Boolean) as Array<{ name: string; data: ArrayBuffer; weight: 400 | 700 | 800; style: 'normal' }>;
+
+  return new ImageResponse(Renderer(), {
+    width: W,
+    height: H,
+    fonts: fonts.length > 0 ? fonts : undefined,
+    headers: {
+      'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+    },
+  });
+}
