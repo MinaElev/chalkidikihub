@@ -3,7 +3,7 @@ import { publicDb } from '@/lib/supabase/clients';
 import { localizedColumns } from '@/lib/i18n/localize';
 import { cached, TAGS } from './cache';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
-import { withNameFix, withRewrite } from '@/content/rewrites';
+import { withRewrite, withRowFix } from '@/content/rewrites';
 
 /*
  * Public content loaders. Tables are small (≤ ~150 rows), so "card" lists are
@@ -92,7 +92,9 @@ const NAME_META = localizedColumns('name', 'meta_title', 'meta_description');
 async function all<T>(table: string, columns: string, order = 'slug'): Promise<T[]> {
   const { data, error } = await publicDb().from(table).select(columns).order(order).limit(2000);
   if (error) throw new Error(`${table}: ${error.message}`);
-  return (data ?? []) as T[];
+  // Card selections carry no description: only the row fixes (names, coordinates) apply.
+  const patch = columns.includes('*') ? withRewrite : withRowFix;
+  return ((data ?? []) as unknown as Array<Record<string, unknown>>).map((r) => patch(table, r)) as T[];
 }
 
 /** Replaces stored rating/reviews_count with figures from genuine reviews only. */
@@ -108,7 +110,7 @@ function withGenuineRating<T extends Record<string, unknown>>(rows: T[], relatio
 async function one<T>(table: string, slug: string, columns = '*'): Promise<T | null> {
   const { data, error } = await publicDb().from(table).select(columns).eq('slug', slug).maybeSingle();
   if (error) throw new Error(`${table}/${slug}: ${error.message}`);
-  return (data as T) ?? null;
+  return data ? (withRewrite(table, data as unknown as Record<string, unknown>) as T) : null;
 }
 
 // ── Beaches ────────────────────────────────────────────────────────────────
@@ -127,15 +129,14 @@ export const getBeach = cached('beaches:one', [TAGS.beaches, TAGS.reviews], asyn
 
 // ── Restaurants ────────────────────────────────────────────────────────────
 export const getRestaurants = cached('restaurants:cards', [TAGS.restaurants], async () =>
-  (await all<RestaurantCard>(
+  all<RestaurantCard>(
     'restaurants',
     `id, slug, area, latitude, longitude, image_url, image_alt, cuisine, price_level, rating, reviews_count, updated_at, ${NAME}`,
-  )).map((r) => withNameFix('restaurants', r)),
+  ),
 );
-export const getRestaurant = cached('restaurants:one', [TAGS.restaurants, TAGS.reviews], async (slug: string) => {
-  const row = await one<RestaurantCard & Record<string, unknown>>('restaurants', slug, '*, restaurant_reviews(id, author_name, rating, comment_el, created_at, status)');
-  return row ? withRewrite('restaurants', row) : null;
-});
+export const getRestaurant = cached('restaurants:one', [TAGS.restaurants, TAGS.reviews], (slug: string) =>
+  one<RestaurantCard & Record<string, unknown>>('restaurants', slug, '*, restaurant_reviews(id, author_name, rating, comment_el, created_at, status)'),
+);
 
 // ── Activities ─────────────────────────────────────────────────────────────
 export const getActivities = cached('activities:cards', [TAGS.activities, TAGS.reviews], async () =>
@@ -240,7 +241,7 @@ export const getArticle = cached('blog:one', [TAGS.blog], async (slug: string) =
     .not('published_at', 'is', null)
     .maybeSingle();
   if (error) throw new Error(`blog/${slug}: ${error.message}`);
-  return data as (ArticleCard & Record<string, unknown>) | null;
+  return data ? (withRewrite('blog_articles', data as Record<string, unknown>, 'content') as ArticleCard & Record<string, unknown>) : null;
 });
 
 // ── Monasteries, events, areas, sales ─────────────────────────────────────
