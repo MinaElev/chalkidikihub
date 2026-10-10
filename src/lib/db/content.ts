@@ -3,7 +3,7 @@ import { publicDb } from '@/lib/supabase/clients';
 import { localizedColumns } from '@/lib/i18n/localize';
 import { cached, TAGS } from './cache';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
-import { withRewrite } from '@/content/rewrites';
+import { withNameFix, withRewrite } from '@/content/rewrites';
 
 /*
  * Public content loaders. Tables are small (≤ ~150 rows), so "card" lists are
@@ -126,11 +126,11 @@ export const getBeach = cached('beaches:one', [TAGS.beaches, TAGS.reviews], asyn
 );
 
 // ── Restaurants ────────────────────────────────────────────────────────────
-export const getRestaurants = cached('restaurants:cards', [TAGS.restaurants], () =>
-  all<RestaurantCard>(
+export const getRestaurants = cached('restaurants:cards', [TAGS.restaurants], async () =>
+  (await all<RestaurantCard>(
     'restaurants',
     `id, slug, area, latitude, longitude, image_url, image_alt, cuisine, price_level, rating, reviews_count, updated_at, ${NAME}`,
-  ),
+  )).map((r) => withNameFix('restaurants', r)),
 );
 export const getRestaurant = cached('restaurants:one', [TAGS.restaurants, TAGS.reviews], async (slug: string) => {
   const row = await one<RestaurantCard & Record<string, unknown>>('restaurants', slug, '*, restaurant_reviews(id, author_name, rating, comment_el, created_at, status)');

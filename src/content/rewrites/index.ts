@@ -19,8 +19,24 @@ export const REWRITES: Record<string, Record<string, Rewrite>> = {
   restaurants: merge(restaurants1),
 };
 
-/** Returns the row with rewritten description_* fields, if a rewrite exists. */
+/**
+ * Stored names that are plainly wrong (a scraped category title instead of the
+ * business name). Applied everywhere a row is read, cards included.
+ */
+export const NAME_FIXES: Record<string, Record<string, Record<string, string>>> = {
+  restaurants: {
+    'cafe-kleio': { name_en: 'Cafe Kleio' },
+  },
+};
+
+export function withNameFix<T extends Record<string, unknown>>(table: string, row: T): T {
+  const fix = NAME_FIXES[table]?.[String(row.slug)];
+  return fix ? { ...row, ...fix } : row;
+}
+
+/** Returns the row with rewritten description_* fields (and name fixes), if any exist. */
 export function withRewrite<T extends Record<string, unknown>>(table: string, row: T, field = 'description'): T {
+  row = withNameFix(table, row);
   const rw = REWRITES[table]?.[String(row.slug)];
   if (!rw) return row;
   const patch = Object.fromEntries(Object.entries(rw).filter(([, v]) => v).map(([l, v]) => [`${field}_${l}`, v]));
