@@ -42,6 +42,17 @@ export async function closestVillage(point: LatLng, maxKm = 8): Promise<Near<Vil
   return nearest(point, all, 1, maxKm)[0] ?? null;
 }
 
+/** slug → localized name of the village each item sits next to (for card eyebrows). */
+export async function closestVillagesFor(items: Array<LatLng & { slug: string }>, locale: Locale, maxKm = 8) {
+  const villages = (await getVillages()).filter((v) => v.slug !== 'pyrgadikia-mainland');
+  const map = new Map<string, string>();
+  for (const it of items) {
+    const v = nearest(it, villages, 1, maxKm)[0];
+    if (v) map.set(it.slug, placeName(v.item.slug, locale, v.item));
+  }
+  return map;
+}
+
 export type EntityKind = 'beach' | 'restaurant' | 'activity' | 'listing' | 'village';
 
 /**

@@ -105,6 +105,32 @@ export const AREA_NAMES: Record<'kassandra' | 'sithonia' | 'athos' | 'mainland',
   mainland: { el: 'ενδοχώρα της Χαλκιδικής', inEl: 'στην ενδοχώρα της Χαλκιδικής', en: 'inland Halkidiki', de: 'Hinterland von Chalkidiki', ro: 'interiorul Halkidikiului', bg: 'вътрешността на Халкидики', sr: 'unutrašnjost Halkidikija', ru: 'внутренние районы Халкидики' },
 };
 
+type AreaSlug = keyof typeof AREA_NAMES;
+
+/** "located …" phrase per peninsula — prepositions and cases differ by language. */
+export const AREA_LOCATIVE: Record<AreaSlug, Record<Locale, string>> = {
+  kassandra: { el: 'στην Κασσάνδρα', en: 'on Kassandra', de: 'auf Kassandra', ro: 'în Kassandra', bg: 'на Касандра', sr: 'na Kasandri', ru: 'на Кассандре' },
+  sithonia: { el: 'στη Σιθωνία', en: 'on Sithonia', de: 'auf Sithonia', ro: 'în Sithonia', bg: 'на Ситония', sr: 'na Sitoniji', ru: 'на Ситонии' },
+  athos: { el: 'στη χερσόνησο του Άθω', en: 'on the Athos peninsula', de: 'auf der Athos-Halbinsel', ro: 'în peninsula Athos', bg: 'на полуостров Атон', sr: 'na poluostrvu Atos', ru: 'на полуострове Афон' },
+  mainland: { el: 'στην ενδοχώρα της Χαλκιδικής', en: 'in inland Halkidiki', de: 'im Hinterland von Chalkidiki', ro: 'în interiorul Halkidikiului', bg: 'във вътрешността на Халкидики', sr: 'u unutrašnjosti Halkidikija', ru: 'во внутренних районах Халкидики' },
+};
+
+/** "Beaches of …" — genitive/locative attribute per peninsula. */
+export const AREA_OF: Record<AreaSlug, Record<Locale, string>> = {
+  kassandra: { el: 'της Κασσάνδρας', en: 'on Kassandra', de: 'auf Kassandra', ro: 'din Kassandra', bg: 'на Касандра', sr: 'na Kasandri', ru: 'Кассандры' },
+  sithonia: { el: 'της Σιθωνίας', en: 'on Sithonia', de: 'auf Sithonia', ro: 'din Sithonia', bg: 'на Ситония', sr: 'na Sitoniji', ru: 'Ситонии' },
+  athos: { el: 'του Άθω', en: 'on the Athos peninsula', de: 'auf der Athos-Halbinsel', ro: 'din peninsula Athos', bg: 'на полуостров Атон', sr: 'na poluostrvu Atos', ru: 'полуострова Афон' },
+  mainland: { el: 'της ενδοχώρας', en: 'in inland Halkidiki', de: 'im Hinterland', ro: 'din interiorul Halkidikiului', bg: 'във вътрешността', sr: 'u unutrašnjosti', ru: 'внутренних районов' },
+};
+
+/** "from <village>" — Greek turns "στην Καλλιθέα" into "την Καλλιθέα" after από. */
+export function fromPlace(slug: string, locale: Locale, dbRow?: Record<string, unknown>): string {
+  if (locale !== 'el') return placeName(slug, locale, dbRow);
+  const phrase = PLACE_NAMES[slug]?.inEl;
+  if (!phrase) return placeName(slug, locale, dbRow);
+  return phrase.replace(/^στ(ην|η|ον|ο|α|ις|ους)\s/, (_m, art: string) => `τ${art} `);
+}
+
 export const HALKIDIKI: Record<Locale, string> = {
   el: 'Χαλκιδική', en: 'Halkidiki', de: 'Chalkidiki', ro: 'Halkidiki', bg: 'Халкидики', sr: 'Halkidiki', ru: 'Халкидики',
 };

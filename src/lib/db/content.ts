@@ -2,6 +2,7 @@ import 'server-only';
 import { publicDb } from '@/lib/supabase/clients';
 import { localizedColumns } from '@/lib/i18n/localize';
 import { cached, TAGS } from './cache';
+import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
 
 /*
  * Public content loaders. Tables are small (≤ ~150 rows), so "card" lists are
@@ -91,6 +92,16 @@ async function all<T>(table: string, columns: string, order = 'slug'): Promise<T
   return (data ?? []) as T[];
 }
 
+/** Replaces stored rating/reviews_count with figures from genuine reviews only. */
+function withGenuineRating<T extends Record<string, unknown>>(rows: T[], relation: string): T[] {
+  return rows.map((r) => {
+    const { rating, count } = ratingOf(genuineReviews(r[relation] as ReviewRow[]));
+    const { [relation]: _drop, ...rest } = r;
+    void _drop;
+    return { ...rest, rating, reviews_count: count } as unknown as T;
+  });
+}
+
 async function one<T>(table: string, slug: string, columns = '*'): Promise<T | null> {
   const { data, error } = await publicDb().from(table).select(columns).eq('slug', slug).maybeSingle();
   if (error) throw new Error(`${table}/${slug}: ${error.message}`);
@@ -98,10 +109,13 @@ async function one<T>(table: string, slug: string, columns = '*'): Promise<T | n
 }
 
 // ── Beaches ────────────────────────────────────────────────────────────────
-export const getBeaches = cached('beaches:cards', [TAGS.beaches], () =>
-  all<BeachCard>(
-    'beaches',
-    `id, slug, area, latitude, longitude, image_url, image_alt, features, rating, reviews_count, updated_at, ${NAME}`,
+export const getBeaches = cached('beaches:cards', [TAGS.beaches, TAGS.reviews], async () =>
+  withGenuineRating(
+    await all<BeachCard>(
+      'beaches',
+      `id, slug, area, latitude, longitude, image_url, image_alt, features, updated_at, ${NAME}, beach_reviews(rating, created_at, status)`,
+    ),
+    'beach_reviews',
   ),
 );
 export const getBeach = cached('beaches:one', [TAGS.beaches, TAGS.reviews], async (slug: string) =>
@@ -120,10 +134,13 @@ export const getRestaurant = cached('restaurants:one', [TAGS.restaurants, TAGS.r
 );
 
 // ── Activities ─────────────────────────────────────────────────────────────
-export const getActivities = cached('activities:cards', [TAGS.activities], () =>
-  all<ActivityCard>(
-    'activities',
-    `id, slug, area, latitude, longitude, image_url, image_alt, category, price_range, duration, rating, reviews_count, updated_at, ${NAME}`,
+export const getActivities = cached('activities:cards', [TAGS.activities, TAGS.reviews], async () =>
+  withGenuineRating(
+    await all<ActivityCard>(
+      'activities',
+      `id, slug, area, latitude, longitude, image_url, image_alt, category, price_range, duration, updated_at, ${NAME}, activity_reviews(rating, created_at, status)`,
+    ),
+    'activity_reviews',
   ),
 );
 export const getActivity = cached('activities:one', [TAGS.activities, TAGS.reviews], async (slug: string) =>
