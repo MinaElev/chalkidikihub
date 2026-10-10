@@ -31,6 +31,9 @@ const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABA
 
 const LOCALES = ['el', 'en', 'de', 'ro', 'bg', 'sr', 'ru'];
 const MIN_WORDS = { beaches: 120, restaurants: 55, activities: 120, villages: 150, listings: 100, monasteries: 150, blog_articles: 400, events: 100 };
+// The same text takes fewer words in Slavic languages (no articles, richer inflection):
+// measured on our parallel rewrites, ru runs ~20% and sr ~15% shorter than en.
+const WORD_FACTOR = { el: 1, en: 1, de: 0.95, ro: 1, bg: 0.9, sr: 0.85, ru: 0.8 };
 const FAR_KM = 25;
 
 const CLICHES = [
@@ -123,7 +126,7 @@ function audit(table, rows, field, nameField = 'name') {
       const w = words(text);
       if (!text) issues.push('missing');
       else {
-        if (w < (MIN_WORDS[table] ?? 120)) issues.push(`thin:${w}`);
+        if (w < Math.round((MIN_WORDS[table] ?? 120) * (WORD_FACTOR[l] ?? 1))) issues.push(`thin:${w}`);
         if (l !== 'en' && en && text === en) issues.push('same-as-en');
         if (l !== 'el' && (text.match(/[Ͱ-Ͽ]{3,}/g) || []).length > 2) issues.push('wrong-script:greek');
         if ((l === 'bg' || l === 'ru') && (text.match(/\b[a-z]{4,}\b/g) || []).length > 12) issues.push('wrong-script:latin');

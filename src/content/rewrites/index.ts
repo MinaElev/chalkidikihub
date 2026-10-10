@@ -3,6 +3,9 @@ import restaurants1 from './restaurants-1.json';
 import activities1 from './activities-1.json';
 import villages1 from './villages-1.json';
 import beaches1 from './beaches-1.json';
+import monasteries1 from './monasteries-1.json';
+import events1 from './events-1.json';
+import monasteryHighlights from './monasteries-highlights.json';
 
 /**
  * Editorial rewrites that replace the stored description_* text.
@@ -23,6 +26,8 @@ export const REWRITES: Record<string, Record<string, Rewrite>> = {
   activities: merge(activities1),
   villages: merge(villages1),
   beaches: merge(beaches1),
+  monasteries: merge(monasteries1),
+  events: merge(events1),
 };
 
 /**
@@ -56,6 +61,10 @@ export const ROW_FIXES: Record<string, Record<string, Record<string, string | nu
     // Stored point was on Kassandra; the trips leave from Neos Marmaras harbour.
     'neos-marmaras-sailing-sithonia': { latitude: 40.0931, longitude: 23.7703 },
   },
+  // Stored highlights were generic ("Impressive architecture") or wrong ("Relics of Saint Dionysius").
+  monasteries: Object.fromEntries(
+    Object.entries(monasteryHighlights).map(([slug, h]) => [slug, Object.fromEntries(Object.entries(h).map(([l, v]) => [`highlights_${l}`, v]))]),
+  ),
 };
 
 export function withRowFix<T extends Record<string, unknown>>(table: string, row: T): T {

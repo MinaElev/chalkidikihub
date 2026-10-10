@@ -10,7 +10,7 @@ const LOCALES = ['el', 'en', 'de', 'ro', 'bg', 'sr', 'ru'];
 // Same counting as lib/seo/quality.ts wordCount.
 const wc = (s) => s.replace(/<[^>]+>/g, ' ').split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
 let bad = 0, total = 0;
-for (const f of fs.readdirSync(dir).filter((f) => f.endsWith('.json'))) {
+for (const f of fs.readdirSync(dir).filter((f) => /^[a-z_]+-\d+\.json$/.test(f))) {
   const data = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
   for (const [slug, rw] of Object.entries(data)) {
     total++;

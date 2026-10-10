@@ -7,6 +7,7 @@ import { ChevronRight, ChevronLeft, MapPin, Calendar, Flag, Star } from 'lucide-
 import { MONASTERIES, getMonasteryBySlug, type Monastery } from '@/content/editorial/monasteries';
 import { tr } from '@/content/editorial/athos';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import { withRewrite } from '@/content/rewrites';
 import { localeUrl, finalizeTitle } from '@/lib/seo/compat';
 import Image from 'next/image';
 import { FaqSection } from '@/components/ui/FaqSection';
@@ -30,7 +31,8 @@ async function getMonastery(slug: string): Promise<Monastery | undefined> {
   const hardcoded = getMonasteryBySlug(slug);
   try {
     const supabase = createApiClient();
-    const { data } = await supabase.from('monasteries').select('*').eq('slug', slug).single();
+    const { data: raw } = await supabase.from('monasteries').select('*').eq('slug', slug).single();
+    const data = raw ? withRewrite('monasteries', raw) : raw;
     if (data && hardcoded) {
       return {
         slug: data.slug, rank: data.rank, founded: data.founded || hardcoded.founded, nation: data.nation || hardcoded.nation,
