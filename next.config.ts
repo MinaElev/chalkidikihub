@@ -7,7 +7,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const csp = [
   "default-src 'self'",
   // Next hydration needs inline scripts until nonces are wired; no third-party ads.
-  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''} https://va.vercel-scripts.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com",
   "font-src 'self' data:",

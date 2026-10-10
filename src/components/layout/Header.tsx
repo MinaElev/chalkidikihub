@@ -30,7 +30,7 @@ export async function Header({ locale }: { locale: Locale }) {
           </span>
         </Link>
 
-        <nav aria-label={t('menu')} className="ml-4 hidden lg:block">
+        <nav aria-label={t('menu')} className="ml-4 hidden xl:block">
           <ul className="flex items-center gap-1 text-[0.94rem] font-medium text-slate-700">
             {PRIMARY_NAV.map((item) => (
               <li key={item.href}>
@@ -46,14 +46,14 @@ export async function Header({ locale }: { locale: Locale }) {
           <LanguageSwitcher current={locale} languages={languages} label={t('language')} />
           <Link
             href="/dashboard"
-            className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 sm:flex"
+            className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 xl:flex"
           >
             <UserRound className="size-4" aria-hidden />
             {t('account')}
           </Link>
 
           {/* Mobile menu: native <details>, so it works before any JS loads. */}
-          <details className="group relative lg:hidden">
+          <details className="group relative xl:hidden">
             <summary className="flex size-10 cursor-pointer list-none items-center justify-center rounded-lg hover:bg-slate-100 [&::-webkit-details-marker]:hidden">
               <Menu className="size-5 group-open:hidden" aria-hidden />
               <X className="hidden size-5 group-open:block" aria-hidden />
