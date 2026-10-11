@@ -66,6 +66,6 @@ export async function indexableLocales(doc: EditorialDoc, withOverrides = false)
   return locales.filter((l) => {
     const own = overrides[`${doc.slug}|${l}`];
     const body = own ? { text: own, native: true } : field(doc.content, l);
-    return assessQuality({ body: body.text, nativeBody: body.native, hasImage: true }, 'hub').indexable;
+    return assessQuality({ body: body.text, nativeBody: body.native, hasImage: true, locale: l }, 'hub').indexable;
   });
 }

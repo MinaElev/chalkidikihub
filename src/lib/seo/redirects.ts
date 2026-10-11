@@ -114,6 +114,88 @@ export const ITINERARY_MERGES: Record<string, string> = {
 
 export const FAQ_TOPICS = ['food-and-drink', 'beaches', 'transport', 'practical', 'accommodation', 'activities'];
 
+/**
+ * v3 village guides (/blog/odigos-gia-{village}, AI-written) duplicated the village
+ * pages and two described places that do not exist under those names. Each folds
+ * into the verified village page; the articles leave the blog index.
+ */
+export const BLOG_TO_PLACE: Record<string, string> = {
+  'odigos-gia-siviri': 'siviri',
+  'odigos-gia-stagira': 'stagira',
+  'odigos-gia-kalamitsi': 'kalamitsi',
+  'odigos-gia-kalandra': 'kalandra',
+  'odigos-gia-nea-skioni': 'nea-skioni',
+  'odigos-gia-pyrgadikia': 'pyrgadikia',
+  'odigos-gia-nea-moudania': 'nea-moudania',
+  'odigos-gia-simantra': 'simantra',
+  'odigos-gia-agios-nikolaos': 'agios-nikolaos',
+  'odigos-gia-galatista': 'galatista',
+  'odigos-gia-posidi': 'posidi',
+  'odigos-gia-stratoniki': 'stratoniki',
+  'odigos-gia-olynthos': 'olynthos',
+  'odigos-gia-kalyves-polygyrou': 'kalyves-polygyrou',
+  'odigos-gia-stratoni': 'stratoni',
+  'odigos-gia-kriopigi': 'kriopigi',
+  'odigos-gia-polychrono': 'polychrono',
+  'odigos-gia-tripiti': 'tripiti',
+  'odigos-gia-kallithea': 'kallithea',
+  'odigos-gia-pefkohori': 'pefkohori',
+  'odigos-gia-nea-triglia': 'nea-triglia',
+  'odigos-gia-nea-potidaia': 'nea-potidaia',
+  'odigos-gia-agia-paraskevi': 'agia-paraskevi',
+  'odigos-gia-arnaia': 'arnaia',
+  'odigos-gia-portaria': 'portaria',
+  'odigos-gia-sarti': 'sarti',
+  'odigos-gia-taxiarhis': 'taxiarhis',
+  'odigos-gia-fourka': 'fourka',
+  'odigos-gia-mola-kalyva': 'mola-kalyva',
+  'odigos-gia-kassandrino': 'kassandrino',
+  'odigos-gia-vourvourou': 'vourvourou',
+  'odigos-gia-gomati': 'gomati',
+  'odigos-gia-varvara': 'varvara',
+  'odigos-gia-nea-plagia': 'nea-plagia',
+  'odigos-gia-nea-roda': 'nea-roda',
+  'odigos-gia-vrasta': 'vrasta',
+  'odigos-gia-gerakini': 'gerakini',
+  'odigos-gia-metamorfosi': 'metamorfosi',
+  'odigos-gia-olympiada': 'olympiada',
+  'odigos-gia-xiropotamo': 'xiropotamo',
+  'odigos-gia-ormos-panagias': 'ormos-panagias',
+  'odigos-gia-toroni': 'toroni',
+  'odigos-gia-palaiohori': 'palaiohori',
+  'odigos-gia-nea-fokaia': 'nea-fokaia',
+  'odigos-gia-elia': 'elia',
+  'odigos-gia-paliouri': 'paliouri',
+  'odigos-gia-flogita': 'flogita',
+  'odigos-gia-megali-panagia': 'megali-panagia',
+  'odigos-gia-parthenonas': 'parthenonas',
+  'odigos-gia-doumbia': 'doumbia',
+  'odigos-gia-palaiokastro': 'palaiokastro',
+  'odigos-gia-polygyros': 'polygyros',
+  'odigos-gia-nikiti': 'nikiti',
+  'odigos-gia-neohori': 'neohori',
+  'odigos-gia-hanioti': 'hanioti',
+  'odigos-gia-sanos': 'sanos',
+  'odigos-gia-zografou': 'zografou',
+  'odigos-gia-ierissos': 'ierissos',
+  'odigos-gia-planitsi': 'planitsi',
+  'afytos-village-guide': 'afytos',
+  'sykia-chalkidiki': 'sikia',
+};
+
+/**
+ * Blog articles below the quality gate in every locale, with no clicks, whose
+ * topic a stronger page already covers. Folded into that page.
+ */
+export const BLOG_MERGES: Record<string, string> = {
+  'things-to-do-halkidiki': '/activities',
+  'snorkeling-beaches-halkidiki': '/activities/sithonia-snorkeling-sithonia',
+  'drastiriotita-mountain-biking-halkidiki': '/activities/sithonia-cycling-trail-sithonia',
+  'halkidiki-in-winter': '/guide/winter',
+  'halkidiki-in-august': '/guide/july-august',
+  'halkidiki-in-may-june': '/guide/may',
+};
+
 const LEGACY_SLUG_FIXES: Array<[string, string]> = [
   ['/restaurants/Mellto-Gelato-sarti', '/restaurants/mellto-gelato-sarti'],
   ['/restaurants/Bakery-pargas', '/restaurants/bakery-pargas'],
@@ -124,9 +206,9 @@ const LEGACY_SLUG_FIXES: Array<[string, string]> = [
   ['/blog/Yucca-Beach-Bar', '/blog/yucca-beach-bar'],
   ['/blog/Dish-of-the-Day', '/blog/dish-of-the-day'],
   ['/blog/Chalkidiki-diving', '/blog/chalkidiki-diving'],
-  ['/blog/odigos-gia-afytos', '/blog/afytos-village-guide'],
-  ['/blog/odigos-gia-sikia', '/blog/sykia-chalkidiki'],
-  ['/blog/odigos-gia-pyrgadikia-mainland', '/blog/odigos-gia-pyrgadikia'],
+  ['/blog/odigos-gia-afytos', '/places/afytos'],
+  ['/blog/odigos-gia-sikia', '/places/sikia'],
+  ['/blog/odigos-gia-pyrgadikia-mainland', '/places/pyrgadikia'],
   ['/blog/when-to-visit-halkidiki', '/blog/best-time-to-visit-halkidiki'],
   ['/blog/family-vacation-halkidiki', '/blog/halkidiki-with-kids-complete-guide'],
   ['/blog/oi-kalyteres-paralies-kassandras', '/blog/keyword-oi-kalyteres-paralies-kassandras'],
@@ -138,12 +220,16 @@ const LEGACY_SLUG_FIXES: Array<[string, string]> = [
   ['/blog/carWash', '/blog'],
   ['/blog/tiki-Floating', '/blog'],
   ['/places/pyrgadikia-mainland', '/places/pyrgadikia'],
+  // Duplicate of the beach page (same place, thinner text, wrong distances).
+  ['/activities/toroni-beach-sithonia', '/beaches/toroni-beach-sithonia'],
 ];
 
 export function buildRedirects(): Rule[] {
   const rules: Rule[] = [];
 
   for (const [from, to] of LEGACY_SLUG_FIXES) rules.push(...both(from, to));
+  for (const [article, village] of Object.entries(BLOG_TO_PLACE)) rules.push(...both(`/blog/${article}`, `/places/${village}`));
+  for (const [article, to] of Object.entries(BLOG_MERGES)) rules.push(...both(`/blog/${article}`, to));
   rules.push(...both('/places/pyrgadikia-mainland/:path*', '/places/pyrgadikia/:path*'));
 
   // /stay/{slug} stays live as the owner's shareable brand page (noindex,

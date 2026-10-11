@@ -1,4 +1,5 @@
 import 'server-only';
+import { BLOG_MERGES, BLOG_TO_PLACE } from '@/lib/seo/redirects';
 import { publicDb } from '@/lib/supabase/clients';
 import { localizedColumns } from '@/lib/i18n/localize';
 import { cached, TAGS } from './cache';
@@ -139,6 +140,8 @@ export const getRestaurant = cached('restaurants:one', [TAGS.restaurants, TAGS.r
 );
 
 // ── Activities ─────────────────────────────────────────────────────────────
+/** Rows folded into another page by a 301 (see seo/redirects.ts). */
+const MERGED_ACTIVITIES = new Set(['toroni-beach-sithonia']);
 export const getActivities = cached('activities:cards', [TAGS.activities, TAGS.reviews], async () =>
   withGenuineRating(
     await all<ActivityCard>(
@@ -146,7 +149,7 @@ export const getActivities = cached('activities:cards', [TAGS.activities, TAGS.r
       `id, slug, area, latitude, longitude, image_url, image_alt, category, price_range, duration, updated_at, ${NAME}, activity_reviews(rating, created_at, status)`,
     ),
     'activity_reviews',
-  ),
+  ).filter((a) => !MERGED_ACTIVITIES.has(a.slug)),
 );
 export const getActivity = cached('activities:one', [TAGS.activities, TAGS.reviews], async (slug: string) =>
   one<ActivityCard & Record<string, unknown>>('activities', slug, '*, activity_reviews(id, author_name, rating, comment_el, created_at, status)'),
@@ -230,7 +233,7 @@ export const getArticles = cached('blog:cards', [TAGS.blog], async () => {
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
   if (error) throw new Error(`blog: ${error.message}`);
-  return (data ?? []) as unknown as ArticleCard[];
+  return ((data ?? []) as unknown as ArticleCard[]).filter((a) => !(a.slug in BLOG_TO_PLACE) && !(a.slug in BLOG_MERGES));
 });
 
 export const getArticle = cached('blog:one', [TAGS.blog], async (slug: string) => {

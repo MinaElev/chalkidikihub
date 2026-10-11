@@ -5,6 +5,7 @@ import villages1 from './villages-1.json';
 import beaches1 from './beaches-1.json';
 import monasteries1 from './monasteries-1.json';
 import events1 from './events-1.json';
+import blogArticles1 from './blog_articles-1.json';
 import monasteryHighlights from './monasteries-highlights.json';
 
 /**
@@ -28,6 +29,7 @@ export const REWRITES: Record<string, Record<string, Rewrite>> = {
   beaches: merge(beaches1),
   monasteries: merge(monasteries1),
   events: merge(events1),
+  blog_articles: merge(blogArticles1),
 };
 
 /**
@@ -60,6 +62,58 @@ export const ROW_FIXES: Record<string, Record<string, Record<string, string | nu
     },
     // Stored point was on Kassandra; the trips leave from Neos Marmaras harbour.
     'neos-marmaras-sailing-sithonia': { latitude: 40.0931, longitude: 23.7703 },
+  },
+  beaches: {
+    // Greek column held Latin script, stray translations ("(Orange)") or misspellings.
+    'achlada-beach-sithonia': { name_el: 'Παραλία Αχλάδα', name_bg: 'Плаж Ахлада' },
+    'linaraki-beach-sithonia': { name_el: 'Παραλία Λιναράκι' },
+    'akti-linaraki-beach-sithonia': { name_el: 'Ακτή Λιναράκι', name_ru: 'Пляж Акти Линараки' },
+    'platania-beach-sithonia': { name_el: 'Παραλία Πλατάνια', name_ru: 'Пляж Платания' },
+    'diaporti-beach-sithonia': { name_el: 'Παραλία Διαπόρτι' },
+    'mikri-elia-beach-sithonia': { name_el: 'Παραλία Μικρή Ελιά', name_bg: 'Плаж Микри Елия' },
+    'marathias-beach-sithonia': { name_el: 'Παραλία Μαραθιάς', name_bg: 'Плаж Маратиас' },
+    'valti-beach-sithonia': { name_el: 'Παραλία Βαλτί', name_bg: 'Плаж Валти' },
+    'tourkolimnionas-beach-sithonia': { name_el: 'Παραλία Τουρκολίμνιωνας' },
+    'lemos-beach-sithonia': { name_bg: 'Плаж Лемос', name_ru: 'Пляж Лемос' },
+    'brounou-beach-sithonia': { name_bg: 'Плаж Бруну', name_ru: 'Пляж Бруну' },
+    'white-beach-sithonia': { name_el: 'White Beach', name_de: 'White Beach', name_ro: 'White Beach', name_bg: 'White Beach', name_sr: 'White Beach', name_ru: 'White Beach' },
+    'portokali-sithonia': { name_el: 'Πορτοκάλι', name_en: 'Portokali', name_de: 'Portokali', name_ro: 'Portokali', name_bg: 'Портокали', name_sr: 'Portokali', name_ru: 'Портокали' },
+    'prassou-beach-athos': { name_bg: 'Плаж Прасу (Робинзон)', name_sr: 'Plaža Prasu (Robinzon)', name_ru: 'Пляж Прасу (Робинзон)' },
+    'paralia-chanoti-grecotel-sithonia': {
+      name_el: 'Παραλία Χανιώτη (Grecotel)', name_en: 'Hanioti Beach (Grecotel)', name_de: 'Strand von Hanioti (Grecotel)', name_ro: 'Plaja Hanioti (Grecotel)',
+      name_bg: 'Плаж Ханиоти (Grecotel)', name_sr: 'Plaža Hanioti (Grecotel)', name_ru: 'Пляж Ханиоти (Grecotel)',
+    },
+    'agjio-mama-kassandra': {
+      name_el: 'Παραλία Αγίου Μάμαντος', name_en: 'Agios Mamas Beach', name_de: 'Strand Agios Mamas', name_ro: 'Plaja Agios Mamas',
+      name_bg: 'Плаж Агиос Мамас', name_sr: 'Plaža Agios Mamas', name_ru: 'Пляж Агиос Мамас',
+    },
+  },
+  villages: {
+    // Stored as "Σανός/Sanos": the village is Stanos (Δ.Ε. Αρναίας); coordinates were right.
+    sanos: { name_el: 'Στανός', name_en: 'Stanos', name_de: 'Stanos', name_ro: 'Stanos', name_bg: 'Станос', name_sr: 'Stanos', name_ru: 'Станос' },
+    // Stored as "Βραστά" with coordinates at Nea Vrasna (Thessaloniki); the village is Vrastama, Polygyros.
+    vrasta: {
+      name_el: 'Βράσταμα', name_en: 'Vrastama', name_de: 'Vrastama', name_ro: 'Vrastama', name_bg: 'Врастама', name_sr: 'Vrastama', name_ru: 'Врастама',
+      latitude: 40.37143, longitude: 23.53533,
+    },
+    // Coordinates 1.5–17 km off; corrected to the OpenStreetMap village node (2026-10).
+    'nea-gonia': { latitude: 40.36263, longitude: 23.09452 },
+    palaiokastro: { latitude: 40.44122, longitude: 23.43474 },
+    'agios-prodromos': { latitude: 40.46594, longitude: 23.37946 },
+    neohori: { latitude: 40.50808, longitude: 23.67905 },
+    lakkoma: { latitude: 40.39089, longitude: 23.05643 },
+    'nea-iraklia': { latitude: 40.34621, longitude: 23.01517 },
+    'nea-plagia': { latitude: 40.26475, longitude: 23.20205 },
+    palaiohori: { latitude: 40.49257, longitude: 23.64965 },
+    sozopoli: { latitude: 40.27842, longitude: 23.14727 },
+    doumbia: { latitude: 40.51261, longitude: 23.35098 },
+    siviri: { latitude: 40.03653, longitude: 23.36145 },
+    vavdos: { latitude: 40.42634, longitude: 23.32423 },
+    xiropotamo: { latitude: 40.36398, longitude: 23.88595 },
+    'agios-pavlos': { latitude: 40.34121, longitude: 23.06178 },
+    sarti: { latitude: 40.09505, longitude: 23.97836 },
+    metagitsi: { latitude: 40.32426, longitude: 23.65563 },
+    varvara: { latitude: 40.56873, longitude: 23.65834 },
   },
   // Stored highlights were generic ("Impressive architecture") or wrong ("Relics of Saint Dionysius").
   monasteries: Object.fromEntries(

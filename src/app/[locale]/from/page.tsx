@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/from'>) 
   const passing: Locale[] = [];
   for (const l of locales) {
     const b = await guideBody(doc, l);
-    if (assessQuality({ body: b.text, nativeBody: b.native, hasImage: true }, 'hub').indexable) passing.push(l);
+    if (assessQuality({ body: b.text, nativeBody: b.native, hasImage: true, locale: l }, 'hub').indexable) passing.push(l);
   }
   return buildMetadata({ locale, path: '/from', title: t('fromHubTitle'), description: t('fromHubLead'), indexableLocales: passing });
 }

@@ -31,6 +31,7 @@ const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABA
 
 const LOCALES = ['el', 'en', 'de', 'ro', 'bg', 'sr', 'ru'];
 const MIN_WORDS = { beaches: 120, restaurants: 55, activities: 120, villages: 150, listings: 100, monasteries: 150, blog_articles: 400, events: 100 };
+// Same table as WORD_FACTOR in src/lib/seo/quality.ts (the site's quality gate).
 // The same text takes fewer words in Slavic languages (no articles, richer inflection):
 // measured on our parallel rewrites, ru runs ~20% and sr ~15% shorter than en.
 const WORD_FACTOR = { el: 1, en: 1, de: 0.95, ro: 1, bg: 0.9, sr: 0.85, ru: 0.8 };

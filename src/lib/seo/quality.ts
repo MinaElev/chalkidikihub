@@ -20,6 +20,8 @@ export type QualityInput = {
   /** Whether the body is a genuine translation, not a fallback. */
   nativeBody: boolean;
   hasImage: boolean;
+  /** Page locale; scales the word minimum (see WORD_FACTOR). */
+  locale?: Locale;
   /** Count of real items a list/hub page shows (0 for detail pages). */
   itemCount?: number;
 };
@@ -28,11 +30,21 @@ export type QualityVerdict = { indexable: boolean; reasons: string[] };
 
 export const MIN_WORDS = {
   detail: 120,
-  /** Restaurants/cafés: short factual copy (a café needs no 120-word essay); the page also carries hours, map, contacts and nearby beaches. Measured per locale, so terse languages (ru, sr) must still clear it. */
+  /** Restaurants/cafés: short factual copy (a café needs no 120-word essay); the page also carries hours, map, contacts and nearby beaches. Scaled per locale like every minimum (WORD_FACTOR). */
   venue: 55,
   hub: 80,
   article: 400,
 } as const;
+
+/**
+ * The same text takes fewer words in some languages (no articles, richer
+ * inflection). Measured on our parallel 7-locale rewrites: ru runs ~20% and
+ * sr ~15% shorter than en. The gate measures content, not tokens, so the word
+ * minimum is scaled per locale. scripts/content-audit.mjs uses the same table.
+ */
+export const WORD_FACTOR: Record<Locale, number> = { el: 1, en: 1, de: 0.95, ro: 1, bg: 0.9, sr: 0.85, ru: 0.8 };
+
+export const minWordsFor = (min: number, locale?: Locale) => Math.round(min * (locale ? WORD_FACTOR[locale] : 1));
 
 export function wordCount(text: string): number {
   return text
@@ -50,7 +62,8 @@ export function assessQuality(
   const reasons: string[] = [];
   if (!input.nativeBody) reasons.push('not-translated');
   const words = wordCount(input.body);
-  if (words < MIN_WORDS[kind]) reasons.push(`thin:${words}<${MIN_WORDS[kind]}`);
+  const min = minWordsFor(MIN_WORDS[kind], input.locale);
+  if (words < min) reasons.push(`thin:${words}<${min}`);
   if (!input.hasImage) reasons.push('no-image');
   if (opts.minItems !== undefined && (input.itemCount ?? 0) < opts.minItems) {
     reasons.push(`few-items:${input.itemCount ?? 0}<${opts.minItems}`);
@@ -67,7 +80,7 @@ export function assessEntity(
 ): QualityVerdict {
   const body = localize(row, field, locale);
   return assessQuality(
-    { body: body.text, nativeBody: body.native, hasImage: Boolean(row.image_url) },
+    { body: body.text, nativeBody: body.native, hasImage: Boolean(row.image_url), locale },
     kind,
   );
 }

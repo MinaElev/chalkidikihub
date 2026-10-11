@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/areas/[s
     image: (data.row.image_url as string) || undefined,
     indexableLocales: locales.filter((l) => {
       const b = localize(data.row, 'description', l);
-      return assessQuality({ body: b.text, nativeBody: b.native, hasImage: true }, 'detail').indexable;
+      return assessQuality({ body: b.text, nativeBody: b.native, hasImage: true, locale: l }, 'detail').indexable;
     }),
   });
 }

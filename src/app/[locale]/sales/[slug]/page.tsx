@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/sales/[s
   if (!s) return {};
   const body = localize(s, 'description', locale);
   const imgs = saleImages(s);
-  const passes = assessQuality({ body: body.text, nativeBody: body.native, hasImage: imgs.length > 0 }, 'detail').indexable;
+  const passes = assessQuality({ body: body.text, nativeBody: body.native, hasImage: imgs.length > 0, locale }, 'detail').indexable;
   return buildMetadata({
     locale,
     path: `/sales/${slug}`,

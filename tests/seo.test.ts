@@ -104,3 +104,12 @@ describe('robots.txt', () => {
     }
   });
 });
+
+describe('quality gate word minimum per locale', () => {
+  const words = (n: number) => Array.from({ length: n }, (_, i) => `w${i}`).join(' ');
+  it('scales the minimum for terse locales', () => {
+    expect(assessQuality({ body: words(100), nativeBody: true, hasImage: true, locale: 'ru' }, 'detail').indexable).toBe(true);
+    expect(assessQuality({ body: words(100), nativeBody: true, hasImage: true, locale: 'en' }, 'detail').indexable).toBe(false);
+    expect(assessQuality({ body: words(95), nativeBody: true, hasImage: true, locale: 'ru' }, 'detail').indexable).toBe(false);
+  });
+});

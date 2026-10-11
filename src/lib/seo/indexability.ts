@@ -3,7 +3,7 @@ import { locales, type Locale } from '@/i18n/config';
 import { publicDb } from '@/lib/supabase/clients';
 import { cached, TAGS, type Tag } from '@/lib/db/cache';
 import { localize, localizedColumns } from '@/lib/i18n/localize';
-import { assessQuality, wordCount, type MIN_WORDS } from './quality';
+import { assessQuality, minWordsFor, wordCount, type MIN_WORDS } from './quality';
 import { withRewrite } from '@/content/rewrites';
 
 /**
@@ -56,8 +56,8 @@ async function compute(spec: Spec): Promise<Record<string, Locale[]>> {
     const hasImage = spec.image ? spec.image(row) : Boolean(row.image_url);
     out[row.slug] = locales.filter((l) => {
       const b = localize(row, spec.field, l);
-      if (spec.minWords !== undefined) return b.native && hasImage && wordCount(b.text) >= spec.minWords;
-      return assessQuality({ body: b.text, nativeBody: b.native, hasImage }, spec.kind).indexable;
+      if (spec.minWords !== undefined) return b.native && hasImage && wordCount(b.text) >= minWordsFor(spec.minWords, l);
+      return assessQuality({ body: b.text, nativeBody: b.native, hasImage, locale: l }, spec.kind).indexable;
     });
   }
   return out;
