@@ -5,6 +5,7 @@ import { localizedColumns } from '@/lib/i18n/localize';
 import { cached, TAGS } from './cache';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
 import { withRewrite, withRowFix } from '@/content/rewrites';
+import { dbSlug } from '@/content/rewrites/slug-renames';
 
 /*
  * Public content loaders. Tables are small (≤ ~150 rows), so "card" lists are
@@ -109,7 +110,7 @@ function withGenuineRating<T extends Record<string, unknown>>(rows: T[], relatio
 }
 
 async function one<T>(table: string, slug: string, columns = '*'): Promise<T | null> {
-  const { data, error } = await publicDb().from(table).select(columns).eq('slug', slug).maybeSingle();
+  const { data, error } = await publicDb().from(table).select(columns).eq('slug', dbSlug(table, slug)).maybeSingle();
   if (error) throw new Error(`${table}/${slug}: ${error.message}`);
   return data ? (withRewrite(table, data as unknown as Record<string, unknown>) as T) : null;
 }
@@ -209,7 +210,7 @@ export const getListing = cached('listings:one', [TAGS.listings, TAGS.reviews], 
     .eq('status', 'published')
     .maybeSingle();
   if (error) throw new Error(`listing/${slug}: ${error.message}`);
-  return data as (ListingCard & Record<string, unknown>) | null;
+  return data ? (withRewrite('listings', data as unknown as Record<string, unknown>) as unknown as ListingCard & Record<string, unknown>) : null;
 });
 
 // ── Blog ───────────────────────────────────────────────────────────────────

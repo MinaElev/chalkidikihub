@@ -13,6 +13,8 @@
  * Imported by next.config.ts (plain TS, no path aliases).
  */
 
+import { SLUG_RENAMES } from '../../content/rewrites/slug-renames';
+
 type Rule = { source: string; destination: string; permanent: true };
 
 const PREFIX = '/:locale(en|de|ro|bg|sr|ru)';
@@ -230,6 +232,8 @@ export function buildRedirects(): Rule[] {
   for (const [from, to] of LEGACY_SLUG_FIXES) rules.push(...both(from, to));
   for (const [article, village] of Object.entries(BLOG_TO_PLACE)) rules.push(...both(`/blog/${article}`, `/places/${village}`));
   for (const [article, to] of Object.entries(BLOG_MERGES)) rules.push(...both(`/blog/${article}`, to));
+  // Wrong-peninsula / garbled database slugs (content/rewrites/slug-renames.ts).
+  for (const [table, map] of Object.entries(SLUG_RENAMES)) for (const [from, to] of Object.entries(map)) rules.push(...both(`/${table}/${from}`, `/${table}/${to}`));
   rules.push(...both('/places/pyrgadikia-mainland/:path*', '/places/pyrgadikia/:path*'));
 
   // /stay/{slug} stays live as the owner's shareable brand page (noindex,

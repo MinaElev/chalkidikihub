@@ -5,7 +5,7 @@ import path from 'node:path';
 const dir = path.resolve('src/content/rewrites');
 // Same minimums as lib/seo/quality.ts: venue (restaurants) 55, articles 400, detail pages 120,
 // scaled per locale with the same WORD_FACTOR.
-const MIN_FOR = { restaurants: 55, blog_articles: 400 };
+const MIN_FOR = { restaurants: 55, blog_articles: 400, listings: 60 };
 const WORD_FACTOR = { el: 1, en: 1, de: 0.95, ro: 1, bg: 0.9, sr: 0.85, ru: 0.8 };
 const minFor = (file) => MIN_FOR[file.replace(/-\d+\.json$/, '')] ?? 120;
 const LOCALES = ['el', 'en', 'de', 'ro', 'bg', 'sr', 'ru'];

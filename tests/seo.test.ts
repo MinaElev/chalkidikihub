@@ -113,3 +113,13 @@ describe('quality gate word minimum per locale', () => {
     expect(assessQuality({ body: words(95), nativeBody: true, hasImage: true, locale: 'ru' }, 'detail').indexable).toBe(false);
   });
 });
+
+describe('beach slug renames', () => {
+  it('301s the wrong-peninsula slug to the corrected one', async () => {
+    const { publicSlug, dbSlug } = await import('@/content/rewrites/slug-renames');
+    expect(publicSlug('beaches', 'glarokavos-nudist-beach-sithonia')).toBe('glarokavos-nudist-beach-kassandra');
+    expect(dbSlug('beaches', 'glarokavos-nudist-beach-kassandra')).toBe('glarokavos-nudist-beach-sithonia');
+    const rules = buildRedirects();
+    expect(rules.find((r) => r.source === '/beaches/mykoniatika-nudist-beach-kassandra')?.destination).toBe('/beaches/mykoniatika-nudist-beach-mainland');
+  });
+});

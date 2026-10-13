@@ -1,4 +1,5 @@
 import type { Locale } from '@/i18n/config';
+import { publicSlug } from './slug-renames';
 import restaurants1 from './restaurants-1.json';
 import activities1 from './activities-1.json';
 import villages1 from './villages-1.json';
@@ -6,6 +7,7 @@ import beaches1 from './beaches-1.json';
 import monasteries1 from './monasteries-1.json';
 import events1 from './events-1.json';
 import blogArticles1 from './blog_articles-1.json';
+import listings1 from './listings-1.json';
 import monasteryHighlights from './monasteries-highlights.json';
 
 /**
@@ -30,6 +32,8 @@ export const REWRITES: Record<string, Record<string, Rewrite>> = {
   monasteries: merge(monasteries1),
   events: merge(events1),
   blog_articles: merge(blogArticles1),
+  // Owner texts: only the AI-added nearby/distance lines were corrected (OSRM road distances).
+  listings: merge(listings1),
 };
 
 /**
@@ -64,6 +68,20 @@ export const ROW_FIXES: Record<string, Record<string, Record<string, string | nu
     'neos-marmaras-sailing-sithonia': { latitude: 40.0931, longitude: 23.7703 },
   },
   beaches: {
+    // Ammouliani beaches: area athos, like the island.
+    'tsaska-mainland': { area: 'athos' },
+    'limanaki-athos': { area: 'athos' },
+    'mousiou-athos': { area: 'athos' },
+    'saint-george-athos': { area: 'athos' },
+    'kalopigado-mainland': { area: 'athos' },
+    'limani-athos': { area: 'athos' },
+    'porto-agio-athos': { area: 'athos' },
+    'karagatsia-mainland': { area: 'athos' },
+    'faka-mainland': { area: 'athos' },
+    'alikes-beach-sithonia': { area: 'athos' },
+    // Coordinates checked against OpenStreetMap (2026-10): Karidi sat 1.8 km off, Komitsa on Ierissos town.
+    'karidi-sithonia': { latitude: 40.19349, longitude: 23.80774 },
+    'komitsa-athos': { latitude: 40.37758, longitude: 23.96471 },
     // Greek column held Latin script, stray translations ("(Orange)") or misspellings.
     'achlada-beach-sithonia': { name_el: 'Παραλία Αχλάδα', name_bg: 'Плаж Ахлада' },
     'linaraki-beach-sithonia': { name_el: 'Παραλία Λιναράκι' },
@@ -88,7 +106,27 @@ export const ROW_FIXES: Record<string, Record<string, Record<string, string | nu
       name_bg: 'Плаж Агиос Мамас', name_sr: 'Plaža Agios Mamas', name_ru: 'Пляж Агиос Мамас',
     },
   },
+  // Area field: these places are on the mainland (nearest villages, OSM-checked), not Kassandra/Sithonia.
+  listings: {
+    'spiti-by-tre-beacj-nea-triglia-halkidiki': { area: 'mainland' },
+    'elasa-seaside-apartment-near-sea-nea-kallikratia-nea-kallikratia': { area: 'mainland' },
+    'spiti-konta-sti-thalassa-nea-triglia': { area: 'mainland' },
+    'halikidiki-family-house-to-enjoy-by-the-beach-akti-mikiverna': { area: 'mainland' },
+    'hotel-paraktio-nea-kallikrateia': { area: 'mainland' },
+    'akti-liakada-hotel-gerakini': { area: 'mainland' },
+    'sea-star-lux-trikorfo-apartments-sitonia-trikorfo-beach-sithonia': { area: 'mainland' },
+    'monokatoikia-stin-paralia-40-2667222-23-184278nea-plagia-chalkidikis': { area: 'mainland' },
+    'paratheristiki-katoikia-konta-stin-thalassa-galini-kallikrateias': { area: 'mainland' },
+    'terra-bianca-pool-villa-gerakini': { area: 'mainland' },
+    'xenodocheio-gerakini': { area: 'mainland' },
+    'spiti-me-thea-thalassa-nea-triglia': { area: 'mainland' },
+    'michael-apartment-kallikrateia': { area: 'mainland' },
+    'psakoudia-stay-psakoudia': { area: 'mainland' },
+    'spiti-me-a-avli-kalikratia-nea-kalikrateia-chalkidikis': { area: 'mainland' },
+  },
   villages: {
+    // Ammouliani sits off the Athos peninsula, grouped with it everywhere else on the site.
+    ammouliani: { area: 'athos' },
     // Stored as "Σανός/Sanos": the village is Stanos (Δ.Ε. Αρναίας); coordinates were right.
     sanos: { name_el: 'Στανός', name_en: 'Stanos', name_de: 'Stanos', name_ro: 'Stanos', name_bg: 'Станос', name_sr: 'Stanos', name_ru: 'Станос' },
     // Stored as "Βραστά" with coordinates at Nea Vrasna (Thessaloniki); the village is Vrastama, Polygyros.
@@ -122,14 +160,18 @@ export const ROW_FIXES: Record<string, Record<string, Record<string, string | nu
 };
 
 export function withRowFix<T extends Record<string, unknown>>(table: string, row: T): T {
-  const fix = ROW_FIXES[table]?.[String(row.slug)];
-  return fix ? { ...row, ...fix } : row;
+  const slug = String(row.slug);
+  const fix = ROW_FIXES[table]?.[slug];
+  const renamed = publicSlug(table, slug);
+  if (!fix && renamed === slug) return row;
+  return { ...row, ...fix, slug: renamed };
 }
 
 /** Returns the row with rewritten description_* fields (and row fixes), if any exist. */
 export function withRewrite<T extends Record<string, unknown>>(table: string, row: T, field = 'description'): T {
+  const original = String(row.slug);
   row = withRowFix(table, row);
-  const rw = REWRITES[table]?.[String(row.slug)];
+  const rw = REWRITES[table]?.[original];
   if (!rw) return row;
   const patch = Object.fromEntries(Object.entries(rw).filter(([, v]) => v).map(([l, v]) => [`${field}_${l}`, v]));
   return { ...row, ...patch };
