@@ -13,6 +13,8 @@
   --color-sea-900: #143f52;
   --color-sea-950: #082838;
 
+  /* Secondary text: Tailwind slate-500 (#62748e) is only 4.1:1 on sand-100; this keeps the hue and reaches 5:1 (WCAG AA). */
+  --color-slate-500: #56667e;
   --color-sand-50: #fbf8f2;
   --color-sand-100: #f5eedf;
   --color-sand-200: #ead9b8;

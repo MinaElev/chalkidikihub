@@ -21,7 +21,7 @@ export async function Header({ locale }: { locale: Locale }) {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/75">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
-        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="ChalkidikiHub">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
           <span aria-hidden className="grid size-8 place-items-center rounded-lg bg-sea-600 font-display text-lg text-white">
             C
           </span>

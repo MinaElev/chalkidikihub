@@ -24,6 +24,8 @@ const display = Noto_Serif({
   weight: ['600'],
   variable: '--font-display-face',
   display: 'swap',
+  // Headings swap in from the fallback serif; preloading this face competed with the LCP image.
+  preload: false,
 });
 
 export function generateStaticParams() {

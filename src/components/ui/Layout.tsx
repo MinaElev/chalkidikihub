@@ -34,7 +34,7 @@ export function HeroImage({ src, alt }: { src?: string | null; alt: string }) {
   if (!src) return null;
   return (
     <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl bg-sand-100 sm:aspect-[21/9]">
-      <Image src={src} alt={alt} fill priority sizes="(min-width: 1280px) 1232px, 100vw" className="object-cover" />
+      <Image src={src} alt={alt} fill priority fetchPriority="high" sizes="(min-width: 1280px) 1232px, 100vw" className="object-cover" />
     </div>
   );
 }

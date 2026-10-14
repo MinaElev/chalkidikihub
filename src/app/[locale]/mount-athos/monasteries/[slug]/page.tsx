@@ -8,6 +8,7 @@ import { MONASTERIES, getMonasteryBySlug, type Monastery } from '@/content/edito
 import { tr } from '@/content/editorial/athos';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
 import { withRewrite } from '@/content/rewrites';
+import { LazyIframe } from '@/components/ui/LazyIframe';
 import { localeUrl, finalizeTitle } from '@/lib/seo/compat';
 import Image from 'next/image';
 import { FaqSection } from '@/components/ui/FaqSection';
@@ -160,10 +161,10 @@ export default async function MonasteryDetailPage({ params }: Props) {
       {/* Map */}
       {m.lat && m.lng && (
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden mb-8">
-          <iframe
+          <LazyIframe
+            title={name}
             src={`https://www.openstreetmap.org/export/embed.html?bbox=${m.lng - 0.02},${m.lat - 0.015},${m.lng + 0.02},${m.lat + 0.015}&layer=mapnik&marker=${m.lat},${m.lng}`}
-            className="w-full h-56 border-0"
-            loading="lazy"
+            className="h-56 w-full bg-gray-100"
           />
         </div>
       )}

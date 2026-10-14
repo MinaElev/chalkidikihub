@@ -12,7 +12,7 @@ export function Gallery({ photos, label }: { photos: Photo[]; label: string }) {
   return (
     <section aria-label={label} className="space-y-3">
       <div className="relative aspect-[16/10] overflow-hidden rounded-3xl bg-sand-100 sm:aspect-[21/9]">
-        <Image src={cover.url} alt={cover.alt} fill priority sizes="(min-width: 1280px) 1232px, 100vw" className="object-cover" />
+        <Image src={cover.url} alt={cover.alt} fill priority fetchPriority="high" sizes="(min-width: 1280px) 1232px, 100vw" className="object-cover" />
       </div>
       {rest.length > 0 && (
         <ul className="scrollbar-none flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1">
