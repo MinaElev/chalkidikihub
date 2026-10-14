@@ -343,7 +343,10 @@
     "articlesTitle": "Neue Artikel",
     "ownersTitle": "Sie vermieten auf Chalkidiki?",
     "ownersText": "Tragen Sie Ihre Unterkunft ein und erhalten Sie Anfragen direkt von Gästen – ohne Provision pro Buchung.",
-    "ownersCta": "Mehr erfahren"
+    "ownersCta": "Mehr erfahren",
+    "heroEyebrow": "Unabhängiger Reiseführer",
+    "finderTitle": "Finden Sie Ihren Strand",
+    "finderLead": "Wählen Sie eine Halbinsel und was Ihnen wichtig ist: Sand, flaches Wasser, Blaue Flagge."
   },
   "guides": {
     "hubTitle": "Reiseführer für Chalkidiki",
@@ -401,5 +404,13 @@
     "source": "Datenquelle: Open Charge Map",
     "none": "Die Ladestationen konnten gerade nicht geladen werden.",
     "near": "bei {place}"
+  },
+  "finder": {
+    "all": "Ganz Chalkidiki",
+    "count": "{count, plural, =0 {Keine Strände} one {# Strand} other {# Strände}}",
+    "none": "Kein Strand erfüllt alle diese Kriterien. Entfernen Sie einen Filter.",
+    "viewAll": "Alle Strände",
+    "prev": "Zurück",
+    "next": "Weiter"
   }
 }

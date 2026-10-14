@@ -23,6 +23,17 @@
 
   --color-pine-600: #2f6b4f;
 
+  /* Sunset accent: warm counterpoint to the sea palette (badges, highlights, CTAs on dark). */
+  --color-sun-50: #fff6ed;
+  --color-sun-100: #ffe9d1;
+  --color-sun-300: #ffb57a;
+  --color-sun-400: #ff9450;
+  --color-sun-500: #f6722b;
+  /* 600+ carry white text (4.7:1 and up); 400/500 are for decoration only. */
+  --color-sun-600: #c84a12;
+  --color-sun-700: #9a3412;
+  --color-sun-900: #6b2a10;
+
   /* v3 class names (primary-*) used by ported pages map onto the v4 sea palette. */
   --color-primary-50: var(--color-sea-50);
   --color-primary-100: var(--color-sea-100);
@@ -100,6 +111,44 @@ body {
 }
 .scrollbar-none::-webkit-scrollbar {
   display: none;
+}
+
+/* ── Motion ──────────────────────────────────────────────────────────
+   CSS only, so it costs no JavaScript. Everything below is switched off
+   by the prefers-reduced-motion block at the end of this file. */
+@keyframes kenburns {
+  from { transform: scale(1.02) translate3d(0, 0, 0); }
+  to { transform: scale(1.12) translate3d(-1.5%, -1%, 0); }
+}
+.kenburns {
+  animation: kenburns 22s ease-out both;
+  will-change: transform;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+.rise {
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.rise-2 { animation-delay: 0.12s; }
+.rise-3 { animation-delay: 0.24s; }
+.rise-4 { animation-delay: 0.36s; }
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+.nudge {
+  animation: nudge 1.8s ease-in-out infinite;
+}
+/* Sections fade up as they scroll into view (Chromium, Safari 26+); other
+   browsers simply show them. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

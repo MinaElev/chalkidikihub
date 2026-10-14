@@ -343,7 +343,10 @@
     "articlesTitle": "New articles",
     "ownersTitle": "Own a holiday rental in Halkidiki?",
     "ownersText": "List it and receive requests directly from visitors, with no commission per booking.",
-    "ownersCta": "Find out more"
+    "ownersCta": "Find out more",
+    "heroEyebrow": "Independent travel guide",
+    "finderTitle": "Find your beach",
+    "finderLead": "Pick a peninsula and what matters to you: sand, shallow water, a Blue Flag."
   },
   "guides": {
     "hubTitle": "Halkidiki travel guides",
@@ -401,5 +404,13 @@
     "source": "Data source: Open Charge Map",
     "none": "We couldn't load the stations right now.",
     "near": "near {place}"
+  },
+  "finder": {
+    "all": "All of Halkidiki",
+    "count": "{count, plural, =0 {No beaches} one {# beach} other {# beaches}}",
+    "none": "No beach ticks all of these boxes. Try removing a filter.",
+    "viewAll": "All beaches",
+    "prev": "Previous",
+    "next": "Next"
   }
 }

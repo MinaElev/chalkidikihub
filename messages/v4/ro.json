@@ -343,7 +343,10 @@
     "articlesTitle": "Articole noi",
     "ownersTitle": "Ai o proprietate de închiriat în Halkidiki?",
     "ownersText": "Adaug-o și primește cereri direct de la turiști, fără comision pe rezervare.",
-    "ownersCta": "Află mai multe"
+    "ownersCta": "Află mai multe",
+    "heroEyebrow": "Ghid de călătorie independent",
+    "finderTitle": "Găsiți-vă plaja",
+    "finderLead": "Alegeți o peninsulă și ce contează pentru voi: nisip, apă puțin adâncă, Steag Albastru."
   },
   "guides": {
     "hubTitle": "Ghiduri pentru Halkidiki",
@@ -401,5 +404,13 @@
     "source": "Sursa datelor: Open Charge Map",
     "none": "Nu am putut încărca stațiile acum.",
     "near": "lângă {place}"
+  },
+  "finder": {
+    "all": "Tot Halkidiki",
+    "count": "{count, plural, =0 {Nicio plajă} one {# plajă} few {# plaje} other {# de plaje}}",
+    "none": "Nicio plajă nu le are pe toate acestea. Renunțați la un filtru.",
+    "viewAll": "Toate plajele",
+    "prev": "Înapoi",
+    "next": "Înainte"
   }
 }

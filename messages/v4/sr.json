@@ -343,7 +343,10 @@
     "articlesTitle": "Novi članci",
     "ownersTitle": "Imate smeštaj na Halkidikiju?",
     "ownersText": "Oglasite ga i primajte upite direktno od gostiju, bez provizije po rezervaciji.",
-    "ownersCta": "Saznajte više"
+    "ownersCta": "Saznajte više",
+    "heroEyebrow": "Nezavisni turistički vodič",
+    "finderTitle": "Pronađite svoju plažu",
+    "finderLead": "Izaberite poluostrvo i ono što vam je važno: pesak, plitka voda, Plava zastava."
   },
   "guides": {
     "hubTitle": "Vodiči za Halkidiki",
@@ -401,5 +404,13 @@
     "source": "Izvor podataka: Open Charge Map",
     "none": "Trenutno nismo uspeli da učitamo stanice.",
     "near": "kod mesta {place}"
+  },
+  "finder": {
+    "all": "Ceo Halkidiki",
+    "count": "{count, plural, =0 {Nema plaža} one {# plaža} few {# plaže} other {# plaža}}",
+    "none": "Nijedna plaža nema sve ovo zajedno. Uklonite neki filter.",
+    "viewAll": "Sve plaže",
+    "prev": "Prethodne",
+    "next": "Sledeće"
   }
 }
