@@ -1,21 +1,19 @@
 // Guard: Stripe signature verification (stripe-signature header).
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient as createServiceClient } from '@supabase/supabase-js';
-import { verifyStripeSignature } from '@/lib/pms/stripe';
+import { verifyStripeSignature } from '@/lib/stripe';
 import { planExpiryFrom } from '@/lib/billing';
 import { internalHeaders } from '@/lib/route-guards';
 
 /**
- * Stripe webhook endpoint. Handles `checkout.session.completed` for two
- * distinct payment kinds, discriminated by `metadata.kind`:
- *   • listing_billing → a NEW listing's annual package was paid. Flip the
- *     listing from pending_payment → pending (enters admin review), mark the
- *     plan active, and log the payment.
- *   • (default) PMS booking deposit → flip pms_bookings.payment_status to
- *     deposit_paid and record the paid amount.
+ * Stripe webhook endpoint. Handles `checkout.session.completed` for listing
+ * billing (`metadata.kind = listing_billing`): a listing's annual package was
+ * paid — flip it from pending_payment → pending (admin review), mark the plan
+ * active and log the payment. (The PMS booking-deposit branch was removed with
+ * the PMS, 2026-10.)
  *
  * Signature verification is mandatory — unsigned / malformed webhooks are
- * rejected with 400. See lib/pms/stripe.ts for the HMAC impl.
+ * rejected with 400. See lib/stripe.ts for the HMAC impl.
  */
 export async function POST(req: NextRequest) {
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -141,20 +139,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ received: true });
     }
 
-    // ── PMS booking deposit (default) ──
-    const bookingId = session.metadata?.booking_id || session.client_reference_id;
-    if (bookingId) {
-      const paidAmount = session.amount_total ? session.amount_total / 100 : null;
-      await supabase
-        .from('pms_bookings')
-        .update({
-          payment_status: 'deposit_paid',
-          stripe_paid_amount: paidAmount,
-          stripe_payment_method: session.payment_method_types?.[0] || 'card',
-          stripe_checkout_session_id: session.id,
-        })
-        .eq('id', bookingId);
-    }
   }
 
   // ── Money flowing back: refund or dispute/chargeback ──

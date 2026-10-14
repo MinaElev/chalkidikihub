@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient as createServiceClient } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
-import { stripeFetch } from '@/lib/pms/stripe';
+import { stripeFetch } from '@/lib/stripe';
 import { internalHeaders } from '@/lib/route-guards';
 
 /**

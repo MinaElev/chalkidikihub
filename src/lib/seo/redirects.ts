@@ -240,6 +240,11 @@ export function buildRedirects(): Rule[] {
   // canonical → /listings/{slug}); its area guide folds into the QR guest guide.
   rules.push(...both('/stay/:slug/guide', '/guest/:slug'));
 
+  // The PMS was removed (2026-10); owners keep only the opt-in availability
+  // calendar, and guests land on the listing instead of the old booking flow.
+  rules.push(...both('/dashboard/pms/:path*', '/dashboard/calendars'));
+  rules.push(...both('/book/:slug/:step(success|confirmed|cancelled)', '/listings/:slug'));
+
   // /in/{location}/{category} (duplicate of /places/{village}/{category}) is
   // answered by app/[locale]/in/[location]/[category]/route.ts through
   // resolveInLocation() — ~540 static rules would crowd Vercel's route table.
