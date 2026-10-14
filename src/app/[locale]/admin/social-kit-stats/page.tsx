@@ -19,7 +19,7 @@ export default async function SocialKitStatsPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/auth/login');
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (profile?.role !== 'admin') redirect('/dashboard');
+  if (profile?.role !== 'superadmin') redirect('/dashboard');
 
   // Pull every download event (will switch to aggregation once volume grows).
   const { data: downloads = [] } = await supabase

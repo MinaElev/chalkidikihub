@@ -123,3 +123,22 @@ describe('beach slug renames', () => {
     expect(rules.find((r) => r.source === '/beaches/mykoniatika-nudist-beach-kassandra')?.destination).toBe('/beaches/mykoniatika-nudist-beach-mainland');
   });
 });
+
+describe('content overlays', () => {
+  it('lets the database win and fills only blanks', async () => {
+    const { withRewrite, REWRITES } = await import('@/content/rewrites');
+    const slug = Object.keys(REWRITES.villages)[0];
+    const edited = withRewrite('villages', { slug, description_el: 'Κείμενο από το admin' });
+    expect(edited.description_el).toBe('Κείμενο από το admin');
+    const blank = withRewrite('villages', { slug, description_el: '' });
+    expect(blank.description_el).toBe(REWRITES.villages[slug].el);
+  });
+});
+
+describe('PMS removal redirects', () => {
+  const rules = buildRedirects();
+  it('sends old PMS and booking-flow URLs somewhere useful', () => {
+    expect(rules).toContainEqual({ source: '/dashboard/pms/:path*', destination: '/dashboard/calendars', permanent: true });
+    expect(rules.some((r) => r.source === '/book/:slug/:step(success|confirmed|cancelled)' && r.destination === '/listings/:slug')).toBe(true);
+  });
+});

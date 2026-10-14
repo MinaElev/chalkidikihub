@@ -159,20 +159,30 @@ export const ROW_FIXES: Record<string, Record<string, Record<string, string | nu
   ),
 };
 
+/**
+ * The overlays above were written to the database (scripts/apply-rewrites.mjs,
+ * scripts/apply-row-fixes.mjs), so the database is now the source of truth:
+ * an overlay value is used only where the row has nothing, and an edit made
+ * later in the admin or owner dashboard always shows.
+ */
+const isBlank = (v: unknown) => v === null || v === undefined || (typeof v === 'string' && !v.trim());
+const fillBlanks = (row: Record<string, unknown>, patch: Record<string, unknown>) =>
+  Object.fromEntries(Object.entries(patch).filter(([k]) => isBlank(row[k])));
+
 export function withRowFix<T extends Record<string, unknown>>(table: string, row: T): T {
   const slug = String(row.slug);
   const fix = ROW_FIXES[table]?.[slug];
   const renamed = publicSlug(table, slug);
   if (!fix && renamed === slug) return row;
-  return { ...row, ...fix, slug: renamed };
+  return { ...row, ...(fix ? fillBlanks(row, fix) : {}), slug: renamed };
 }
 
-/** Returns the row with rewritten description_* fields (and row fixes), if any exist. */
+/** Returns the row with its public slug, falling back to the rewritten description_* text where the row has none. */
 export function withRewrite<T extends Record<string, unknown>>(table: string, row: T, field = 'description'): T {
   const original = String(row.slug);
   row = withRowFix(table, row);
   const rw = REWRITES[table]?.[original];
   if (!rw) return row;
   const patch = Object.fromEntries(Object.entries(rw).filter(([, v]) => v).map(([l, v]) => [`${field}_${l}`, v]));
-  return { ...row, ...patch };
+  return { ...row, ...fillBlanks(row, patch) };
 }

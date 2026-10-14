@@ -2,6 +2,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getListingBySlug, getListingsFiltered, toListingCard } from '@/lib/data';
 
+// Guest-only details (WiFi passwords, key/door instructions) belong to the QR
+// guest guide, never to the public listing feed.
+const GUEST_ONLY = ['wifi_info', 'check_in_info'] as const;
+const withoutGuestOnly = <T extends object>(l: T) => {
+  const copy = { ...l } as Record<string, unknown>;
+  for (const k of GUEST_ONLY) delete copy[k];
+  return copy as T;
+};
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get('slug');
@@ -18,7 +27,7 @@ export async function GET(request: NextRequest) {
   const limitParam = searchParams.get('limit');
   const limit = limitParam ? Number(limitParam) : null;
 
-  let listings = await getListingsFiltered(area, limit);
+  let listings = (await getListingsFiltered(area, limit)).map(withoutGuestOnly);
   // ?fields=card → card-grid consumers skip the long multilingual fields.
   if (searchParams.get('fields') === 'card') listings = listings.map(toListingCard);
   return NextResponse.json(listings, {

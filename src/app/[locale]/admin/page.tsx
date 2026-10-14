@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import {
   Users, List, FileText, Waves, UtensilsCrossed, Landmark,
   ClipboardList, MessageSquare, QrCode, Building, Star, ChevronRight,
-  CheckCircle, Globe, Sparkles, ArrowUpRight, TrendingUp, Plus,
+  CheckCircle, Globe, ArrowUpRight, TrendingUp, Plus,
   Activity, Link2, Search, Languages, ShieldAlert, Circle,
 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
@@ -224,8 +224,8 @@ export default function AdminDashboard() {
         {/* Primary action group */}
         <div className="flex flex-wrap gap-2">
           <Link href="/admin/blog" className="group inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-br from-slate-900 to-slate-800 text-white text-sm font-medium rounded-xl shadow-sm hover:shadow-md transition-all">
-            <Sparkles className="w-4 h-4 text-emerald-300" />
-            AI Article
+            <FileText className="w-4 h-4 text-emerald-300" />
+            Blog
             <ArrowUpRight className="w-3.5 h-3.5 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
           <Link href="/admin/brand-sites" className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-700 hover:border-emerald-300 hover:text-emerald-700 text-sm font-medium rounded-xl transition-all">
