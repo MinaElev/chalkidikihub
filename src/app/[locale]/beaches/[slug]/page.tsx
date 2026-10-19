@@ -29,6 +29,7 @@ import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { CrowdIndicator } from '@/components/v3/CrowdIndicator';
 import { ClientIntl } from '@/components/ClientIntl';
+import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 
 export const revalidate = 86400;
 
@@ -195,6 +196,7 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
       <div className="mt-8">
         <ShareButtons title={name} />
       </div>
+      <RecentlyViewed type="beach" slug={slug} title={name} image={beach.image_url as string | null} />
       <Faq title={common('faqTitle')} items={faqs} />
 
       {otherBeaches.length > 0 && (

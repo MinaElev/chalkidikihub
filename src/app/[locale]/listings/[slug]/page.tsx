@@ -28,6 +28,7 @@ import { AvailabilityCalendar } from '@/components/stay/AvailabilityCalendar';
 import { InquiryForm, type InquiryLabels } from '@/components/stay/InquiryForm';
 import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
+import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 
 export const revalidate = 86400;
 
@@ -251,6 +252,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
       <div className="mt-8">
         <ShareButtons title={name} />
       </div>
+      <RecentlyViewed type="listing" slug={slug} title={name} image={pics[0]?.url} />
       <Faq title={t('faqTitle')} items={faqs} />
 
       {beaches.length > 0 && (

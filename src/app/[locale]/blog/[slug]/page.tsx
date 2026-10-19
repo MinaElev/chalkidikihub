@@ -18,6 +18,7 @@ import { HeroImage, Narrow, Prose, Section, Container } from '@/components/ui/La
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { CommentSection } from '@/components/v3/CommentSection';
 import { ShareButtons } from '@/components/v3/ShareButtons';
+import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 
 export const revalidate = 86400;
 
@@ -159,6 +160,7 @@ export default async function ArticlePage({ params }: PageProps<'/[locale]/blog/
         </div>
 
         <CommentSection articleId={String(a.id)} />
+        <RecentlyViewed type="blog" slug={slug} title={pick(a, 'title', locale)} image={a.image_url as string | null} />
       </Narrow>
 
       <Container>

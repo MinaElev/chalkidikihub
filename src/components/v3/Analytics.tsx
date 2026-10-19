@@ -60,7 +60,9 @@ export function Analytics() {
             `gtag('config','${GA_ID}');`,
         }}
       />
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+      {/* After the page has loaded: the page view is still recorded, but the 150 KB
+          library no longer competes with the hero image. */}
+      <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="lazyOnload" />
     </>
   );
 }

@@ -23,6 +23,7 @@ import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
 import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
+import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 
 export const revalidate = 86400;
 
@@ -180,6 +181,7 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
       <div className="mt-8">
         <ShareButtons title={name} />
       </div>
+      <RecentlyViewed type="restaurant" slug={slug} title={name} image={r.image_url as string | null} />
 
       <Faq title={common('faqTitle')} items={faqs} />
 

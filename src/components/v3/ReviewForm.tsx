@@ -79,7 +79,7 @@ export function ReviewForm({ type, itemId, itemName }: Props) {
 
   return (
     <div id="review-form" className="mt-6 scroll-mt-24">
-      <h3 className="text-lg font-semibold text-gray-900 mb-3">{t(T.heading)}</h3>
+      <h2 className="text-lg font-bold text-gray-900 mb-3">{t(T.heading)}</h2>
       <form onSubmit={handleSubmit} className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
         {/* Honeypot — bots fill this; humans never see it */}
         <div className="absolute opacity-0 -z-10" aria-hidden="true" style={{ position: 'absolute', left: '-9999px' }}>
@@ -123,7 +123,7 @@ export function ReviewForm({ type, itemId, itemName }: Props) {
         </div>
 
         <div className="flex items-center justify-between">
-          <p className="text-xs text-gray-400">{itemName}</p>
+          <p className="text-xs text-gray-500">{itemName}</p>
           <button type="submit" disabled={sending || rating === 0 || !name.trim()}
             className="flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm font-medium disabled:opacity-50">
             {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Star className="w-4 h-4" />}

@@ -63,7 +63,7 @@ export function WeatherBadge({ latitude, longitude, variant = 'compact' }: Weath
           <div className="text-xl font-bold text-gray-900">{weather.temp}°C</div>
           <div className="text-xs text-gray-500 capitalize">{weather.description}</div>
         </div>
-        <div className="ml-auto text-right text-xs text-gray-400">
+        <div className="ml-auto text-right text-xs text-gray-500">
           <div>{w.feels} {weather.feels_like}°C</div>
           <div>{w.wind} {weather.wind_speed} m/s</div>
           <div>{w.humidity} {weather.humidity}%</div>

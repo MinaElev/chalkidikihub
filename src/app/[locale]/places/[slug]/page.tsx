@@ -2,8 +2,11 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
-import { getVillage, getVillages, type VillageCard } from '@/lib/db/content';
-import { hasCoords } from '@/lib/geo';
+import { getListings, getRestaurants, getVillage, getVillages, type VillageCard } from '@/lib/db/content';
+import { hasCoords, nearest } from '@/lib/geo';
+import { cuisineStats, priceStats } from '@/lib/content/place-stats';
+import { VillagePriceBenchmark } from '@/components/v3/VillagePriceBenchmark';
+import { VillageCuisineRatio } from '@/components/v3/VillageCuisineRatio';
 import { localize } from '@/lib/i18n/localize';
 import {
   nearActivities, nearBeaches, nearListings, nearRestaurants, nearVillages, displayName, ratingProps,
@@ -70,6 +73,14 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
   const ip = inPlace(slug, locale);
   const body = localize(village, 'description', locale);
   const geo = hasCoords(village);
+
+  // v3's price and cuisine insights, from the cached lists (no extra queries).
+  const [allListings, allRestaurants, allVillages] = await Promise.all([getListings(), getRestaurants(), getVillages()]);
+  const homes = allVillages.filter((v) => v.slug !== 'pyrgadikia-mainland');
+  const homeOf = (row: { latitude: number | null; longitude: number | null }) =>
+    hasCoords(row) ? nearest(row as { latitude: number; longitude: number }, homes, 1, 6)[0]?.item.slug : undefined;
+  const prices = priceStats(allListings.filter((l) => !l.is_closed && homeOf(l) === slug), allListings.filter((l) => !l.is_closed));
+  const cuisine = cuisineStats(allRestaurants.filter((r) => homeOf(r) === slug), allRestaurants.filter((r) => r.area === village.area));
 
   const [restaurants, activities, stays, villages] = geo
     ? await Promise.all([
@@ -143,6 +154,13 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
             ))}
           </CardGrid>
         </Section>
+      )}
+
+      {(prices.village || cuisine.total > 0) && (
+        <div className="mt-10 grid gap-4 lg:grid-cols-2">
+          <VillagePriceBenchmark stats={prices} villageName={locale === 'el' ? ip : name} locale={locale} />
+          <VillageCuisineRatio stats={cuisine} locale={locale} />
+        </div>
       )}
 
       {stays.length > 0 && (

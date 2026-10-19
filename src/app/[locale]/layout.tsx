@@ -14,6 +14,8 @@ import { CookieConsent } from '@/components/v3/CookieConsent';
 import { Analytics as GoogleAnalytics } from '@/components/v3/Analytics';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { organizationLd, websiteLd } from '@/lib/seo/jsonld';
+import { BackToTop } from '@/components/v3/BackToTop';
+import { LangSuggestBanner } from '@/components/v3/LangSuggestBanner';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -57,6 +59,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
           </main>
           <Footer locale={locale as Locale} />
           <AvailabilityFab label={avail('floating.label')} tooltip={avail('floating.tooltip')} />
+          <BackToTop />
+          <LangSuggestBanner />
           <CookieConsent />
           <GoogleAnalytics />
         </NextIntlClientProvider>
