@@ -22,6 +22,8 @@ import { Container, FactList, HeroImage, PageIntro, Prose, Section } from '@/com
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
 import { Reviews } from '@/components/ui/Reviews';
+import { ReviewForm } from '@/components/v3/ReviewForm';
+import { ShareButtons } from '@/components/v3/ShareButtons';
 
 export const revalidate = 86400;
 
@@ -144,13 +146,20 @@ export default async function ActivityPage({ params }: PageProps<'/[locale]/acti
       {reviews.length > 0 && (
         <Reviews locale={locale} title={common('reviews', { count: rating.count })} empty="" reviews={reviews} rating={rating} />
       )}
+      <div className="max-w-2xl">
+        <ReviewForm type="activity" itemId={String(a.id)} itemName={name} />
+      </div>
+      <div className="mt-8">
+        <ShareButtons title={name} />
+      </div>
       <Faq title={common('faqTitle')} items={faqs} />
 
       {otherActivities.length > 0 && (
         <Section id="nearby-activities" title={t('nearbyActivities')}>
           <CardGrid>
             {otherActivities.map(({ item, km }) => (
-              <Card key={item.slug} href={`/activities/${item.slug}`} title={displayName(item, locale, 'activity')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'activity')} />
+              <Card key={item.slug} href={`/activities/${item.slug}`}
+                favorite={{ type: 'activity', slug: item.slug }} title={displayName(item, locale, 'activity')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'activity')} />
             ))}
           </CardGrid>
         </Section>
@@ -159,7 +168,8 @@ export default async function ActivityPage({ params }: PageProps<'/[locale]/acti
         <Section id="nearby-beaches" title={t('nearbyBeaches')}>
           <CardGrid>
             {beaches.map(({ item, km }) => (
-              <Card key={item.slug} href={`/beaches/${item.slug}`} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
+              <Card key={item.slug} href={`/beaches/${item.slug}`}
+                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
             ))}
           </CardGrid>
         </Section>

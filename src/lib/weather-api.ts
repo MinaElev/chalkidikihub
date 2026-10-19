@@ -12,14 +12,16 @@ export interface WeatherData {
   is_rainy: boolean;
 }
 
-export async function getWeather(lat: number, lng: number): Promise<WeatherData | null> {
+const OWM_LANGS = new Set(['el', 'en', 'de', 'ro', 'bg', 'sr', 'ru']);
+
+export async function getWeather(lat: number, lng: number, lang = 'en'): Promise<WeatherData | null> {
   if (!OWM_API_KEY) return null;
 
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);
 
-    const url = `${OWM_BASE}?lat=${lat}&lon=${lng}&appid=${OWM_API_KEY}&units=metric&lang=en`;
+    const url = `${OWM_BASE}?lat=${lat}&lon=${lng}&appid=${OWM_API_KEY}&units=metric&lang=${OWM_LANGS.has(lang) ? lang : 'en'}`;
     const res = await fetch(url, { signal: controller.signal });
     clearTimeout(timeout);
 

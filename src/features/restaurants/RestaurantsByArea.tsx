@@ -29,6 +29,7 @@ export async function RestaurantsByArea({ locale, items }: { locale: Locale; ite
                 <Card
                   key={r.slug}
                   href={`/restaurants/${r.slug}`}
+                favorite={{ type: 'restaurant', slug: r.slug }}
                   title={displayName(r, locale, 'restaurant')}
                   eyebrow={villages.get(r.slug)}
                   image={r.image_url}

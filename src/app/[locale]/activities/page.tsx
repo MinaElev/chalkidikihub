@@ -56,6 +56,7 @@ export default async function ActivitiesPage({ params }: PageProps<'/[locale]/ac
                 <Card
                   key={a.slug}
                   href={`/activities/${a.slug}`}
+                favorite={{ type: 'activity', slug: a.slug }}
                   title={displayName(a, locale, 'activity')}
                   eyebrow={villages.get(a.slug)}
                   image={a.image_url}

@@ -129,7 +129,8 @@ export default async function AreaPage({ params }: PageProps<'/[locale]/areas/[s
         <Section id="beaches" title={beach('inArea', { area: AREA_LOCATIVE[area][locale] })} intro={BEACH_AREA_INTRO[area]?.[locale]} action={more('/beaches')}>
           <CardGrid>
             {topBeaches.map((b) => (
-              <Card key={b.slug} href={`/beaches/${b.slug}`} title={displayName(b, locale, 'beach')} eyebrow={beachV.get(b.slug)} image={b.image_url} imageAlt={b.image_alt} {...ratingProps(b, 'beach')} />
+              <Card key={b.slug} href={`/beaches/${b.slug}`}
+                favorite={{ type: 'beach', slug: b.slug }} title={displayName(b, locale, 'beach')} eyebrow={beachV.get(b.slug)} image={b.image_url} imageAlt={b.image_alt} {...ratingProps(b, 'beach')} />
             ))}
           </CardGrid>
         </Section>
@@ -142,6 +143,7 @@ export default async function AreaPage({ params }: PageProps<'/[locale]/areas/[s
               <Card
                 key={l.slug}
                 href={`/listings/${l.slug}`}
+                favorite={{ type: 'listing', slug: l.slug }}
                 title={displayName(l, locale, 'listing')}
                 eyebrow={stayV.get(l.slug)}
                 image={l.cover_url}
@@ -158,7 +160,8 @@ export default async function AreaPage({ params }: PageProps<'/[locale]/areas/[s
         <Section id="food" title={food('inArea', { area: AREA_LOCATIVE[area][locale] })} intro={RESTAURANT_AREA_INTRO[area]?.[locale]} action={more('/restaurants')}>
           <CardGrid>
             {topFood.map((r) => (
-              <Card key={r.slug} href={`/restaurants/${r.slug}`} title={displayName(r, locale, 'restaurant')} eyebrow={foodV.get(r.slug)} image={r.image_url} imageAlt={r.image_alt} {...ratingProps(r, 'restaurant')} />
+              <Card key={r.slug} href={`/restaurants/${r.slug}`}
+                favorite={{ type: 'restaurant', slug: r.slug }} title={displayName(r, locale, 'restaurant')} eyebrow={foodV.get(r.slug)} image={r.image_url} imageAlt={r.image_alt} {...ratingProps(r, 'restaurant')} />
             ))}
           </CardGrid>
         </Section>
@@ -168,7 +171,8 @@ export default async function AreaPage({ params }: PageProps<'/[locale]/areas/[s
         <Section id="activities" title={activity('hubTitle')} action={more('/activities')}>
           <CardGrid>
             {todo.map((a) => (
-              <Card key={a.slug} href={`/activities/${a.slug}`} title={displayName(a, locale, 'activity')} image={a.image_url} imageAlt={a.image_alt} {...ratingProps(a, 'activity')} />
+              <Card key={a.slug} href={`/activities/${a.slug}`}
+                favorite={{ type: 'activity', slug: a.slug }} title={displayName(a, locale, 'activity')} image={a.image_url} imageAlt={a.image_alt} {...ratingProps(a, 'activity')} />
             ))}
           </CardGrid>
         </Section>

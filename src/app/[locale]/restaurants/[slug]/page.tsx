@@ -21,6 +21,8 @@ import { Faq } from '@/components/ui/Faq';
 import { Container, FactList, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
+import { ReviewForm } from '@/components/v3/ReviewForm';
+import { ShareButtons } from '@/components/v3/ShareButtons';
 
 export const revalidate = 86400;
 
@@ -172,6 +174,12 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
           {rating.rating && <p className="text-xs text-slate-500">{t('googleNote')}</p>}
         </aside>
       </div>
+      <div className="max-w-2xl">
+        <ReviewForm type="restaurant" itemId={String(r.id)} itemName={name} />
+      </div>
+      <div className="mt-8">
+        <ShareButtons title={name} />
+      </div>
 
       <Faq title={common('faqTitle')} items={faqs} />
 
@@ -179,7 +187,8 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
         <Section id="nearby-beaches" title={t('nearbyBeaches')}>
           <CardGrid>
             {beaches.map(({ item, km }) => (
-              <Card key={item.slug} href={`/beaches/${item.slug}`} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
+              <Card key={item.slug} href={`/beaches/${item.slug}`}
+                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
             ))}
           </CardGrid>
         </Section>
@@ -188,7 +197,8 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
         <Section id="nearby-food" title={t('nearbyFood')}>
           <CardGrid>
             {otherFood.map(({ item, km }) => (
-              <Card key={item.slug} href={`/restaurants/${item.slug}`} title={displayName(item, locale, 'restaurant')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'restaurant')} />
+              <Card key={item.slug} href={`/restaurants/${item.slug}`}
+                favorite={{ type: 'restaurant', slug: item.slug }} title={displayName(item, locale, 'restaurant')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'restaurant')} />
             ))}
           </CardGrid>
         </Section>

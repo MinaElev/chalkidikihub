@@ -180,6 +180,16 @@ body {
 .fab-in {
   animation: fab-in 0.4s ease-out 2.5s both;
 }
+/* Only one thing may own the bottom-right corner: the cookie bar and the
+   deals popup set these attributes while open, and the button steps aside. */
+html[data-consent-open] .availability-fab,
+html[data-deal-open] .availability-fab {
+  /* visibility, not opacity: the fade-in animation holds opacity at 1. */
+  visibility: hidden;
+}
+html[data-consent-open] .lmd-popup {
+  display: none;
+}
 /* Sections fade up as they scroll into view (Chromium, Safari 26+); other
    browsers simply show them. */
 @supports (animation-timeline: view()) {

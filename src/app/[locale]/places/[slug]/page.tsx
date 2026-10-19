@@ -19,6 +19,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
+import { WeatherBadge } from '@/components/v3/WeatherBadge';
 
 export const revalidate = 86400;
 
@@ -93,7 +94,13 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
           />
         }
         title={`${name}, ${HALKIDIKI[locale]}`}
-      />
+      >
+        {village.latitude && village.longitude ? (
+          <div className="mt-3">
+            <WeatherBadge latitude={Number(village.latitude)} longitude={Number(village.longitude)} />
+          </div>
+        ) : null}
+      </PageIntro>
       <HeroImage src={image} alt={(village.image_alt as string) || name} />
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
@@ -126,6 +133,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
               <Card
                 key={item.slug}
                 href={`/beaches/${item.slug}`}
+                favorite={{ type: 'beach', slug: item.slug }}
                 title={displayName(item, locale, 'beach')}
                 image={item.image_url}
                 imageAlt={item.image_alt}
@@ -144,6 +152,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
               <Card
                 key={item.slug}
                 href={`/listings/${item.slug}`}
+                favorite={{ type: 'listing', slug: item.slug }}
                 title={displayName(item, locale, 'listing')}
                 image={item.cover_url}
                 distance={formatDistance(km, locale)}
@@ -166,6 +175,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
               <Card
                 key={item.slug}
                 href={`/restaurants/${item.slug}`}
+                favorite={{ type: 'restaurant', slug: item.slug }}
                 title={displayName(item, locale, 'restaurant')}
                 image={item.image_url}
                 imageAlt={item.image_alt}
@@ -188,6 +198,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
               <Card
                 key={item.slug}
                 href={`/activities/${item.slug}`}
+                favorite={{ type: 'activity', slug: item.slug }}
                 title={displayName(item, locale, 'activity')}
                 image={item.image_url}
                 imageAlt={item.image_alt}

@@ -25,6 +25,10 @@ import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
 import { Reviews } from '@/components/ui/Reviews';
 import { SeaTemperature } from '@/components/beach/SeaTemperature';
+import { ReviewForm } from '@/components/v3/ReviewForm';
+import { ShareButtons } from '@/components/v3/ShareButtons';
+import { CrowdIndicator } from '@/components/v3/CrowdIndicator';
+import { ClientIntl } from '@/components/ClientIntl';
 
 export const revalidate = 86400;
 
@@ -171,6 +175,10 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
               },
             ]}
           />
+          {/* v3: live crowd estimate and weather. */}
+          <ClientIntl namespaces={['crowd']}>
+            <CrowdIndicator beachSlug={slug} />
+          </ClientIntl>
           {geo && (
             <Suspense fallback={null}>
               <SeaTemperature locale={locale} lat={beach.latitude!} lng={beach.longitude!} />
@@ -181,13 +189,20 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
       </div>
 
       <Reviews locale={locale} title={t('reviewsHeading')} empty={t('noReviews')} reviews={reviews} rating={rating} />
+      <div className="max-w-2xl">
+        <ReviewForm type="beach" itemId={String(beach.id)} itemName={name} />
+      </div>
+      <div className="mt-8">
+        <ShareButtons title={name} />
+      </div>
       <Faq title={common('faqTitle')} items={faqs} />
 
       {otherBeaches.length > 0 && (
         <Section id="nearby-beaches" title={t('nearbyBeaches')}>
           <CardGrid cols={3}>
             {otherBeaches.map(({ item, km }) => (
-              <Card key={item.slug} href={`/beaches/${item.slug}`} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
+              <Card key={item.slug} href={`/beaches/${item.slug}`}
+                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
             ))}
           </CardGrid>
         </Section>
@@ -196,7 +211,8 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
         <Section id="nearby-food" title={t('nearbyFood')}>
           <CardGrid>
             {food.map(({ item, km }) => (
-              <Card key={item.slug} href={`/restaurants/${item.slug}`} title={displayName(item, locale, 'restaurant')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'restaurant')} />
+              <Card key={item.slug} href={`/restaurants/${item.slug}`}
+                favorite={{ type: 'restaurant', slug: item.slug }} title={displayName(item, locale, 'restaurant')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'restaurant')} />
             ))}
           </CardGrid>
         </Section>
@@ -205,7 +221,8 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
         <Section id="nearby-stays" title={t('nearbyStays')}>
           <CardGrid>
             {stays.map(({ item, km }) => (
-              <Card key={item.slug} href={`/listings/${item.slug}`} title={displayName(item, locale, 'listing')} image={item.cover_url} distance={formatDistance(km, locale)} {...ratingProps(item, 'listing')} />
+              <Card key={item.slug} href={`/listings/${item.slug}`}
+                favorite={{ type: 'listing', slug: item.slug }} title={displayName(item, locale, 'listing')} image={item.cover_url} distance={formatDistance(km, locale)} {...ratingProps(item, 'listing')} />
             ))}
           </CardGrid>
         </Section>

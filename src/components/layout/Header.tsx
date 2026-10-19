@@ -1,9 +1,13 @@
 import { getTranslations } from 'next-intl/server';
-import { Building, Menu, Search, X } from 'lucide-react';
+import { Building, Heart, Menu, Search, X } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { localeNames, locales, type Locale } from '@/i18n/config';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { BrandIcon } from '@/components/ui/BrandIcon';
+
+const FAVOURITES: Record<Locale, string> = {
+  el: 'Αγαπημένα', en: 'Favourites', de: 'Favoriten', ro: 'Favorite', bg: 'Любими', sr: 'Omiljeno', ru: 'Избранное',
+};
 
 export const PRIMARY_NAV = [
   { href: '/beaches', key: 'beaches' },
@@ -50,6 +54,9 @@ export async function Header({ locale }: { locale: Locale }) {
         </nav>
 
         <div className="ml-auto flex items-center gap-1">
+          <Link href="/favorites" className="flex size-10 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 hover:text-red-500" aria-label={FAVOURITES[locale]} title={FAVOURITES[locale]}>
+            <Heart className="size-5" aria-hidden />
+          </Link>
           <Link href="/search" className="flex size-10 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100" aria-label={t('search')}>
             <Search className="size-5" aria-hidden />
           </Link>

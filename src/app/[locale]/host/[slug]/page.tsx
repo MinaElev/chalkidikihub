@@ -234,7 +234,8 @@ export default async function HostPage({ params }: Props) {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {host.listings.map((listing) => (
-            <Card key={listing.id} href={`/listings/${listing.slug}`} title={listing.title[locale] || listing.title.el || listing.title.en} image={(listing.images?.find((i) => i.is_cover) ?? listing.images?.[0])?.image_url ?? null} />
+            <Card key={listing.id} href={`/listings/${listing.slug}`}
+                favorite={{ type: 'listing', slug: listing.slug }} title={listing.title[locale] || listing.title.el || listing.title.en} image={(listing.images?.find((i) => i.is_cover) ?? listing.images?.[0])?.image_url ?? null} />
           ))}
         </div>
       </div>

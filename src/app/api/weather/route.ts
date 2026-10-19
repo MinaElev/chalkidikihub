@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(null, { status: 400 });
   }
 
-  const weather = await getWeather(lat, lng);
+  const weather = await getWeather(lat, lng, searchParams.get('lang') || 'en');
   return NextResponse.json(weather, {
     headers: { 'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800' },
   });

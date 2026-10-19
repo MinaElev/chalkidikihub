@@ -76,6 +76,7 @@ export default async function BeachesPage({ params }: PageProps<'/[locale]/beach
                 <Card
                   key={b.slug}
                   href={`/beaches/${b.slug}`}
+                favorite={{ type: 'beach', slug: b.slug }}
                   title={displayName(b, locale, 'beach')}
                   eyebrow={villages.get(b.slug)}
                   image={b.image_url}

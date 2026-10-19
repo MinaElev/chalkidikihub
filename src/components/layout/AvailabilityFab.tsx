@@ -19,7 +19,7 @@ export function AvailabilityFab({ label, tooltip }: { label: string; tooltip: st
       href="/availability-request"
       aria-label={tooltip}
       title={tooltip}
-      className="fab-in group fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sea-600 to-sea-700 py-3 pl-3 pr-4 text-white shadow-xl shadow-sea-700/30 transition hover:from-sea-700 hover:to-sea-800 md:bottom-7 md:right-7"
+      className="availability-fab fab-in group fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sea-600 to-sea-700 py-3 pl-3 pr-4 text-white shadow-xl shadow-sea-700/30 transition hover:from-sea-700 hover:to-sea-800 md:bottom-7 md:right-7"
     >
       <Bell className="size-5" aria-hidden />
       <span className="hidden whitespace-nowrap text-sm font-semibold md:inline">{label}</span>

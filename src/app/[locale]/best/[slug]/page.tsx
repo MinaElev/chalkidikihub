@@ -84,6 +84,7 @@ export default async function BestPage({ params }: PageProps<'/[locale]/best/[sl
             <Card
               key={r.slug}
               href={`${BASE[sel.kind]}/${r.slug}`}
+              favorite={{ type: sel.kind, slug: r.slug }}
               title={displayName(r, locale, sel.kind)}
               eyebrow={villages.get(r.slug)}
               image={r.image_url as string}

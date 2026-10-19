@@ -16,6 +16,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { HeroImage, Narrow, Prose, Section, Container } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
+import { CommentSection } from '@/components/v3/CommentSection';
+import { ShareButtons } from '@/components/v3/ShareButtons';
 
 export const revalidate = 86400;
 
@@ -151,6 +153,12 @@ export default async function ArticlePage({ params }: PageProps<'/[locale]/blog/
             </Link>
           </div>
         </aside>
+
+        <div className="mt-8">
+          <ShareButtons title={pick(a, 'title', locale)} />
+        </div>
+
+        <CommentSection articleId={String(a.id)} />
       </Narrow>
 
       <Container>
@@ -158,7 +166,8 @@ export default async function ArticlePage({ params }: PageProps<'/[locale]/blog/
           <Section id="beaches" title={t('relatedBeaches')}>
             <CardGrid>
               {relatedBeaches.map((b) => (
-                <Card key={b.slug} href={`/beaches/${b.slug}`} title={displayName(b, locale, 'beach')} image={b.image_url} imageAlt={b.image_alt} {...ratingProps(b, 'beach')} />
+                <Card key={b.slug} href={`/beaches/${b.slug}`}
+                favorite={{ type: 'beach', slug: b.slug }} title={displayName(b, locale, 'beach')} image={b.image_url} imageAlt={b.image_alt} {...ratingProps(b, 'beach')} />
               ))}
             </CardGrid>
           </Section>

@@ -108,7 +108,8 @@ export default async function EventPage({ params }: PageProps<'/[locale]/events/
         <Section id="stays" title={t('nearbyStays')}>
           <CardGrid>
             {stays.map(({ item, km }) => (
-              <Card key={item.slug} href={`/listings/${item.slug}`} title={displayName(item, locale, 'listing')} image={item.cover_url} distance={formatDistance(km, locale)} {...ratingProps(item, 'listing')} />
+              <Card key={item.slug} href={`/listings/${item.slug}`}
+                favorite={{ type: 'listing', slug: item.slug }} title={displayName(item, locale, 'listing')} image={item.cover_url} distance={formatDistance(km, locale)} {...ratingProps(item, 'listing')} />
             ))}
           </CardGrid>
         </Section>
@@ -117,7 +118,8 @@ export default async function EventPage({ params }: PageProps<'/[locale]/events/
         <Section id="beaches" title={t('nearbyBeaches')}>
           <CardGrid>
             {beaches.map(({ item, km }) => (
-              <Card key={item.slug} href={`/beaches/${item.slug}`} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
+              <Card key={item.slug} href={`/beaches/${item.slug}`}
+                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
             ))}
           </CardGrid>
         </Section>

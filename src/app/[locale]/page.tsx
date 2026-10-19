@@ -15,6 +15,7 @@ import { Card, CardGrid } from '@/components/ui/Card';
 import { Container } from '@/components/ui/Layout';
 import { ClientIntl } from '@/components/ClientIntl';
 import { BeachFinder, type FinderBeach } from '@/components/home/BeachFinder';
+import { LastMinuteDealsPopup } from '@/components/v3/LastMinuteDealsPopup';
 
 export const revalidate = 3600;
 
@@ -211,6 +212,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
               <Card
                 key={l.slug}
                 href={`/listings/${l.slug}`}
+                favorite={{ type: 'listing', slug: l.slug }}
                 title={displayName(l, locale, 'listing')}
                 eyebrow={stayVillages.get(l.slug)}
                 image={l.cover_url}
@@ -324,6 +326,8 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           </Container>
         </section>
       )}
+      {/* v3: last-minute deals popup (homepage only). */}
+      <LastMinuteDealsPopup />
     </>
   );
 }

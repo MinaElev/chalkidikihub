@@ -10,6 +10,8 @@ import { SITE_URL } from '@/lib/seo/site';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { AvailabilityFab } from '@/components/layout/AvailabilityFab';
+import { CookieConsent } from '@/components/v3/CookieConsent';
+import { Analytics as GoogleAnalytics } from '@/components/v3/Analytics';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { organizationLd, websiteLd } from '@/lib/seo/jsonld';
 
@@ -55,6 +57,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
           </main>
           <Footer locale={locale as Locale} />
           <AvailabilityFab label={avail('floating.label')} tooltip={avail('floating.tooltip')} />
+          <CookieConsent />
+          <GoogleAnalytics />
         </NextIntlClientProvider>
         <JsonLd data={[organizationLd(), websiteLd(locale as Locale)]} />
         <Analytics />

@@ -200,6 +200,7 @@ export async function NearbyPage({ kind, locale, slug }: { kind: NearbyKind; loc
           <Card
             key={i.slug}
             href={`${basePath}/${i.slug}`}
+            favorite={{ type: kind === 'beaches' ? 'beach' : kind === 'restaurants' ? 'restaurant' : 'activity', slug: i.slug }}
             title={i.name}
             image={i.image}
             imageAlt={i.alt}
