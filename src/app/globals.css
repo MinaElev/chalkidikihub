@@ -172,6 +172,14 @@ body {
 .nudge {
   animation: nudge 1.8s ease-in-out infinite;
 }
+/* Floating availability button: appears 2.5 s after load (v3 timing). */
+@keyframes fab-in {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: none; }
+}
+.fab-in {
+  animation: fab-in 0.4s ease-out 2.5s both;
+}
 /* Sections fade up as they scroll into view (Chromium, Safari 26+); other
    browsers simply show them. */
 @supports (animation-timeline: view()) {

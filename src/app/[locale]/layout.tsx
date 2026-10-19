@@ -9,6 +9,7 @@ import { htmlLang, type Locale } from '@/i18n/config';
 import { SITE_URL } from '@/lib/seo/site';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { AvailabilityFab } from '@/components/layout/AvailabilityFab';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { organizationLd, websiteLd } from '@/lib/seo/jsonld';
 
@@ -35,6 +36,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'shell' });
+  const avail = await getTranslations({ locale, namespace: 'availabilityRequest' });
 
   return (
     <html lang={htmlLang[locale as Locale]}>
@@ -52,6 +54,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
             {children}
           </main>
           <Footer locale={locale as Locale} />
+          <AvailabilityFab label={avail('floating.label')} tooltip={avail('floating.tooltip')} />
         </NextIntlClientProvider>
         <JsonLd data={[organizationLd(), websiteLd(locale as Locale)]} />
         <Analytics />

@@ -55,12 +55,13 @@ function Heading({ id, badge, title, lead, action, center = false }: { id: strin
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   const locale = (await params).locale as Locale;
   setRequestLocale(locale);
-  const [t, shell, common, search, features, beaches, villages, listings, articles, areas] = await Promise.all([
+  const [t, shell, common, search, features, avail, beaches, villages, listings, articles, areas] = await Promise.all([
     getTranslations({ locale, namespace: 'home' }),
     getTranslations({ locale, namespace: 'shell' }),
     getTranslations({ locale, namespace: 'common' }),
     getTranslations({ locale, namespace: 'search' }),
     getTranslations({ locale, namespace: 'beachFeatures' }),
+    getTranslations({ locale, namespace: 'availabilityRequest' }),
     getBeaches(),
     getVillages(),
     getListings(),
@@ -143,6 +144,13 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
               {search('submit')}
             </button>
           </form>
+          {/* v3: one request reaches every owner in the area. */}
+          <p className="rise rise-4 mt-3 flex flex-wrap items-center gap-2 text-sm text-white/80">
+            {avail('ctaHeroPrefix')}
+            <Link href="/availability-request" className="glass-card inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-semibold text-white transition hover:bg-white/25">
+              {avail('ctaHero')} <ArrowRight className="size-3.5" aria-hidden />
+            </Link>
+          </p>
           <div className="rise rise-4 mt-4 flex flex-wrap gap-2">
             <Link href="/beaches" className="glass-card rounded-full px-4 py-2 text-sm font-semibold transition hover:bg-white/25">{t('ctaBeaches')}</Link>
             <Link href="/listings" className="glass-card rounded-full px-4 py-2 text-sm font-semibold transition hover:bg-white/25">{t('ctaStay')}</Link>
