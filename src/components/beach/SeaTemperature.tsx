@@ -53,7 +53,7 @@ export async function SeaTemperature({ locale, lat, lng }: { locale: Locale; lat
           </ol>
         </>
       )}
-      <p className="mt-3 text-xs text-sea-700/80">{t('seaSource')}</p>
+      <p className="mt-3 text-xs text-sea-700">{t('seaSource')}</p>
     </section>
   );
 }

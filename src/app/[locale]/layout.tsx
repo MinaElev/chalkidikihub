@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Noto_Serif } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -12,21 +11,6 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { organizationLd, websiteLd } from '@/lib/seo/jsonld';
-
-const inter = Inter({
-  subsets: ['latin', 'latin-ext', 'greek', 'cyrillic'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-const display = Noto_Serif({
-  subsets: ['latin', 'latin-ext', 'greek', 'cyrillic'],
-  weight: ['600'],
-  variable: '--font-display-face',
-  display: 'swap',
-  // Headings swap in from the fallback serif; preloading this face competed with the LCP image.
-  preload: false,
-});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -41,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0e7596',
+  themeColor: '#0891B2',
   width: 'device-width',
   initialScale: 1,
 };
@@ -53,7 +37,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
   const t = await getTranslations({ locale, namespace: 'shell' });
 
   return (
-    <html lang={htmlLang[locale as Locale]} className={`${inter.variable} ${display.variable}`}>
+    <html lang={htmlLang[locale as Locale]}>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"

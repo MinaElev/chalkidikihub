@@ -146,7 +146,7 @@ export default async function AreaPage({ params }: PageProps<'/[locale]/areas/[s
                 eyebrow={stayV.get(l.slug)}
                 image={l.cover_url}
                 highlight={l.featured ? stay('featured') : undefined}
-                meta={l.price_per_night ? `${common('from')} ${formatPrice(Number(l.price_per_night), locale)} ${common('perNight')}` : undefined}
+                price={l.price_per_night ? `${common('from')} ${formatPrice(Number(l.price_per_night), locale)} ${common('perNight')}` : undefined}
                 {...ratingProps(l, 'listing')}
               />
             ))}

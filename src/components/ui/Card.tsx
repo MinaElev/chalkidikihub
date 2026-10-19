@@ -18,18 +18,23 @@ export type CardProps = {
   distance?: string;
   /** Corner badge, e.g. "Featured" for premium listings. */
   highlight?: string;
+  /** Price pill on the photo, top right (v3 stay cards); the rating then moves top left. */
+  price?: string;
   priority?: boolean;
   sizes?: string;
 };
 
 /** The one card used across beaches, villages, restaurants, stays and articles. */
 export function Card({
-  href, title, image, imageAlt, eyebrow, meta, rating, reviews, ratingSource, badges, distance, highlight, priority,
+  href, title, image, imageAlt, eyebrow, meta, rating, reviews, ratingSource, badges, distance, highlight, price, priority,
   sizes = '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw',
 }: CardProps) {
+  const hasRating = rating != null && rating > 0;
+  const leftTaken = Boolean(highlight || distance);
+  const ratingSlot = !price ? 'right' : leftTaken ? 'body' : 'left';
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-0.5 hover:shadow-lg">
-      <div className="relative aspect-[4/3] bg-sand-100">
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-gray-900/10">
+      <div className="relative aspect-[4/3] overflow-hidden bg-sand-100">
         {image ? (
           <Image
             src={image}
@@ -37,43 +42,60 @@ export function Card({
             fill
             sizes={sizes}
             priority={priority}
-            className="object-cover transition duration-500 group-hover:scale-[1.03]"
+            className="object-cover transition duration-500 group-hover:scale-105"
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-sea-100 to-sand-100" aria-hidden />
         )}
         {highlight && (
-          <span className="absolute right-3 top-3 rounded-full bg-amber-400 px-2.5 py-1 text-xs font-semibold text-amber-950 shadow-sm">{highlight}</span>
+          <span className="absolute left-3 top-3 rounded-full bg-accent-400 px-2.5 py-1 text-xs font-semibold text-amber-950 shadow-sm">{highlight}</span>
         )}
-        {distance && (
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-slate-800 shadow-sm">
+        {distance && !highlight && (
+          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-gray-800 shadow-sm">
             <MapPin className="size-3.5 text-sea-600" aria-hidden />
             {distance}
           </span>
         )}
+        {price && (
+          <span className="absolute right-3 top-3 rounded-lg bg-white/95 px-2.5 py-1 text-xs font-bold text-gray-900 shadow-sm">{price}</span>
+        )}
+        {hasRating && ratingSlot !== 'body' && (
+          <span className={`absolute top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-bold text-gray-900 shadow-sm ${ratingSlot === 'left' ? 'left-3' : 'right-3'}`}>
+            <Star className="size-3.5 fill-accent-400 text-accent-400" aria-hidden />
+            {rating!.toFixed(1)}
+            {reviews ? <span className="font-normal text-slate-500">({reviews}{ratingSource ? ` · ${ratingSource}` : ''})</span> : null}
+          </span>
+        )}
       </div>
       <div className="flex flex-1 flex-col gap-1.5 p-4">
-        {eyebrow && <p className="text-xs font-semibold uppercase tracking-wide text-sea-700">{eyebrow}</p>}
-        <h3 className="text-base font-semibold leading-snug text-slate-900">
-          <Link href={href} className="after:absolute after:inset-0 focus-visible:outline-none">
+        <h3 className="text-base font-bold leading-snug text-gray-900">
+          <Link href={href} className="after:absolute after:inset-0 focus-visible:outline-none group-hover:text-sea-600">
             {title}
           </Link>
         </h3>
-        {meta && <p className="line-clamp-2 text-sm text-slate-600">{meta}</p>}
-        <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
-          {rating != null && rating > 0 && (
-            <span className="inline-flex items-center gap-1 text-sm font-medium text-slate-800">
-              <Star className="size-4 fill-amber-400 text-amber-400" aria-hidden />
-              {rating.toFixed(1)}
-              {reviews ? <span className="font-normal text-slate-500">({reviews}{ratingSource ? ` · ${ratingSource}` : ""})</span> : null}
-            </span>
-          )}
-          {badges?.slice(0, 3).map((b) => (
-            <span key={b} className="rounded-full bg-sea-50 px-2 py-0.5 text-xs font-medium text-sea-800">
-              {b}
-            </span>
-          ))}
-        </div>
+        {eyebrow && (
+          <p className="flex items-center gap-1 text-sm text-slate-500">
+            <MapPin className="size-3.5 shrink-0" aria-hidden />
+            {eyebrow}
+          </p>
+        )}
+        {meta && <p className="line-clamp-2 text-sm text-gray-600">{meta}</p>}
+        {hasRating && ratingSlot === 'body' && (
+          <p className="inline-flex items-center gap-1 text-sm font-semibold text-gray-900">
+            <Star className="size-4 fill-accent-400 text-accent-400" aria-hidden />
+            {rating!.toFixed(1)}
+            {reviews ? <span className="font-normal text-slate-500">({reviews}{ratingSource ? ` · ${ratingSource}` : ''})</span> : null}
+          </p>
+        )}
+        {badges?.length ? (
+          <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-2">
+            {badges.slice(0, 3).map((b) => (
+              <span key={b} className="rounded-md bg-sea-50 px-2 py-0.5 text-xs font-medium text-sea-700">
+                {b}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </div>
     </article>
   );

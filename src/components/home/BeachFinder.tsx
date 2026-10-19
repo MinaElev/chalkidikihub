@@ -44,7 +44,7 @@ export function BeachFinder({ beaches, labels }: { beaches: FinderBeach[]; label
   const toggle = (f: string) => setWanted((w) => (w.includes(f) ? w.filter((x) => x !== f) : [...w, f]));
 
   const tab = (active: boolean) =>
-    `rounded-full px-4 py-2 text-sm font-semibold transition ${active ? 'bg-sea-900 text-white shadow-md' : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:ring-sea-300'}`;
+    `rounded-full px-4 py-2 text-sm font-semibold transition ${active ? 'bg-sea-600 text-white shadow-md' : 'bg-white text-gray-700 ring-1 ring-gray-200 hover:ring-sea-300'}`;
 
   return (
     <div>
@@ -64,7 +64,7 @@ export function BeachFinder({ beaches, labels }: { beaches: FinderBeach[]; label
               type="button"
               aria-pressed={on}
               onClick={() => toggle(f)}
-              className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition ${on ? 'bg-sun-600 text-white shadow' : 'bg-sun-50 text-sun-900 hover:bg-sun-100'}`}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition ${on ? 'bg-sea-700 text-white shadow' : 'bg-sea-50 text-sea-700 hover:bg-sea-100'}`}
             >
               {on && <Check className="size-3.5" aria-hidden />}
               {label}

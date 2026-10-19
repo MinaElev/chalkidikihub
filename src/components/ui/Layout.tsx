@@ -20,10 +20,10 @@ export function PageIntro({
   return (
     <div className="pb-8 pt-6">
       {breadcrumbs}
-      <h1 className="mt-4 max-w-4xl font-display text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
+      <h1 className="mt-4 max-w-4xl text-3xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-4xl">
         {title}
       </h1>
-      {lead && <p className="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">{lead}</p>}
+      {lead && <p className="mt-4 max-w-3xl text-lg leading-relaxed text-slate-500">{lead}</p>}
       {children}
     </div>
   );
@@ -40,9 +40,11 @@ export function HeroImage({ src, alt }: { src?: string | null; alt: string }) {
 }
 
 export function Section({
-  id, title, intro, action, children, className = '',
+  id, badge, title, intro, action, children, className = '',
 }: {
   id?: string;
+  /** Small pill above the title, the v3 "section-badge". */
+  badge?: string;
   title: string;
   intro?: string;
   action?: React.ReactNode;
@@ -53,10 +55,11 @@ export function Section({
     <section aria-labelledby={id} className={`mt-14 ${className}`}>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div className="max-w-3xl">
-          <h2 id={id} className="font-display text-2xl font-semibold text-slate-900">
+          {badge && <p className="mb-3 inline-flex rounded-full bg-sea-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-sea-700">{badge}</p>}
+          <h2 id={id} className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
             {title}
           </h2>
-          {intro && <p className="mt-2 text-slate-600">{intro}</p>}
+          {intro && <p className="mt-2 text-slate-500">{intro}</p>}
         </div>
         {action}
       </div>

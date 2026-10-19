@@ -148,7 +148,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
                 image={item.cover_url}
                 distance={formatDistance(km, locale)}
                 {...ratingProps(item, 'listing')}
-                meta={item.price_per_night ? `${common('from')} €${Math.round(item.price_per_night)} ${common('perNight')}` : undefined}
+                price={item.price_per_night ? `${common('from')} €${Math.round(item.price_per_night)} ${common('perNight')}` : undefined}
               />
             ))}
           </CardGrid>

@@ -60,10 +60,8 @@ export default async function ListingsPage({ params }: PageProps<'/[locale]/list
                   image={l.cover_url}
                   priority={area === 'kassandra' && i < 2}
                   highlight={l.featured ? t('featured') : undefined}
-                  meta={[
-                    t('guests', { count: l.guests_max }),
-                    l.price_per_night ? `${common('from')} ${formatPrice(Number(l.price_per_night), locale)} ${t('perNight')}` : null,
-                  ].filter(Boolean).join(' · ')}
+                  meta={t('guests', { count: l.guests_max })}
+                  price={l.price_per_night ? `${common('from')} ${formatPrice(Number(l.price_per_night), locale)} ${t('perNight')}` : undefined}
                   {...ratingProps(l, 'listing')}
                 />
               ))}

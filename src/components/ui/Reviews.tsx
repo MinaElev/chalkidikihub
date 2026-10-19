@@ -35,7 +35,7 @@ export function Reviews({
             <li key={r.id ?? i} className="rounded-2xl border border-slate-200 bg-white p-5">
               <div className="flex items-center justify-between gap-3">
                 <p className="font-medium text-slate-900">{r.author_name || '—'}</p>
-                <p className="flex" aria-label={`${r.rating}/5`}>
+                <p className="flex" role="img" aria-label={`${r.rating}/5`}>
                   {Array.from({ length: 5 }, (_, k) => (
                     <Star key={k} className={`size-4 ${k < r.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-300'}`} aria-hidden />
                   ))}

@@ -1,38 +1,29 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-sea-50: #eef9fc;
-  --color-sea-100: #d4f0f7;
-  --color-sea-200: #aee2ef;
-  --color-sea-300: #74cce2;
-  --color-sea-400: #36aecd;
-  --color-sea-500: #1592b3;
-  --color-sea-600: #0e7596;
-  --color-sea-700: #0f5f7a;
-  --color-sea-800: #134e64;
-  --color-sea-900: #143f52;
-  --color-sea-950: #082838;
+  /* The v3 (live site) blue, so v4 looks like the site people already know. */
+  --color-sea-50: #eff6ff;
+  --color-sea-100: #dbeafe;
+  --color-sea-200: #bfdbfe;
+  --color-sea-300: #93c5fd;
+  --color-sea-400: #60a5fa;
+  --color-sea-500: #0ea5e9;
+  --color-sea-600: #026aa7;
+  --color-sea-700: #0369a1;
+  --color-sea-800: #075985;
+  --color-sea-900: #0c4a6e;
+  --color-sea-950: #082f49;
 
   /* Secondary text: Tailwind slate-500 (#62748e) is only 4.1:1 on sand-100; this keeps the hue and reaches 5:1 (WCAG AA). */
   --color-slate-500: #56667e;
-  --color-sand-50: #fbf8f2;
-  --color-sand-100: #f5eedf;
+  /* v3 used plain light greys for tinted panels. */
+  --color-sand-50: #f9fafb;
+  --color-sand-100: #f3f4f6;
   --color-sand-200: #ead9b8;
   --color-sand-400: #d2a868;
   --color-sand-600: #a8763a;
 
   --color-pine-600: #2f6b4f;
-
-  /* Sunset accent: warm counterpoint to the sea palette (badges, highlights, CTAs on dark). */
-  --color-sun-50: #fff6ed;
-  --color-sun-100: #ffe9d1;
-  --color-sun-300: #ffb57a;
-  --color-sun-400: #ff9450;
-  --color-sun-500: #f6722b;
-  /* 600+ carry white text (4.7:1 and up); 400/500 are for decoration only. */
-  --color-sun-600: #c84a12;
-  --color-sun-700: #9a3412;
-  --color-sun-900: #6b2a10;
 
   /* v3 class names (primary-*) used by ported pages map onto the v4 sea palette. */
   --color-primary-50: var(--color-sea-50);
@@ -47,11 +38,24 @@
   --color-primary-900: var(--color-sea-900);
   --color-primary-950: var(--color-sea-950);
 
-  --font-sans: var(--font-inter), system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: var(--font-display-face), Georgia, 'Times New Roman', serif;
+  /* Same stack as v3. Inter is never downloaded, so every visitor sees their
+     system UI font (Segoe UI, San Francisco, Roboto): what the live site has
+     always looked like, and no font file on the critical path. */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: var(--font-sans);
+
+  /* v3 accent (stars, highlights). */
+  --color-accent-400: #facc15;
+  --color-accent-500: #eab308;
+}
+
+.font-display {
+  font-weight: 700;
+  letter-spacing: -0.015em;
 }
 
 html {
+  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -111,6 +115,33 @@ body {
 }
 .scrollbar-none::-webkit-scrollbar {
   display: none;
+}
+
+/* ── v3 look ─────────────────────────────────────────────────────── */
+/* Frosted panel over photos (hero search and stats). */
+.glass-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.card-premium {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.card-premium:hover {
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+/* Soft colour washes behind light sections. */
+.bg-mesh-light {
+  background-image:
+    radial-gradient(at 20% 30%, rgba(14, 165, 233, 0.05) 0, transparent 50%),
+    radial-gradient(at 80% 70%, rgba(99, 102, 241, 0.05) 0, transparent 50%);
+}
+.bg-mesh-blue {
+  background-image:
+    radial-gradient(at 30% 20%, rgba(14, 165, 233, 0.08) 0, transparent 50%),
+    radial-gradient(at 70% 80%, rgba(59, 130, 246, 0.06) 0, transparent 50%);
 }
 
 /* ── Motion ──────────────────────────────────────────────────────────
