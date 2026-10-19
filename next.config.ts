@@ -7,11 +7,12 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const csp = [
   "default-src 'self'",
   // Next hydration needs inline scripts until nonces are wired; no third-party ads.
-  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''} https://va.vercel-scripts.com`,
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''} https://va.vercel-scripts.com https://www.googletagmanager.com`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com",
+  // openweathermap.org: weather icons; Google: GA4 collection pixels (v3's analytics, restored).
+  "img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://openweathermap.org https://*.google-analytics.com https://www.googletagmanager.com",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://nominatim.openstreetmap.org https://api.open-meteo.com https://marine-api.open-meteo.com",
+  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://nominatim.openstreetmap.org https://api.open-meteo.com https://marine-api.open-meteo.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com",
   "frame-src 'self' https://www.openstreetmap.org https://www.google.com",
   "frame-ancestors 'self'",
   "base-uri 'self'",
