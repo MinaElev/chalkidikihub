@@ -9,6 +9,17 @@ const intl = createIntlMiddleware(routing);
 const PRIVATE = /^\/(?:(?:en|de|ro|bg|sr|ru)\/)?(?:admin|dashboard|auth|requests|r|book|guest|favorites)(?:\/|$)/;
 
 export async function proxy(request: NextRequest) {
+  // One URL per page: v3 linked some slugs with capitals (/blog/BARbatolis).
+  // Every public slug is lower case, so fold the path and redirect once.
+  // Token links (/r/, /requests/, /guest/ ...) keep their case.
+  // Percent-escapes (%CE%B1) are left alone: their hex case means nothing.
+  const { pathname } = request.nextUrl;
+  if (/[A-Z]/.test(pathname.replace(/%[0-9A-F]{2}/gi, '')) && !PRIVATE.test(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.replace(/(%[0-9A-F]{2})|[^%]+/gi, (part, esc) => esc ?? part.toLowerCase());
+    return NextResponse.redirect(url, 308);
+  }
+
   let response = intl(request);
 
   // Locale normalisation redirects are permanent moves, not temporary ones.

@@ -7,10 +7,10 @@ import { nearest } from '@/lib/geo';
 import { publicDb } from '@/lib/supabase/clients';
 import { bestGuides, costs, fromCities, guides, indexableLocales as editorialLocales, itineraries } from '@/lib/editorial';
 import { KEPT_FEATURES, KEPT_RESTAURANT_CATEGORIES } from './redirects';
-import { isProven } from './quality';
+import { hostLocales, isProven } from './quality';
 import { activityIndex, articleIndex, beachIndex, eventIndex, listingIndex, restaurantIndex, villageIndex } from './indexability';
 import { MONASTERIES } from '@/content/editorial/monasteries';
-import { ENRICHMENTS } from '@/content/editorial/best-enrichments';
+import { bestIndexable, loadBest } from '@/lib/content/best';
 import { AUTHOR_LIST } from '@/content/authors';
 
 /**
@@ -29,11 +29,13 @@ export async function inventory(): Promise<Entry[]> {
   const entries: Entry[] = [];
   const hub = (path: string, priority = 0.8) => entries.push({ path, locales: ALL, priority });
 
-  ['/', '/beaches', '/places', '/listings', '/restaurants', '/activities', '/blog', '/events', '/areas', '/guide', '/from', '/mount-athos', '/mount-athos/monasteries']
+  ['/', '/beaches', '/places', '/listings', '/restaurants', '/activities', '/blog', '/events', '/areas', '/guide', '/from', '/mount-athos', '/mount-athos/monasteries', '/faq', '/ev-chargers']
     .forEach((p) => hub(p, p === '/' ? 1 : 0.8));
   ['/mount-athos/how-to-visit', '/mount-athos/getting-there', '/mount-athos/accommodation', '/mount-athos/daily-life', '/mount-athos/hiking', '/mount-athos/history']
     .forEach((p) => hub(p, 0.6));
   ['/about', '/for-owners', '/for-owners/services', '/editorial-policy'].forEach((p) => hub(p, 0.4));
+  // The map is mostly a client widget: indexed only in the locales app/[locale]/map/layout.tsx names, plus proven ones.
+  entries.push({ path: '/map', locales: withProven('/map', ['el', 'en']), priority: 0.5 });
   AREA_SLUGS.forEach((a) => hub(`/areas/${a}`, 0.8));
   KEPT_FEATURES.forEach((f) => hub(`/beaches/feature/${f}`, 0.6));
   KEPT_RESTAURANT_CATEGORIES.forEach((c) => hub(`/restaurants/category/${c}`, 0.6));
@@ -87,18 +89,21 @@ export async function inventory(): Promise<Entry[]> {
   }
   for (const g of bestGuides()) {
     const path = `/best/${g.slug}`;
-    entries.push({ path, locales: withProven(path, ALL.filter((l) => Boolean(ENRICHMENTS[g.slug]?.intro?.[l]))), priority: 0.6 });
+    const best = await loadBest(g.slug);
+    entries.push({ path, locales: withProven(path, bestIndexable(g.slug, best?.items.length ?? 0)), priority: 0.6 });
   }
 
   // Owners' public pages: only hosts with at least two published listings (as in v3).
   const { data: hosts } = await publicDb()
     .from('profiles')
-    .select('id, public_slug, updated_at')
+    .select('id, public_slug, updated_at, bio_el, bio_en, bio_de, bio_ro, bio_bg, bio_sr, bio_ru')
     .eq('public_page_enabled', true)
     .not('public_slug', 'is', null);
   for (const h of hosts ?? []) {
     if (listings.filter((l) => l.owner_id === h.id).length >= 2) {
-      entries.push({ path: `/host/${h.public_slug}`, locales: ALL, lastModified: h.updated_at ?? undefined, priority: 0.5 });
+      const bio = Object.fromEntries(ALL.map((l) => [l, (h as Record<string, unknown>)[`bio_${l}`] as string | null]));
+      const path = `/host/${h.public_slug}`;
+      entries.push({ path, locales: withProven(path, hostLocales(bio)), lastModified: h.updated_at ?? undefined, priority: 0.5 });
     }
   }
 

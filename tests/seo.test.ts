@@ -142,3 +142,22 @@ describe('PMS removal redirects', () => {
     expect(rules.some((r) => r.source === '/book/:slug/:step(success|confirmed|cancelled)' && r.destination === '/listings/:slug')).toBe(true);
   });
 });
+
+describe('redirect loops', () => {
+  it('has no rule whose source matches its own destination (Next matches case-insensitively)', () => {
+    const loops = buildRedirects().filter((r) => r.source.toLowerCase() === r.destination.toLowerCase());
+    expect(loops).toEqual([]);
+  });
+});
+
+describe('internal link resolution', () => {
+  it('sends content links straight to the final URL', async () => {
+    const { resolveInternal } = await import('@/lib/seo/redirects');
+    expect(resolveInternal('/best/family-beaches')).toBe('/blog/best-beaches-shallow-water');
+    expect(resolveInternal('/in/ouranoupoli/beaches')).toBe('/places/ouranoupoli/beaches');
+    expect(resolveInternal('/beaches/glarokavos-nudist-beach-sithonia')).toBe('/beaches/glarokavos-nudist-beach-kassandra');
+    expect(resolveInternal('/blog/BARbatolis')).toBe('/blog/barbatolis');
+    expect(resolveInternal('/restaurants/category/brunch')).toBe('/restaurants/category/brunch');
+    expect(resolveInternal('/beaches/karidi-sithonia')).toBe('/beaches/karidi-sithonia');
+  });
+});

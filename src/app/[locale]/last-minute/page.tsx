@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import LastMinuteClient from './_client';
+import type { Locale } from '@/i18n/config';
+import { localeUrl } from '@/lib/seo/site';
 
 export async function generateMetadata({
   params,
@@ -15,8 +17,10 @@ export async function generateMetadata({
     description: el
       ? 'Κενά δωμάτια που άνοιξαν από ακυρώσεις στη Χαλκιδική — δημοσιευμένα απευθείας από τους ιδιοκτήτες. Κλείσε πριν προλάβει κάποιος άλλος.'
       : 'Rooms that opened up from cancellations in Halkidiki — published straight by the owners. Book before someone else does.',
-    alternates: { canonical: `/${locale}/last-minute` },
-    robots: { index: true, follow: true },
+    alternates: { canonical: localeUrl(locale as Locale, '/last-minute') },
+    // Short-lived offers rendered in the browser: little for a crawler to read
+    // and nothing that stays true for long, so it stays out of the index.
+    robots: { index: false, follow: true },
   };
 }
 

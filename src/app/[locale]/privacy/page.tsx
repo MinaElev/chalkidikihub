@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { localeUrl } from '@/lib/seo/compat';
-import { locales as publicLocales } from '@/i18n/config';
+import { hreflangMap } from '@/lib/seo/site';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 // hreflang alternates ship only the publicly promoted locales — hidden
 // locales remain routable but excluded from search-engine signals.
-const LOCALES = publicLocales;
 
 const titles: Record<string, string> = {
   el: 'Πολιτική Απορρήτου',
@@ -542,10 +540,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: { card: 'summary', title, description: desc },
     alternates: {
       canonical: localeUrl(locale, 'privacy'),
-      languages: {
-        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'privacy')])),
-        'x-default': localeUrl('el', 'privacy'),
-      },
+      languages: hreflangMap(`/privacy`),
     },
   };
 }

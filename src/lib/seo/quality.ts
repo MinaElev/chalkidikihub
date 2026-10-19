@@ -1,4 +1,4 @@
-import type { Locale } from '@/i18n/config';
+import { locales, type Locale } from '@/i18n/config';
 import { localize } from '@/lib/i18n/localize';
 import proven from '@/content/proven-urls.json';
 import { localePath } from './site';
@@ -98,3 +98,8 @@ export function isProven(locale: Locale, path: string): boolean {
   return PROVEN.has(localePath(locale, path));
 }
 
+
+/** Locales where a host (owner) page has its own text: the owner's bio in that language. */
+export function hostLocales(bio: Partial<Record<Locale, string | null>>): Locale[] {
+  return locales.filter((l) => Boolean(bio[l]?.trim()));
+}

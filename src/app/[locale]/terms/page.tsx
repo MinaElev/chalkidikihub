@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { localeUrl } from '@/lib/seo/compat';
-import { locales as publicLocales } from '@/i18n/config';
+import { hreflangMap } from '@/lib/seo/site';
 
 export const revalidate = 604800; // 1 week — static legal content
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = publicLocales;
 
 const titles: Record<string, string> = {
   el: 'Όροι Χρήσης',
@@ -488,10 +486,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: { card: 'summary', title, description: desc },
     alternates: {
       canonical: localeUrl(locale, 'terms'),
-      languages: {
-        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'terms')])),
-        'x-default': localeUrl('el', 'terms'),
-      },
+      languages: hreflangMap(`/terms`),
     },
   };
 }

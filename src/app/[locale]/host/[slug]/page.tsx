@@ -6,6 +6,8 @@ import { getHostBySlug, getPublicHosts } from '@/lib/data';
 import { Card } from '@/components/ui/Card';
 import { JsonLd } from '@/compat/JsonLd';
 import { localeUrl } from '@/lib/seo/compat';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { hostLocales } from '@/lib/seo/quality';
 import { breadcrumbLd } from '@/lib/seo/jsonld';
 import type { Locale } from '@/i18n/config';
 import { Mail, Phone, Globe, Star } from 'lucide-react';
@@ -41,7 +43,8 @@ const HOME_LABEL: Record<string, string> = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, slug } = await params;
+  const { locale: raw, slug } = await params;
+  const locale = raw as Locale;
   const host = await getHostBySlug(slug);
   if (!host) return { title: 'Host' };
 
@@ -53,18 +56,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     `${host.display_name} hosts ${host.listings.length} properties in Halkidiki. Browse their full portfolio of vacation rentals.`;
 
   return {
-    title,
-    description: description.slice(0, 160),
-    openGraph: {
+    ...buildMetadata({
+      locale,
+      path: `/host/${slug}`,
       title,
-      description: description.slice(0, 160),
-      type: 'profile',
-      url: localeUrl(locale, `host/${slug}`),
-      images: host.avatar_url ? [{ url: host.avatar_url, width: 600, height: 600 }] : [],
-    },
-    alternates: {
-      canonical: localeUrl(locale, `host/${slug}`),
-    },
+      description,
+      image: host.avatar_url ?? undefined,
+      // Indexed only where the owner wrote a bio; elsewhere the page is the same listings grid again.
+      indexableLocales: hostLocales(host.bio),
+    }),
   };
 }
 

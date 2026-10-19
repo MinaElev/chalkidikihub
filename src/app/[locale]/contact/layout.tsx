@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { hreflangMap } from '@/lib/seo/site';
+import type { Locale } from '@/i18n/config';
 import { localeUrl } from '@/lib/seo/compat';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
 const TITLES: Record<string, string> = {
   el: 'Επικοινωνία',
@@ -30,10 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: DESCRIPTIONS[locale] || DESCRIPTIONS.en,
     alternates: {
       canonical: localeUrl(locale, 'contact'),
-      languages: {
-        ...Object.fromEntries(['el','en'].map(l => [l, localeUrl(l, 'contact')])),
-        'x-default': localeUrl('el', 'contact'),
-      },
+      languages: hreflangMap('/contact', ['el','en'] as Locale[]),
     },
   };
 }

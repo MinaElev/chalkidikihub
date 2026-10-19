@@ -1,13 +1,12 @@
 import { setRequestLocale } from 'next-intl/server';
-import { locales as publicLocales } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import type { Metadata } from 'next';
 import { ChevronRight, ChevronLeft, Bus, Ship, MapPin, Clock, AlertTriangle } from 'lucide-react';
 import { tr } from '@/content/editorial/athos';
 import { localeUrl, finalizeTitle } from '@/lib/seo/compat';
+import { hreflangMap } from '@/lib/seo/site';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = publicLocales;
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -325,10 +324,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: { title, description },
     alternates: {
       canonical: localeUrl(locale, 'mount-athos/getting-there'),
-      languages: {
-        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'mount-athos/getting-there')])),
-        'x-default': localeUrl('el', 'mount-athos/getting-there'),
-      },
+      languages: hreflangMap(`/mount-athos/getting-there`),
     },
   };
 }

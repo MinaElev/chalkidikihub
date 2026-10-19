@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { localeUrl } from '@/lib/seo/compat';
-import { locales as publicLocales } from '@/i18n/config';
+import { hreflangMap } from '@/lib/seo/site';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = publicLocales;
 
 const titles: Record<string, string> = {
   el: 'Συντακτική Πολιτική',
@@ -906,10 +904,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: { card: 'summary', title, description: desc },
     alternates: {
       canonical: localeUrl(locale, 'editorial-policy'),
-      languages: {
-        ...Object.fromEntries(LOCALES.map(l => [l, localeUrl(l, 'editorial-policy')])),
-        'x-default': localeUrl('el', 'editorial-policy'),
-      },
+      languages: hreflangMap(`/editorial-policy`),
     },
   };
 }

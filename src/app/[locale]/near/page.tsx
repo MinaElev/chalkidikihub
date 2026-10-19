@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
-import { locales as publicLocales } from '@/i18n/config';
 import { setRequestLocale } from 'next-intl/server';
 import { NearClient } from './_client';
 import { localeUrl } from '@/lib/seo/compat';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
-const LOCALES = publicLocales;
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -20,14 +18,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description: desc,
-    robots: { index: true, follow: true },
-    alternates: {
-      canonical: localeUrl(locale, 'near'),
-      languages: {
-        ...Object.fromEntries(LOCALES.map((l) => [l, localeUrl(l, 'near')])),
-        'x-default': localeUrl('el', 'near'),
-      },
-    },
+    // Geolocation-only page: crawlers see an empty shell, so keep it out of the index.
+    robots: { index: false, follow: true },
+    alternates: { canonical: localeUrl(locale, 'near') },
     openGraph: {
       title, description: desc, type: 'website', locale, siteName: 'Chalkidiki Hub',
       images: [{ url: `${SITE_URL}/api/og?title=${encodeURIComponent(title)}&type=near`, width: 1200, height: 630, alt: title }],

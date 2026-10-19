@@ -1,7 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/seo/site';
 
-const PRIVATE = ['dashboard', 'auth', 'admin', 'requests', 'r', 'book', 'guest'];
+// /book/* is crawlable on purpose: every URL there now 308s to its listing, and
+// Google can only follow (and drop) old booking URLs it is allowed to fetch.
+const PRIVATE = ['dashboard', 'auth', 'admin', 'requests', 'r', 'guest'];
 const PREFIXES = ['', '/en', '/de', '/ro', '/bg', '/sr', '/ru'];
 
 export default function robots(): MetadataRoute.Robots {

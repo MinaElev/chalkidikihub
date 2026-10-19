@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { hreflangMap } from '@/lib/seo/site';
+import type { Locale } from '@/i18n/config';
 import { localeUrl } from '@/lib/seo/compat';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -28,10 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     robots: { index: false, follow: true }, // Hidden from Google
     alternates: {
       canonical: localeUrl(locale, 'for-owners/guide'),
-      languages: {
-        ...Object.fromEntries(['el','en'].map(l => [l, localeUrl(l, 'for-owners/guide')])),
-        'x-default': localeUrl('el', 'for-owners/guide'),
-      },
+      languages: hreflangMap('/for-owners/guide', ['el','en'] as Locale[]),
     },
   };
 }

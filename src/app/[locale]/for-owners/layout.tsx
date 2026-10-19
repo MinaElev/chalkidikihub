@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { localeUrl } from '@/lib/seo/compat';
-import { locales as publicLocales } from '@/i18n/config';
+import { hreflangMap } from '@/lib/seo/site';
 
 // Previously a hardcoded Greek title/description shown on every locale, with
 // hreflang capped to el/en. Now fully localized across all 7 languages.
@@ -25,10 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: DESCRIPTIONS[locale] || DESCRIPTIONS.en,
     alternates: {
       canonical: localeUrl(locale, 'for-owners'),
-      languages: {
-        ...Object.fromEntries(publicLocales.map((l) => [l, localeUrl(l, 'for-owners')])),
-        'x-default': localeUrl('el', 'for-owners'),
-      },
+      languages: hreflangMap('/for-owners'),
     },
   };
 }

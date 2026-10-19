@@ -54,6 +54,8 @@ export const IN_LOCATION_TO_VILLAGE: Record<string, string> = {
 
 /** Guides folded into a stronger page that owns the same intent. */
 export const GUIDE_MERGES: Record<string, string> = {
+  // Linked from the sunset-spots guide ("dinner for couples"); never existed.
+  'for-couples': '/best/romantic-restaurants',
   sithonia: '/areas/sithonia',
   kassandra: '/areas/kassandra',
   villages: '/places',
@@ -198,16 +200,10 @@ export const BLOG_MERGES: Record<string, string> = {
   'halkidiki-in-may-june': '/guide/may',
 };
 
+// Next matches redirect sources case-insensitively, so a rule that only fixes
+// letter case ("/blog/BARbatolis" → "/blog/barbatolis") also matches its own
+// target and loops. Mixed-case URLs are lower-cased in proxy.ts instead.
 const LEGACY_SLUG_FIXES: Array<[string, string]> = [
-  ['/restaurants/Mellto-Gelato-sarti', '/restaurants/mellto-gelato-sarti'],
-  ['/restaurants/Bakery-pargas', '/restaurants/bakery-pargas'],
-  ['/restaurants/The-Center-Fast-Food-sykia', '/restaurants/the-center-fast-food-sykia'],
-  ['/blog/Palm3-Waterpark', '/blog/palm3-waterpark'],
-  ['/blog/BARbatolis', '/blog/barbatolis'],
-  ['/blog/Tiki-Bar-vourvourou', '/blog/tiki-bar-vourvourou'],
-  ['/blog/Yucca-Beach-Bar', '/blog/yucca-beach-bar'],
-  ['/blog/Dish-of-the-Day', '/blog/dish-of-the-day'],
-  ['/blog/Chalkidiki-diving', '/blog/chalkidiki-diving'],
   ['/blog/odigos-gia-afytos', '/places/afytos'],
   ['/blog/odigos-gia-sikia', '/places/sikia'],
   ['/blog/odigos-gia-pyrgadikia-mainland', '/places/pyrgadikia'],
@@ -235,6 +231,9 @@ export function buildRedirects(): Rule[] {
   // Wrong-peninsula / garbled database slugs (content/rewrites/slug-renames.ts).
   for (const [table, map] of Object.entries(SLUG_RENAMES)) for (const [from, to] of Object.entries(map)) rules.push(...both(`/${table}/${from}`, `/${table}/${to}`));
   rules.push(...both('/places/pyrgadikia-mainland/:path*', '/places/pyrgadikia/:path*'));
+  // v3 top-level files that browsers and Search Console still request.
+  rules.push({ source: '/favicon.ico', destination: '/icons/icon-192.png', permanent: true });
+  rules.push({ source: '/image-sitemap.xml', destination: '/sitemap.xml', permanent: true });
 
   // /stay/{slug} stays live as the owner's shareable brand page (noindex,
   // canonical → /listings/{slug}); its area guide folds into the QR guest guide.
@@ -291,4 +290,59 @@ export function resolveInLocation(location: string, category: string): string | 
   return ['beaches', 'restaurants', 'activities'].includes(category)
     ? `/places/${village}/${category}`
     : `/places/${village}`;
+}
+
+type Pattern = { re: RegExp; names: string[]; destination: string };
+let compiled: { exact: Map<string, string>; patterns: Pattern[] } | null = null;
+
+/**
+ * The unprefixed (Greek) rules, matched case-insensitively like Next does:
+ * fixed paths in a map (nearly all of them), parameterised ones as regexes.
+ */
+function compile() {
+  if (compiled) return compiled;
+  const exact = new Map<string, string>();
+  const patterns: Pattern[] = [];
+  for (const r of buildRedirects()) {
+    if (r.source.startsWith(PREFIX)) continue;
+    if (!r.source.includes(':')) {
+      if (!exact.has(r.source.toLowerCase())) exact.set(r.source.toLowerCase(), r.destination);
+      continue;
+    }
+    const names: string[] = [];
+    const pattern = r.source.replace(/:(\w+)(\([^)]*\)+)?(\*)?/g, (_, name: string, group?: string, star?: string) => {
+      names.push(name);
+      return star ? '(.*)' : group ? group : '([^/]+)';
+    });
+    patterns.push({ re: new RegExp(`^${pattern}$`, 'i'), names, destination: r.destination });
+  }
+  return (compiled = { exact, patterns });
+}
+
+/**
+ * Where an internal link really ends up, following the redirect rules above
+ * (and the /in/ route handler) for up to five hops. Content written for v3
+ * links to many retired URLs; rendering the final URL saves every visitor a
+ * redirect and gives Google a direct link. Takes and returns unprefixed paths.
+ */
+export function resolveInternal(path: string): string {
+  let current = path;
+  for (let hop = 0; hop < 5; hop++) {
+    const inMatch = /^\/in\/([^/]+)\/([^/]+)\/?$/i.exec(current);
+    if (inMatch) {
+      const to = resolveInLocation(inMatch[1].toLowerCase(), inMatch[2].toLowerCase());
+      if (to) { current = to; continue; }
+    }
+    const { exact, patterns } = compile();
+    let next = exact.get(current.toLowerCase()) ?? null;
+    for (const rule of next ? [] : patterns) {
+      const m = rule.re.exec(current);
+      if (!m) continue;
+      next = rule.destination.replace(/:(\w+)\*?/g, (_, name: string) => m[rule.names.indexOf(name) + 1] ?? '');
+      break;
+    }
+    if (!next || next === current) break;
+    current = next;
+  }
+  return current.toLowerCase();
 }

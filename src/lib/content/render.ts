@@ -1,5 +1,6 @@
 import type { Locale } from '@/i18n/config';
 import { localePath } from '@/lib/seo/site';
+import { resolveInternal } from '@/lib/seo/redirects';
 
 /**
  * Turns stored long-form text into safe HTML. The database holds three
@@ -29,11 +30,15 @@ function safeUrl(url: string): string | null {
   return null;
 }
 
-/** Internal links stored as "/beaches/x" or "/en/beaches/x" → the current locale's path. */
+/**
+ * Internal links stored as "/beaches/x" or "/en/beaches/x" → the current
+ * locale's path, after following any redirect the old URL now has.
+ */
 function relocalise(href: string, locale: Locale): string {
   if (!href.startsWith('/') || href.startsWith('//')) return href;
-  const stripped = href.replace(/^\/(en|de|ro|bg|sr|ru|el)(?=\/|$)/, '') || '/';
-  return localePath(locale, stripped);
+  const [, pathPart, rest = ''] = /^([^?#]*)(.*)$/.exec(href) ?? [, href];
+  const stripped = pathPart!.replace(/^\/(en|de|ro|bg|sr|ru|el)(?=\/|$)/, '') || '/';
+  return localePath(locale, resolveInternal(stripped)) + rest;
 }
 
 function sanitize(html: string, locale: Locale): string {

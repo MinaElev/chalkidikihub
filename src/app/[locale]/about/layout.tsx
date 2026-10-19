@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import { localeUrl, ogImageUrl } from '@/lib/seo/compat';
 import { ABOUT } from './about-content';
-import { locales as publicLocales } from '@/i18n/config';
+import { hreflangMap } from '@/lib/seo/site';
 
-const LOCALES = publicLocales;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -28,10 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     alternates: {
       canonical: localeUrl(locale, 'about'),
-      languages: {
-        ...Object.fromEntries(LOCALES.map((l) => [l, localeUrl(l, 'about')])),
-        'x-default': localeUrl('el', 'about'),
-      },
+      languages: hreflangMap(`/about`),
     },
   };
 }

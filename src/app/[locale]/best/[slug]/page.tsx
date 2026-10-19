@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
-import { getActivities, getBeaches, getRestaurants } from '@/lib/db/content';
 import { bestGuides, field } from '@/lib/editorial';
 import { closestVillagesFor, displayName, ratingProps } from '@/lib/content/nearby';
 import { renderRichText } from '@/lib/content/render';
 import { buildMetadata } from '@/lib/seo/metadata';
+import { BASE, bestIndexable, loadBest } from '@/lib/content/best';
 import { itemListLd } from '@/lib/seo/jsonld';
 import { ENRICHMENTS } from '@/content/editorial/best-enrichments';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -21,48 +21,10 @@ export function generateStaticParams() {
   return bestGuides().map((g) => ({ slug: g.slug }));
 }
 
-type Kind = 'beach' | 'restaurant' | 'activity';
-type Pick = { kind: Kind; match: (row: Record<string, unknown>) => boolean };
-
-const has = (key: string, v: string) => (r: Record<string, unknown>) => ((r[key] as string[]) ?? []).includes(v);
-const is = (key: string, v: unknown) => (r: Record<string, unknown>) => r[key] === v;
-const all = () => true;
-
-/** What each list contains — explicit, instead of v3's parsed API URLs. */
-const SELECTION: Record<string, Pick> = {
-  'beaches-kassandra': { kind: 'beach', match: is('area', 'kassandra') },
-  'beaches-sithonia': { kind: 'beach', match: is('area', 'sithonia') },
-  'quiet-beaches': { kind: 'beach', match: (r) => has('features', 'free')(r) && !has('features', 'organized')(r) },
-  'instagram-spots': { kind: 'beach', match: all },
-  'snorkeling-spots': { kind: 'beach', match: has('features', 'pebble') },
-  'seafood-restaurants': { kind: 'restaurant', match: has('cuisine', 'seafood') },
-  'beach-bars': { kind: 'restaurant', match: has('cuisine', 'beachBar') },
-  'romantic-restaurants': { kind: 'restaurant', match: is('has_sea_view', true) },
-  'traditional-tavernas': { kind: 'restaurant', match: has('cuisine', 'traditional') },
-  'restaurants-kassandra': { kind: 'restaurant', match: is('area', 'kassandra') },
-  'restaurants-sithonia': { kind: 'restaurant', match: is('area', 'sithonia') },
-  'hiking-trails': { kind: 'activity', match: is('category', 'nature') },
-  'historical-sites': { kind: 'activity', match: is('category', 'historical') },
-  'water-sports': { kind: 'activity', match: is('category', 'waterSports') },
-  'kids-activities': { kind: 'activity', match: is('category', 'family') },
-};
-
-const BASE: Record<Kind, string> = { beach: '/beaches', restaurant: '/restaurants', activity: '/activities' };
-
-async function load(slug: string) {
-  const guide = bestGuides().find((g) => g.slug === slug);
-  const sel = SELECTION[slug];
-  if (!guide || !sel) return null;
-  const rows = (sel.kind === 'beach' ? await getBeaches() : sel.kind === 'restaurant' ? await getRestaurants() : await getActivities()) as unknown as Array<Record<string, unknown> & { slug: string; latitude: number | null; longitude: number | null }>;
-  const weight = (r: Record<string, unknown>) => (Number(r.rating) || 0) * Math.log10(10 + (Number(r.reviews_count) || 0)) + (r.image_url ? 0.5 : 0);
-  const items = rows.filter(sel.match).sort((a, b) => weight(b) - weight(a)).slice(0, 20);
-  return { guide, sel, items };
-}
-
 export async function generateMetadata({ params }: PageProps<'/[locale]/best/[slug]'>) {
   const { locale: raw, slug } = await params;
   const locale = raw as Locale;
-  const data = await load(slug);
+  const data = await loadBest(slug);
   if (!data) return {};
   const { guide, items } = data;
   return buildMetadata({
@@ -71,7 +33,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/best/[sl
     title: field(guide.metaTitle, locale).text.replace(/\s*\|\s*[^|]+$/, '') || field(guide.title, locale).text,
     description: field(guide.metaDesc, locale).text,
     image: (items.find((i) => i.image_url)?.image_url as string) ?? undefined,
-    indexableLocales: items.length >= 4 && ENRICHMENTS[slug]?.intro?.[locale] ? undefined : [],
+    indexableLocales: bestIndexable(slug, items.length),
   });
 }
 
@@ -79,7 +41,7 @@ export default async function BestPage({ params }: PageProps<'/[locale]/best/[sl
   const { locale: raw, slug } = await params;
   const locale = raw as Locale;
   setRequestLocale(locale);
-  const data = await load(slug);
+  const data = await loadBest(slug);
   if (!data) notFound();
   const { guide, sel, items } = data;
   const [t, shell, common] = await Promise.all([
