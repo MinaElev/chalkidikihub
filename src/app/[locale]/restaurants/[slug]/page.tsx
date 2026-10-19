@@ -24,6 +24,7 @@ import { MapEmbed } from '@/components/ui/MapEmbed';
 import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
+import { renderLinked } from '@/lib/content/autolink';
 
 export const revalidate = 86400;
 
@@ -133,7 +134,7 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div>
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
-          <Prose html={renderRichText(body.text, locale)} />
+          <Prose html={await renderLinked(body.text, locale, `/restaurants/${slug}`)} />
         </div>
         <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
           <FactList

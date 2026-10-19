@@ -13,6 +13,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Faq } from '@/components/ui/Faq';
 import { Container, Narrow, PageIntro, Prose, Section } from '@/components/ui/Layout';
+import { renderLinked } from '@/lib/content/autolink';
 
 export const revalidate = 86400;
 export const dynamicParams = false;
@@ -75,7 +76,7 @@ export default async function BestPage({ params }: PageProps<'/[locale]/best/[sl
       />
       {e.intro && (
         <Narrow className="!mx-0 !px-0">
-          <Prose html={renderRichText(text(e.intro).text, locale)} />
+          <Prose html={await renderLinked(text(e.intro).text, locale, `/best/${slug}`)} />
         </Narrow>
       )}
       <Section id="list" title={t('bestListTitle')}>

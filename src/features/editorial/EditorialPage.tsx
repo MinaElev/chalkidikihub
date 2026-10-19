@@ -7,11 +7,12 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Narrow, Prose } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
+import { renderLinked } from '@/lib/content/autolink';
 
 type Body = { text: string; native: boolean; from: Locale | null };
 
 /** Long-form editorial page: breadcrumbs, H1, lead, table of contents, body, related links. */
-export function EditorialPage({
+export async function EditorialPage({
   locale, crumbs, title, lead, body, path, contentsLabel, related, relatedLabel, children, updated,
 }: {
   locale: Locale;
@@ -26,7 +27,7 @@ export function EditorialPage({
   children?: React.ReactNode;
   updated?: string;
 }) {
-  const { html, toc } = withHeadingIds(renderRichText(body.text, locale));
+  const { html, toc } = withHeadingIds(await renderLinked(body.text, locale, path));
   return (
     <>
       <Narrow className="pt-6">

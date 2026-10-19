@@ -161,3 +161,44 @@ describe('internal link resolution', () => {
     expect(resolveInternal('/beaches/karidi-sithonia')).toBe('/beaches/karidi-sithonia');
   });
 });
+
+describe('automatic internal links', () => {
+  it('matches whole names in any case, accent and Greek case form, never inside a word', async () => {
+    const { autoLink, fold, greekForms } = await import('@/lib/content/autolink-core');
+    const items = [
+      { path: '/places/nikiti', forms: greekForms(fold('Νικήτη')) },
+      { path: '/places/neos-marmaras', forms: greekForms(fold('Νέος Μαρμαράς')) },
+      { path: '/areas/kassandra', forms: greekForms(fold('Κασσάνδρα')) },
+      { path: '/places/sarti', forms: greekForms(fold('Σάρτη')) },
+    ];
+    const html = '<p>Από τη ΝΙΚΗΤΗ ως τον Νέο Μαρμαρά, και τις παραλίες της Κασσανδρας. Σαρτηνοί ψαράδες.</p>';
+    const out = autoLink(html, items, 'el', '/beaches/x');
+    expect(out).toContain('<a href="/places/nikiti">ΝΙΚΗΤΗ</a>');
+    expect(out).toContain('<a href="/places/neos-marmaras">Νέο Μαρμαρά</a>');
+    expect(out).toContain('<a href="/areas/kassandra">Κασσανδρας</a>');
+    expect(out).not.toContain('/places/sarti'); // "Σαρτηνοί" is another word
+  });
+  it('links each place once, skips headings, existing links and the page itself', async () => {
+    const { autoLink, fold, greekForms } = await import('@/lib/content/autolink-core');
+    const items = [
+      { path: '/places/nikiti', forms: greekForms(fold('Νικήτη')) },
+      { path: '/places/sarti', forms: greekForms(fold('Σάρτη')) },
+      { path: '/areas/sithonia', forms: greekForms(fold('Σιθωνία')) },
+    ];
+    const html = '<h2>Νικήτη</h2><p>Η Νικήτη και πάλι η Νικήτη. <a href="/places/sarti">Σάρτη</a> και Σάρτη. Η Σιθωνία.</p>';
+    const out = autoLink(html, items, 'el', '/areas/sithonia');
+    expect(out).toContain('<h2>Νικήτη</h2>');
+    expect(out.match(/href="\/places\/nikiti"/g)).toHaveLength(1);
+    expect(out.match(/href="\/places\/sarti"/g)).toHaveLength(1);
+    expect(out).not.toContain('href="/areas/sithonia"');
+  });
+});
+
+describe('automatic internal links: proper nouns only', () => {
+  it('does not link a lower-case common word that happens to be a place name', async () => {
+    const { autoLink, fold, greekForms } = await import('@/lib/content/autolink-core');
+    const items = [{ path: '/beaches/galini', forms: greekForms(fold('Γαλήνη')) }];
+    expect(autoLink('<p>Η θάλασσα έχει γαλήνη.</p>', items, 'el', '/x')).not.toContain('<a ');
+    expect(autoLink('<p>Η Γαλήνη είναι ήσυχη.</p>', items, 'el', '/x')).toContain('<a href="/beaches/galini">Γαλήνη</a>');
+  });
+});

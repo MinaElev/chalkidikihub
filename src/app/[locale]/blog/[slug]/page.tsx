@@ -19,6 +19,7 @@ import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { CommentSection } from '@/components/v3/CommentSection';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
+import { renderLinked } from '@/lib/content/autolink';
 
 export const revalidate = 86400;
 
@@ -67,7 +68,7 @@ export default async function ArticlePage({ params }: PageProps<'/[locale]/blog/
 
   const title = pick(a, 'title', locale);
   const body = localize(a, 'content', locale);
-  const { html, toc } = withHeadingIds(renderRichText(body.text, locale));
+  const { html, toc } = withHeadingIds(await renderLinked(body.text, locale, `/blog/${slug}`));
   const author = getAuthor(a.author);
   const modified = a.updated_at && a.updated_at.slice(0, 10) !== a.published_at.slice(0, 10) ? a.updated_at : null;
 

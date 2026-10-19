@@ -23,6 +23,7 @@ import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { WeatherBadge } from '@/components/v3/WeatherBadge';
+import { renderLinked } from '@/lib/content/autolink';
 
 export const revalidate = 86400;
 
@@ -117,7 +118,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
         <div>
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
-          <Prose html={renderRichText(body.text, locale)} />
+          <Prose html={await renderLinked(body.text, locale, `/places/${slug}`)} />
         </div>
         <aside className="space-y-3 text-sm lg:sticky lg:top-24 lg:self-start">
           {(['beaches', 'restaurants', 'activities'] as const).map((k) => (

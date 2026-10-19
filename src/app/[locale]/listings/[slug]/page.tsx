@@ -29,6 +29,7 @@ import { InquiryForm, type InquiryLabels } from '@/components/stay/InquiryForm';
 import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
+import { renderLinked } from '@/lib/content/autolink';
 
 export const revalidate = 86400;
 
@@ -169,12 +170,12 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div>
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
-          <Prose html={renderRichText(body.text, locale)} />
+          <Prose html={await renderLinked(body.text, locale, `/listings/${slug}`)} />
 
           {story.text && (
             <section className="mt-10 rounded-2xl bg-sand-50 p-6">
               <h2 className="font-display text-xl font-semibold text-slate-900">{t('aboutHost')}</h2>
-              <Prose html={renderRichText(story.text, locale)} className="mt-3" />
+              <Prose html={await renderLinked(story.text, locale, `/listings/${slug}`)} className="mt-3" />
             </section>
           )}
 

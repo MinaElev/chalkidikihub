@@ -18,6 +18,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
+import { renderLinked } from '@/lib/content/autolink';
 
 export const revalidate = 86400;
 export const dynamicParams = false;
@@ -78,7 +79,7 @@ export default async function AreaPage({ params }: PageProps<'/[locale]/areas/[s
 
   const name = AREA_NAMES[area][locale];
   const body = localize(row, 'description', locale);
-  const { html } = withHeadingIds(renderRichText(body.text, locale));
+  const { html } = withHeadingIds(await renderLinked(body.text, locale, `/areas/${slug}`));
   const inArea = <T extends { area: string }>(list: T[]) => list.filter((x) => x.area === area);
   const topBeaches = inArea(beaches).sort((a, b) => (b.reviews_count ?? 0) - (a.reviews_count ?? 0) || Number(Boolean(b.image_url)) - Number(Boolean(a.image_url))).slice(0, 8);
   const topFood = inArea(restaurants).sort((a, b) => (b.rating ?? 0) * Math.log10(10 + (b.reviews_count ?? 0)) - (a.rating ?? 0) * Math.log10(10 + (a.reviews_count ?? 0))).slice(0, 8);

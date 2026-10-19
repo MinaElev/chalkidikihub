@@ -19,6 +19,7 @@ import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, FactList, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
+import { renderLinked } from '@/lib/content/autolink';
 
 export const revalidate = 86400;
 
@@ -85,7 +86,7 @@ export default async function EventPage({ params }: PageProps<'/[locale]/events/
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div>
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
-          <Prose html={renderRichText(body.text, locale)} />
+          <Prose html={await renderLinked(body.text, locale, `/events/${slug}`)} />
         </div>
         <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
           <FactList
