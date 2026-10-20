@@ -34,3 +34,13 @@ export function formatPrice(amount: number, locale: Locale, currency = 'EUR'): s
 }
 
 export const capitalize = (s: string) => (s ? s[0].toLocaleUpperCase() + s.slice(1) : s);
+
+/**
+ * The database keeps one image_alt per row, written in Greek. It describes
+ * the photo on Greek pages; elsewhere it would be a Greek sentence on an
+ * English (German, Russian...) page, so callers fall back to the item's
+ * localised name instead.
+ */
+export function greekAlt(alt: unknown, locale: string): string | undefined {
+  return locale === 'el' && typeof alt === 'string' && alt.trim() ? alt : undefined;
+}

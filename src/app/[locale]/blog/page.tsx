@@ -2,7 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
 import { getArticles } from '@/lib/db/content';
 import { localize, pick } from '@/lib/i18n/localize';
-import { formatDate } from '@/lib/content/format';
+import { formatDate, greekAlt } from '@/lib/content/format';
 import { plainText } from '@/lib/content/render';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { itemListLd } from '@/lib/seo/jsonld';
@@ -46,7 +46,7 @@ export default async function BlogPage({ params }: PageProps<'/[locale]/blog'>) 
       href={`/blog/${a.slug}`}
       title={pick(a, 'title', locale)}
       image={a.image_url}
-      imageAlt={a.image_alt}
+      imageAlt={greekAlt(a.image_alt, locale)}
       eyebrow={formatDate(a.published_at, locale)}
       meta={plainText(pick(a, 'excerpt', locale), 120)}
       priority={i < 2}

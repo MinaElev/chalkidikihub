@@ -17,6 +17,8 @@
  *   + cold connection pool). Massive Fast Origin Transfer + DB read savings.
  */
 import { unstable_cache } from 'next/cache';
+import { locales } from '@/i18n/config';
+import { listingTitle } from '@/lib/content/listing-title';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
 import type { Area, Beach, Restaurant, Activity, BlogArticle, Listing, Sale, AreaInfo } from '@/types';
 
@@ -324,10 +326,8 @@ export function transformListing(row: Record<string, unknown>) {
     }));
   return {
     id: row.id, slug: row.slug, owner_id: row.owner_id,
-    title: {
-      el: row.title_el || '', en: row.title_en || '', de: row.title_de || '',
-      bg: row.title_bg || '', ru: row.title_ru || '', ro: row.title_ro || '',
-    },
+    // Business names stay as the owner wrote them (lib/content/listing-title.ts).
+    title: Object.fromEntries(locales.map((l) => [l, listingTitle(row, l)])),
     description: {
       el: row.description_el || '', en: row.description_en || '', de: row.description_de || '',
       bg: row.description_bg || '', ru: row.description_ru || '', ro: row.description_ro || '',

@@ -56,8 +56,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const m = await getMonastery(slug);
   if (!m) return { title: 'Monastery | Mount Athos' };
-  const title = m.metaTitle[locale] || m.metaTitle.el;
-  const description = m.metaDesc[locale] || m.metaDesc.el;
+  const title = m.metaTitle[locale] || m.metaTitle.en;
+  const description = m.metaDesc[locale] || m.metaDesc.en;
   return {
     title: { absolute: finalizeTitle(title) }, description,
     openGraph: { title, description },
@@ -82,9 +82,9 @@ export default async function MonasteryDetailPage({ params }: Props) {
   const m = await getMonastery(slug);
   if (!m) notFound();
 
-  const name = m.name[locale] || m.name.el;
-  const desc = m.description[locale] || m.description.el;
-  const highlights = (m.highlights[locale] || m.highlights.el).split('|');
+  const name = m.name[locale] || m.name.en;
+  const desc = m.description[locale] || m.description.en;
+  const highlights = (m.highlights[locale] || m.highlights.en).split('|');
   const nationLabel = NATION_LABELS[m.nation]?.[locale] || NATION_LABELS[m.nation]?.en || '';
 
   // Prev/Next
@@ -140,7 +140,7 @@ export default async function MonasteryDetailPage({ params }: Props) {
         <div className="mb-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
             <Star className="w-5 h-5 text-amber-500" />
-            {locale === 'el' ? 'Αξιοθέατα' : locale === 'de' ? 'Sehenswürdigkeiten' : locale === 'bg' ? 'Забележителности' : locale === 'ru' ? 'Достопримечательности' : locale === 'ro' ? 'Obiective' : 'Highlights'}
+            {locale === 'el' ? 'Αξιοθέατα' : locale === 'de' ? 'Sehenswürdigkeiten' : locale === 'bg' ? 'Забележителности' : locale === 'ru' ? 'Достопримечательности' : locale === 'ro' ? 'Obiective' : locale === 'sr' ? 'Znamenitosti' : 'Highlights'}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {highlights.map((h, i) => (
@@ -168,12 +168,12 @@ export default async function MonasteryDetailPage({ params }: Props) {
       <div className="flex justify-between items-center pt-6 border-t border-gray-200">
         {prev ? (
           <Link href={`/mount-athos/monasteries/${prev.slug}`} className="flex items-center gap-1 text-sm text-amber-700 hover:text-amber-900">
-            <ChevronLeft className="w-4 h-4" /> {prev.name[locale] || prev.name.el}
+            <ChevronLeft className="w-4 h-4" /> {prev.name[locale] || prev.name.en}
           </Link>
         ) : <span />}
         {next ? (
           <Link href={`/mount-athos/monasteries/${next.slug}`} className="flex items-center gap-1 text-sm text-amber-700 hover:text-amber-900">
-            {next.name[locale] || next.name.el} <ChevronRight className="w-4 h-4" />
+            {next.name[locale] || next.name.en} <ChevronRight className="w-4 h-4" />
           </Link>
         ) : <span />}
       </div>

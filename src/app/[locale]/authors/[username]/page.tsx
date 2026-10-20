@@ -11,6 +11,7 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, Section } from '@/components/ui/Layout';
+import { greekAlt } from '@/lib/content/format';
 
 export const revalidate = 86400;
 export const dynamicParams = false;
@@ -71,7 +72,7 @@ export default async function AuthorPage({ params }: PageProps<'/[locale]/author
       <Section id="articles" title={t('allByAuthor', { name: author.name })}>
         <CardGrid cols={3}>
           {mine.map((a) => (
-            <Card key={a.slug} href={`/blog/${a.slug}`} title={pick(a, 'title', locale)} image={a.image_url} imageAlt={a.image_alt} meta={plainText(pick(a, 'excerpt', locale), 110)} />
+            <Card key={a.slug} href={`/blog/${a.slug}`} title={pick(a, 'title', locale)} image={a.image_url} imageAlt={greekAlt(a.image_alt, locale)} meta={plainText(pick(a, 'excerpt', locale), 110)} />
           ))}
         </CardGrid>
       </Section>

@@ -146,12 +146,12 @@ export default async function HostPage({ params }: Props) {
                   {totalListings} {PROPS_LABEL[locale]?.toLowerCase() || 'properties'}
                 </span>
                 <span>
-                  {locale === 'el' ? 'Μέλος από' : 'Member since'} {memberYear}
+                  {({"el":"Μέλος από","en":"Member since","de":"Mitglied seit","bg":"Член от","ru":"На сайте с","ro":"Membru din","sr":"Član od"} as Record<string, string>)[locale] ?? "Member since"} {memberYear}
                 </span>
                 {avgPrice > 0 && (
                   <span>
-                    {locale === 'el' ? 'Από' : 'From'} €{avgPrice}
-                    {locale === 'el' ? '/βραδιά' : '/night'}
+                    {({"el":"Από","en":"From","de":"Ab","bg":"От","ru":"От","ro":"De la","sr":"Od"} as Record<string, string>)[locale] ?? "From"} €{avgPrice}
+                    {({"el":"/βραδιά","en":"/night","de":"/Nacht","bg":"/нощ","ru":"/ночь","ro":"/noapte","sr":"/noć"} as Record<string, string>)[locale] ?? "/night"}
                   </span>
                 )}
               </div>

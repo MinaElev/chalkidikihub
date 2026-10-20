@@ -5,10 +5,10 @@ import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getListing, getListings, type ListingCard } from '@/lib/db/content';
 import { hasCoords } from '@/lib/geo';
-import { localize, pick } from '@/lib/i18n/localize';
+import { inPageScript, localize, pick } from '@/lib/i18n/localize';
 import { closestVillage, displayName, nearBeaches, nearRestaurants, ratingProps } from '@/lib/content/nearby';
 import { AREA_NAMES, inPlace, placeName } from '@/lib/content/place-names';
-import { formatDate, formatDistance, formatPrice } from '@/lib/content/format';
+import { formatDate, formatDistance, formatPrice, greekAlt } from '@/lib/content/format';
 import { plainText, renderRichText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
 import { buildMetadata } from '@/lib/seo/metadata';
@@ -98,7 +98,10 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
   ]);
 
   const name = displayName(l, locale, 'listing');
-  const tagline = pick(l, 'tagline', locale);
+  // Only a tagline written for this language, in its alphabet (no English
+  // fallback on a German page, no English line typed into the Greek field).
+  const taglineL = localize(l, 'tagline', locale);
+  const tagline = taglineL.native && inPageScript(taglineL.text, locale) ? taglineL.text : '';
   const body = localize(l, 'description', locale);
   const story = localize(l, 'owner_story', locale);
   const pics = photos(l, locale, name);
@@ -261,7 +264,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
           <CardGrid>
             {beaches.map(({ item, km }) => (
               <Card key={item.slug} href={`/beaches/${item.slug}`}
-                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
+                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={greekAlt(item.image_alt, locale)} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
             ))}
           </CardGrid>
         </Section>
@@ -271,7 +274,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
           <CardGrid>
             {food.map(({ item, km }) => (
               <Card key={item.slug} href={`/restaurants/${item.slug}`}
-                favorite={{ type: 'restaurant', slug: item.slug }} title={displayName(item, locale, 'restaurant')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'restaurant')} />
+                favorite={{ type: 'restaurant', slug: item.slug }} title={displayName(item, locale, 'restaurant')} image={item.image_url} imageAlt={greekAlt(item.image_alt, locale)} distance={formatDistance(km, locale)} {...ratingProps(item, 'restaurant')} />
             ))}
           </CardGrid>
         </Section>

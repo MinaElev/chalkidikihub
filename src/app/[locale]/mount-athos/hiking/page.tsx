@@ -45,10 +45,10 @@ const content: Record<string, {
       { label: 'Υψόμετρο', value: '2.033 m' },
       { label: 'Διάρκεια', value: '6-8 ώρες' },
       { label: 'Δυσκολία', value: 'Υψηλή' },
-      { label: 'Αφετηρία', value: 'Μ. Αγ. Παύλου' },
+      { label: 'Αφετηρία', value: 'Σκήτη Αγ. Άννης' },
     ],
     routeTitle: 'Η Διαδρομή',
-    routeText: 'Η πιο συνηθισμένη αφετηρία είναι η Μονή Αγίου Παύλου, η οποία βρίσκεται στη νοτιοδυτική πλευρά της χερσονήσου. Από εκεί, το μονοπάτι ανεβαίνει σταδιακά μέσα από πυκνά δάση καστανιάς και οξιάς, περνώντας από το εκκλησάκι της Παναγίας και τελικά φτάνει στην κορυφή, όπου βρίσκεται ο ναός της Μεταμορφώσεως του Σωτήρος.',
+    routeText: 'Η κλασική αφετηρία είναι η Σκήτη της Αγίας Άννης στη νοτιοδυτική πλευρά της χερσονήσου· εναλλακτικά ξεκινά κανείς από τη Μονή Αγίου Παύλου. Το μονοπάτι ανεβαίνει μέσα από δάση με καστανιές, δρυς και έλατα, περνά από τα κελιά της Κερασιάς και το εκκλησάκι της Παναγίας (Παναγούδα, περίπου 1.500 μ.) και φτάνει στην κορυφή, όπου βρίσκεται ο ναός της Μεταμορφώσεως του Σωτήρος.',
     tipsTitle: 'Συμβουλές & Τι να Περιμένετε',
     tips: [
       'Ξεκινήστε νωρίς το πρωί για να αποφύγετε τη ζέστη και να έχετε αρκετό φως',
@@ -70,10 +70,10 @@ const content: Record<string, {
       { label: 'Altitude', value: '2,033 m' },
       { label: 'Duration', value: '6-8 hours' },
       { label: 'Difficulty', value: 'High' },
-      { label: 'Starting point', value: 'Agios Pavlos Mon.' },
+      { label: 'Starting point', value: 'Skete of Agia Anna' },
     ],
     routeTitle: 'The Route',
-    routeText: 'The most common starting point is the Monastery of Agios Pavlos (Saint Paul), located on the southwestern side of the peninsula. From there, the path climbs gradually through dense chestnut and beech forests, passing the small chapel of the Virgin Mary, and ultimately reaches the summit where the Church of the Transfiguration of the Savior stands.',
+    routeText: 'The classic starting point is the Skete of Agia Anna on the southwestern side of the peninsula; the Monastery of Agiou Pavlou is an alternative. The path climbs through chestnut, oak and fir forest, passes the cells of Kerasia and the small chapel of the Virgin Mary (Panagia, at about 1,500 m) and reaches the summit, where the Church of the Transfiguration of the Saviour stands.',
     tipsTitle: 'Tips & What to Expect',
     tips: [
       'Start early in the morning to avoid the heat and ensure enough daylight',
@@ -89,16 +89,16 @@ const content: Record<string, {
     jsonDesc: 'Guide to climbing the peak of Mount Athos at 2,033 meters.',
   },
   de: {
-    h1: 'Besteigung des Gipfels des Berg Athos',
-    intro: 'Der Aufstieg zum Gipfel des Berg Athos auf 2.033 Metern ist eine der eindrucksvollsten Wanderungen in Griechenland. Die Aussicht vom Gipfel erstreckt sich über die gesamte Ägäis, während das Erlebnis körperliche Herausforderung mit der tiefen Spiritualität des Ortes verbindet.',
+    h1: 'Besteigung des Gipfels des Berges Athos',
+    intro: 'Der Aufstieg zum Gipfel des Berges Athos auf 2.033 Metern ist eine der eindrucksvollsten Wanderungen in Griechenland. Die Aussicht vom Gipfel erstreckt sich über die gesamte Ägäis, während das Erlebnis körperliche Herausforderung mit der tiefen Spiritualität des Ortes verbindet.',
     facts: [
       { label: 'Höhe', value: '2.033 m' },
       { label: 'Dauer', value: '6-8 Stunden' },
       { label: 'Schwierigkeit', value: 'Hoch' },
-      { label: 'Startpunkt', value: 'Kl. Agios Pavlos' },
+      { label: 'Startpunkt', value: 'Skite Agia Anna' },
     ],
     routeTitle: 'Die Route',
-    routeText: 'Der häufigste Ausgangspunkt ist das Kloster Agios Pavlos (Sankt Paulus) an der südwestlichen Seite der Halbinsel. Von dort führt der Weg allmählich durch dichte Kastanien- und Buchenwälder, vorbei an der kleinen Kapelle der Jungfrau Maria, und erreicht schließlich den Gipfel, wo die Kirche der Verklärung des Erlösers steht.',
+    routeText: 'Klassischer Ausgangspunkt ist die Skite Agia Anna an der Südwestseite der Halbinsel; alternativ startet man am Kloster Agiou Pavlou. Der Weg führt durch Kastanien-, Eichen- und Tannenwald, vorbei an den Kellien von Kerasia und der kleinen Marienkapelle (Panagia, etwa 1.500 m), bis zum Gipfel mit der Kirche der Verklärung des Erlösers.',
     tipsTitle: 'Tipps & Was Sie erwartet',
     tips: [
       'Starten Sie früh am Morgen, um die Hitze zu vermeiden und genügend Tageslicht zu haben',
@@ -110,8 +110,8 @@ const content: Record<string, {
     ],
     experienceTitle: 'Das Erlebnis',
     experienceText: 'Die Besteigung des Athos ist nicht nur eine Wanderung — es ist eine Pilgerreise. Viele Wanderer beschreiben ein tiefes Gefühl des Friedens, wenn sie sich dem Gipfel nähern. Die Stille, Abgeschiedenheit und Heiligkeit des Ortes schaffen ein einzigartiges Erlebnis, das körperliche Herausforderung mit spiritueller Erhebung verbindet.',
-    jsonHeadline: 'Besteigung des Gipfels des Berg Athos',
-    jsonDesc: 'Wanderführer zur Besteigung des Berg Athos auf 2.033 Metern.',
+    jsonHeadline: 'Besteigung des Gipfels des Berges Athos',
+    jsonDesc: 'Wanderführer zur Besteigung des Berges Athos auf 2.033 Metern.',
   },
   bg: {
     h1: 'Изкачване на върха на Атос',
@@ -120,10 +120,10 @@ const content: Record<string, {
       { label: 'Височина', value: '2033 m' },
       { label: 'Продължителност', value: '6-8 часа' },
       { label: 'Трудност', value: 'Висока' },
-      { label: 'Начална точка', value: 'Ман. Агиос Павлос' },
+      { label: 'Начална точка', value: 'Скит Света Анна' },
     ],
     routeTitle: 'Маршрутът',
-    routeText: 'Най-честата начална точка е манастирът Агиос Павлос (Свети Павел), разположен на югозападната страна на полуострова. Оттам пътеката се изкачва постепенно през гъсти кестенови и букови гори, минава покрай малката параклис на Дева Мария и накрая достига върха, където се намира храмът на Преображение Господне.',
+    routeText: 'Класическата начална точка е скитът „Света Анна“ на югозападната страна на полуострова; алтернативно се тръгва от манастира „Свети Павел“. Пътеката минава през кестенови, дъбови и елови гори, покрай келиите на Керасия и параклиса „Света Богородица“ (Панагия, около 1500 м) и стига до върха, където се издига храмът „Преображение Господне“.',
     tipsTitle: 'Съвети и какво да очаквате',
     tips: [
       'Тръгнете рано сутринта, за да избегнете жегата и да имате достатъчно светлина',
@@ -145,10 +145,10 @@ const content: Record<string, {
       { label: 'Высота', value: '2033 м' },
       { label: 'Длительность', value: '6-8 часов' },
       { label: 'Сложность', value: 'Высокая' },
-      { label: 'Начальная точка', value: 'Мон. Агиос Павлос' },
+      { label: 'Начальная точка', value: 'Скит Святой Анны' },
     ],
     routeTitle: 'Маршрут',
-    routeText: 'Наиболее распространённая начальная точка — монастырь Агиос Павлос (Святого Павла), расположенный на юго-западной стороне полуострова. Оттуда тропа постепенно поднимается через густые каштановые и буковые леса, минуя небольшую часовню Богородицы, и в конечном итоге достигает вершины, где стоит храм Преображения Господня.',
+    routeText: 'Классическая начальная точка — скит Святой Анны на юго-западной стороне полуострова; другой вариант — монастырь Святого Павла. Тропа поднимается через каштановые, дубовые и пихтовые леса, проходит мимо келий Керасьи и часовни Богородицы (Панагия, около 1500 м) и выводит на вершину, где стоит храм Преображения Господня.',
     tipsTitle: 'Советы и чего ожидать',
     tips: [
       'Выходите рано утром, чтобы избежать жары и иметь достаточно светового дня',
@@ -170,10 +170,10 @@ const content: Record<string, {
       { label: 'Altitudine', value: '2.033 m' },
       { label: 'Durată', value: '6-8 ore' },
       { label: 'Dificultate', value: 'Ridicată' },
-      { label: 'Punct de plecare', value: 'Mân. Agios Pavlos' },
+      { label: 'Punct de plecare', value: 'Schitul Sf. Ana' },
     ],
     routeTitle: 'Traseul',
-    routeText: 'Cel mai frecvent punct de plecare este Mănăstirea Agios Pavlos (Sfântul Pavel), situată pe partea sud-vestică a peninsulei. De acolo, poteca urcă treptat prin păduri dese de castan și fag, trece pe lângă mica capelă a Maicii Domnului și ajunge în final pe vârf, unde se află Biserica Schimbării la Față a Mântuitorului.',
+    routeText: 'Punctul de plecare clasic este Schitul Sfânta Ana, pe latura de sud-vest a peninsulei; o alternativă este Mănăstirea Sfântul Pavel. Poteca urcă prin păduri de castan, stejar și brad, trece pe lângă chiliile de la Kerasia și capela Maicii Domnului (Panagia, la circa 1.500 m) și ajunge pe vârf, unde se află Biserica Schimbării la Față a Mântuitorului.',
     tipsTitle: 'Sfaturi și la ce să vă așteptați',
     tips: [
       'Porniți devreme dimineața pentru a evita căldura și a avea suficientă lumină',
@@ -188,12 +188,37 @@ const content: Record<string, {
     jsonHeadline: 'Ascensiunea pe vârful Muntelui Athos',
     jsonDesc: 'Ghid de urcare pe vârful Muntelui Athos la 2.033 de metri.',
   },
+  sr: {
+    h1: 'Uspon na vrh Svete Gore',
+    intro: 'Uspon na vrh Atosa, visok 2.033 metra, jedna je od najupečatljivijih planinarskih tura u Grčkoj. Pogled sa vrha obuhvata čitavo Egejsko more, a doživljaj spaja fizički izazov s dubokom duhovnošću mesta.',
+    facts: [
+      { label: 'Visina', value: '2.033 m' },
+      { label: 'Trajanje', value: '6–8 sati' },
+      { label: 'Težina', value: 'Visoka' },
+      { label: 'Polazište', value: 'Skit Svete Ane' },
+    ],
+    routeTitle: 'Staza',
+    routeText: 'Klasično polazište je Skit Svete Ane na jugozapadnoj strani poluostrva; druga mogućnost je manastir Svetog Pavla. Staza se penje kroz šume kestena, hrasta i jele, prolazi pored kelija Kerasije i kapele Presvete Bogorodice (Panagija, na oko 1.500 m) i izlazi na vrh, gde se nalazi crkva Preobraženja Gospodnjeg.',
+    tipsTitle: 'Saveti i šta da očekujete',
+    tips: [
+      'Krenite rano ujutru da izbegnete vrućinu i imate dovoljno dnevne svetlosti',
+      'Ponesite dosta vode (najmanje 2–3 litra) i hranu',
+      'Obujte čvrste planinarske cipele',
+      'Vreme se na vrhu brzo menja – ponesite vetrovku',
+      'Silazak je jednako zahtevan – ne potcenjujte potrebno vreme',
+      'Pogled sa vrha oduzima dah, naročito u svitanje',
+    ],
+    experienceTitle: 'Doživljaj',
+    experienceText: 'Uspon na Atos nije samo planinarenje – to je hodočašće. Mnogi planinari opisuju dubok mir dok se približavaju vrhu. Tišina, osama i svetost mesta stvaraju jedinstven doživljaj koji spaja fizički izazov s duhovnim uzdizanjem.',
+    jsonHeadline: 'Uspon na vrh Svete Gore',
+    jsonDesc: 'Vodič za uspon na vrh Atosa visok 2.033 metra.',
+  },
 };
 
 export default async function HikingPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const c = content[locale] || content.el;
+  const c = content[locale] || content.en;
 
   return (
     <article>

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { publicDb } from '@/lib/supabase/clients';
 import { locales, type Locale } from '@/i18n/config';
 import { publicSlug } from '@/content/rewrites/slug-renames';
+import { listingTitle } from '@/lib/content/listing-title';
 
 type Raw = {
   id: string;
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest) {
   const today = new Date().toISOString().slice(0, 10);
   const { data, error } = await publicDb()
     .from('last_minute_deals')
-    .select(`id, start_date, end_date, note, listings!inner(slug, area, status, title_${locale}, title_en, title_el, listing_images(image_url, is_cover, sort_order))`)
+    .select(`id, start_date, end_date, note, listings!inner(slug, area, status, title_el, title_en, title_de, title_ro, title_bg, title_sr, title_ru, listing_images(image_url, is_cover, sort_order))`)
     .eq('status', 'active')
     .eq('listings.status', 'published')
     .gte('end_date', today)
@@ -40,7 +41,7 @@ export async function GET(request: NextRequest) {
       return {
         id: d.id,
         slug: publicSlug('listings', l.slug),
-        title: (l[`title_${locale}`] as string) || (l.title_en as string) || (l.title_el as string) || l.slug,
+        title: listingTitle(l, locale),
         area: l.area,
         note: d.note,
         start_date: d.start_date,

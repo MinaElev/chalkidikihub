@@ -7,7 +7,7 @@ import { hasCoords } from '@/lib/geo';
 import { localize, pick } from '@/lib/i18n/localize';
 import { closestVillage, displayName, nearBeaches, nearListings, ratingProps } from '@/lib/content/nearby';
 import { AREA_NAMES, placeName } from '@/lib/content/place-names';
-import { formatDistance } from '@/lib/content/format';
+import { formatDistance, greekAlt } from '@/lib/content/format';
 import { plainText, renderRichText } from '@/lib/content/render';
 import { CATEGORY_LABELS, hasCurrentDates, whenLabel, type EventRow } from '@/lib/events';
 import { buildMetadata } from '@/lib/seo/metadata';
@@ -19,6 +19,7 @@ import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, FactList, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
+import { eventVenue, REGION_WIDE_EVENTS } from '@/content/editorial/event-venues';
 import { renderLinked } from '@/lib/content/autolink';
 
 export const revalidate = 86400;
@@ -71,7 +72,8 @@ export default async function EventPage({ params }: PageProps<'/[locale]/events/
   const name = pick(e, 'name', locale);
   const body = localize(e, 'description', locale);
   const geo = hasCoords(e);
-  const villageName = village ? placeName(village.item.slug, locale, village.item) : null;
+  const villageName = village && !REGION_WIDE_EVENTS.has(slug) ? placeName(village.item.slug, locale, village.item) : null;
+  const venue = eventVenue(slug, locale, e.venue as string | null);
   const [stays, beaches] = geo ? await Promise.all([nearListings(e, 4, 10), nearBeaches(e, 4)]) : [[], []];
 
   return (
@@ -82,7 +84,7 @@ export default async function EventPage({ params }: PageProps<'/[locale]/events/
       >
         <p className="mt-2 text-slate-600">{whenLabel(e, locale)}{villageName ? ` · ${villageName}` : ''}</p>
       </PageIntro>
-      <HeroImage src={e.image_url} alt={e.image_alt || name} />
+      <HeroImage src={e.image_url} alt={greekAlt(e.image_alt, locale) ?? name} />
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div>
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
@@ -92,7 +94,7 @@ export default async function EventPage({ params }: PageProps<'/[locale]/events/
           <FactList
             items={[
               { label: t('when'), value: whenLabel(e, locale) },
-              { label: t('where'), value: [e.venue, villageName].filter(Boolean).join(', ') || null },
+              { label: t('where'), value: [venue, villageName].filter(Boolean).join(', ') || null },
               { label: t('category'), value: CATEGORY_LABELS[e.category]?.[locale] ?? null },
               { label: t('entry'), value: e.is_free ? t('freeEntry') : null },
             ]}
@@ -120,7 +122,7 @@ export default async function EventPage({ params }: PageProps<'/[locale]/events/
           <CardGrid>
             {beaches.map(({ item, km }) => (
               <Card key={item.slug} href={`/beaches/${item.slug}`}
-                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
+                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={greekAlt(item.image_alt, locale)} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
             ))}
           </CardGrid>
         </Section>
@@ -138,7 +140,7 @@ export default async function EventPage({ params }: PageProps<'/[locale]/events/
             eventStatus: 'https://schema.org/EventScheduled',
             eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
             isAccessibleForFree: e.is_free ?? undefined,
-            location: { '@type': 'Place', name: e.venue || villageName || name, address: addressLd(villageName), geo: geoLd(e) },
+            location: { '@type': 'Place', name: venue || villageName || name, address: addressLd(villageName), geo: geoLd(e) },
             organizer: e.official_url ? { '@type': 'Organization', name, url: e.official_url } : undefined,
           }}
         />

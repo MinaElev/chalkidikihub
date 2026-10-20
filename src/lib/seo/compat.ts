@@ -29,12 +29,13 @@ export const SOCIAL_LINKS: string[] = [
 export const ogImageUrl = (..._args: unknown[]) => DEFAULT_OG_IMAGE;
 
 import { buildMetadata } from './metadata';
-export function collectionMeta(opts: { titles: Record<string, string>; descriptions: Record<string, string>; path: string; locale: string; ogType?: string; mdSection?: string }) {
+export function collectionMeta(opts: { titles: Record<string, string>; descriptions: Record<string, string>; path: string; locale: string; ogType?: string; mdSection?: string; indexableLocales?: readonly Locale[] }) {
   const locale = opts.locale as Locale;
   return buildMetadata({
     locale,
     path: `/${opts.path.replace(/^\//, '')}`,
     title: opts.titles[locale] || opts.titles.en,
     description: opts.descriptions[locale] || opts.descriptions.en,
+    indexableLocales: opts.indexableLocales,
   });
 }

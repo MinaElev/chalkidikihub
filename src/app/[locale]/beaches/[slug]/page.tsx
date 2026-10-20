@@ -10,7 +10,7 @@ import {
   closestVillage, displayName, nearBeaches, nearListings, nearRestaurants, ratingProps,
 } from '@/lib/content/nearby';
 import { AREA_LOCATIVE, AREA_NAMES, fromPlace, inPlace, placeName } from '@/lib/content/place-names';
-import { formatDistance, formatList } from '@/lib/content/format';
+import { formatDistance, formatList, greekAlt } from '@/lib/content/format';
 import { plainText, renderRichText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
 import { buildMetadata } from '@/lib/seo/metadata';
@@ -74,7 +74,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/
       ? metaDesc.text
       : t('metaDesc', { name, inPlace: village ? inPlace(village.item.slug, locale) : place, features: featureText || plainText(pick(beach, 'description', locale), 60) }),
     image: beach.image_url,
-    imageAlt: beach.image_alt ?? name,
+    imageAlt: greekAlt(beach.image_alt, locale) ?? name,
     indexableLocales: (await beachIndex())[slug] ?? [],
   });
 }
@@ -151,7 +151,7 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
           {village ? `${villageName}, ${AREA_NAMES[beach.area][locale]}` : AREA_NAMES[beach.area][locale]}
         </p>
       </PageIntro>
-      <HeroImage src={beach.image_url} alt={beach.image_alt || name} />
+      <HeroImage src={beach.image_url} alt={greekAlt(beach.image_alt, locale) ?? name} />
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div>
@@ -205,7 +205,7 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
           <CardGrid cols={3}>
             {otherBeaches.map(({ item, km }) => (
               <Card key={item.slug} href={`/beaches/${item.slug}`}
-                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
+                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={greekAlt(item.image_alt, locale)} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
             ))}
           </CardGrid>
         </Section>
@@ -215,7 +215,7 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
           <CardGrid>
             {food.map(({ item, km }) => (
               <Card key={item.slug} href={`/restaurants/${item.slug}`}
-                favorite={{ type: 'restaurant', slug: item.slug }} title={displayName(item, locale, 'restaurant')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'restaurant')} />
+                favorite={{ type: 'restaurant', slug: item.slug }} title={displayName(item, locale, 'restaurant')} image={item.image_url} imageAlt={greekAlt(item.image_alt, locale)} distance={formatDistance(km, locale)} {...ratingProps(item, 'restaurant')} />
             ))}
           </CardGrid>
         </Section>

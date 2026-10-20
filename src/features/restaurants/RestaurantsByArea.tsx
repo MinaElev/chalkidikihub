@@ -7,6 +7,7 @@ import { itemListLd } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Section } from '@/components/ui/Layout';
+import { greekAlt } from '@/lib/content/format';
 
 /** Restaurants grouped by peninsula, best-rated (by review volume) first. */
 export async function RestaurantsByArea({ locale, items }: { locale: Locale; items: RestaurantCard[] }) {
@@ -33,7 +34,7 @@ export async function RestaurantsByArea({ locale, items }: { locale: Locale; ite
                   title={displayName(r, locale, 'restaurant')}
                   eyebrow={villages.get(r.slug)}
                   image={r.image_url}
-                  imageAlt={r.image_alt}
+                  imageAlt={greekAlt(r.image_alt, locale)}
                   priority={area === 'kassandra' && i < 2}
                   badges={(r.cuisine ?? []).filter((c) => cuisines.has(c)).slice(0, 2).map((c) => cuisines(c))}
                   {...ratingProps(r, 'restaurant')}

@@ -9,6 +9,7 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, PageIntro, Section } from '@/components/ui/Layout';
+import { greekAlt } from '@/lib/content/format';
 
 export const revalidate = 86400;
 
@@ -60,7 +61,7 @@ export default async function ActivitiesPage({ params }: PageProps<'/[locale]/ac
                   title={displayName(a, locale, 'activity')}
                   eyebrow={villages.get(a.slug)}
                   image={a.image_url}
-                  imageAlt={a.image_alt}
+                  imageAlt={greekAlt(a.image_alt, locale)}
                   meta={[localizeToken(a.duration, locale), localizeToken(a.price_range, locale)].filter(Boolean).join(' · ') || undefined}
                   {...ratingProps(a, 'activity')}
                 />

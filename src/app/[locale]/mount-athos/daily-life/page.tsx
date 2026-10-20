@@ -42,16 +42,16 @@ const content: Record<string, {
   el: {
     h1: 'Καθημερινή Ζωή στο Άγιο Όρος',
     intro: 'Η ζωή στο Άγιο Όρος ακολουθεί έναν ρυθμό που παραμένει σχεδόν αναλλοίωτος εδώ και αιώνες. Βασίζεται σε τέσσερις πυλώνες: προσευχή, εργασία, υπακοή και ταπεινοφροσύνη. Κάθε μέρα ακολουθεί ένα αυστηρό πρόγραμμα που εναλλάσσει τη λατρεία με τη χειρωνακτική εργασία.',
-    scheduleTitle: 'Ημερήσιο Πρόγραμμα Μοναχών',
+    scheduleTitle: 'Ημερήσιο πρόγραμμα μοναχών (ενδεικτικό, καλοκαίρι)',
     thTime: 'Ώρα',
     thActivity: 'Δραστηριότητα',
     schedule: [
-      { time: '03:00', activity: 'Όρθρος (πρωινή ακολουθία)' },
-      { time: '06:00', activity: 'Θεία Λειτουργία' },
-      { time: '08:00', activity: 'Εργασία (διακονήματα)' },
-      { time: '13:00', activity: 'Κοινό γεύμα στην τράπεζα' },
-      { time: '14:00', activity: 'Απογευματινή εργασία ή προσευχή' },
-      { time: '19:00', activity: 'Εσπερινός' },
+      { time: '03:00', activity: 'Μεσονυκτικό και Όρθρος' },
+      { time: '06:30', activity: 'Θεία Λειτουργία' },
+      { time: '07:30', activity: 'Πρώτο γεύμα στην τράπεζα' },
+      { time: '08:30', activity: 'Εργασία (διακονήματα)' },
+      { time: '17:00', activity: 'Εσπερινός' },
+      { time: '18:00', activity: 'Δεύτερο γεύμα και Απόδειπνο' },
     ],
     visitorsTitle: 'Τι Κάνει ο Επισκέπτης',
     visitors: [
@@ -69,16 +69,16 @@ const content: Record<string, {
   en: {
     h1: 'Daily Life on Mount Athos',
     intro: 'Life on Mount Athos follows a rhythm that has remained virtually unchanged for centuries. It is built upon four pillars: prayer, work, obedience, and humility. Each day follows a strict schedule that alternates worship with manual labor.',
-    scheduleTitle: "Monks' Daily Schedule",
+    scheduleTitle: "Monks' daily schedule (indicative, summer)",
     thTime: 'Time',
     thActivity: 'Activity',
     schedule: [
-      { time: '03:00', activity: 'Orthros (morning service)' },
-      { time: '06:00', activity: 'Divine Liturgy' },
-      { time: '08:00', activity: 'Work (obediences)' },
-      { time: '13:00', activity: 'Communal meal in the refectory' },
-      { time: '14:00', activity: 'Afternoon work or prayer' },
-      { time: '19:00', activity: 'Vespers' },
+      { time: '03:00', activity: 'Midnight Office and Orthros' },
+      { time: '06:30', activity: 'Divine Liturgy' },
+      { time: '07:30', activity: 'First meal in the refectory' },
+      { time: '08:30', activity: 'Work (obediences)' },
+      { time: '17:00', activity: 'Vespers' },
+      { time: '18:00', activity: 'Evening meal and Compline' },
     ],
     visitorsTitle: 'What Visitors Do',
     visitors: [
@@ -96,16 +96,16 @@ const content: Record<string, {
   de: {
     h1: 'Tägliches Leben auf dem Berg Athos',
     intro: 'Das Leben auf dem Berg Athos folgt einem Rhythmus, der seit Jahrhunderten nahezu unverändert geblieben ist. Es basiert auf vier Säulen: Gebet, Arbeit, Gehorsam und Demut. Jeder Tag folgt einem strengen Programm, das Gottesdienst mit körperlicher Arbeit abwechselt.',
-    scheduleTitle: 'Täglicher Ablauf der Mönche',
+    scheduleTitle: 'Tagesablauf der Mönche (Richtwerte, Sommer)',
     thTime: 'Zeit',
     thActivity: 'Aktivität',
     schedule: [
-      { time: '03:00', activity: 'Orthros (Morgengottesdienst)' },
-      { time: '06:00', activity: 'Göttliche Liturgie' },
-      { time: '08:00', activity: 'Arbeit (Dienste)' },
-      { time: '13:00', activity: 'Gemeinsames Essen im Refektorium' },
-      { time: '14:00', activity: 'Nachmittagsarbeit oder Gebet' },
-      { time: '19:00', activity: 'Vesper' },
+      { time: '03:00', activity: 'Mitternachtsamt und Orthros' },
+      { time: '06:30', activity: 'Göttliche Liturgie' },
+      { time: '07:30', activity: 'Erste Mahlzeit im Refektorium' },
+      { time: '08:30', activity: 'Arbeit (Gehorsamsdienste)' },
+      { time: '17:00', activity: 'Vesper' },
+      { time: '18:00', activity: 'Abendessen und Komplet' },
     ],
     visitorsTitle: 'Was Besucher tun',
     visitors: [
@@ -123,16 +123,16 @@ const content: Record<string, {
   bg: {
     h1: 'Ежедневие на Света гора',
     intro: 'Животът на Света гора следва ритъм, който е останал почти непроменен от векове. Той е изграден върху четири стълба: молитва, труд, послушание и смирение. Всеки ден следва строг график, който редува богослужение с физически труд.',
-    scheduleTitle: 'Дневна програма на монасите',
+    scheduleTitle: 'Дневна програма на монасите (ориентировъчно, лято)',
     thTime: 'Час',
     thActivity: 'Дейност',
     schedule: [
-      { time: '03:00', activity: 'Утреня (сутрешна служба)' },
-      { time: '06:00', activity: 'Божествена литургия' },
-      { time: '08:00', activity: 'Работа (послушания)' },
-      { time: '13:00', activity: 'Обща трапеза в трапезарията' },
-      { time: '14:00', activity: 'Следобедна работа или молитва' },
-      { time: '19:00', activity: 'Вечерня' },
+      { time: '03:00', activity: 'Полунощница и утреня' },
+      { time: '06:30', activity: 'Божествена литургия' },
+      { time: '07:30', activity: 'Първа трапеза' },
+      { time: '08:30', activity: 'Работа (послушания)' },
+      { time: '17:00', activity: 'Вечерня' },
+      { time: '18:00', activity: 'Вечерна трапеза и повечерие' },
     ],
     visitorsTitle: 'Какво правят посетителите',
     visitors: [
@@ -150,16 +150,16 @@ const content: Record<string, {
   ru: {
     h1: 'Повседневная жизнь на Святой Горе Афон',
     intro: 'Жизнь на Святой Горе Афон следует ритму, который остается практически неизменным на протяжении веков. Она строится на четырех столпах: молитва, труд, послушание и смирение. Каждый день подчинен строгому распорядку, чередующему богослужение с физическим трудом.',
-    scheduleTitle: 'Ежедневное расписание монахов',
+    scheduleTitle: 'Распорядок дня монахов (ориентировочно, лето)',
     thTime: 'Время',
     thActivity: 'Занятие',
     schedule: [
-      { time: '03:00', activity: 'Утреня (утренняя служба)' },
-      { time: '06:00', activity: 'Божественная литургия' },
-      { time: '08:00', activity: 'Работа (послушания)' },
-      { time: '13:00', activity: 'Общая трапеза в трапезной' },
-      { time: '14:00', activity: 'Послеобеденная работа или молитва' },
-      { time: '19:00', activity: 'Вечерня' },
+      { time: '03:00', activity: 'Полунощница и утреня' },
+      { time: '06:30', activity: 'Божественная литургия' },
+      { time: '07:30', activity: 'Первая трапеза' },
+      { time: '08:30', activity: 'Работа (послушания)' },
+      { time: '17:00', activity: 'Вечерня' },
+      { time: '18:00', activity: 'Вечерняя трапеза и повечерие' },
     ],
     visitorsTitle: 'Чем занимаются посетители',
     visitors: [
@@ -177,16 +177,16 @@ const content: Record<string, {
   ro: {
     h1: 'Viața zilnică pe Muntele Athos',
     intro: 'Viața pe Muntele Athos urmează un ritm care a rămas practic neschimbat de secole. Se bazează pe patru piloni: rugăciune, muncă, ascultare și smerenie. Fiecare zi urmează un program strict care alternează slujbele religioase cu munca fizică.',
-    scheduleTitle: 'Programul zilnic al călugărilor',
+    scheduleTitle: 'Programul zilnic al călugărilor (orientativ, vara)',
     thTime: 'Ora',
     thActivity: 'Activitate',
     schedule: [
-      { time: '03:00', activity: 'Utrenia (slujba de dimineață)' },
-      { time: '06:00', activity: 'Sfânta Liturghie' },
-      { time: '08:00', activity: 'Muncă (ascultări)' },
-      { time: '13:00', activity: 'Masă comună în trapeză' },
-      { time: '14:00', activity: 'Muncă după-amiază sau rugăciune' },
-      { time: '19:00', activity: 'Vecernia' },
+      { time: '03:00', activity: 'Miezonoptica și Utrenia' },
+      { time: '06:30', activity: 'Sfânta Liturghie' },
+      { time: '07:30', activity: 'Prima masă în trapeză' },
+      { time: '08:30', activity: 'Muncă (ascultări)' },
+      { time: '17:00', activity: 'Vecernia' },
+      { time: '18:00', activity: 'Masa de seară și Pavecernița' },
     ],
     visitorsTitle: 'Ce fac vizitatorii',
     visitors: [
@@ -201,12 +201,39 @@ const content: Record<string, {
     jsonHeadline: 'Viața zilnică pe Muntele Athos',
     jsonDesc: 'Programul călugărilor, ce fac vizitatorii și experiența spirituală pe Muntele Athos.',
   },
+  sr: {
+    h1: 'Svakodnevni život na Svetoj Gori',
+    intro: 'Život na Svetoj Gori teče ritmom koji se vekovima gotovo nije menjao. Počiva na četiri stuba: molitvi, radu, poslušanju i smirenju. Svaki dan prati strog raspored u kojem se bogosluženja smenjuju s fizičkim radom.',
+    scheduleTitle: 'Dnevni raspored monaha (okvirno, leto)',
+    thTime: 'Vreme',
+    thActivity: 'Aktivnost',
+    schedule: [
+      { time: '03:00', activity: 'Polunoćnica i jutrenje' },
+      { time: '06:30', activity: 'Božanstvena liturgija' },
+      { time: '07:30', activity: 'Prvi obrok u trpezariji' },
+      { time: '08:30', activity: 'Rad (poslušanja)' },
+      { time: '17:00', activity: 'Večernje' },
+      { time: '18:00', activity: 'Večernji obrok i povečerje' },
+    ],
+    visitorsTitle: 'Šta rade posetioci',
+    visitors: [
+      'Celivaju svete ikone i mošti',
+      'Razgovaraju s monasima o duhovnim temama',
+      'Šetaju stazama kroz prirodu',
+      'Prisustvuju službama i liturgijama',
+      'Doživljavaju tišinu i mir prirode',
+    ],
+    spiritualTitle: 'Duhovno putovanje',
+    spiritualText: 'Za mnoge posetioce boravak na Svetoj Gori je duboko duhovno putovanje. Daleko od buke i obaveza savremenog života, Sveta Gora deluje kao predah od današnjeg sveta. Jednostavnost, tišina i isihastička atmosfera vode posetioce ka sebi samima i njihovoj duhovnoj dubini.',
+    jsonHeadline: 'Svakodnevni život na Svetoj Gori',
+    jsonDesc: 'Raspored monaha, šta rade posetioci i duhovni doživljaj na Svetoj Gori.',
+  },
 };
 
 export default async function DailyLifePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const c = content[locale] || content.el;
+  const c = content[locale] || content.en;
 
   return (
     <article>

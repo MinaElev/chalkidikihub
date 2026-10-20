@@ -42,7 +42,7 @@ const content: Record<string, {
   el: {
     h1: 'Ιστορία & Θρύλοι του Αγίου Όρους',
     importanceTitle: 'Γιατί το Άγιο Όρος Είναι Σημαντικό',
-    importanceP1: 'Το Άγιο Όρος είναι το αρχαιότερο εν λειτουργία μοναστικό κέντρο στον κόσμο. Η μοναστική ζωή εδώ λειτουργεί αδιάλειπτα από τον 10ο αιώνα, κάνοντάς το ένα ζωντανό μνημείο της βυζαντινής παράδοσης. Τα μοναστήρια φυλάσσουν ανεκτίμητα χειρόγραφα, εικόνες και κειμήλια ηλικίας άνω των 1.000 ετών.',
+    importanceP1: 'Το Άγιο Όρος είναι μία από τις αρχαιότερες μοναστικές κοινότητες του κόσμου που ζουν αδιάλειπτα μέχρι σήμερα. Η μοναστική ζωή εδώ λειτουργεί αδιάλειπτα από τον 10ο αιώνα, κάνοντάς το ένα ζωντανό μνημείο της βυζαντινής παράδοσης. Τα μοναστήρια φυλάσσουν ανεκτίμητα χειρόγραφα, εικόνες και κειμήλια ηλικίας άνω των 1.000 ετών.',
     importanceP2: 'Ο πολιτιστικός πλούτος είναι τεράστιος: βιβλιοθήκες με σπάνια χειρόγραφα, βυζαντινές τοιχογραφίες, χρυσοκέντητα άμφια και λειτουργικά σκεύη που αντιπροσωπεύουν αιώνες τέχνης και πίστης.',
     mysteriesTitle: 'Μυστήρια & Θρύλοι',
     mysteries: [
@@ -52,19 +52,19 @@ const content: Record<string, {
     ],
     monksTitle: 'Διάσημοι Μοναχοί',
     monks: [
-      { name: 'Γέροντας Παΐσιος ο Αγιορείτης', desc: 'Ένας από τους πιο αγαπημένους γέροντες του 20ού αιώνα, γνωστός για τη σοφία, το χιούμορ και τα χαρίσματά του.' },
+      { name: 'Άγιος Παΐσιος ο Αγιορείτης', desc: 'Ένας από τους πιο αγαπημένους γέροντες του 20ού αιώνα, γνωστός για τη σοφία, το χιούμορ και τα χαρίσματά του· αγιοκατατάχθηκε το 2015.' },
       { name: 'Γέροντας Ιωσήφ ο Ησυχαστής', desc: 'Μεγάλος ασκητής και δάσκαλος της νοεράς προσευχής, του οποίου η επιρροή διαμόρφωσε ολόκληρη γενιά μοναχών.' },
       { name: 'Άγιος Σιλουανός ο Αθωνίτης', desc: 'Ρώσος μοναχός που αγιοποιήθηκε, γνωστός για τα γραπτά του περί ταπείνωσης και αγάπης.' },
     ],
     uniqueTitle: 'Γιατί Είναι Μοναδικό',
-    uniqueText: 'Το Άγιο Όρος λειτουργεί αδιάλειπτα από τον 10ο αιώνα, με δική του αυτοδιοίκηση, και παραμένει το πνευματικό κέντρο της Ορθοδοξίας. Εδώ συνεχίζεται η αυθεντική μοναστική ζωή όπως ακριβώς βιωνόταν στο Βυζάντιο. Για πολλούς ανθρώπους, αποτελεί έναν από τους πιο ιερούς τόπους στον πλανήτη.',
+    uniqueText: 'Το Άγιο Όρος λειτουργεί αδιάλειπτα από τον 10ο αιώνα, με δική του αυτοδιοίκηση, και παραμένει το πνευματικό κέντρο της Ορθοδοξίας. Εδώ η μοναστική ζωή συνεχίζεται σε μεγάλο βαθμό όπως βιωνόταν στο Βυζάντιο. Για πολλούς ανθρώπους, αποτελεί έναν από τους πιο ιερούς τόπους στον πλανήτη.',
     jsonHeadline: 'Ιστορία & Θρύλοι του Αγίου Όρους',
     jsonDesc: 'Η ιστορία, οι θρύλοι και η σημασία του Αγίου Όρους.',
   },
   en: {
     h1: 'History & Legends of Mount Athos',
     importanceTitle: 'Why Mount Athos Matters',
-    importanceP1: 'Mount Athos is the oldest continuously operating monastic center in the world. Monastic life here has continued uninterrupted since the 10th century, making it a living monument to Byzantine tradition. The monasteries safeguard priceless manuscripts, icons, and relics over 1,000 years old.',
+    importanceP1: 'Mount Athos is one of the oldest continuously inhabited monastic communities in the world. Monastic life here has continued uninterrupted since the 10th century, making it a living monument to Byzantine tradition. The monasteries safeguard priceless manuscripts, icons, and relics over 1,000 years old.',
     importanceP2: 'The cultural wealth is immense: libraries with rare manuscripts, Byzantine frescoes, gold-embroidered vestments, and liturgical vessels representing centuries of art and faith.',
     mysteriesTitle: 'Mysteries & Legends',
     mysteries: [
@@ -74,19 +74,19 @@ const content: Record<string, {
     ],
     monksTitle: 'Famous Monks',
     monks: [
-      { name: 'Elder Paisios the Athonite', desc: 'One of the most beloved elders of the 20th century, known for his wisdom, humor, and spiritual gifts.' },
+      { name: 'Saint Paisios the Athonite', desc: 'One of the most beloved elders of the 20th century, known for his wisdom, humor, and spiritual gifts; canonized in 2015.' },
       { name: 'Elder Joseph the Hesychast', desc: 'A great ascetic and teacher of the prayer of the heart, whose influence shaped an entire generation of monks.' },
       { name: 'Saint Silouan the Athonite', desc: 'A Russian monk who was canonized, known for his writings on humility and love.' },
     ],
     uniqueTitle: 'Why It Is Unique',
-    uniqueText: 'Mount Athos has operated continuously since the 10th century, with its own self-governance, and remains the spiritual center of Orthodoxy. Here, authentic monastic life continues exactly as it was experienced in Byzantium. For many people, it is one of the holiest places on the planet.',
+    uniqueText: 'Mount Athos has operated continuously since the 10th century, with its own self-governance, and remains the spiritual center of Orthodoxy. Here, monastic life continues largely as it was lived in Byzantium. For many people, it is one of the holiest places on the planet.',
     jsonHeadline: 'History & Legends of Mount Athos',
     jsonDesc: 'The history, legends, and significance of Mount Athos.',
   },
   de: {
-    h1: 'Geschichte & Legenden des Berg Athos',
+    h1: 'Geschichte & Legenden des Berges Athos',
     importanceTitle: 'Warum der Berg Athos bedeutend ist',
-    importanceP1: 'Der Berg Athos ist das älteste ununterbrochen betriebene Klosterzentrum der Welt. Das monastische Leben besteht hier seit dem 10. Jahrhundert ohne Unterbrechung und macht ihn zu einem lebendigen Denkmal der byzantinischen Tradition. Die Klöster bewahren unbezahlbare Handschriften, Ikonen und Reliquien, die über 1.000 Jahre alt sind.',
+    importanceP1: 'Der Berg Athos ist eine der ältesten ununterbrochen bewohnten Mönchsgemeinschaften der Welt. Das monastische Leben besteht hier seit dem 10. Jahrhundert ohne Unterbrechung und macht ihn zu einem lebendigen Denkmal der byzantinischen Tradition. Die Klöster bewahren unbezahlbare Handschriften, Ikonen und Reliquien, die über 1.000 Jahre alt sind.',
     importanceP2: 'Der kulturelle Reichtum ist immens: Bibliotheken mit seltenen Handschriften, byzantinische Fresken, goldbestickte Gewänder und liturgische Gefäße, die Jahrhunderte von Kunst und Glauben repräsentieren.',
     mysteriesTitle: 'Geheimnisse & Legenden',
     mysteries: [
@@ -96,19 +96,19 @@ const content: Record<string, {
     ],
     monksTitle: 'Berühmte Mönche',
     monks: [
-      { name: 'Starez Paisios der Athonit', desc: 'Einer der beliebtesten Ältesten des 20. Jahrhunderts, bekannt für seine Weisheit, seinen Humor und seine geistlichen Gaben.' },
+      { name: 'Heiliger Paisios der Athonit', desc: 'Einer der beliebtesten Ältesten des 20. Jahrhunderts, bekannt für seine Weisheit, seinen Humor und seine geistlichen Gaben; 2015 heiliggesprochen.' },
       { name: 'Starez Joseph der Hesychast', desc: 'Ein großer Asket und Lehrer des Herzensgebets, dessen Einfluss eine ganze Generation von Mönchen prägte.' },
       { name: 'Heiliger Siluan der Athonit', desc: 'Ein russischer Mönch, der heiliggesprochen wurde und für seine Schriften über Demut und Liebe bekannt ist.' },
     ],
     uniqueTitle: 'Warum er einzigartig ist',
-    uniqueText: 'Der Berg Athos ist seit dem 10. Jahrhundert ununterbrochen in Betrieb, verfügt über eine eigene Selbstverwaltung und bleibt das spirituelle Zentrum der Orthodoxie. Hier wird das authentische monastische Leben genau so fortgeführt, wie es in Byzanz gelebt wurde. Für viele Menschen ist er einer der heiligsten Orte der Welt.',
-    jsonHeadline: 'Geschichte & Legenden des Berg Athos',
-    jsonDesc: 'Die Geschichte, Legenden und Bedeutung des Berg Athos.',
+    uniqueText: 'Der Berg Athos ist seit dem 10. Jahrhundert ununterbrochen in Betrieb, verfügt über eine eigene Selbstverwaltung und bleibt das spirituelle Zentrum der Orthodoxie. Hier wird das monastische Leben weitgehend so fortgeführt, wie es in Byzanz gelebt wurde. Für viele Menschen ist er einer der heiligsten Orte der Welt.',
+    jsonHeadline: 'Geschichte & Legenden des Berges Athos',
+    jsonDesc: 'Die Geschichte, Legenden und Bedeutung des Berges Athos.',
   },
   bg: {
     h1: 'История и легенди на Света гора',
     importanceTitle: 'Защо Света гора е важна',
-    importanceP1: 'Света гора е най-старият непрекъснато действащ монашески център в света. Монашеският живот тук продължава без прекъсване от X век, което я превръща в жив паметник на византийската традиция. Манастирите пазят безценни ръкописи, икони и реликви на над 1000 години.',
+    importanceP1: 'Света гора е една от най-старите непрекъснато обитавани монашески общности в света. Монашеският живот тук продължава без прекъсване от X век, което я превръща в жив паметник на византийската традиция. Манастирите пазят безценни ръкописи, икони и реликви на над 1000 години.',
     importanceP2: 'Културното богатство е огромно: библиотеки с редки ръкописи, византийски стенописи, златошити одежди и литургични съдове, представляващи векове на изкуство и вяра.',
     mysteriesTitle: 'Тайни и легенди',
     mysteries: [
@@ -118,19 +118,19 @@ const content: Record<string, {
     ],
     monksTitle: 'Известни монаси',
     monks: [
-      { name: 'Старец Паисий Светогорец', desc: 'Един от най-обичаните старци на XX век, известен с мъдростта, хумора и духовните си дарби.' },
+      { name: 'Свети Паисий Светогорец', desc: 'Един от най-обичаните старци на XX век, известен с мъдростта, хумора и духовните си дарби; канонизиран през 2015 г.' },
       { name: 'Старец Йосиф Исихаст', desc: 'Велик аскет и учител на умната молитва, чието влияние оформи цяло поколение монаси.' },
       { name: 'Свети Силуан Атонски', desc: 'Руски монах, канонизиран за светец, известен с писанията си за смирение и любов.' },
     ],
     uniqueTitle: 'Защо е уникална',
-    uniqueText: 'Света гора действа непрекъснато от X век, с собствено самоуправление, и остава духовният център на Православието. Тук автентичният монашески живот продължава точно както се е преживявал във Византия. За много хора тя е едно от най-свещените места на планетата.',
+    uniqueText: 'Света гора действа непрекъснато от X век, с собствено самоуправление, и остава духовният център на Православието. Тук монашеският живот продължава до голяма степен така, както се е живял във Византия. За много хора тя е едно от най-свещените места на планетата.',
     jsonHeadline: 'История и легенди на Света гора',
     jsonDesc: 'Историята, легендите и значението на Света гора.',
   },
   ru: {
     h1: 'История и легенды Святой Горы Афон',
     importanceTitle: 'Почему Святая Гора Афон важна',
-    importanceP1: 'Святая Гора Афон — старейший непрерывно действующий монашеский центр в мире. Монашеская жизнь здесь продолжается без перерыва с X века, что делает его живым памятником византийской традиции. Монастыри хранят бесценные рукописи, иконы и реликвии возрастом более 1000 лет.',
+    importanceP1: 'Святая Гора Афон — одна из старейших непрерывно населённых монашеских общин в мире. Монашеская жизнь здесь продолжается без перерыва с X века, что делает его живым памятником византийской традиции. Монастыри хранят бесценные рукописи, иконы и реликвии возрастом более 1000 лет.',
     importanceP2: 'Культурное богатство огромно: библиотеки с редкими рукописями, византийские фрески, золотошвейные облачения и литургические сосуды, представляющие века искусства и веры.',
     mysteriesTitle: 'Тайны и легенды',
     mysteries: [
@@ -140,19 +140,19 @@ const content: Record<string, {
     ],
     monksTitle: 'Знаменитые монахи',
     monks: [
-      { name: 'Старец Паисий Святогорец', desc: 'Один из самых любимых старцев XX века, известный своей мудростью, юмором и духовными дарами.' },
+      { name: 'Преподобный Паисий Святогорец', desc: 'Один из самых любимых старцев XX века, известный своей мудростью, юмором и духовными дарами; канонизирован в 2015 году.' },
       { name: 'Старец Иосиф Исихаст', desc: 'Великий аскет и учитель умной молитвы, влияние которого сформировало целое поколение монахов.' },
       { name: 'Святой Силуан Афонский', desc: 'Русский монах, канонизированный как святой, известный своими писаниями о смирении и любви.' },
     ],
     uniqueTitle: 'Почему она уникальна',
-    uniqueText: 'Святая Гора Афон непрерывно действует с X века, обладает собственным самоуправлением и остаётся духовным центром Православия. Здесь продолжается подлинная монашеская жизнь точно так, как она переживалась в Византии. Для многих людей это одно из самых священных мест на планете.',
+    uniqueText: 'Святая Гора Афон непрерывно действует с X века, обладает собственным самоуправлением и остаётся духовным центром Православия. Здесь монашеская жизнь во многом продолжается так, как она шла в Византии. Для многих людей это одно из самых священных мест на планете.',
     jsonHeadline: 'История и легенды Святой Горы Афон',
     jsonDesc: 'История, легенды и значение Святой Горы Афон.',
   },
   ro: {
     h1: 'Istorie și legende ale Muntelui Athos',
     importanceTitle: 'De ce contează Muntele Athos',
-    importanceP1: 'Muntele Athos este cel mai vechi centru monastic în funcțiune continuă din lume. Viața monahală aici a continuat neîntrerupt din secolul al X-lea, făcându-l un monument viu al tradiției bizantine. Mănăstirile păzesc manuscrise, icoane și relicve neprețuite, cu o vechime de peste 1.000 de ani.',
+    importanceP1: 'Muntele Athos este una dintre cele mai vechi comunități monahale locuite neîntrerupt din lume. Viața monahală aici a continuat neîntrerupt din secolul al X-lea, făcându-l un monument viu al tradiției bizantine. Mănăstirile păzesc manuscrise, icoane și relicve neprețuite, cu o vechime de peste 1.000 de ani.',
     importanceP2: 'Bogăția culturală este imensă: biblioteci cu manuscrise rare, fresce bizantine, veșminte brodate cu aur și vase liturgice care reprezintă secole de artă și credință.',
     mysteriesTitle: 'Mistere și legende',
     mysteries: [
@@ -162,21 +162,43 @@ const content: Record<string, {
     ],
     monksTitle: 'Călugări celebri',
     monks: [
-      { name: 'Stareț Paisie Aghioritul', desc: 'Unul dintre cei mai iubiți stareți ai secolului XX, cunoscut pentru înțelepciunea, umorul și darurile sale spirituale.' },
+      { name: 'Sfântul Paisie Aghioritul', desc: 'Unul dintre cei mai iubiți stareți ai secolului XX, cunoscut pentru înțelepciunea, umorul și darurile sale spirituale; canonizat în 2015.' },
       { name: 'Stareț Iosif Isihastul', desc: 'Un mare ascet și învățător al rugăciunii inimii, a cărui influență a modelat o întreagă generație de călugări.' },
       { name: 'Sfântul Siluan Athonitul', desc: 'Un călugăr rus care a fost canonizat, cunoscut pentru scrierile sale despre smerenie și iubire.' },
     ],
     uniqueTitle: 'De ce este unic',
-    uniqueText: 'Muntele Athos funcționează continuu din secolul al X-lea, cu propria autoguvernare, și rămâne centrul spiritual al Ortodoxiei. Aici, viața monahală autentică continuă exact așa cum era trăită în Bizanț. Pentru mulți oameni, este unul dintre cele mai sfinte locuri de pe planetă.',
+    uniqueText: 'Muntele Athos funcționează continuu din secolul al X-lea, cu propria autoguvernare, și rămâne centrul spiritual al Ortodoxiei. Aici, viața monahală continuă în mare măsură așa cum era trăită în Bizanț. Pentru mulți oameni, este unul dintre cele mai sfinte locuri de pe planetă.',
     jsonHeadline: 'Istorie și legende ale Muntelui Athos',
     jsonDesc: 'Istoria, legendele și semnificația Muntelui Athos.',
+  },
+  sr: {
+    h1: 'Istorija i legende Svete Gore',
+    importanceTitle: 'Zašto je Sveta Gora važna',
+    importanceP1: 'Sveta Gora je jedna od najstarijih monaških zajednica na svetu koje bez prekida žive do danas. Monaški život ovde traje neprekidno od 10. veka, što je čini živim spomenikom vizantijske tradicije. Manastiri čuvaju neprocenjive rukopise, ikone i mošti starije od 1.000 godina.',
+    importanceP2: 'Kulturno bogatstvo je ogromno: biblioteke s retkim rukopisima, vizantijske freske, zlatom vezene odežde i bogoslužbeni sasudi koji svedoče o vekovima umetnosti i vere.',
+    mysteriesTitle: 'Tajne i legende',
+    mysteries: [
+      { title: 'Čudotvorne ikone', desc: 'Mnogi manastiri čuvaju ikone kojima se pripisuju čuda, poput Bogorodice Trojeručice u Hilandaru i Bogorodice Portaitise u Iviru.' },
+      { title: 'Isposnici u pećinama', desc: 'I danas podvižnici žive u teško pristupačnim pećinama na liticama poluostrva, sledeći drevnu tradiciju isposničkog života.' },
+      { title: 'Čuda i proročanstva', desc: 'Bezbrojna svedočanstva o čudima i proročanstvima vezana su za Svetu Goru i hrane njenu legendu i mističnu auru.' },
+    ],
+    monksTitle: 'Poznati monasi',
+    monks: [
+      { name: 'Sveti Pajsije Svetogorac', desc: 'Jedan od najvoljenijih staraca 20. veka, poznat po mudrosti, humoru i duhovnim darovima; kanonizovan 2015. godine.' },
+      { name: 'Starac Josif Isihasta', desc: 'Veliki podvižnik i učitelj umne molitve, čiji je uticaj oblikovao čitavu generaciju monaha.' },
+      { name: 'Sveti Siluan Atonski', desc: 'Ruski monah proglašen za svetitelja, poznat po spisima o smirenju i ljubavi.' },
+    ],
+    uniqueTitle: 'Zašto je jedinstvena',
+    uniqueText: 'Sveta Gora neprekidno živi od 10. veka, ima sopstvenu samoupravu i ostaje duhovni centar pravoslavlja. Monaški život se ovde u velikoj meri nastavlja onako kako se živeo u Vizantiji. Za mnoge ljude to je jedno od najsvetijih mesta na planeti.',
+    jsonHeadline: 'Istorija i legende Svete Gore',
+    jsonDesc: 'Istorija, legende i značaj Svete Gore.',
   },
 };
 
 export default async function HistoryPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const c = content[locale] || content.el;
+  const c = content[locale] || content.en;
 
   return (
     <article>

@@ -1,3 +1,4 @@
+import { serbianLatin } from '@/lib/i18n/script';
 // Mount Athos guide content in 6 languages
 // Each key maps to { el, en, de, bg, ru, ro }
 
@@ -21,6 +22,7 @@ export const t = {
     bg: 'Пълен пътеводител за Атонската държава — най-важният център на православното монашество в света',
     ru: 'Полный путеводитель по Афонскому государству — важнейший центр православного монашества в мире',
     ro: 'Ghidul complet al Statului Athonit — cel mai important centru al monahismului ortodox din lume',
+    sr: 'Potpuni vodič kroz Svetu Goru – najvažnije središte pravoslavnog monaštva u svetu',
   } as L,
   landingLocation: { el: 'Χερσόνησος Άθω, Χαλκιδική', en: 'Athos Peninsula, Halkidiki', de: 'Athos-Halbinsel, Chalkidiki', bg: 'Полуостров Атос, Халкидики', ru: 'Полуостров Афон, Халкидики', ro: 'Peninsula Athos, Halkidiki' , sr: 'Poluostrvo Atos, Halkidiki' } as L,
   landingIntro: {
@@ -30,6 +32,7 @@ export const t = {
     bg: 'Света гора е едно от най-уникалните и духовно значими места в света. Това е монашеска държава с над 1000-годишна история, разположена на третия полуостров на Халкидики.',
     ru: 'Святая Гора Афон — одно из самых уникальных и духовно значимых мест в мире. Это монашеское государство с более чем 1000-летней историей, расположенное на третьем полуострове Халкидики.',
     ro: 'Muntele Athos este unul dintre cele mai unice și semnificative locuri spirituale din lume. Este un stat monastic cu o istorie de peste 1.000 de ani, situat pe a treia peninsulă din Halkidiki.',
+    sr: 'Sveta Gora je jedno od najosobenijih i duhovno najznačajnijih mesta na svetu. To je monaška država s istorijom dužom od 1.000 godina, smeštena na trećem poluostrvu Halkidikija.',
   } as L,
   landingIntro2: {
     el: 'Συχνά αποκαλείται «Περιβόλι της Παναγίας» και λειτουργεί ως Αυτόνομη Μοναστική Πολιτεία σύμφωνα με το ελληνικό Σύνταγμα. Η περιοχή εκτείνεται σε 335 τετραγωνικά χιλιόμετρα, με κορυφή στα 2.033 μέτρα. Σήμερα φιλοξενεί περίπου 2.000 μοναχούς.',
@@ -38,6 +41,7 @@ export const t = {
     bg: 'Често наричана „Градината на Богородица", тя функционира като автономна монашеска държава съгласно гръцката конституция. Територията обхваща 335 квадратни километра, а върхът достига 2033 метра. Днес там живеят около 2000 монаси.',
     ru: 'Часто называемая «Садом Богородицы», она функционирует как Автономное монашеское государство согласно греческой конституции. Территория охватывает 335 квадратных километров, а вершина достигает 2033 метров. Сегодня здесь проживают около 2000 монахов.',
     ro: 'Adesea numit „Grădina Maicii Domnului", funcționează ca Stat Monastic Autonom conform Constituției grecești. Zona acoperă 335 de kilometri pătrați, cu vârful la 2.033 de metri. Astăzi găzduiește aproximativ 2.000 de călugări.',
+    sr: 'Često je nazivaju „Vrtom Presvete Bogorodice“. Ima status samoupravne monaške zajednice prema grčkom Ustavu. Prostire se na oko 335 kvadratnih kilometara, a njen vrh dostiže 2.033 metra. Danas na njoj živi oko 2.000 monaha.',
   } as L,
   guideTitle: { el: 'Οδηγός Αγίου Όρους', en: 'Mount Athos Guide', de: 'Berg Athos Reiseführer', bg: 'Пътеводител', ru: 'Путеводитель', ro: 'Ghid', sr: 'Vodič' } as L,
 
@@ -58,6 +62,7 @@ export const t = {
     bg: 'Пълен списък на всички манастири, история и националност',
     ru: 'Полный список всех монастырей, история и национальность',
     ro: 'Lista completă a tuturor mănăstirilor, istorie și naționalitate',
+    sr: 'Potpun spisak svih manastira, istorija i narodnost',
   } as L,
   descHowToVisit: {
     el: 'Κανόνες εισόδου, διαμονητήριο, Άβατον, ποιος μπορεί να μπει',
@@ -66,6 +71,7 @@ export const t = {
     bg: 'Правила за влизане, разрешителни, Аватон, кой може да влезе',
     ru: 'Правила входа, разрешения, Аватон, кто может войти',
     ro: 'Reguli de intrare, permise, Avaton, cine poate intra',
+    sr: 'Pravila ulaska, dozvole, avaton, ko može da uđe',
   } as L,
   descGettingThere: {
     el: 'Μεταφορές από Θεσσαλονίκη, Ουρανούπολη, πλοία προς Δάφνη',
@@ -74,6 +80,7 @@ export const t = {
     bg: 'Транспорт от Солун, Уранополи, кораби до Дафни',
     ru: 'Транспорт из Салоников, Уранополис, лодки до Дафни',
     ro: 'Transport din Salonic, Ouranoupoli, bărci spre Dafni',
+    sr: 'Prevoz iz Soluna i Uranupolisa, brodovi do Dafnija',
   } as L,
   descAccommodation: {
     el: 'Αρχονταρίκι, ξενώνες μονών, φιλοξενία και κόστος',
@@ -82,6 +89,7 @@ export const t = {
     bg: 'Архонтарики, манастирски гостоприемници, гостоприемство и разходи',
     ru: 'Архондарик, монастырские гостиницы, гостеприимство и расходы',
     ro: 'Archontariki, case de oaspeți mănăstirești, ospitalitate și costuri',
+    sr: 'Arhondarici, manastirski konaci, gostoprimstvo i troškovi',
   } as L,
   descDailyLife: {
     el: 'Πρόγραμμα μοναχών, τι κάνει ο επισκέπτης, πνευματικό ταξίδι',
@@ -90,6 +98,7 @@ export const t = {
     bg: 'Програма на монасите, какво правят посетителите, духовно пътуване',
     ru: 'Расписание монахов, чем занимаются посетители, духовное путешествие',
     ro: 'Programul călugărilor, ce fac vizitatorii, călătorie spirituală',
+    sr: 'Raspored monaha, šta rade posetioci, duhovno putovanje',
   } as L,
   descHiking: {
     el: 'Κορυφή 2.033 μέτρα, διαδρομή 6-8 ώρες, πρακτικές πληροφορίες',
@@ -98,6 +107,7 @@ export const t = {
     bg: 'Връх 2033 метра, маршрут 6-8 часа, практическа информация',
     ru: 'Вершина 2033 метра, маршрут 6-8 часов, практическая информация',
     ro: 'Vârf 2.033 metri, traseu de 6-8 ore, informații practice',
+    sr: 'Vrh na 2.033 metra, staza od 6–8 sati, praktične informacije',
   } as L,
   descHistory: {
     el: 'Βυζαντινή κληρονομιά, θαυματουργές εικόνες, διάσημοι μοναχοί',
@@ -106,6 +116,7 @@ export const t = {
     bg: 'Византийско наследство, чудотворни икони, известни монаси',
     ru: 'Византийское наследие, чудотворные иконы, знаменитые монахи',
     ro: 'Moștenire bizantină, icoane miraculoase, călugări celebri',
+    sr: 'Vizantijsko nasleđe, čudotvorne ikone, poznati monasi',
   } as L,
 
   // Nationality labels
@@ -138,7 +149,7 @@ export const t = {
   metaMonasteriesTitle: {
     el: 'Οι 20 Μονές του Αγίου Όρους | Χαλκιδική',
     en: 'The 20 Monasteries of Mount Athos | Halkidiki',
-    de: 'Die 20 Klöster des Berg Athos | Chalkidiki',
+    de: 'Die 20 Klöster des Berges Athos | Chalkidiki',
     bg: '20-те манастира на Света гора | Халкидики',
     ru: '20 монастырей Святой Горы Афон | Халкидики',
     ro: 'Cele 20 de mănăstiri din Muntele Athos | Halkidiki', sr: '20 manastira Svete Gore | Halkidiki',
@@ -146,10 +157,11 @@ export const t = {
   metaMonasteriesDesc: {
     el: 'Πλήρης λίστα και των 20 μοναστηριών του Αγίου Όρους κατά σειρά ιεραρχίας, με πληροφορίες για σκήτες, κελιά και καλύβες.',
     en: 'Complete list of all 20 monasteries of Mount Athos in hierarchical order, with information about sketes, cells and hermitages.',
-    de: 'Vollständige Liste aller 20 Klöster des Berg Athos in hierarchischer Reihenfolge, mit Informationen über Skiten, Zellen und Einsiedeleien.',
+    de: 'Vollständige Liste aller 20 Klöster des Berges Athos in hierarchischer Reihenfolge, mit Informationen über Skiten, Zellen und Einsiedeleien.',
     bg: 'Пълен списък на всичките 20 манастира на Света гора в йерархичен ред, с информация за скитове, килии и отшелничества.',
     ru: 'Полный список всех 20 монастырей Святой Горы Афон в иерархическом порядке, с информацией о скитах, кельях и отшельничествах.',
     ro: 'Lista completă a tuturor celor 20 de mănăstiri din Muntele Athos în ordine ierarhică, cu informații despre schituri, chilii și pustnicii.',
+    sr: 'Potpun spisak svih 20 manastira Svete Gore po hijerarhijskom redu, uz informacije o skitovima, kelijama i isposnicama.',
   } as L,
   metaHowToVisitTitle: {
     el: 'Πώς να Επισκεφθείτε το Άγιο Όρος | Χαλκιδική',
@@ -166,6 +178,7 @@ export const t = {
     bg: 'Правила за посещение на Света гора: Аватон, разрешително Диамонитирион, кой може да влезе, достъп през Уранополи.',
     ru: 'Правила посещения Святой Горы Афон: Аватон, разрешение Диамонитирион, кто может войти, доступ через Уранополис.',
     ro: 'Regulile de vizitare a Muntelui Athos: Avaton, permisul Diamonitirion, cine poate intra, acces prin Ouranoupoli.',
+    sr: 'Pravila posete Svetoj Gori: avaton, dozvola dijamonitirion, ko može da uđe, pristup preko Uranupolisa.',
   } as L,
   metaGettingThereTitle: {
     el: 'Πώς να Πάτε στο Άγιο Όρος | Χαλκιδική',
@@ -194,7 +207,7 @@ export const t = {
   metaHikingTitle: {
     el: 'Ανάβαση στην Κορυφή του Άθω | Χαλκιδική',
     en: 'Hiking to Mount Athos Peak | Halkidiki',
-    de: 'Wanderung zum Gipfel des Berg Athos | Chalkidiki',
+    de: 'Wanderung zum Gipfel des Berges Athos | Chalkidiki',
     bg: 'Изкачване на връх Атос | Халкидики',
     ru: 'Восхождение на вершину Афон | Халкидики',
     ro: 'Drumeție la vârful Muntelui Athos | Halkidiki', sr: 'Penjanje na vrh Atosa | Halkidiki',
@@ -202,7 +215,7 @@ export const t = {
   metaHistoryTitle: {
     el: 'Ιστορία & Θρύλοι του Αγίου Όρους | Χαλκιδική',
     en: 'History & Legends of Mount Athos | Halkidiki',
-    de: 'Geschichte & Legenden des Berg Athos | Chalkidiki',
+    de: 'Geschichte & Legenden des Berges Athos | Chalkidiki',
     bg: 'История и легенди на Света гора | Халкидики',
     ru: 'История и легенды Святой Горы Афон | Халкидики',
     ro: 'Istorie și legende ale Muntelui Athos | Halkidiki', sr: 'Istorija i legende Svete Gore | Halkidiki',
@@ -214,6 +227,7 @@ export const t = {
     bg: 'Подробно ръководство за транспорт до Света гора: от Солун до Уранополи, кораб до Дафни, алтернативен вход от Йерисос.',
     ru: 'Подробный путеводитель по транспорту до Святой Горы Афон: из Салоников в Уранополис, лодка до Дафни, альтернативный вход из Иериссоса.',
     ro: 'Ghid detaliat de transport spre Muntele Athos: din Salonic la Ouranoupoli, barcă spre Dafni, intrare alternativă din Ierissos.',
+    sr: 'Detaljan vodič za prevoz do Svete Gore: od Soluna do Uranupolisa, brodom do Dafnija i alternativni ulaz iz Jerisosa.',
   } as L,
   metaAccommodationDesc: {
     el: 'Πού να μείνετε στο Άγιο Όρος: αρχονταρίκια μονών, φιλοξενία, κόστος, τι να περιμένετε και πρακτικές πληροφορίες.',
@@ -222,6 +236,7 @@ export const t = {
     bg: 'Къде да отседнете на Света гора: манастирски гостоприемници, гостоприемство, разходи, какво да очаквате и практическа информация.',
     ru: 'Где остановиться на Святой Горе Афон: монастырские гостиницы, гостеприимство, расходы, чего ожидать и практическая информация.',
     ro: 'Unde să stați pe Muntele Athos: camerele de oaspeți ale mănăstirilor, ospitalitate, costuri, la ce să vă așteptați și informații practice.',
+    sr: 'Gde odsesti na Svetoj Gori: manastirski konaci, gostoprimstvo, troškovi, šta da očekujete i praktične informacije.',
   } as L,
   metaDailyLifeDesc: {
     el: 'Ανακαλύψτε την καθημερινή ζωή στο Άγιο Όρος: πρόγραμμα μοναχών, προσευχή, εργασία, τι κάνει ο επισκέπτης και η πνευματική εμπειρία.',
@@ -230,26 +245,33 @@ export const t = {
     bg: 'Открийте ежедневието на Света гора: програма на монасите, молитва, работа, какво преживяват посетителите и духовното пътуване.',
     ru: 'Откройте повседневную жизнь на Святой Горе Афон: расписание монахов, молитва, труд, впечатления посетителей и духовное путешествие.',
     ro: 'Descoperiți viața zilnică pe Muntele Athos: programul călugărilor, rugăciune, muncă, experiența vizitatorilor și călătoria spirituală.',
+    sr: 'Svakodnevni život na Svetoj Gori: raspored monaha, molitva, rad, šta doživljavaju posetioci i duhovno putovanje.',
   } as L,
   metaHikingDesc: {
     el: 'Ανεβείτε στην κορυφή του Άθω στα 2.033 μέτρα: διαδρομή, διάρκεια 6-8 ώρες, συμβουλές και τι να περιμένετε.',
     en: 'Climb to the peak of Mount Athos at 2,033 meters: route, 6-8 hour duration, tips, and what to expect.',
-    de: 'Besteigen Sie den Gipfel des Berg Athos auf 2.033 Metern: Route, 6-8 Stunden Dauer, Tipps und was Sie erwartet.',
+    de: 'Besteigen Sie den Gipfel des Berges Athos auf 2.033 Metern: Route, 6-8 Stunden Dauer, Tipps und was Sie erwartet.',
     bg: 'Изкачете се на върха на Атос на 2033 метра: маршрут, продължителност 6-8 часа, съвети и какво да очаквате.',
     ru: 'Поднимитесь на вершину Афон на высоте 2033 метра: маршрут, продолжительность 6-8 часов, советы и чего ожидать.',
     ro: 'Urcați pe vârful Muntelui Athos la 2.033 de metri: traseu, durată 6-8 ore, sfaturi și la ce să vă așteptați.',
+    sr: 'Uspon na vrh Atosa na 2.033 metra: staza, trajanje od 6–8 sati, saveti i šta da očekujete.',
   } as L,
   metaHistoryDesc: {
     el: 'Η ιστορία του Αγίου Όρους, βυζαντινή κληρονομιά, θαυματουργές εικόνες, διάσημοι μοναχοί και γιατί είναι μοναδικό.',
     en: 'The history of Mount Athos, Byzantine heritage, miraculous icons, famous monks, and why it is unique.',
-    de: 'Die Geschichte des Berg Athos, byzantinisches Erbe, wundertätige Ikonen, berühmte Mönche und warum er einzigartig ist.',
+    de: 'Die Geschichte des Berges Athos, byzantinisches Erbe, wundertätige Ikonen, berühmte Mönche und warum er einzigartig ist.',
     bg: 'Историята на Света гора, византийско наследство, чудотворни икони, известни монаси и защо е уникална.',
     ru: 'История Святой Горы Афон, византийское наследие, чудотворные иконы, знаменитые монахи и почему она уникальна.',
     ro: 'Istoria Muntelui Athos, moștenire bizantină, icoane miraculoase, călugări celebri și de ce este unic.',
+    sr: 'Istorija Svete Gore, vizantijsko nasleđe, čudotvorne ikone, poznati monasi i zašto je jedinstvena.',
   } as L,
 };
 
 // Helper to get translated string
+// Missing languages fall back to English, never to Greek (a Serbian reader
+// can follow English, not Greek); Serbian is shown in the Latin alphabet.
 export function tr(key: keyof typeof t, locale: string): string {
-  return t[key]?.[locale] || t[key]?.el || t[key]?.en || '';
+  const own = t[key]?.[locale];
+  if (own) return locale === 'sr' ? serbianLatin(own) : own;
+  return t[key]?.en || t[key]?.el || '';
 }

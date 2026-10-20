@@ -10,6 +10,8 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, PageIntro } from '@/components/ui/Layout';
+import { REGION_WIDE_EVENTS } from '@/content/editorial/event-venues';
+import { greekAlt } from '@/lib/content/format';
 
 export const revalidate = 86400;
 
@@ -45,8 +47,8 @@ export default async function EventsPage({ params }: PageProps<'/[locale]/events
             title={pick(e, 'name', locale)}
             eyebrow={whenLabel(e, locale)}
             image={e.image_url}
-            imageAlt={e.image_alt}
-            meta={[villages.get(e.slug), CATEGORY_LABELS[e.category]?.[locale]].filter(Boolean).join(' · ')}
+            imageAlt={greekAlt(e.image_alt, locale)}
+            meta={[REGION_WIDE_EVENTS.has(e.slug) ? null : villages.get(e.slug), CATEGORY_LABELS[e.category]?.[locale]].filter(Boolean).join(' · ')}
             badges={e.is_free ? [t('freeEntry')] : []}
             priority={i < 2}
           />

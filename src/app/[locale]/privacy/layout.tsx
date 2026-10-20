@@ -6,7 +6,7 @@ import { localeUrl } from '@/lib/seo/compat';
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   return {
-    title: locale === 'el' ? 'Πολιτική Απορρήτου' : locale === 'sr' ? 'Politika privatnosti' : 'Privacy Policy',
+    title: ({ el: 'Πολιτική Απορρήτου', en: 'Privacy Policy', de: 'Datenschutzerklärung', bg: 'Политика за поверителност', ru: 'Политика конфиденциальности', ro: 'Politica de confidențialitate', sr: 'Politika privatnosti' } as Record<string, string>)[locale] ?? 'Privacy Policy',
     alternates: {
       canonical: localeUrl(locale, 'privacy'),
       languages: hreflangMap('/privacy'),

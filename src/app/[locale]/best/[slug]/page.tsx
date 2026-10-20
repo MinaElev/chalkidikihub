@@ -14,6 +14,7 @@ import { Card, CardGrid } from '@/components/ui/Card';
 import { Faq } from '@/components/ui/Faq';
 import { Container, Narrow, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { renderLinked } from '@/lib/content/autolink';
+import { greekAlt } from '@/lib/content/format';
 
 export const revalidate = 86400;
 export const dynamicParams = false;
@@ -89,7 +90,7 @@ export default async function BestPage({ params }: PageProps<'/[locale]/best/[sl
               title={displayName(r, locale, sel.kind)}
               eyebrow={villages.get(r.slug)}
               image={r.image_url as string}
-              imageAlt={r.image_alt as string}
+              imageAlt={greekAlt(r.image_alt, locale)}
               priority={i < 2}
               {...ratingProps(r, sel.kind)}
             />

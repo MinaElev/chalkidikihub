@@ -143,7 +143,7 @@ export default function PricingPage() {
                 <Star className="w-5 h-5 text-amber-500 fill-amber-500" />
                 <span className="text-lg font-bold text-slate-900">Premium</span>
               </div>
-              <div className="text-2xl font-bold text-slate-900">{PREMIUM_PLAN.priceLabel}<span className="text-sm font-medium text-slate-500"> / {locale === 'el' ? 'έτος' : 'year'}</span></div>
+              <div className="text-2xl font-bold text-slate-900">{PREMIUM_PLAN.priceLabel}<span className="text-sm font-medium text-slate-500"> / {({"el":"έτος","en":"year","de":"Jahr","bg":"година","ru":"год","ro":"an","sr":"godina"} as Record<string, string>)[locale] ?? "year"}</span></div>
             </div>
             <p className="mt-2 text-sm text-slate-600">
               {locale === 'el'
@@ -152,9 +152,9 @@ export default function PricingPage() {
             </p>
             <ul className="mt-4 grid sm:grid-cols-3 gap-3">
               {[
-                { icon: TrendingUp, text: locale === 'el' ? 'Προτεραιότητα στα αποτελέσματα αναζήτησης & περιοχής' : 'Priority ranking in search & area results' },
-                { icon: Star, text: locale === 'el' ? '«Featured» badge στην κάρτα του καταλύματος' : '"Featured" badge on your listing card' },
-                { icon: BarChart3, text: locale === 'el' ? 'Αναλυτικά στατιστικά προβολών' : 'Detailed view analytics' },
+                { icon: TrendingUp, text: ({"el":"Προτεραιότητα στα αποτελέσματα αναζήτησης & περιοχής","en":"Priority ranking in search & area results","de":"Vorrang in Such- und Regionsergebnissen","bg":"Приоритет в резултатите от търсене и по райони","ru":"Приоритет в результатах поиска и по районам","ro":"Prioritate în rezultatele căutării și pe zone","sr":"Prioritet u rezultatima pretrage i po oblastima"} as Record<string, string>)[locale] ?? "Priority ranking in search & area results" },
+                { icon: Star, text: ({"el":"«Featured» badge στην κάρτα του καταλύματος","en":"\"Featured\" badge on your listing card","de":"„Featured“-Abzeichen auf Ihrer Unterkunftskarte","bg":"Значка „Featured“ върху картата на обекта","ru":"Значок «Featured» на карточке объекта","ro":"Insigna „Featured” pe cardul unității","sr":"Oznaka „Featured“ na kartici smeštaja"} as Record<string, string>)[locale] ?? "\"Featured\" badge on your listing card" },
+                { icon: BarChart3, text: ({"el":"Αναλυτικά στατιστικά προβολών","en":"Detailed view analytics","de":"Detaillierte Aufrufstatistiken","bg":"Подробна статистика за прегледите","ru":"Подробная статистика просмотров","ro":"Statistici detaliate ale vizualizărilor","sr":"Detaljna statistika pregleda"} as Record<string, string>)[locale] ?? "Detailed view analytics" },
               ].map((f, i) => {
                 const Icon = f.icon;
                 return (

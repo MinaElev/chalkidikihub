@@ -202,3 +202,16 @@ describe('automatic internal links: proper nouns only', () => {
     expect(autoLink('<p>Η Γαλήνη είναι ήσυχη.</p>', items, 'el', '/x')).toContain('<a href="/beaches/galini">Γαλήνη</a>');
   });
 });
+
+describe('alphabet checks', () => {
+  it('detects text in the wrong alphabet and converts Serbian Cyrillic to Latin', async () => {
+    const { writtenFor, serbianLatin } = await import('@/lib/i18n/script');
+    expect(writtenFor('1st Bedroom offers a double bed and a window', 'el')).toBe(false);
+    expect(writtenFor('Το Sea Star Lux είναι δίπλα στη θάλασσα', 'el')).toBe(true);
+    expect(writtenFor('Be-villas Σουίτα με ιδιωτική πισίνα', 'en')).toBe(false);
+    expect(writtenFor('Отдых в доме у моря', 'ru')).toBe(true);
+    expect(serbianLatin('Од Београда до Халкидикија — 600 км, ~6 сати')).toBe('Od Beograda do Halkidikija — 600 km, ~6 sati');
+    expect(serbianLatin('Љубљана и Његош')).toBe('Ljubljana i Njegoš');
+    expect(serbianLatin('Гранична Полиция (BG)')).toBe('Granična Полиция (BG)'); // Bulgarian word left as is
+  });
+});

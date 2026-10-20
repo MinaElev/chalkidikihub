@@ -7,6 +7,191 @@ import { Send, Loader2, CheckCircle, Mail, MapPin, MessageSquare } from 'lucide-
 import { Breadcrumbs } from '@/compat/Breadcrumbs';
 import { createClient } from '@/lib/supabase/client';
 
+const CONTACT_TEXTS: Record<string, { title: string; subtitle: string; name: string; subject: string; message: string; send: string; sending: string; successTitle: string; successMsg: string; sendAnother: string; infoTitle: string; locationLabel: string; locationValue: string; subjectOptions: string[]; placeholder: string; responseLabel: string; responseValue: string }> = {
+  "el": {
+    "title": "Επικοινωνία",
+    "subtitle": "Έχετε ερωτήσεις; Στείλτε μας μήνυμα και θα σας απαντήσουμε σύντομα.",
+    "name": "Όνομα",
+    "subject": "Θέμα",
+    "message": "Μήνυμα",
+    "send": "Αποστολή",
+    "sending": "Αποστολή...",
+    "successTitle": "Ευχαριστούμε!",
+    "successMsg": "Το μήνυμά σας στάλθηκε. Θα σας απαντήσουμε σύντομα.",
+    "sendAnother": "Νέο μήνυμα",
+    "infoTitle": "Στοιχεία επικοινωνίας",
+    "locationLabel": "Τοποθεσία",
+    "locationValue": "Χαλκιδική, Ελλάδα",
+    "subjectOptions": [
+      "Γενικό ερώτημα",
+      "Καταχώρηση καταλύματος",
+      "Ιστοσελίδα καταλύματος (mdeploy)",
+      "Αναφορά προβλήματος",
+      "Συνεργασία",
+      "Άλλο"
+    ],
+    "placeholder": "Γράψτε το μήνυμά σας εδώ...",
+    "responseLabel": "Απάντηση",
+    "responseValue": "Εντός 24 ωρών"
+  },
+  "en": {
+    "title": "Contact Us",
+    "subtitle": "Have questions? Send us a message and we'll get back to you soon.",
+    "name": "Name",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send",
+    "sending": "Sending...",
+    "successTitle": "Thank you!",
+    "successMsg": "Your message was sent. We'll get back to you soon.",
+    "sendAnother": "Send another",
+    "infoTitle": "Contact info",
+    "locationLabel": "Location",
+    "locationValue": "Halkidiki, Greece",
+    "subjectOptions": [
+      "General inquiry",
+      "List a property",
+      "Property website (mdeploy)",
+      "Report a problem",
+      "Partnership",
+      "Other"
+    ],
+    "placeholder": "Write your message here...",
+    "responseLabel": "Response time",
+    "responseValue": "Within 24 hours"
+  },
+  "de": {
+    "title": "Kontakt",
+    "subtitle": "Haben Sie Fragen? Schreiben Sie uns, wir antworten Ihnen bald.",
+    "name": "Name",
+    "subject": "Betreff",
+    "message": "Nachricht",
+    "send": "Senden",
+    "sending": "Wird gesendet...",
+    "successTitle": "Vielen Dank!",
+    "successMsg": "Ihre Nachricht wurde gesendet. Wir melden uns bald.",
+    "sendAnother": "Neue Nachricht",
+    "infoTitle": "Kontaktdaten",
+    "locationLabel": "Standort",
+    "locationValue": "Chalkidiki, Griechenland",
+    "subjectOptions": [
+      "Allgemeine Anfrage",
+      "Unterkunft eintragen",
+      "Website für Unterkünfte (mdeploy)",
+      "Problem melden",
+      "Zusammenarbeit",
+      "Sonstiges"
+    ],
+    "placeholder": "Schreiben Sie hier Ihre Nachricht...",
+    "responseLabel": "Antwortzeit",
+    "responseValue": "Innerhalb von 24 Stunden"
+  },
+  "bg": {
+    "title": "Контакт",
+    "subtitle": "Имате въпроси? Изпратете ни съобщение и ще ви отговорим скоро.",
+    "name": "Име",
+    "subject": "Тема",
+    "message": "Съобщение",
+    "send": "Изпрати",
+    "sending": "Изпращане...",
+    "successTitle": "Благодарим ви!",
+    "successMsg": "Съобщението ви е изпратено. Ще ви отговорим скоро.",
+    "sendAnother": "Ново съобщение",
+    "infoTitle": "Данни за контакт",
+    "locationLabel": "Местоположение",
+    "locationValue": "Халкидики, Гърция",
+    "subjectOptions": [
+      "Общ въпрос",
+      "Добавяне на обект",
+      "Уебсайт за обект (mdeploy)",
+      "Съобщаване за проблем",
+      "Партньорство",
+      "Друго"
+    ],
+    "placeholder": "Напишете съобщението си тук...",
+    "responseLabel": "Време за отговор",
+    "responseValue": "До 24 часа"
+  },
+  "ru": {
+    "title": "Контакты",
+    "subtitle": "Есть вопросы? Напишите нам, и мы скоро ответим.",
+    "name": "Имя",
+    "subject": "Тема",
+    "message": "Сообщение",
+    "send": "Отправить",
+    "sending": "Отправка...",
+    "successTitle": "Спасибо!",
+    "successMsg": "Ваше сообщение отправлено. Мы скоро ответим.",
+    "sendAnother": "Новое сообщение",
+    "infoTitle": "Контактная информация",
+    "locationLabel": "Местоположение",
+    "locationValue": "Халкидики, Греция",
+    "subjectOptions": [
+      "Общий вопрос",
+      "Добавить объект",
+      "Сайт для объекта (mdeploy)",
+      "Сообщить о проблеме",
+      "Сотрудничество",
+      "Другое"
+    ],
+    "placeholder": "Напишите здесь ваше сообщение...",
+    "responseLabel": "Время ответа",
+    "responseValue": "В течение 24 часов"
+  },
+  "ro": {
+    "title": "Contact",
+    "subtitle": "Aveți întrebări? Trimiteți-ne un mesaj și vă vom răspunde în curând.",
+    "name": "Nume",
+    "subject": "Subiect",
+    "message": "Mesaj",
+    "send": "Trimite",
+    "sending": "Se trimite...",
+    "successTitle": "Vă mulțumim!",
+    "successMsg": "Mesajul a fost trimis. Vă vom răspunde în curând.",
+    "sendAnother": "Mesaj nou",
+    "infoTitle": "Date de contact",
+    "locationLabel": "Locație",
+    "locationValue": "Halkidiki, Grecia",
+    "subjectOptions": [
+      "Întrebare generală",
+      "Adăugați o unitate de cazare",
+      "Site pentru unitatea de cazare (mdeploy)",
+      "Raportați o problemă",
+      "Colaborare",
+      "Altele"
+    ],
+    "placeholder": "Scrieți mesajul aici...",
+    "responseLabel": "Timp de răspuns",
+    "responseValue": "În 24 de ore"
+  },
+  "sr": {
+    "title": "Kontakt",
+    "subtitle": "Imate pitanja? Pošaljite nam poruku i uskoro ćemo vam odgovoriti.",
+    "name": "Ime",
+    "subject": "Tema",
+    "message": "Poruka",
+    "send": "Pošalji",
+    "sending": "Slanje...",
+    "successTitle": "Hvala vam!",
+    "successMsg": "Vaša poruka je poslata. Uskoro ćemo vam odgovoriti.",
+    "sendAnother": "Nova poruka",
+    "infoTitle": "Kontakt podaci",
+    "locationLabel": "Lokacija",
+    "locationValue": "Halkidiki, Grčka",
+    "subjectOptions": [
+      "Opšte pitanje",
+      "Dodavanje smeštaja",
+      "Sajt za smeštaj (mdeploy)",
+      "Prijava problema",
+      "Saradnja",
+      "Ostalo"
+    ],
+    "placeholder": "Ovde napišite svoju poruku...",
+    "responseLabel": "Vreme odgovora",
+    "responseValue": "U roku od 24 sata"
+  }
+};
+
 export default function ContactClient() {
   const locale = useLocale();
   // Campaign links can arrive pre-addressed, e.g. the mass-mail template for
@@ -25,29 +210,7 @@ export default function ContactClient() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
-  const isGreek = locale === 'el';
-
-  const texts = {
-    title: isGreek ? 'Επικοινωνία' : 'Contact Us',
-    subtitle: isGreek ? 'Έχετε ερωτήσεις; Στείλτε μας μήνυμα και θα σας απαντήσουμε σύντομα.' : 'Have questions? Send us a message and we\'ll get back to you soon.',
-    name: isGreek ? 'Όνομα' : 'Name',
-    email: 'Email',
-    subject: isGreek ? 'Θέμα' : 'Subject',
-    message: isGreek ? 'Μήνυμα' : 'Message',
-    send: isGreek ? 'Αποστολή' : 'Send',
-    sending: isGreek ? 'Αποστολή...' : 'Sending...',
-    successTitle: isGreek ? 'Ευχαριστούμε!' : 'Thank you!',
-    successMsg: isGreek ? 'Το μήνυμά σας στάλθηκε. Θα σας απαντήσουμε σύντομα.' : 'Your message was sent. We\'ll get back to you soon.',
-    sendAnother: isGreek ? 'Νέο μήνυμα' : 'Send another',
-    infoTitle: isGreek ? 'Στοιχεία επικοινωνίας' : 'Contact info',
-    emailLabel: 'Email',
-    locationLabel: isGreek ? 'Τοποθεσία' : 'Location',
-    locationValue: isGreek ? 'Χαλκιδική, Ελλάδα' : 'Halkidiki, Greece',
-    subjectOptions: isGreek
-      ? ['Γενικό ερώτημα', 'Καταχώρηση καταλύματος', 'Ιστοσελίδα καταλύματος (mdeploy)', 'Αναφορά προβλήματος', 'Συνεργασία', 'Άλλο']
-      : ['General inquiry', 'List a property', 'Property website (mdeploy)', 'Report a problem', 'Partnership', 'Other'],
-    placeholder: isGreek ? 'Γράψτε το μήνυμά σας εδώ...' : 'Write your message here...',
-  };
+  const texts = { email: 'Email', emailLabel: 'Email', ...(CONTACT_TEXTS[locale] ?? CONTACT_TEXTS.en) };
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -126,8 +289,8 @@ export default function ContactClient() {
               <MessageSquare className="w-5 h-5 text-primary-600" />
             </div>
             <div>
-              <div className="text-sm text-gray-500">{isGreek ? 'Απάντηση' : 'Response time'}</div>
-              <div className="text-sm font-medium text-gray-900">{isGreek ? 'Εντός 24 ωρών' : 'Within 24 hours'}</div>
+              <div className="text-sm text-gray-500">{texts.responseLabel}</div>
+              <div className="text-sm font-medium text-gray-900">{texts.responseValue}</div>
             </div>
           </div>
         </div>

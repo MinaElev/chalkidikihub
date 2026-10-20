@@ -5,7 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { getArticle, getArticles, getBeaches } from '@/lib/db/content';
 import { localize, pick } from '@/lib/i18n/localize';
 import { displayName, ratingProps } from '@/lib/content/nearby';
-import { formatDate } from '@/lib/content/format';
+import { formatDate, greekAlt } from '@/lib/content/format';
 import { plainText, renderRichText, withHeadingIds } from '@/lib/content/render';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { articleIndex } from '@/lib/seo/indexability';
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/blog/[sl
     title: title.native ? title.text : pick(a, 'title', locale),
     description: desc.native ? desc.text : plainText(pick(a, 'excerpt', locale) || pick(a, 'content', locale), 155),
     image: a.image_url,
-    imageAlt: a.image_alt ?? undefined,
+    imageAlt: greekAlt(a.image_alt, locale) ?? undefined,
     type: 'article',
     publishedTime: a.published_at,
     modifiedTime: a.updated_at,
@@ -122,7 +122,7 @@ export default async function ArticlePage({ params }: PageProps<'/[locale]/blog/
       </Narrow>
 
       <Container className="mt-8">
-        <HeroImage src={a.image_url} alt={a.image_alt || title} />
+        <HeroImage src={a.image_url} alt={greekAlt(a.image_alt, locale) ?? title} />
       </Container>
 
       <Narrow className="mt-10">
@@ -170,7 +170,7 @@ export default async function ArticlePage({ params }: PageProps<'/[locale]/blog/
             <CardGrid>
               {relatedBeaches.map((b) => (
                 <Card key={b.slug} href={`/beaches/${b.slug}`}
-                favorite={{ type: 'beach', slug: b.slug }} title={displayName(b, locale, 'beach')} image={b.image_url} imageAlt={b.image_alt} {...ratingProps(b, 'beach')} />
+                favorite={{ type: 'beach', slug: b.slug }} title={displayName(b, locale, 'beach')} image={b.image_url} imageAlt={greekAlt(b.image_alt, locale)} {...ratingProps(b, 'beach')} />
               ))}
             </CardGrid>
           </Section>
@@ -179,7 +179,7 @@ export default async function ArticlePage({ params }: PageProps<'/[locale]/blog/
           <Section id="related" title={t('relatedArticles')}>
             <CardGrid cols={3}>
               {related.map((r) => (
-                <Card key={r.slug} href={`/blog/${r.slug}`} title={pick(r, 'title', locale)} image={r.image_url} imageAlt={r.image_alt} meta={plainText(pick(r, 'excerpt', locale), 110)} />
+                <Card key={r.slug} href={`/blog/${r.slug}`} title={pick(r, 'title', locale)} image={r.image_url} imageAlt={greekAlt(r.image_alt, locale)} meta={plainText(pick(r, 'excerpt', locale), 110)} />
               ))}
             </CardGrid>
           </Section>

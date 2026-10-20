@@ -8,7 +8,7 @@ import { hasCoords } from '@/lib/geo';
 import { localize } from '@/lib/i18n/localize';
 import { closestVillage, displayName, nearBeaches, nearRestaurants, ratingProps } from '@/lib/content/nearby';
 import { AREA_NAMES, inPlace, placeName } from '@/lib/content/place-names';
-import { formatDistance, formatList } from '@/lib/content/format';
+import { formatDistance, formatList, greekAlt } from '@/lib/content/format';
 import { parseHours, hoursSummary } from '@/lib/content/hours';
 import { plainText, renderRichText } from '@/lib/content/render';
 import { buildMetadata } from '@/lib/seo/metadata';
@@ -129,7 +129,7 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
           )}
         </p>
       </PageIntro>
-      <HeroImage src={r.image_url} alt={r.image_alt || name} />
+      <HeroImage src={r.image_url} alt={greekAlt(r.image_alt, locale) ?? name} />
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div>
@@ -191,7 +191,7 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
           <CardGrid>
             {beaches.map(({ item, km }) => (
               <Card key={item.slug} href={`/beaches/${item.slug}`}
-                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
+                favorite={{ type: 'beach', slug: item.slug }} title={displayName(item, locale, 'beach')} image={item.image_url} imageAlt={greekAlt(item.image_alt, locale)} distance={formatDistance(km, locale)} {...ratingProps(item, 'beach')} />
             ))}
           </CardGrid>
         </Section>
@@ -201,7 +201,7 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
           <CardGrid>
             {otherFood.map(({ item, km }) => (
               <Card key={item.slug} href={`/restaurants/${item.slug}`}
-                favorite={{ type: 'restaurant', slug: item.slug }} title={displayName(item, locale, 'restaurant')} image={item.image_url} imageAlt={item.image_alt} distance={formatDistance(km, locale)} {...ratingProps(item, 'restaurant')} />
+                favorite={{ type: 'restaurant', slug: item.slug }} title={displayName(item, locale, 'restaurant')} image={item.image_url} imageAlt={greekAlt(item.image_alt, locale)} distance={formatDistance(km, locale)} {...ratingProps(item, 'restaurant')} />
             ))}
           </CardGrid>
         </Section>

@@ -12,7 +12,7 @@ import {
   nearActivities, nearBeaches, nearListings, nearRestaurants, nearVillages, displayName, ratingProps,
 } from '@/lib/content/nearby';
 import { AREA_NAMES, HALKIDIKI, inPlace, placeName } from '@/lib/content/place-names';
-import { formatDistance } from '@/lib/content/format';
+import { formatDistance, greekAlt } from '@/lib/content/format';
 import { renderRichText } from '@/lib/content/render';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { villageIndex } from '@/lib/seo/indexability';
@@ -113,7 +113,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
           </div>
         ) : null}
       </PageIntro>
-      <HeroImage src={image} alt={(village.image_alt as string) || name} />
+      <HeroImage src={image} alt={greekAlt(village.image_alt, locale) ?? name} />
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
         <div>
@@ -148,7 +148,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
                 favorite={{ type: 'beach', slug: item.slug }}
                 title={displayName(item, locale, 'beach')}
                 image={item.image_url}
-                imageAlt={item.image_alt}
+                imageAlt={greekAlt(item.image_alt, locale)}
                 distance={formatDistance(km, locale)}
                 {...ratingProps(item, 'beach')}
               />
@@ -197,7 +197,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
                 favorite={{ type: 'restaurant', slug: item.slug }}
                 title={displayName(item, locale, 'restaurant')}
                 image={item.image_url}
-                imageAlt={item.image_alt}
+                imageAlt={greekAlt(item.image_alt, locale)}
                 distance={formatDistance(km, locale)}
                 {...ratingProps(item, 'restaurant')}
               />
@@ -220,7 +220,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
                 favorite={{ type: 'activity', slug: item.slug }}
                 title={displayName(item, locale, 'activity')}
                 image={item.image_url}
-                imageAlt={item.image_alt}
+                imageAlt={greekAlt(item.image_alt, locale)}
                 distance={formatDistance(km, locale)}
               />
             ))}

@@ -12,6 +12,7 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, PageIntro, Section } from '@/components/ui/Layout';
+import { greekAlt } from '@/lib/content/format';
 
 export const revalidate = 86400;
 export const dynamicParams = false;
@@ -92,7 +93,7 @@ export default async function FeaturePage({ params }: PageProps<'/[locale]/beach
                   title={displayName(b, locale, 'beach')}
                   eyebrow={villages.get(b.slug)}
                   image={b.image_url}
-                  imageAlt={b.image_alt}
+                  imageAlt={greekAlt(b.image_alt, locale)}
                   priority={i < 2}
                   badges={(b.features ?? []).filter((f) => f !== feature && labels.has(f)).slice(0, 2).map((f) => labels(f))}
                   {...ratingProps(b, 'beach')}

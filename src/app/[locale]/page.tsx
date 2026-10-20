@@ -8,7 +8,7 @@ import { nearest } from '@/lib/geo';
 import { pick } from '@/lib/i18n/localize';
 import { closestVillagesFor, displayName, ratingProps } from '@/lib/content/nearby';
 import { AREA_NAMES, placeName } from '@/lib/content/place-names';
-import { formatPrice } from '@/lib/content/format';
+import { formatPrice, greekAlt } from '@/lib/content/format';
 import { plainText } from '@/lib/content/render';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { Card, CardGrid } from '@/components/ui/Card';
@@ -81,7 +81,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
     name: displayName(b, locale, 'beach'),
     village: beachVillages.get(b.slug),
     image: b.image_url,
-    imageAlt: b.image_alt,
+    imageAlt: greekAlt(b.image_alt, locale),
     area: b.area,
     features: (b.features as string[] | null) ?? [],
     ...ratingProps(b, 'beach'),
@@ -304,7 +304,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
             <div className="grid gap-6 lg:grid-cols-5">
               <Link href={`/blog/${lead.slug}`} className="group lg:col-span-3">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-sand-100 shadow-sm">
-                  {lead.image_url && <Image src={lead.image_url} alt={lead.image_alt || ''} fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover transition duration-700 group-hover:scale-105" />}
+                  {lead.image_url && <Image src={lead.image_url} alt={greekAlt(lead.image_alt, locale) ?? ''} fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover transition duration-700 group-hover:scale-105" />}
                 </div>
                 <h3 className="mt-5 text-2xl font-bold leading-snug text-gray-900 group-hover:text-sea-600 sm:text-3xl">{pick(lead, 'title', locale)}</h3>
                 <p className="mt-2 line-clamp-3 text-slate-500">{plainText(pick(lead, 'excerpt', locale), 220)}</p>
@@ -313,7 +313,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                 {moreArticles.map((a) => (
                   <Link key={a.slug} href={`/blog/${a.slug}`} className="group grid grid-cols-[8rem_1fr] items-center gap-4 sm:grid-cols-[10rem_1fr]">
                     <div className="relative aspect-square overflow-hidden rounded-xl bg-sand-100">
-                      {a.image_url && <Image src={a.image_url} alt={a.image_alt || ''} fill sizes="10rem" className="object-cover transition duration-700 group-hover:scale-110" />}
+                      {a.image_url && <Image src={a.image_url} alt={greekAlt(a.image_alt, locale) ?? ''} fill sizes="10rem" className="object-cover transition duration-700 group-hover:scale-110" />}
                     </div>
                     <div>
                       <h3 className="font-bold leading-snug text-gray-900 group-hover:text-sea-600">{pick(a, 'title', locale)}</h3>

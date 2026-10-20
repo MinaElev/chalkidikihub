@@ -1,4 +1,5 @@
 import 'server-only';
+import { listingTitle } from './listing-title';
 import type { Locale } from '@/i18n/config';
 import { nearest, type LatLng } from '@/lib/geo';
 import { pick } from '@/lib/i18n/localize';
@@ -63,6 +64,7 @@ export type EntityKind = 'beach' | 'restaurant' | 'activity' | 'listing' | 'vill
 export function displayName(row: Record<string, unknown>, locale: Locale, kind?: EntityKind): string {
   if (kind === 'restaurant') return brandName(row.name_el as string, locale, (row.name_en as string) || String(row.slug));
   if (kind === 'village') return placeName(String(row.slug), locale, row);
+  if (kind === 'listing') return listingTitle(row, locale);
   return pick(row, 'name', locale) || pick(row, 'title', locale) || String(row.slug);
 }
 
@@ -88,3 +90,6 @@ export function ratingProps(row: Record<string, unknown>, kind: EntityKind) {
 export function villageDisplayName(v: VillageCard, locale: Locale) {
   return placeName(v.slug, locale, v);
 }
+
+
+export { listingTitle };

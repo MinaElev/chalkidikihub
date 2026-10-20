@@ -50,16 +50,16 @@ export default function FavoritesPage() {
       <div className="flex items-center gap-3 mb-8">
         <Heart className="w-6 h-6 text-red-500 fill-red-500" />
         <h1 className="text-2xl font-bold text-gray-900">
-          {locale === 'el' ? 'Τα αγαπημένα μου' : 'My Favorites'} ({favorites.length})
+          {({"el":"Τα αγαπημένα μου","en":"My Favorites","de":"Meine Favoriten","bg":"Любими","ru":"Избранное","ro":"Favoritele mele","sr":"Moji omiljeni"} as Record<string, string>)[locale] ?? "My Favorites"} ({favorites.length})
         </h1>
       </div>
 
       {favorites.length === 0 ? (
         <div className="text-center py-16 bg-white border border-gray-200 rounded-2xl">
           <Heart className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-500 mb-4">{locale === 'el' ? 'Δεν έχετε αγαπημένα ακόμα' : 'No favorites yet'}</p>
+          <p className="text-gray-500 mb-4">{({"el":"Δεν έχετε αγαπημένα ακόμα","en":"No favorites yet","de":"Noch keine Favoriten","bg":"Все още нямате любими","ru":"В избранном пока ничего нет","ro":"Încă nu aveți favorite","sr":"Još nemate omiljene"} as Record<string, string>)[locale] ?? "No favorites yet"}</p>
           <Link href="/listings" className="inline-flex px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
-            {locale === 'el' ? 'Εξερευνήστε καταλύματα' : 'Explore listings'}
+            {({"el":"Εξερευνήστε καταλύματα","en":"Explore listings","de":"Unterkünfte entdecken","bg":"Разгледайте местата за настаняване","ru":"Посмотреть жильё","ro":"Descoperiți cazările","sr":"Pogledajte smeštaj"} as Record<string, string>)[locale] ?? "Explore listings"}
           </Link>
         </div>
       ) : (

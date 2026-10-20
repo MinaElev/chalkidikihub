@@ -10,7 +10,7 @@ import {
   NEAR_RADIUS_KM, type Near,
 } from '@/lib/content/nearby';
 import { inPlace, placeName, HALKIDIKI } from '@/lib/content/place-names';
-import { formatDistance, formatList } from '@/lib/content/format';
+import { formatDistance, formatList, greekAlt } from '@/lib/content/format';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { itemListLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -51,7 +51,7 @@ async function load(kind: NearbyKind, slug: string, locale: Locale) {
       name: displayName(item, locale, ENTITY[kind]),
       km,
       image: (item.image_url as string) || null,
-      alt: (item.image_alt as string) || null,
+      alt: greekAlt(item.image_alt, locale) ?? null,
       ...(({ rating, reviews, source }) => ({ rating, reviews, source }))(shownRating(item, ENTITY[kind])),
       tags,
       raw: item,

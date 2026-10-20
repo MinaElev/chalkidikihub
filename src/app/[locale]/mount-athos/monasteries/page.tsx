@@ -24,28 +24,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const MONASTERIES = [
-  { rank: 1, el: 'Μεγίστης Λαύρας', en: 'Great Lavra', founded: 963, nation: 'el' },
-  { rank: 2, el: 'Βατοπαιδίου', en: 'Vatopedi', founded: 972, nation: 'el' },
-  { rank: 3, el: 'Ιβήρων', en: 'Iviron', founded: 976, nation: 'el' },
-  { rank: 4, el: 'Χιλανδαρίου', en: 'Chilandariou', founded: 1198, nation: 'rs' },
-  { rank: 5, el: 'Διονυσίου', en: 'Dionysiou', founded: 1375, nation: 'el' },
-  { rank: 6, el: 'Κουτλουμουσίου', en: 'Koutloumousiou', founded: 1169, nation: 'el' },
-  { rank: 7, el: 'Παντοκράτορος', en: 'Pantokratoros', founded: 1363, nation: 'el' },
-  { rank: 8, el: 'Ξηροποτάμου', en: 'Xeropotamou', founded: 956, nation: 'el' },
-  { rank: 9, el: 'Ζωγράφου', en: 'Zografou', founded: 971, nation: 'bg' },
-  { rank: 10, el: 'Δοχειαρίου', en: 'Dochiariou', founded: 1045, nation: 'el' },
-  { rank: 11, el: 'Καρακάλου', en: 'Karakalou', founded: 1070, nation: 'el' },
-  { rank: 12, el: 'Φιλοθέου', en: 'Philotheou', founded: 992, nation: 'el' },
-  { rank: 13, el: 'Σίμωνος Πέτρας', en: 'Simonos Petras', founded: 1257, nation: 'el' },
-  { rank: 14, el: 'Αγίου Παύλου', en: 'Agiou Pavlou', founded: 934, nation: 'el' },
-  { rank: 15, el: 'Σταυρονικήτα', en: 'Stavronikita', founded: 1541, nation: 'el' },
-  { rank: 16, el: 'Ξενοφώντος', en: 'Xenofontos', founded: 998, nation: 'el' },
-  { rank: 17, el: 'Γρηγορίου', en: 'Gregoriou', founded: 1345, nation: 'el' },
-  { rank: 18, el: 'Εσφιγμένου', en: 'Esphigmenou', founded: 1001, nation: 'el' },
-  { rank: 19, el: 'Αγίου Παντελεήμονος', en: 'Agiou Panteleimonos', founded: 1169, nation: 'ru' },
-  { rank: 20, el: 'Κωνσταμονίτου', en: 'Konstamonitou', founded: 1080, nation: 'el' },
-] as const;
 
 function nationLabel(code: string, locale: string) {
   const map: Record<string, 'nationGreek' | 'nationSerbian' | 'nationBulgarian' | 'nationRussian'> = {
@@ -100,7 +78,7 @@ const content: Record<string, {
   en: {
     heading: 'The 20 Monasteries of Mount Athos',
     intro1: 'Mount Athos is home to <strong>exactly 20 monasteries</strong> — no more, no less. This number is enshrined in the Constitutional Charter of Mount Athos and cannot be increased or decreased. Each monastery holds a position in the hierarchy that was determined centuries ago.',
-    intro2: 'Of the 20 monasteries, <strong>17 are Greek</strong>, one is <strong>Russian</strong> (Agiou Panteleimonos), one is <strong>Serbian</strong> (Chilandariou), and one is <strong>Bulgarian</strong> (Zografou). Together they form the Holy Community, the central governing body of the Athonite State, headquartered in Karyes.',
+    intro2: 'Of the 20 monasteries, <strong>17 are Greek</strong>, one is <strong>Russian</strong> (St Panteleimon), one is <strong>Serbian</strong> (Hilandar), and one is <strong>Bulgarian</strong> (Zografou). Together they form the Holy Community, the central governing body of the Athonite State, headquartered in Karyes.',
     rankingTitle: 'Complete Ranking',
     colMonastery: 'Monastery',
     colFounded: 'Founded',
@@ -117,9 +95,9 @@ const content: Record<string, {
     hesychasteriaDesc: 'Isolated retreats for monks devoted exclusively to prayer and silence. They are found in remote locations, sometimes even in caves.',
   },
   de: {
-    heading: 'Die 20 Klöster des Berg Athos',
-    intro1: 'Auf dem Berg Athos befinden sich <strong>genau 20 Klöster</strong> — nicht mehr und nicht weniger. Diese Zahl ist in der Verfassungscharta des Berg Athos verankert und kann weder erhöht noch verringert werden. Jedes Kloster hat eine Position in der Hierarchie, die vor Jahrhunderten festgelegt wurde.',
-    intro2: 'Von den 20 Klöstern sind <strong>17 griechisch</strong>, eines ist <strong>russisch</strong> (Agiou Panteleimonos), eines <strong>serbisch</strong> (Chilandariou) und eines <strong>bulgarisch</strong> (Zografou). Gemeinsam bilden sie die Heilige Gemeinschaft, das zentrale Verwaltungsorgan des Athos-Staates mit Sitz in Karyes.',
+    heading: 'Die 20 Klöster des Berges Athos',
+    intro1: 'Auf dem Berg Athos befinden sich <strong>genau 20 Klöster</strong> — nicht mehr und nicht weniger. Diese Zahl ist in der Verfassungscharta des Berges Athos verankert und kann weder erhöht noch verringert werden. Jedes Kloster hat eine Position in der Hierarchie, die vor Jahrhunderten festgelegt wurde.',
+    intro2: 'Von den 20 Klöstern sind <strong>17 griechisch</strong>, eines ist <strong>russisch</strong> (Agiou Panteleimonos), eines <strong>serbisch</strong> (Chilandar) und eines <strong>bulgarisch</strong> (Zografou). Gemeinsam bilden sie die Heilige Gemeinschaft, das zentrale Verwaltungsorgan des Athos-Staates mit Sitz in Karyes.',
     rankingTitle: 'Vollständige Rangliste',
     colMonastery: 'Kloster',
     colFounded: 'Gegründet',
@@ -176,7 +154,7 @@ const content: Record<string, {
   ro: {
     heading: 'Cele 20 de mănăstiri din Muntele Athos',
     intro1: 'Pe Muntele Athos funcționează <strong>exact 20 de mănăstiri</strong> — nici una mai mult, nici una mai puțin. Acest număr este consacrat în Carta Constituțională a Muntelui Athos și nu poate fi mărit sau micșorat. Fiecare mănăstire ocupă o poziție în ierarhie stabilită cu secole în urmă.',
-    intro2: 'Din cele 20 de mănăstiri, <strong>17 sunt grecești</strong>, una este <strong>rusă</strong> (Agiou Panteleimonos), una este <strong>sârbă</strong> (Chilandariou) și una este <strong>bulgară</strong> (Zografou). Împreună formează Comunitatea Sfântă, organul central de conducere al Statului Athonit, cu sediul în Karyes.',
+    intro2: 'Din cele 20 de mănăstiri, <strong>17 sunt grecești</strong>, una este <strong>rusă</strong> (Sfântul Pantelimon), una este <strong>sârbă</strong> (Hilandar) și una este <strong>bulgară</strong> (Zografu). Împreună formează Comunitatea Sfântă, organul central de conducere al Statului Athonit, cu sediul în Karyes.',
     rankingTitle: 'Clasamentul complet',
     colMonastery: 'Mănăstire',
     colFounded: 'Fondată',
@@ -191,6 +169,25 @@ const content: Record<string, {
     kalyvesDesc: 'Locuințe mai simple pentru călugări, adesea fără capelă. Sunt grupate împreună formând schituri.',
     hesychasteria: 'Isihasterii (pustnicii)',
     hesychasteriaDesc: 'Retrageri izolate pentru călugări dedicați exclusiv rugăciunii și tăcerii. Se găsesc în locații greu accesibile, uneori chiar în peșteri.',
+  },
+  sr: {
+    heading: '20 manastira Svete Gore',
+    intro1: 'Na Svetoj Gori postoji <strong>tačno 20 manastira</strong> – ni jedan više, ni jedan manje. Taj broj je utvrđen Ustavnom poveljom Svete Gore i ne može se povećati ni smanjiti. Svaki manastir ima svoje mesto u hijerarhiji koja je određena pre više vekova.',
+    intro2: 'Od 20 manastira, <strong>17 je grčkih</strong>, jedan je <strong>ruski</strong> (Sveti Pantelejmon), jedan <strong>srpski</strong> (Hilandar) i jedan <strong>bugarski</strong> (Zograf). Zajedno čine Svetu zajednicu, centralno upravno telo Svete Gore sa sedištem u Kareji.',
+    rankingTitle: 'Potpuni poredak',
+    colMonastery: 'Manastir',
+    colFounded: 'Osnovan',
+    colNationality: 'Narodnost',
+    otherTitle: 'Druge monaške ustanove',
+    otherIntro: 'Osim 20 samoupravnih manastira, na Svetoj Gori postoje i mnoge druge monaške ustanove koje zavise od manastira:',
+    sketes: 'Skitovi',
+    sketesDesc: 'Manje monaške zajednice koje zavise od nekog manastira. Ima ih 12; neki imaju zajedničko uređenje i sopstvenu crkvu.',
+    kellia: 'Kelije',
+    kelliaDesc: 'Pojedinačne zgrade s kapelom u kojima žive male grupe monaha (obično 2–6). Pripadaju manastiru i dodeljuju se monasima doživotno.',
+    kalyves: 'Kalive (kolibe)',
+    kalyvesDesc: 'Jednostavnija monaška boravišta, često bez kapele. Grupisane zajedno čine skitove.',
+    hesychasteria: 'Isihastirije (pustinjačka mesta)',
+    hesychasteriaDesc: 'Osamljena mesta za monahe posvećene isključivo molitvi i tišini. Nalaze se na zabačenim mestima, ponekad i u pećinama.',
   },
 };
 
@@ -247,7 +244,7 @@ export default async function MonasteriesPage({ params }: Props) {
                 <td className="px-4 py-3 text-gray-500 font-medium">{m.rank}</td>
                 <td className="px-4 py-3">
                   <Link href={`/mount-athos/monasteries/${m.slug}`} className="font-medium text-amber-800 hover:text-amber-600 hover:underline">
-                    {m.name[locale] || m.name.el}
+                    {m.name[locale] || m.name.en}
                   </Link>
                   <div className="text-xs text-gray-400 sm:hidden">
                     {m.founded} &middot; {nationLabel(m.nation, locale)}
@@ -306,7 +303,7 @@ export default async function MonasteriesPage({ params }: Props) {
           url: localeUrl(locale, `mount-athos/monasteries/${m.slug}`),
           item: {
             '@type': 'Place',
-            name: m.name[locale] || m.name.el,
+            name: m.name[locale] || m.name.en,
             foundingDate: String(m.founded),
           },
         })),

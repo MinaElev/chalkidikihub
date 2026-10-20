@@ -9,6 +9,9 @@ import events1 from './events-1.json';
 import blogArticles1 from './blog_articles-1.json';
 import listings1 from './listings-1.json';
 import monasteryHighlights from './monasteries-highlights.json';
+import { BEACH_ALT_FIXES } from './beach-alts';
+import { LISTING_TITLE_FIXES } from './listing-titles';
+import { MONASTERY_META_FIXES } from './monastery-meta';
 
 /**
  * Editorial rewrites that replace the stored description_* text.
@@ -168,6 +171,25 @@ export const ROW_FIXES: Record<string, Record<string, Record<string, string | nu
 const isBlank = (v: unknown) => v === null || v === undefined || (typeof v === 'string' && !v.trim());
 const fillBlanks = (row: Record<string, unknown>, patch: Record<string, unknown>) =>
   Object.fromEntries(Object.entries(patch).filter(([k]) => isBlank(row[k])));
+
+// Corrected photo descriptions and location names (beach-alts.ts), merged into the beach fixes.
+for (const [slug, fix] of Object.entries(BEACH_ALT_FIXES)) ROW_FIXES.beaches[slug] = { ...(ROW_FIXES.beaches[slug] ?? {}), ...fix };
+// Corrected title translations of stays with Greek titles (listing-titles.ts).
+// Event pins were off by 2-3 km, so the nearest village shown was wrong
+// (Afytos festival labelled "Kallithea"): moved to the village they are held in.
+ROW_FIXES.events = {
+  ...(ROW_FIXES.events ?? {}),
+  'festival-afytou': { latitude: 40.096983, longitude: 23.437099 },
+  'festival-kassandras': { latitude: 40.03653, longitude: 23.36145 },
+  'afanos-metagitsi': { latitude: 40.32426, longitude: 23.65563 },
+};
+// The Serbian excerpt only repeated the title.
+ROW_FIXES.blog_articles = {
+  ...(ROW_FIXES.blog_articles ?? {}),
+  'tiki-bar-vourvourou': { excerpt_sr: 'Plutajući koktel bar u zalivu Diaporos kod Vurvurua: stiže se čamcem, a pauza nad morem je jedan od najlepših letnjih doživljaja na Sitoniji.' },
+};
+for (const [slug, fix] of Object.entries(LISTING_TITLE_FIXES)) ROW_FIXES.listings[slug] = { ...(ROW_FIXES.listings[slug] ?? {}), ...fix };
+for (const [slug, fix] of Object.entries(MONASTERY_META_FIXES)) ROW_FIXES.monasteries[slug] = { ...(ROW_FIXES.monasteries[slug] ?? {}), ...fix };
 
 export function withRowFix<T extends Record<string, unknown>>(table: string, row: T): T {
   const slug = String(row.slug);

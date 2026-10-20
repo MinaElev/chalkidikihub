@@ -33,7 +33,9 @@ export async function inventory(): Promise<Entry[]> {
     .forEach((p) => hub(p, p === '/' ? 1 : 0.8));
   ['/mount-athos/how-to-visit', '/mount-athos/getting-there', '/mount-athos/accommodation', '/mount-athos/daily-life', '/mount-athos/hiking', '/mount-athos/history']
     .forEach((p) => hub(p, 0.6));
-  ['/about', '/for-owners', '/for-owners/services', '/editorial-policy'].forEach((p) => hub(p, 0.4));
+  ['/about', '/for-owners', '/editorial-policy'].forEach((p) => hub(p, 0.4));
+  // Written in Greek and English only (layout sets the same locales).
+  entries.push({ path: '/for-owners/services', locales: withProven('/for-owners/services', ['el', 'en']), priority: 0.4 });
   // The map is mostly a client widget: indexed only in the locales app/[locale]/map/layout.tsx names, plus proven ones.
   entries.push({ path: '/map', locales: withProven('/map', ['el', 'en']), priority: 0.5 });
   AREA_SLUGS.forEach((a) => hub(`/areas/${a}`, 0.8));

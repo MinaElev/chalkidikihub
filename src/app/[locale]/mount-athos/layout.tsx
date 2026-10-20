@@ -20,7 +20,7 @@ export default async function MountAthosLayout({ children, params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org', '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: locale === 'el' ? 'Αρχική' : 'Home', item: `${SITE}${pre || '/'}` },
+          { '@type': 'ListItem', position: 1, name: ({"el":"Αρχική","en":"Home","de":"Startseite","bg":"Начало","ru":"Главная","ro":"Acasă","sr":"Početna"} as Record<string, string>)[locale] ?? "Home", item: `${SITE}${pre || '/'}` },
           { '@type': 'ListItem', position: 2, name: athosName[locale] || athosName.en, item: `${SITE}${pre}/mount-athos` },
         ],
       })}} />

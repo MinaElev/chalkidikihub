@@ -28,6 +28,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     path: 'for-owners/services',
     locale,
     ogType: 'for-owners',
+    // The page body is written in Greek and English only.
+    indexableLocales: ['el', 'en'],
   });
 }
 

@@ -8,7 +8,7 @@ import { nearest } from '@/lib/geo';
 import { localize } from '@/lib/i18n/localize';
 import { closestVillagesFor, displayName, ratingProps } from '@/lib/content/nearby';
 import { AREA_LOCATIVE, AREA_NAMES, HALKIDIKI, placeName, villagesInArea } from '@/lib/content/place-names';
-import { formatPrice } from '@/lib/content/format';
+import { formatPrice, greekAlt } from '@/lib/content/format';
 import { renderRichText, withHeadingIds, plainText } from '@/lib/content/render';
 import { assessQuality } from '@/lib/seo/quality';
 import { buildMetadata } from '@/lib/seo/metadata';
@@ -131,7 +131,7 @@ export default async function AreaPage({ params }: PageProps<'/[locale]/areas/[s
           <CardGrid>
             {topBeaches.map((b) => (
               <Card key={b.slug} href={`/beaches/${b.slug}`}
-                favorite={{ type: 'beach', slug: b.slug }} title={displayName(b, locale, 'beach')} eyebrow={beachV.get(b.slug)} image={b.image_url} imageAlt={b.image_alt} {...ratingProps(b, 'beach')} />
+                favorite={{ type: 'beach', slug: b.slug }} title={displayName(b, locale, 'beach')} eyebrow={beachV.get(b.slug)} image={b.image_url} imageAlt={greekAlt(b.image_alt, locale)} {...ratingProps(b, 'beach')} />
             ))}
           </CardGrid>
         </Section>
@@ -162,7 +162,7 @@ export default async function AreaPage({ params }: PageProps<'/[locale]/areas/[s
           <CardGrid>
             {topFood.map((r) => (
               <Card key={r.slug} href={`/restaurants/${r.slug}`}
-                favorite={{ type: 'restaurant', slug: r.slug }} title={displayName(r, locale, 'restaurant')} eyebrow={foodV.get(r.slug)} image={r.image_url} imageAlt={r.image_alt} {...ratingProps(r, 'restaurant')} />
+                favorite={{ type: 'restaurant', slug: r.slug }} title={displayName(r, locale, 'restaurant')} eyebrow={foodV.get(r.slug)} image={r.image_url} imageAlt={greekAlt(r.image_alt, locale)} {...ratingProps(r, 'restaurant')} />
             ))}
           </CardGrid>
         </Section>
@@ -173,7 +173,7 @@ export default async function AreaPage({ params }: PageProps<'/[locale]/areas/[s
           <CardGrid>
             {todo.map((a) => (
               <Card key={a.slug} href={`/activities/${a.slug}`}
-                favorite={{ type: 'activity', slug: a.slug }} title={displayName(a, locale, 'activity')} image={a.image_url} imageAlt={a.image_alt} {...ratingProps(a, 'activity')} />
+                favorite={{ type: 'activity', slug: a.slug }} title={displayName(a, locale, 'activity')} image={a.image_url} imageAlt={greekAlt(a.image_alt, locale)} {...ratingProps(a, 'activity')} />
             ))}
           </CardGrid>
         </Section>
