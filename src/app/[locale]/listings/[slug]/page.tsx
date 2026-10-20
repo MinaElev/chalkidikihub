@@ -175,8 +175,9 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
           <Prose html={await renderLinked(body.text, locale, `/listings/${slug}`)} />
 
-          {story.text && (
-            <section className="mt-10 rounded-2xl bg-sand-50 p-6">
+          {/* The host's own words: shown in the page language, or in English as a fallback — not in Greek on a foreign page. */}
+          {story.text && (story.native || story.from === 'en') && (
+            <section className="mt-10 rounded-2xl bg-sand-50 p-6" lang={story.native ? undefined : story.from ?? undefined}>
               <h2 className="font-display text-xl font-semibold text-slate-900">{t('aboutHost')}</h2>
               <Prose html={await renderLinked(story.text, locale, `/listings/${slug}`)} className="mt-3" />
             </section>
