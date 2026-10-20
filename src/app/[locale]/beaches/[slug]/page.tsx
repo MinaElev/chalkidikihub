@@ -50,6 +50,19 @@ async function load(slug: string) {
 
 const features = (b: BeachRow) => (b.features as string[]) ?? [];
 
+// Stored de/bg/ru/ro/sr titles and descriptions were machine-translated word by
+// word ("Пляж Гимнастов", "Plaja Gura Cormoranului"), and some el/en ones name the
+// peninsula the beach is not on (v3's slugs had the wrong one). Those fall back to
+// the templates, which use the corrected names.
+const AREA_WORDS: Record<string, RegExp> = {
+  kassandra: /Kassandra|Κασσάνδρ/i,
+  sithonia: /Sithonia|Σιθωνί/i,
+  athos: /Athos|Άθω|Αθώ/i,
+};
+function storedMetaOk(text: string, locale: Locale, area: string) {
+  if (locale !== 'el' && locale !== 'en') return false;
+  return !Object.entries(AREA_WORDS).some(([a, re]) => a !== area && re.test(text));
+}
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/[slug]'>) {
   const { locale: raw, slug } = await params;
@@ -69,8 +82,8 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/
     locale,
     path: `/beaches/${slug}`,
     // Keep hand-written titles that already rank; generate the rest.
-    title: metaTitle.native ? metaTitle.text : t('metaTitle', { name, place }),
-    description: metaDesc.native
+    title: metaTitle.native && storedMetaOk(metaTitle.text, locale, beach.area) ? metaTitle.text : t('metaTitle', { name, place }),
+    description: metaDesc.native && storedMetaOk(metaDesc.text, locale, beach.area)
       ? metaDesc.text
       : t('metaDesc', { name, inPlace: village ? inPlace(village.item.slug, locale) : place, features: featureText || plainText(pick(beach, 'description', locale), 60) }),
     image: beach.image_url,
