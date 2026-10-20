@@ -145,16 +145,16 @@ export const GUIDES: Guide[] = [
     metaTitle: { el: 'Γαμήλιο Ταξίδι Χαλκιδική | Ρομαντικές Διακοπές', en: 'Honeymoon Halkidiki | Romantic Holidays', de: 'Flitterwochen Chalkidiki', bg: 'Меден месец Халкидики', ru: 'Медовый месяц Халкидики', ro: 'Luna de miere Halkidiki', sr: 'Medeni mesec na Halkidikiju | Romantičan odmor' },
     metaDesc: { el: 'Ρομαντικές διακοπές στη Χαλκιδική: ήρεμες παραλίες, boutique ξενοδοχεία, δείπνο με θέα.', en: 'Romantic holidays in Halkidiki: quiet beaches, boutique hotels, dinner with sea views.', de: 'Romantischer Urlaub in Chalkidiki: ruhige Strände, Boutique-Hotels, Abendessen mit Meerblick.', bg: 'Романтична ваканция в Халкидики: тихи плажове, бутик хотели, вечеря с морска гледка.', ru: 'Романтический отдых в Халкидики: тихие пляжи, бутик-отели, ужин с видом на море.', ro: 'Vacanță romantică în Halkidiki: plaje liniștite, hoteluri boutique, cină cu vedere la mare.', sr: 'Romantičan odmor na Halkidikiju: mirne plaže, butik hoteli i večera s pogledom na more.' },
     content: {
-      el: `<h2>Μήνας του Μέλιτος στη Χαλκιδική</h2><p>Η Χαλκιδική είναι ένας από τους πιο <strong>ρομαντικούς προορισμούς</strong> της Ελλάδας για ζευγάρια. Σμαραγδένιοι κολπίσκοι, μαγευτικά ηλιοβασιλέματα πάνω από τον Τορωναίο κόλπο και πολυτελή resorts δίπλα σε ήσυχες παραλίες συνθέτουν το ιδανικό σκηνικό. Η <a href="/guide/sithonia">Σιθωνία</a> προσφέρει τη φυσική, απομονωμένη πλευρά με πευκόφυτους όρμους, ενώ η Κασσάνδρα τις οργανωμένες ανέσεις και τη ζωντανή ατμόσφαιρα.</p><h2>Ρομαντικά Μέρη</h2><ul><li><strong>Βουρβουρού & Διάπορος:</strong> Νοικιάστε βάρκα και ανακαλύψτε ιδιωτικούς όρμους γύρω από το νησάκι Διάπορος, μακριά από τα πλήθη.</li><li><strong>Καβουρότρυπες:</strong> Μικρά κρυμμένα κολπάκια με λευκά βράχια και γαλαζοπράσινα νερά, τέλεια για βουτιές οι δύο σας.</li><li><strong>Άφυτος:</strong> Δείπνο σε πέτρινο μπαλκόνι με πανοραμική θέα στο ηλιοβασίλεμα.</li><li><strong>Πόρτο Κουφό:</strong> Το πιο ασφαλές φυσικό λιμάνι της Ελλάδας, με ήρεμα νερά και ατμοσφαιρικές ψαροταβέρνες.</li></ul><h2>Πολυτέλεια & Χαλάρωση</h2><p>Η Χαλκιδική φιλοξενεί μερικά από τα κορυφαία <a href="/guide/luxury">πολυτελή resorts</a> της Ελλάδας, με ιδιωτικές παραλίες, spa και gourmet εστιατόρια. Το οινοποιείο <strong>Porto Carras</strong> προσφέρει γευσιγνωσία με θέα στη θάλασσα, ενώ πολλά ξενοδοχεία οργανώνουν ρομαντικά δείπνα στην άμμο και θεραπείες για ζευγάρια.</p><h2>Πότε & Πρακτικά</h2><ul><li>Ο <strong>Ιούνιος και ο Σεπτέμβριος</strong> έχουν ζεστή θάλασσα με λιγότερο κόσμο — ιδανικά για ζευγάρια.</li><li>Νοικιάστε <a href="/guide/car-rental">αυτοκίνητο</a> για απομονωμένες παραλίες και ταβέρνες στα ορεινά χωριά.</li><li>Κλείστε νωρίς τραπέζι για ηλιοβασίλεμα στις πιο περιζήτητες ταβέρνες.</li></ul>`,
-      en: `<h2>Honeymoon in Halkidiki</h2><p>Halkidiki is one of Greece's most <strong>romantic destinations</strong> for couples. Emerald coves, mesmerising sunsets over the Toroneos gulf and luxury resorts beside quiet beaches create the perfect setting. <a href="/guide/sithonia">Sithonia</a> offers the natural, secluded side with pine-fringed coves, while Kassandra brings organised comforts and a lively atmosphere.</p><h2>Romantic Spots</h2><ul><li><strong>Vourvourou & Diaporos:</strong> Rent a boat and discover private coves around Diaporos islet, away from the crowds.</li><li><strong>Kavourotrypes:</strong> Small hidden coves with white rocks and turquoise water, perfect for a swim together.</li><li><strong>Afytos:</strong> Dinner on a stone balcony with a panoramic sunset view.</li><li><strong>Porto Koufo:</strong> Greece's safest natural harbour, with calm water and atmospheric fish tavernas.</li></ul><h2>Luxury & Relaxation</h2><p>Halkidiki hosts some of Greece's finest <a href="/guide/luxury">luxury resorts</a>, with private beaches, spas and gourmet restaurants. The <strong>Porto Carras</strong> winery offers tastings with a sea view, while many hotels arrange romantic dinners on the sand and treatments for couples.</p><h2>When & Practical</h2><ul><li><strong>June and September</strong> bring warm water with fewer people — perfect for couples.</li><li>Rent a <a href="/guide/car-rental">car</a> to reach secluded beaches and mountain-village tavernas.</li><li>Reserve a sunset table early at the most sought-after tavernas.</li></ul>`,
+      el: `<h2>Μήνας του Μέλιτος στη Χαλκιδική</h2><p>Η Χαλκιδική είναι ένας από τους πιο <strong>ρομαντικούς προορισμούς</strong> της Ελλάδας για ζευγάρια. Σμαραγδένιοι κολπίσκοι, μαγευτικά ηλιοβασιλέματα πάνω από τον Τορωναίο κόλπο και πολυτελή resorts δίπλα σε ήσυχες παραλίες συνθέτουν το ιδανικό σκηνικό. Η <a href="/guide/sithonia">Σιθωνία</a> προσφέρει τη φυσική, απομονωμένη πλευρά με πευκόφυτους όρμους, ενώ η Κασσάνδρα τις οργανωμένες ανέσεις και τη ζωντανή ατμόσφαιρα.</p><h2>Ρομαντικά Μέρη</h2><ul><li><strong>Βουρβουρού & Διάπορος:</strong> Νοικιάστε βάρκα και ανακαλύψτε ιδιωτικούς όρμους γύρω από το νησάκι Διάπορος, μακριά από τα πλήθη.</li><li><strong>Καβουρότρυπες:</strong> Μικρά κρυμμένα κολπάκια με λευκά βράχια και γαλαζοπράσινα νερά, τέλεια για βουτιές οι δύο σας.</li><li><strong>Άφυτος:</strong> Δείπνο σε πέτρινο μπαλκόνι με πανοραμική θέα στον Τορωναίο κόλπο.</li><li><strong>Πόρτο Κουφό:</strong> Μεγάλο, προστατευμένο φυσικό λιμάνι με ήρεμα νερά και ατμοσφαιρικές ψαροταβέρνες.</li></ul><h2>Πολυτέλεια & Χαλάρωση</h2><p>Η Χαλκιδική φιλοξενεί μερικά από τα κορυφαία <a href="/guide/luxury">πολυτελή resorts</a> της Ελλάδας, με ιδιωτικές παραλίες, spa και gourmet εστιατόρια. Το οινοποιείο <strong>Porto Carras</strong> προσφέρει γευσιγνωσία με θέα στη θάλασσα, ενώ πολλά ξενοδοχεία οργανώνουν ρομαντικά δείπνα στην άμμο και θεραπείες για ζευγάρια.</p><h2>Πότε & Πρακτικά</h2><ul><li>Ο <strong>Ιούνιος και ο Σεπτέμβριος</strong> έχουν ζεστή θάλασσα με λιγότερο κόσμο — ιδανικά για ζευγάρια.</li><li>Νοικιάστε <a href="/guide/car-rental">αυτοκίνητο</a> για απομονωμένες παραλίες και ταβέρνες στα ορεινά χωριά.</li><li>Κλείστε νωρίς τραπέζι για ηλιοβασίλεμα στις πιο περιζήτητες ταβέρνες.</li></ul>`,
+      en: `<h2>Honeymoon in Halkidiki</h2><p>Halkidiki is one of Greece's most <strong>romantic destinations</strong> for couples. Emerald coves, mesmerising sunsets over the Toroneos gulf and luxury resorts beside quiet beaches create the perfect setting. <a href="/guide/sithonia">Sithonia</a> offers the natural, secluded side with pine-fringed coves, while Kassandra brings organised comforts and a lively atmosphere.</p><h2>Romantic Spots</h2><ul><li><strong>Vourvourou & Diaporos:</strong> Rent a boat and discover private coves around Diaporos islet, away from the crowds.</li><li><strong>Kavourotrypes:</strong> Small hidden coves with white rocks and turquoise water, perfect for a swim together.</li><li><strong>Afytos:</strong> Dinner on a stone balcony with a panoramic view over the Toroneos Gulf.</li><li><strong>Porto Koufo:</strong> A large, sheltered natural harbour with calm water and atmospheric fish tavernas.</li></ul><h2>Luxury & Relaxation</h2><p>Halkidiki hosts some of Greece's finest <a href="/guide/luxury">luxury resorts</a>, with private beaches, spas and gourmet restaurants. The <strong>Porto Carras</strong> winery offers tastings with a sea view, while many hotels arrange romantic dinners on the sand and treatments for couples.</p><h2>When & Practical</h2><ul><li><strong>June and September</strong> bring warm water with fewer people — perfect for couples.</li><li>Rent a <a href="/guide/car-rental">car</a> to reach secluded beaches and mountain-village tavernas.</li><li>Reserve a sunset table early at the most sought-after tavernas.</li></ul>`,
       de: `<h2>Flitterwochen in Chalkidiki</h2>
 <p>Chalkidiki ist einer der <strong>romantischsten Reiseziele</strong> Griechenlands für Paare. Smaragdgrüne Buchten, faszinierende Sonnenuntergänge über dem Toroneos-Golf und luxuriöse Resorts neben ruhigen Stränden schaffen die perfekte Kulisse. <a href="/guide/sithonia">Sithonia</a> bietet die natürliche, abgeschiedene Seite mit von Kiefern gesäumten Buchten, während Kassandra organisierte Annehmlichkeiten und eine lebhafte Atmosphäre bietet.</p>
 <h2>Romantische Orte</h2>
 <ul>
 <li><strong>Vourvourou & Diaporos:</strong> Mieten Sie ein Boot und entdecken Sie private Buchten rund um die Insel Diaporos, fernab der Massen.</li>
 <li><strong>Kavourotrypes:</strong> Kleine versteckte Buchten mit weißen Felsen und türkisfarbenem Wasser, perfekt für ein gemeinsames Bad.</li>
-<li><strong>Afytos:</strong> Abendessen auf einem Steinsteg mit Panoramablick auf den Sonnenuntergang.</li>
-<li><strong>Porto Koufo:</strong> Der sicherste Naturhafen Griechenlands mit ruhigem Wasser und stimmungsvollen Fisch-Tavernen.</li>
+<li><strong>Afytos:</strong> Abendessen auf einem Steinbalkon mit Panoramablick über den Toronäischen Golf.</li>
+<li><strong>Porto Koufo:</strong> Ein großer, geschützter Naturhafen mit ruhigem Wasser und stimmungsvollen Fischtavernen.</li>
 </ul>
 <h2>Luxus & Entspannung</h2>
 <p>Chalkidiki beherbergt einige der besten <a href="/guide/luxury">Luxusresorts</a> Griechenlands, mit privaten Stränden, Spas und Gourmet-Restaurants. Das Weingut <strong>Porto Carras</strong> bietet Verkostungen mit Meerblick, während viele Hotels romantische Abendessen am Strand und Behandlungen für Paare organisieren.</p>
@@ -170,8 +170,8 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Вурвуру & Диапорос:</strong> Наемете лодка и открийте частни заливи около островчето Диапорос, далеч от тълпите.</li>
 <li><strong>Кавуротрипес:</strong> Малки скрити заливчета с бели скали и тюркоазени води, идеални за плуване заедно.</li>
-<li><strong>Афитос:</strong> Вечеря на каменен балкон с панорамна гледка към залеза.</li>
-<li><strong>Порто Куфо:</strong> Най-сигурното естествено пристанище в Гърция, със спокойни води и атмосферни рибни таверни.</li>
+<li><strong>Афитос:</strong> Вечеря на каменен балкон с панорамна гледка към Торонейския залив.</li>
+<li><strong>Порто Куфо:</strong> Голямо, защитено естествено пристанище със спокойна вода и атмосферни рибни таверни.</li>
 </ul>
 <h2>Лукс и релаксация</h2>
 <p>Халкидики е дом на някои от най-добрите <a href="/guide/luxury">луксозни курорти</a> в Гърция, с частни плажове, спа и гурме ресторанти. Винарната <strong>Porto Carras</strong> предлага дегустации с изглед към морето, а много хотели организират романтични вечери на пясъка и терапии за двойки.</p>
@@ -181,16 +181,16 @@ export const GUIDES: Guide[] = [
 <li>Наемете <a href="/guide/car-rental">кола</a> за достъп до уединени плажове и таверни в планинските села.</li>
 <li>Резервирайте рано маса за залез в най-търсените таверни.</li>
 </ul>`,
-      ru: `<h2>Медовый месяц в Халкидики</h2><p>Халкидики — один из самых <strong>романтичных уголков</strong> Греции для пар. Изумрудные бухты, завораживающие закаты над заливом Торонеос и роскошные курорты рядом с тихими пляжами создают идеальные условия для отдыха. <a href="/guide/sithonia">Ситония</a> предлагает уединенные природные уголки с сосновыми бухтами, а Касандра радует организованным комфортом и оживленной атмосферой.</p><h2>Романтические места</h2><ul><li><strong>Вурвуру и Диапорос:</strong> Арендуйте лодку и откройте для себя уединенные бухты вокруг островка Диапорос, вдали от толпы.</li><li><strong>Кавуротрипес:</strong> Маленькие скрытые бухточки с белыми скалами и бирюзовой водой, идеальные для купания вдвоем.</li><li><strong>Афитос:</strong> Ужин на каменном балконе с панорамным видом на закат.</li><li><strong>Порто Куфо:</strong> Самая безопасная природная гавань Греции с спокойной водой и атмосферными рыбными тавернами.</li></ul><h2>Роскошь и релаксация</h2><p>Халкидики предлагает одни из лучших <a href="/guide/luxury">роскошных курортов</a> Греции, с частными пляжами, спа и гурманскими ресторанами. Винодельня <strong>Порто Каррас</strong> предлагает дегустации с видом на море, а многие отели организуют романтические ужины на песке и процедуры для пар.</p><h2>Когда и практические советы</h2><ul><li><strong>Июнь и сентябрь</strong> — это теплое море и меньше людей, идеально для пар.</li><li>Арендуйте <a href="/guide/car-rental">автомобиль</a>, чтобы добраться до уединенных пляжей и таверн в горных деревнях.</li><li>Заранее бронируйте столик на закат в самых популярных тавернах.</li></ul>`,
-      ro: `<h2>Luna de miere în Halkidiki</h2><p>Halkidiki este una dintre cele mai <strong>romantice destinații</strong> din Grecia pentru cupluri. Golfulețele de smarald, apusurile de soare fascinante peste golful Toroneos și resorturile de lux de lângă plaje liniștite creează decorul perfect. <a href="/guide/sithonia">Sithonia</a> oferă latura naturală și retrasă, cu golfuri mărginit de pini, în timp ce Kassandra aduce conforturi organizate și o atmosferă animată.</p><h2>Locuri Romantice</h2><ul><li><strong>Vourvourou & Diaporos:</strong> Închiriați o barcă și descoperiți golfulețe private în jurul insuliței Diaporos, departe de mulțimi.</li><li><strong>Kavourotrypes:</strong> Golfulețe mici ascunse, cu stânci albe și ape turcoaz, perfecte pentru o baie în doi.</li><li><strong>Afytos:</strong> Cină pe un balcon de piatră cu vedere panoramică la apus.</li><li><strong>Porto Koufo:</strong> Cel mai sigur port natural al Greciei, cu ape calme și taverne de pește atmosferice.</li></ul><h2>Lux & Relaxare</h2><p>Halkidiki găzduiește unele dintre cele mai bune <a href="/guide/luxury">resorturi de lux</a> din Grecia, cu plaje private, spa-uri și restaurante gourmet. Crama <strong>Porto Carras</strong> oferă degustări cu vedere la mare, iar multe hoteluri organizează cine romantice pe nisip și tratamente pentru cupluri.</p><h2>Când & Practic</h2><ul><li><strong>Iunie și Septembrie</strong> aduc ape calde cu mai puțină lume — perfecte pentru cupluri.</li><li>Închiriați o <a href="/guide/car-rental">mașină</a> pentru a ajunge la plaje retrase și taverne din satele montane.</li><li>Rezervați din timp o masă pentru apus la cele mai căutate taverne.</li></ul>`,
+      ru: `<h2>Медовый месяц в Халкидики</h2><p>Халкидики — один из самых <strong>романтичных уголков</strong> Греции для пар. Изумрудные бухты, завораживающие закаты над заливом Торонеос и роскошные курорты рядом с тихими пляжами создают идеальные условия для отдыха. <a href="/guide/sithonia">Ситония</a> предлагает уединенные природные уголки с сосновыми бухтами, а Касандра радует организованным комфортом и оживленной атмосферой.</p><h2>Романтические места</h2><ul><li><strong>Вурвуру и Диапорос:</strong> Арендуйте лодку и откройте для себя уединенные бухты вокруг островка Диапорос, вдали от толпы.</li><li><strong>Кавуротрипес:</strong> Маленькие скрытые бухточки с белыми скалами и бирюзовой водой, идеальные для купания вдвоем.</li><li><strong>Афитос:</strong> Ужин на каменном балконе с панорамным видом на Торонейский залив.</li><li><strong>Порто Куфо:</strong> Большая защищённая природная гавань со спокойной водой и атмосферными рыбными тавернами.</li></ul><h2>Роскошь и релаксация</h2><p>Халкидики предлагает одни из лучших <a href="/guide/luxury">роскошных курортов</a> Греции, с частными пляжами, спа и гурманскими ресторанами. Винодельня <strong>Порто Каррас</strong> предлагает дегустации с видом на море, а многие отели организуют романтические ужины на песке и процедуры для пар.</p><h2>Когда и практические советы</h2><ul><li><strong>Июнь и сентябрь</strong> — это теплое море и меньше людей, идеально для пар.</li><li>Арендуйте <a href="/guide/car-rental">автомобиль</a>, чтобы добраться до уединенных пляжей и таверн в горных деревнях.</li><li>Заранее бронируйте столик на закат в самых популярных тавернах.</li></ul>`,
+      ro: `<h2>Luna de miere în Halkidiki</h2><p>Halkidiki este una dintre cele mai <strong>romantice destinații</strong> din Grecia pentru cupluri. Golfulețele de smarald, apusurile de soare fascinante peste golful Toroneos și resorturile de lux de lângă plaje liniștite creează decorul perfect. <a href="/guide/sithonia">Sithonia</a> oferă latura naturală și retrasă, cu golfuri mărginit de pini, în timp ce Kassandra aduce conforturi organizate și o atmosferă animată.</p><h2>Locuri Romantice</h2><ul><li><strong>Vourvourou & Diaporos:</strong> Închiriați o barcă și descoperiți golfulețe private în jurul insuliței Diaporos, departe de mulțimi.</li><li><strong>Kavourotrypes:</strong> Golfulețe mici ascunse, cu stânci albe și ape turcoaz, perfecte pentru o baie în doi.</li><li><strong>Afytos:</strong> Cină pe un balcon de piatră, cu vedere panoramică spre golful Toroneos.</li><li><strong>Porto Koufo:</strong> Un port natural mare și adăpostit, cu ape calme și taverne de pește pline de atmosferă.</li></ul><h2>Lux & Relaxare</h2><p>Halkidiki găzduiește unele dintre cele mai bune <a href="/guide/luxury">resorturi de lux</a> din Grecia, cu plaje private, spa-uri și restaurante gourmet. Crama <strong>Porto Carras</strong> oferă degustări cu vedere la mare, iar multe hoteluri organizează cine romantice pe nisip și tratamente pentru cupluri.</p><h2>Când & Practic</h2><ul><li><strong>Iunie și Septembrie</strong> aduc ape calde cu mai puțină lume — perfecte pentru cupluri.</li><li>Închiriați o <a href="/guide/car-rental">mașină</a> pentru a ajunge la plaje retrase și taverne din satele montane.</li><li>Rezervați din timp o masă pentru apus la cele mai căutate taverne.</li></ul>`,
       sr: `<h2>Medeni mesec u Halkidikiju</h2>
 <p>Halkidiki je jedan od najromantičnijih destinacija u Grčkoj za parove. Smaragdni zalivi, očaravajući zalasci sunca iznad Toroneos zaliva i luksuzni resorti pored mirnih plaža stvaraju savršenu atmosferu. <a href="/guide/sithonia">Sitonija</a> nudi prirodnu, osamljenu stranu sa borovima obrubljenim uvalama, dok Kasandra donosi organizovane sadržaje i živahnu atmosferu.</p>
 <h2>Romantična mesta</h2>
 <ul>
 <li><strong>Vourvourou & Diaporos:</strong> Iznajmite čamac i otkrijte privatne uvale oko ostrvca Diaporos, daleko od gužve.</li>
 <li><strong>Kavourotrypes:</strong> Male skrivene uvale sa belim stenama i tirkiznom vodom, savršene za zajedničko kupanje.</li>
-<li><strong>Afitos:</strong> Večera na kamenom balkonu sa panoramskim pogledom na zalazak sunca.</li>
-<li><strong>Porto Kufo:</strong> Najsigurnija prirodna luka u Grčkoj, sa mirnom vodom i atmosferičnim ribljim tavernama.</li>
+<li><strong>Afitos:</strong> Večera na kamenom balkonu s panoramskim pogledom na Toronejski zaliv.</li>
+<li><strong>Porto Kufo:</strong> Velika, zaklonjena prirodna luka s mirnom vodom i ribljim tavernama punim atmosfere.</li>
 </ul>
 <h2>Luksuz i opuštanje</h2>
 <p>Halkidiki je domaćin nekih od najboljih luksuznih <a href="/guide/luxury">resorta</a> u Grčkoj, sa privatnim plažama, spa centrima i gurmanskim restoranima. Vinarija <strong>Porto Carras</strong> nudi degustacije sa pogledom na more, dok mnogi hoteli organizuju romantične večere na pesku i tretmane za parove.</p>
@@ -748,9 +748,9 @@ export const GUIDES: Guide[] = [
 
 <h3>Αποστάσεις από SKG</h3>
 <ul>
-<li><strong>Κασσάνδρα (Πευκοχώρι):</strong> ~100 km / 1:20 ώρα. Η Κασσάνδρα είναι γνωστή για τις καταγάλανες παραλίες της και τη ζωντανή νυχτερινή ζωή.</li>
-<li><strong>Σιθωνία (Νικήτη):</strong> ~110 km / 1:30 ώρα. Η Σιθωνία προσφέρει ήρεμες παραλίες και γραφικά τοπία, ιδανικά για χαλάρωση.</li>
-<li><strong>Ουρανούπολη (Άθως):</strong> ~130 km / 1:50 ώρα. Η Ουρανούπολη είναι η πύλη για το Άγιον Όρος, έναν τόπο πνευματικής αναζήτησης και ιστορικής σημασίας.</li>
+<li><strong>Κασσάνδρα (Πευκοχώρι):</strong> ~95 km / 1:30 ώρα. Η Κασσάνδρα είναι γνωστή για τις καταγάλανες παραλίες της και τη ζωντανή νυχτερινή ζωή.</li>
+<li><strong>Σιθωνία (Νικήτη):</strong> ~90 km / 1:20 ώρα. Η Σιθωνία προσφέρει ήρεμες παραλίες και γραφικά τοπία, ιδανικά για χαλάρωση.</li>
+<li><strong>Ουρανούπολη (Άθως):</strong> ~120 km / 2:00 ώρα. Η Ουρανούπολη είναι η πύλη για το Άγιον Όρος, έναν τόπο πνευματικής αναζήτησης και ιστορικής σημασίας.</li>
 </ul>
 
 <h2>Με Αυτοκίνητο</h2>
@@ -758,24 +758,24 @@ export const GUIDES: Guide[] = [
 <p>Η διαδρομή μέσω της εθνικής οδού και της περιφερειακής οδού Θεσσαλονίκης-Χαλκιδικής είναι σε <strong>εξαιρετική κατάσταση</strong>, προσφέροντας ασφαλή και άνετη οδήγηση. Η διαδρομή περνάει από όμορφα τοπία και προσφέρει πολλές ευκαιρίες για στάσεις σε ενδιαφέροντα σημεία.</p>
 
 <h3>Από Σόφια (Βουλγαρία)</h3>
-<p>Η απόσταση είναι περίπου 400 km και διαρκεί 4-5 ώρες. Η διαδρομή περνάει από τα σύνορα του Προμαχώνα και συνεχίζει μέσω Σερρών προς Θεσσαλονίκη, προσφέροντας μια ευχάριστη οδική εμπειρία.</p>
+<p>Η απόσταση είναι περίπου 360 km και διαρκεί 4-5 ώρες. Η διαδρομή περνάει από τα σύνορα του Προμαχώνα και συνεχίζει μέσω Σερρών προς Θεσσαλονίκη, προσφέροντας μια ευχάριστη οδική εμπειρία.</p>
 
 <h3>Από Βουκουρέστι (Ρουμανία)</h3>
-<p>Η απόσταση είναι περίπου 700 km και διαρκεί 8-9 ώρες. Η διαδρομή μέσω Βουλγαρίας, είτε από Σόφια είτε από Βέλικο Τάρνοβο, προσφέρει την ευκαιρία να απολαύσετε τοπία και πολιτιστικά αξιοθέατα καθ' οδόν.</p>
+<p>Η απόσταση είναι περίπου 720 km και διαρκεί 10-11 ώρες. Η διαδρομή μέσω Βουλγαρίας, είτε από Σόφια είτε από Βέλικο Τάρνοβο, προσφέρει την ευκαιρία να απολαύσετε τοπία και πολιτιστικά αξιοθέατα καθ' οδόν.</p>
 
 <h3>Από Βελιγράδι (Σερβία)</h3>
-<p>Η απόσταση είναι περίπου 600 km και διαρκεί 6-7 ώρες. Η διαδρομή περνάει μέσω Νις και Σκοπίων προς Θεσσαλονίκη, προσφέροντας μια ευχάριστη και γραφική οδική εμπειρία.</p>
+<p>Η απόσταση είναι περίπου 690 km και διαρκεί 7-8 ώρες. Η διαδρομή περνάει μέσω Νις και Σκοπίων προς Θεσσαλονίκη, προσφέροντας μια ευχάριστη και γραφική οδική εμπειρία.</p>
 
 <h2>Με Λεωφορείο (ΚΤΕΛ)</h2>
 <ul>
 <li><strong>ΚΤΕΛ Χαλκιδικής</strong> — προσφέρει τακτικά δρομολόγια από το ΚΤΕΛ Μακεδονία στη Θεσσαλονίκη προς διάφορους προορισμούς στη Χαλκιδική.</li>
-<li>Κασσάνδρα: 5-8 δρομολόγια/ημέρα, εξυπηρετώντας τις δημοφιλείς παραλίες και τα χωριά της περιοχής.</li>
-<li>Σιθωνία: 3-5 δρομολόγια/ημέρα, ιδανικά για όσους θέλουν να εξερευνήσουν τις ήρεμες παραλίες και τα τοπία.</li>
-<li>Τιμή: ~10-15€ μονή διαδρομή, προσφέροντας οικονομική και άνετη μετακίνηση για τους επισκέπτες.</li>
+<li>Αρκετά δρομολόγια την ημέρα προς Κασσάνδρα, Σιθωνία και Ουρανούπολη, πυκνότερα το καλοκαίρι.</li>
+
+<li>Τα δρομολόγια και οι τιμές αλλάζουν ανά εποχή — ελέγξτε τα στο ΚΤΕΛ Χαλκιδικής πριν ταξιδέψετε.</li>
 </ul>
 
 <h2>Transfer Services</h2>
-<p>Ιδιωτικά transfer από το αεροδρόμιο είναι διαθέσιμα με κόστος 60-100€, ανάλογα με τον προορισμό. Αυτή η επιλογή είναι ιδιαίτερα <strong>βολική για οικογένειες</strong> ή ομάδες που επιθυμούν άνεση και ευκολία στη μετακίνηση.</p>
+<p>Υπάρχουν ιδιωτικά transfer από το αεροδρόμιο· η τιμή εξαρτάται από τον προορισμό και το όχημα, γι’ αυτό ζητήστε προσφορά από πριν. Η επιλογή αυτή είναι ιδιαίτερα <strong>βολική για οικογένειες</strong> και ομάδες με αποσκευές.</p>
 
 <h2>Ενοικίαση Αυτοκινήτου</h2>
 <p><strong>Συνιστάται ανεπιφύλακτα.</strong> Η Χαλκιδική δεν διαθέτει πλήρες δίκτυο δημόσιων συγκοινωνιών, συνεπώς η ενοικίαση αυτοκινήτου σας δίνει την ελευθερία να ανακαλύψετε κρυφές παραλίες και γραφικά χωριά με το δικό σας ρυθμό. Με αυτοκίνητο, μπορείτε να επισκεφθείτε απομονωμένες παραλίες όπως η Kavourotrypes και να απολαύσετε τοπικές λιχουδιές όπως το <em>tsipouro</em> και το <em>souvlaki</em> σε παραδοσιακές ταβέρνες.</p>`,
@@ -783,31 +783,31 @@ export const GUIDES: Guide[] = [
 <p>"Macedonia" airport (SKG) serves as the <strong>main gateway</strong> to the enchanting region of Halkidiki, conveniently located just 60-120 minutes away by car. This modern airport is well-equipped to handle international and domestic flights, making it an ideal starting point for your Greek adventure.</p>
 <h3>Distances from SKG</h3>
 <ul>
-<li><strong>Kassandra (Pefkohori):</strong> ~100 km / 1:20h. Known for its vibrant nightlife and stunning beaches, Kassandra is a favorite among tourists seeking both relaxation and entertainment.</li>
-<li><strong>Sithonia (Nikiti):</strong> ~110 km / 1:30h. This peninsula is renowned for its picturesque landscapes and serene beaches, perfect for those looking to escape the hustle and bustle.</li>
-<li><strong>Ouranoupoli (Athos):</strong> ~130 km / 1:50h. As the gateway to the monastic community of Mount Athos, Ouranoupoli offers a unique blend of spiritual and natural beauty.</li>
+<li><strong>Kassandra (Pefkohori):</strong> ~95 km / 1:30h. Known for its vibrant nightlife and stunning beaches, Kassandra is a favorite among tourists seeking both relaxation and entertainment.</li>
+<li><strong>Sithonia (Nikiti):</strong> ~90 km / 1:20h. This peninsula is renowned for its picturesque landscapes and serene beaches, perfect for those looking to escape the hustle and bustle.</li>
+<li><strong>Ouranoupoli (Athos):</strong> ~120 km / 2:00h. As the gateway to the monastic community of Mount Athos, Ouranoupoli offers a unique blend of spiritual and natural beauty.</li>
 </ul>
 
 <h2>By Car</h2>
 <h3>From Thessaloniki</h3>
 <p>The journey from Thessaloniki to Halkidiki is straightforward and pleasant. Take the highway, followed by the ring road, and then continue on the Thessaloniki-Halkidiki road. The roads are in <strong>excellent condition</strong>, ensuring a smooth drive through scenic landscapes.</p>
 <h3>From Sofia (Bulgaria)</h3>
-<p>Travelers from Sofia can reach Halkidiki in approximately 4-5 hours, covering a distance of ~400 km. The route takes you through the Promachonas border, then via Serres to Thessaloniki, offering glimpses of the beautiful Bulgarian and Greek countryside.</p>
+<p>Travelers from Sofia can reach Halkidiki in approximately 4-5 hours, covering a distance of ~360 km. The route takes you through the Promachonas border, then via Serres to Thessaloniki, offering glimpses of the beautiful Bulgarian and Greek countryside.</p>
 <h3>From Bucharest (Romania)</h3>
-<p>The drive from Bucharest spans ~700 km and takes about 8-9 hours, passing through Bulgaria. This route is an excellent opportunity to explore the diverse cultures and landscapes of the Balkans.</p>
+<p>The drive from Bucharest spans ~720 km and takes about 10-11 hours, passing through Bulgaria. This route is an excellent opportunity to explore the diverse cultures and landscapes of the Balkans.</p>
 <h3>From Belgrade (Serbia)</h3>
-<p>Embark on a ~600 km journey from Belgrade, which typically takes 6-7 hours. The route via Niš and Skopje to Thessaloniki is well-traveled and offers a comfortable drive to the sunny shores of Halkidiki.</p>
+<p>Embark on a ~690 km journey from Belgrade, which typically takes 7-8 hours. The route via Niš and Skopje to Thessaloniki is well-traveled and offers a comfortable drive to the sunny shores of Halkidiki.</p>
 
 <h2>By Bus (KTEL)</h2>
 <ul>
 <li><strong>KTEL Halkidikis</strong> offers reliable and frequent bus routes from Thessaloniki to various parts of Halkidiki, ensuring easy access for travelers.</li>
-<li>Kassandra: 5-8 trips/day. Enjoy the convenience of regular service to this lively peninsula.</li>
-<li>Sithonia: 3-5 trips/day. Ideal for exploring the tranquil and natural beauty of Sithonia.</li>
-<li>Price: ~€10-15 one way, making it an affordable option for budget-conscious travelers.</li>
+<li>Several departures a day to Kassandra, Sithonia and Ouranoupoli, more often in summer.</li>
+
+<li>Timetables and fares change with the season — check them with KTEL Halkidikis before you travel.</li>
 </ul>
 
 <h2>Transfer Services</h2>
-<p>Private transfers from the airport are available, with prices ranging from €60-100 depending on your destination. This option provides comfort and ease, especially for families or groups, ensuring a hassle-free start to your holiday.</p>
+<p>Private transfers from the airport are available; the price depends on the destination and the vehicle, so ask for a quote in advance. This option is especially <strong>convenient for families</strong> and groups with luggage.</p>
 
 <h2>Car Rental</h2>
 <p><strong>Highly recommended.</strong> Renting a car in Halkidiki is an excellent way to explore the region at your own pace. Public transport is limited, and having a vehicle allows you to discover hidden gems, such as secluded beaches and charming villages, that are off the beaten path. Whether you're visiting the bustling streets of Neos Marmaras or the serene shores of Kavourotrypes, a car provides the freedom to experience all that Halkidiki has to offer.</p>`,
@@ -816,9 +816,9 @@ export const GUIDES: Guide[] = [
 
 <h3>Entfernungen von SKG</h3>
 <ul>
-<li><strong>Kassandra (Pefkohori):</strong> ~100 km / 1:20 Std. Kassandra ist bekannt für seine lebhafte Nachtleben und atemberaubenden Strände, ein Favorit unter Touristen, die sowohl Entspannung als auch Unterhaltung suchen.</li>
-<li><strong>Sithonia (Nikiti):</strong> ~110 km / 1:30 Std. Diese Halbinsel ist berühmt für ihre malerischen Landschaften und ruhigen Strände, ideal für diejenigen, die dem Trubel entfliehen möchten.</li>
-<li><strong>Ouranoupoli (Athos):</strong> ~130 km / 1:50 Std. Als Tor zur klösterlichen Gemeinschaft des Heiligen Berges Athos bietet Ouranoupoli eine einzigartige Mischung aus spiritueller und natürlicher Schönheit.</li>
+<li><strong>Kassandra (Pefkohori):</strong> ~95 km / 1:30 Std. Kassandra ist bekannt für seine lebhafte Nachtleben und atemberaubenden Strände, ein Favorit unter Touristen, die sowohl Entspannung als auch Unterhaltung suchen.</li>
+<li><strong>Sithonia (Nikiti):</strong> ~90 km / 1:20 Std. Diese Halbinsel ist berühmt für ihre malerischen Landschaften und ruhigen Strände, ideal für diejenigen, die dem Trubel entfliehen möchten.</li>
+<li><strong>Ouranoupoli (Athos):</strong> ~120 km / 2:00 Std. Als Tor zur klösterlichen Gemeinschaft des Heiligen Berges Athos bietet Ouranoupoli eine einzigartige Mischung aus spiritueller und natürlicher Schönheit.</li>
 </ul>
 
 <h2>Mit dem Auto</h2>
@@ -826,24 +826,24 @@ export const GUIDES: Guide[] = [
 <p>Die Fahrt von Thessaloniki nach Chalkidiki ist einfach und angenehm. Nehmen Sie die Autobahn, gefolgt von der Umgehungsstraße, und fahren Sie dann auf der Thessaloniki-Chalkidiki-Straße weiter. Die Straßen sind in <strong>ausgezeichnetem Zustand</strong>, was eine reibungslose Fahrt durch malerische Landschaften gewährleistet.</p>
 
 <h3>Von Sofia (Bulgarien)</h3>
-<p>Reisende aus Sofia können Chalkidiki in etwa 4-5 Stunden erreichen, bei einer Entfernung von etwa 400 km. Die Route führt Sie über die Grenze von Promachonas, dann über Serres nach Thessaloniki und bietet Einblicke in die schöne bulgarische und griechische Landschaft.</p>
+<p>Reisende aus Sofia können Chalkidiki in etwa 4-5 Stunden erreichen, bei einer Entfernung von etwa 360 km. Die Route führt Sie über die Grenze von Promachonas, dann über Serres nach Thessaloniki und bietet Einblicke in die schöne bulgarische und griechische Landschaft.</p>
 
 <h3>Von Bukarest (Rumänien)</h3>
-<p>Die Fahrt von Bukarest erstreckt sich über etwa 700 km und dauert etwa 8-9 Stunden, vorbei durch Bulgarien. Diese Route bietet eine ausgezeichnete Gelegenheit, die vielfältigen Kulturen und Landschaften des Balkans zu erkunden.</p>
+<p>Die Fahrt von Bukarest erstreckt sich über etwa 720 km und dauert etwa 10-11 Stunden, vorbei durch Bulgarien. Diese Route bietet eine ausgezeichnete Gelegenheit, die vielfältigen Kulturen und Landschaften des Balkans zu erkunden.</p>
 
 <h3>Von Belgrad (Serbien)</h3>
-<p>Unternehmen Sie eine etwa 600 km lange Reise von Belgrad, die typischerweise 6-7 Stunden dauert. Die Route über Niš und Skopje nach Thessaloniki ist gut befahren und bietet eine komfortable Fahrt zu den sonnigen Stränden von Chalkidiki.</p>
+<p>Unternehmen Sie eine etwa 690 km lange Reise von Belgrad, die typischerweise 7-8 Stunden dauert. Die Route über Niš und Skopje nach Thessaloniki ist gut befahren und bietet eine komfortable Fahrt zu den sonnigen Stränden von Chalkidiki.</p>
 
 <h2>Mit dem Bus (KTEL)</h2>
 <ul>
 <li><strong>KTEL Chalkidikis</strong> bietet zuverlässige und häufige Busverbindungen von Thessaloniki zu verschiedenen Teilen von Chalkidiki, was Reisenden einen einfachen Zugang ermöglicht.</li>
-<li>Kassandra: 5-8 Fahrten/Tag. Genießen Sie den Komfort eines regelmäßigen Service zu dieser lebhaften Halbinsel.</li>
-<li>Sithonia: 3-5 Fahrten/Tag. Ideal, um die ruhige und natürliche Schönheit von Sithonia zu erkunden.</li>
-<li>Preis: ~10-15€ einfache Fahrt, was es zu einer erschwinglichen Option für preisbewusste Reisende macht.</li>
+<li>Mehrere Abfahrten täglich nach Kassandra, Sithonia und Ouranoupoli, im Sommer häufiger.</li>
+
+<li>Fahrpläne und Preise ändern sich je nach Saison — prüfen Sie sie vor der Reise bei KTEL Chalkidiki.</li>
 </ul>
 
 <h2>Transferdienste</h2>
-<p>Private Transfers vom Flughafen sind verfügbar, mit Preisen von 60-100€, abhängig von Ihrem Ziel. Diese Option bietet Komfort und Leichtigkeit, insbesondere für Familien oder Gruppen, und sorgt für einen stressfreien Start in Ihren Urlaub.</p>
+<p>Private Transfers ab dem Flughafen sind möglich; der Preis hängt vom Ziel und vom Fahrzeug ab, holen Sie daher vorab ein Angebot ein. Besonders <strong>praktisch für Familien</strong> und Gruppen mit Gepäck.</p>
 
 <h2>Autovermietung</h2>
 <p><strong>Wärmstens empfohlen.</strong> Ein Auto in Chalkidiki zu mieten, ist eine hervorragende Möglichkeit, die Region in Ihrem eigenen Tempo zu erkunden. Der öffentliche Nahverkehr ist begrenzt, und mit einem Fahrzeug können Sie versteckte Schätze wie abgelegene Strände und charmante Dörfer entdecken, die abseits der ausgetretenen Pfade liegen. Ob Sie die geschäftigen Straßen von Neos Marmaras oder die ruhigen Ufer von Kavourotrypes besuchen, ein Auto bietet die Freiheit, alles zu erleben, was Chalkidiki zu bieten hat.</p>`,
@@ -852,9 +852,9 @@ export const GUIDES: Guide[] = [
 
 <h3>Разстояния от SKG</h3>
 <ul>
-<li><strong>Касандра (Пефкохори):</strong> ~100 км / 1:20 часа. Известна със своята оживена нощна живот и зашеметяващи плажове, Касандра е любимо място сред туристите, търсещи както релаксация, така и забавление.</li>
-<li><strong>Ситония (Никити):</strong> ~110 км / 1:30 часа. Този полуостров е известен с живописните си пейзажи и спокойни плажове, идеални за тези, които искат да избягат от шума и суетата.</li>
-<li><strong>Урануполи (Атон):</strong> ~130 км / 1:50 часа. Като врата към монашеската общност на Света гора, Урануполи предлага уникална комбинация от духовна и природна красота.</li>
+<li><strong>Касандра (Пефкохори):</strong> ~95 км / 1:30 часа. Известна със своята оживена нощна живот и зашеметяващи плажове, Касандра е любимо място сред туристите, търсещи както релаксация, така и забавление.</li>
+<li><strong>Ситония (Никити):</strong> ~90 км / 1:20 часа. Този полуостров е известен с живописните си пейзажи и спокойни плажове, идеални за тези, които искат да избягат от шума и суетата.</li>
+<li><strong>Урануполи (Атон):</strong> ~120 км / 2:00 часа. Като врата към монашеската общност на Света гора, Урануполи предлага уникална комбинация от духовна и природна красота.</li>
 </ul>
 
 <h2>С кола</h2>
@@ -862,24 +862,24 @@ export const GUIDES: Guide[] = [
 <p>Пътуването от Солун до Халкидики е лесно и приятно. Вземете магистралата, след това околовръстния път, и продължете по пътя Солун-Халкидики. Пътищата са в <strong>отлично състояние</strong>, осигурявайки гладко шофиране през живописни пейзажи.</p>
 
 <h3>От София (България)</h3>
-<p>Пътуващите от София могат да достигнат Халкидики за приблизително 4-5 часа, покривайки разстояние от около 400 км. Маршрутът минава през границата на Промахон, след това през Серес до Солун, предлагайки погледи към красивите български и гръцки пейзажи.</p>
+<p>Пътуващите от София могат да достигнат Халкидики за приблизително 4-5 часа, покривайки разстояние от около 360 км. Маршрутът минава през границата на Промахон, след това през Серес до Солун, предлагайки погледи към красивите български и гръцки пейзажи.</p>
 
 <h3>От Букурещ (Румъния)</h3>
-<p>Пътуването от Букурещ обхваща около 700 км и отнема около 8-9 часа, преминавайки през България. Този маршрут е отлична възможност да се насладите на разнообразните култури и пейзажи на Балканите.</p>
+<p>Пътуването от Букурещ обхваща около 720 км и отнема около 10-11 часа, преминавайки през България. Този маршрут е отлична възможност да се насладите на разнообразните култури и пейзажи на Балканите.</p>
 
 <h3>От Белград (Сърбия)</h3>
-<p>Започнете около 600 км пътуване от Белград, което обикновено отнема 6-7 часа. Маршрутът през Ниш и Скопие до Солун е добре изминат и предлага комфортно пътуване до слънчевите брегове на Халкидики.</p>
+<p>Започнете около 690 км пътуване от Белград, което обикновено отнема 7-8 часа. Маршрутът през Ниш и Скопие до Солун е добре изминат и предлага комфортно пътуване до слънчевите брегове на Халкидики.</p>
 
 <h2>С автобус (КТЕЛ)</h2>
 <ul>
 <li><strong>КТЕЛ Халкидики</strong> предлага надеждни и чести автобусни маршрути от Солун до различни части на Халкидики, осигурявайки лесен достъп за пътниците.</li>
-<li>Касандра: 5-8 пътувания/ден. Насладете се на удобството на редовната услуга до този оживен полуостров.</li>
-<li>Ситония: 3-5 пътувания/ден. Идеално за изследване на спокойната и естествена красота на Ситония.</li>
-<li>Цена: ~10-15€ еднопосочно, което го прави достъпна опция за пътниците с ограничен бюджет.</li>
+<li>Няколко курса дневно до Касандра, Ситония и Уранополи, по-чести през лятото.</li>
+
+<li>Разписанията и цените се менят според сезона — проверете ги в КТЕЛ Халкидики преди пътуването.</li>
 </ul>
 
 <h2>Трансферни услуги</h2>
-<p>Частни трансфери от летището са на разположение с цени от 60-100€, в зависимост от дестинацията. Тази опция осигурява комфорт и удобство, особено за семейства или групи, гарантирайки безпроблемно начало на вашата почивка.</p>
+<p>Предлагат се частни трансфери от летището; цената зависи от дестинацията и превозното средство, затова поискайте оферта предварително. Особено <strong>удобно за семейства</strong> и групи с багаж.</p>
 
 <h2>Наем на кола</h2>
 <p><strong>Силно препоръчително.</strong> Наемането на кола в Халкидики е отличен начин да изследвате региона със собствено темпо. Общественият транспорт е ограничен, а наличието на превозно средство ви позволява да откриете скрити съкровища, като усамотени плажове и очарователни села, които са извън утъпканите пътеки. Независимо дали посещавате оживените улици на Неос Мармарас или спокойните брегове на Кавуротрис, колата ви дава свободата да изпитате всичко, което Халкидики може да предложи.</p>`,
@@ -888,9 +888,9 @@ export const GUIDES: Guide[] = [
 
 <h3>Расстояния от SKG</h3>
 <ul>
-<li><strong>Касандра (Пефкохори):</strong> ~100 км / 1:20 ч. Известная своими яркими пляжами и оживленной ночной жизнью, Касандра является излюбленным местом туристов, ищущих как отдых, так и развлечения.</li>
-<li><strong>Ситония (Никити):</strong> ~110 км / 1:30 ч. Этот полуостров славится живописными пейзажами и спокойными пляжами, идеально подходящими для тех, кто хочет избежать суеты.</li>
-<li><strong>Урануполи (Афон):</strong> ~130 км / 1:50 ч. Как ворота к монашескому сообществу Святой Горы, Урануполи предлагает уникальное сочетание духовной и природной красоты.</li>
+<li><strong>Касандра (Пефкохори):</strong> ~95 км / 1:30 ч. Известная своими яркими пляжами и оживленной ночной жизнью, Касандра является излюбленным местом туристов, ищущих как отдых, так и развлечения.</li>
+<li><strong>Ситония (Никити):</strong> ~90 км / 1:20 ч. Этот полуостров славится живописными пейзажами и спокойными пляжами, идеально подходящими для тех, кто хочет избежать суеты.</li>
+<li><strong>Урануполи (Афон):</strong> ~120 км / 2:00 ч. Как ворота к монашескому сообществу Святой Горы, Урануполи предлагает уникальное сочетание духовной и природной красоты.</li>
 </ul>
 
 <h2>На автомобиле</h2>
@@ -898,24 +898,24 @@ export const GUIDES: Guide[] = [
 <p>Путешествие из Салоников в Халкидики простое и приятное. Следуйте по автостраде, затем по кольцевой дороге, а затем продолжайте по дороге Салоники-Халкидики. Дороги находятся в <strong>отличном состоянии</strong>, обеспечивая плавную поездку через живописные ландшафты.</p>
 
 <h3>Из Софии (Болгария)</h3>
-<p>Путешественники из Софии могут добраться до Халкидики примерно за 4-5 часов, преодолев расстояние около 400 км. Маршрут проходит через границу Промахонас, затем через Серры в Салоники, предлагая взгляды на красивую болгарскую и греческую сельскую местность.</p>
+<p>Путешественники из Софии могут добраться до Халкидики примерно за 4-5 часов, преодолев расстояние около 360 км. Маршрут проходит через границу Промахонас, затем через Серры в Салоники, предлагая взгляды на красивую болгарскую и греческую сельскую местность.</p>
 
 <h3>Из Бухареста (Румыния)</h3>
-<p>Поездка из Бухареста охватывает около 700 км и занимает около 8-9 часов, проходя через Болгарию. Этот маршрут — отличная возможность исследовать разнообразные культуры и ландшафты Балкан.</p>
+<p>Поездка из Бухареста охватывает около 720 км и занимает около 10-11 часов, проходя через Болгарию. Этот маршрут — отличная возможность исследовать разнообразные культуры и ландшафты Балкан.</p>
 
 <h3>Из Белграда (Сербия)</h3>
-<p>Отправьтесь в путешествие длиной около 600 км из Белграда, которое обычно занимает 6-7 часов. Маршрут через Ниш и Скопье в Салоники хорошо известен и предлагает комфортную поездку к солнечным берегам Халкидики.</p>
+<p>Отправьтесь в путешествие длиной около 690 км из Белграда, которое обычно занимает 7-8 часов. Маршрут через Ниш и Скопье в Салоники хорошо известен и предлагает комфортную поездку к солнечным берегам Халкидики.</p>
 
 <h2>На автобусе (КТЕЛ)</h2>
 <ul>
 <li><strong>КТЕЛ Халкидики</strong> предлагает надежные и частые автобусные маршруты из Салоников в различные части Халкидики, обеспечивая легкий доступ для путешественников.</li>
-<li>Касандра: 5-8 рейсов/день. Наслаждайтесь удобством регулярного обслуживания этого оживленного полуострова.</li>
-<li>Ситония: 3-5 рейсов/день. Идеально для исследования спокойной и природной красоты Ситонии.</li>
-<li>Цена: ~10-15€ в одну сторону, что делает это доступным вариантом для путешественников с ограниченным бюджетом.</li>
+<li>Несколько рейсов в день на Кассандру, Ситонию и в Уранополис, летом чаще.</li>
+
+<li>Расписание и цены меняются в зависимости от сезона — уточняйте их в КТЕЛ Халкидики перед поездкой.</li>
 </ul>
 
 <h2>Трансферные услуги</h2>
-<p>Доступны частные трансферы из аэропорта, стоимость которых варьируется от 60 до 100€, в зависимости от вашего пункта назначения. Этот вариант обеспечивает комфорт и удобство, особенно для семей или групп, гарантируя беспроблемное начало вашего отпуска.</p>
+<p>Из аэропорта можно заказать частный трансфер; цена зависит от направления и автомобиля, поэтому уточняйте её заранее. Особенно <strong>удобно для семей</strong> и групп с багажом.</p>
 
 <h2>Аренда автомобиля</h2>
 <p><strong>Настоятельно рекомендуется.</strong> Аренда автомобиля в Халкидики — отличный способ исследовать регион в своем собственном темпе. Общественный транспорт ограничен, и наличие автомобиля позволяет вам открыть для себя скрытые жемчужины, такие как уединенные пляжи и очаровательные деревни, которые находятся вне проторенных дорог. Независимо от того, посещаете ли вы оживленные улицы Неос Мармарас или спокойные берега Кавоуротрюпес, автомобиль предоставляет свободу испытать все, что может предложить Халкидики.</p>`,
@@ -924,9 +924,9 @@ export const GUIDES: Guide[] = [
 
 <h3>Distanțe de la SKG</h3>
 <ul>
-<li><strong>Kassandra (Pefkohori):</strong> ~100 km / 1:20h. Cunoscută pentru viața de noapte vibrantă și plajele uimitoare, Kassandra este o destinație preferată de turiștii care caută atât relaxare, cât și distracție.</li>
-<li><strong>Sithonia (Nikiti):</strong> ~110 km / 1:30h. Această peninsulă este renumită pentru peisajele sale pitorești și plajele liniștite, perfecte pentru cei care doresc să scape de agitația cotidiană.</li>
-<li><strong>Ouranoupoli (Athos):</strong> ~130 km / 1:50h. Ca poartă de acces către comunitatea monahală de pe Muntele Athos, Ouranoupoli oferă un amestec unic de frumusețe spirituală și naturală.</li>
+<li><strong>Kassandra (Pefkohori):</strong> ~95 km / 1:30h. Cunoscută pentru viața de noapte vibrantă și plajele uimitoare, Kassandra este o destinație preferată de turiștii care caută atât relaxare, cât și distracție.</li>
+<li><strong>Sithonia (Nikiti):</strong> ~90 km / 1:20h. Această peninsulă este renumită pentru peisajele sale pitorești și plajele liniștite, perfecte pentru cei care doresc să scape de agitația cotidiană.</li>
+<li><strong>Ouranoupoli (Athos):</strong> ~120 km / 2:00h. Ca poartă de acces către comunitatea monahală de pe Muntele Athos, Ouranoupoli oferă un amestec unic de frumusețe spirituală și naturală.</li>
 </ul>
 
 <h2>Cu Mașina</h2>
@@ -934,24 +934,24 @@ export const GUIDES: Guide[] = [
 <p>Drumul de la Salonic la Halkidiki este simplu și plăcut. Urmați autostrada, apoi șoseaua de centură și continuați pe drumul Salonic-Halkidiki. Drumurile sunt în <strong>condiții excelente</strong>, asigurând o călătorie lină prin peisaje pitorești.</p>
 
 <h3>Din Sofia (Bulgaria)</h3>
-<p>Călătorii din Sofia pot ajunge în Halkidiki în aproximativ 4-5 ore, acoperind o distanță de ~400 km. Traseul trece prin granița Promachonas, apoi prin Serres către Salonic, oferind priveliști ale frumoasei țări bulgare și grecești.</p>
+<p>Călătorii din Sofia pot ajunge în Halkidiki în aproximativ 4-5 ore, acoperind o distanță de ~360 km. Traseul trece prin granița Promachonas, apoi prin Serres către Salonic, oferind priveliști ale frumoasei țări bulgare și grecești.</p>
 
 <h3>Din București (România)</h3>
-<p>Drumul din București se întinde pe ~700 km și durează aproximativ 8-9 ore, trecând prin Bulgaria. Acest traseu este o oportunitate excelentă de a explora diversitatea culturală și peisajele din Balcani.</p>
+<p>Drumul din București se întinde pe ~720 km și durează aproximativ 10-11 ore, trecând prin Bulgaria. Acest traseu este o oportunitate excelentă de a explora diversitatea culturală și peisajele din Balcani.</p>
 
 <h3>Din Belgrad (Serbia)</h3>
-<p>Îmbarcați-vă într-o călătorie de ~600 km din Belgrad, care durează de obicei 6-7 ore. Traseul prin Niš și Skopje către Salonic este bine circulat și oferă o călătorie confortabilă spre țărmurile însorite ale Halkidiki.</p>
+<p>Îmbarcați-vă într-o călătorie de ~690 km din Belgrad, care durează de obicei 7-8 ore. Traseul prin Niš și Skopje către Salonic este bine circulat și oferă o călătorie confortabilă spre țărmurile însorite ale Halkidiki.</p>
 
 <h2>Cu Autobuzul (KTEL)</h2>
 <ul>
 <li><strong>KTEL Halkidikis</strong> oferă rute de autobuz fiabile și frecvente de la Salonic către diverse părți ale Halkidiki, asigurând acces ușor pentru călători.</li>
-<li>Kassandra: 5-8 curse/zi. Bucurați-vă de confortul unui serviciu regulat către această peninsulă animată.</li>
-<li>Sithonia: 3-5 curse/zi. Ideal pentru a explora frumusețea liniștită și naturală a Sithoniei.</li>
-<li>Preț: ~10-15€ pe sens, făcându-l o opțiune accesibilă pentru călătorii cu buget redus.</li>
+<li>Mai multe curse pe zi spre Kassandra, Sithonia și Ouranoupoli, mai dese vara.</li>
+
+<li>Orarele și tarifele se schimbă de la un sezon la altul — verificați-le la KTEL Halkidiki înainte de călătorie.</li>
 </ul>
 
 <h2>Servicii de Transfer</h2>
-<p>Transferuri private de la aeroport sunt disponibile, cu prețuri între 60-100€, în funcție de destinație. Această opțiune oferă confort și ușurință, în special pentru familii sau grupuri, asigurând un început fără griji al vacanței tale.</p>
+<p>Există transferuri private de la aeroport; prețul depinde de destinație și de vehicul, așa că cereți o ofertă din timp. Varianta este deosebit de <strong>comodă pentru familii</strong> și grupuri cu bagaje.</p>
 
 <h2>Închiriere Auto</h2>
 <p><strong>Recomandat cu căldură.</strong> Închirierea unei mașini în Halkidiki este o modalitate excelentă de a explora regiunea în ritmul propriu. Transportul public este limitat, iar având un vehicul vă permite să descoperiți comori ascunse, cum ar fi plaje izolate și sate fermecătoare, care sunt departe de căile bătute. Fie că vizitați străzile aglomerate din Neos Marmaras sau țărmurile liniștite din Kavourotrypes, o mașină vă oferă libertatea de a experimenta tot ceea ce Halkidiki are de oferit.</p>`,
@@ -960,9 +960,9 @@ export const GUIDES: Guide[] = [
 
 <h3>Udaljenosti od SKG</h3>
 <ul>
-<li><strong>Kassandra (Pefkohori):</strong> ~100 km / 1:20h. Kassandra je poznata po svojim prelepim plažama i živahnom noćnom životu, omiljena među turistima koji traže opuštanje i zabavu.</li>
-<li><strong>Sithonia (Nikiti):</strong> ~110 km / 1:30h. Ovaj poluostrvo je poznato po slikovitim pejzažima i mirnim plažama, idealno za one koji žele da pobegnu od gužve.</li>
-<li><strong>Ouranoupoli (Atos):</strong> ~130 km / 1:50h. Kao kapija za monašku zajednicu Svete Gore, Ouranoupoli nudi jedinstven spoj duhovne i prirodne lepote.</li>
+<li><strong>Kassandra (Pefkohori):</strong> ~95 km / 1:30h. Kassandra je poznata po svojim prelepim plažama i živahnom noćnom životu, omiljena među turistima koji traže opuštanje i zabavu.</li>
+<li><strong>Sithonia (Nikiti):</strong> ~90 km / 1:20h. Ovaj poluostrvo je poznato po slikovitim pejzažima i mirnim plažama, idealno za one koji žele da pobegnu od gužve.</li>
+<li><strong>Ouranoupoli (Atos):</strong> ~120 km / 2:00h. Kao kapija za monašku zajednicu Svete Gore, Ouranoupoli nudi jedinstven spoj duhovne i prirodne lepote.</li>
 </ul>
 
 <h2>Autom</h2>
@@ -970,24 +970,24 @@ export const GUIDES: Guide[] = [
 <p>Putovanje iz Soluna do Halkidikija je jednostavno i prijatno. Vozite se autoputem, zatim obilaznicom, i nastavite putem Solun-Halkidiki. Putevi su u <strong>izvrsnom stanju</strong>, osiguravajući glatku vožnju kroz predivne pejzaže.</p>
 
 <h3>Iz Sofije (Bugarska)</h3>
-<p>Putnici iz Sofije mogu stići do Halkidikija za otprilike 4-5 sati, prešavši oko 400 km. Trasa vodi kroz granicu Promahonas, zatim preko Seresa do Soluna, pružajući pogled na lepe pejzaže Bugarske i Grčke.</p>
+<p>Putnici iz Sofije mogu stići do Halkidikija za otprilike 4-5 sati, prešavši oko 360 km. Trasa vodi kroz granicu Promahonas, zatim preko Seresa do Soluna, pružajući pogled na lepe pejzaže Bugarske i Grčke.</p>
 
 <h3>Iz Bukurešta (Rumunija)</h3>
-<p>Vožnja iz Bukurešta obuhvata oko 700 km i traje oko 8-9 sati, prolazeći kroz Bugarsku. Ova ruta je odlična prilika da istražite raznolike kulture i pejzaže Balkana.</p>
+<p>Vožnja iz Bukurešta obuhvata oko 720 km i traje oko 10-11 sati, prolazeći kroz Bugarsku. Ova ruta je odlična prilika da istražite raznolike kulture i pejzaže Balkana.</p>
 
 <h3>Iz Beograda (Srbija)</h3>
-<p>Krenite na put od oko 600 km iz Beograda, što obično traje 6-7 sati. Trasa preko Niša i Skoplja do Soluna je dobro poznata i nudi udobnu vožnju do sunčanih obala Halkidikija.</p>
+<p>Krenite na put od oko 690 km iz Beograda, što obično traje 7-8 sati. Trasa preko Niša i Skoplja do Soluna je dobro poznata i nudi udobnu vožnju do sunčanih obala Halkidikija.</p>
 
 <h2>Autobusom (KTEL)</h2>
 <ul>
 <li><strong>KTEL Halkidikis</strong> nudi pouzdane i česte autobuske linije iz Soluna do različitih delova Halkidikija, osiguravajući lak pristup za putnike.</li>
-<li>Kassandra: 5-8 polazaka/dan. Uživajte u pogodnostima redovnog prevoza do ovog živahnog poluostrva.</li>
-<li>Sithonia: 3-5 polazaka/dan. Idealno za istraživanje mirne i prirodne lepote Sithonije.</li>
-<li>Cena: ~10-15€ u jednom pravcu, što ga čini pristupačnom opcijom za putnike koji paze na budžet.</li>
+<li>Više polazaka dnevno ka Kasandri, Sitoniji i Uranupolisu, leti češće.</li>
+
+<li>Red vožnje i cene menjaju se po sezoni — proverite ih kod KTEL Halkidikija pre puta.</li>
 </ul>
 
 <h2>Transfer usluge</h2>
-<p>Privatni transferi sa aerodroma su dostupni, sa cenama od 60-100€, u zavisnosti od destinacije. Ova opcija pruža udobnost i lakoću, posebno za porodice ili grupe, osiguravajući bezbrižan početak vašeg odmora.</p>
+<p>Dostupni su privatni transferi sa aerodroma; cena zavisi od odredišta i vozila, pa unapred zatražite ponudu. Ova opcija je naročito <strong>praktična za porodice</strong> i grupe s prtljagom.</p>
 
 <h2>Iznajmljivanje automobila</h2>
 <p><strong>Toplo preporučujemo.</strong> Iznajmljivanje automobila u Halkidikiju je odličan način da istražite region svojim tempom. Javni prevoz je ograničen, a posedovanje vozila vam omogućava da otkrijete skrivene dragulje, kao što su osamljene plaže i šarmantna sela, koji su van utabanih staza. Bilo da posećujete užurbane ulice Neos Marmarasa ili mirne obale Kavourotrypesa, automobil vam pruža slobodu da doživite sve što Halkidiki nudi.</p>`,
@@ -1300,8 +1300,8 @@ export const GUIDES: Guide[] = [
 <li><strong>Χειμώνας (Νοέ-Μάρ):</strong> Ζεστά ρούχα, ομπρέλα, αδιάβροχα παπούτσια. Εάν σκοπεύετε να επισκεφθείτε τα ορεινά χωριά, όπως η Αρναία, προετοιμαστείτε για χαμηλότερες θερμοκρασίες.</li>
 </ul>
 
-<h2>Ιδιαιτερότητες</h2>
-<p>Η <strong>Σιθωνία</strong> είναι γνωστή για τη φυσική της ομορφιά και τείνει να είναι 1-2°C πιο δροσερή από την Κασσάνδρα λόγω της πυκνότερης βλάστησης και των πευκοδάσων. Ο <strong>Βαρδάρης</strong>, ένας βόρειος άνεμος, μπορεί να φέρει ξαφνική δροσιά ακόμα και τους καλοκαιρινούς μήνες, προσφέροντας ανακούφιση από τη ζέστη. Η περιοχή του Όρους Άθως είναι ιδιαίτερα γνωστή για την πνευματική της ηρεμία και την ομορφιά της φύσης. Εάν σκοπεύετε να επισκεφθείτε το Άγιον Όρος, φροντίστε να προμηθευτείτε το απαραίτητο <em>διαμονητήριο</em> εκ των προτέρων.</p>`,
+
+`,
       en: `<h2>Halkidiki Climate</h2>
 <p>Halkidiki is blessed with a <strong>Mediterranean climate</strong>, characterized by hot, dry summers and mild, wet winters. This region, nestled between the Thermaic Gulf and the Aegean Sea, offers ideal conditions for a perfect seaside holiday from May through October. The summer months are particularly popular, with temperatures often soaring, making it a favorite destination for sun-seekers. Winters are mild, allowing for a pleasant off-season experience, perfect for exploring the cultural and natural beauty of the area.</p>
 
@@ -1329,8 +1329,8 @@ export const GUIDES: Guide[] = [
 <li><strong>Winter (Nov-Mar):</strong> Warm clothing is necessary, including sweaters and coats. An umbrella and waterproof shoes will keep you comfortable during the wetter months.</li>
 </ul>
 
-<h2>Local Quirks</h2>
-<p>The peninsula of <strong>Sithonia</strong> is known for being 1-2°C cooler than Kassandra, thanks to its denser cover of pine forests which provide a natural cooling effect. The <strong>Vardaris</strong>, a strong north wind, can bring sudden cool spells even during the peak summer month of July. This unique weather pattern is a refreshing change and adds to the charm of visiting Halkidiki.</p>`,
+
+`,
       de: `<h2>Klima von Chalkidiki</h2>
 <p>Chalkidiki ist bekannt für ihr <strong>Mittelmeerklima</strong>, das sich durch heiße, trockene Sommer und milde, feuchte Winter auszeichnet. Die geografische Lage zwischen dem Thermaischen Golf und der Ägäis bietet ideale Bedingungen für einen perfekten Strandurlaub von Mai bis Oktober. Im Sommer steigen die Temperaturen oft auf 30°C, während Meereswinde wie das bekannte <em>meltemi</em> für Erfrischung sorgen. Besucher können die Sonne und die sauberen Strände genießen, von denen viele mit der <strong>Blauen Flagge</strong> ausgezeichnet sind.</p>
 
@@ -1358,8 +1358,8 @@ export const GUIDES: Guide[] = [
 <li><strong>Winter (Nov-Mär):</strong> Warme Kleidung, Regenschirm, wasserdichte Schuhe. Wenn Sie planen, die Bergdörfer wie Arnea zu besuchen, bereiten Sie sich auf niedrigere Temperaturen vor.</li>
 </ul>
 
-<h2>Besonderheiten</h2>
-<p>Die Halbinsel <strong>Sithonia</strong> ist bekannt für ihre natürliche Schönheit und ist aufgrund der dichteren Vegetation und Pinienwälder 1-2°C kühler als Kassandra. Der <strong>Vardaris</strong>, ein Nordwind, kann auch im Sommer für plötzliche Kühle sorgen und bietet eine willkommene Erfrischung. Die Region des Berges Athos ist besonders bekannt für ihre spirituelle Ruhe und die Schönheit der Natur. Wenn Sie den Heiligen Berg Athos besuchen möchten, stellen Sie sicher, dass Sie das notwendige <em>diamonitirion</em> im Voraus erhalten.</p>`,
+
+`,
       bg: `<h2>Климат на Халкидики</h2>
 <p>Халкидики е благословен с <strong>средиземноморски климат</strong>, който се характеризира с горещи и сухи лета и меки и влажни зими. Разположен между Термайкоския залив и Егейско море, регионът предлага идеални условия за морска почивка от май до октомври. През лятото температурите често достигат 30°C, а морските ветрове, като известния <em>мелтеми</em>, осигуряват облекчение от жегата. Посетителите могат да се насладят на слънчевите дни и чистите плажове, много от които са наградени със <strong>Син флаг</strong>.</p>
 
@@ -1387,8 +1387,8 @@ export const GUIDES: Guide[] = [
 <li><strong>Зима (Ноем-Март):</strong> Топли дрехи, включително пуловери и палта. Чадър и водоустойчиви обувки ще ви осигурят комфорт през по-влажните месеци. Ако планирате да посетите планинските села като Арнеа, подгответе се за по-ниски температури.</li>
 </ul>
 
-<h2>Особености</h2>
-<p><strong>Ситония</strong> е известна със своята природна красота и обикновено е с 1-2°C по-хладна от Касандра, благодарение на по-гъстата си растителност и борови гори. <strong>Вардарис</strong>, силен северен вятър, може да донесе внезапна прохлада дори през летните месеци, като предлага освежаване от жегата. Районът на Света гора е особено известен със своята духовна тишина и природна красота. Ако планирате да посетите Света гора, уверете се, че сте се снабдили с необходимото <em>диамонитирион</em> предварително.</p>`,
+
+`,
       ru: `<h2>Климат Халкидики</h2>
 <p>Халкидики славится своим <strong>средиземноморским климатом</strong>, который характеризуется жарким и сухим летом, а также мягкой и влажной зимой. Географическое расположение региона между Термическим заливом и Эгейским морем создает идеальные условия для морского отдыха с мая по октябрь. Летом температура часто достигает 30°C, но морские бризы, такие как известный <em>мельтеми</em>, приносят облегчение от жары. Посетители могут насладиться солнечными днями и чистыми пляжами, многие из которых отмечены <strong>Голубым флагом</strong>.</p>
 
@@ -1416,8 +1416,8 @@ export const GUIDES: Guide[] = [
 <li><strong>Зима (Ноя-Мар):</strong> Теплая одежда, зонтик, водонепроницаемая обувь. Если планируете посетить горные деревни, такие как Арнеа, подготовьтесь к более низким температурам.</li>
 </ul>
 
-<h2>Особенности</h2>
-<p><strong>Ситония</strong> известна своей природной красотой и обычно на 1-2°C прохладнее, чем Кассандра, благодаря густым лесам и сосновым рощам. Северный ветер <strong>Вардарис</strong> может принести внезапное похолодание даже летом, принося освежение от жары. Район <strong>Афон</strong> особенно известен своей духовной атмосферой и природной красотой. Если планируете посетить Святую Гору, заранее оформите <em>диамонитирион</em>.</p>`,
+
+`,
       ro: `<h2>Clima Halkidiki</h2>
 <p>Halkidiki este renumită pentru <strong>clima sa mediteraneană</strong>, caracterizată de veri fierbinți și uscate, precum și de ierni blânde și umede. Poziționată între Golful Thermaic și Marea Egee, regiunea oferă condiții ideale pentru vacanțe la mare din mai până în octombrie. În timpul verii, temperaturile ajung adesea la 30°C, iar brizele marine, precum cunoscutul <em>meltemi</em>, aduc o răcorire binevenită. Vizitatorii se pot bucura de soare și de plajele curate, multe dintre ele având distincția <strong>Steag Albastru</strong>.</p>
 
@@ -1445,8 +1445,8 @@ export const GUIDES: Guide[] = [
 <li><strong>Iarnă (Nov-Mar):</strong> Haine călduroase, umbrelă, pantofi impermeabili. Dacă intenționați să vizitați satele montane, cum ar fi Arnea, pregătiți-vă pentru temperaturi mai scăzute.</li>
 </ul>
 
-<h2>Particularități Locale</h2>
-<p><strong>Sithonia</strong> este cunoscută pentru frumusețea sa naturală și este adesea cu 1-2°C mai răcoroasă decât Kassandra datorită vegetației dense și pădurilor de pini. <strong>Vardaris</strong>, un vânt nordic, poate aduce răcoare bruscă chiar și în lunile de vară, oferind o pauză binevenită de la căldură. Zona Muntelui Athos este renumită pentru liniștea sa spirituală și frumusețea naturii. Dacă intenționați să vizitați Muntele Athos, asigurați-vă că obțineți <em>diamonitirion</em> necesar în avans.</p>`,
+
+`,
       sr: `<h2>Klima Halkidikija</h2>
 <p>Halkidiki je poznat po svom <strong>mediteranskom klimatu</strong>, koji karakterišu topla i suva leta, kao i blage i vlažne zime. Njegova geografska pozicija, između Termajskog zaliva i Egejskog mora, pruža idealne uslove za morske odmore od maja do oktobra. Tokom leta, temperature često dostižu 30°C, dok morski vetrovi, kao što je poznati <em>meltemi</em>, donose osveženje od vrućine. Posetioci mogu uživati u suncu i čistim plažama, od kojih mnoge nose prestižno priznanje <strong>Plave zastave</strong>.</p>
 
@@ -1474,8 +1474,8 @@ export const GUIDES: Guide[] = [
 <li><strong>Zima (nov-mar):</strong> Topla odeća, uključujući džempere i kapute. Kišobran i vodootporne cipele će vas zaštititi tokom vlažnijih meseci. Ako planirate posetu planinskim selima, kao što je Arnea, pripremite se za niže temperature.</li>
 </ul>
 
-<h2>Posebnosti</h2>
-<p><strong>Sithonia</strong> je poznata po svojoj prirodnoj lepoti i obično je 1-2°C hladnija od Kassandra zbog gušće vegetacije i borovih šuma. <strong>Vardaris</strong>, severni vetar, može doneti iznenadnu svežinu čak i tokom letnjih meseci, pružajući olakšanje od vrućine. Područje planine Atos je posebno poznato po svojoj duhovnoj mirnoći i prirodnoj lepoti. Ako planirate posetu Svetoj Gori, obavezno unapred nabavite neophodni <em>diamonitirion</em>.</p>`,
+
+`,
     },
   },
   {
@@ -1661,7 +1661,7 @@ export const GUIDES: Guide[] = [
 <h2>Πολυτελή Resorts</h2>
 <ul>
   <li><strong>Sani Resort</strong> — Κασσάνδρα. Ένας παράδεισος πολυτέλειας με 5 ξενοδοχεία σε ιδιωτική έκταση 1.000 στρεμμάτων, μαρίνα, σπα και 7 βραβευμένες παραλίες με "Blue Flag".</li>
-  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Κασσάνδρα. All-inclusive πολυτέλειας, βραβευμένα παγκοσμίως για την εξαιρετική εξυπηρέτηση και τις κορυφαίες εγκαταστάσεις τους.</li>
+  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Δύο πολυτελή all-inclusive θέρετρα, στη Νέα Μουδανιά (είσοδος Κασσάνδρας) και στη Γερακινή (προς Σιθωνία).</li>
   <li><strong>Eagles Palace</strong> — Ουρανούπολη. Μπροστά στον Άθω, προσφέρει μοναδική θέα, σπα και ιδιωτική παραλία για απόλυτη χαλάρωση.</li>
   <li><strong>Porto Carras Grand Resort</strong> — Σιθωνία. Ένα τεράστιο resort με γήπεδο γκολφ, μαρίνα και οινοποιείο, ιδανικό για όσους αναζητούν πολυτέλεια και δραστηριότητες.</li>
 </ul>
@@ -1697,7 +1697,7 @@ export const GUIDES: Guide[] = [
 <h2>Luxury Resorts</h2>
 <ul>
   <li><strong>Sani Resort</strong> — Located on the Kassandra peninsula, this expansive resort boasts five distinct hotels set on a private 1,000-acre estate. Guests can enjoy a marina, a luxurious spa, and access to seven pristine beaches, making it an ideal destination for those seeking a lavish getaway.</li>
-  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Also situated on Kassandra, these world-award-winning luxury all-inclusive resorts offer an unparalleled experience with top-notch services and facilities, ensuring a memorable stay for their guests.</li>
+  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Two luxury all-inclusive resorts, at Nea Moudania (entrance to Kassandra) and at Gerakini (on the way to Sithonia).</li>
   <li><strong>Eagles Palace</strong> — Nestled in Ouranoupoli, this resort offers breathtaking views of Mount Athos. With a serene spa and a private beach, it's perfect for those looking to unwind in a tranquil setting.</li>
   <li><strong>Porto Carras Grand Resort</strong> — This massive resort on the Sithonia peninsula features a golf course, a marina, and its own winery, providing a unique blend of leisure and luxury for its visitors.</li>
 </ul>
@@ -1749,7 +1749,7 @@ export const GUIDES: Guide[] = [
 <h2>Luxusresorts</h2>
 <ul>
   <li><strong>Sani Resort</strong> — Auf der Halbinsel Kassandra gelegen, bietet dieses weitläufige Resort fünf verschiedene Hotels auf einem privaten 1.000 Hektar großen Anwesen. Gäste können eine Marina, ein luxuriöses Spa und den Zugang zu sieben makellosen Stränden genießen, was es zu einem idealen Ziel für diejenigen macht, die einen opulenten Urlaub suchen.</li>
-  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Ebenfalls auf Kassandra gelegen, bieten diese weltweit ausgezeichneten All-Inclusive-Luxusresorts ein unvergleichliches Erlebnis mit erstklassigem Service und Einrichtungen, die einen unvergesslichen Aufenthalt garantieren.</li>
+  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Zwei luxuriöse All-inclusive-Resorts, in Nea Moudania (Eingang nach Kassandra) und in Gerakini (auf dem Weg nach Sithonia).</li>
   <li><strong>Eagles Palace</strong> — In Ouranoupoli gelegen, bietet dieses Resort einen atemberaubenden Blick auf den Heiligen Berg Athos. Mit einem ruhigen Spa und einem privaten Strand ist es perfekt für diejenigen, die in einer friedlichen Umgebung entspannen möchten.</li>
   <li><strong>Porto Carras Grand Resort</strong> — Dieses riesige Resort auf der Halbinsel Sithonia verfügt über einen Golfplatz, eine Marina und ein eigenes Weingut und bietet eine einzigartige Mischung aus Freizeit und Luxus für seine Besucher.</li>
 </ul>
@@ -1801,7 +1801,7 @@ export const GUIDES: Guide[] = [
 <h2>Луксозни Курорти</h2>
 <ul>
   <li><strong>Sani Resort</strong> — Касандра. Един рай на лукса с 5 хотела на частна площ от 1,000 декара, марина, спа и 7 наградени плажа със "Син флаг".</li>
-  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Касандра. Всички включени луксозни курорти, наградени в световен мащаб за изключителното си обслужване и първокласни съоръжения.</li>
+  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Два луксозни курорта „всичко включено“ — в Неа Муданя (входа на Касандра) и в Геракини (по пътя за Ситония).</li>
   <li><strong>Eagles Palace</strong> — Урануполи. С изглед към Света гора, предлага уникална гледка, спа и частен плаж за пълно отпускане.</li>
   <li><strong>Porto Carras Grand Resort</strong> — Ситония. Огромен курорт с голф игрище, марина и винарна, идеален за тези, които търсят лукс и активности.</li>
 </ul>
@@ -1837,7 +1837,7 @@ export const GUIDES: Guide[] = [
 <h2>Роскошные курорты</h2>
 <ul>
   <li><strong>Sani Resort</strong> — Касандра. Это рай для любителей роскоши с пятью отелями на частной территории площадью 1 000 акров, мариной, спа и семью пляжами, отмеченными "Голубым флагом".</li>
-  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Касандра. Эти всемирно признанные курорты "все включено" предлагают исключительное обслуживание и первоклассные удобства.</li>
+  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Два роскошных курорта «всё включено»: в Неа-Муданье (въезд на Кассандру) и в Геракини (по пути на Ситонию).</li>
   <li><strong>Eagles Palace</strong> — Урануполи. Расположен перед Афоном, предлагает уникальные виды, спа и частный пляж для полного расслабления.</li>
   <li><strong>Porto Carras Grand Resort</strong> — Ситония. Огромный курорт с полем для гольфа, мариной и винодельней, идеально подходит для тех, кто ищет роскошь и активный отдых.</li>
 </ul>
@@ -1873,7 +1873,7 @@ export const GUIDES: Guide[] = [
 <h2>Resorturi de Lux</h2>
 <ul>
   <li><strong>Sani Resort</strong> — Situat pe peninsula Kassandra, acest resort vast include cinci hoteluri distincte amplasate pe o proprietate privată de 1.000 de acri. Oaspeții se pot bucura de o marină, un spa luxos și acces la șapte plaje impecabile, fiind o destinație ideală pentru cei care caută o evadare fastuoasă.</li>
-  <li><strong>Ikos Oceania & Ikos Olivia</strong> — De asemenea, situate pe Kassandra, aceste resorturi de lux all-inclusive premiate la nivel mondial oferă o experiență de neegalat cu servicii și facilități de top, asigurând o ședere memorabilă pentru oaspeții lor.</li>
+  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Două resorturi de lux all-inclusive, la Nea Moudania (intrarea în Kassandra) și la Gerakini (spre Sithonia).</li>
   <li><strong>Eagles Palace</strong> — Situat în Ouranoupoli, acest resort oferă priveliști impresionante ale Muntelui Athos. Cu un spa liniștit și o plajă privată, este perfect pentru cei care doresc să se relaxeze într-un cadru liniștit.</li>
   <li><strong>Porto Carras Grand Resort</strong> — Acest resort imens de pe peninsula Sithonia dispune de un teren de golf, o marină și propria vinărie, oferind o combinație unică de agrement și lux pentru vizitatori.</li>
 </ul>
@@ -1909,7 +1909,7 @@ export const GUIDES: Guide[] = [
 <h2>Luksuzni Resortovi</h2>
 <ul>
   <li><strong>Sani Resort</strong> — Kassandra. Ovaj prostrani resort nudi pet različitih hotela na privatnom posedu od 1.000 hektara. Gosti mogu uživati u marini, luksuznom spa centru i pristupu sedam nagrađivanih plaža sa "Plavom zastavom".</li>
-  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Kassandra. Ovi svetski nagrađivani all-inclusive luksuzni resortovi pružaju jedinstveno iskustvo sa vrhunskom uslugom i sadržajima, osiguravajući nezaboravan boravak.</li>
+  <li><strong>Ikos Oceania & Ikos Olivia</strong> — Dva luksuzna all-inclusive rizorta, u Nea Mudaniji (ulaz na Kasandru) i u Gerakiniju (na putu ka Sitoniji).</li>
   <li><strong>Eagles Palace</strong> — Ouranoupoli. Smešten u blizini Svete Gore, ovaj resort nudi predivan pogled, miran spa i privatnu plažu, savršeno za one koji žele opuštanje u mirnom okruženju.</li>
   <li><strong>Porto Carras Grand Resort</strong> — Sithonia. Ovaj veliki resort nudi golf teren, marinu i sopstvenu vinariju, pružajući jedinstvenu kombinaciju luksuza i slobodnih aktivnosti.</li>
 </ul>
@@ -1962,232 +1962,168 @@ export const GUIDES: Guide[] = [
     title: { el: 'All-Inclusive Resorts στη Χαλκιδική', en: 'Best All-Inclusive Resorts in Halkidiki', de: 'All-Inclusive-Resorts in Chalkidiki', bg: 'All-Inclusive курорти в Халкидики', ru: 'All-Inclusive курорты в Халкидиках', ro: 'Resorturi All-Inclusive în Halkidiki', sr: 'All-Inclusive rizortovi u Halkidikiju' },
     description: { el: 'Τα καλύτερα all-inclusive resorts & τι περιλαμβάνουν', en: 'Top all-inclusive resorts & what they include', de: 'Top All-Inclusive-Resorts & was enthalten ist', bg: 'Топ all-inclusive курорти и какво включват', ru: 'Лучшие all-inclusive курорты и что включено', ro: 'Cele mai bune resorturi all-inclusive și ce includ', sr: 'Najbolji all-inclusive rizortovi i šta uključuju' },
     metaTitle: { el: 'All-Inclusive Χαλκιδική — Καλύτερα Resorts', en: 'Halkidiki All-Inclusive — Best Resorts', de: 'Chalkidiki All-Inclusive — Beste Resorts', bg: 'Халкидики All-Inclusive — Най-добри курорти', ru: 'Халкидики All-Inclusive — Лучшие курорты', ro: 'Halkidiki All-Inclusive — Cele mai bune resorturi', sr: 'Halkidiki All-Inclusive — Najbolji rizortovi' },
-    metaDesc: { el: 'Τα καλύτερα all-inclusive resorts Χαλκιδικής: Ikos, Sani, Potidea Palace, Pallini Beach. Τιμές, τι περιλαμβάνεται, tips επιλογής.', en: 'Best Halkidiki all-inclusive resorts: Ikos, Sani, Potidea Palace, Pallini Beach. Prices, what\'s included, tips.', de: 'Beste Chalkidiki All-Inclusive-Resorts: Ikos, Sani, Potidea Palace. Preise und Tipps.', bg: 'Най-добрите all-inclusive курорти в Халкидики: Ikos, Sani, Potidea Palace. Цени и съвети.', ru: 'Лучшие all-inclusive курорты Халкидиков: Ikos, Sani, Potidea Palace. Цены и советы.', ro: 'Cele mai bune resorturi all-inclusive Halkidiki: Ikos, Sani, Potidea Palace. Prețuri și sfaturi.', sr: 'Najbolji all-inclusive rizortovi Halkidikija: Ikos, Sani, Potidea Palace. Cene i saveti.' },
+    metaDesc: { el: 'All-inclusive στη Χαλκιδική: τα θέρετρα Ikos στη Νέα Μουδανιά και τη Γερακινή, τι περιλαμβάνεται συνήθως και τι να ελέγξετε πριν κλείσετε.', en: 'All-inclusive in Halkidiki: the Ikos resorts at Nea Moudania and Gerakini, what is usually included and what to check before you book.', de: 'All-inclusive in Chalkidiki: die Ikos-Resorts in Nea Moudania und Gerakini, was meist inbegriffen ist und was man vor der Buchung prüfen sollte.', bg: 'All-inclusive в Халкидики: курортите Ikos в Неа Муданя и Геракини, какво обикновено е включено и какво да проверите преди резервация.', ru: 'Всё включено на Халкидики: курорты Ikos в Неа-Муданье и Геракини, что обычно входит в пакет и что проверить перед бронированием.', ro: 'All-inclusive în Halkidiki: resorturile Ikos de la Nea Moudania și Gerakini, ce este inclus de obicei și ce să verificați înainte de rezervare.', sr: 'All-inclusive na Halkidikiju: rizorti Ikos u Nea Mudaniji i Gerakiniju, šta je obično uključeno i šta proveriti pre rezervacije.' },
     content: {
-      el: `<h2>Γιατί All-Inclusive στη Χαλκιδική;</h2><p>Τα all-inclusive resorts της Χαλκιδικής συνδυάζουν την <strong>ελληνική φιλοξενία</strong> με διεθνή πρότυπα πολυτέλειας, προσφέροντας μια μοναδική εμπειρία διακοπών. Η Χαλκιδική, με τις μαγευτικές παραλίες της και τα καταγάλανα νερά της, αποτελεί ιδανικό προορισμό για όσους επιθυμούν να απολαύσουν τις διακοπές τους χωρίς άγχος. Πληρώνετε μία φορά και απολαμβάνετε τα πάντα, από γαστρονομικές απολαύσεις μέχρι δραστηριότητες για όλη την οικογένεια.</p><h2>Κορυφαία Resorts</h2><h3>Ikos Oceania (Κασσάνδρα)</h3><p>Το Ikos Oceania έχει βραβευτεί ως <strong>κορυφαίο all-inclusive παγκοσμίως</strong> πολλές φορές, προσφέροντας μια πολυτελή διαμονή με gourmet εστιατόρια που σερβίρουν Ιταλική, Ασιατική και Ελληνική κουζίνα. Διαθέτει ιδιωτική παραλία, σπα και ειδικά προγράμματα για παιδιά. Η τιμή κυμαίνεται από ~€250-500/βράδυ για 2 άτομα, ανάλογα με την εποχή και τη διαθεσιμότητα.</p><h3>Ikos Olivia (Κασσάνδρα)</h3><p>Το Ikos Olivia, αδερφό resort του Oceania, είναι ελαφρώς πιο <strong>οικογενειακό</strong> και προσφέρει εξαιρετικές εγκαταστάσεις με πράσινους κήπους που εντυπωσιάζουν. Οι τιμές κυμαίνονται από ~€220-450/βράδυ, προσφέροντας μια αξέχαστη εμπειρία διακοπών για όλη την οικογένεια.</p><h3>Sani Resort (Κασσάνδρα)</h3><p>Το Sani Resort αποτελείται από 5 ξενοδοχεία (Sani Beach, Sani Club, Sani Asterias, Porto Sani, Sani Dunes) και είναι γνωστό για τη μαρίνα του και την <strong>οικολογική πιστοποίηση</strong>. Με 7 χλμ παραλία, προσφέρει πληθώρα δραστηριοτήτων για τους επισκέπτες του. Οι τιμές κυμαίνονται από ~€200-600/βράδυ ανάλογα με το ξενοδοχείο και τις παροχές.</p><h3>Potidea Palace (Κασσάνδρα)</h3><p>Στην είσοδο της Κασσάνδρας, το Potidea Palace προσφέρει <strong>εξαιρετική σχέση τιμής-ποιότητας</strong>. Με μεγάλη πισίνα και ιδιωτική παραλία, αποτελεί ιδανική επιλογή για όσους αναζητούν πολυτέλεια σε προσιτή τιμή. Οι τιμές κυμαίνονται από ~€120-200/βράδυ.</p><h3>Pallini Beach (Κασσάνδρα)</h3><p>Κοντά στην Καλλιθέα, το Pallini Beach είναι ιδανικό για οικογένειες, προσφέροντας μια <strong>μεγάλη αμμώδη παραλία</strong> για ατελείωτες στιγμές χαλάρωσης. Οι τιμές κυμαίνονται από ~€100-180/βράδυ, καθιστώντας το μια προσιτή επιλογή για οικογενειακές διακοπές.</p><h2>Τι Περιλαμβάνεται Συνήθως</h2><ul><li>Πρωινό, μεσημεριανό & βραδινό (buffet + a-la-carte)</li><li>Τοπικά & εισαγωγικά ποτά, κοκτέιλ, κρασιά</li><li>Πισίνα, παραλία, ξαπλώστρες, ομπρέλες</li><li>Παιδικά προγράμματα & club</li><li>Wi-Fi, γυμναστήριο, βασικό σπα</li><li>Δραστηριότητες όπως γιόγκα, θαλάσσια σπορ</li><li>Εκδηλώσεις και ζωντανή ψυχαγωγία το βράδυ</li></ul><h2>Tips Επιλογής</h2><ul><li>Ελέγξτε αν τα <strong>premium ποτά</strong> περιλαμβάνονται ή μόνο τοπικά</li><li>Σύγκρινε half-board vs all-inclusive — μερικές φορές η διαφορά είναι μικρή</li><li>Κρατήστε νωρίς για <strong>early booking εκπτώσεις 15-25%</strong></li><li>Διαβάστε κριτικές για να βεβαιωθείτε ότι το resort πληροί τις προσδοκίες σας</li><li>Εξετάστε την τοποθεσία και τις κοντινές δραστηριότητες ή αξιοθέατα</li></ul>`,
-      en: `<h2>Why All-Inclusive in Halkidiki?</h2>
-<p>Halkidiki's all-inclusive resorts offer a blend of <strong>Greek hospitality</strong> and international luxury standards, ensuring a memorable vacation experience. With a single payment, guests can immerse themselves in a world of comfort and leisure, enjoying everything from exquisite dining to top-notch facilities without the worry of additional costs. Whether you're seeking relaxation or adventure, Halkidiki's resorts cater to all preferences, making it a perfect destination for families, couples, and solo travelers alike.</p>
-
-<h2>Top Resorts</h2>
-<h3>Ikos Oceania (Kassandra)</h3>
-<p>Renowned for being the <strong>world's leading all-inclusive</strong> resort, Ikos Oceania offers an unparalleled experience. Guests can indulge in gourmet dining at its Italian, Asian, and Greek restaurants, unwind at the luxurious spa, or enjoy the private beach. With dedicated kids' programs, it's ideal for families. Prices range from approximately €250 to €500 per night for two people, reflecting its premium offerings.</p>
-
-<h3>Ikos Olivia (Kassandra)</h3>
-<p>As the sister resort to Oceania, Ikos Olivia is slightly more <strong>family-oriented</strong>, featuring excellent facilities and lush gardens that create a serene environment. It offers a variety of activities and dining options to satisfy all tastes. Prices range from approximately €220 to €450 per night, providing great value for families seeking a luxurious getaway.</p>
-
-<h3>Sani Resort (Kassandra)</h3>
-<p>Comprising five distinct hotels—Sani Beach, Sani Club, Sani Asterias, Porto Sani, and Sani Dunes—Sani Resort is an <strong>eco-certified</strong> haven with a 7km stretch of pristine beach. Its marina and diverse facilities cater to both relaxation and adventure seekers. Depending on the hotel choice, prices vary from approximately €200 to €600 per night, offering a range of experiences for different budgets.</p>
-
-<h3>Potidea Palace (Kassandra)</h3>
-<p>Located at the entrance of Kassandra, Potidea Palace is known for its <strong>great value for money</strong>. The resort features a large pool, private beach, and a variety of amenities that ensure a comfortable stay. Prices range from approximately €120 to €200 per night, making it an affordable yet luxurious option.</p>
-
-<h3>Pallini Beach (Kassandra)</h3>
-<p>Situated near Kallithea, Pallini Beach is a <strong>family-friendly</strong> resort with a large sandy beach. It offers a relaxed atmosphere and various activities for all ages. Prices range from approximately €100 to €180 per night, making it a popular choice for families looking for a budget-friendly option.</p>
-
-<h2>What's Typically Included</h2>
+      el: `<h2>Γιατί all-inclusive στη Χαλκιδική;</h2>
+<p>Με το all-inclusive πληρώνετε μία φορά για διαμονή, γεύματα και ποτά και δεν χρειάζεται να σκέφτεστε πού θα φάτε. Ταιριάζει σε οικογένειες και σε όσους θέλουν να μένουν στο ξενοδοχείο· αν σκοπεύετε να εξερευνήσετε, η ημιδιατροφή είναι συχνά πιο λογική, γιατί οι τοπικές ταβέρνες είναι μεγάλο μέρος των διακοπών στη Χαλκιδική.</p>
+<h2>Θέρετρα</h2>
+<h3>Ikos Oceania (Νέα Μουδανιά)</h3>
+<p>Μεγάλο all-inclusive θέρετρο στην είσοδο της Κασσάνδρας, με αρκετά à la carte εστιατόρια, πισίνες, spa και προγράμματα για παιδιά.</p>
+<h3>Ikos Olivia (Γερακινή)</h3>
+<p>Το αδελφό θέρετρο, στον δρόμο προς τη Σιθωνία, μέσα σε κήπους πάνω από την παραλία, αγαπημένο των οικογενειών.</p>
+<h3>Άλλα ξενοδοχεία</h3>
+<p>Πολλά μεγάλα ξενοδοχεία σε Κασσάνδρα και Σιθωνία προσφέρουν πακέτα all-inclusive παράλληλα με την ημιδιατροφή. Οι επιλογές διατροφής και τι καλύπτουν διαφέρουν από ξενοδοχείο σε ξενοδοχείο, γι’ αυτό ελέγξτε τες στη σελίδα κάθε καταλύματος. Δείτε και τον <a href="/guide/hotels">οδηγό ξενοδοχείων</a> και τις <a href="/guide/luxury">πολυτελείς διακοπές</a>.</p>
+<h2>Τι περιλαμβάνεται συνήθως</h2>
 <ul>
-  <li>Breakfast, lunch, and dinner options, including buffet and a-la-carte dining</li>
-  <li>A selection of local and imported drinks, cocktails, and wines</li>
-  <li>Access to pool and beach facilities, including sun loungers and umbrellas</li>
-  <li>Kids' programs and clubs to keep the little ones entertained</li>
-  <li>Complimentary Wi-Fi, gym access, and basic spa services</li>
-  <li>Evening entertainment and themed nights for a lively atmosphere</li>
+<li>Πρωινό, μεσημεριανό και βραδινό — μπουφές και, σε ορισμένα ξενοδοχεία, à la carte εστιατόρια</li>
+<li>Τοπικά ποτά, αναψυκτικά και κρασί χύμα· τα επώνυμα ποτά συχνά χρεώνονται</li>
+<li>Ξαπλώστρες και ομπρέλες στην πισίνα και στην παραλία του ξενοδοχείου</li>
+<li>Παιδικά clubs και βραδινό ψυχαγωγικό πρόγραμμα</li>
 </ul>
-
-<h2>Choosing Tips</h2>
+<h2>Συμβουλές</h2>
 <ul>
-  <li>Check if <strong>premium drinks</strong> are included or if only local brands are offered</li>
-  <li>Compare half-board versus all-inclusive options—sometimes the price difference is minimal</li>
-  <li>Book early to take advantage of <strong>early-bird discounts of 15-25%</strong></li>
-  <li>Consider the location and proximity to local attractions and beaches</li>
-  <li>Read reviews and ratings to ensure the resort meets your expectations and preferences</li>
+<li>Ελέγξτε ποια ποτά και εστιατόρια περιλαμβάνονται και αν τα à la carte θέλουν κράτηση.</li>
+<li>Συγκρίνετε την τιμή με την ημιδιατροφή — άλλοτε η διαφορά είναι μικρή, άλλοτε όχι.</li>
+<li>Για το καλοκαίρι υπάρχουν συχνά προσφορές έγκαιρης κράτησης.</li>
+<li>Δείτε την τοποθεσία: ένα θέρετρο κοντά σε χωριό σάς επιτρέπει να συνδυάσετε ξενοδοχείο, ταβέρνες και βόλτες.</li>
 </ul>`,
-      de: `<h2>Warum All-Inclusive in Chalkidiki?</h2>
-<p>Die All-Inclusive-Resorts in Chalkidiki bieten eine Mischung aus <strong>griechischer Gastfreundschaft</strong> und internationalem Luxusstandard, die für ein unvergessliches Urlaubserlebnis sorgen. Mit einer einzigen Zahlung können Gäste in eine Welt voller Komfort und Freizeit eintauchen, ohne sich um zusätzliche Kosten sorgen zu müssen. Ob Sie Entspannung oder Abenteuer suchen, die Resorts in Chalkidiki erfüllen alle Wünsche und machen es zu einem perfekten Ziel für Familien, Paare und Alleinreisende.</p>
-
-<h2>Top Resorts</h2>
-<h3>Ikos Oceania (Kassandra)</h3>
-<p>Das Ikos Oceania ist bekannt als <strong>weltweit führendes All-Inclusive-Resort</strong> und bietet ein unvergleichliches Erlebnis. Gäste können in den Gourmet-Restaurants mit italienischer, asiatischer und griechischer Küche schlemmen, im luxuriösen Spa entspannen oder den privaten Strand genießen. Mit speziellen Kinderprogrammen ist es ideal für Familien. Die Preise liegen je nach Saison und Verfügbarkeit zwischen ca. €250 und €500 pro Nacht für zwei Personen.</p>
-
-<h3>Ikos Olivia (Kassandra)</h3>
-<p>Als Schwesterresort des Oceania ist das Ikos Olivia etwas <strong>familienorientierter</strong> und bietet hervorragende Einrichtungen sowie üppige Gärten, die eine ruhige Umgebung schaffen. Es bietet eine Vielzahl von Aktivitäten und Speisemöglichkeiten, die alle Geschmäcker zufriedenstellen. Die Preise reichen von ca. €220 bis €450 pro Nacht und bieten Familien, die einen luxuriösen Urlaub suchen, ein hervorragendes Preis-Leistungs-Verhältnis.</p>
-
-<h3>Sani Resort (Kassandra)</h3>
-<p>Das Sani Resort, bestehend aus fünf verschiedenen Hotels – Sani Beach, Sani Club, Sani Asterias, Porto Sani und Sani Dunes – ist ein <strong>ökologisch zertifiziertes</strong> Paradies mit einem 7 km langen Strandabschnitt. Die Marina und die vielfältigen Einrichtungen sprechen sowohl Erholungssuchende als auch Abenteurer an. Je nach Hotelwahl variieren die Preise zwischen ca. €200 und €600 pro Nacht und bieten ein breites Spektrum an Erlebnissen für unterschiedliche Budgets.</p>
-
-<h3>Potidea Palace (Kassandra)</h3>
-<p>Am Eingang von Kassandra gelegen, ist das Potidea Palace bekannt für sein <strong>hervorragendes Preis-Leistungs-Verhältnis</strong>. Das Resort verfügt über einen großen Pool, einen privaten Strand und eine Vielzahl von Annehmlichkeiten, die einen komfortablen Aufenthalt gewährleisten. Die Preise liegen zwischen ca. €120 und €200 pro Nacht, was es zu einer erschwinglichen, aber luxuriösen Option macht.</p>
-
-<h3>Pallini Beach (Kassandra)</h3>
-<p>In der Nähe von Kallithea gelegen, ist das Pallini Beach ein <strong>familienfreundliches</strong> Resort mit einem großen Sandstrand. Es bietet eine entspannte Atmosphäre und verschiedene Aktivitäten für alle Altersgruppen. Die Preise reichen von ca. €100 bis €180 pro Nacht, was es zu einer beliebten Wahl für Familien macht, die eine budgetfreundliche Option suchen.</p>
-
-<h2>Was ist typischerweise inbegriffen</h2>
+      en: `<h2>Why all-inclusive in Halkidiki?</h2>
+<p>With all-inclusive you pay once for accommodation, meals and drinks, and you don't have to think about where to eat. It suits families and anyone who wants to stay in the resort; if you plan to explore, half board often makes more sense, because the local tavernas are a big part of a Halkidiki holiday.</p>
+<h2>Resorts</h2>
+<h3>Ikos Oceania (Nea Moudania)</h3>
+<p>A large all-inclusive resort at the entrance to Kassandra, with several à la carte restaurants, pools, a spa and programmes for children.</p>
+<h3>Ikos Olivia (Gerakini)</h3>
+<p>The sister resort, on the way to Sithonia, set in gardens above the beach and popular with families.</p>
+<h3>Other hotels</h3>
+<p>Many large hotels in Kassandra and Sithonia offer all-inclusive packages alongside half board. Board options and what they cover differ from hotel to hotel, so check them on each property's page. See also the <a href="/guide/hotels">hotels guide</a> and <a href="/guide/luxury">luxury holidays</a>.</p>
+<h2>What's usually included</h2>
 <ul>
-  <li>Frühstück, Mittag- und Abendessen, einschließlich Buffet und à-la-carte-Menüs</li>
-  <li>Eine Auswahl an lokalen und importierten Getränken, Cocktails und Weinen</li>
-  <li>Zugang zu Pool- und Strandeinrichtungen, einschließlich Liegestühlen und Sonnenschirmen</li>
-  <li>Programme und Clubs für Kinder zur Unterhaltung der Kleinen</li>
-  <li>Kostenloses WLAN, Zugang zum Fitnessstudio und grundlegende Spa-Dienstleistungen</li>
-  <li>Abendunterhaltung und Themenabende für eine lebhafte Atmosphäre</li>
+<li>Breakfast, lunch and dinner — buffet and, in some hotels, à la carte restaurants</li>
+<li>Local drinks, soft drinks and house wine; premium brands often cost extra</li>
+<li>Sunbeds and umbrellas at the pool and the hotel beach</li>
+<li>Kids' clubs and evening entertainment</li>
 </ul>
-
-<h2>Tipps zur Auswahl</h2>
+<h2>Tips</h2>
 <ul>
-  <li>Überprüfen Sie, ob <strong>Premium-Getränke</strong> inbegriffen sind oder nur lokale Marken angeboten werden</li>
-  <li>Vergleichen Sie Halbpension mit All-Inclusive-Optionen – manchmal ist der Preisunterschied minimal</li>
-  <li>Buchen Sie frühzeitig, um von <strong>Frühbucherrabatten von 15-25%</strong> zu profitieren</li>
-  <li>Berücksichtigen Sie die Lage und die Nähe zu lokalen Attraktionen und Stränden</li>
-  <li>Lesen Sie Bewertungen und Bewertungen, um sicherzustellen, dass das Resort Ihren Erwartungen und Vorlieben entspricht</li>
+<li>Check which drinks and restaurants are included, and whether à la carte needs a booking.</li>
+<li>Compare the price with half board — sometimes the difference is small, sometimes not.</li>
+<li>Early booking offers are common for the summer season.</li>
+<li>Look at the location: a resort near a village lets you combine the hotel with tavernas and walks.</li>
 </ul>`,
-      bg: `<h2>Защо All-Inclusive в Халкидики?</h2>
-<p>All-inclusive курортите в Халкидики предлагат съчетание от <strong>гръцко гостоприемство</strong> и международни стандарти за лукс, осигурявайки незабравимо ваканционно преживяване. С еднократно плащане, гостите могат да се потопят в свят на комфорт и удоволствие, наслаждавайки се на всичко - от изискана кухня до първокласни удобства без притеснение за допълнителни разходи. Независимо дали търсите релаксация или приключения, курортите в Халкидики отговарят на всички предпочитания, правейки го перфектна дестинация за семейства, двойки и самостоятелни пътешественици.</p>
-
-<h2>Топ курорти</h2>
-<h3>Ikos Oceania (Касандра)</h3>
-<p>Известен като <strong>водещ all-inclusive курорт в света</strong>, Ikos Oceania предлага несравнимо преживяване. Гостите могат да се насладят на гурме кухня в италианските, азиатските и гръцките ресторанти, да релаксират в луксозния спа център или да се отпуснат на частния плаж. Със специални програми за деца, той е идеален за семейства. Цените варират от приблизително €250 до €500 на нощ за двама души, отразявайки премиум предложенията му.</p>
-
-<h3>Ikos Olivia (Касандра)</h3>
-<p>Като сестрински курорт на Oceania, Ikos Olivia е малко по-<strong>семеен</strong>, с отлични съоръжения и зелени градини, които създават спокойна обстановка. Той предлага разнообразие от дейности и възможности за хранене, които задоволяват всички вкусове. Цените варират от приблизително €220 до €450 на нощ, осигурявайки страхотна стойност за семействата, търсещи луксозна почивка.</p>
-
-<h3>Sani Resort (Касандра)</h3>
-<p>Състоящ се от пет различни хотела — Sani Beach, Sani Club, Sani Asterias, Porto Sani и Sani Dunes — Sani Resort е <strong>екологично сертифициран</strong> рай с 7 км дълга плажна ивица. Неговата марина и разнообразни съоръжения отговарят както на нуждите за релаксация, така и на тези за приключения. В зависимост от избора на хотел, цените варират от приблизително €200 до €600 на нощ, предлагайки различни преживявания за различни бюджети.</p>
-
-<h3>Potidea Palace (Касандра)</h3>
-<p>Разположен на входа на Касандра, Potidea Palace е известен с <strong>отличното съотношение цена-качество</strong>. Курортът разполага с голям басейн, частен плаж и разнообразие от удобства, които осигуряват комфортен престой. Цените варират от приблизително €120 до €200 на нощ, правейки го достъпна, но луксозна опция.</p>
-
-<h3>Pallini Beach (Касандра)</h3>
-<p>Разположен близо до Калитея, Pallini Beach е <strong>семеен</strong> курорт с голям пясъчен плаж. Той предлага спокойна атмосфера и различни дейности за всички възрасти. Цените варират от приблизително €100 до €180 на нощ, правейки го популярен избор за семейства, търсещи бюджетна опция.</p>
-
+      de: `<h2>Warum All-inclusive in Chalkidiki?</h2>
+<p>Mit All-inclusive zahlen Sie einmal für Unterkunft, Mahlzeiten und Getränke und müssen nicht überlegen, wo Sie essen. Das passt zu Familien und allen, die im Resort bleiben möchten; wer die Gegend erkunden will, fährt mit Halbpension oft besser, denn die Tavernen gehören zu einem Urlaub in Chalkidiki dazu.</p>
+<h2>Resorts</h2>
+<h3>Ikos Oceania (Nea Moudania)</h3>
+<p>Ein großes All-inclusive-Resort am Eingang nach Kassandra, mit mehreren À-la-carte-Restaurants, Pools, Spa und Kinderprogramm.</p>
+<h3>Ikos Olivia (Gerakini)</h3>
+<p>Das Schwesterresort auf dem Weg nach Sithonia, in Gärten über dem Strand gelegen und bei Familien beliebt.</p>
+<h3>Weitere Hotels</h3>
+<p>Viele große Hotels auf Kassandra und Sithonia bieten neben Halbpension auch All-inclusive-Pakete an. Verpflegungsarten und Leistungen unterscheiden sich von Hotel zu Hotel — prüfen Sie sie auf der Seite der jeweiligen Unterkunft. Siehe auch den <a href="/guide/hotels">Hotelführer</a> und <a href="/guide/luxury">Luxusurlaub</a>.</p>
+<h2>Was meist inbegriffen ist</h2>
+<ul>
+<li>Frühstück, Mittag- und Abendessen — Buffet und in manchen Hotels À-la-carte-Restaurants</li>
+<li>Lokale Getränke, Softdrinks und Hauswein; Markengetränke kosten oft extra</li>
+<li>Liegen und Schirme am Pool und am Hotelstrand</li>
+<li>Kinderclubs und Abendunterhaltung</li>
+</ul>
+<h2>Tipps</h2>
+<ul>
+<li>Prüfen Sie, welche Getränke und Restaurants inbegriffen sind und ob À-la-carte eine Reservierung braucht.</li>
+<li>Vergleichen Sie den Preis mit Halbpension — mal ist der Unterschied klein, mal nicht.</li>
+<li>Für die Sommersaison gibt es häufig Frühbucherangebote.</li>
+<li>Achten Sie auf die Lage: Ein Resort nahe einem Dorf lässt sich mit Tavernen und Spaziergängen verbinden.</li>
+</ul>`,
+      bg: `<h2>Защо all-inclusive в Халкидики?</h2>
+<p>С all-inclusive плащате веднъж за нощувки, храна и напитки и не мислите къде да се храните. Подходящо е за семейства и за всички, които искат да остават в курорта; ако смятате да обикаляте, полупансионът често е по-разумен, защото местните таверни са голяма част от почивката в Халкидики.</p>
+<h2>Курорти</h2>
+<h3>Ikos Oceania (Неа Муданя)</h3>
+<p>Голям курорт „всичко включено“ на входа на Касандра, с няколко ресторанта а ла карт, басейни, спа и програми за деца.</p>
+<h3>Ikos Olivia (Геракини)</h3>
+<p>Сестринският курорт, по пътя за Ситония, сред градини над плажа и обичан от семействата.</p>
+<h3>Други хотели</h3>
+<p>Много големи хотели в Касандра и Ситония предлагат пакети „всичко включено“ наред с полупансион. Вариантите и какво включват се различават според хотела, затова ги проверете на страницата на всеки обект. Вижте и <a href="/guide/hotels">пътеводителя за хотели</a> и <a href="/guide/luxury">луксозна почивка</a>.</p>
 <h2>Какво обикновено е включено</h2>
 <ul>
-  <li>Закуска, обяд и вечеря (бюфет + а-ла-карт)</li>
-  <li>Местни и вносни напитки, коктейли, вина</li>
-  <li>Достъп до басейн и плаж, включително шезлонги и чадъри</li>
-  <li>Програми и клубове за деца</li>
-  <li>Безплатен Wi-Fi, фитнес зала, основни спа услуги</li>
-  <li>Вечерни развлечения и тематични нощи за оживена атмосфера</li>
+<li>Закуска, обяд и вечеря — блок маса и в някои хотели ресторанти а ла карт</li>
+<li>Местни напитки, безалкохолни и наливно вино; марковите напитки често се заплащат</li>
+<li>Шезлонги и чадъри на басейна и на плажа на хотела</li>
+<li>Детски клубове и вечерна анимация</li>
 </ul>
-
-<h2>Съвети за избор</h2>
+<h2>Съвети</h2>
 <ul>
-  <li>Проверете дали <strong>премиум напитките</strong> са включени или се предлагат само местни марки</li>
-  <li>Сравнете half-board и all-inclusive опции — понякога разликата в цената е минимална</li>
-  <li>Резервирайте рано, за да се възползвате от <strong>отстъпки за ранни резервации от 15-25%</strong></li>
-  <li>Обмислете местоположението и близостта до местни забележителности и плажове</li>
-  <li>Прочетете отзиви и оценки, за да се уверите, че курортът отговаря на вашите очаквания и предпочитания</li>
+<li>Проверете кои напитки и ресторанти са включени и дали а ла карт изисква резервация.</li>
+<li>Сравнете цената с полупансион — понякога разликата е малка, понякога не.</li>
+<li>За летния сезон често има оферти за ранно записване.</li>
+<li>Вижте местоположението: курорт близо до село ви позволява да съчетаете хотела с таверни и разходки.</li>
 </ul>`,
-      ru: `<h2>Почему стоит выбрать all-inclusive на Халкидики?</h2>
-<p>Курорты Халкидики с системой all-inclusive предлагают сочетание <strong>греческого гостеприимства</strong> и международных стандартов роскоши, обеспечивая незабываемый отдых. С единовременной оплатой гости могут насладиться комфортом и отдыхом, не беспокоясь о дополнительных расходах. Независимо от того, ищете ли вы расслабление или приключения, курорты Халкидики подходят для всех предпочтений, делая это место идеальным для семей, пар и одиночных путешественников.</p>
-
-<h2>Лучшие курорты</h2>
-<h3>Ikos Oceania (Касандра)</h3>
-<p>Известный как <strong>ведущий all-inclusive курорт мира</strong>, Ikos Oceania предлагает непревзойденный опыт. Гости могут насладиться изысканной кухней в итальянских, азиатских и греческих ресторанах, расслабиться в роскошном спа или насладиться частным пляжем. С программами для детей, это идеальный вариант для семей. Цены варьируются от примерно €250 до €500 за ночь для двоих, что отражает его премиальные предложения.</p>
-
-<h3>Ikos Olivia (Касандра)</h3>
-<p>Как сестринский курорт Oceania, Ikos Olivia немного более <strong>ориентирован на семьи</strong>, предлагая отличные удобства и пышные сады, создающие спокойную атмосферу. Он предлагает разнообразные мероприятия и варианты питания для удовлетворения всех вкусов. Цены варьируются от примерно €220 до €450 за ночь, предоставляя отличную ценность для семей, ищущих роскошный отдых.</p>
-
-<h3>Sani Resort (Касандра)</h3>
-<p>Состоящий из пяти различных отелей — Sani Beach, Sani Club, Sani Asterias, Porto Sani и Sani Dunes, Sani Resort является <strong>эко-сертифицированным</strong> раем с 7 км чистого пляжа. Его марина и разнообразные удобства подходят как для отдыха, так и для искателей приключений. В зависимости от выбора отеля, цены варьируются от примерно €200 до €600 за ночь, предлагая разнообразные впечатления для разных бюджетов.</p>
-
-<h3>Potidea Palace (Касандра)</h3>
-<p>Расположенный на входе в Касандру, Potidea Palace известен своей <strong>отличной ценой-качеством</strong>. Курорт предлагает большой бассейн, частный пляж и множество удобств, обеспечивающих комфортное пребывание. Цены варьируются от примерно €120 до €200 за ночь, делая его доступным, но роскошным вариантом.</p>
-
-<h3>Pallini Beach (Касандра)</h3>
-<p>Расположенный недалеко от Каллифеи, Pallini Beach — это <strong>семейный</strong> курорт с большим песчаным пляжем. Он предлагает расслабляющую атмосферу и различные мероприятия для всех возрастов. Цены варьируются от примерно €100 до €180 за ночь, делая его популярным выбором для семей, ищущих бюджетный вариант.</p>
-
-<h2>Что обычно включено</h2>
+      ru: `<h2>Зачем «всё включено» на Халкидики?</h2>
+<p>При системе «всё включено» вы один раз платите за проживание, питание и напитки и не думаете, где поесть. Это удобно семьям и тем, кто хочет оставаться в отеле; если вы собираетесь путешествовать, часто разумнее полупансион — местные таверны важная часть отдыха на Халкидики.</p>
+<h2>Курорты</h2>
+<h3>Ikos Oceania (Неа-Муданья)</h3>
+<p>Большой курорт «всё включено» у въезда на Кассандру: несколько ресторанов à la carte, бассейны, спа и программы для детей.</p>
+<h3>Ikos Olivia (Геракини)</h3>
+<p>Курорт той же сети по дороге на Ситонию, среди садов над пляжем, популярный у семей.</p>
+<h3>Другие отели</h3>
+<p>Многие крупные отели Кассандры и Ситонии предлагают «всё включено» наряду с полупансионом. Варианты питания и их содержание отличаются от отеля к отелю — проверяйте их на странице каждого объекта. См. также <a href="/guide/hotels">гид по отелям</a> и <a href="/guide/luxury">роскошный отдых</a>.</p>
+<h2>Что обычно входит</h2>
 <ul>
-  <li>Завтрак, обед и ужин, включая буфет и a-la-carte меню</li>
-  <li>Выбор местных и импортных напитков, коктейлей и вин</li>
-  <li>Доступ к бассейну и пляжным удобствам, включая шезлонги и зонтики</li>
-  <li>Детские программы и клубы для развлечения маленьких гостей</li>
-  <li>Бесплатный Wi-Fi, доступ в тренажерный зал и базовые услуги спа</li>
-  <li>Вечерние развлечения и тематические вечера для создания живой атмосферы</li>
+<li>Завтрак, обед и ужин — шведский стол и в некоторых отелях рестораны à la carte</li>
+<li>Местные напитки, безалкогольные напитки и домашнее вино; брендовый алкоголь часто за доплату</li>
+<li>Лежаки и зонтики у бассейна и на пляже отеля</li>
+<li>Детские клубы и вечерняя анимация</li>
 </ul>
-
-<h2>Советы по выбору</h2>
+<h2>Советы</h2>
 <ul>
-  <li>Проверьте, включены ли <strong>премиальные напитки</strong> или только местные бренды</li>
-  <li>Сравните варианты полупансиона и all-inclusive — иногда разница в цене минимальна</li>
-  <li>Бронируйте заранее, чтобы воспользоваться <strong>скидками за раннее бронирование 15-25%</strong></li>
-  <li>Рассмотрите местоположение и близость к местным достопримечательностям и пляжам</li>
-  <li>Читайте отзывы и рейтинги, чтобы убедиться, что курорт соответствует вашим ожиданиям и предпочтениям</li>
+<li>Уточните, какие напитки и рестораны включены и нужна ли бронь в à la carte.</li>
+<li>Сравните цену с полупансионом — иногда разница небольшая, иногда нет.</li>
+<li>На летний сезон часто бывают предложения раннего бронирования.</li>
+<li>Обратите внимание на расположение: курорт рядом с деревней позволяет совмещать отель с тавернами и прогулками.</li>
 </ul>`,
-      ro: `<h2>De ce All-Inclusive în Halkidiki?</h2>
-<p>Resorturile all-inclusive din Halkidiki oferă o combinație de <strong>ospitalitate grecească</strong> și standarde internaționale de lux, asigurând o experiență de vacanță memorabilă. Halkidiki, cu plajele sale fermecătoare și apele sale cristaline, este destinația ideală pentru cei care doresc să se bucure de vacanțe fără stres. Plătiți o singură dată și vă bucurați de tot, de la delicii gastronomice la activități pentru întreaga familie.</p>
-
-<h2>Resorturi de Top</h2>
-<h3>Ikos Oceania (Kassandra)</h3>
-<p>Ikos Oceania a fost premiat de multe ori ca <strong>cel mai bun all-inclusive din lume</strong>, oferind o ședere luxoasă cu restaurante gourmet care servesc bucătărie italiană, asiatică și grecească. Dispune de o plajă privată, un spa și programe speciale pentru copii. Prețurile variază între ~€250-500/noapte pentru 2 persoane, în funcție de sezon și disponibilitate.</p>
-
-<h3>Ikos Olivia (Kassandra)</h3>
-<p>Ikos Olivia, resortul soră al Oceania, este ușor mai <strong>orientat către familii</strong> și oferă facilități excelente cu grădini verzi care impresionează. Prețurile variază între ~€220-450/noapte, oferind o experiență de vacanță de neuitat pentru întreaga familie.</p>
-
-<h3>Sani Resort (Kassandra)</h3>
-<p>Sani Resort este compus din 5 hoteluri (Sani Beach, Sani Club, Sani Asterias, Porto Sani, Sani Dunes) și este cunoscut pentru marina sa și <strong>certificarea ecologică</strong>. Cu 7 km de plajă, oferă o multitudine de activități pentru vizitatorii săi. Prețurile variază între ~€200-600/noapte în funcție de hotel și facilități.</p>
-
-<h3>Potidea Palace (Kassandra)</h3>
-<p>La intrarea în Kassandra, Potidea Palace oferă <strong>un raport calitate-preț excelent</strong>. Cu o piscină mare și o plajă privată, este o alegere ideală pentru cei care caută lux la un preț accesibil. Prețurile variază între ~€120-200/noapte.</p>
-
-<h3>Pallini Beach (Kassandra)</h3>
-<p>Aproape de Kallithea, Pallini Beach este ideal pentru familii, oferind o <strong>plajă mare cu nisip</strong> pentru momente nesfârșite de relaxare. Prețurile variază între ~€100-180/noapte, făcându-l o opțiune accesibilă pentru vacanțe de familie.</p>
-
-<h2>Ce Este De Obicei Inclus</h2>
+      ro: `<h2>De ce all-inclusive în Halkidiki?</h2>
+<p>Cu all-inclusive plătiți o singură dată cazarea, mesele și băuturile și nu vă mai gândiți unde să mâncați. Se potrivește familiilor și celor care vor să rămână în resort; dacă plănuiți să explorați, demipensiunea are adesea mai mult sens, pentru că tavernele locale sunt o parte importantă a unei vacanțe în Halkidiki.</p>
+<h2>Resorturi</h2>
+<h3>Ikos Oceania (Nea Moudania)</h3>
+<p>Un resort all-inclusive mare la intrarea în Kassandra, cu mai multe restaurante à la carte, piscine, spa și programe pentru copii.</p>
+<h3>Ikos Olivia (Gerakini)</h3>
+<p>Resortul-soră, pe drumul spre Sithonia, printre grădini deasupra plajei, apreciat de familii.</p>
+<h3>Alte hoteluri</h3>
+<p>Multe hoteluri mari din Kassandra și Sithonia oferă pachete all-inclusive alături de demipensiune. Variantele de masă și ce includ diferă de la hotel la hotel, așa că verificați-le pe pagina fiecărei unități. Vedeți și <a href="/guide/hotels">ghidul hotelurilor</a> și <a href="/guide/luxury">vacanțe de lux</a>.</p>
+<h2>Ce este inclus de obicei</h2>
 <ul>
-  <li>Mic dejun, prânz și cină (bufet + a-la-carte)</li>
-  <li>Băuturi locale și importate, cocktailuri, vinuri</li>
-  <li>Piscină, plajă, șezlonguri, umbrele</li>
-  <li>Programe și cluburi pentru copii</li>
-  <li>Wi-Fi, acces la sală de sport, servicii de spa de bază</li>
-  <li>Activități precum yoga, sporturi nautice</li>
-  <li>Evenimente și divertisment live seara</li>
+<li>Mic dejun, prânz și cină — bufet și, în unele hoteluri, restaurante à la carte</li>
+<li>Băuturi locale, răcoritoare și vinul casei; băuturile de marcă se plătesc adesea separat</li>
+<li>Șezlonguri și umbrele la piscină și pe plaja hotelului</li>
+<li>Cluburi pentru copii și program de seară</li>
 </ul>
-
-<h2>Sfaturi de Alegere</h2>
+<h2>Sfaturi</h2>
 <ul>
-  <li>Verificați dacă <strong>băuturile premium</strong> sunt incluse sau doar cele locale</li>
-  <li>Comparați opțiunile half-board versus all-inclusive — uneori diferența de preț este mică</li>
-  <li>Rezervați din timp pentru <strong>reduceri early booking de 15-25%</strong></li>
-  <li>Citiți recenzii pentru a vă asigura că resortul îndeplinește așteptările dumneavoastră</li>
-  <li>Examinați locația și activitățile sau atracțiile din apropiere</li>
+<li>Verificați ce băuturi și restaurante sunt incluse și dacă à la carte necesită rezervare.</li>
+<li>Comparați prețul cu demipensiunea — uneori diferența e mică, alteori nu.</li>
+<li>Pentru sezonul de vară există des oferte de rezervare timpurie.</li>
+<li>Uitați-vă la amplasare: un resort lângă un sat vă permite să combinați hotelul cu taverne și plimbări.</li>
 </ul>`,
-      sr: `<h2>Zašto All-Inclusive u Halkidikiju?</h2>
-<p>All-inclusive resorti u Halkidikiju nude spoj <strong>grčkog gostoprimstva</strong> i međunarodnih standarda luksuza, pružajući nezaboravno iskustvo odmora. Halkidiki, sa svojim očaravajućim plažama i tirkiznim vodama, idealna je destinacija za one koji žele da uživaju u odmoru bez stresa. Jednom platite i uživate u svemu, od gastronomskih užitaka do aktivnosti za celu porodicu.</p>
-
-<h2>Najbolji Resorti</h2>
-<h3>Ikos Oceania (Kassandra)</h3>
-<p>Ikos Oceania je više puta nagrađivan kao <strong>najbolji all-inclusive na svetu</strong>, nudeći luksuzan boravak sa gurmanskim restoranima koji poslužuju italijansku, azijsku i grčku kuhinju. Ima privatnu plažu, spa centar i specijalne programe za decu. Cene se kreću od ~€250 do €500 po noći za dve osobe, u zavisnosti od sezone i dostupnosti.</p>
-
-<h3>Ikos Olivia (Kassandra)</h3>
-<p>Ikos Olivia, sestrinski resort Oceania, nešto je više <strong>orijentisan na porodice</strong> i nudi izvanredne sadržaje sa zelenim vrtovima koji impresioniraju. Cene se kreću od ~€220 do €450 po noći, pružajući nezaboravno iskustvo odmora za celu porodicu.</p>
-
-<h3>Sani Resort (Kassandra)</h3>
-<p>Sani Resort se sastoji od pet hotela (Sani Beach, Sani Club, Sani Asterias, Porto Sani, Sani Dunes) i poznat je po svojoj marini i <strong>ekološkoj sertifikaciji</strong>. Sa 7 km plaže, nudi mnoštvo aktivnosti za svoje goste. Cene se kreću od ~€200 do €600 po noći, u zavisnosti od hotela i usluga.</p>
-
-<h3>Potidea Palace (Kassandra)</h3>
-<p>Na ulazu u Kassandra, Potidea Palace nudi <strong>izvanredan odnos cene i kvaliteta</strong>. Sa velikim bazenom i privatnom plažom, idealan je izbor za one koji traže luksuz po pristupačnoj ceni. Cene se kreću od ~€120 do €200 po noći.</p>
-
-<h3>Pallini Beach (Kassandra)</h3>
-<p>Blizu Kallithee, Pallini Beach je idealan za porodice, nudeći <strong>veliku peščanu plažu</strong> za beskrajne trenutke opuštanja. Cene se kreću od ~€100 do €180 po noći, što ga čini pristupačnom opcijom za porodični odmor.</p>
-
-<h2>Šta je Obično Uključeno</h2>
+      sr: `<h2>Zašto all-inclusive na Halkidikiju?</h2>
+<p>Uz all-inclusive jednom plaćate smeštaj, obroke i pića i ne razmišljate gde ćete jesti. Odgovara porodicama i svima koji žele da ostanu u rizortu; ako planirate da obilazite, polupansion je često razumniji, jer su lokalne taverne veliki deo odmora na Halkidikiju.</p>
+<h2>Rizorti</h2>
+<h3>Ikos Oceania (Nea Mudanija)</h3>
+<p>Veliki all-inclusive rizort na ulazu u Kasandru, s nekoliko à la carte restorana, bazenima, spa centrom i programima za decu.</p>
+<h3>Ikos Olivia (Gerakini)</h3>
+<p>Sestrinski rizort na putu ka Sitoniji, u vrtovima iznad plaže, omiljen među porodicama.</p>
+<h3>Drugi hoteli</h3>
+<p>Mnogi veliki hoteli na Kasandri i Sitoniji nude all-inclusive pakete uz polupansion. Vrste usluge i šta obuhvataju razlikuju se od hotela do hotela, pa ih proverite na stranici svakog objekta. Pogledajte i <a href="/guide/hotels">vodič za hotele</a> i <a href="/guide/luxury">luksuzni odmor</a>.</p>
+<h2>Šta je obično uključeno</h2>
 <ul>
-  <li>Doručak, ručak i večera (buffet + a-la-carte)</li>
-  <li>Lokalna i uvozna pića, kokteli, vina</li>
-  <li>Bazen, plaža, ležaljke, suncobrani</li>
-  <li>Programi i klubovi za decu</li>
-  <li>Wi-Fi, teretana, osnovne spa usluge</li>
-  <li>Aktivnosti poput joge, vodenih sportova</li>
-  <li>Večernje zabave i živa muzika</li>
+<li>Doručak, ručak i večera — švedski sto i, u nekim hotelima, à la carte restorani</li>
+<li>Lokalna pića, sokovi i domaće vino; brendirana pića se često doplaćuju</li>
+<li>Ležaljke i suncobrani kod bazena i na hotelskoj plaži</li>
+<li>Klubovi za decu i večernji program</li>
 </ul>
-
-<h2>Saveti za Izbor</h2>
+<h2>Saveti</h2>
 <ul>
-  <li>Proverite da li su <strong>premium pića</strong> uključena ili samo lokalna</li>
-  <li>Uporedite half-board i all-inclusive — ponekad je razlika u ceni mala</li>
-  <li>Rezervišite rano za <strong>popuste za ranu rezervaciju od 15-25%</strong></li>
-  <li>Pročitajte recenzije da biste bili sigurni da resort ispunjava vaša očekivanja</li>
-  <li>Razmotrite lokaciju i blizinu lokalnih atrakcija i plaža</li>
+<li>Proverite koja pića i restorani su uključeni i da li za à la carte treba rezervacija.</li>
+<li>Uporedite cenu s polupansionom — nekad je razlika mala, nekad nije.</li>
+<li>Za letnju sezonu često postoje ponude za rano rezervisanje.</li>
+<li>Obratite pažnju na lokaciju: rizort blizu sela omogućava da spojite hotel s tavernama i šetnjama.</li>
 </ul>`,
     },
   },
@@ -2213,10 +2149,10 @@ export const GUIDES: Guide[] = [
 <h2>Αποστάσεις & Χρόνοι</h2>
 <table>
 <tr><th>Διαδρομή</th><th>Απόσταση</th><th>Χρόνος</th></tr>
-<tr><td>SKG → Κασσάνδρα (Πευκοχώρι)</td><td>~120 χλμ</td><td>~1:30</td></tr>
-<tr><td>SKG → Σιθωνία (Νικήτη)</td><td>~110 χλμ</td><td>~1:20</td></tr>
-<tr><td>SKG → Ουρανούπολη</td><td>~130 χλμ</td><td>~1:40</td></tr>
-<tr><td>Κασσάνδρα → Σιθωνία</td><td>~60-80 χλμ</td><td>~1:00</td></tr>
+<tr><td>SKG → Κασσάνδρα (Πευκοχώρι)</td><td>~95 χλμ</td><td>~1:30</td></tr>
+<tr><td>SKG → Σιθωνία (Νικήτη)</td><td>~90 χλμ</td><td>~1:20</td></tr>
+<tr><td>SKG → Ουρανούπολη</td><td>~120 χλμ</td><td>~2:00</td></tr>
+<tr><td>Κασσάνδρα → Σιθωνία</td><td>~75 χλμ</td><td>~1:15</td></tr>
 <tr><td>Σιθωνία → Άθως</td><td>~100 χλμ</td><td>~1:30</td></tr>
 </table>
 
@@ -2235,8 +2171,8 @@ export const GUIDES: Guide[] = [
 <li>Ζώνη ασφαλείας υποχρεωτική για όλους τους επιβάτες.</li>
 <li>Κινητό: ΑΠΑΓΟΡΕΥΕΤΑΙ η χρήση χωρίς hands-free. Οι παραβάσεις τιμωρούνται αυστηρά.</li>
 <li>Αλκοόλ: Το όριο είναι 0.5‰, αλλά για νέους οδηγούς είναι 0.2‰. Οδήγηση υπό την επήρεια αλκοόλ είναι επικίνδυνη και τιμωρείται αυστηρά.</li>
-<li>Φώτα: Υποχρεωτικά ημέρα-νύχτα σε αυτοκινητοδρόμους. Βεβαιωθείτε ότι τα φώτα σας λειτουργούν σωστά πριν από κάθε διαδρομή.</li>
-<li>Προτεραιότητα: Σε κυκλικούς κόμβους, τα οχήματα που βρίσκονται ήδη στον κόμβο έχουν προτεραιότητα.</li>
+
+<li>Κυκλικοί κόμβοι: ακολουθήστε τις πινακίδες — σε ορισμένους κόμβους στην Ελλάδα προτεραιότητα έχουν τα οχήματα που εισέρχονται.</li>
 </ul>`,
       en: `<h2>Do You Need a Car?</h2>
 <p><strong>Absolutely yes.</strong> Halkidiki is a region of breathtaking beauty, with its three peninsulas—Kassandra, Sithonia, and Athos—offering a multitude of stunning beaches, charming villages, and hidden gems waiting to be discovered. However, public transportation options are limited and can restrict your ability to explore at your own pace. Renting a car provides you with the freedom and flexibility to fully immerse yourself in the diverse landscapes and cultural experiences that Halkidiki has to offer. Whether you're planning to bask in the sun on the pristine shores of Kavourotrypes or explore the traditional village of Arnea, having a car is indispensable.</p>
@@ -2253,10 +2189,10 @@ export const GUIDES: Guide[] = [
 <h2>Distances & Drive Times</h2>
 <table>
   <tr><th>Route</th><th>Distance</th><th>Time</th></tr>
-  <tr><td>SKG → Kassandra (Pefkohori)</td><td>~120 km</td><td>~1:30</td></tr>
-  <tr><td>SKG → Sithonia (Nikiti)</td><td>~110 km</td><td>~1:20</td></tr>
-  <tr><td>SKG → Ouranoupoli</td><td>~130 km</td><td>~1:40</td></tr>
-  <tr><td>Kassandra → Sithonia</td><td>~60-80 km</td><td>~1:00</td></tr>
+  <tr><td>SKG → Kassandra (Pefkohori)</td><td>~95 km</td><td>~1:30</td></tr>
+  <tr><td>SKG → Sithonia (Nikiti)</td><td>~90 km</td><td>~1:20</td></tr>
+  <tr><td>SKG → Ouranoupoli</td><td>~120 km</td><td>~2:00</td></tr>
+  <tr><td>Kassandra → Sithonia</td><td>~75 km</td><td>~1:15</td></tr>
 </table>
 <p>These drive times provide a general idea of the distances within Halkidiki, allowing you to plan your itinerary efficiently. The scenic routes offer breathtaking views and opportunities to stop and explore along the way.</p>
 
@@ -2275,8 +2211,8 @@ export const GUIDES: Guide[] = [
   <li>Seatbelts are mandatory for all passengers, ensuring safety for everyone in the vehicle.</li>
   <li>Mobile phones: The use of mobile phones while driving is strictly prohibited unless you have a hands-free device.</li>
   <li>Alcohol limit: The legal blood alcohol limit is 0.5‰, reduced to 0.2‰ for new drivers. It's best to avoid drinking if you plan to drive.</li>
-  <li>Headlights: Must be used at all times on motorways, regardless of the time of day, to enhance visibility and safety.</li>
-  <li>Roundabouts: Traffic in the roundabout has the right of way, unlike in some countries where entering traffic has priority.</li>
+  
+  <li>Roundabouts: follow the signs — at some Greek roundabouts the cars entering have priority, unlike most of Europe.</li>
 </ul>`,
       de: `<h2>Benötigen Sie ein Auto?</h2>
 <p><strong>Ja, unbedingt.</strong> Chalkidiki, mit seinen drei einzigartigen Halbinseln Kassandra, Sithonia und Athos, bietet unzählige Möglichkeiten zur Erkundung. Doch das öffentliche Verkehrsnetz ist begrenzt. Ein Auto gibt Ihnen die Freiheit, versteckte Strände, malerische Dörfer und abgelegene Orte zu entdecken, die Chalkidiki so besonders machen.</p>
@@ -2293,10 +2229,10 @@ export const GUIDES: Guide[] = [
 <h2>Entfernungen & Fahrzeiten</h2>
 <table>
 <tr><th>Route</th><th>Entfernung</th><th>Zeit</th></tr>
-<tr><td>SKG → Kassandra (Pefkohori)</td><td>~120 km</td><td>~1:30</td></tr>
-<tr><td>SKG → Sithonia (Nikiti)</td><td>~110 km</td><td>~1:20</td></tr>
-<tr><td>SKG → Ouranoupoli</td><td>~130 km</td><td>~1:40</td></tr>
-<tr><td>Kassandra → Sithonia</td><td>~60-80 km</td><td>~1:00</td></tr>
+<tr><td>SKG → Kassandra (Pefkohori)</td><td>~95 km</td><td>~1:30</td></tr>
+<tr><td>SKG → Sithonia (Nikiti)</td><td>~90 km</td><td>~1:20</td></tr>
+<tr><td>SKG → Ouranoupoli</td><td>~120 km</td><td>~2:00</td></tr>
+<tr><td>Kassandra → Sithonia</td><td>~75 km</td><td>~1:15</td></tr>
 <tr><td>Sithonia → Athos</td><td>~100 km</td><td>~1:30</td></tr>
 </table>
 
@@ -2315,8 +2251,8 @@ export const GUIDES: Guide[] = [
 <li>Sicherheitsgurte sind für alle Insassen Pflicht.</li>
 <li>Handy: Nutzung ohne Freisprecheinrichtung ist verboten. Verstöße werden streng geahndet.</li>
 <li>Alkohol: Grenze ist 0,5‰, für Fahranfänger 0,2‰. Alkohol am Steuer ist gefährlich und wird streng bestraft.</li>
-<li>Lichter: Auf Autobahnen Tag und Nacht Pflicht. Überprüfen Sie vor jeder Fahrt die Funktionstüchtigkeit.</li>
-<li>Vorfahrt: In Kreisverkehren haben Fahrzeuge im Kreis Vorfahrt.</li>
+
+<li>Kreisverkehre: Achten Sie auf die Schilder — in manchen griechischen Kreisverkehren haben die einfahrenden Fahrzeuge Vorfahrt.</li>
 </ul>`,
       bg: `<h2>Нуждаете ли се от кола?</h2>
 <p><strong>Определено да.</strong> Халкидики е регион с изключителна красота, със своите три полуострова — Касандра, Ситония и Атон — предлагащи множество зашеметяващи плажове, очарователни села и скрити съкровища, които чакат да бъдат открити. Обществените транспортни опции са ограничени и могат да ограничат способността ви да изследвате със собствено темпо. Наемането на кола ви предоставя свободата и гъвкавостта да се потопите напълно в разнообразните пейзажи и културни преживявания, които Халкидики предлага. Независимо дали планирате да се насладите на слънцето на чистите брегове на Кавуротрипес или да разгледате традиционното село Арнеа, наличието на кола е незаменимо.</p>
@@ -2333,10 +2269,10 @@ export const GUIDES: Guide[] = [
 <h2>Разстояния и времена за пътуване</h2>
 <table>
   <tr><th>Маршрут</th><th>Разстояние</th><th>Време</th></tr>
-  <tr><td>SKG → Касандра (Пефкохори)</td><td>~120 км</td><td>~1:30</td></tr>
-  <tr><td>SKG → Ситония (Никити)</td><td>~110 км</td><td>~1:20</td></tr>
-  <tr><td>SKG → Урануполи</td><td>~130 км</td><td>~1:40</td></tr>
-  <tr><td>Касандра → Ситония</td><td>~60-80 км</td><td>~1:00</td></tr>
+  <tr><td>SKG → Касандра (Пефкохори)</td><td>~95 км</td><td>~1:30</td></tr>
+  <tr><td>SKG → Ситония (Никити)</td><td>~90 км</td><td>~1:20</td></tr>
+  <tr><td>SKG → Урануполи</td><td>~120 км</td><td>~2:00</td></tr>
+  <tr><td>Касандра → Ситония</td><td>~75 км</td><td>~1:15</td></tr>
   <tr><td>Ситония → Атон</td><td>~100 км</td><td>~1:30</td></tr>
 </table>
 
@@ -2355,8 +2291,8 @@ export const GUIDES: Guide[] = [
   <li>Предпазните колани са задължителни за всички пътници, осигурявайки безопасност за всеки в превозното средство.</li>
   <li>Мобилни телефони: Използването на мобилни телефони по време на шофиране е строго забранено, освен ако нямате устройство за свободни ръце.</li>
   <li>Алкохол: Законният лимит на алкохол в кръвта е 0.5‰, намален до 0.2‰ за нови шофьори. Най-добре е да избягвате пиенето, ако планирате да шофирате.</li>
-  <li>Фарове: Трябва да се използват по всяко време на магистралите, независимо от времето на деня, за да се подобри видимостта и безопасността.</li>
-  <li>Кръгови движения: Трафикът в кръговото движение има предимство, за разлика от някои страни, където влизащият трафик има предимство.</li>
+  
+  <li>Кръгови кръстовища: следете знаците — на някои кръгови кръстовища в Гърция предимство имат влизащите автомобили.</li>
 </ul>`,
       ru: `<h2>Нужен ли вам автомобиль?</h2>
 <p><strong>Определенно да.</strong> Халкидики — это регион невероятной красоты, с тремя полуостровами — Касандра, Ситония и Афон, которые предлагают множество потрясающих пляжей, очаровательных деревень и скрытых сокровищ, ожидающих своего открытия. Однако общественный транспорт здесь ограничен и может помешать вам исследовать регион в своем темпе. Аренда автомобиля предоставляет свободу и гибкость, чтобы полностью погрузиться в разнообразные ландшафты и культурные впечатления, которые предлагает Халкидики. Независимо от того, планируете ли вы загорать на чистейших берегах Кавуротрюпес или исследовать традиционную деревню Арнеа, наличие автомобиля просто необходимо.</p>
@@ -2373,10 +2309,10 @@ export const GUIDES: Guide[] = [
 <h2>Расстояния и время в пути</h2>
 <table>
 <tr><th>Маршрут</th><th>Расстояние</th><th>Время</th></tr>
-<tr><td>SKG → Касандра (Пефкохори)</td><td>~120 км</td><td>~1:30</td></tr>
-<tr><td>SKG → Ситония (Никити)</td><td>~110 км</td><td>~1:20</td></tr>
-<tr><td>SKG → Урануполи</td><td>~130 км</td><td>~1:40</td></tr>
-<tr><td>Касандра → Ситония</td><td>~60-80 км</td><td>~1:00</td></tr>
+<tr><td>SKG → Касандра (Пефкохори)</td><td>~95 км</td><td>~1:30</td></tr>
+<tr><td>SKG → Ситония (Никити)</td><td>~90 км</td><td>~1:20</td></tr>
+<tr><td>SKG → Урануполи</td><td>~120 км</td><td>~2:00</td></tr>
+<tr><td>Касандра → Ситония</td><td>~75 км</td><td>~1:15</td></tr>
 <tr><td>Ситония → Афон</td><td>~100 км</td><td>~1:30</td></tr>
 </table>
 
@@ -2395,8 +2331,8 @@ export const GUIDES: Guide[] = [
 <li>Ремни безопасности обязательны для всех пассажиров, что обеспечивает безопасность для всех в автомобиле.</li>
 <li>Мобильные телефоны: Использование мобильных телефонов за рулем строго запрещено, если у вас нет устройства hands-free.</li>
 <li>Лимит алкоголя: Законный уровень алкоголя в крови составляет 0.5‰, для новых водителей он снижен до 0.2‰. Лучше избегать употребления алкоголя, если вы планируете водить.</li>
-<li>Фары: Должны использоваться в любое время на автомагистралях, независимо от времени суток, для повышения видимости и безопасности.</li>
-<li>Круговые перекрестки: Транспорт, находящийся на круговом перекрестке, имеет право преимущественного проезда.</li>
+
+<li>Круговое движение: следите за знаками — на некоторых кольцах в Греции приоритет у въезжающих машин.</li>
 </ul>`,
       ro: `<h2>Ai nevoie de mașină?</h2>
 <p><strong>Absolut da.</strong> Halkidiki, cu cele trei peninsule ale sale—Kassandra, Sithonia și Athos—oferă o multitudine de plaje uimitoare, sate pitorești și comori ascunse care așteaptă să fie descoperite. Totuși, opțiunile de transport public sunt limitate și pot restricționa capacitatea ta de a explora în propriul ritm. Închirierea unei mașini îți oferă libertatea și flexibilitatea de a te bucura pe deplin de peisajele diverse și experiențele culturale pe care Halkidiki le are de oferit. Fie că plănuiești să te relaxezi pe plajele imaculate ale Kavourotrypes sau să explorezi satul tradițional Arnea, o mașină este indispensabilă.</p>
@@ -2413,10 +2349,10 @@ export const GUIDES: Guide[] = [
 <h2>Distanțe & Timp de Condus</h2>
 <table>
 <tr><th>Rută</th><th>Distanță</th><th>Timp</th></tr>
-<tr><td>SKG → Kassandra (Pefkohori)</td><td>~120 km</td><td>~1:30</td></tr>
-<tr><td>SKG → Sithonia (Nikiti)</td><td>~110 km</td><td>~1:20</td></tr>
-<tr><td>SKG → Ouranoupoli</td><td>~130 km</td><td>~1:40</td></tr>
-<tr><td>Kassandra → Sithonia</td><td>~60-80 km</td><td>~1:00</td></tr>
+<tr><td>SKG → Kassandra (Pefkohori)</td><td>~95 km</td><td>~1:30</td></tr>
+<tr><td>SKG → Sithonia (Nikiti)</td><td>~90 km</td><td>~1:20</td></tr>
+<tr><td>SKG → Ouranoupoli</td><td>~120 km</td><td>~2:00</td></tr>
+<tr><td>Kassandra → Sithonia</td><td>~75 km</td><td>~1:15</td></tr>
 <tr><td>Sithonia → Athos</td><td>~100 km</td><td>~1:30</td></tr>
 </table>
 
@@ -2435,8 +2371,8 @@ export const GUIDES: Guide[] = [
 <li>Centura de siguranță este obligatorie pentru toți pasagerii.</li>
 <li>Telefon mobil: Este INTERZIS să-l folosești fără hands-free. Încălcările sunt sancționate sever.</li>
 <li>Alcool: Limita este de 0,5‰, dar pentru șoferii noi este de 0,2‰. Conducerea sub influența alcoolului este periculoasă și sancționată sever.</li>
-<li>Faruri: Obligatorii zi-noapte pe autostrăzi. Asigură-te că farurile tale funcționează corect înainte de fiecare drum.</li>
-<li>Prioritate: În sensurile giratorii, vehiculele care sunt deja în sens au prioritate.</li>
+
+<li>Sensuri giratorii: urmăriți indicatoarele — la unele sensuri giratorii din Grecia au prioritate vehiculele care intră.</li>
 </ul>`,
       sr: `<h2>Da li vam treba automobil?</h2>
 <p><strong>Apsolutno da.</strong> Halkidiki je region izuzetne lepote, sa tri poluostrva—Kassandra, Sitonija i Atos—koja nude mnoštvo prelepih plaža, šarmantnih sela i skrivenih dragulja koji čekaju da budu otkriveni. Međutim, opcije javnog prevoza su ograničene i mogu vas sprečiti da istražujete sopstvenim tempom. Iznajmljivanje automobila vam pruža slobodu i fleksibilnost da se potpuno uronite u raznolike pejzaže i kulturna iskustva koja Halkidiki nudi. Bilo da planirate da uživate na sunčanim obalama Kavourotrypes ili istražujete tradicionalno selo Arnea, automobil je neophodan.</p>
@@ -2453,10 +2389,10 @@ export const GUIDES: Guide[] = [
 <h2>Udaljenosti i vreme vožnje</h2>
 <table>
   <tr><th>Ruta</th><th>Udaljenost</th><th>Vreme</th></tr>
-  <tr><td>SKG → Kassandra (Pefkohori)</td><td>~120 km</td><td>~1:30</td></tr>
-  <tr><td>SKG → Sitonija (Nikiti)</td><td>~110 km</td><td>~1:20</td></tr>
-  <tr><td>SKG → Uranupoli</td><td>~130 km</td><td>~1:40</td></tr>
-  <tr><td>Kassandra → Sitonija</td><td>~60-80 km</td><td>~1:00</td></tr>
+  <tr><td>SKG → Kassandra (Pefkohori)</td><td>~95 km</td><td>~1:30</td></tr>
+  <tr><td>SKG → Sitonija (Nikiti)</td><td>~90 km</td><td>~1:20</td></tr>
+  <tr><td>SKG → Uranupoli</td><td>~120 km</td><td>~2:00</td></tr>
+  <tr><td>Kassandra → Sitonija</td><td>~75 km</td><td>~1:15</td></tr>
   <tr><td>Sitonija → Atos</td><td>~100 km</td><td>~1:30</td></tr>
 </table>
 
@@ -2475,8 +2411,8 @@ export const GUIDES: Guide[] = [
   <li>Pojasevi su obavezni za sve putnike, osiguravajući sigurnost za sve u vozilu.</li>
   <li>Mobilni telefoni: Korišćenje mobilnih telefona tokom vožnje je strogo zabranjeno osim ako imate hands-free uređaj.</li>
   <li>Granica alkohola: Dozvoljena granica alkohola u krvi je 0.5‰, smanjena na 0.2‰ za nove vozače. Najbolje je izbegavati alkohol ako planirate da vozite.</li>
-  <li>Svetla: Moraju se koristiti uvek na autoputevima, bez obzira na doba dana, kako bi se poboljšala vidljivost i sigurnost.</li>
-  <li>Kružni tokovi: Saobraćaj u kružnom toku ima prednost, za razliku od nekih zemalja gde vozila koja ulaze imaju prioritet.</li>
+  
+  <li>Kružni tokovi: pratite znakove — u nekim kružnim tokovima u Grčkoj prednost imaju vozila koja ulaze.</li>
 </ul>`,
     },
   },
@@ -2485,249 +2421,168 @@ export const GUIDES: Guide[] = [
     title: { el: 'Camping στη Χαλκιδική', en: 'Camping in Halkidiki', de: 'Camping in Chalkidiki', bg: 'Къмпинг в Халкидики', ru: 'Кемпинг в Халкидиках', ro: 'Camping în Halkidiki', sr: 'Kampovanje u Halkidikiju' },
     description: { el: 'Καλύτερα campings, τιμές & κανόνες ελεύθερης κατασκήνωσης', en: 'Best campgrounds, prices & wild camping rules', de: 'Beste Campingplätze, Preise & Wildcamping-Regeln', bg: 'Най-добрите къмпинги, цени и правила за диво къмпингуване', ru: 'Лучшие кемпинги, цены и правила дикого кемпинга', ro: 'Cele mai bune campinguri, prețuri și reguli de camping sălbatic', sr: 'Najbolji kampovi, cene i pravila za divlje kampovanje' },
     metaTitle: { el: 'Camping Χαλκιδική — Καλύτερα Campings', en: 'Camping Halkidiki — Best Campgrounds', de: 'Camping Chalkidiki — Beste Campingplätze', bg: 'Къмпинг Халкидики — Най-добри къмпинги', ru: 'Кемпинг Халкидики — Лучшие кемпинги', ro: 'Camping Halkidiki — Cele mai bune campinguri', sr: 'Kampovanje Halkidiki — Najbolji kampovi' },
-    metaDesc: { el: 'Camping στη Χαλκιδική: Αρμενιστής, Ακτή Ονείρου, τιμές €15-30/βράδυ, κανόνες ελεύθερης κατασκήνωσης, καλύτερες παραλίες.', en: 'Camping in Halkidiki: Armenistis, Akti Oneirou, prices €15-30/night, wild camping rules, best camping beaches.', de: 'Camping Chalkidiki: Armenistis, Akti Oneirou, Preise €15-30/Nacht, Wildcamping-Regeln.', bg: 'Къмпинг Халкидики: Арменистис, Акти Онейру, цени €15-30/нощ, правила за диво къмпингуване.', ru: 'Кемпинг Халкидики: Арменистис, Акти Онейру, цены €15-30/ночь, правила дикого кемпинга.', ro: 'Camping Halkidiki: Armenistis, Akti Oneirou, prețuri €15-30/noapte, reguli de camping sălbatic.', sr: 'Kampovanje Halkidiki: Armenistis, Akti Oneiru, cene €15-30/noć, pravila za divlje kampovanje.' },
+    metaDesc: { el: 'Κάμπινγκ στη Χαλκιδική: πού υπάρχουν οργανωμένα κάμπινγκ, τι προσφέρουν συνήθως, γιατί απαγορεύεται το ελεύθερο κάμπινγκ και πρακτικές συμβουλές.', en: 'Camping in Halkidiki: where to find organised campsites, what they usually offer, why wild camping is not allowed and practical tips.', de: 'Camping in Chalkidiki: wo es Campingplätze gibt, was sie meist bieten, warum Wildcampen verboten ist und praktische Tipps.', bg: 'Къмпинг в Халкидики: къде има организирани къмпинги, какво обикновено предлагат, защо дивото къмпингуване е забранено и практични съвети.', ru: 'Кемпинг на Халкидики: где искать организованные кемпинги, что в них обычно есть, почему дикий кемпинг запрещён и практические советы.', ro: 'Camping în Halkidiki: unde găsiți campinguri organizate, ce oferă de obicei, de ce campingul sălbatic este interzis și sfaturi practice.', sr: 'Kampovanje na Halkidikiju: gde su uređeni kampovi, šta obično nude, zašto je divlje kampovanje zabranjeno i praktični saveti.' },
     content: {
-      el: `<h2>Camping στη Χαλκιδική</h2>
-<p>Η Χαλκιδική είναι ένας από τους <strong>καλύτερους προορισμούς camping στην Ελλάδα</strong>, με πευκοδάση που φτάνουν ως τη θάλασσα και οργανωμένα campings υψηλής ποιότητας. Οι τρεις χερσόνησοι της, Κασσάνδρα, Σιθωνία και Άθως, προσφέρουν μοναδικές τοποθεσίες για κατασκήνωση, συνδυάζοντας τη φυσική ομορφιά με τις σύγχρονες ανέσεις.</p>
-
-<h2>Κορυφαία Campings</h2>
-<h3>Armenistis Camping (Σιθωνία)</h3>
-<p>Το <strong>διασημότερο camping της Ελλάδας</strong>, το Armenistis, βρίσκεται στις ακτές της Σιθωνίας, μέσα σε ένα μαγευτικό πευκόδασος που αγκαλιάζει την παραλία. Προσφέρει ποικιλία από ανέσεις όπως supermarket, εστιατόρια, beach bar και water sports, κάνοντάς το ιδανικό για οικογένειες και παρέες. Τιμή: ~€20-35/βράδυ για σκηνή + 2 άτομα.</p>
-
-<h3>Akti Oneirou (Σιθωνία)</h3>
-<p>Κοντά στο Βουρβουρού, το Akti Oneirou βρίσκεται σε ένα <strong>ονειρεμένο τοπίο</strong> με καταπράσινα δάση και γαλαζοπράσινα νερά. Είναι μικρότερο και πιο ήσυχο, ιδανικό για όσους αναζητούν ηρεμία και χαλάρωση. Τιμή: ~€15-25/βράδυ.</p>
-
-<h3>Camping Ouranoupoli</h3>
-<p>Κοντά στο λιμάνι για τον Άθω, το Camping Ouranoupoli αποτελεί <strong>βάση εξερεύνησης</strong> για την 3η χερσόνησο. Εδώ, μπορείτε να απολαύσετε τη θέα προς το Άγιο Όρος και να εξερευνήσετε τις γύρω περιοχές. Τιμή: ~€15-20/βράδυ.</p>
-
-<h3>Camping Sithonia Village</h3>
-<p>Κοντά στον Νέο Μαρμαρά, το Camping Sithonia Village είναι <strong>οικογενειακό</strong> και προσφέρει ανέσεις όπως πισίνα και παιδική χαρά για τους μικρούς κατασκηνωτές. Είναι ιδανικό για οικογένειες που θέλουν να συνδυάσουν την κατασκήνωση με τις ανέσεις ενός οργανωμένου χώρου. Τιμή: ~€18-28/βράδυ.</p>
-
-<h2>Τιμές & Τι Περιλαμβάνεται</h2>
+      el: `<h2>Κάμπινγκ στη Χαλκιδική</h2>
+<p>Η Χαλκιδική είναι από τους κλασικούς προορισμούς για κάμπινγκ στην Ελλάδα: πεύκα ως τη θάλασσα, προστατευμένοι κόλποι και οργανωμένα κάμπινγκ, πολλά πάνω στην παραλία. Τα περισσότερα λειτουργούν από τα τέλη της άνοιξης ως τις αρχές του φθινοπώρου.</p>
+<h2>Πού να κατασκηνώσετε</h2>
 <ul>
-<li>Βασική τιμή: €15-30/βράδυ (σκηνή + 2 άτομα)</li>
-<li>Ρεύμα: +€3-5</li>
-<li>Τροχόσπιτο/campervan: +€5-10</li>
-<li>Συνήθως περιλαμβάνουν: ντους, τουαλέτες, supermarket, Wi-Fi, και σε ορισμένα campings, πρόσβαση σε πισίνα και οργανωμένες δραστηριότητες για παιδιά.</li>
+<li><strong>Σιθωνία:</strong> τα περισσότερα κάμπινγκ, πολλά μέσα σε πευκοδάσος δίπλα στη θάλασσα — για παράδειγμα ο <strong>Αρμενιστής</strong> κοντά στη Σάρτη, στην ανατολική ακτή, και τα κάμπινγκ γύρω από το <strong>Καλαμίτσι</strong> στον νότο.</li>
+<li><strong>Κασσάνδρα:</strong> λιγότερα κάμπινγκ, πιο κοντά στα πολυσύχναστα θέρετρα και τις υπηρεσίες τους.</li>
+<li><strong>Χερσόνησος του Άθω:</strong> κάμπινγκ κοντά στην <strong>Ουρανούπολη</strong>, καλή βάση για την κρουαζιέρα του Αγίου Όρους και την Αμμουλιανή.</li>
 </ul>
-
-<h2>Ελεύθερη Κατασκήνωση</h2>
-<p>Η ελεύθερη κατασκήνωση είναι <strong>τεχνικά παράνομη</strong> στην Ελλάδα, αλλά στην πράξη γίνεται ανεκτή σε απομακρυσμένες παραλίες, ιδίως στη <strong>νότια Σιθωνία</strong>. Είναι σημαντικό να μην αφήνετε σκουπίδια και να σεβαστείτε τη φύση, διατηρώντας το περιβάλλον καθαρό και ανέγγιχτο.</p>
-
-<h2>Καλύτερες Παραλίες για Camping</h2>
+<h2>Τι προσφέρουν συνήθως</h2>
 <ul>
-<li><strong>Καρύδι</strong> — Πευκόδασος, κρυστάλλινα νερά, ιδανική για χαλάρωση και κολύμπι.</li>
-<li><strong>Φάβα</strong> — Αμμώδης, ρηχά νερά, κατάλληλη για οικογένειες με μικρά παιδιά.</li>
-<li><strong>Καβουρότρυπες</strong> — Εξωτικές σπηλιές, τιρκουάζ νερά, προσφέροντας μοναδικές ευκαιρίες για εξερεύνηση και φωτογραφία.</li>
-<li><strong>Τρανή Αμμούδα</strong> — Μεγάλη αμμώδης παραλία με καθαρά νερά, ιδανική για όσους αγαπούν την ηρεμία και την φυσική ομορφιά.</li>
+<li>Θέσεις για σκηνές, τροχόσπιτα και αυτοκινούμενα, με παροχή ρεύματος</li>
+<li>Ντους και τουαλέτες, συχνά μίνι μάρκετ και ταβέρνα ή beach bar</li>
+<li>Κάποια νοικιάζουν και bungalows ή κινητά σπίτια</li>
+</ul>
+<p>Οι τιμές εξαρτώνται από την εποχή, τη θέση και τον αριθμό των ατόμων — ρωτήστε σε κάθε κάμπινγκ.</p>
+<h2>Ελεύθερο κάμπινγκ</h2>
+<p>Το ελεύθερο κάμπινγκ (σκηνές, αυτοκινούμενα ή τροχόσπιτα έξω από οργανωμένα κάμπινγκ) δεν επιτρέπεται στην Ελλάδα και μπορεί να επιβληθούν πρόστιμα, ειδικά το καλοκαίρι, όταν ο κίνδυνος πυρκαγιάς είναι υψηλός. Προτιμήστε οργανωμένο κάμπινγκ.</p>
+<h2>Συμβουλές</h2>
+<ul>
+<li>Τον Ιούλιο και τον Αύγουστο κλείστε θέση από πριν, ειδικά για αυτοκινούμενο.</li>
+<li>Ζητήστε θέση με σκιά — το πευκοδάσος κάνει μεγάλη διαφορά στη ζέστη.</li>
+<li>Μην ανάβετε ποτέ φωτιά έξω από τους ειδικούς χώρους.</li>
 </ul>`,
       en: `<h2>Camping in Halkidiki</h2>
-<p>Halkidiki is renowned as one of the <strong>best camping destinations in Greece</strong>, offering a unique blend of natural beauty and modern amenities. The region is characterized by lush pine forests that stretch down to meet the azure waters of the Aegean Sea, creating a serene and picturesque environment for campers. With a variety of high-quality organized campgrounds scattered across its peninsulas, Halkidiki promises an unforgettable outdoor experience for nature enthusiasts and adventure seekers alike.</p>
-
-<h2>Top Campgrounds</h2>
-<h3>Armenistis Camping (Sithonia)</h3>
-<p>Often hailed as the <strong>most famous campground in Greece</strong>, Armenistis Camping is a must-visit for any camping aficionado. Located on the stunning coast of Sithonia, this campground is nestled within a dense pine forest, offering a tranquil escape from the hustle and bustle of everyday life. It boasts a range of facilities including a supermarket, restaurants, a beach bar, and an array of water sports options. The price ranges from approximately €20-35 per night for a tent and two people, making it an accessible choice for many.</p>
-
-<h3>Akti Oneirou (Sithonia)</h3>
-<p>Situated near the charming village of Vourvourou, Akti Oneirou is known for its <strong>dreamy landscape</strong> and serene atmosphere. This smaller and quieter campground is perfect for those seeking a peaceful retreat. With prices ranging from €15-25 per night, it offers an affordable yet idyllic camping experience.</p>
-
-<h3>Camping Ouranoupoli</h3>
-<p>Located near the port that serves as the gateway to Mount Athos, Camping Ouranoupoli is an ideal <strong>exploration base</strong> for those wishing to discover the mystical third peninsula. With prices between €15-20 per night, it provides a convenient and cost-effective option for travelers.</p>
-
-<h3>Camping Sithonia Village</h3>
-<p>Just a stone's throw from Neos Marmaras, Camping Sithonia Village is a <strong>family-friendly</strong> destination that caters to campers of all ages. The campground features a swimming pool and a playground, ensuring that both adults and children can enjoy their stay. Prices range from €18-28 per night, offering great value for families.</p>
-
-<h2>Prices & What's Included</h2>
+<p>Halkidiki is one of the classic camping destinations in Greece: pine forest down to the sea, sheltered bays and organised campsites, many of them right on the beach. Most open from late spring to early autumn.</p>
+<h2>Where to camp</h2>
 <ul>
-  <li>Base price: €15-30 per night (tent + 2 people)</li>
-  <li>Electricity: an additional €3-5</li>
-  <li>Caravan/campervan: an extra €5-10</li>
-  <li>Typically included: showers, toilets, a minimarket, and Wi-Fi</li>
-  <li>Additional amenities: some campgrounds offer laundry facilities and organized activities</li>
+<li><strong>Sithonia:</strong> the most campsites, many in pine forest by the sea — for example <strong>Armenistis</strong> near Sarti on the east coast and the campsites around <strong>Kalamitsi</strong> in the south.</li>
+<li><strong>Kassandra:</strong> fewer campsites, closer to the busy resorts and their services.</li>
+<li><strong>Athos peninsula:</strong> campsites near <strong>Ouranoupoli</strong>, a good base for the Mount Athos cruise and Ammouliani.</li>
 </ul>
-
-<h2>Wild Camping</h2>
-<p>While wild camping is <strong>technically illegal</strong> in Greece, it is often tolerated in more remote areas, particularly along the pristine beaches of <strong>southern Sithonia</strong>. Campers who choose to go off the beaten path are encouraged to leave no trace and to respect the natural environment, ensuring that these beautiful landscapes remain unspoiled for future generations.</p>
-
-<h2>Best Camping Beaches</h2>
+<h2>What campsites usually offer</h2>
 <ul>
-  <li><strong>Karidi</strong> — Surrounded by a dense pine forest, this beach is known for its crystal-clear waters and tranquil setting.</li>
-  <li><strong>Fava</strong> — A sandy beach with shallow waters, ideal for families with young children.</li>
-  <li><strong>Kavourotrypes</strong> — Famous for its exotic caves and striking turquoise waters, this beach offers a unique and picturesque camping experience.</li>
-  <li><strong>Trani Ammouda</strong> — Known for its long stretch of golden sand and calm waters, perfect for a peaceful camping getaway.</li>
+<li>Pitches for tents, caravans and campervans, with electricity hook-ups</li>
+<li>Showers and toilets, often a minimarket and a taverna or beach bar</li>
+<li>Some also rent bungalows or mobile homes</li>
+</ul>
+<p>Prices depend on the season, the pitch and the number of people — check them with each campsite.</p>
+<h2>Wild camping</h2>
+<p>Wild camping (tents, campervans or caravans outside organised campsites) is not allowed in Greece, and fines are possible, especially in summer when fire risk is high. Choose an organised campsite.</p>
+<h2>Tips</h2>
+<ul>
+<li>In July and August book a pitch in advance, especially for campervans.</li>
+<li>Ask for a shaded pitch — the pine forest makes a big difference in the heat.</li>
+<li>Never light a fire outside designated areas.</li>
 </ul>`,
       de: `<h2>Camping in Chalkidiki</h2>
-<p>Chalkidiki ist bekannt als einer der <strong>besten Campingziele in Griechenland</strong>, mit einer einzigartigen Mischung aus natürlicher Schönheit und modernen Annehmlichkeiten. Die Region ist geprägt von üppigen Pinienwäldern, die bis zu den azurblauen Gewässern der Ägäis reichen und eine ruhige und malerische Umgebung für Camper schaffen. Mit einer Vielzahl hochwertiger, organisierter Campingplätze, die über die Halbinseln verstreut sind, verspricht Chalkidiki ein unvergessliches Outdoor-Erlebnis für Naturliebhaber und Abenteurer.</p>
-
-<h2>Top Campingplätze</h2>
-<h3>Armenistis Camping (Sithonia)</h3>
-<p>Oft als <strong>berühmtester Campingplatz Griechenlands</strong> bezeichnet, ist Armenistis Camping ein Muss für jeden Campingliebhaber. An der atemberaubenden Küste von Sithonia gelegen, bietet dieser Campingplatz eine ruhige Flucht aus dem Alltag. Er verfügt über eine Reihe von Einrichtungen, darunter ein Supermarkt, Restaurants, eine Strandbar und eine Vielzahl von Wassersportmöglichkeiten. Der Preis liegt bei etwa €20-35 pro Nacht für ein Zelt und zwei Personen, was ihn für viele zugänglich macht.</p>
-
-<h3>Akti Oneirou (Sithonia)</h3>
-<p>In der Nähe des charmanten Dorfes Vourvourou gelegen, ist Akti Oneirou bekannt für seine <strong>traumhafte Landschaft</strong> und seine ruhige Atmosphäre. Dieser kleinere und ruhigere Campingplatz ist perfekt für diejenigen, die einen friedlichen Rückzugsort suchen. Mit Preisen von €15-25 pro Nacht bietet er ein erschwingliches und idyllisches Campingerlebnis.</p>
-
-<h3>Camping Ouranoupoli</h3>
-<p>In der Nähe des Hafens gelegen, der als Tor zum Berg Athos dient, ist Camping Ouranoupoli eine ideale <strong>Erkundungsbasis</strong> für diejenigen, die die mystische dritte Halbinsel entdecken möchten. Mit Preisen zwischen €15-20 pro Nacht bietet er eine bequeme und kostengünstige Option für Reisende.</p>
-
-<h3>Camping Sithonia Village</h3>
-<p>Nur einen Steinwurf von Neos Marmaras entfernt, ist Camping Sithonia Village ein <strong>familienfreundliches</strong> Ziel, das Camper jeden Alters anspricht. Der Campingplatz verfügt über einen Swimmingpool und einen Spielplatz, sodass sowohl Erwachsene als auch Kinder ihren Aufenthalt genießen können. Die Preise liegen zwischen €18-28 pro Nacht und bieten Familien ein gutes Preis-Leistungs-Verhältnis.</p>
-
-<h2>Preise & Was ist enthalten</h2>
+<p>Chalkidiki ist eines der klassischen Campingziele Griechenlands: Kiefernwald bis ans Meer, geschützte Buchten und organisierte Campingplätze, viele direkt am Strand. Die meisten sind von Ende Frühling bis Anfang Herbst geöffnet.</p>
+<h2>Wo campen</h2>
 <ul>
-  <li>Grundpreis: €15-30 pro Nacht (Zelt + 2 Personen)</li>
-  <li>Strom: zusätzlich €3-5</li>
-  <li>Wohnwagen/Campervan: zusätzlich €5-10</li>
-  <li>Typisch enthalten: Duschen, Toiletten, ein Minimarkt und WLAN</li>
-  <li>Zusätzliche Annehmlichkeiten: einige Campingplätze bieten Wäschemöglichkeiten und organisierte Aktivitäten</li>
+<li><strong>Sithonia:</strong> die meisten Campingplätze, viele im Kiefernwald am Meer — etwa <strong>Armenistis</strong> bei Sarti an der Ostküste und die Plätze rund um <strong>Kalamitsi</strong> im Süden.</li>
+<li><strong>Kassandra:</strong> weniger Campingplätze, näher an den belebten Orten und ihren Angeboten.</li>
+<li><strong>Athos-Halbinsel:</strong> Campingplätze bei <strong>Ouranoupoli</strong>, ein guter Ausgangspunkt für die Athos-Bootsfahrt und Ammouliani.</li>
 </ul>
-
-<h2>Wildcampen</h2>
-<p>Während Wildcampen in Griechenland <strong>technisch illegal</strong> ist, wird es oft in abgelegeneren Gebieten toleriert, insbesondere entlang der unberührten Strände von <strong>südlichen Sithonia</strong>. Camper, die abseits der ausgetretenen Pfade gehen, werden ermutigt, keine Spuren zu hinterlassen und die natürliche Umgebung zu respektieren, um sicherzustellen, dass diese schönen Landschaften für zukünftige Generationen unberührt bleiben.</p>
-
-<h2>Beste Campingstrände</h2>
+<h2>Was Campingplätze meist bieten</h2>
 <ul>
-  <li><strong>Karidi</strong> — Umgeben von einem dichten Pinienwald, ist dieser Strand bekannt für seine kristallklaren Gewässer und seine ruhige Umgebung.</li>
-  <li><strong>Fava</strong> — Ein Sandstrand mit flachem Wasser, ideal für Familien mit kleinen Kindern.</li>
-  <li><strong>Kavourotrypes</strong> — Berühmt für seine exotischen Höhlen und das auffällige türkisfarbene Wasser, bietet dieser Strand ein einzigartiges und malerisches Campingerlebnis.</li>
-  <li><strong>Trani Ammouda</strong> — Bekannt für seinen langen Sandstrand und ruhige Gewässer, perfekt für einen friedlichen Campingurlaub.</li>
+<li>Stellplätze für Zelte, Wohnwagen und Wohnmobile mit Stromanschluss</li>
+<li>Duschen und Toiletten, oft ein Minimarkt und eine Taverne oder Strandbar</li>
+<li>Manche vermieten auch Bungalows oder Mobilheime</li>
+</ul>
+<p>Die Preise hängen von Saison, Stellplatz und Personenzahl ab — fragen Sie beim jeweiligen Campingplatz nach.</p>
+<h2>Wildcampen</h2>
+<p>Wildcampen (Zelte, Wohnmobile oder Wohnwagen außerhalb von Campingplätzen) ist in Griechenland nicht erlaubt, und es drohen Bußgelder — besonders im Sommer, wenn die Waldbrandgefahr hoch ist. Wählen Sie einen Campingplatz.</p>
+<h2>Tipps</h2>
+<ul>
+<li>Im Juli und August einen Stellplatz vorab reservieren, besonders für Wohnmobile.</li>
+<li>Fragen Sie nach einem schattigen Platz — der Kiefernwald macht in der Hitze viel aus.</li>
+<li>Nie außerhalb ausgewiesener Stellen Feuer machen.</li>
 </ul>`,
       bg: `<h2>Къмпинг в Халкидики</h2>
-<p>Халкидики е един от <strong>най-добрите дестинации за къмпинг в Гърция</strong>, предлагащ уникална комбинация от природна красота и съвременни удобства. Регионът е известен със своите гъсти борови гори, които се простират до лазурните води на Егейско море, създавайки спокойна и живописна среда за къмпинг. С разнообразие от висококачествени организирани къмпинги, разположени по трите полуострова, Халкидики обещава незабравимо преживяване на открито за любителите на природата и приключенията.</p>
-
-<h2>Топ Къмпинги</h2>
-<h3>Armenistis Camping (Ситония)</h3>
-<p>Често наричан <strong>най-известният къмпинг в Гърция</strong>, Armenistis Camping е задължителна спирка за всеки любител на къмпинга. Разположен на зашеметяващото крайбрежие на Ситония, този къмпинг се намира в гъста борова гора, предлагаща спокойно убежище от суетата на ежедневието. Той предлага разнообразие от удобства, включително супермаркет, ресторанти, плажен бар и различни водни спортове. Цените варират от приблизително €20-35 на нощ за палатка и двама души, което го прави достъпен избор за мнозина.</p>
-
-<h3>Akti Oneirou (Ситония)</h3>
-<p>Разположен близо до очарователното село Вурвуру, Akti Oneirou е известен със своя <strong>мечтан пейзаж</strong> и спокойна атмосфера. Този по-малък и по-тих къмпинг е идеален за тези, които търсят спокойно убежище. С цени от €15-25 на нощ, той предлага достъпно, но идилично къмпинг изживяване.</p>
-
-<h3>Camping Ouranoupoli</h3>
-<p>Разположен близо до пристанището, което служи като врата към Света гора, Camping Ouranoupoli е идеална <strong>база за изследване</strong> за тези, които желаят да открият мистичния трети полуостров. С цени между €15-20 на нощ, той предлага удобен и икономичен вариант за пътешествениците.</p>
-
-<h3>Camping Sithonia Village</h3>
-<p>Само на крачка от Неос Мармарас, Camping Sithonia Village е <strong>семеен</strong> къмпинг, който предлага удобства за къмпингуващи от всички възрасти. Къмпингът разполага с плувен басейн и детска площадка, гарантирайки, че както възрастните, така и децата ще се насладят на престоя си. Цените варират от €18-28 на нощ, предлагайки отлична стойност за семействата.</p>
-
-<h2>Цени и Какво е включено</h2>
+<p>Халкидики е една от класическите къмпинг дестинации в Гърция: борови гори до морето, защитени заливи и организирани къмпинги, много от тях направо на плажа. Повечето работят от края на пролетта до началото на есента.</p>
+<h2>Къде да къмпингувате</h2>
 <ul>
-<li>Основна цена: €15-30 на нощ (палатка + 2 души)</li>
-<li>Електричество: допълнително €3-5</li>
-<li>Каравана/кемпер: допълнително €5-10</li>
-<li>Обикновено включва: душове, тоалетни, минимаркет и Wi-Fi</li>
-<li>Допълнителни удобства: някои къмпинги предлагат перални услуги и организирани дейности</li>
+<li><strong>Ситония:</strong> най-много къмпинги, много от тях в борова гора до морето — например <strong>Арменистис</strong> край Сарти на източния бряг и къмпингите около <strong>Каламици</strong> на юг.</li>
+<li><strong>Касандра:</strong> по-малко къмпинги, по-близо до оживените курорти и техните услуги.</li>
+<li><strong>Полуостров Атон:</strong> къмпинги край <strong>Уранополи</strong> — добра база за круиза около Света гора и за Амулиани.</li>
 </ul>
-
-<h2>Свободно Къмпингуване</h2>
-<p>Докато свободното къмпингуване е <strong>технически незаконно</strong> в Гърция, често се толерира в по-отдалечени райони, особено по девствените плажове на <strong>южна Ситония</strong>. Къмпингуващите, които избират да се отклонят от утъпканите пътеки, се насърчават да не оставят следи и да уважават природната среда, като гарантират, че тези красиви пейзажи остават незасегнати за бъдещите поколения.</p>
-
-<h2>Най-добри Плажове за Къмпинг</h2>
+<h2>Какво обикновено предлагат</h2>
 <ul>
-<li><strong>Кариди</strong> — Обграден от гъста борова гора, този плаж е известен с кристално чистите си води и спокойната обстановка.</li>
-<li><strong>Фава</strong> — Пясъчен плаж с плитки води, идеален за семейства с малки деца.</li>
-<li><strong>Кавуротрипес</strong> — Известен със своите екзотични пещери и поразителни тюркоазени води, този плаж предлага уникално и живописно къмпинг изживяване.</li>
-<li><strong>Трани Аммоуда</strong> — Известен с дългата си ивица златист пясък и спокойни води, идеален за спокойно къмпинг бягство.</li>
+<li>Места за палатки, каравани и кемпери, с ток</li>
+<li>Душове и тоалетни, често минимаркет и таверна или плажен бар</li>
+<li>Някои дават под наем и бунгала или мобилни къщи</li>
+</ul>
+<p>Цените зависят от сезона, мястото и броя на хората — проверете ги в съответния къмпинг.</p>
+<h2>Диво къмпингуване</h2>
+<p>Дивото къмпингуване (палатки, кемпери или каравани извън организирани къмпинги) не е разрешено в Гърция и може да има глоби, особено през лятото, когато рискът от пожари е висок. Изберете организиран къмпинг.</p>
+<h2>Съвети</h2>
+<ul>
+<li>През юли и август резервирайте място предварително, особено за кемпер.</li>
+<li>Поискайте място на сянка — боровата гора прави голяма разлика в жегата.</li>
+<li>Никога не палете огън извън обозначените места.</li>
 </ul>`,
-      ru: `<h2>Кемпинг в Халкидики</h2>
-<p>Халкидики известен как один из <strong>лучших кемпинг-направлений в Греции</strong>, предлагающий уникальное сочетание природной красоты и современных удобств. Регион характеризуется густыми сосновыми лесами, которые спускаются к лазурным водам Эгейского моря, создавая спокойную и живописную обстановку для отдыхающих. С разнообразными высококачественными организованными кемпингами, разбросанными по полуостровам, Халкидики обещает незабываемые впечатления для любителей природы и искателей приключений.</p>
-
-<h2>Лучшие кемпинги</h2>
-<h3>Armenistis Camping (Ситония)</h3>
-<p>Часто называемый <strong>самым известным кемпингом в Греции</strong>, Armenistis Camping обязателен для посещения любителям кемпинга. Расположенный на великолепном побережье Ситонии, этот кемпинг окружен густым сосновым лесом, предлагая уединение от суеты повседневной жизни. Здесь есть супермаркет, рестораны, пляжный бар и разнообразные водные виды спорта. Цена: ~€20-35 за ночь для палатки и двух человек.</p>
-
-<h3>Akti Oneirou (Ситония)</h3>
-<p>Расположенный рядом с очаровательной деревней Вурвуру, Akti Oneirou известен своим <strong>сказочным пейзажем</strong> и спокойной атмосферой. Этот небольшой и тихий кемпинг идеально подходит для тех, кто ищет уединение. Цена: ~€15-25 за ночь.</p>
-
-<h3>Camping Ouranoupoli</h3>
-<p>Расположенный рядом с портом, который служит воротами на Афон, Camping Ouranoupoli является идеальной <strong>базой для исследования</strong> третьего полуострова. Цена: ~€15-20 за ночь.</p>
-
-<h3>Camping Sithonia Village</h3>
-<p>Недалеко от Неос Мармарас, Camping Sithonia Village — это <strong>семейное</strong> место, предлагающее удобства, такие как бассейн и детская площадка для маленьких туристов. Идеально для семей, которые хотят сочетать кемпинг с комфортом организованного пространства. Цена: ~€18-28 за ночь.</p>
-
-<h2>Цены и что включено</h2>
+      ru: `<h2>Кемпинг на Халкидики</h2>
+<p>Халкидики — одно из классических мест для кемпинга в Греции: сосны до самого моря, защищённые бухты и организованные кемпинги, многие прямо на пляже. Большинство работает с конца весны до начала осени.</p>
+<h2>Где остановиться</h2>
 <ul>
-<li>Базовая цена: €15-30 за ночь (палатка + 2 человека)</li>
-<li>Электричество: +€3-5</li>
-<li>Караван/кемпер: +€5-10</li>
-<li>Обычно включено: душ, туалеты, минимаркет и Wi-Fi, а в некоторых кемпингах доступ к бассейну и организованные мероприятия для детей.</li>
+<li><strong>Ситония:</strong> больше всего кемпингов, многие в сосновом лесу у моря — например <strong>Арменистис</strong> у Сарти на восточном побережье и кемпинги в районе <strong>Каламици</strong> на юге.</li>
+<li><strong>Кассандра:</strong> кемпингов меньше, зато ближе оживлённые курорты и их инфраструктура.</li>
+<li><strong>Полуостров Афон:</strong> кемпинги у <strong>Уранополиса</strong> — удобная база для круиза вокруг Афона и поездки на Аммулиани.</li>
 </ul>
-
-<h2>Дикий кемпинг</h2>
-<p>Хотя дикий кемпинг <strong>технически незаконен</strong> в Греции, он часто терпим в более отдаленных районах, особенно на <strong>юге Ситонии</strong>. Важно не оставлять мусор и уважать природу, сохраняя окружающую среду чистой и нетронутой.</p>
-
-<h2>Лучшие пляжи для кемпинга</h2>
+<h2>Что обычно есть в кемпингах</h2>
 <ul>
-<li><strong>Кариди</strong> — Окружен густым сосновым лесом, известен своими кристально чистыми водами и спокойной обстановкой.</li>
-<li><strong>Фава</strong> — Песчаный пляж с мелководьем, идеально подходит для семей с маленькими детьми.</li>
-<li><strong>Кавуротрипес</strong> — Известен своими экзотическими пещерами и ярко-бирюзовыми водами, предлагает уникальные возможности для исследования и фотографии.</li>
-<li><strong>Трани Аммуда</strong> — Большой песчаный пляж с чистыми водами, идеален для тех, кто любит спокойствие и природную красоту.</li>
+<li>Места для палаток, прицепов и автодомов с подключением к электричеству</li>
+<li>Душевые и туалеты, часто мини-маркет и таверна или пляжный бар</li>
+<li>В некоторых сдаются бунгало или мобильные дома</li>
+</ul>
+<p>Цены зависят от сезона, места и количества людей — уточняйте в каждом кемпинге.</p>
+<h2>Дикий кемпинг</h2>
+<p>Дикий кемпинг (палатки, автодома или прицепы вне организованных кемпингов) в Греции запрещён, возможны штрафы — особенно летом, когда высок риск пожаров. Выбирайте организованный кемпинг.</p>
+<h2>Советы</h2>
+<ul>
+<li>В июле и августе бронируйте место заранее, особенно для автодома.</li>
+<li>Просите место в тени — сосновый лес очень помогает в жару.</li>
+<li>Никогда не разводите огонь вне специально отведённых мест.</li>
 </ul>`,
       ro: `<h2>Camping în Halkidiki</h2>
-<p>Halkidiki este recunoscută ca una dintre <strong>cele mai bune destinații de camping din Grecia</strong>, oferind o combinație unică de frumusețe naturală și facilități moderne. Regiunea se remarcă prin pădurile de pini luxuriante care coboară până la apele azurii ale Mării Egee, creând un mediu liniștit și pitoresc pentru campare. Cu o varietate de campinguri organizate de înaltă calitate răspândite pe peninsulele sale, Halkidiki promite o experiență de neuitat în aer liber pentru iubitorii de natură și aventură.</p>
-
-<h2>Campinguri de Top</h2>
-<h3>Armenistis Camping (Sithonia)</h3>
-<p>Considerat adesea <strong>cel mai faimos camping din Grecia</strong>, Armenistis Camping este o destinație obligatorie pentru orice pasionat de camping. Situat pe coasta impresionantă a Sithoniei, acest camping este amplasat într-o pădure densă de pini, oferind o evadare liniștită de agitația vieții cotidiene. Dispune de o gamă de facilități, inclusiv supermarket, restaurante, un bar pe plajă și diverse opțiuni de sporturi nautice. Prețurile variază între aproximativ €20-35 pe noapte pentru un cort și două persoane, făcându-l o alegere accesibilă pentru mulți.</p>
-
-<h3>Akti Oneirou (Sithonia)</h3>
-<p>Situat lângă fermecătorul sat Vourvourou, Akti Oneirou este cunoscut pentru <strong>peisajul său de vis</strong> și atmosfera liniștită. Acest camping mai mic și mai liniștit este perfect pentru cei care caută o retragere pașnică. Cu prețuri între €15-25 pe noapte, oferă o experiență de camping idilică și accesibilă.</p>
-
-<h3>Camping Ouranoupoli</h3>
-<p>Situat aproape de portul care servește ca poartă de acces către Muntele Athos, Camping Ouranoupoli este o <strong>bază ideală de explorare</strong> pentru cei care doresc să descopere misterioasa a treia peninsulă. Cu prețuri între €15-20 pe noapte, oferă o opțiune convenabilă și economică pentru călători.</p>
-
-<h3>Camping Sithonia Village</h3>
-<p>La doar o aruncătură de băț de Neos Marmaras, Camping Sithonia Village este o destinație <strong>prietenosă cu familiile</strong> care se adresează camperilor de toate vârstele. Campingul dispune de o piscină și un loc de joacă, asigurându-se că atât adulții, cât și copiii se pot bucura de șederea lor. Prețurile variază între €18-28 pe noapte, oferind o valoare excelentă pentru familii.</p>
-
-<h2>Prețuri & Ce este Inclus</h2>
+<p>Halkidiki este una dintre destinațiile clasice de camping din Grecia: păduri de pin până la mare, golfuri adăpostite și campinguri organizate, multe chiar pe plajă. Cele mai multe sunt deschise de la sfârșitul primăverii până la începutul toamnei.</p>
+<h2>Unde să campați</h2>
 <ul>
-<li>Preț de bază: €15-30 pe noapte (cort + 2 persoane)</li>
-<li>Electricitate: +€3-5</li>
-<li>Rulotă/campervan: +€5-10</li>
-<li>De obicei incluse: dușuri, toalete, supermarket și Wi-Fi</li>
-<li>Facilități suplimentare: unele campinguri oferă facilități de spălătorie și activități organizate</li>
+<li><strong>Sithonia:</strong> cele mai multe campinguri, multe în pădure de pin lângă mare — de exemplu <strong>Armenistis</strong>, lângă Sarti pe coasta de est, și campingurile din jurul <strong>Kalamitsi</strong>, în sud.</li>
+<li><strong>Kassandra:</strong> mai puține campinguri, mai aproape de stațiunile aglomerate și de serviciile lor.</li>
+<li><strong>Peninsula Athos:</strong> campinguri lângă <strong>Ouranoupoli</strong>, o bază bună pentru croaziera la Muntele Athos și pentru Ammouliani.</li>
 </ul>
-
-<h2>Camping Sălbatic</h2>
-<p>Deși campingul sălbatic este <strong>tehnic ilegal</strong> în Grecia, este adesea tolerat în zonele mai izolate, în special de-a lungul plajelor neatinse din <strong>sudul Sithoniei</strong>. Camperii care aleg să meargă pe cărări mai puțin bătute sunt încurajați să nu lase urme și să respecte mediul natural, asigurându-se că aceste peisaje frumoase rămân nealterate pentru generațiile viitoare.</p>
-
-<h2>Cele Mai Bune Plaje pentru Camping</h2>
+<h2>Ce oferă de obicei</h2>
 <ul>
-<li><strong>Karydi</strong> — Înconjurată de o pădure densă de pini, această plajă este cunoscută pentru apele sale cristaline și atmosfera liniștită.</li>
-<li><strong>Fava</strong> — O plajă nisipoasă cu ape puțin adânci, ideală pentru familiile cu copii mici.</li>
-<li><strong>Kavourotrypes</strong> — Renumită pentru peșterile sale exotice și apele turcoaz, această plajă oferă o experiență unică și pitorească de camping.</li>
-<li><strong>Trani Ammouda</strong> — Cunoscută pentru întinderea sa lungă de nisip auriu și apele calme, perfectă pentru o escapadă de camping liniștită.</li>
+<li>Locuri pentru corturi, rulote și autorulote, cu racord electric</li>
+<li>Dușuri și toalete, adesea un minimarket și o tavernă sau un beach bar</li>
+<li>Unele închiriază și bungalouri sau case mobile</li>
+</ul>
+<p>Prețurile depind de sezon, de loc și de numărul de persoane — verificați-le la fiecare camping.</p>
+<h2>Campingul sălbatic</h2>
+<p>Campingul sălbatic (corturi, autorulote sau rulote în afara campingurilor organizate) nu este permis în Grecia și se pot da amenzi, mai ales vara, când riscul de incendiu este ridicat. Alegeți un camping organizat.</p>
+<h2>Sfaturi</h2>
+<ul>
+<li>În iulie și august rezervați locul din timp, mai ales pentru autorulote.</li>
+<li>Cereți un loc la umbră — pădurea de pin face o mare diferență pe caniculă.</li>
+<li>Nu aprindeți niciodată foc în afara locurilor amenajate.</li>
 </ul>`,
-      sr: `<h2>Kampovanje u Halkidikiju</h2>
-<p>Halkidiki je poznat kao jedan od <strong>najboljih destinacija za kampovanje u Grčkoj</strong>, sa prelepim pejzažima gde se borove šume spuštaju do kristalno čistog mora. Tri poluostrva, Kassandra, Sitonija i Atos, nude jedinstvene lokacije za kampovanje, kombinujući prirodnu lepotu sa savremenim pogodnostima.</p>
-
-<h2>Najbolji Kampovi</h2>
-<h3>Armenistis Camping (Sitonija)</h3>
-<p>Često se smatra <strong>najpoznatijim kampom u Grčkoj</strong>, Armenistis se nalazi na obali Sitonije, u gustoj borovoj šumi koja grli plažu. Nudi razne pogodnosti kao što su supermarket, restorani, beach bar i vodeni sportovi, što ga čini idealnim za porodice i prijatelje. Cena: ~€20-35/noć za šator + 2 osobe.</p>
-
-<h3>Akti Oneirou (Sitonija)</h3>
-<p>Blizu sela Vourvourou, Akti Oneirou se nalazi u <strong>snolikom pejzažu</strong> sa bujnim šumama i tirkiznim vodama. Manji i tiši, idealan je za one koji traže mir i opuštanje. Cena: ~€15-25/noć.</p>
-
-<h3>Kampovanje Ouranoupoli</h3>
-<p>Blizu luke za Atos, Kampovanje Ouranoupoli je <strong>baza za istraživanje</strong> trećeg poluostrva. Ovde možete uživati u pogledu na Svetu Goru i istraživati okolne oblasti. Cena: ~€15-20/noć.</p>
-
-<h3>Kampovanje Sithonia Village</h3>
-<p>Blizu Neos Marmarasa, Kampovanje Sithonia Village je <strong>porodično</strong> i nudi pogodnosti kao što su bazen i igralište za male kamperiste. Idealno je za porodice koje žele da kombinuju kampovanje sa pogodnostima organizovanog prostora. Cena: ~€18-28/noć.</p>
-
-<h2>Cene i Šta je Uključeno</h2>
+      sr: `<h2>Kampovanje na Halkidikiju</h2>
+<p>Halkidiki je jedna od klasičnih destinacija za kampovanje u Grčkoj: borova šuma do mora, zaklonjeni zalivi i uređeni kampovi, mnogi tik uz plažu. Većina radi od kraja proleća do početka jeseni.</p>
+<h2>Gde kampovati</h2>
 <ul>
-<li>Osnovna cena: €15-30/noć (šator + 2 osobe)</li>
-<li>Struja: +€3-5</li>
-<li>Karavan/kamper: +€5-10</li>
-<li>Obično uključuju: tuševe, toalete, minimarket i Wi-Fi, a neki kampovi nude i dodatne sadržaje poput bazena i organizovanih aktivnosti za decu.</li>
+<li><strong>Sitonija:</strong> najviše kampova, mnogi u borovoj šumi uz more — na primer <strong>Armenistis</strong> kod Sartija na istočnoj obali i kampovi oko <strong>Kalamicija</strong> na jugu.</li>
+<li><strong>Kasandra:</strong> manje kampova, bliže prometnim letovalištima i njihovim uslugama.</li>
+<li><strong>Poluostrvo Atos:</strong> kampovi kod <strong>Uranupolisa</strong>, dobra baza za krstarenje oko Svete Gore i za Amuljani.</li>
 </ul>
-
-<h2>Divlje Kampovanje</h2>
-<p>Divlje kampovanje je <strong>tehnički ilegalno</strong> u Grčkoj, ali se često toleriše na udaljenijim plažama, posebno na <strong>južnoj Sitoniji</strong>. Važno je ne ostavljati smeće i poštovati prirodu, čuvajući okolinu čistom i netaknutom.</p>
-
-<h2>Najbolje Plaže za Kampovanje</h2>
+<h2>Šta kampovi obično nude</h2>
 <ul>
-<li><strong>Karydi</strong> — Okružena borovom šumom, poznata po kristalno čistim vodama i mirnom okruženju.</li>
-<li><strong>Fava</strong> — Peščana plaža sa plitkim vodama, idealna za porodice sa malom decom.</li>
-<li><strong>Kavourotrypes</strong> — Poznata po egzotičnim pećinama i tirkiznim vodama, nudi jedinstveno iskustvo kampovanja.</li>
-<li><strong>Trani Ammouda</strong> — Poznata po dugim peščanim plažama i mirnim vodama, savršena za miran beg u prirodu.</li>
+<li>Mesta za šatore, prikolice i kampere, s priključkom za struju</li>
+<li>Tuševe i toalete, često mini-market i tavernu ili bar na plaži</li>
+<li>Neki izdaju i bungalove ili mobilne kućice</li>
+</ul>
+<p>Cene zavise od sezone, mesta i broja osoba — proverite ih u svakom kampu.</p>
+<h2>Divlje kampovanje</h2>
+<p>Divlje kampovanje (šatori, kamperi ili prikolice van uređenih kampova) nije dozvoljeno u Grčkoj i moguće su kazne, naročito leti, kada je opasnost od požara velika. Izaberite uređeni kamp.</p>
+<h2>Saveti</h2>
+<ul>
+<li>U julu i avgustu rezervišite mesto unapred, naročito za kamper.</li>
+<li>Tražite mesto u hladu — borova šuma pravi veliku razliku po vrućini.</li>
+<li>Nikada ne palite vatru van za to predviđenih mesta.</li>
 </ul>`,
     },
   },
@@ -2908,8 +2763,8 @@ export const GUIDES: Guide[] = [
     metaTitle: { el: 'Χάρτης Χαλκιδικής — Γεωγραφία & Αποστάσεις', en: 'Halkidiki Map — Geography & Distances', de: 'Chalkidiki Karte — Geografie & Entfernungen', bg: 'Карта Халкидики — География и разстояния', ru: 'Карта Халкидики — География и расстояния', ro: 'Harta Halkidiki — Geografie și distanțe', sr: 'Mapa Halkidikija — Geografija i rastojanja' },
     metaDesc: { el: 'Χάρτης Χαλκιδικής: 3 χερσόνησοι (Κασσάνδρα, Σιθωνία, Άθως), αποστάσεις, χρόνοι οδήγησης, τι βρίσκεται πού. Πλήρης οδηγός προσανατολισμού.', en: 'Halkidiki map: 3 peninsulas (Kassandra, Sithonia, Athos), distances, driving times, what\'s where. Complete orientation guide.', de: 'Chalkidiki-Karte: 3 Halbinseln, Entfernungen, Fahrzeiten, was wo ist. Orientierungsführer.', bg: 'Карта на Халкидики: 3 полуострова, разстояния, време за шофиране, какво къде е.', ru: 'Карта Халкидиков: 3 полуострова, расстояния, время в пути, что где находится.', ro: 'Harta Halkidiki: 3 peninsule, distanțe, timpuri de condus, ce e unde.', sr: 'Mapa Halkidikija: 3 poluostrva, rastojanja, vremena vožnje, šta je gde.' },
     content: {
-      el: `<h2>Η Γεωγραφία της Χαλκιδικής</h2><p>Η Χαλκιδική μοιάζει με <strong>τρίαινα</strong> ή τρία δάχτυλα που εκτείνονται στο Αιγαίο Πέλαγος. Τρεις χερσόνησοι — Κασσάνδρα, Σιθωνία, Άθως — ξεκινούν από ένα κοινό σώμα γης βόρεια.</p><h2>Οι 3 Χερσόνησοι</h2><h3>Κασσάνδρα (1η — Δυτική)</h3><p>Η πιο κοντινή στη Θεσσαλονίκη (~1 ώρα). Η πιο <strong>τουριστικά ανεπτυγμένη</strong>: ξενοδοχεία, beach bars, νυχτερινή ζωή, εμπορικά. Κορυφαία χωριά: Καλλιθέα, Χανιώτη, Πευκοχώρι, Πολύχρονο, Άφυτος, Σίβηρη.</p><h3>Σιθωνία (2η — Μεσαία)</h3><p>Η πιο <strong>φυσική και ήρεμη</strong>. Πευκοδάση, κρυφοί κόλποι, εξωτικές παραλίες. Λιγότερα ξενοδοχεία, περισσότερες βίλες και campings. Κορυφαία μέρη: Νικήτη, Βουρβουρού, Νέος Μαρμαράς, Σάρτη, Τορώνη, Καβουρότρυπες.</p><h3>Άθως (3η — Ανατολική)</h3><p>Η πιο <strong>μυστηριώδης</strong>. Το νότιο τμήμα είναι το Άγιο Όρος (αυτόνομη μοναστική πολιτεία — <strong>μόνο για άνδρες</strong>, με ειδική άδεια). Η Ουρανούπολη είναι η πύλη εισόδου και τελευταίο προσβάσιμο σημείο.</p><h2>Αποστάσεις & Χρόνοι Οδήγησης</h2><table><tr><th>Από</th><th>Προς</th><th>Χλμ</th><th>Χρόνος</th></tr><tr><td>Θεσσαλονίκη (SKG)</td><td>Νέα Μουδανιά</td><td>60</td><td>0:45</td></tr><tr><td>Θεσσαλονίκη</td><td>Κασσάνδρα (κέντρο)</td><td>100</td><td>1:15</td></tr><tr><td>Θεσσαλονίκη</td><td>Σιθωνία (Νικήτη)</td><td>110</td><td>1:20</td></tr><tr><td>Θεσσαλονίκη</td><td>Ουρανούπολη</td><td>130</td><td>1:40</td></tr><tr><td>Κασσάνδρα (νότια)</td><td>Σιθωνία (νότια)</td><td>100</td><td>1:30</td></tr></table><h2>Πώς να Πλοηγηθείτε</h2><ul><li>Η <strong>Νέα Μουδανιά</strong> είναι ο κεντρικός κόμβος — από εκεί διακλαδώνεστε προς Κασσάνδρα ή Σιθωνία</li><li>Χρησιμοποιήστε <strong>Google Maps</strong> — λειτουργεί καλά στην περιοχή</li><li>Η Κασσάνδρα έχει κυκλικό δρόμο (μπορείτε να κάνετε τον γύρο)</li><li>Η Σιθωνία επίσης — αλλά ο νότιος δρόμος είναι πιο στενός</li><li>Ο δρόμος για Ουρανούπολη περνά μέσα από ορεινή Χαλκιδική (Αρναία, Σταγείρα)</li></ul><h2>Τι Βρίσκεται Πού</h2><ul><li><strong>Νυχτερινή ζωή:</strong> Κασσάνδρα (Καλλιθέα, Χανιώτη)</li><li><strong>Ήρεμες παραλίες:</strong> Σιθωνία (Καρύδι, Καβουρότρυπες)</li><li><strong>Πολιτισμός:</strong> Άφυτος, Αρναία, Παρθενώνας</li><li><strong>Πολυτέλεια:</strong> Sani Resort, Ikos (Κασσάνδρα)</li><li><strong>Camping:</strong> Σιθωνία (Αρμενιστής)</li><li><strong>Άγιο Όρος:</strong> Ουρανούπολη → καράβι</li></ul>`,
-      en: `<h2>Halkidiki Geography</h2><p>Halkidiki resembles a <strong>trident</strong> or three fingers extending into the Aegean Sea. Three peninsulas — Kassandra, Sithonia, Athos — branch out from a shared mainland body to the north.</p><h2>The 3 Peninsulas</h2><h3>Kassandra (1st — Western)</h3><p>Closest to Thessaloniki (~1 hour). The most <strong>tourist-developed</strong>: hotels, beach bars, nightlife, shopping. Key villages: Kallithea, Hanioti, Pefkochori, Polychrono, Afytos, Siviri.</p><h3>Sithonia (2nd — Middle)</h3><p>The most <strong>natural and tranquil</strong>. Pine forests, hidden coves, exotic beaches. Fewer hotels, more villas and campgrounds. Key spots: Nikiti, Vourvourou, Neos Marmaras, Sarti, Toroni, Kavourotrypes.</p><h3>Athos (3rd — Eastern)</h3><p>The most <strong>mysterious</strong>. The southern part is Mount Athos (autonomous monastic state — <strong>men only</strong>, special permit required). Ouranoupoli is the gateway and the last accessible point.</p><h2>Distances & Drive Times</h2><table><tr><th>From</th><th>To</th><th>Km</th><th>Time</th></tr><tr><td>Thessaloniki (SKG)</td><td>Nea Moudania</td><td>60</td><td>0:45</td></tr><tr><td>Thessaloniki</td><td>Kassandra (center)</td><td>100</td><td>1:15</td></tr><tr><td>Thessaloniki</td><td>Sithonia (Nikiti)</td><td>110</td><td>1:20</td></tr><tr><td>Thessaloniki</td><td>Ouranoupoli</td><td>130</td><td>1:40</td></tr><tr><td>Kassandra (south)</td><td>Sithonia (south)</td><td>100</td><td>1:30</td></tr></table><h2>How to Navigate</h2><ul><li><strong>Nea Moudania</strong> is the central hub — from there you branch to Kassandra or Sithonia</li><li>Use <strong>Google Maps</strong> — it works well in the area</li><li>Kassandra has a circular road (you can drive around the entire peninsula)</li><li>Sithonia too — but the southern road is narrower</li><li>The road to Ouranoupoli passes through mountain Halkidiki (Arnea, Stagira)</li></ul><h2>What's Where</h2><ul><li><strong>Nightlife:</strong> Kassandra (Kallithea, Hanioti)</li><li><strong>Quiet beaches:</strong> Sithonia (Karidi, Kavourotrypes)</li><li><strong>Culture:</strong> Afytos, Arnea, Parthenonas</li><li><strong>Luxury:</strong> Sani Resort, Ikos (Kassandra)</li><li><strong>Camping:</strong> Sithonia (Armenistis)</li><li><strong>Mount Athos:</strong> Ouranoupoli → boat</li></ul>`,
+      el: `<h2>Η Γεωγραφία της Χαλκιδικής</h2><p>Η Χαλκιδική μοιάζει με <strong>τρίαινα</strong> ή τρία δάχτυλα που εκτείνονται στο Αιγαίο Πέλαγος. Τρεις χερσόνησοι — Κασσάνδρα, Σιθωνία, Άθως — ξεκινούν από ένα κοινό σώμα γης βόρεια.</p><h2>Οι 3 Χερσόνησοι</h2><h3>Κασσάνδρα (1η — Δυτική)</h3><p>Η πιο κοντινή στη Θεσσαλονίκη (~1 ώρα). Η πιο <strong>τουριστικά ανεπτυγμένη</strong>: ξενοδοχεία, beach bars, νυχτερινή ζωή, εμπορικά. Κορυφαία χωριά: Καλλιθέα, Χανιώτη, Πευκοχώρι, Πολύχρονο, Άφυτος, Σίβηρη.</p><h3>Σιθωνία (2η — Μεσαία)</h3><p>Η πιο <strong>φυσική και ήρεμη</strong>. Πευκοδάση, κρυφοί κόλποι, εξωτικές παραλίες. Λιγότερα ξενοδοχεία, περισσότερες βίλες και campings. Κορυφαία μέρη: Νικήτη, Βουρβουρού, Νέος Μαρμαράς, Σάρτη, Τορώνη, Καβουρότρυπες.</p><h3>Άθως (3η — Ανατολική)</h3><p>Η πιο <strong>μυστηριώδης</strong>. Το νότιο τμήμα είναι το Άγιο Όρος (αυτόνομη μοναστική πολιτεία — <strong>μόνο για άνδρες</strong>, με ειδική άδεια). Η Ουρανούπολη είναι η πύλη εισόδου και τελευταίο προσβάσιμο σημείο.</p><h2>Αποστάσεις & Χρόνοι Οδήγησης</h2><table><tr><th>Από</th><th>Προς</th><th>Χλμ</th><th>Χρόνος</th></tr><tr><td>Θεσσαλονίκη (SKG)</td><td>Νέα Μουδανιά</td><td>60</td><td>0:45</td></tr><tr><td>Θεσσαλονίκη</td><td>Κασσάνδρα (κέντρο)</td><td>100</td><td>1:15</td></tr><tr><td>Θεσσαλονίκη</td><td>Σιθωνία (Νικήτη)</td><td>100</td><td>1:20</td></tr><tr><td>Θεσσαλονίκη</td><td>Ουρανούπολη</td><td>130</td><td>2:00</td></tr><tr><td>Κασσάνδρα (νότια)</td><td>Σιθωνία (νότια)</td><td>130</td><td>2:30</td></tr></table><h2>Πώς να Πλοηγηθείτε</h2><ul><li>Η <strong>Νέα Μουδανιά</strong> είναι ο κεντρικός κόμβος — από εκεί διακλαδώνεστε προς Κασσάνδρα ή Σιθωνία</li><li>Χρησιμοποιήστε <strong>Google Maps</strong> — λειτουργεί καλά στην περιοχή</li><li>Η Κασσάνδρα έχει κυκλικό δρόμο (μπορείτε να κάνετε τον γύρο)</li><li>Η Σιθωνία επίσης — αλλά ο νότιος δρόμος είναι πιο στενός</li><li>Ο δρόμος για Ουρανούπολη περνά μέσα από ορεινή Χαλκιδική (Αρναία, Σταγείρα)</li></ul><h2>Τι Βρίσκεται Πού</h2><ul><li><strong>Νυχτερινή ζωή:</strong> Κασσάνδρα (Καλλιθέα, Χανιώτη)</li><li><strong>Ήρεμες παραλίες:</strong> Σιθωνία (Καρύδι, Καβουρότρυπες)</li><li><strong>Πολιτισμός:</strong> Άφυτος, Αρναία, Παρθενώνας</li><li><strong>Πολυτέλεια:</strong> Sani Resort, Ikos)</li><li><strong>Camping:</strong> Σιθωνία (Αρμενιστής)</li><li><strong>Άγιο Όρος:</strong> Ουρανούπολη → καράβι</li></ul>`,
+      en: `<h2>Halkidiki Geography</h2><p>Halkidiki resembles a <strong>trident</strong> or three fingers extending into the Aegean Sea. Three peninsulas — Kassandra, Sithonia, Athos — branch out from a shared mainland body to the north.</p><h2>The 3 Peninsulas</h2><h3>Kassandra (1st — Western)</h3><p>Closest to Thessaloniki (~1 hour). The most <strong>tourist-developed</strong>: hotels, beach bars, nightlife, shopping. Key villages: Kallithea, Hanioti, Pefkochori, Polychrono, Afytos, Siviri.</p><h3>Sithonia (2nd — Middle)</h3><p>The most <strong>natural and tranquil</strong>. Pine forests, hidden coves, exotic beaches. Fewer hotels, more villas and campgrounds. Key spots: Nikiti, Vourvourou, Neos Marmaras, Sarti, Toroni, Kavourotrypes.</p><h3>Athos (3rd — Eastern)</h3><p>The most <strong>mysterious</strong>. The southern part is Mount Athos (autonomous monastic state — <strong>men only</strong>, special permit required). Ouranoupoli is the gateway and the last accessible point.</p><h2>Distances & Drive Times</h2><table><tr><th>From</th><th>To</th><th>Km</th><th>Time</th></tr><tr><td>Thessaloniki (SKG)</td><td>Nea Moudania</td><td>60</td><td>0:45</td></tr><tr><td>Thessaloniki</td><td>Kassandra (center)</td><td>100</td><td>1:15</td></tr><tr><td>Thessaloniki</td><td>Sithonia (Nikiti)</td><td>100</td><td>1:20</td></tr><tr><td>Thessaloniki</td><td>Ouranoupoli</td><td>130</td><td>2:00</td></tr><tr><td>Kassandra (south)</td><td>Sithonia (south)</td><td>130</td><td>2:30</td></tr></table><h2>How to Navigate</h2><ul><li><strong>Nea Moudania</strong> is the central hub — from there you branch to Kassandra or Sithonia</li><li>Use <strong>Google Maps</strong> — it works well in the area</li><li>Kassandra has a circular road (you can drive around the entire peninsula)</li><li>Sithonia too — but the southern road is narrower</li><li>The road to Ouranoupoli passes through mountain Halkidiki (Arnea, Stagira)</li></ul><h2>What's Where</h2><ul><li><strong>Nightlife:</strong> Kassandra (Kallithea, Hanioti)</li><li><strong>Quiet beaches:</strong> Sithonia (Karidi, Kavourotrypes)</li><li><strong>Culture:</strong> Afytos, Arnea, Parthenonas</li><li><strong>Luxury:</strong> Sani Resort, Ikos)</li><li><strong>Camping:</strong> Sithonia (Armenistis)</li><li><strong>Mount Athos:</strong> Ouranoupoli → boat</li></ul>`,
       de: `<h2>Die Geographie von Chalkidiki</h2>
 <p>Chalkidiki ähnelt einem <strong>Dreizack</strong> oder drei Fingern, die sich in die Ägäis erstrecken. Drei Halbinseln — Kassandra, Sithonia, Athos — verzweigen sich von einem gemeinsamen Festlandskörper im Norden.</p>
 <h2>Die 3 Halbinseln</h2>
@@ -2924,9 +2779,9 @@ export const GUIDES: Guide[] = [
 <tr><th>Von</th><th>Nach</th><th>Km</th><th>Zeit</th></tr>
 <tr><td>Thessaloniki (SKG)</td><td>Nea Moudania</td><td>60</td><td>0:45</td></tr>
 <tr><td>Thessaloniki</td><td>Kassandra (Zentrum)</td><td>100</td><td>1:15</td></tr>
-<tr><td>Thessaloniki</td><td>Sithonia (Nikiti)</td><td>110</td><td>1:20</td></tr>
-<tr><td>Thessaloniki</td><td>Ouranoupoli</td><td>130</td><td>1:40</td></tr>
-<tr><td>Kassandra (Süd)</td><td>Sithonia (Süd)</td><td>100</td><td>1:30</td></tr>
+<tr><td>Thessaloniki</td><td>Sithonia (Nikiti)</td><td>100</td><td>1:20</td></tr>
+<tr><td>Thessaloniki</td><td>Ouranoupoli</td><td>130</td><td>2:00</td></tr>
+<tr><td>Kassandra (Süd)</td><td>Sithonia (Süd)</td><td>130</td><td>2:30</td></tr>
 </table>
 <h2>Wie man navigiert</h2>
 <ul>
@@ -2941,7 +2796,7 @@ export const GUIDES: Guide[] = [
 <li><strong>Nachtleben:</strong> Kassandra (Kallithea, Hanioti)</li>
 <li><strong>Ruhige Strände:</strong> Sithonia (Karydi, Kavourotrypes)</li>
 <li><strong>Kultur:</strong> Afytos, Arnea, Parthenonas</li>
-<li><strong>Luxus:</strong> Sani Resort, Ikos (Kassandra)</li>
+<li><strong>Luxus:</strong> Sani Resort, Ikos)</li>
 <li><strong>Camping:</strong> Sithonia (Armenistis)</li>
 <li><strong>Heiliger Berg Athos:</strong> Ouranoupoli → Boot</li>
 </ul>`,
@@ -2959,9 +2814,9 @@ export const GUIDES: Guide[] = [
 <tr><th>От</th><th>До</th><th>Км</th><th>Време</th></tr>
 <tr><td>Солун (SKG)</td><td>Неа Мудания</td><td>60</td><td>0:45</td></tr>
 <tr><td>Солун</td><td>Касандра (център)</td><td>100</td><td>1:15</td></tr>
-<tr><td>Солун</td><td>Ситония (Никити)</td><td>110</td><td>1:20</td></tr>
-<tr><td>Солун</td><td>Урануполи</td><td>130</td><td>1:40</td></tr>
-<tr><td>Касандра (юг)</td><td>Ситония (юг)</td><td>100</td><td>1:30</td></tr>
+<tr><td>Солун</td><td>Ситония (Никити)</td><td>100</td><td>1:20</td></tr>
+<tr><td>Солун</td><td>Урануполи</td><td>130</td><td>2:00</td></tr>
+<tr><td>Касандра (юг)</td><td>Ситония (юг)</td><td>130</td><td>2:30</td></tr>
 </table>
 <h2>Как да се ориентирате</h2>
 <ul>
@@ -2976,7 +2831,7 @@ export const GUIDES: Guide[] = [
 <li><strong>Нощен живот:</strong> Касандра (Калитея, Ханиоти)</li>
 <li><strong>Спокойни плажове:</strong> Ситония (Кариди, Кавуротрипес)</li>
 <li><strong>Култура:</strong> Афитос, Арнеа, Партенонас</li>
-<li><strong>Лукс:</strong> Sani Resort, Ikos (Касандра)</li>
+<li><strong>Лукс:</strong> Sani Resort, Ikos)</li>
 <li><strong>Къмпинг:</strong> Ситония (Арменистис)</li>
 <li><strong>Света гора:</strong> Урануполи → лодка</li>
 </ul>`,
@@ -2994,9 +2849,9 @@ export const GUIDES: Guide[] = [
 <tr><th>От</th><th>До</th><th>Км</th><th>Время</th></tr>
 <tr><td>Салоники (SKG)</td><td>Неа Муданья</td><td>60</td><td>0:45</td></tr>
 <tr><td>Салоники</td><td>Касандра (центр)</td><td>100</td><td>1:15</td></tr>
-<tr><td>Салоники</td><td>Ситония (Никити)</td><td>110</td><td>1:20</td></tr>
-<tr><td>Салоники</td><td>Урануполи</td><td>130</td><td>1:40</td></tr>
-<tr><td>Касандра (юг)</td><td>Ситония (юг)</td><td>100</td><td>1:30</td></tr>
+<tr><td>Салоники</td><td>Ситония (Никити)</td><td>100</td><td>1:20</td></tr>
+<tr><td>Салоники</td><td>Урануполи</td><td>130</td><td>2:00</td></tr>
+<tr><td>Касандра (юг)</td><td>Ситония (юг)</td><td>130</td><td>2:30</td></tr>
 </table>
 <h2>Как ориентироваться</h2>
 <ul>
@@ -3011,7 +2866,7 @@ export const GUIDES: Guide[] = [
 <li><strong>Ночная жизнь:</strong> Касандра (Каллифея, Ханиоти)</li>
 <li><strong>Тихие пляжи:</strong> Ситония (Кариди, Кавуротрупес)</li>
 <li><strong>Культура:</strong> Афитос, Арнеа, Партенонас</li>
-<li><strong>Роскошь:</strong> Sani Resort, Ikos (Касандра)</li>
+<li><strong>Роскошь:</strong> Sani Resort, Ikos)</li>
 <li><strong>Кемпинг:</strong> Ситония (Арменистис)</li>
 <li><strong>Святая гора Афон:</strong> Урануполи → лодка</li>
 </ul>`,
@@ -3029,9 +2884,9 @@ export const GUIDES: Guide[] = [
 <tr><th>De la</th><th>La</th><th>Km</th><th>Timp</th></tr>
 <tr><td>Salonic (SKG)</td><td>Nea Moudania</td><td>60</td><td>0:45</td></tr>
 <tr><td>Salonic</td><td>Kassandra (centru)</td><td>100</td><td>1:15</td></tr>
-<tr><td>Salonic</td><td>Sithonia (Nikiti)</td><td>110</td><td>1:20</td></tr>
-<tr><td>Salonic</td><td>Ouranoupoli</td><td>130</td><td>1:40</td></tr>
-<tr><td>Kassandra (sud)</td><td>Sithonia (sud)</td><td>100</td><td>1:30</td></tr>
+<tr><td>Salonic</td><td>Sithonia (Nikiti)</td><td>100</td><td>1:20</td></tr>
+<tr><td>Salonic</td><td>Ouranoupoli</td><td>130</td><td>2:00</td></tr>
+<tr><td>Kassandra (sud)</td><td>Sithonia (sud)</td><td>130</td><td>2:30</td></tr>
 </table>
 <h2>Cum să Navigați</h2>
 <ul>
@@ -3046,7 +2901,7 @@ export const GUIDES: Guide[] = [
 <li><strong>Viață de noapte:</strong> Kassandra (Kallithea, Hanioti)</li>
 <li><strong>Plaje liniștite:</strong> Sithonia (Karydi, Kavourotrypes)</li>
 <li><strong>Cultură:</strong> Afytos, Arnea, Parthenonas</li>
-<li><strong>Lux:</strong> Sani Resort, Ikos (Kassandra)</li>
+<li><strong>Lux:</strong> Sani Resort, Ikos)</li>
 <li><strong>Camping:</strong> Sithonia (Armenistis)</li>
 <li><strong>Muntele Athos:</strong> Ouranoupoli → barcă</li>
 </ul>`,
@@ -3064,9 +2919,9 @@ export const GUIDES: Guide[] = [
 <tr><th>Od</th><th>Do</th><th>Km</th><th>Vreme</th></tr>
 <tr><td>Solun (SKG)</td><td>Nea Moudania</td><td>60</td><td>0:45</td></tr>
 <tr><td>Solun</td><td>Kassandra (centar)</td><td>100</td><td>1:15</td></tr>
-<tr><td>Solun</td><td>Sithonia (Nikiti)</td><td>110</td><td>1:20</td></tr>
-<tr><td>Solun</td><td>Ouranoupoli</td><td>130</td><td>1:40</td></tr>
-<tr><td>Kassandra (jug)</td><td>Sithonia (jug)</td><td>100</td><td>1:30</td></tr>
+<tr><td>Solun</td><td>Sithonia (Nikiti)</td><td>100</td><td>1:20</td></tr>
+<tr><td>Solun</td><td>Ouranoupoli</td><td>130</td><td>2:00</td></tr>
+<tr><td>Kassandra (jug)</td><td>Sithonia (jug)</td><td>130</td><td>2:30</td></tr>
 </table>
 <h2>Kako Se Kretati</h2>
 <ul>
@@ -3081,7 +2936,7 @@ export const GUIDES: Guide[] = [
 <li><strong>Noćni život:</strong> Kassandra (Kallithea, Hanioti)</li>
 <li><strong>Mirne plaže:</strong> Sithonia (Karydi, Kavourotrypes)</li>
 <li><strong>Kultura:</strong> Afytos, Arnea, Parthenonas</li>
-<li><strong>Luksuz:</strong> Sani Resort, Ikos (Kassandra)</li>
+<li><strong>Luksuz:</strong> Sani Resort, Ikos)</li>
 <li><strong>Kampovanje:</strong> Sithonia (Armenistis)</li>
 <li><strong>Sveta Gora:</strong> Ouranoupoli → brod</li>
 </ul>`,
@@ -3130,12 +2985,12 @@ export const GUIDES: Guide[] = [
     },
     content: {
       el: `<h2>Η Πράσινη Ελιά Χαλκιδικής ΠΟΠ</h2><p>Αν υπάρχει ένα προϊόν που ταυτίζεται με τον τόπο, είναι η <strong>Πράσινη Ελιά Χαλκιδικής</strong> — μια ποικιλία που καλλιεργείται σχεδόν αποκλειστικά εδώ και φέρει <strong>Προστατευόμενη Ονομασία Προέλευσης (ΠΟΠ)</strong>. Οι ντόπιοι τη λένε και <strong>«γαϊδουροελιά»</strong>, ακριβώς επειδή ο καρπός της είναι ασυνήθιστα μεγάλος: ζυγίζει <strong>5 έως 6 γραμμάρια</strong>, με κυλινδροκωνικό σχήμα και πολύ μεγάλη αναλογία σάρκας προς κουκούτσι.</p><p>Στο πιάτο ξεχωρίζει αμέσως: λαμπερό πρασινοκίτρινο χρώμα, λεπτό φρουτώδες άρωμα και γεύση <strong>ελαφρώς πικρή και πικάντικη</strong>, χωρίς την αίσθηση λιπαρότητας που έχουν άλλες επιτραπέζιες ελιές. Γι' αυτό σερβίρεται συνήθως σκέτη ή γεμιστή — με αμύγδαλο, πιπεριά ή τυρί — και όχι πολτοποιημένη.</p><h2>Ελαιόλαδο</h2><p>Η ίδια γη δίνει και εξαιρετικό παρθένο ελαιόλαδο. Τα πιο ενδιαφέροντα σημεία για επίσκεψη είναι τα παραδοσιακά <strong>ελαιοτριβεία</strong> της ενδοχώρας, γύρω από την <strong>Αρναία</strong> και την <strong>Ολυμπιάδα</strong>, όπου πολλά δέχονται επισκέπτες για ξενάγηση και γευσιγνωσία. Η πιο οικονομική και αυθεντική αγορά γίνεται απευθείας από τους <strong>αγροτικούς συνεταιρισμούς</strong> των χωριών.</p><h2>Μέλι: πευκόμελο και θυμαρίσιο</h2><p>Η Χαλκιδική είναι από τα σημαντικότερα κέντρα μελισσοκομίας της Ελλάδας, και η γεωγραφία της εξηγεί γιατί παράγει δύο πολύ διαφορετικά μέλια:</p><ul><li><strong>Πευκόμελο</strong> — από τα πυκνά πευκοδάση της <strong>Σιθωνίας</strong> και του <strong>Χολομώντα</strong>. Σκούρο, πυκνόρρευστο, με χαμηλή γλυκύτητα και έντονο ρετσινώδες άρωμα. Δεν κρυσταλλώνει εύκολα.</li><li><strong>Θυμαρίσιο</strong> — από τις ξερές, ηλιόλουστες πλαγιές της <strong>Κασσάνδρας</strong>. Ανοιχτόχρωμο, πιο γλυκό και έντονα αρωματικό.</li></ul><p>Στα ορεινά χωριά — <strong>Ταξιάρχης, Βάβδος, Αρναία, Παλαιοχώρι</strong> — θα βρείτε μελισσοκόμους που πουλούν απευθείας από το σπίτι ή το εργαστήριό τους.</p><h2>Θαλασσινά και τα μύδια του κόλπου</h2><p>Τα ήρεμα, ρηχά νερά του <strong>Θερμαϊκού</strong> και του <strong>Τορωναίου</strong> φιλοξενούν εκτεταμένες <strong>μυδοκαλλιέργειες</strong>. Το πιο γνωστό σημείο για να τα φάτε στην πηγή τους είναι η <strong>Νέα Γωνιά</strong>, κοντά στα Νέα Μουδανιά, όπου οι ταβέρνες του λιμανιού σερβίρουν μύδια αχνιστά, τηγανητά, σαγανάκι ή μυδοπίλαφο. Στον <strong>Όρμο Παναγίας</strong> και στο <strong>Πόρτο Κουφό</strong> — το μεγαλύτερο φυσικό λιμάνι της Ελλάδας — κυριαρχεί το φρέσκο ψάρι από τα καΐκια.</p><h2>Κρασί και επισκέψιμα οινοποιεία</h2><p>Η Χαλκιδική έχει σοβαρή οινική ταυτότητα, με δύο πολύ διαφορετικούς προορισμούς:</p><ul><li><strong>Κτήμα Πόρτο Καρράς</strong> (Σιθωνία) — εδώ βρίσκεται ο <strong>μεγαλύτερος βιολογικός αμπελώνας της Ελλάδας</strong> και ένας από τους μεγαλύτερους της Ευρώπης, σε έκταση περίπου 4.750 στρεμμάτων. Καλλιεργούνται ελληνικές ποικιλίες όπως <strong>Ασύρτικο, Αθήρι, Μαλαγουζιά, Ροδίτης</strong> και το ερυθρό <strong>Λημνιό</strong> — μία από τις αρχαιότερες ποικιλίες που αναφέρονται στην Ελλάδα — μαζί με διεθνείς όπως Cabernet Sauvignon, Syrah και Chardonnay.</li><li><strong>Κτήμα Claudia Papayianni</strong> (Αρναία) — μικρότερο, ορεινό κτήμα στην ενδοχώρα με σειρά λευκών και ερυθρών ετικετών, επισκέψιμο για γευσιγνωσία.</li></ul><p>Και στα δύο συνιστάται να κλείσετε ραντεβού πριν πάτε, ιδίως εκτός καλοκαιριού.</p><h2>Τσίπουρο</h2><p>Το <strong>τσίπουρο</strong> είναι το τοπικό απόσταγμα και σερβίρεται με μεζέδες — όχι μόνο του. Στα παραδοσιακά τσιπουράδικα κάθε γύρος συνοδεύεται από κάτι διαφορετικό: ελιές, τουρσί, τηγανητό τυρί, θαλασσινά. Πολλά νοικοκυριά της ενδοχώρας αποστάζουν ακόμη το δικό τους το φθινόπωρο, μετά τον τρύγο.</p><h2>Παραδοσιακά πιάτα</h2><ul><li><strong>Μύδια αχνιστά ή σαγανάκι</strong> — το σήμα κατατεθέν της βόρειας ακτής</li><li><strong>Κρέας στη σούβλα</strong> — κυρίως στα ορεινά χωριά και στα πανηγύρια</li><li><strong>Γίδα βραστή</strong> — παραδοσιακό πιάτο του Χολομώντα</li><li><strong>Ελιές γεμιστές</strong> με αμύγδαλο ή πιπεριά</li><li><strong>Φρέσκο ψάρι</strong> ψητό στα κάρβουνα, στα ψαροχώρια</li></ul><h2>Πού να αγοράσετε</h2><p>Οι <strong>λαϊκές αγορές</strong> γίνονται σε τακτική εβδομαδιαία βάση στα μεγαλύτερα χωριά και είναι το καλύτερο σημείο για ελιές, μέλι, τυριά και εποχικά φρούτα σε τιμές παραγωγού. Οι <strong>αγροτικοί συνεταιρισμοί</strong> και τα μοναστήρια — όπως το <strong>Ιερό Κοινόβιο Ευαγγελισμού στην Ορμύλια</strong>, γνωστό για το ελαιόλαδο, το μέλι και τα βότανά του — πουλούν επίσης απευθείας.</p><h2>Γαστρονομικό ημερολόγιο</h2><ul><li><strong>Άνοιξη</strong> — χόρτα, φρέσκα τυριά, αρνί του Πάσχα</li><li><strong>Καλοκαίρι</strong> — ψάρι και θαλασσινά, φρούτα, γιορτές φαγητού στα παραλιακά χωριά</li><li><strong>Φθινόπωρο</strong> — <strong>τρύγος</strong>, απόσταξη τσίπουρου και έναρξη της ελαιοσυλλογής</li><li><strong>Χειμώνας</strong> — νέο ελαιόλαδο, κρέας στη γάστρα, μέλι από την προηγούμενη σεζόν</li></ul><p>Αν θέλετε να συνδυάσετε γεύση με διαδρομή, η ενδοχώρα γύρω από την <strong>Αρναία</strong>, την <strong>Ορμύλια</strong> και τον <strong>Πολύγυρο</strong> προσφέρει την πυκνότερη συγκέντρωση παραγωγών σε μικρή απόσταση.</p>`,
-      en: `<h2>The Halkidiki Green Olive PDO</h2><p>If there is one product that is synonymous with the region, it is the <strong>Halkidiki Green Olive</strong> — a variety that is cultivated almost exclusively here and carries the <strong>Protected Designation of Origin (PDO)</strong>. The locals also call it <strong>“gaidouroelia”</strong>, precisely because its fruit is unusually large: weighing <strong>5 to 6 grams</strong>, with a cylindrical shape and a very high flesh-to-pit ratio.</p><p>On the plate, it stands out immediately: bright greenish-yellow color, delicate fruity aroma, and a <strong>slightly bitter and spicy</strong> taste, without the oily feel that other table olives have. That’s why it is usually served plain or stuffed — with almond, pepper, or cheese — and not mashed.</p><h2>Olive Oil</h2><p>The same land also produces excellent virgin olive oil. The most interesting places to visit are the traditional <strong>olive mills</strong> in the hinterland, around <strong>Arnea</strong> and <strong>Olympiada</strong>, where many welcome visitors for tours and tastings. The most economical and authentic purchase is made directly from the <strong>agricultural cooperatives</strong> of the villages.</p><h2>Honey: Pine and Thyme</h2><p>Halkidiki is one of the most important beekeeping centers in Greece, and its geography explains why it produces two very different honeys:</p><ul><li><strong>Pevkomelo</strong> — from the dense pine forests of <strong>Sithonia</strong> and <strong>Holomontas</strong>. Dark, thick-flowing, with low sweetness and a strong resinous aroma. It does not crystallize easily.</li><li><strong>Thyme honey</strong> — from the dry, sunny slopes of <strong>Kassandra</strong>. Light-colored, sweeter, and intensely aromatic.</li></ul><p>In the mountainous villages — <strong>Taxiarchis, Vavdos, Arnea, Palaiohori</strong> — you will find beekeepers selling directly from their homes or workshops.</p><h2>Seafood and Mussels of the Bay</h2><p>The calm, shallow waters of the <strong>Thermaikos</strong> and <strong>Toroneos</strong> host extensive <strong>mussel farms</strong>. The most famous spot to eat them fresh is <strong>Nea Gonia</strong>, near Nea Moudania, where the harbor taverns serve mussels steamed, fried, saganaki, or mussel pilaf. In <strong>Ormos Panagias</strong> and <strong>Porto Koufo</strong> — the largest natural harbor in Greece — fresh fish from the fishing boats dominates.</p><h2>Wine and Wineries You Can Visit</h2><p>Halkidiki has a serious wine identity, with two very different destinations:</p><ul><li><strong>Porto Carras Estate</strong> (Sithonia) — here is the <strong>largest organic vineyard in Greece</strong> and one of the largest in Europe, covering approximately 4,750 acres. Greek varieties such as <strong>Assyrtiko, Athiri, Malagouzia, Roditis</strong>, and the red <strong>Limnio</strong> — one of the oldest varieties mentioned in Greece — are cultivated alongside international varieties like Cabernet Sauvignon, Syrah, and Chardonnay.</li><li><strong>Claudia Papayianni Estate</strong> (Arnea) — a smaller, mountainous estate in the hinterland with a range of white and red labels, open for tastings.</li></ul><p>At both, it is recommended to make an appointment before you go, especially outside of summer.</p><h2>Tsipouro</h2><p><strong>Tsipouro</strong> is the local spirit and is served with meze — not just on its own. In traditional tsipouradika, each round is accompanied by something different: olives, pickles, fried cheese, seafood. Many households in the hinterland still distill their own in the autumn, after the harvest.</p><h2>Traditional Dishes</h2><ul><li><strong>Steamed or Saganaki Mussels</strong> — the signature dish of the northern coast</li><li><strong>Meat on the Spit</strong> — mainly in the mountainous villages and at festivals</li><li><strong>Boiled Goat</strong> — a traditional dish of Holomontas</li><li><strong>Stuffed Olives</strong> with almond or pepper</li><li><strong>Fresh Fish</strong> grilled over charcoal, in the fishing villages</li></ul><h2>Where to Buy</h2><p>The <strong>farmers' markets</strong> take place regularly on a weekly basis in the larger villages and are the best place for olives, honey, cheeses, and seasonal fruits at producer prices. The <strong>agricultural cooperatives</strong> and monasteries — such as the <strong>Holy Monastery of the Annunciation in Ormylia</strong>, known for its olive oil, honey, and herbs — also sell directly.</p><h2>Gastronomic Calendar</h2><ul><li><strong>Spring</strong> — greens, fresh cheeses, Easter lamb</li><li><strong>Summer</strong> — fish and seafood, fruits, food festivals in the coastal villages</li><li><strong>Autumn</strong> — <strong>harvest</strong>, distillation of tsipouro and the beginning of olive gathering</li><li><strong>Winter</strong> — new olive oil, meat in the casserole, honey from the previous season</li></ul><p>If you want to combine taste with a route, the hinterland around <strong>Arnea</strong>, <strong>Ormylia</strong>, and <strong>Polygyros</strong> offers the densest concentration of producers within a short distance.</p>`,
-      de: `<h2>Die Grüne Olive von Halkidiki g.U.</h2><p>Wenn es ein Produkt gibt, das mit der Region gleichzusetzen ist, dann ist es die <strong>Grüne Olive von Halkidiki</strong> — eine Sorte, die fast ausschließlich hier angebaut wird und die <strong>geschützte Ursprungsbezeichnung (g.U.)</strong> trägt. Die Einheimischen nennen sie auch <strong>„gaidouroelia”</strong>, genau weil ihre Frucht ungewöhnlich groß ist: sie wiegt <strong>5 bis 6 Gramm</strong>, hat eine zylindrische Form und ein sehr hohes Verhältnis von Fruchtfleisch zu Kern.</p><p>Auf dem Teller sticht sie sofort hervor: leuchtend grünlich-gelbe Farbe, zart-fruchtiges Aroma und ein <strong>leicht bitterer und würziger</strong> Geschmack, ohne das ölige Gefühl, das andere Tafeloliven haben. Deshalb wird sie normalerweise pur oder gefüllt — mit Mandeln, Paprika oder Käse — und nicht püriert serviert.</p><h2>Olivenöl</h2><p>Das gleiche Land produziert auch exzellentes natives Olivenöl. Die interessantesten Orte für einen Besuch sind die traditionellen <strong>Ölmühlen</strong> im Hinterland, rund um <strong>Arnea</strong> und <strong>Olympiada</strong>, wo viele Besucher für Führungen und Verkostungen willkommen heißen. Der wirtschaftlichste und authentischste Einkauf erfolgt direkt bei den <strong>Landwirtschaftlichen Genossenschaften</strong> der Dörfer.</p><h2>Honig: Kiefer und Thymian</h2><p>Halkidiki ist eines der wichtigsten Imkereizentren Griechenlands, und die Geografie erklärt, warum es zwei sehr unterschiedliche Honige produziert:</p><ul><li><strong>Pevkomelo</strong> — aus den dichten Kiefernwäldern von <strong>Sithonia</strong> und <strong>Holomontas</strong>. Dunkel, dickflüssig, mit geringer Süße und starkem harzigen Aroma. Es kristallisiert nicht leicht.</li><li><strong>Thymianhonig</strong> — von den trockenen, sonnigen Hängen von <strong>Kassandra</strong>. Hell, süßer und intensiv aromatisch.</li></ul><p>In den Bergdörfern — <strong>Taxiarchis, Vavdos, Arnea, Palaiohori</strong> — finden Sie Imker, die direkt von ihren Häusern oder Werkstätten verkaufen.</p><h2>Meeresfrüchte und Muscheln der Bucht</h2><p>Die ruhigen, flachen Gewässer des <strong>Thermaikos</strong> und des <strong>Toroneos</strong> beherbergen umfangreiche <strong>Muschelzuchten</strong>. Der bekannteste Ort, um sie frisch zu essen, ist <strong>Nea Gonia</strong>, in der Nähe von Nea Moudania, wo die Hafenrestaurants Muscheln dampfend, gebraten, als Saganaki oder Muschelpilaw servieren. In <strong>Ormos Panagias</strong> und <strong>Porto Koufo</strong> — dem größten Naturhafen Griechenlands — dominiert frischer Fisch von den Fischerbooten.</p><h2>Wein und Weingüter zum Besuchen</h2><p>Halkidiki hat eine ernsthafte Weinkultur, mit zwei sehr unterschiedlichen Zielen:</p><ul><li><strong>Weingut Porto Carras</strong> (Sithonia) — hier befindet sich der <strong>größte biologische Weinberg Griechenlands</strong> und einer der größten in Europa, mit einer Fläche von etwa 4.750 Hektar. Es werden griechische Sorten wie <strong>Assyrtiko, Athiri, Malagouzia, Roditis</strong> und der rote <strong>Limnio</strong> — eine der ältesten in Griechenland erwähnten Sorten — sowie internationale Sorten wie Cabernet Sauvignon, Syrah und Chardonnay angebaut.</li><li><strong>Weingut Claudia Papayianni</strong> (Arnea) — ein kleineres, bergiges Weingut im Hinterland mit einer Reihe von weißen und roten Etiketten, das für Verkostungen geöffnet ist.</li></ul><p>In beiden Fällen wird empfohlen, vor dem Besuch einen Termin zu vereinbaren, insbesondere außerhalb des Sommers.</p><h2>Tsipouro</h2><p><strong>Tsipouro</strong> ist der lokale Schnaps und wird mit Meze serviert — nicht nur allein. In traditionellen Tsipouradika wird jede Runde von etwas anderem begleitet: Oliven, eingelegtes Gemüse, gebratener Käse, Meeresfrüchte. Viele Haushalte im Hinterland destillieren im Herbst noch ihren eigenen nach der Ernte.</p><h2>Traditionelle Gerichte</h2><ul><li><strong>Dampfmuscheln oder Saganaki</strong> — das Markenzeichen der Nordküste</li><li><strong>Fleisch am Spieß</strong> — hauptsächlich in den Bergdörfern und bei Festen</li><li><strong>Gekochte Ziege</strong> — ein traditionelles Gericht aus Holomontas</li><li><strong>Gefüllte Oliven</strong> mit Mandeln oder Paprika</li><li><strong>Frischer Fisch</strong> vom Grill, in den Fischerdörfern</li></ul><h2>Wo man kaufen kann</h2><p>Die <strong>Bauernmärkte</strong> finden regelmäßig wöchentlich in den größeren Dörfern statt und sind der beste Ort für Oliven, Honig, Käse und saisonale Früchte zu Erzeugerpreisen. Die <strong>Landwirtschaftlichen Genossenschaften</strong> und Klöster — wie das <strong>Heilige Kloster der Verkündigung in Ormylia</strong>, bekannt für sein Olivenöl, seinen Honig und seine Kräuter — verkaufen ebenfalls direkt.</p><h2>Kulinarischer Kalender</h2><ul><li><strong>Frühling</strong> — Wildkräuter, frische Käsesorten, Osterlamm</li><li><strong>Sommer</strong> — Fisch und Meeresfrüchte, Früchte, Essensfeste in den Küstendörfern</li><li><strong>Herbst</strong> — <strong>Ernte</strong>, Destillation von Tsipouro und Beginn der Olivenernte</li><li><strong>Winter</strong> — neues Olivenöl, Fleisch aus dem Bräter, Honig aus der vorherigen Saison</li></ul><p>Wenn Sie Geschmack mit einer Route kombinieren möchten, bietet das Hinterland rund um <strong>Arnea</strong>, <strong>Ormylia</strong> und <strong>Polygyros</strong> die dichteste Konzentration von Produzenten auf kurzer Distanz.</p>`,
+      en: `<h2>The Halkidiki Green Olive PDO</h2><p>If there is one product that is synonymous with the region, it is the <strong>Halkidiki Green Olive</strong> — a variety that is cultivated almost exclusively here and carries the <strong>Protected Designation of Origin (PDO)</strong>. The locals also call it <strong>“gaidouroelia”</strong>, precisely because its fruit is unusually large: weighing <strong>5 to 6 grams</strong>, with a cylindrical shape and a very high flesh-to-pit ratio.</p><p>On the plate, it stands out immediately: bright greenish-yellow color, delicate fruity aroma, and a <strong>slightly bitter and spicy</strong> taste, without the oily feel that other table olives have. That’s why it is usually served plain or stuffed — with almond, pepper, or cheese — and not mashed.</p><h2>Olive Oil</h2><p>The same land also produces excellent virgin olive oil. The most interesting places to visit are the traditional <strong>olive mills</strong> in the hinterland, around <strong>Arnea</strong> and <strong>Olympiada</strong>, where many welcome visitors for tours and tastings. The most economical and authentic purchase is made directly from the <strong>agricultural cooperatives</strong> of the villages.</p><h2>Honey: Pine and Thyme</h2><p>Halkidiki is one of the most important beekeeping centers in Greece, and its geography explains why it produces two very different honeys:</p><ul><li><strong>Pevkomelo</strong> — from the dense pine forests of <strong>Sithonia</strong> and <strong>Holomontas</strong>. Dark, thick-flowing, with low sweetness and a strong resinous aroma. It does not crystallize easily.</li><li><strong>Thyme honey</strong> — from the dry, sunny slopes of <strong>Kassandra</strong>. Light-colored, sweeter, and intensely aromatic.</li></ul><p>In the mountainous villages — <strong>Taxiarchis, Vavdos, Arnea, Palaiohori</strong> — you will find beekeepers selling directly from their homes or workshops.</p><h2>Seafood and Mussels of the Bay</h2><p>The calm, shallow waters of the <strong>Thermaikos</strong> and <strong>Toroneos</strong> host extensive <strong>mussel farms</strong>. The most famous spot to eat them fresh is <strong>Nea Gonia</strong>, near Nea Moudania, where the harbor taverns serve mussels steamed, fried, saganaki, or mussel pilaf. In <strong>Ormos Panagias</strong> and <strong>Porto Koufo</strong> — the largest natural harbor in Greece — fresh fish from the fishing boats dominates.</p><h2>Wine and Wineries You Can Visit</h2><p>Halkidiki has a serious wine identity, with two very different destinations:</p><ul><li><strong>Porto Carras Estate</strong> (Sithonia) — here is the <strong>largest organic vineyard in Greece</strong> and one of the largest in Europe, covering approximately 475 hectares. Greek varieties such as <strong>Assyrtiko, Athiri, Malagouzia, Roditis</strong>, and the red <strong>Limnio</strong> — one of the oldest varieties mentioned in Greece — are cultivated alongside international varieties like Cabernet Sauvignon, Syrah, and Chardonnay.</li><li><strong>Claudia Papayianni Estate</strong> (Arnea) — a smaller, mountainous estate in the hinterland with a range of white and red labels, open for tastings.</li></ul><p>At both, it is recommended to make an appointment before you go, especially outside of summer.</p><h2>Tsipouro</h2><p><strong>Tsipouro</strong> is the local spirit and is served with meze — not just on its own. In traditional tsipouradika, each round is accompanied by something different: olives, pickles, fried cheese, seafood. Many households in the hinterland still distill their own in the autumn, after the harvest.</p><h2>Traditional Dishes</h2><ul><li><strong>Steamed or Saganaki Mussels</strong> — the signature dish of the northern coast</li><li><strong>Meat on the Spit</strong> — mainly in the mountainous villages and at festivals</li><li><strong>Boiled Goat</strong> — a traditional dish of Holomontas</li><li><strong>Stuffed Olives</strong> with almond or pepper</li><li><strong>Fresh Fish</strong> grilled over charcoal, in the fishing villages</li></ul><h2>Where to Buy</h2><p>The <strong>farmers' markets</strong> take place regularly on a weekly basis in the larger villages and are the best place for olives, honey, cheeses, and seasonal fruits at producer prices. The <strong>agricultural cooperatives</strong> and monasteries — such as the <strong>Holy Monastery of the Annunciation in Ormylia</strong>, known for its olive oil, honey, and herbs — also sell directly.</p><h2>Gastronomic Calendar</h2><ul><li><strong>Spring</strong> — greens, fresh cheeses, Easter lamb</li><li><strong>Summer</strong> — fish and seafood, fruits, food festivals in the coastal villages</li><li><strong>Autumn</strong> — <strong>harvest</strong>, distillation of tsipouro and the beginning of olive gathering</li><li><strong>Winter</strong> — new olive oil, meat in the casserole, honey from the previous season</li></ul><p>If you want to combine taste with a route, the hinterland around <strong>Arnea</strong>, <strong>Ormylia</strong>, and <strong>Polygyros</strong> offers the densest concentration of producers within a short distance.</p>`,
+      de: `<h2>Die Grüne Olive von Halkidiki g.U.</h2><p>Wenn es ein Produkt gibt, das mit der Region gleichzusetzen ist, dann ist es die <strong>Grüne Olive von Halkidiki</strong> — eine Sorte, die fast ausschließlich hier angebaut wird und die <strong>geschützte Ursprungsbezeichnung (g.U.)</strong> trägt. Die Einheimischen nennen sie auch <strong>„gaidouroelia”</strong>, genau weil ihre Frucht ungewöhnlich groß ist: sie wiegt <strong>5 bis 6 Gramm</strong>, hat eine zylindrische Form und ein sehr hohes Verhältnis von Fruchtfleisch zu Kern.</p><p>Auf dem Teller sticht sie sofort hervor: leuchtend grünlich-gelbe Farbe, zart-fruchtiges Aroma und ein <strong>leicht bitterer und würziger</strong> Geschmack, ohne das ölige Gefühl, das andere Tafeloliven haben. Deshalb wird sie normalerweise pur oder gefüllt — mit Mandeln, Paprika oder Käse — und nicht püriert serviert.</p><h2>Olivenöl</h2><p>Das gleiche Land produziert auch exzellentes natives Olivenöl. Die interessantesten Orte für einen Besuch sind die traditionellen <strong>Ölmühlen</strong> im Hinterland, rund um <strong>Arnea</strong> und <strong>Olympiada</strong>, wo viele Besucher für Führungen und Verkostungen willkommen heißen. Der wirtschaftlichste und authentischste Einkauf erfolgt direkt bei den <strong>Landwirtschaftlichen Genossenschaften</strong> der Dörfer.</p><h2>Honig: Kiefer und Thymian</h2><p>Halkidiki ist eines der wichtigsten Imkereizentren Griechenlands, und die Geografie erklärt, warum es zwei sehr unterschiedliche Honige produziert:</p><ul><li><strong>Pevkomelo</strong> — aus den dichten Kiefernwäldern von <strong>Sithonia</strong> und <strong>Holomontas</strong>. Dunkel, dickflüssig, mit geringer Süße und starkem harzigen Aroma. Es kristallisiert nicht leicht.</li><li><strong>Thymianhonig</strong> — von den trockenen, sonnigen Hängen von <strong>Kassandra</strong>. Hell, süßer und intensiv aromatisch.</li></ul><p>In den Bergdörfern — <strong>Taxiarchis, Vavdos, Arnea, Palaiohori</strong> — finden Sie Imker, die direkt von ihren Häusern oder Werkstätten verkaufen.</p><h2>Meeresfrüchte und Muscheln der Bucht</h2><p>Die ruhigen, flachen Gewässer des <strong>Thermaikos</strong> und des <strong>Toroneos</strong> beherbergen umfangreiche <strong>Muschelzuchten</strong>. Der bekannteste Ort, um sie frisch zu essen, ist <strong>Nea Gonia</strong>, in der Nähe von Nea Moudania, wo die Hafenrestaurants Muscheln dampfend, gebraten, als Saganaki oder Muschelpilaw servieren. In <strong>Ormos Panagias</strong> und <strong>Porto Koufo</strong> — dem größten Naturhafen Griechenlands — dominiert frischer Fisch von den Fischerbooten.</p><h2>Wein und Weingüter zum Besuchen</h2><p>Halkidiki hat eine ernsthafte Weinkultur, mit zwei sehr unterschiedlichen Zielen:</p><ul><li><strong>Weingut Porto Carras</strong> (Sithonia) — hier befindet sich der <strong>größte biologische Weinberg Griechenlands</strong> und einer der größten in Europa, mit einer Fläche von etwa 475 Hektar. Es werden griechische Sorten wie <strong>Assyrtiko, Athiri, Malagouzia, Roditis</strong> und der rote <strong>Limnio</strong> — eine der ältesten in Griechenland erwähnten Sorten — sowie internationale Sorten wie Cabernet Sauvignon, Syrah und Chardonnay angebaut.</li><li><strong>Weingut Claudia Papayianni</strong> (Arnea) — ein kleineres, bergiges Weingut im Hinterland mit einer Reihe von weißen und roten Etiketten, das für Verkostungen geöffnet ist.</li></ul><p>In beiden Fällen wird empfohlen, vor dem Besuch einen Termin zu vereinbaren, insbesondere außerhalb des Sommers.</p><h2>Tsipouro</h2><p><strong>Tsipouro</strong> ist der lokale Schnaps und wird mit Meze serviert — nicht nur allein. In traditionellen Tsipouradika wird jede Runde von etwas anderem begleitet: Oliven, eingelegtes Gemüse, gebratener Käse, Meeresfrüchte. Viele Haushalte im Hinterland destillieren im Herbst noch ihren eigenen nach der Ernte.</p><h2>Traditionelle Gerichte</h2><ul><li><strong>Dampfmuscheln oder Saganaki</strong> — das Markenzeichen der Nordküste</li><li><strong>Fleisch am Spieß</strong> — hauptsächlich in den Bergdörfern und bei Festen</li><li><strong>Gekochte Ziege</strong> — ein traditionelles Gericht aus Holomontas</li><li><strong>Gefüllte Oliven</strong> mit Mandeln oder Paprika</li><li><strong>Frischer Fisch</strong> vom Grill, in den Fischerdörfern</li></ul><h2>Wo man kaufen kann</h2><p>Die <strong>Bauernmärkte</strong> finden regelmäßig wöchentlich in den größeren Dörfern statt und sind der beste Ort für Oliven, Honig, Käse und saisonale Früchte zu Erzeugerpreisen. Die <strong>Landwirtschaftlichen Genossenschaften</strong> und Klöster — wie das <strong>Heilige Kloster der Verkündigung in Ormylia</strong>, bekannt für sein Olivenöl, seinen Honig und seine Kräuter — verkaufen ebenfalls direkt.</p><h2>Kulinarischer Kalender</h2><ul><li><strong>Frühling</strong> — Wildkräuter, frische Käsesorten, Osterlamm</li><li><strong>Sommer</strong> — Fisch und Meeresfrüchte, Früchte, Essensfeste in den Küstendörfern</li><li><strong>Herbst</strong> — <strong>Ernte</strong>, Destillation von Tsipouro und Beginn der Olivenernte</li><li><strong>Winter</strong> — neues Olivenöl, Fleisch aus dem Bräter, Honig aus der vorherigen Saison</li></ul><p>Wenn Sie Geschmack mit einer Route kombinieren möchten, bietet das Hinterland rund um <strong>Arnea</strong>, <strong>Ormylia</strong> und <strong>Polygyros</strong> die dichteste Konzentration von Produzenten auf kurzer Distanz.</p>`,
       bg: `<h2>Зелената маслина от Халкидики ЗНП</h2><p>Ако има един продукт, който е синоним на региона, това е <strong>Зелената маслина от Халкидики</strong> — сорт, който се отглежда почти изключително тук и носи <strong>Защитено наименование за произход (ЗНП)</strong>. Местните я наричат и <strong>„гаидуроелия”</strong>, точно защото плодовете й са необичайно големи: тежат <strong>5 до 6 грама</strong>, с цилиндрична форма и много високо съотношение на месо към костилка.</p><p>На чинията тя веднага изпъква: ярко зеленикаво-жълт цвят, деликатен плодово-цветен аромат и <strong>леко горчив и пикантен</strong> вкус, без масленото усещане, което имат другите маслини. Затова обикновено се сервира сама или пълнена — с бадем, пипер или сирене — а не намачкана.</p><h2>Зехтин</h2><p>Същата земя произвежда и отлично студено пресовано зехтин. Най-интересните места за посещение са традиционните <strong>маслобойни</strong> в вътрешността, около <strong>Арнаия</strong> и <strong>Олимпиада</strong>, където много от тях приемат посетители за обиколки и дегустации. Най-икономичната и автентична покупка се прави директно от <strong>земеделските кооперации</strong> на селата.</p><h2>Мед: борова и мащерка</h2><p>Халкидики е един от най-важните центрове на пчеларството в Гърция, а географията му обяснява защо произвежда два много различни меда:</p><ul><li><strong>Певкомело</strong> — от гъстите борова гори на <strong>Ситония</strong> и <strong>Холомонтас</strong>. Тъмен, гъст, с ниска сладост и силен смолист аромат. Не кристализира лесно.</li><li><strong>Мед от мащерка</strong> — от сухите, слънчеви склонове на <strong>Касандра</strong>. Светъл, по-сладък и интензивно ароматен.</li></ul><p>В планинските села — <strong>Таксиархис, Вавдос, Арнаия, Палеохори</strong> — ще намерите пчелари, които продават директно от домовете или работилниците си.</p><h2>Морски дарове и миди от залива</h2><p>Спокойните, плитки води на <strong>Термаликос</strong> и <strong>Торонеос</strong> приютяват обширни <strong>мидени ферми</strong>. Най-известното място да ги опитате на място е <strong>Нова Гония</strong>, близо до Нова Мудания, където ресторантите в пристанището сервират миди на пара, пържени, саганак или мидено пилаф. В <strong>Ормос Панагиас</strong> и <strong>Порто Куфо</strong> — най-голямото естествено пристанище в Гърция — доминира прясната риба от рибарските лодки.</p><h2>Вино и посещаеми изби</h2><p>Халкидики има сериозна винена идентичност, с две много различни дестинации:</p><ul><li><strong>Имение Порто Карас</strong> (Ситония) — тук се намира <strong>най-голямата биологична лоза в Гърция</strong> и една от най-големите в Европа, с площ от около 4,750 декара. Отглеждат се гръцки сортове като <strong>Асиртико, Атир, Малагузия, Родитис</strong> и червеното <strong>Лимнио</strong> — един от най-старите сортове, споменавани в Гърция — заедно с международни сортове като Каберне Совиньон, Сира и Шардоне.</li><li><strong>Имение Клаудия Папаяни</strong> (Арнаия) — по-малко, планинско имение в вътрешността с редица бели и червени етикети, отворено за дегустации.</li></ul><p>И в двете е препоръчително да запазите час преди да отидете, особено извън сезона.</p><h2>Ципуро</h2><p><strong>Ципуро</strong> е местният дестилат и се сервира с мезета — не само самостоятелно. В традиционните ципурадики всяко завъртане се придружава от нещо различно: маслини, туршия, пържено сирене, морски дарове. Много домакинства в вътрешността все още дестилират собственото си през есента, след реколтата.</p><h2>Традиционни ястия</h2><ul><li><strong>Миди на пара или саганак</strong> — запазената марка на северното крайбрежие</li><li><strong>Месо на шиш</strong> — основно в планинските села и на празници</li><li><strong>Варено козе месо</strong> — традиционно ястие от Холомонтас</li><li><strong>Пълнени маслини</strong> с бадем или пипер</li><li><strong>Прясна риба</strong> на скара, в рибарските села</li></ul><h2>Къде да купите</h2><p><strong>Фермерските пазари</strong> се провеждат редовно на седмична база в по-големите села и са най-доброто място за маслини, мед, сирена и сезонни плодове на цени на производител. <strong>Земеделските кооперации</strong> и манастири — като <strong>Светото манастирско братство на Благовещението в Ормиля</strong>, известно с маслиновото си масло, меда и билките си — също продават директно.</p><h2>Гастрономичен календар</h2><ul><li><strong>Пролет</strong> — зелени, пресни сирена, агне за Великден</li><li><strong>Лято</strong> — риба и морски дарове, плодове, фестивали на храната в крайбрежните села</li><li><strong>Есен</strong> — <strong>реколта</strong>, дестилация на ципуро и начало на събирането на маслини</li><li><strong>Зима</strong> — ново маслиново масло, месо в гювеч, мед от предишния сезон</li></ul><p>Ако искате да комбинирате вкус с маршрут, вътрешността около <strong>Арнаия</strong>, <strong>Ормиля</strong> и <strong>Полигирос</strong> предлага най-гъстата концентрация на производители на малко разстояние.</p>`,
-      ru: `<h2>Зеленая олива Халкидики ЗНМП</h2><p>Если есть продукт, который синонимичен этому региону, то это <strong>Зеленая олива Халкидики</strong> — сорт, который выращивается почти исключительно здесь и имеет <strong>защищённое наименование места происхождения (ЗНМП)</strong>. Местные жители также называют её <strong>«гайдуруэлия»</strong>, именно потому что её плоды необычно большие: весят <strong>5 до 6 граммов</strong>, имеют цилиндрическую форму и очень высокое соотношение мякоти к косточке.</p><p>На тарелке она сразу выделяется: ярко зелёно-жёлтый цвет, нежный фруктовый аромат и <strong>слегка горький и пряный</strong> вкус, без маслянистого ощущения, которое есть у других столовых оливок. Поэтому её обычно подают просто или фаршированной — с миндалём, перцем или сыром — а не пюре.</p><h2>Оливковое масло</h2><p>Та же земля также производит отличное оливковое масло первого отжима. Самые интересные места для посещения — это традиционные <strong>оливковые мельницы</strong> в глубинке, вокруг <strong>Арнеа</strong> и <strong>Олимпиады</strong>, где многие принимают посетителей для экскурсий и дегустаций. Самая экономичная и аутентичная покупка осуществляется напрямую у <strong>сельскохозяйственных кооперативов</strong> деревень.</p><h2>Мёд: сосновый и тимьяновый</h2><p>Халкидики — один из важнейших центров пчеловодства в Греции, и его география объясняет, почему он производит два очень разных мёда:</p><ul><li><strong>Певкомело</strong> — из густых сосновых лесов <strong>Ситонии</strong> и <strong>Холомонта</strong>. Тёмный, густой, с низкой сладостью и сильным смолистым ароматом. Он не кристаллизуется легко.</li><li><strong>Тимьяновый мёд</strong> — с сухих, солнечных склонов <strong>Кассандры</strong>. Светлый, более сладкий и интенсивно ароматный.</li></ul><p>В горных деревнях — <strong>Таксиархис, Вавдос, Арнеа, Палеохори</strong> — вы найдёте пчеловодов, которые продают напрямую из своих домов или мастерских.</p><h2>Морепродукты и мидии залива</h2><p>Спокойные, мелкие воды <strong>Термейкос</strong> и <strong>Торонейос</strong> являются домом для обширных <strong>мидийных ферм</strong>. Самое известное место, где можно попробовать их свежими, — это <strong>Новая Гония</strong>, недалеко от Новой Муданья, где таверны у порта подают мидии на пару, жареные, саганак или мидийный плов. В <strong>Ормос Панагиас</strong> и <strong>Порто Куфо</strong> — крупнейшей естественной гавани Греции — доминирует свежая рыба с рыбацких лодок.</p><h2>Вино и винодельни, открытые для посещения</h2><p>Халкидики имеет серьезную винную идентичность, с двумя очень разными направлениями:</p><ul><li><strong>Поместье Порто Карас</strong> (Ситония) — здесь находится <strong>самый крупный органический виноградник в Греции</strong> и один из крупнейших в Европе, площадью около 4,750 акров. Выращиваются греческие сорта, такие как <strong>Ассиртико, Афири, Малагузия, Родитис</strong> и красный <strong>Лимнио</strong> — один из самых старых сортов, упоминаемых в Греции — наряду с международными сортами, такими как Каберне Совиньон, Сира и Шардоне.</li><li><strong>Поместье Клаудия Папаяни</strong> (Арнеа) — меньшая, горная усадьба в глубинке с рядом белых и красных этикеток, открытая для дегустаций.</li></ul><p>В обоих случаях рекомендуется записаться на прием перед посещением, особенно вне сезона.</p><h2>Ципуро</h2><p><strong>Ципуро</strong> — это местный дистиллят и подается с мезе — не только отдельно. В традиционных ципурадиках каждый раунд сопровождается чем-то другим: оливками, маринованными овощами, жареным сыром, морепродуктами. Многие домохозяйства в глубинке до сих пор дистиллируют свой собственный осенью, после сбора урожая.</p><h2>Традиционные блюда</h2><ul><li><strong>Паровые мидии или саганак</strong> — визитная карточка северного побережья</li><li><strong>Мясо на вертеле</strong> — в основном в горных деревнях и на праздниках</li><li><strong>Варёная коза</strong> — традиционное блюдо Холомонта</li><li><strong>Фаршированные оливы</strong> с миндалем или перцем</li><li><strong>Свежая рыба</strong> на гриле, в рыбацких деревнях</li></ul><h2>Где купить</h2><p><strong>Фермерские рынки</strong> проводятся регулярно на еженедельной основе в больших деревнях и являются лучшим местом для оливок, меда, сыров и сезонных фруктов по ценам производителя. <strong>Сельскохозяйственные кооперативы</strong> и монастыри — такие как <strong>Святое монастырское братство Благовещения в Ормилии</strong>, известное своим оливковым маслом, медом и травами — также продают напрямую.</p><h2>Гастрономический календарь</h2><ul><li><strong>Весна</strong> — зелень, свежие сыры, пасхальный ягненок</li><li><strong>Лето</strong> — рыба и морепродукты, фрукты, фестивали еды в прибрежных деревнях</li><li><strong>Осень</strong> — <strong>урожай</strong>, дистилляция цыпуро и начало сбора оливок</li><li><strong>Зима</strong> — новое оливковое масло, мясо в горшке, мед с предыдущего сезона</li></ul><p>Если вы хотите совместить вкус с маршрутом, внутренние районы вокруг <strong>Арнеа</strong>, <strong>Ормилия</strong> и <strong>Полигирос</strong> предлагают самую плотную концентрацию производителей на небольшом расстоянии.</p>`,
-      ro: `<h2>Oliva Verde Halkidiki DOP</h2><p>Dacă există un produs care este sinonim cu regiunea, acesta este <strong>Oliva Verde Halkidiki</strong> — o varietate cultivată aproape exclusiv aici și care poartă <strong>Denumire de Origine Protejată (DOP)</strong>. Localnicii o numesc și <strong>„gaidouroelia”</strong>, tocmai pentru că fructul său este neobișnuit de mare: cântărește <strong>5 până la 6 grame</strong>, având o formă cilindrică și un raport foarte mare de pulpă la sâmbure.</p><p>Pe farfurie, se remarcă imediat: culoare verde-gălbuie strălucitoare, aromă fructată delicată și un gust <strong>ușor amar și picant</strong>, fără senzația de uleios pe care o au alte măsline de masă. De aceea, de obicei, se servește simplă sau umplută — cu migdale, ardei sau brânză — și nu zdrobită.</p><h2>Ulei de măsline</h2><p>Aceeași țară produce și ulei de măsline extravirgin excelent. Cele mai interesante locuri de vizitat sunt <strong>măcelăriile</strong> tradiționale din interior, în jurul <strong>Arnea</strong> și <strong>Olympiada</strong>, unde multe acceptă vizitatori pentru tururi și degustări. Cumpărarea cea mai economică și autentică se face direct de la <strong>cooperativa agricolă</strong> a satelor.</p><h2>Miere: pin și cimbru</h2><p>Halkidiki este unul dintre cele mai importante centre de apicultură din Grecia, iar geografia sa explică de ce produce două tipuri foarte diferite de miere:</p><ul><li><strong>Pevkomelo</strong> — din pădurile dese de pini ale <strong>Sithoniei</strong> și <strong>Holomontas</strong>. Întunecat, vâscos, cu o dulceață scăzută și un parfum puternic de rășină. Nu cristalizează ușor.</li><li><strong>Miere de cimbru</strong> — din pantele uscate și însorite ale <strong>Kassandra</strong>. Deschis la culoare, mai dulce și intens aromatic.</li></ul><p>În satele montane — <strong>Taxiarchis, Vavdos, Arnea, Palaiohori</strong> — veți găsi apicultori care vând direct din casele sau atelierele lor.</p><h2>Fructe de mare și midii din golf</h2><p>Apele calme și puțin adânci ale <strong>Thermaikos</strong> și <strong>Toroneos</strong> găzduiesc ferme extinse de <strong>midii</strong>. Cel mai cunoscut loc pentru a le gusta proaspete este <strong>Nea Gonia</strong>, aproape de Nea Moudania, unde tavernele din port servesc midii la abur, prăjite, saganaki sau pilaf de midii. În <strong>Ormos Panagias</strong> și <strong>Porto Koufo</strong> — cel mai mare port natural din Grecia — predomină peștele proaspăt din bărcile de pescuit.</p><h2>Vin și crame vizitabile</h2><p>Halkidiki are o identitate vinicolă serioasă, cu două destinații foarte diferite:</p><ul><li><strong>Crama Porto Carras</strong> (Sithonia) — aici se află <strong>cea mai mare podgorie organică din Grecia</strong> și una dintre cele mai mari din Europa, cu o suprafață de aproximativ 4.750 de acri. Se cultivă soiuri grecești precum <strong>Assyrtiko, Athiri, Malagouzia, Roditis</strong> și roșu <strong>Limnio</strong> — unul dintre cele mai vechi soiuri menționate în Grecia — alături de soiuri internaționale precum Cabernet Sauvignon, Syrah și Chardonnay.</li><li><strong>Crama Claudia Papayianni</strong> (Arnea) — o cramă mai mică, montană în interior, cu o gamă de etichete albe și roșii, deschisă pentru degustări.</li></ul><p>La ambele, se recomandă să faceți o programare înainte de a merge, în special în afara sezonului de vară.</p><h2>Tsipouro</h2><p><strong>Tsipouro</strong> este distilatul local și se servește cu meze — nu doar singur. În tavernele tradiționale de tsipouro, fiecare rundă este însoțită de ceva diferit: măsline, murături, brânză prăjită, fructe de mare. Multe gospodării din interiorul țării încă distilează propriul lor în toamnă, după recoltare.</p><h2>Preparatele tradiționale</h2><ul><li><strong>Midii la aburi sau saganaki</strong> — emblematic pentru țărmul de nord</li><li><strong>Carne la frigare</strong> — în principal în satele montane și la sărbători</li><li><strong>Capră fiartă</strong> — preparat tradițional din Holomontas</li><li><strong>Măsline umplute</strong> cu migdale sau ardei</li><li><strong>Pește proaspăt</strong> la grătar, în satele de pescari</li></ul><h2>Unde să cumpărați</h2><p><strong>Piața fermierilor</strong> se desfășoară regulat, săptămânal, în satele mai mari și este cel mai bun loc pentru măsline, miere, brânzeturi și fructe de sezon la prețuri de producător. <strong>Cooperativele agricole</strong> și mănăstirile — precum <strong>Întâmpinarea Mănăstirii din Ormylia</strong>, cunoscută pentru uleiul de măsline, mierea și ierburile sale — vând, de asemenea, direct.</p><h2>Calendar gastronomic</h2><ul><li><strong>Primăvara</strong> — verdețuri, brânzeturi proaspete, miel de Paște</li><li><strong>Vara</strong> — pește și fructe de mare, fructe, festivaluri culinare în satele de coastă</li><li><strong>Toamna</strong> — <strong>recolta</strong>, distilarea tsipouro și începutul strângerii măslinelor</li><li><strong>Iarna</strong> — ulei de măsline nou, carne la cuptor, miere din sezonul precedent</li></ul><p>Dacă doriți să combinați gustul cu un traseu, interiorul din jurul <strong>Arnea</strong>, <strong>Ormylia</strong> și <strong>Polygyros</strong> oferă cea mai densă concentrare de producători pe o distanță scurtă.</p>`,
-      sr: `<h2>Zelena maslina Halkidiki ZOP</h2><p>Ako postoji jedan proizvod koji je sinonim za region, to je <strong>Zelena maslina Halkidiki</strong> — sorta koja se uzgaja gotovo isključivo ovde i nosi <strong>Zaštićena oznaka porekla (ZOP)</strong>. Lokalci je nazivaju i <strong>„gaidouroelia”</strong>, upravo zato što su njeni plodovi neobično veliki: teže <strong>5 do 6 grama</strong>, sa cilindričnim oblikom i veoma visokim odnosom mesa prema koštici.</p><p>Na tanjiru se odmah ističe: sjajna zelenkasto-žuta boja, delikatna voćna aroma i <strong>blago gorkast i začinjen</strong> ukus, bez masnog osećaja koji imaju druge stolne masline. Zato se obično servira sama ili punjena — sa bademom, paprikom ili sirom — a ne pasirana.</p><h2>Maslinovo ulje</h2><p>Ista zemlja takođe proizvodi odlično ekstra devičansko maslinovo ulje. Najzanimljivija mesta za posetu su tradicionalne <strong>maslinare</strong> u unutrašnjosti, oko <strong>Arneje</strong> i <strong>Olimpijade</strong>, gde mnogi primaju posetioce na ture i degustacije. Najekonomičnija i autentična kupovina se vrši direktno od <strong>poljoprivrednih zadruga</strong> sela.</p><h2>Med: borov i timijan</h2><p>Halkidiki je jedan od najvažnijih centara pčelarstva u Grčkoj, a njegova geografija objašnjava zašto proizvodi dva vrlo različita meda:</p><ul><li><strong>Pevkomelo</strong> — iz gustih borovih šuma <strong>Sithonije</strong> i <strong>Holomontas</strong>. Tamno, gusto, sa niskom slatkoćom i jakim smolastim aromama. Ne kristalizuje se lako.</li><li><strong>Timijanov med</strong> — sa sušnih, sunčanih padina <strong>Kassandre</strong>. Svetle boje, slađi i intenzivno aromatičan.</li></ul><p>U planinskim selima — <strong>Taxiarchis, Vavdos, Arnea, Palaiohori</strong> — naći ćete pčelare koji prodaju direktno iz svojih kuća ili radionica.</p><h2>Morski plodovi i dagnje iz zaliva</h2><p>Mirne, plitke vode <strong>Thermaikos</strong> i <strong>Toroneos</strong> su dom za opsežne <strong>farme dagnji</strong>. Najpoznatije mesto da ih probate sveže je <strong>Nea Gonia</strong>, blizu Nea Moudania, gde taverni u luci serviraju dagnje na pari, pržene, saganaki ili dagnje pilaf. U <strong>Ormos Panagias</strong> i <strong>Porto Koufo</strong> — najvećoj prirodnoj luci u Grčkoj — dominira sveža riba iz ribarskih čamaca.</p><h2>Vino i vinarije koje možete posetiti</h2><p>Halkidiki ima ozbiljnu vinsku identitet, sa dve vrlo različite destinacije:</p><ul><li><strong>Imanje Porto Karas</strong> (Sithonia) — ovde se nalazi <strong>najveći organski vinograd u Grčkoj</strong> i jedan od najvećih u Evropi, sa površinom od oko 4.750 hektara. Gaje se grčke sorte poput <strong>Assyrtiko, Athiri, Malagouzia, Roditis</strong> i crvena <strong>Limnio</strong> — jedna od najstarijih sorti koje se pominju u Grčkoj — zajedno sa međunarodnim sortama poput Cabernet Sauvignon, Syrah i Chardonnay.</li><li><strong>Imanje Claudia Papayianni</strong> (Arnea) — manja, planinska vinarija u unutrašnjosti sa nizom belih i crvenih etiketa, otvorena za degustacije.</li></ul><p>U oba slučaja preporučuje se da rezervišete termin pre nego što odete, posebno van letnje sezone.</p><h2>Tsipouro</h2><p><strong>Tsipouro</strong> je lokalni destilat i služi se sa meze — ne samo sam. U tradicionalnim tsipouradika, svaka runda se prati nečim drugačijim: masline, turšija, prženi sir, morski plodovi. Mnoge domaćinstva u unutrašnjosti još uvek destiluju sopstveno u jesen, nakon berbe.</p><h2>Tradicionalna jela</h2><ul><li><strong>Parene dagnje ili saganaki</strong> — zaštitni znak severne obale</li><li><strong>Mesо na ražnju</strong> — uglavnom u planinskim selima i na proslavama</li><li><strong>Vrela koza</strong> — tradicionalno jelo iz Holomontasa</li><li><strong>Pune masline</strong> sa bademom ili paprikom</li><li><strong>Sveža riba</strong> pečena na roštilju, u ribarskim selima</li></ul><h2>Gde kupiti</h2><p><strong>Farmerske pijace</strong> se redovno održavaju na nedeljnom nivou u većim selima i najbolja su mesta za masline, med, sireve i sezonsko voće po proizvođačkim cenama. <strong>Poljoprivredne zadruge</strong> i manastiri — kao što je <strong>Sveto manastirsko bratstvo Blagovesti u Ormiliji</strong>, poznato po svom maslinovom ulju, medu i biljkama — takođe prodaju direktno.</p><h2>Gastronomski kalendar</h2><ul><li><strong proleće</strong> — zelje, sveži sirevi, uskršnje jagnje</li><li><strong>Letо</strong> — riba i morski plodovi, voće, festivali hrane u obalnim selima</li><li><strong>Jesen</strong> — <strong>berba</strong>, destilacija tsipoura i početak berbe maslina</li><li><strong>Zima</strong> — novo maslinovo ulje, meso u rerni, med iz prethodne sezone</li></ul><p>Ako želite da spojite ukus sa rutom, unutrašnjost oko <strong>Arneje</strong>, <strong>Ormije</strong> i <strong>Poligira</strong> nudi najgušću koncentraciju proizvođača na maloj udaljenosti.</p>`,
+      ru: `<h2>Зеленая олива Халкидики ЗНМП</h2><p>Если есть продукт, который синонимичен этому региону, то это <strong>Зеленая олива Халкидики</strong> — сорт, который выращивается почти исключительно здесь и имеет <strong>защищённое наименование места происхождения (ЗНМП)</strong>. Местные жители также называют её <strong>«гайдуруэлия»</strong>, именно потому что её плоды необычно большие: весят <strong>5 до 6 граммов</strong>, имеют цилиндрическую форму и очень высокое соотношение мякоти к косточке.</p><p>На тарелке она сразу выделяется: ярко зелёно-жёлтый цвет, нежный фруктовый аромат и <strong>слегка горький и пряный</strong> вкус, без маслянистого ощущения, которое есть у других столовых оливок. Поэтому её обычно подают просто или фаршированной — с миндалём, перцем или сыром — а не пюре.</p><h2>Оливковое масло</h2><p>Та же земля также производит отличное оливковое масло первого отжима. Самые интересные места для посещения — это традиционные <strong>оливковые мельницы</strong> в глубинке, вокруг <strong>Арнеа</strong> и <strong>Олимпиады</strong>, где многие принимают посетителей для экскурсий и дегустаций. Самая экономичная и аутентичная покупка осуществляется напрямую у <strong>сельскохозяйственных кооперативов</strong> деревень.</p><h2>Мёд: сосновый и тимьяновый</h2><p>Халкидики — один из важнейших центров пчеловодства в Греции, и его география объясняет, почему он производит два очень разных мёда:</p><ul><li><strong>Певкомело</strong> — из густых сосновых лесов <strong>Ситонии</strong> и <strong>Холомонта</strong>. Тёмный, густой, с низкой сладостью и сильным смолистым ароматом. Он не кристаллизуется легко.</li><li><strong>Тимьяновый мёд</strong> — с сухих, солнечных склонов <strong>Кассандры</strong>. Светлый, более сладкий и интенсивно ароматный.</li></ul><p>В горных деревнях — <strong>Таксиархис, Вавдос, Арнеа, Палеохори</strong> — вы найдёте пчеловодов, которые продают напрямую из своих домов или мастерских.</p><h2>Морепродукты и мидии залива</h2><p>Спокойные, мелкие воды <strong>Термейкос</strong> и <strong>Торонейос</strong> являются домом для обширных <strong>мидийных ферм</strong>. Самое известное место, где можно попробовать их свежими, — это <strong>Новая Гония</strong>, недалеко от Новой Муданья, где таверны у порта подают мидии на пару, жареные, саганак или мидийный плов. В <strong>Ормос Панагиас</strong> и <strong>Порто Куфо</strong> — крупнейшей естественной гавани Греции — доминирует свежая рыба с рыбацких лодок.</p><h2>Вино и винодельни, открытые для посещения</h2><p>Халкидики имеет серьезную винную идентичность, с двумя очень разными направлениями:</p><ul><li><strong>Поместье Порто Карас</strong> (Ситония) — здесь находится <strong>самый крупный органический виноградник в Греции</strong> и один из крупнейших в Европе, площадью около 475 гектаров. Выращиваются греческие сорта, такие как <strong>Ассиртико, Афири, Малагузия, Родитис</strong> и красный <strong>Лимнио</strong> — один из самых старых сортов, упоминаемых в Греции — наряду с международными сортами, такими как Каберне Совиньон, Сира и Шардоне.</li><li><strong>Поместье Клаудия Папаяни</strong> (Арнеа) — меньшая, горная усадьба в глубинке с рядом белых и красных этикеток, открытая для дегустаций.</li></ul><p>В обоих случаях рекомендуется записаться на прием перед посещением, особенно вне сезона.</p><h2>Ципуро</h2><p><strong>Ципуро</strong> — это местный дистиллят и подается с мезе — не только отдельно. В традиционных ципурадиках каждый раунд сопровождается чем-то другим: оливками, маринованными овощами, жареным сыром, морепродуктами. Многие домохозяйства в глубинке до сих пор дистиллируют свой собственный осенью, после сбора урожая.</p><h2>Традиционные блюда</h2><ul><li><strong>Паровые мидии или саганак</strong> — визитная карточка северного побережья</li><li><strong>Мясо на вертеле</strong> — в основном в горных деревнях и на праздниках</li><li><strong>Варёная коза</strong> — традиционное блюдо Холомонта</li><li><strong>Фаршированные оливы</strong> с миндалем или перцем</li><li><strong>Свежая рыба</strong> на гриле, в рыбацких деревнях</li></ul><h2>Где купить</h2><p><strong>Фермерские рынки</strong> проводятся регулярно на еженедельной основе в больших деревнях и являются лучшим местом для оливок, меда, сыров и сезонных фруктов по ценам производителя. <strong>Сельскохозяйственные кооперативы</strong> и монастыри — такие как <strong>Святое монастырское братство Благовещения в Ормилии</strong>, известное своим оливковым маслом, медом и травами — также продают напрямую.</p><h2>Гастрономический календарь</h2><ul><li><strong>Весна</strong> — зелень, свежие сыры, пасхальный ягненок</li><li><strong>Лето</strong> — рыба и морепродукты, фрукты, фестивали еды в прибрежных деревнях</li><li><strong>Осень</strong> — <strong>урожай</strong>, дистилляция цыпуро и начало сбора оливок</li><li><strong>Зима</strong> — новое оливковое масло, мясо в горшке, мед с предыдущего сезона</li></ul><p>Если вы хотите совместить вкус с маршрутом, внутренние районы вокруг <strong>Арнеа</strong>, <strong>Ормилия</strong> и <strong>Полигирос</strong> предлагают самую плотную концентрацию производителей на небольшом расстоянии.</p>`,
+      ro: `<h2>Oliva Verde Halkidiki DOP</h2><p>Dacă există un produs care este sinonim cu regiunea, acesta este <strong>Oliva Verde Halkidiki</strong> — o varietate cultivată aproape exclusiv aici și care poartă <strong>Denumire de Origine Protejată (DOP)</strong>. Localnicii o numesc și <strong>„gaidouroelia”</strong>, tocmai pentru că fructul său este neobișnuit de mare: cântărește <strong>5 până la 6 grame</strong>, având o formă cilindrică și un raport foarte mare de pulpă la sâmbure.</p><p>Pe farfurie, se remarcă imediat: culoare verde-gălbuie strălucitoare, aromă fructată delicată și un gust <strong>ușor amar și picant</strong>, fără senzația de uleios pe care o au alte măsline de masă. De aceea, de obicei, se servește simplă sau umplută — cu migdale, ardei sau brânză — și nu zdrobită.</p><h2>Ulei de măsline</h2><p>Aceeași țară produce și ulei de măsline extravirgin excelent. Cele mai interesante locuri de vizitat sunt <strong>măcelăriile</strong> tradiționale din interior, în jurul <strong>Arnea</strong> și <strong>Olympiada</strong>, unde multe acceptă vizitatori pentru tururi și degustări. Cumpărarea cea mai economică și autentică se face direct de la <strong>cooperativa agricolă</strong> a satelor.</p><h2>Miere: pin și cimbru</h2><p>Halkidiki este unul dintre cele mai importante centre de apicultură din Grecia, iar geografia sa explică de ce produce două tipuri foarte diferite de miere:</p><ul><li><strong>Pevkomelo</strong> — din pădurile dese de pini ale <strong>Sithoniei</strong> și <strong>Holomontas</strong>. Întunecat, vâscos, cu o dulceață scăzută și un parfum puternic de rășină. Nu cristalizează ușor.</li><li><strong>Miere de cimbru</strong> — din pantele uscate și însorite ale <strong>Kassandra</strong>. Deschis la culoare, mai dulce și intens aromatic.</li></ul><p>În satele montane — <strong>Taxiarchis, Vavdos, Arnea, Palaiohori</strong> — veți găsi apicultori care vând direct din casele sau atelierele lor.</p><h2>Fructe de mare și midii din golf</h2><p>Apele calme și puțin adânci ale <strong>Thermaikos</strong> și <strong>Toroneos</strong> găzduiesc ferme extinse de <strong>midii</strong>. Cel mai cunoscut loc pentru a le gusta proaspete este <strong>Nea Gonia</strong>, aproape de Nea Moudania, unde tavernele din port servesc midii la abur, prăjite, saganaki sau pilaf de midii. În <strong>Ormos Panagias</strong> și <strong>Porto Koufo</strong> — cel mai mare port natural din Grecia — predomină peștele proaspăt din bărcile de pescuit.</p><h2>Vin și crame vizitabile</h2><p>Halkidiki are o identitate vinicolă serioasă, cu două destinații foarte diferite:</p><ul><li><strong>Crama Porto Carras</strong> (Sithonia) — aici se află <strong>cea mai mare podgorie organică din Grecia</strong> și una dintre cele mai mari din Europa, cu o suprafață de aproximativ 475 de hectare. Se cultivă soiuri grecești precum <strong>Assyrtiko, Athiri, Malagouzia, Roditis</strong> și roșu <strong>Limnio</strong> — unul dintre cele mai vechi soiuri menționate în Grecia — alături de soiuri internaționale precum Cabernet Sauvignon, Syrah și Chardonnay.</li><li><strong>Crama Claudia Papayianni</strong> (Arnea) — o cramă mai mică, montană în interior, cu o gamă de etichete albe și roșii, deschisă pentru degustări.</li></ul><p>La ambele, se recomandă să faceți o programare înainte de a merge, în special în afara sezonului de vară.</p><h2>Tsipouro</h2><p><strong>Tsipouro</strong> este distilatul local și se servește cu meze — nu doar singur. În tavernele tradiționale de tsipouro, fiecare rundă este însoțită de ceva diferit: măsline, murături, brânză prăjită, fructe de mare. Multe gospodării din interiorul țării încă distilează propriul lor în toamnă, după recoltare.</p><h2>Preparatele tradiționale</h2><ul><li><strong>Midii la aburi sau saganaki</strong> — emblematic pentru țărmul de nord</li><li><strong>Carne la frigare</strong> — în principal în satele montane și la sărbători</li><li><strong>Capră fiartă</strong> — preparat tradițional din Holomontas</li><li><strong>Măsline umplute</strong> cu migdale sau ardei</li><li><strong>Pește proaspăt</strong> la grătar, în satele de pescari</li></ul><h2>Unde să cumpărați</h2><p><strong>Piața fermierilor</strong> se desfășoară regulat, săptămânal, în satele mai mari și este cel mai bun loc pentru măsline, miere, brânzeturi și fructe de sezon la prețuri de producător. <strong>Cooperativele agricole</strong> și mănăstirile — precum <strong>Întâmpinarea Mănăstirii din Ormylia</strong>, cunoscută pentru uleiul de măsline, mierea și ierburile sale — vând, de asemenea, direct.</p><h2>Calendar gastronomic</h2><ul><li><strong>Primăvara</strong> — verdețuri, brânzeturi proaspete, miel de Paște</li><li><strong>Vara</strong> — pește și fructe de mare, fructe, festivaluri culinare în satele de coastă</li><li><strong>Toamna</strong> — <strong>recolta</strong>, distilarea tsipouro și începutul strângerii măslinelor</li><li><strong>Iarna</strong> — ulei de măsline nou, carne la cuptor, miere din sezonul precedent</li></ul><p>Dacă doriți să combinați gustul cu un traseu, interiorul din jurul <strong>Arnea</strong>, <strong>Ormylia</strong> și <strong>Polygyros</strong> oferă cea mai densă concentrare de producători pe o distanță scurtă.</p>`,
+      sr: `<h2>Zelena maslina Halkidiki ZOP</h2><p>Ako postoji jedan proizvod koji je sinonim za region, to je <strong>Zelena maslina Halkidiki</strong> — sorta koja se uzgaja gotovo isključivo ovde i nosi <strong>Zaštićena oznaka porekla (ZOP)</strong>. Lokalci je nazivaju i <strong>„gaidouroelia”</strong>, upravo zato što su njeni plodovi neobično veliki: teže <strong>5 do 6 grama</strong>, sa cilindričnim oblikom i veoma visokim odnosom mesa prema koštici.</p><p>Na tanjiru se odmah ističe: sjajna zelenkasto-žuta boja, delikatna voćna aroma i <strong>blago gorkast i začinjen</strong> ukus, bez masnog osećaja koji imaju druge stolne masline. Zato se obično servira sama ili punjena — sa bademom, paprikom ili sirom — a ne pasirana.</p><h2>Maslinovo ulje</h2><p>Ista zemlja takođe proizvodi odlično ekstra devičansko maslinovo ulje. Najzanimljivija mesta za posetu su tradicionalne <strong>maslinare</strong> u unutrašnjosti, oko <strong>Arneje</strong> i <strong>Olimpijade</strong>, gde mnogi primaju posetioce na ture i degustacije. Najekonomičnija i autentična kupovina se vrši direktno od <strong>poljoprivrednih zadruga</strong> sela.</p><h2>Med: borov i timijan</h2><p>Halkidiki je jedan od najvažnijih centara pčelarstva u Grčkoj, a njegova geografija objašnjava zašto proizvodi dva vrlo različita meda:</p><ul><li><strong>Pevkomelo</strong> — iz gustih borovih šuma <strong>Sithonije</strong> i <strong>Holomontas</strong>. Tamno, gusto, sa niskom slatkoćom i jakim smolastim aromama. Ne kristalizuje se lako.</li><li><strong>Timijanov med</strong> — sa sušnih, sunčanih padina <strong>Kassandre</strong>. Svetle boje, slađi i intenzivno aromatičan.</li></ul><p>U planinskim selima — <strong>Taxiarchis, Vavdos, Arnea, Palaiohori</strong> — naći ćete pčelare koji prodaju direktno iz svojih kuća ili radionica.</p><h2>Morski plodovi i dagnje iz zaliva</h2><p>Mirne, plitke vode <strong>Thermaikos</strong> i <strong>Toroneos</strong> su dom za opsežne <strong>farme dagnji</strong>. Najpoznatije mesto da ih probate sveže je <strong>Nea Gonia</strong>, blizu Nea Moudania, gde taverni u luci serviraju dagnje na pari, pržene, saganaki ili dagnje pilaf. U <strong>Ormos Panagias</strong> i <strong>Porto Koufo</strong> — najvećoj prirodnoj luci u Grčkoj — dominira sveža riba iz ribarskih čamaca.</p><h2>Vino i vinarije koje možete posetiti</h2><p>Halkidiki ima ozbiljnu vinsku identitet, sa dve vrlo različite destinacije:</p><ul><li><strong>Imanje Porto Karas</strong> (Sithonia) — ovde se nalazi <strong>najveći organski vinograd u Grčkoj</strong> i jedan od najvećih u Evropi, sa površinom od oko 475 hektara. Gaje se grčke sorte poput <strong>Assyrtiko, Athiri, Malagouzia, Roditis</strong> i crvena <strong>Limnio</strong> — jedna od najstarijih sorti koje se pominju u Grčkoj — zajedno sa međunarodnim sortama poput Cabernet Sauvignon, Syrah i Chardonnay.</li><li><strong>Imanje Claudia Papayianni</strong> (Arnea) — manja, planinska vinarija u unutrašnjosti sa nizom belih i crvenih etiketa, otvorena za degustacije.</li></ul><p>U oba slučaja preporučuje se da rezervišete termin pre nego što odete, posebno van letnje sezone.</p><h2>Tsipouro</h2><p><strong>Tsipouro</strong> je lokalni destilat i služi se sa meze — ne samo sam. U tradicionalnim tsipouradika, svaka runda se prati nečim drugačijim: masline, turšija, prženi sir, morski plodovi. Mnoge domaćinstva u unutrašnjosti još uvek destiluju sopstveno u jesen, nakon berbe.</p><h2>Tradicionalna jela</h2><ul><li><strong>Parene dagnje ili saganaki</strong> — zaštitni znak severne obale</li><li><strong>Mesо na ražnju</strong> — uglavnom u planinskim selima i na proslavama</li><li><strong>Vrela koza</strong> — tradicionalno jelo iz Holomontasa</li><li><strong>Pune masline</strong> sa bademom ili paprikom</li><li><strong>Sveža riba</strong> pečena na roštilju, u ribarskim selima</li></ul><h2>Gde kupiti</h2><p><strong>Farmerske pijace</strong> se redovno održavaju na nedeljnom nivou u većim selima i najbolja su mesta za masline, med, sireve i sezonsko voće po proizvođačkim cenama. <strong>Poljoprivredne zadruge</strong> i manastiri — kao što je <strong>Sveto manastirsko bratstvo Blagovesti u Ormiliji</strong>, poznato po svom maslinovom ulju, medu i biljkama — takođe prodaju direktno.</p><h2>Gastronomski kalendar</h2><ul><li><strong proleće</strong> — zelje, sveži sirevi, uskršnje jagnje</li><li><strong>Letо</strong> — riba i morski plodovi, voće, festivali hrane u obalnim selima</li><li><strong>Jesen</strong> — <strong>berba</strong>, destilacija tsipoura i početak berbe maslina</li><li><strong>Zima</strong> — novo maslinovo ulje, meso u rerni, med iz prethodne sezone</li></ul><p>Ako želite da spojite ukus sa rutom, unutrašnjost oko <strong>Arneje</strong>, <strong>Ormije</strong> i <strong>Poligira</strong> nudi najgušću koncentraciju proizvođača na maloj udaljenosti.</p>`,
     },
   },
   // ─── 2. AMMOULIANI ISLAND ───
@@ -3181,9 +3036,9 @@ export const GUIDES: Guide[] = [
     },
     content: {
       el: `<h2>Πώς Φτάνετε</h2>
-<p>Το φέρι αναχωρεί από τον <strong>Τρυπητή</strong>, που βρίσκεται μόλις 10 χιλιόμετρα νότια της Ουρανούπολης, κάθε 30-60 λεπτά κατά τη διάρκεια του καλοκαιριού. Η διαδρομή είναι σύντομη, διαρκεί μόλις <strong>15 λεπτά</strong> και το κόστος είναι περίπου <strong>€3 ανά άτομο</strong>, ενώ για το αυτοκίνητο κυμαίνεται μεταξύ €12-15. Η εμπειρία της διαδρομής με το φέρι είναι μοναδική, καθώς προσφέρει υπέροχη θέα προς τα καταγάλανα νερά του Αιγαίου.</p>
+<p>Το φέρι για την Αμμουλιανή αναχωρεί από τον <strong>Τρυπητή</strong>, περίπου 14 χιλιόμετρα οδικώς από την Ουρανούπολη. Τα δρομολόγια είναι συχνά, ειδικά το καλοκαίρι, και η διαδρομή διαρκεί περίπου <strong>15 λεπτά</strong>. Μεταφέρονται και αυτοκίνητα· τα τρέχοντα δρομολόγια και τις τιμές θα τα βρείτε στο λιμάνι.</p>
 <ul>
-  <li>Πρώτο φέρι: ~07:00 — Τελευταίο: ~23:00 (καλοκαίρι)</li>
+  
   <li>Εκτός σεζόν: κάθε 1-2 ώρες, με λιγότερη κίνηση και πιο ήρεμη ατμόσφαιρα</li>
   <li>Δεν χρειάζεστε αυτοκίνητο — το νησί είναι μικρό (4,5 km²) και μπορείτε να το εξερευνήσετε με τα πόδια ή να νοικιάσετε ποδήλατο</li>
 </ul>
@@ -3208,9 +3063,9 @@ export const GUIDES: Guide[] = [
 <h2>Φαγητό & Ταβέρνες</h2>
 <p>Το μικρό χωριό της Αμμουλιανής διαθέτει εξαιρετικές ψαροταβέρνες, όπου μπορείτε να απολαύσετε φρέσκο ψάρι, χταπόδι στα κάρβουνα και τοπικό κρασί. Οι τιμές είναι λογικές, με ένα γεύμα ψαριού να κοστίζει μεταξύ €12-18 ανά άτομο. Οι ταβέρνες προσφέρουν επίσης παραδοσιακά ελληνικά πιάτα, όπως <em>souvlaki</em> και <em>kokoretsi</em>. Στο χωριό θα βρείτε επίσης μίνι μάρκετ για τα βασικά, φούρνο με φρέσκο <em>tsoureki</em>, και καφετέριες για να απολαύσετε τον καφέ σας με θέα στη θάλασσα.</p>`,
       en: `<h2>How to Get There</h2>
-<p>Reaching the serene island of Ammouliani is both convenient and picturesque. The ferry service, which operates from <strong>Tripiti</strong>, located just 10 kilometers south of the charming town of Ouranoupoli, provides frequent crossings especially during the bustling summer months. With departures every 30 to 60 minutes, you can enjoy a swift and scenic 15-minute journey across the azure waters. The cost is approximately <strong>€3 per person</strong>, while those traveling with a car can expect to pay between <strong>€12 and €15</strong>.</p>
+<p>The ferry to Ammouliani leaves from <strong>Tripiti</strong>, about 14 km by road from Ouranoupoli. Crossings are frequent, especially in summer, and the trip takes about <strong>15 minutes</strong>. Cars are carried too; check the current timetable and fares at the port.</p>
 <ul>
-  <li>The first ferry sets sail around 07:00, with the last departure at approximately 23:00 during the summer season, ensuring ample travel flexibility.</li>
+  
   <li>In the off-season, ferries run every 1 to 2 hours, maintaining a reliable connection to the island.</li>
   <li>While a car is not necessary due to the island's compact size of 4.5 km², visitors can explore on foot or opt to rent a bike for a leisurely ride.</li>
 </ul>
@@ -3234,9 +3089,9 @@ export const GUIDES: Guide[] = [
 <h2>Eating & Drinking</h2>
 <p>Ammouliani's quaint village is a haven for food lovers, boasting excellent fish tavernas that line the waterfront. Here, you can savor fresh grilled fish, succulent charcoal-grilled octopus, and enjoy a glass of local wine. Prices are reasonable, with a delightful fish meal costing between €12 and €18 per person. Additionally, the village caters to everyday needs with several mini-markets, a bakery offering freshly baked goods, and a couple of cozy cafés perfect for a leisurely coffee break.</p>`,
       de: `<h2>Wie Sie Dorthin Gelangen</h2>
-<p>Die Überfahrt zur idyllischen Insel Ammouliani ist sowohl bequem als auch malerisch. Die Fähre fährt von <strong>Tripiti</strong> ab, das nur 10 Kilometer südlich der charmanten Stadt Ouranoupoli liegt. Besonders in den belebten Sommermonaten gibt es häufige Überfahrten. Mit Abfahrten alle 30 bis 60 Minuten genießen Sie eine schnelle und landschaftlich reizvolle 15-minütige Fahrt über das azurblaue Wasser. Die Kosten betragen ungefähr <strong>€3 pro Person</strong>, während Reisende mit Auto zwischen <strong>€12 und €15</strong> zahlen können.</p>
+<p>Die Fähre nach Ammouliani legt in <strong>Tripiti</strong> ab, etwa 14 Straßenkilometer von Ouranoupoli entfernt. Die Überfahrten sind häufig, besonders im Sommer, und dauern etwa <strong>15 Minuten</strong>. Autos werden mitgenommen; aktuelle Fahrpläne und Preise erfahren Sie am Hafen.</p>
 <ul>
-  <li>Die erste Fähre legt gegen 07:00 Uhr ab, die letzte Abfahrt ist etwa um 23:00 Uhr während der Sommersaison, was reichlich Flexibilität bietet.</li>
+  
   <li>In der Nebensaison verkehren die Fähren alle 1 bis 2 Stunden, um eine zuverlässige Verbindung zur Insel aufrechtzuerhalten.</li>
   <li>Ein Auto ist aufgrund der kompakten Größe der Insel von 4,5 km² nicht notwendig. Besucher können die Insel zu Fuß erkunden oder ein Fahrrad für eine gemütliche Fahrt mieten.</li>
 </ul>
@@ -3261,9 +3116,9 @@ export const GUIDES: Guide[] = [
 <h2>Essen & Trinken</h2>
 <p>Das malerische Dorf Ammouliani ist ein Paradies für Feinschmecker und bietet hervorragende Fisch-Tavernen entlang der Uferpromenade. Hier können Sie frischen gegrillten Fisch, saftigen, über Holzkohle gegrillten Oktopus und ein Glas lokalen Wein genießen. Die Preise sind angemessen, mit einem köstlichen Fischgericht, das zwischen €12 und €18 pro Person kostet. Darüber hinaus bietet das Dorf für den täglichen Bedarf mehrere Mini-Märkte, eine Bäckerei mit frisch gebackenen Leckereien und ein paar gemütliche Cafés, die sich perfekt für eine entspannte Kaffeepause eignen.</p>`,
       bg: `<h2>Как да стигнете</h2>
-<p>Фериботът тръгва от <strong>Трипити</strong>, който се намира само на 10 километра южно от Урануполи, на всеки 30-60 минути през лятото. Пътуването е кратко и трае само <strong>15 минути</strong>, а цената е около <strong>€3 на човек</strong>, докато за автомобил варира между €12-15. Пътуването с ферибота е уникално изживяване, тъй като предлага невероятна гледка към сините води на Егейско море.</p>
+<p>Фериботът за Амулиани тръгва от <strong>Трипити</strong>, на около 14 км по пътя от Уранополи. Курсовете са чести, особено през лятото, а пътуването трае около <strong>15 минути</strong>. Превозват се и автомобили; актуалното разписание и цените можете да проверите на пристанището.</p>
 <ul>
-  <li>Първи ферибот: ~07:00 — Последен: ~23:00 (лято)</li>
+  
   <li>Извън сезона: на всеки 1-2 часа, с по-малко движение и по-спокойна атмосфера</li>
   <li>Не ви е необходим автомобил — островът е малък (4,5 км²) и можете да го разгледате пеша или да наемете велосипед</li>
 </ul>
@@ -3288,9 +3143,9 @@ export const GUIDES: Guide[] = [
 <h2>Храна и таверни</h2>
 <p>Малкото село на Амулиани разполага с отлични рибни таверни, където можете да се насладите на прясна риба, октопод на скара и местно вино. Цените са разумни, като ястие с риба струва между €12-18 на човек. Таверните предлагат също традиционни гръцки ястия, като <em>souvlaki</em> и <em>kokoretsi</em>. В селото ще намерите също мини маркет за основни нужди, пекарна с прясно <em>tsoureki</em> и кафенета, където да се насладите на кафе с изглед към морето.</p>`,
       ru: `<h2>Как добраться</h2>
-<p>Добраться до живописного острова Аммулиани легко и приятно. Паром отправляется из <strong>Трипити</strong>, который расположен всего в 10 километрах к югу от очаровательного городка Урануполи. Летом паромы курсируют каждые 30-60 минут, предлагая короткое и живописное путешествие длительностью всего <strong>15 минут</strong>. Стоимость составляет примерно <strong>€3 с человека</strong>, а для тех, кто путешествует на автомобиле, цена варьируется от <strong>€12 до €15</strong>.</p>
+<p>Паром на Аммулиани отправляется из <strong>Трипити</strong>, примерно в 14 км по дороге от Уранополиса. Рейсы частые, особенно летом, переправа занимает около <strong>15 минут</strong>. Перевозят и автомобили; актуальное расписание и цены уточняйте в порту.</p>
 <ul>
-  <li>Первый паром отправляется около 07:00, а последний — примерно в 23:00 в летний сезон, обеспечивая гибкость в планировании поездки.</li>
+  
   <li>В межсезонье паромы ходят каждые 1-2 часа, сохраняя надежное сообщение с островом.</li>
   <li>Автомобиль не требуется из-за компактных размеров острова (4,5 км²), посетители могут исследовать его пешком или взять напрокат велосипед для неспешной прогулки.</li>
 </ul>
@@ -3315,9 +3170,9 @@ export const GUIDES: Guide[] = [
 <h2>Еда и таверны</h2>
 <p>Маленькая деревня Аммулиани — это рай для гурманов, предлагающий отличные рыбные таверны, расположенные вдоль набережной. Здесь вы можете насладиться свежей рыбой на гриле, сочным осьминогом на углях и бокалом местного вина. Цены разумные, и вкусный рыбный обед стоит от €12 до €18 с человека. В деревне также есть мини-маркеты для повседневных нужд, пекарня с свежими выпечками и несколько уютных кафе, идеально подходящих для неспешного кофе с видом на море.</p>`,
       ro: `<h2>Cum Ajungi Acolo</h2>
-<p>Ajungerea pe insula liniștită Ammouliani este atât convenabilă, cât și pitorească. Serviciul de feribot, care operează din <strong>Tripiti</strong>, situat la doar 10 kilometri sud de fermecătorul oraș Ouranoupoli, oferă traversări frecvente, mai ales în lunile aglomerate de vară. Cu plecări la fiecare 30 până la 60 de minute, poți să te bucuri de o călătorie rapidă și scenică de 15 minute peste apele azurii. Costul este de aproximativ <strong>€3 de persoană</strong>, în timp ce cei care călătoresc cu mașina pot aștepta să plătească între <strong>€12 și €15</strong>.</p>
+<p>Feribotul spre Ammouliani pleacă din <strong>Tripiti</strong>, la aproximativ 14 km pe șosea de Ouranoupoli. Cursele sunt dese, mai ales vara, iar traversarea durează în jur de <strong>15 minute</strong>. Se transportă și mașini; orarul și tarifele actuale le găsiți în port.</p>
 <ul>
-  <li>Primul feribot pleacă în jurul orei 07:00, iar ultima plecare este aproximativ la 23:00 în sezonul de vară, asigurând o flexibilitate amplă pentru călătorii.</li>
+  
   <li>În afara sezonului, feriboturile circulă la fiecare 1 până la 2 ore, menținând o conexiune fiabilă cu insula.</li>
   <li>Deși nu este necesară o mașină datorită dimensiunii compacte a insulei de 4,5 km², vizitatorii pot explora pe jos sau pot opta să închirieze o bicicletă pentru o plimbare lejeră.</li>
 </ul>
@@ -3342,9 +3197,9 @@ export const GUIDES: Guide[] = [
 <h2>Mâncare și Taverne</h2>
 <p>Satul pitoresc Ammouliani este un paradis pentru gurmanzi, oferind excelente taverne de pește care se aliniază pe malul apei. Aici, poți savura pește proaspăt la grătar, caracatiță suculentă la grătar cu cărbuni și poți savura un pahar de vin local. Prețurile sunt rezonabile, cu o masă delicioasă de pește costând între €12 și €18 de persoană. În plus, satul îți satisface nevoile zilnice cu câteva mini-marketuri, o brutărie care oferă produse proaspăt coapte și câteva cafenele confortabile perfecte pentru o pauză de cafea liniștită.</p>`,
       sr: `<h2>Kako Stići</h2>
-<p>Doći do mirnog ostrva Amuljani je i jednostavno i slikovito. Trajekt polazi iz <strong>Tripiti</strong>, koji se nalazi samo 10 kilometara južno od šarmantnog grada Ouranoupoli, i nudi česte prelaze, posebno tokom užurbanih letnjih meseci. Sa polascima svakih 30 do 60 minuta, možete uživati u brzom i slikovitom putovanju od 15 minuta preko azurnih voda. Cena je približno <strong>€3 po osobi</strong>, dok oni koji putuju sa automobilom mogu očekivati da plate između <strong>€12 i €15</strong>.</p>
+<p>Trajekt za Amuljani polazi iz <strong>Tripitija</strong>, oko 14 km putem od Uranupolisa. Polasci su česti, naročito leti, a vožnja traje oko <strong>15 minuta</strong>. Prevoze se i automobili; aktuelni red vožnje i cene proverite u luci.</p>
 <ul>
-  <li>Prvi trajekt isplovljava oko 07:00, dok poslednji polazak je oko 23:00 tokom letnje sezone, omogućavajući dovoljno fleksibilnosti u putovanju.</li>
+  
   <li>Van sezone, trajekti saobraćaju svakih 1 do 2 sata, održavajući pouzdanu vezu sa ostrvom.</li>
   <li>Automobil nije potreban zbog kompaktne veličine ostrva od 4,5 km², posetioci mogu istraživati peške ili iznajmiti bicikl za laganu vožnju.</li>
 </ul>
@@ -3779,7 +3634,7 @@ export const GUIDES: Guide[] = [
 <p>Ouranoupoli → Arnea: 65 km, 1 hour through scenic mountain roads.</p>
 <ul>
   <li><strong>Arnea:</strong> Folklore Museum, stone mansions, local honey and textiles. Coffee at the plateia (village square)</li>
-  <li><strong>Parthenonas:</strong> A once-abandoned stone village reborn as a dining destination with panoramic Toroneos Gulf views (15 km from Neos Marmaras)</li>
+  <li><strong>Parthenonas:</strong> A once-abandoned stone village reborn as a dining destination with panoramic Toroneos Gulf views (just above Neos Marmaras)</li>
   <li>Return to Thessaloniki: 100 km, 1.5 hours via the highway</li>
 </ul>
 
@@ -5161,7 +5016,7 @@ export const GUIDES: Guide[] = [
 <h2>Πού να Καταδυθείτε</h2>
 <ul>
   <li><strong>Σιθωνία:</strong> Η περιοχή γύρω από τη Βουρβουρού και τον Όρμο Παναγίας είναι γνωστή για τα καταδυτικά της κέντρα και τους όμορφους βραχώδεις βυθούς. Εδώ μπορείτε να απολαύσετε την πλούσια θαλάσσια ζωή και να εξερευνήσετε τα κρυστάλλινα νερά.</li>
-  <li><strong>Πόρτο Κουφό:</strong> Το φυσικό λιμάνι προσφέρει προστατευμένα, καθαρά νερά με εξαιρετική ορατότητα. Είναι ιδανικό για όσους θέλουν να απολαύσουν μια ήρεμη κατάδυση μακριά από τα πλήθη.</li>
+  <li><strong>Πόρτο Κουφό:</strong> Ένα από τα μεγαλύτερα φυσικά λιμάνια της Ελλάδας, με προστατευμένα, καθαρά νερά και καλή ορατότητα — οι ήρεμες συνθήκες ταιριάζουν σε δύτες κάθε επιπέδου.</li>
   <li><strong>Καβουρότρυπες:</strong> Ιδανικές για snorkeling, με λευκά βράχια και διάφανα νερά που προσφέρουν εντυπωσιακές εικόνες του βυθού. Η περιοχή είναι γνωστή για τις εντυπωσιακές της παραλίες και την καθαρότητα των νερών της.</li>
   <li><strong>Νέος Μαρμαράς:</strong> Ένα από τα πιο δημοφιλή τουριστικά θέρετρα της Χαλκιδικής, προσφέρει εξαιρετικές δυνατότητες για καταδύσεις με πολλά καταδυτικά κέντρα και όμορφους υφάλους.</li>
 </ul>
@@ -5182,7 +5037,7 @@ export const GUIDES: Guide[] = [
 <h2>Where to Dive</h2>
 <ul>
     <li><strong>Sithonia:</strong> The enchanting area around Vourvourou and Ormos Panagias is home to several dive centers, providing access to stunning rocky seabeds teeming with life. The waters here are perfect for both diving and snorkeling, offering a glimpse into the rich biodiversity of the Aegean Sea.</li>
-    <li><strong>Porto Koufo:</strong> Known as the deepest natural harbor in Greece, Porto Koufo offers sheltered, crystal-clear waters with excellent visibility. Its calm conditions make it an ideal spot for divers of all levels to explore the underwater world.</li>
+    <li><strong>Porto Koufo:</strong> One of the largest natural harbours in Greece, with sheltered, clear water and good visibility — calm conditions suit divers of all levels.</li>
     <li><strong>Kavourotrypes:</strong> Famous for its white rocks and transparent waters, Kavourotrypes is a snorkeler's dream. The area is renowned for its stunning underwater scenery and is perfect for those looking to explore the sea's surface.</li>
     <li><strong>Neos Marmaras:</strong> This bustling town not only offers vibrant nightlife but also access to remarkable dive sites. The nearby waters are rich in marine life, making it a popular choice for divers.</li>
 </ul>
@@ -5203,7 +5058,7 @@ export const GUIDES: Guide[] = [
 <h2>Wo man tauchen kann</h2>
 <ul>
   <li><strong>Sithonia:</strong> Die Gegend um Vourvourou und Ormos Panagias ist bekannt für ihre Tauchzentren und die beeindruckenden felsigen Meeresböden. Hier können Sie die reiche Meeresfauna genießen und die kristallklaren Gewässer erkunden.</li>
-  <li><strong>Porto Koufo:</strong> Der natürliche Hafen bietet geschützte, klare Gewässer mit hervorragender Sicht. Es ist ideal für alle, die in ruhiger Umgebung tauchen möchten, fernab der Menschenmassen.</li>
+  <li><strong>Porto Koufo:</strong> Einer der größten Naturhäfen Griechenlands, mit geschütztem, klarem Wasser und guter Sicht — ruhige Bedingungen für Taucher aller Stufen.</li>
   <li><strong>Kavourotrypes:</strong> Perfekt zum Schnorcheln, mit weißen Felsen und transparentem Wasser, die beeindruckende Unterwasseransichten bieten. Die Gegend ist bekannt für ihre atemberaubenden Strände und die Klarheit ihrer Gewässer.</li>
   <li><strong>Neos Marmaras:</strong> Einer der beliebtesten Ferienorte in Chalkidiki bietet hervorragende Tauchmöglichkeiten mit vielen Tauchzentren und schönen Riffen.</li>
 </ul>
@@ -5224,7 +5079,7 @@ export const GUIDES: Guide[] = [
 <h2>Къде да се гмуркате</h2>
 <ul>
   <li><strong>Ситония:</strong> Очарователната зона около Вурвуру и Ормос Панагияс е дом на няколко водолазни центъра, осигуряващи достъп до зашеметяващи скалисти морски дъна, пълни с живот. Водите тук са идеални както за гмуркане, така и за шнорхелинг, предлагайки поглед към богатото биоразнообразие на Егейско море.</li>
-  <li><strong>Порто Куфо:</strong> Известен като най-дълбокото естествено пристанище в Гърция, Порто Куфо предлага защитени, кристално чисти води с отлична видимост. Спокойните условия го правят идеално място за водолази от всички нива да изследват подводния свят.</li>
+  <li><strong>Порто Куфо:</strong> Едно от най-големите естествени пристанища в Гърция, със защитена, бистра вода и добра видимост — спокойните условия са подходящи за водолази от всички нива.</li>
   <li><strong>Кавуротрипес:</strong> Известни със своите бели скали и прозрачни води, Кавуротрипес е мечта за шнорхелистите. Районът е известен със зашеметяващата си подводна природа и е идеален за тези, които искат да изследват морската повърхност.</li>
   <li><strong>Неос Мармарас:</strong> Това оживено курортно селище предлага не само оживен нощен живот, но и достъп до забележителни водолазни места. Близките води са богати на морски живот, което го прави популярен избор за водолази.</li>
 </ul>
@@ -5245,7 +5100,7 @@ export const GUIDES: Guide[] = [
 <h2>Где погружаться</h2>
 <ul>
   <li><strong>Ситония:</strong> Область вокруг Вурвуру и Ормос Панагиас известна своими дайвинг-центрами и красивыми скалистыми днами. Здесь можно насладиться богатой морской жизнью и исследовать кристально чистые воды.</li>
-  <li><strong>Порто Куфо:</strong> Это естественная гавань с защищенными, чистыми водами и отличной видимостью. Идеально подходит для тех, кто хочет насладиться спокойным погружением вдали от толпы.</li>
+  <li><strong>Порто Куфо:</strong> Одна из крупнейших природных гаваней Греции: защищённая, прозрачная вода и хорошая видимость — спокойные условия подходят дайверам любого уровня.</li>
   <li><strong>Кавуротрипес:</strong> Идеально для сноркелинга, с белыми скалами и прозрачными водами, которые предлагают впечатляющие виды подводного мира. Этот район известен своими впечатляющими пляжами и чистотой своих вод.</li>
   <li><strong>Неос Мармарас:</strong> Один из самых популярных туристических курортов Халкидики, предлагает отличные возможности для дайвинга с множеством центров и красивыми рифами.</li>
 </ul>
@@ -5266,7 +5121,7 @@ export const GUIDES: Guide[] = [
 <h2>Unde să te scufunzi</h2>
 <ul>
   <li><strong>Sithonia:</strong> Zona fermecătoare din jurul Vourvourou și Ormos Panagias găzduiește mai multe centre de scufundări, oferind acces la funduri marine stâncoase uimitoare, pline de viață. Apele de aici sunt perfecte atât pentru scufundări, cât și pentru snorkeling, oferind o privire asupra biodiversității bogate a Mării Egee.</li>
-  <li><strong>Porto Koufo:</strong> Cunoscut ca cel mai adânc port natural din Grecia, Porto Koufo oferă ape limpezi și protejate, cu vizibilitate excelentă. Condițiile calme fac din acesta un loc ideal pentru scafandri de toate nivelurile să exploreze lumea subacvatică.</li>
+  <li><strong>Porto Koufo:</strong> Unul dintre cele mai mari porturi naturale din Grecia, cu ape adăpostite și limpezi și vizibilitate bună — condițiile calme se potrivesc scafandrilor de toate nivelurile.</li>
   <li><strong>Kavourotrypes:</strong> Renumit pentru stâncile sale albe și apele transparente, Kavourotrypes este un vis pentru cei care fac snorkeling. Zona este cunoscută pentru peisajele sale subacvatice impresionante și este perfectă pentru cei care doresc să exploreze suprafața mării.</li>
   <li><strong>Neos Marmaras:</strong> Acest oraș animat nu oferă doar viață de noapte vibrantă, ci și acces la locuri de scufundare remarcabile. Apele din apropiere sunt bogate în viață marină, făcându-l o alegere populară pentru scafandri.</li>
 </ul>
@@ -5287,7 +5142,7 @@ export const GUIDES: Guide[] = [
 <h2>Gde roniti</h2>
 <ul>
     <li><strong>Sithonia:</strong> Očaravajuća oblast oko Vourvouroua i Ormosa Panagiasa dom je nekoliko ronilačkih centara, nudeći pristup zadivljujućim stenovitim morskim dnom prepunim života. Vode ovde su savršene za ronjenje i snorkeling, pružajući uvid u bogatu biodiverzitet Egejskog mora.</li>
-    <li><strong>Porto Koufo:</strong> Poznat kao najdublja prirodna luka u Grčkoj, Porto Koufo nudi zaštićene, kristalno čiste vode sa odličnom vidljivošću. Njegovi mirni uslovi čine ga idealnim mestom za ronioce svih nivoa da istraže podvodni svet.</li>
+    <li><strong>Porto Kufo:</strong> Jedna od najvećih prirodnih luka u Grčkoj, sa zaklonjenom, bistrom vodom i dobrom vidljivošću — mirni uslovi odgovaraju roniocima svih nivoa.</li>
     <li><strong>Kavourotrypes:</strong> Poznate po belim stenama i prozirnim vodama, Kavourotrypes su san svakog ljubitelja snorkelinga. Oblast je poznata po zadivljujućem podvodnom pejzažu i savršena je za one koji žele da istraže površinu mora.</li>
     <li><strong>Neos Marmaras:</strong> Ovaj živahni grad ne nudi samo bogat noćni život već i pristup izvanrednim mestima za ronjenje. Obližnje vode bogate su morskim životom, čineći ga popularnim izborom za ronioce.</li>
 </ul>
@@ -5658,7 +5513,7 @@ export const GUIDES: Guide[] = [
 
 <h2>Villages of Sithonia</h2>
 <ul>
-<li><strong>Nikiti:</strong> The "gateway" to Sithonia. The old village with stone houses and narrow streets is one of Halkidiki's prettiest. Famous for beekeeping — try the local thyme honey. Good selection of tavernas and shops.</li>
+<li><strong>Nikiti:</strong> The "gateway" to Sithonia. The old village with stone houses and narrow streets is one of Halkidiki's prettiest. Famous for beekeeping — try the local pine honey. Good selection of tavernas and shops.</li>
 <li><strong>Neos Marmaras:</strong> The largest town, built amphitheatrically above its harbor. You'll find supermarkets, pharmacies, ATMs, and many restaurants. Porto Carras resort is nearby.</li>
 <li><strong>Sarti:</strong> A large sandy beach stretching endlessly with views of Mount Athos. Lively village center, ideal for families. Great beach bars and water sports.</li>
 <li><strong>Vourvourou:</strong> A serene bay dotted with small islands (Diaporos being the largest). Perfect for kayaking, SUP, and boat trips. The water is impossibly calm.</li>
@@ -5699,7 +5554,7 @@ export const GUIDES: Guide[] = [
 
 <h2>Dörfer von Sithonia</h2>
 <ul>
-<li><strong>Nikiti:</strong> Das „Tor" zu Sithonia. Das alte Dorf mit Steinhäusern gehört zu den schönsten Chalkidikis. Berühmt für Imkerei — probieren Sie den lokalen Thymian-Honig.</li>
+<li><strong>Nikiti:</strong> Das „Tor" zu Sithonia. Das alte Dorf mit Steinhäusern gehört zu den schönsten Chalkidikis. Berühmt für Imkerei — probieren Sie den lokalen Pinienhonig.</li>
 <li><strong>Neos Marmaras:</strong> Die größte Ortschaft, amphitheatralisch über dem Hafen gebaut. Supermärkte, Apotheken, Geldautomaten und viele Restaurants.</li>
 <li><strong>Sarti:</strong> Ein endlos langer Sandstrand mit Blick auf den Berg Athos. Lebhaftes Dorfzentrum, ideal für Familien.</li>
 <li><strong>Vourvourou:</strong> Eine ruhige Bucht mit kleinen Inseln. Perfekt zum Kajakfahren und für Bootsausflüge.</li>
@@ -5765,7 +5620,7 @@ export const GUIDES: Guide[] = [
 
 <h2>Деревни Ситонии</h2>
 <ul>
-<li><strong>Никити:</strong> «Ворота» Ситонии. Старая деревня с каменными домами — одна из самых красивых в Халкидиках. Знаменитое пчеловодство — попробуйте местный тимьяновый мёд.</li>
+<li><strong>Никити:</strong> «Ворота» Ситонии. Старая деревня с каменными домами — одна из самых красивых в Халкидиках. Знаменитое пчеловодство — попробуйте местный сосновый мёд.</li>
 <li><strong>Неос Мармарас:</strong> Крупнейший город, амфитеатром над гаванью. Супермаркеты, аптеки, банкоматы, множество ресторанов.</li>
 <li><strong>Сарти:</strong> Длинный песчаный пляж с видом на Афон. Оживлённая деревня, идеальна для семей.</li>
 <li><strong>Вурвуру:</strong> Тихая бухта с островками. Идеально для каякинга и SUP.</li>
@@ -5798,7 +5653,7 @@ export const GUIDES: Guide[] = [
 
 <h2>Sate din Sithonia</h2>
 <ul>
-<li><strong>Nikiti:</strong> „Poarta" Sithoniei. Satul vechi cu case de piatră e unul dintre cele mai frumoase din Halkidiki. Renumit pentru apicultură — gustați mierea locală de cimbru.</li>
+<li><strong>Nikiti:</strong> „Poarta" Sithoniei. Satul vechi cu case de piatră e unul dintre cele mai frumoase din Halkidiki. Renumit pentru apicultură — gustați mierea locală de pin.</li>
 <li><strong>Neos Marmaras:</strong> Cel mai mare oraș, construit amfiteatral deasupra portului. Supermarketuri, farmacii, bancomate, multe restaurante.</li>
 <li><strong>Sarti:</strong> Plajă lungă de nisip cu vedere la Muntele Athos. Sat animat, ideal pentru familii.</li>
 <li><strong>Vourvourou:</strong> Golf liniștit cu insulițe. Perfect pentru caiac și SUP.</li>
@@ -5907,8 +5762,8 @@ export const GUIDES: Guide[] = [
 
 <h2>Χωριά & Περιοχές</h2>
 <ul>
-<li><strong>Άφυτος:</strong> Πέτρινο χωριό σε βράχο πάνω από τη θάλασσα. Γραφική πλατεία, παραδοσιακά καφενεία, υπέροχα ηλιοβασιλέματα. Το πιο γοητευτικό χωριό της Κασσάνδρας.</li>
-<li><strong>Καλλιθέα:</strong> Δυνατή νυχτερινή ζωή με μεγάλα club και beach bars. Θέρμες, ναός Δία Άμμωνος, πολλά εστιατόρια.</li>
+<li><strong>Άφυτος:</strong> Πέτρινο χωριό σε βράχο πάνω από τη θάλασσα. Γραφική πλατεία, παραδοσιακά καφενεία και θέα στον Τορωναίο κόλπο προς τη Σιθωνία. Το πιο γοητευτικό χωριό της Κασσάνδρας.</li>
+<li><strong>Καλλιθέα:</strong> Δυνατή νυχτερινή ζωή με μεγάλα club και beach bars, το αρχαίο ιερό του Άμμωνος Διός και πολλά εστιατόρια.</li>
 <li><strong>Χανιώτη:</strong> Τουριστικό κέντρο, μεγάλη αμμώδης παραλία, εμπορικός πεζόδρομος, κατάλληλο για οικογένειες και νέους.</li>
 <li><strong>Πευκοχώρι:</strong> Μεγάλη παραλία, πολλά ξενοδοχεία, ιδανικό για οικογένειες. Κοντά στο ακρωτήριο Κασσάνδρας.</li>
 <li><strong>Σίβηρι:</strong> Ιδανικό για οικογένειες, πολιτιστικό φεστιβάλ κάθε καλοκαίρι, παραλία με ρηχά νερά.</li>
@@ -5935,7 +5790,7 @@ export const GUIDES: Guide[] = [
 
 <h2>Ιστορικά Σημεία</h2>
 <ul>
-<li><strong>Κανάλι Ποτίδαιας:</strong> Αρχαίο κανάλι που χωρίζει την Κασσάνδρα από την ηπειρωτική χώρα</li>
+<li><strong>Διώρυγα Ποτίδαιας:</strong> Η διώρυγα που χωρίζει την Κασσάνδρα από την ηπειρωτική χώρα άνοιξε τη δεκαετία του 1930, δίπλα στη θέση της αρχαίας Ποτίδαιας.</li>
 <li><strong>Αρχαία Όλυνθος:</strong> Κοντά, εντυπωσιακά ψηφιδωτά δαπέδα</li>
 <li><strong>Ναός Δία Άμμωνος:</strong> Στην Καλλιθέα, αρχαίο ιερό</li>
 </ul>`,
@@ -5945,8 +5800,8 @@ export const GUIDES: Guide[] = [
 
 <h2>Villages & Areas</h2>
 <ul>
-<li><strong>Afytos:</strong> A stone-built village perched on a cliff above the sea. Picturesque main square with traditional cafes, artisan shops, and spectacular sunset views over the Thermaikos Gulf. The most charming village on Kassandra.</li>
-<li><strong>Kallithea:</strong> The nightlife capital of Halkidiki. Large beach clubs, thermal baths, the ancient Temple of Zeus Ammon, and plenty of restaurants. Popular with younger crowds.</li>
+<li><strong>Afytos:</strong> A stone-built village perched on a cliff above the sea. Picturesque main square with traditional cafes, artisan shops and wide views over the Toroneos Gulf towards Sithonia. The most charming village on Kassandra.</li>
+<li><strong>Kallithea:</strong> The nightlife capital of Halkidiki. Large beach clubs, the ancient Sanctuary of Zeus Ammon and plenty of restaurants. Popular with younger crowds.</li>
 <li><strong>Hanioti:</strong> A well-developed tourist center with a long sandy beach, pedestrian shopping street, and a good mix of family-friendly and lively areas. Mini-markets, restaurants, and beach bars line the waterfront.</li>
 <li><strong>Pefkohori:</strong> A large beach resort area, ideal for families. Close to the cape of Kassandra with its lighthouse. Many all-inclusive hotels.</li>
 <li><strong>Siviri:</strong> Family-oriented village with a cultural festival every summer (Kassandra Festival at the amphitheater). Shallow waters, safe for children.</li>
@@ -5978,13 +5833,13 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Siviri:</strong> Shallow waters, playground, calm atmosphere</li>
 <li><strong>Pefkohori:</strong> All-inclusive hotels, kids' clubs, organized beaches</li>
-<li><strong>Hanioti:</strong> Everything within walking distance, pediatrician available in summer</li>
+<li><strong>Hanioti:</strong> Everything within walking distance, with shops, cafes and a long, gently sloping beach</li>
 <li><strong>Nea Fokea:</strong> Quiet, affordable, authentic Greek family experience</li>
 </ul>
 
 <h2>Historical Sites</h2>
 <ul>
-<li><strong>Nea Potidea Canal:</strong> An ancient waterway separating Kassandra from the mainland, originally dug in the 1st century BC. Walk along both sides.</li>
+<li><strong>Nea Potidea Canal:</strong> The canal that separates Kassandra from the mainland opened in the 1930s, close to the site of ancient Potidea. Walk along both sides.</li>
 <li><strong>Ancient Olynthos (nearby):</strong> Impressive floor mosaics from the 4th century BC, one of the best-preserved classical Greek city plans</li>
 <li><strong>Temple of Zeus Ammon:</strong> In Kallithea, a 4th-century BC sanctuary with restored columns</li>
 <li><strong>Nea Fokea Tower:</strong> Byzantine-era Tower of St. Paul with a chapel and harbor views</li>
@@ -6004,8 +5859,8 @@ export const GUIDES: Guide[] = [
 
 <h2>Dörfer & Gebiete</h2>
 <ul>
-<li><strong>Afytos:</strong> Steinernes Dorf auf einer Klippe über dem Meer. Malerischer Hauptplatz, traditionelle Cafés und spektakuläre Sonnenuntergänge.</li>
-<li><strong>Kallithea:</strong> Die Nachtleben-Hauptstadt von Chalkidiki. Große Beach-Clubs, Thermalbäder, der antike Tempel des Zeus Ammon.</li>
+<li><strong>Afytos:</strong> Steinernes Dorf auf einer Klippe über dem Meer. Malerischer Hauptplatz, traditionelle Cafés und weiter Blick über den Toronäischen Golf nach Sithonia.</li>
+<li><strong>Kallithea:</strong> Die Nachtleben-Hauptstadt von Chalkidiki. Große Beach-Clubs, das antike Heiligtum des Zeus Ammon und viele Restaurants.</li>
 <li><strong>Hanioti:</strong> Entwickeltes Touristenzentrum mit langem Sandstrand, Fußgängerzone und guter Mischung aus familienfreundlich und lebendig.</li>
 <li><strong>Pefkohori:</strong> Großer Badeort, ideal für Familien. Viele All-Inclusive-Hotels.</li>
 <li><strong>Siviri:</strong> Familienorientiert mit einem jährlichen Kulturfestival im Amphitheater.</li>
@@ -6030,7 +5885,7 @@ export const GUIDES: Guide[] = [
 
 <h2>Historische Stätten</h2>
 <ul>
-<li><strong>Kanal von Nea Potidea:</strong> Antiker Wasserweg, der Kassandra vom Festland trennt</li>
+<li><strong>Kanal von Nea Potidea:</strong> Der Kanal, der Kassandra vom Festland trennt, wurde in den 1930er-Jahren eröffnet, nahe dem antiken Potidea.</li>
 <li><strong>Antikes Olynth:</strong> Beeindruckende Bodenmosaike aus dem 4. Jh. v. Chr.</li>
 <li><strong>Tempel des Zeus Ammon:</strong> In Kallithea, ein Heiligtum aus dem 4. Jh. v. Chr.</li>
 </ul>`,
@@ -6040,8 +5895,8 @@ export const GUIDES: Guide[] = [
 
 <h2>Села и райони</h2>
 <ul>
-<li><strong>Афитос:</strong> Каменно село на скала над морето. Живописен площад, традиционни кафенета и зашеметяващи залези.</li>
-<li><strong>Калитеа:</strong> Столицата на нощния живот. Големи плажни клубове, термални бани, храм на Зевс Амон.</li>
+<li><strong>Афитос:</strong> Каменно село на скала над морето. Живописен площад, традиционни кафенета и гледка над Торонейския залив към Ситония.</li>
+<li><strong>Калитеа:</strong> Столицата на нощния живот. Големи плажни клубове, античното светилище на Зевс Амон и много ресторанти.</li>
 <li><strong>Ханиоти:</strong> Развит туристически център с дълъг пясъчен плаж и пешеходна зона за пазаруване.</li>
 <li><strong>Пефкохори:</strong> Голям курортен район, идеален за семейства. Много ол-инклузив хотели.</li>
 <li><strong>Сивири:</strong> Семеен, с културен фестивал всяко лято. Плитки води за деца.</li>
@@ -6066,7 +5921,7 @@ export const GUIDES: Guide[] = [
 
 <h2>Исторически забележителности</h2>
 <ul>
-<li><strong>Канал Потидея:</strong> Древен воден път, разделящ Касандра от материка</li>
+<li><strong>Канал Потидея:</strong> Каналът, който отделя Касандра от континента, е открит през 30-те години на XX век, до мястото на древна Потидея.</li>
 <li><strong>Древен Олинтос:</strong> Впечатляващи подови мозайки от IV в. пр.н.е.</li>
 <li><strong>Храм на Зевс Амон:</strong> В Калитеа, светилище от IV в. пр.н.е.</li>
 </ul>`,
@@ -6076,8 +5931,8 @@ export const GUIDES: Guide[] = [
 
 <h2>Деревни и районы</h2>
 <ul>
-<li><strong>Афитос:</strong> Каменная деревня на утёсе над морем. Живописная площадь, традиционные кафе и потрясающие закаты.</li>
-<li><strong>Каллифея:</strong> Столица ночной жизни Халкидиков. Большие пляжные клубы, термальные бани, храм Зевса Аммона.</li>
+<li><strong>Афитос:</strong> Каменная деревня на утёсе над морем. Живописная площадь, традиционные кафе и вид на Торонейский залив и Ситонию.</li>
+<li><strong>Каллифея:</strong> Столица ночной жизни Халкидики. Большие пляжные клубы, античное святилище Зевса Аммона и множество ресторанов.</li>
 <li><strong>Ханиоти:</strong> Развитый туристический центр с длинным песчаным пляжем и пешеходной улицей.</li>
 <li><strong>Пефкохори:</strong> Большой курортный район, идеальный для семей. Много отелей «всё включено».</li>
 <li><strong>Сивири:</strong> Семейный, с культурным фестивалем каждое лето. Мелководье для детей.</li>
@@ -6102,7 +5957,7 @@ export const GUIDES: Guide[] = [
 
 <h2>Исторические места</h2>
 <ul>
-<li><strong>Канал Потидеи:</strong> Древний водный путь, отделяющий Кассандру от материка</li>
+<li><strong>Канал Потидеи:</strong> Канал, отделяющий Кассандру от материка, открыт в 1930-х годах рядом с местом античной Потидеи.</li>
 <li><strong>Древний Олинф:</strong> Впечатляющие напольные мозаики IV века до н.э.</li>
 <li><strong>Храм Зевса Аммона:</strong> В Каллифее, святилище IV века до н.э.</li>
 </ul>`,
@@ -6112,8 +5967,8 @@ export const GUIDES: Guide[] = [
 
 <h2>Sate și zone</h2>
 <ul>
-<li><strong>Afytos:</strong> Sat de piatră pe o stâncă deasupra mării. Piață pictorească, cafenele tradiționale și apusuri spectaculoase.</li>
-<li><strong>Kallithea:</strong> Capitala vieții de noapte din Halkidiki. Cluburi mari pe plajă, băi termale, Templul lui Zeus Ammon.</li>
+<li><strong>Afytos:</strong> Sat de piatră pe o stâncă deasupra mării. Piață pitorească, cafenele tradiționale și vedere largă peste golful Toroneos, spre Sithonia.</li>
+<li><strong>Kallithea:</strong> Capitala vieții de noapte din Halkidiki. Cluburi mari pe plajă, sanctuarul antic al lui Zeus Ammon și multe restaurante.</li>
 <li><strong>Hanioti:</strong> Centru turistic dezvoltat cu plajă lungă de nisip și stradă pietonală comercială.</li>
 <li><strong>Pefkohori:</strong> Zonă mare de stațiune, ideală pentru familii. Multe hoteluri all-inclusive.</li>
 <li><strong>Siviri:</strong> Orientat spre familii, cu festival cultural în fiecare vară. Ape puțin adânci pentru copii.</li>
@@ -6138,7 +5993,7 @@ export const GUIDES: Guide[] = [
 
 <h2>Locuri istorice</h2>
 <ul>
-<li><strong>Canalul Potidea:</strong> Canal antic care separă Kassandra de continent</li>
+<li><strong>Canalul Potidea:</strong> Canalul care desparte Kassandra de continent a fost deschis în anii 1930, lângă locul anticei Potideea.</li>
 <li><strong>Olynthos antic:</strong> Mozaicuri impresionante de podea din sec. IV î.Hr.</li>
 <li><strong>Templul lui Zeus Ammon:</strong> La Kallithea, sanctuar din sec. IV î.Hr.</li>
 </ul>`,
@@ -6148,8 +6003,8 @@ export const GUIDES: Guide[] = [
 
 <h2>Sela i oblasti</h2>
 <ul>
-<li><strong>Afitos:</strong> Kameno selo na litici iznad mora. Slikovit trg, tradicionalne kafane i spektakularni zalasci sunca.</li>
-<li><strong>Kalitea:</strong> Prestonica noćnog života Halkidikija. Veliki plaže klubovi, termalne banje, Hram Zevsa Amona.</li>
+<li><strong>Afitos:</strong> Kameno selo na litici iznad mora. Slikovit trg, tradicionalne kafane i pogled preko Toronejskog zaliva ka Sitoniji.</li>
+<li><strong>Kalitea:</strong> Prestonica noćnog života Halkidikija. Veliki klubovi na plaži, antičko svetilište Zevsa Amona i mnogo restorana.</li>
 <li><strong>Hanioti:</strong> Razvijeni turistički centar sa dugačkom peščanom plažom i pešačkom zonom.</li>
 <li><strong>Pefkohori:</strong> Veliki odmarališni prostor, idealan za porodice. Mnogi all-inclusive hoteli.</li>
 <li><strong>Siviri:</strong> Porodično orijentisan, sa kulturnim festivalom svakog leta. Plitke vode za decu.</li>
@@ -6174,7 +6029,7 @@ export const GUIDES: Guide[] = [
 
 <h2>Istorijske znamenitosti</h2>
 <ul>
-<li><strong>Kanal Potideje:</strong> Drevni vodeni put koji odvaja Kasandru od kopna</li>
+<li><strong>Kanal Potideje:</strong> Kanal koji odvaja Kasandru od kopna otvoren je tridesetih godina 20. veka, pored mesta antičke Potideje.</li>
 <li><strong>Drevni Olint:</strong> Impresivni podni mozaici iz IV veka pre n.e.</li>
 <li><strong>Hram Zevsa Amona:</strong> U Kalitei, svetilište iz IV veka pre n.e.</li>
 </ul>`,
@@ -6601,7 +6456,7 @@ export const GUIDES: Guide[] = [
 <tbody>
 <tr><td>Αεροδρόμιο → Νέα Μουδανιά</td><td>~45 λεπτά</td></tr>
 <tr><td>Αεροδρόμιο → Καλλιθέα (Κασσάνδρα)</td><td>~1 ώρα</td></tr>
-<tr><td>Αεροδρόμιο → Νέος Μαρμαράς (Σιθωνία)</td><td>~1 ώρα 30'</td></tr>
+<tr><td>Αεροδρόμιο → Νέος Μαρμαράς (Σιθωνία)</td><td>~1 ώρα 45'</td></tr>
 <tr><td>Αεροδρόμιο → Σάρτη ή Ουρανούπολη</td><td>~2 ώρες</td></tr>
 <tr><td>Άκρη Κασσάνδρας → Άκρη Σιθωνίας</td><td>~2 ώρες 30'</td></tr>
 </tbody>
@@ -6629,7 +6484,7 @@ export const GUIDES: Guide[] = [
 <tbody>
 <tr><td>Airport → Nea Moudania</td><td>~45 min</td></tr>
 <tr><td>Airport → Kallithea (Kassandra)</td><td>~1 hour</td></tr>
-<tr><td>Airport → Neos Marmaras (Sithonia)</td><td>~1 hour 30 min</td></tr>
+<tr><td>Airport → Neos Marmaras (Sithonia)</td><td>~1 hour 45 min</td></tr>
 <tr><td>Airport → Sarti or Ouranoupoli</td><td>~2 hours</td></tr>
 <tr><td>Tip of Kassandra → Tip of Sithonia</td><td>~2 hours 30 min</td></tr>
 </tbody>
@@ -6657,7 +6512,7 @@ export const GUIDES: Guide[] = [
 <tbody>
 <tr><td>Flughafen → Nea Moudania</td><td>~45 Minuten</td></tr>
 <tr><td>Flughafen → Kallithea (Kassandra)</td><td>~1 Stunde</td></tr>
-<tr><td>Flughafen → Neos Marmaras (Sithonia)</td><td>~1 Stunde 30'</td></tr>
+<tr><td>Flughafen → Neos Marmaras (Sithonia)</td><td>~1 Stunde 45'</td></tr>
 <tr><td>Flughafen → Sarti oder Ouranoupoli</td><td>~2 Stunden</td></tr>
 <tr><td>Spitze von Kassandra → Spitze von Sithonia</td><td>~2 Stunden 30'</td></tr>
 </tbody>
@@ -6685,7 +6540,7 @@ export const GUIDES: Guide[] = [
 <tbody>
 <tr><td>Летище → Неа Мудания</td><td>~45 минути</td></tr>
 <tr><td>Летище → Калитея (Касандра)</td><td>~1 час</td></tr>
-<tr><td>Летище → Неос Мармарас (Ситония)</td><td>~1 час 30 минути</td></tr>
+<tr><td>Летище → Неос Мармарас (Ситония)</td><td>~1 час 45 минути</td></tr>
 <tr><td>Летище → Сарти или Урануполи</td><td>~2 часа</td></tr>
 <tr><td>Край Касандра → Край Ситония</td><td>~2 часа 30 минути</td></tr>
 </tbody>
@@ -6713,7 +6568,7 @@ export const GUIDES: Guide[] = [
 <tbody>
 <tr><td>Аэропорт → Неа Муданья</td><td>~45 минут</td></tr>
 <tr><td>Аэропорт → Каллифея (Касандра)</td><td>~1 час</td></tr>
-<tr><td>Аэропорт → Неос Мармарас (Ситония)</td><td>~1 час 30 минут</td></tr>
+<tr><td>Аэропорт → Неос Мармарас (Ситония)</td><td>~1 час 45 минут</td></tr>
 <tr><td>Аэропорт → Сарти или Урануполи</td><td>~2 часа</td></tr>
 <tr><td>Конец Касандры → Конец Ситонии</td><td>~2 часа 30 минут</td></tr>
 </tbody>
@@ -6741,7 +6596,7 @@ export const GUIDES: Guide[] = [
 <tbody>
 <tr><td>Aeroport → Nea Moudania</td><td>~45 minute</td></tr>
 <tr><td>Aeroport → Kallithea (Kassandra)</td><td>~1 oră</td></tr>
-<tr><td>Aeroport → Neos Marmaras (Sithonia)</td><td>~1 oră 30'</td></tr>
+<tr><td>Aeroport → Neos Marmaras (Sithonia)</td><td>~1 oră 45'</td></tr>
 <tr><td>Aeroport → Sarti sau Ouranoupoli</td><td>~2 ore</td></tr>
 <tr><td>Vârful Kassandra → Vârful Sithonia</td><td>~2 ore 30'</td></tr>
 </tbody>
@@ -6769,7 +6624,7 @@ export const GUIDES: Guide[] = [
 <tbody>
 <tr><td>Aerodrom → Nea Moudania</td><td>~45 minuta</td></tr>
 <tr><td>Aerodrom → Kallithea (Kassandra)</td><td>~1 sat</td></tr>
-<tr><td>Aerodrom → Neos Marmaras (Sitonija)</td><td>~1 sat 30 minuta</td></tr>
+<tr><td>Aerodrom → Neos Marmaras (Sitonija)</td><td>~1 sat 45 minuta</td></tr>
 <tr><td>Aerodrom → Sarti ili Ouranoupoli</td><td>~2 sata</td></tr>
 <tr><td>Vrha Kassandre → Vrha Sitonije</td><td>~2 sata 30 minuta</td></tr>
 </tbody>
@@ -6837,12 +6692,12 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Αρχαία Στάγειρα:</strong> Ο αρχαιολογικός χώρος της πόλης όπου γεννήθηκε ο Αριστοτέλης το 384 π.Χ. βρίσκεται πάνω σε μια χερσόνησο με πανοραμική θέα. Οι επισκέπτες μπορούν να περιηγηθούν στα ερείπια και να φανταστούν τη ζωή στην αρχαιότητα, ενώ απολαμβάνουν τη φυσική ομορφιά που περιβάλλει την περιοχή.</li>
 <li><strong>Πάρκο Αριστοτέλη (Στάγειρος):</strong> Ένα θεματικό πάρκο που προσφέρει διαδραστικά όργανα φυσικής, εμπνευσμένα από τη διδασκαλία του φιλοσόφου. Το πάρκο προσφέρει επίσης εκπληκτική θέα στον Στρυμονικό κόλπο, καθιστώντας το ιδανικό σημείο για να συνδυάσετε τη μάθηση με τη χαλάρωση.</li>
-<li><strong>Ολυμπιάδα:</strong> Ένα γραφικό παραθαλάσσιο χωριό κοντά στα Στάγειρα, ιδανικό για μια στάση με φρέσκα μύδια και τοπικές γεύσεις. Η Ολυμπιάδα προσφέρει την αυθεντική εμπειρία ενός ελληνικού χωριού, με φιλόξενους κατοίκους και παραδοσιακή κουζίνα.</li>
+<li><strong>Ολυμπιάδα:</strong> Παραθαλάσσιο χωριό δίπλα στα Αρχαία Στάγειρα — ιδανικό για μπάνιο και φαγητό σε ψαροταβέρνα δίπλα στη θάλασσα.</li>
 <li><strong>Μουσείο Αριστοτέλη:</strong> Ένα μουσείο αφιερωμένο στη ζωή και το έργο του φιλοσόφου, όπου οι επισκέπτες μπορούν να μάθουν περισσότερα για τις θεωρίες και τις ανακαλύψεις του.</li>
 </ul>
 
 <h2>Γιατί Αξίζει</h2>
-<p>Η περιοχή γύρω από τα Στάγειρα είναι ένας θησαυρός φυσικής ομορφιάς, με καταπράσινους λόφους, ελαιώνες και ήσυχες παραλίες που προσφέρουν στιγμές ηρεμίας και χαλάρωσης. Η διαδρομή είναι κατάλληλη για οικογένειες, καθώς το πάρκο ενθουσιάζει τα παιδιά με τις διαδραστικές του δραστηριότητες. Παράλληλα, μπορεί εύκολα να συνδυαστεί με άλλες <a href="/guide/day-trips">εκδρομές</a> στην ανατολική Χαλκιδική, όπως το Άγιο Όρος ή το Σπήλαιο Πετραλώνων, προσφέροντας μια ολοκληρωμένη εμπειρία εξερεύνησης.</p>
+<p>Η περιοχή γύρω από τα Στάγειρα είναι ένας θησαυρός φυσικής ομορφιάς, με καταπράσινους λόφους, ελαιώνες και ήσυχες παραλίες που προσφέρουν στιγμές ηρεμίας και χαλάρωσης. Η διαδρομή είναι κατάλληλη για οικογένειες, καθώς το πάρκο ενθουσιάζει τα παιδιά με τις διαδραστικές του δραστηριότητες. Παράλληλα, μπορεί εύκολα να συνδυαστεί με άλλες <a href="/guide/day-trips">εκδρομές</a> στην ανατολική Χαλκιδική, όπως το Άγιο Όρος, προσφέροντας μια ολοκληρωμένη εμπειρία εξερεύνησης.</p>
 
 <h2>Tips</h2>
 <ul>
@@ -6858,12 +6713,12 @@ export const GUIDES: Guide[] = [
 <ul>
     <li><strong>Ancient Stagira:</strong> Discover the archaeological site of the city where Aristotle was born in 384 BC. Set on a peninsula with panoramic views, this site offers a glimpse into the ancient world and the early environment of the philosopher. Wander through the ruins and imagine the life of Aristotle in this historic setting.</li>
     <li><strong>Aristotle's Park (Stagiros):</strong> This themed park is a tribute to Aristotle's legacy, featuring interactive physics instruments inspired by his teachings. Overlooking the Strymonic Gulf, the park provides a fun and educational experience for visitors of all ages, making it a delightful stop for families.</li>
-    <li><strong>Olympiada:</strong> A picturesque seaside village located nearby, Olympiada is an ideal spot for a relaxing break. Known for its fresh mussels, the village offers a taste of local cuisine amidst charming coastal scenery. Enjoy a leisurely meal by the sea and soak in the tranquil atmosphere.</li>
+    <li><strong>Olympiada:</strong> A seaside village right next to Ancient Stagira — ideal for a swim and a meal at a fish taverna by the sea.</li>
     <li><strong>Mount Athos:</strong> Although not directly on Aristotle's route, a visit to the nearby Mount Athos can enrich your journey. Known for its monastic community, this spiritual site offers a unique cultural experience.</li>
 </ul>
 
 <h2>Why It's Worth It</h2>
-<p>The area around Stagira is a harmonious blend of lush green hills, ancient olive groves, and serene beaches. This route is particularly suited for families, as the interactive park captivates children and provides an engaging learning experience. Additionally, it can be effortlessly combined with other <a href="/guide/day-trips">day trips</a> in eastern Halkidiki, such as exploring the mystical Mount Athos or the intriguing Petralona Cave. The region's natural beauty and historical significance make it a rewarding destination for all.</p>
+<p>The area around Stagira is a harmonious blend of lush green hills, ancient olive groves, and serene beaches. This route is particularly suited for families, as the interactive park captivates children and provides an engaging learning experience. Additionally, it can be effortlessly combined with other <a href="/guide/day-trips">day trips</a> in eastern Halkidiki, such as exploring the mystical Mount Athos. The region's natural beauty and historical significance make it a rewarding destination for all.</p>
 
 <h2>Tips</h2>
 <ul>
@@ -6878,12 +6733,12 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Antikes Stagira:</strong> Der archäologische Ort der Stadt, in der Aristoteles 384 v. Chr. geboren wurde, liegt auf einer Halbinsel mit Panoramablick. Besucher können durch die Ruinen wandern und sich das Leben in der Antike vorstellen, während sie die natürliche Schönheit der Umgebung genießen.</li>
 <li><strong>Aristoteles-Park (Stagiros):</strong> Ein Themenpark, der interaktive physikalische Instrumente bietet, inspiriert von den Lehren des Philosophen. Der Park bietet auch einen atemberaubenden Blick auf den Strymonischen Golf und ist der ideale Ort, um Lernen mit Entspannung zu verbinden.</li>
-<li><strong>Olympiada:</strong> Ein malerisches Küstendorf in der Nähe von Stagira, ideal für einen Zwischenstopp mit frischen Muscheln und lokalen Köstlichkeiten. Olympiada bietet das authentische Erlebnis eines griechischen Dorfes mit freundlichen Bewohnern und traditioneller Küche.</li>
+<li><strong>Olympiada:</strong> Ein Küstendorf direkt neben dem antiken Stagira — ideal zum Baden und für ein Essen in einer Fischtaverne am Meer.</li>
 <li><strong>Aristoteles-Museum:</strong> Ein Museum, das dem Leben und Werk des Philosophen gewidmet ist, wo Besucher mehr über seine Theorien und Entdeckungen erfahren können.</li>
 </ul>
 
 <h2>Warum es sich lohnt</h2>
-<p>Die Umgebung von Stagira ist ein Schatz an natürlicher Schönheit, mit grünen Hügeln, Olivenhainen und ruhigen Stränden, die Momente der Ruhe und Entspannung bieten. Die Route ist besonders für Familien geeignet, da der Park Kinder mit seinen interaktiven Aktivitäten begeistert. Gleichzeitig lässt sie sich leicht mit anderen <a href="/guide/day-trips">Tagesausflügen</a> in der östlichen Chalkidiki kombinieren, wie zum Beispiel dem Heiligen Berg Athos oder der Petralona-Höhle, und bietet so ein umfassendes Erkundungserlebnis.</p>
+<p>Die Umgebung von Stagira ist ein Schatz an natürlicher Schönheit, mit grünen Hügeln, Olivenhainen und ruhigen Stränden, die Momente der Ruhe und Entspannung bieten. Die Route ist besonders für Familien geeignet, da der Park Kinder mit seinen interaktiven Aktivitäten begeistert. Gleichzeitig lässt sie sich leicht mit anderen <a href="/guide/day-trips">Tagesausflügen</a> in der östlichen Chalkidiki kombinieren, wie zum Beispiel dem Heiligen Berg Athos, und bietet so ein umfassendes Erkundungserlebnis.</p>
 
 <h2>Tipps</h2>
 <ul>
@@ -6899,12 +6754,12 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Древни Стагира:</strong> Открийте археологическия обект на града, където Аристотел е роден през 384 г. пр. Хр. Разположен на полуостров с панорамни гледки, този обект предлага поглед към древния свят и ранната среда на философа. Разходете се из руините и си представете живота на Аристотел в тази историческа обстановка.</li>
 <li><strong>Паркът на Аристотел (Стагирос):</strong> Тематичен парк, посветен на наследството на Аристотел, с интерактивни физически инструменти, вдъхновени от неговите учения. С изглед към Стримоническия залив, паркът предлага забавление и образователно преживяване за посетители от всички възрасти, правейки го прекрасно място за семейства.</li>
-<li><strong>Олимпиада:</strong> Живописно крайморско село, разположено наблизо, Олимпиада е идеално място за релаксираща почивка. Известно с пресните си миди, селото предлага вкус на местната кухня сред очарователна крайбрежна обстановка. Насладете се на спокойно хранене край морето и се потопете в спокойната атмосфера.</li>
+<li><strong>Олимпиада:</strong> Крайбрежно село точно до Древна Стагира — идеално за плуване и обяд в рибна таверна до морето.</li>
 <li><strong>Музей на Аристотел:</strong> Музей, посветен на живота и делото на философа, където посетителите могат да научат повече за неговите теории и открития.</li>
 </ul>
 
 <h2>Защо си заслужава</h2>
-<p>Районът около Стагира е съкровище от природна красота, с буйни зелени хълмове, маслинови гори и спокойни плажове, които предлагат моменти на спокойствие и релаксация. Маршрутът е подходящ за семейства, тъй като паркът завладява децата с интерактивните си дейности. Освен това, може лесно да се комбинира с други <a href="/guide/day-trips">еднодневни екскурзии</a> в източната част на Халкидики, като например посещение на Света гора или Спелео Петралона, предлагайки пълноценно изследователско преживяване.</p>
+<p>Районът около Стагира е съкровище от природна красота, с буйни зелени хълмове, маслинови гори и спокойни плажове, които предлагат моменти на спокойствие и релаксация. Маршрутът е подходящ за семейства, тъй като паркът завладява децата с интерактивните си дейности. Освен това, може лесно да се комбинира с други <a href="/guide/day-trips">еднодневни екскурзии</a> в източната част на Халкидики, като например посещение на Света гора, предлагайки пълноценно изследователско преживяване.</p>
 
 <h2>Съвети</h2>
 <ul>
@@ -6920,12 +6775,12 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Древние Стагиры:</strong> Откройте для себя археологический памятник города, где Аристотель родился в 384 году до н.э. Расположенный на полуострове с панорамными видами, этот объект предлагает взглянуть на древний мир и раннюю среду обитания философа. Прогуляйтесь по руинам и представьте себе жизнь Аристотеля в этом историческом месте.</li>
 <li><strong>Парк Аристотеля (Стагирос):</strong> Этот тематический парк посвящен наследию Аристотеля, предлагая интерактивные физические инструменты, вдохновленные его учением. С видом на Саронический залив, парк предоставляет увлекательный и образовательный опыт для посетителей всех возрастов, делая его прекрасной остановкой для семей.</li>
-<li><strong>Олимпиада:</strong> Живописная прибрежная деревня, расположенная неподалеку, Олимпиада является идеальным местом для расслабляющего отдыха. Известная своими свежими мидиями, деревня предлагает попробовать местную кухню среди очаровательных прибрежных пейзажей. Насладитесь неспешным обедом у моря и погрузитесь в спокойную атмосферу.</li>
+<li><strong>Олимпиада:</strong> Прибрежная деревня рядом с Древней Стагирой — отличное место, чтобы искупаться и пообедать в рыбной таверне у моря.</li>
 <li><strong>Музей Аристотеля:</strong> Музей, посвященный жизни и трудам философа, где посетители могут узнать больше о его теориях и открытиях.</li>
 </ul>
 
 <h2>Почему это стоит того</h2>
-<p>Район вокруг Стагир — это гармоничное сочетание зеленых холмов, древних оливковых рощ и спокойных пляжей. Этот маршрут особенно подходит для семей, так как интерактивный парк увлекает детей и предоставляет захватывающий образовательный опыт. Кроме того, его можно легко сочетать с другими <a href="/guide/day-trips">однодневными поездками</a> на востоке Халкидики, такими как исследование мистического Афона или увлекательной Пещеры Петралона. Природная красота и историческое значение региона делают его стоящей целью для всех.</p>
+<p>Район вокруг Стагир — это гармоничное сочетание зеленых холмов, древних оливковых рощ и спокойных пляжей. Этот маршрут особенно подходит для семей, так как интерактивный парк увлекает детей и предоставляет захватывающий образовательный опыт. Кроме того, его можно легко сочетать с другими <a href="/guide/day-trips">однодневными поездками</a> на востоке Халкидики, такими как исследование мистического Афона. Природная красота и историческое значение региона делают его стоящей целью для всех.</p>
 
 <h2>Советы</h2>
 <ul>
@@ -6941,12 +6796,12 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Stagira Antică:</strong> Descoperiți situl arheologic al orașului unde s-a născut Aristotel în anul 384 î.Hr. Situat pe o peninsulă cu priveliști panoramice, acest loc oferă o privire asupra lumii antice și a mediului timpuriu al filosofului. Plimbați-vă printre ruine și imaginați-vă viața lui Aristotel în acest cadru istoric.</li>
 <li><strong>Parcul Aristotel (Stagiros):</strong> Acest parc tematic este un omagiu adus moștenirii lui Aristotel, prezentând instrumente interactive de fizică inspirate de învățăturile sale. Cu vedere spre Golful Strymonic, parcul oferă o experiență distractivă și educativă pentru vizitatori de toate vârstele, fiind o oprire încântătoare pentru familii.</li>
-<li><strong>Olympiada:</strong> Un sat pitoresc de coastă situat în apropiere, Olympiada este un loc ideal pentru o pauză relaxantă. Renumit pentru midiile sale proaspete, satul oferă un gust al bucătăriei locale într-un peisaj litoral fermecător. Bucurați-vă de o masă relaxantă lângă mare și absorbiți atmosfera liniștită.</li>
+<li><strong>Olympiada:</strong> Un sat de pe malul mării chiar lângă Stagira antică — ideal pentru o baie și o masă la o tavernă de pește.</li>
 <li><strong>Muzeul Aristotel:</strong> Un muzeu dedicat vieții și operei filosofului, unde vizitatorii pot afla mai multe despre teoriile și descoperirile sale.</li>
 </ul>
 
 <h2>De ce Merită</h2>
-<p>Zona din jurul Stagirei este un amestec armonios de dealuri verzi luxuriante, livezi de măslini și plaje liniștite. Această rută este deosebit de potrivită pentru familii, deoarece parcul interactiv captivează copiii și oferă o experiență educativă antrenantă. În plus, poate fi combinată cu ușurință cu alte <a href="/guide/day-trips">excursii de o zi</a> în estul Halkidiki, cum ar fi explorarea misticului Munte Athos sau a intrigantei Peșteri Petralona. Frumusețea naturală și semnificația istorică a regiunii o fac o destinație recompensatoare pentru toți.</p>
+<p>Zona din jurul Stagirei este un amestec armonios de dealuri verzi luxuriante, livezi de măslini și plaje liniștite. Această rută este deosebit de potrivită pentru familii, deoarece parcul interactiv captivează copiii și oferă o experiență educativă antrenantă. În plus, poate fi combinată cu ușurință cu alte <a href="/guide/day-trips">excursii de o zi</a> în estul Halkidiki, cum ar fi explorarea misticului Munte Athos. Frumusețea naturală și semnificația istorică a regiunii o fac o destinație recompensatoare pentru toți.</p>
 
 <h2>Recomandări</h2>
 <ul>
@@ -6962,12 +6817,12 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Antička Stagira:</strong> Arheološko nalazište grada gde je Aristotel rođen 384. godine pre nove ere smešteno je na poluostrvu sa panoramskim pogledom. Posetioci mogu istražiti ruševine i zamisliti život u antičko doba, dok uživaju u prirodnoj lepoti koja okružuje ovo područje.</li>
 <li><strong>Aristotelov Park (Stagiros):</strong> Tematski park koji nudi interaktivne fizičke instrumente inspirisane učenjima filozofa. Park takođe pruža zadivljujući pogled na Strimonski zaliv, čineći ga idealnim mestom za kombinovanje učenja i opuštanja.</li>
-<li><strong>Olimpiada:</strong> Slikovito primorsko selo blizu Stagire, idealno za pauzu uz sveže školjke i lokalne specijalitete. Olimpiada nudi autentično iskustvo grčkog sela, sa gostoljubivim stanovnicima i tradicionalnom kuhinjom.</li>
+<li><strong>Olimpijada:</strong> Primorsko selo odmah pored Antičke Stagire — idealno za kupanje i obrok u ribljoj taverni uz more.</li>
 <li><strong>Muzej Aristotela:</strong> Muzej posvećen životu i radu filozofa, gde posetioci mogu saznati više o njegovim teorijama i otkrićima.</li>
 </ul>
 
 <h2>Zašto Vredi</h2>
-<p>Područje oko Stagire je riznica prirodne lepote, sa zelenim brežuljcima, maslinjacima i mirnim plažama koje nude trenutke mira i opuštanja. Ova ruta je pogodna za porodice, jer park oduševljava decu svojim interaktivnim aktivnostima. Takođe, lako se može kombinovati sa drugim <a href="/guide/day-trips">izletima</a> u istočnoj Halkidiki, kao što su Sveta Gora ili Pećina Petralona, pružajući sveobuhvatno iskustvo istraživanja.</p>
+<p>Područje oko Stagire je riznica prirodne lepote, sa zelenim brežuljcima, maslinjacima i mirnim plažama koje nude trenutke mira i opuštanja. Ova ruta je pogodna za porodice, jer park oduševljava decu svojim interaktivnim aktivnostima. Takođe, lako se može kombinovati sa drugim <a href="/guide/day-trips">izletima</a> u istočnoj Halkidiki, kao što su Sveta Gora, pružajući sveobuhvatno iskustvo istraživanja.</p>
 
 <h2>Saveti</h2>
 <ul>
@@ -7020,15 +6875,15 @@ export const GUIDES: Guide[] = [
       sr: 'Otkrijte najbolja mesta za zalazak sunca u Halkidikiju: Afitos, Posidi, Neos Marmaras i top barovi.',
     },
     content: {
-      el: `<h2>Τα Καλύτερα Ηλιοβασιλέματα στη Χαλκιδική</h2><p>Χάρη στον προσανατολισμό των τριών χερσονήσων, η Χαλκιδική έχει μερικά από τα <strong>ωραιότερα ηλιοβασιλέματα</strong> της Βόρειας Ελλάδας. Οι δυτικές ακτές κοιτούν κατευθείαν στον δύοντα ήλιο, με χρυσά και ρόδινα χρώματα να καθρεφτίζονται στη θάλασσα. Να τα καλύτερα σημεία ανά χερσόνησο.</p><h2>Κασσάνδρα</h2><ul><li><strong>Ακρωτήρι Ποσείδι:</strong> Η μακριά αμμώδης γλώσσα με τον ιστορικό φάρο είναι το πιο διάσημο σημείο — ο ήλιος βυθίζεται στη θάλασσα και από τις δύο πλευρές.</li><li><strong>Άφυτος:</strong> Πέτρινα μπαλκόνια με πανοραμική θέα στον Τορωναίο κόλπο και τη Σιθωνία απέναντι.</li><li><strong>Σάνη & Σίβηρη:</strong> Ανοιχτός ορίζοντας στη δυτική ακτή, ιδανικός για ένα cocktail στην παραλία.</li></ul><h2>Σιθωνία</h2><ul><li><strong>Πόρτο Κουφό & Τορώνη:</strong> Το κλειστό φυσικό λιμάνι και ο κόλπος κοιτούν νοτιοδυτικά — ιδανικά για βραδινό ποτό δίπλα στο νερό.</li><li><strong>Νέος Μαρμαράς & Porto Carras:</strong> Ηλιοβασίλεμα πάνω από τη μαρίνα και τα νησάκια του κόλπου.</li><li><strong>Καλόγρια:</strong> Ανοιχτή δυτική παραλία, δημοφιλής και για windsurf το απόγευμα.</li></ul><h2>Tips για την Καλύτερη Θέα</h2><ul><li>Έλα <strong>30-40 λεπτά νωρίτερα</strong> για να πιάσεις τραπέζι σε ταβέρνα με θέα ή καλό σημείο για φωτογραφία.</li><li>Η ώρα λίγο μετά τη δύση (η «γαλάζια ώρα») δίνει τα πιο απαλά χρώματα στον ουρανό.</li><li>Συνδύασέ το με μια <a href="/guide/sithonia">εξερεύνηση της Σιθωνίας</a> ή ένα δείπνο για <a href="/guide/for-couples">ζευγάρια</a>.</li></ul>`,
-      en: `<h2>The Best Sunsets in Halkidiki</h2><p>Thanks to the orientation of its three peninsulas, Halkidiki has some of the <strong>finest sunsets</strong> in Northern Greece. The west-facing coasts look straight at the setting sun, with golden and pink colours mirrored on the sea. Here are the best spots by peninsula.</p><h2>Kassandra</h2><ul><li><strong>Possidi Cape:</strong> The long sandy spit with its historic lighthouse is the most famous spot — the sun sinks into the sea on both sides.</li><li><strong>Afytos:</strong> Stone balconies with panoramic views over the Toroneos gulf, with Sithonia across the water.</li><li><strong>Sani & Siviri:</strong> An open horizon on the western coast, perfect for a beach cocktail.</li></ul><h2>Sithonia</h2><ul><li><strong>Porto Koufo & Toroni:</strong> The enclosed natural harbour and bay face southwest — ideal for an evening drink by the water.</li><li><strong>Neos Marmaras & Porto Carras:</strong> Sunset over the marina and the islets of the bay.</li><li><strong>Kalogria:</strong> An open western beach, also popular for windsurf in the afternoon.</li></ul><h2>Tips for the Best View</h2><ul><li>Arrive <strong>30-40 minutes early</strong> to grab a table at a taverna with a view or a good photo spot.</li><li>The hour just after sunset (the "blue hour") gives the softest colours in the sky.</li><li>Combine it with <a href="/guide/sithonia">exploring Sithonia</a> or a dinner for <a href="/guide/for-couples">couples</a>.</li></ul>`,
-      de: `<h2>Die schönsten Sonnenuntergänge in Chalkidiki</h2><p>Dank der Ausrichtung seiner drei Halbinseln bietet Chalkidiki einige der <strong>schönsten Sonnenuntergänge</strong> Nordgriechenlands. Die westlich ausgerichteten Küsten blicken direkt auf die untergehende Sonne, wobei sich goldene und rosafarbene Töne im Meer spiegeln. Hier sind die besten Orte nach Halbinsel aufgeteilt.</p><h2>Kassandra</h2><ul><li><strong>Kap Possidi:</strong> Die lange Sandzunge mit ihrem historischen Leuchtturm ist der berühmteste Ort — die Sonne versinkt auf beiden Seiten im Meer.</li><li><strong>Afytos:</strong> Steinterrassen mit Panoramablick über den Toroneos Golf, mit Sithonia gegenüber.</li><li><strong>Sani & Siviri:</strong> Ein offener Horizont an der Westküste, perfekt für einen Cocktail am Strand.</li></ul><h2>Sithonia</h2><ul><li><strong>Porto Koufo & Toroni:</strong> Der geschlossene Naturhafen und die Bucht blicken nach Südwesten — ideal für einen abendlichen Drink am Wasser.</li><li><strong>Neos Marmaras & Porto Carras:</strong> Sonnenuntergang über der Marina und den Inselchen der Bucht.</li><li><strong>Kalogria:</strong> Ein offener Weststrand, auch beliebt zum Windsurfen am Nachmittag.</li></ul><h2>Tipps für die beste Aussicht</h2><ul><li>Kommen Sie <strong>30-40 Minuten früher</strong>, um einen Tisch in einer Taverne mit Aussicht oder einen guten Fotoplatz zu ergattern.</li><li>Die Stunde direkt nach Sonnenuntergang (die „blaue Stunde“) bietet die sanftesten Farben am Himmel.</li><li>Kombinieren Sie es mit einer <a href="/guide/sithonia">Erkundung von Sithonia</a> oder einem Abendessen für <a href="/guide/for-couples">Paare</a>.</li></ul>`,
+      el: `<h2>Τα Καλύτερα Ηλιοβασιλέματα στη Χαλκιδική</h2><p>Χάρη στον προσανατολισμό των τριών χερσονήσων, η Χαλκιδική έχει μερικά από τα <strong>ωραιότερα ηλιοβασιλέματα</strong> της Βόρειας Ελλάδας. Οι δυτικές ακτές κοιτούν κατευθείαν στον δύοντα ήλιο, με χρυσά και ρόδινα χρώματα να καθρεφτίζονται στη θάλασσα. Να τα καλύτερα σημεία ανά χερσόνησο.</p><h2>Κασσάνδρα</h2><ul><li><strong>Ακρωτήριο Ποσείδι:</strong> Η μακριά αμμώδης γλώσσα με τον φάρο είναι το πιο γνωστό σημείο — ο ήλιος δύει πάνω από τον Θερμαϊκό.</li><li><strong>Σίβηρη & Νέα Σκιώνη:</strong> Παραθαλάσσια χωριά της δυτικής ακτής, με τον ήλιο να δύει στο ανοιχτό πέλαγος.</li><li><strong>Σάνη & Σίβηρη:</strong> Ανοιχτός ορίζοντας στη δυτική ακτή, ιδανικός για ένα cocktail στην παραλία.</li></ul><h2>Σιθωνία</h2><ul><li><strong>Πόρτο Κουφό & Τορώνη:</strong> Το κλειστό φυσικό λιμάνι και ο κόλπος κοιτούν νοτιοδυτικά — ιδανικά για βραδινό ποτό δίπλα στο νερό.</li><li><strong>Νέος Μαρμαράς & Porto Carras:</strong> Ηλιοβασίλεμα πάνω από τη μαρίνα και τα νησάκια του κόλπου.</li><li><strong>Καλόγρια:</strong> Ανοιχτή δυτική παραλία, δημοφιλής και για windsurf το απόγευμα.</li></ul><h2>Tips για την Καλύτερη Θέα</h2><ul><li>Έλα <strong>30-40 λεπτά νωρίτερα</strong> για να πιάσεις τραπέζι σε ταβέρνα με θέα ή καλό σημείο για φωτογραφία.</li><li>Η ώρα λίγο μετά τη δύση (η «γαλάζια ώρα») δίνει τα πιο απαλά χρώματα στον ουρανό.</li><li>Συνδύασέ το με μια <a href="/guide/sithonia">εξερεύνηση της Σιθωνίας</a> ή ένα δείπνο για <a href="/guide/for-couples">ζευγάρια</a>.</li></ul>`,
+      en: `<h2>The Best Sunsets in Halkidiki</h2><p>Thanks to the orientation of its three peninsulas, Halkidiki has some of the <strong>finest sunsets</strong> in Northern Greece. The west-facing coasts look straight at the setting sun, with golden and pink colours mirrored on the sea. Here are the best spots by peninsula.</p><h2>Kassandra</h2><ul><li><strong>Possidi Cape:</strong> The long sandy spit with its lighthouse is the best-known spot — the sun sets over the Thermaic Gulf.</li><li><strong>Siviri & Nea Skioni:</strong> Seaside villages on the western coast, with the sun going down over the open sea.</li><li><strong>Sani & Siviri:</strong> An open horizon on the western coast, perfect for a beach cocktail.</li></ul><h2>Sithonia</h2><ul><li><strong>Porto Koufo & Toroni:</strong> The enclosed natural harbour and bay face southwest — ideal for an evening drink by the water.</li><li><strong>Neos Marmaras & Porto Carras:</strong> Sunset over the marina and the islets of the bay.</li><li><strong>Kalogria:</strong> An open western beach, also popular for windsurf in the afternoon.</li></ul><h2>Tips for the Best View</h2><ul><li>Arrive <strong>30-40 minutes early</strong> to grab a table at a taverna with a view or a good photo spot.</li><li>The hour just after sunset (the "blue hour") gives the softest colours in the sky.</li><li>Combine it with <a href="/guide/sithonia">exploring Sithonia</a> or a dinner for <a href="/guide/for-couples">couples</a>.</li></ul>`,
+      de: `<h2>Die schönsten Sonnenuntergänge in Chalkidiki</h2><p>Dank der Ausrichtung seiner drei Halbinseln bietet Chalkidiki einige der <strong>schönsten Sonnenuntergänge</strong> Nordgriechenlands. Die westlich ausgerichteten Küsten blicken direkt auf die untergehende Sonne, wobei sich goldene und rosafarbene Töne im Meer spiegeln. Hier sind die besten Orte nach Halbinsel aufgeteilt.</p><h2>Kassandra</h2><ul><li><strong>Kap Possidi:</strong> Die lange Sandzunge mit dem Leuchtturm ist der bekannteste Ort — die Sonne geht über dem Thermaischen Golf unter.</li><li><strong>Siviri & Nea Skioni:</strong> Küstendörfer an der Westküste, wo die Sonne über dem offenen Meer untergeht.</li><li><strong>Sani & Siviri:</strong> Ein offener Horizont an der Westküste, perfekt für einen Cocktail am Strand.</li></ul><h2>Sithonia</h2><ul><li><strong>Porto Koufo & Toroni:</strong> Der geschlossene Naturhafen und die Bucht blicken nach Südwesten — ideal für einen abendlichen Drink am Wasser.</li><li><strong>Neos Marmaras & Porto Carras:</strong> Sonnenuntergang über der Marina und den Inselchen der Bucht.</li><li><strong>Kalogria:</strong> Ein offener Weststrand, auch beliebt zum Windsurfen am Nachmittag.</li></ul><h2>Tipps für die beste Aussicht</h2><ul><li>Kommen Sie <strong>30-40 Minuten früher</strong>, um einen Tisch in einer Taverne mit Aussicht oder einen guten Fotoplatz zu ergattern.</li><li>Die Stunde direkt nach Sonnenuntergang (die „blaue Stunde“) bietet die sanftesten Farben am Himmel.</li><li>Kombinieren Sie es mit einer <a href="/guide/sithonia">Erkundung von Sithonia</a> oder einem Abendessen für <a href="/guide/for-couples">Paare</a>.</li></ul>`,
       bg: `<h2>Най-добрите залези в Халкидики</h2>
 <p>Благодарение на ориентацията на трите полуострова, Халкидики предлага някои от <strong>най-красивите залези</strong> в Северна Гърция. Западните брегове гледат директно към залязващото слънце, което се отразява в морето със златисти и розови нюанси. Ето най-добрите места по полуострови.</p>
 <h2>Касандра</h2>
 <ul>
-<li><strong>Нос Посиди:</strong> Дългият пясъчен нос с историческия си фар е най-известното място — слънцето потъва в морето от двете страни.</li>
-<li><strong>Афитос:</strong> Каменни балкони с панорамна гледка към залива Торонеос и Ситония отсреща.</li>
+<li><strong>Нос Посиди:</strong> Дългата пясъчна коса с фара е най-известното място — слънцето залязва над Термайския залив.</li>
+<li><strong>Сивири и Неа Скиони:</strong> Крайбрежни села по западния бряг, където слънцето залязва над открито море.</li>
 <li><strong>Сани & Сивири:</strong> Отворен хоризонт на западния бряг, идеален за коктейл на плажа.</li>
 </ul>
 <h2>Ситония</h2>
@@ -7043,14 +6898,14 @@ export const GUIDES: Guide[] = [
 <li>Часът точно след залез (наричан „син час“) предлага най-нежните цветове в небето.</li>
 <li>Комбинирайте го с <a href="/guide/sithonia">разходка из Ситония</a> или вечеря за <a href="/guide/for-couples">двойки</a>.</li>
 </ul>`,
-      ru: `<h2>Лучшие закаты в Халкидиках</h2><p>Благодаря ориентации трех полуостровов, Халкидики славятся одними из <strong>самых красивых закатов</strong> в Северной Греции. Западные побережья смотрят прямо на заходящее солнце, отражая золотые и розовые оттенки на поверхности моря. Вот лучшие места для наблюдения за закатом на каждом полуострове.</p><h2>Касандра</h2><ul><li><strong>Мыс Поссиди:</strong> Длинная песчаная коса с историческим маяком — самое известное место, где солнце погружается в море с обеих сторон.</li><li><strong>Афитос:</strong> Каменные балконы с панорамным видом на залив Торонеос и Ситонию на противоположной стороне.</li><li><strong>Сани и Сивири:</strong> Открытый горизонт на западном побережье, идеально подходит для коктейля на пляже.</li></ul><h2>Ситония</h2><ul><li><strong>Порто Куфо и Торони:</strong> Закрытая естественная гавань и залив, обращенные на юго-запад — идеальное место для вечернего напитка у воды.</li><li><strong>Неос Мармарас и Porto Carras:</strong> Закат над мариной и островками залива.</li><li><strong>Калогрия:</strong> Открытый западный пляж, также популярный для виндсерфинга днем.</li></ul><h2>Советы для лучшего вида</h2><ul><li>Приходите <strong>за 30-40 минут</strong> до заката, чтобы занять столик в таверне с видом или найти хорошее место для фото.</li><li>Час после заката (так называемый «синий час») дарит самые мягкие цвета неба.</li><li>Совместите это с <a href="/guide/sithonia">исследованием Ситонии</a> или ужином для <a href="/guide/for-couples">пары</a>.</li></ul>`,
-      ro: `<h2>Cele Mai Frumoase Apusuri în Halkidiki</h2><p>Datorită orientării celor trei peninsule, Halkidiki oferă unele dintre cele mai <strong>frumoase apusuri</strong> din nordul Greciei. Coastele vestice privesc direct spre soarele apus, cu culori aurii și roz oglindindu-se pe mare. Iată cele mai bune locuri pe peninsulă.</p><h2>Kassandra</h2><ul><li><strong>Capul Possidi:</strong> Limba lungă de nisip cu farul său istoric este cel mai faimos loc — soarele se scufundă în mare de ambele părți.</li><li><strong>Afytos:</strong> Balcoane de piatră cu vedere panoramică asupra golfului Toroneos, cu Sithonia vizavi.</li><li><strong>Sani & Siviri:</strong> Orizont deschis pe coasta vestică, perfect pentru un cocktail pe plajă.</li></ul><h2>Sithonia</h2><ul><li><strong>Porto Koufo & Toroni:</strong> Portul natural închis și golful sunt orientate spre sud-vest — ideale pentru o băutură de seară lângă apă.</li><li><strong>Neos Marmaras & Porto Carras:</strong> Apusul peste marină și insulițele din golf.</li><li><strong>Kalogria:</strong> Plajă deschisă spre vest, populară și pentru windsurf după-amiaza.</li></ul><h2>Sfaturi pentru cea Mai Bună Vedere</h2><ul><li>Ajungeți cu <strong>30-40 de minute mai devreme</strong> pentru a prinde o masă la o tavernă cu vedere sau un loc bun pentru fotografii.</li><li>Ora imediat după apus (așa-numita „oră albastră”) oferă cele mai delicate culori pe cer.</li><li>Combinați-l cu o <a href="/guide/sithonia">explorare a Sithoniei</a> sau o cină pentru <a href="/guide/for-couples">cupluri</a>.</li></ul>`,
+      ru: `<h2>Лучшие закаты в Халкидиках</h2><p>Благодаря ориентации трех полуостровов, Халкидики славятся одними из <strong>самых красивых закатов</strong> в Северной Греции. Западные побережья смотрят прямо на заходящее солнце, отражая золотые и розовые оттенки на поверхности моря. Вот лучшие места для наблюдения за закатом на каждом полуострове.</p><h2>Касандра</h2><ul><li><strong>Мыс Поссиди:</strong> Длинная песчаная коса с маяком — самое известное место: солнце садится над Термаическим заливом.</li><li><strong>Сивири и Неа-Скиони:</strong> Прибрежные деревни западного побережья, где солнце садится в открытое море.</li><li><strong>Сани и Сивири:</strong> Открытый горизонт на западном побережье, идеально подходит для коктейля на пляже.</li></ul><h2>Ситония</h2><ul><li><strong>Порто Куфо и Торони:</strong> Закрытая естественная гавань и залив, обращенные на юго-запад — идеальное место для вечернего напитка у воды.</li><li><strong>Неос Мармарас и Porto Carras:</strong> Закат над мариной и островками залива.</li><li><strong>Калогрия:</strong> Открытый западный пляж, также популярный для виндсерфинга днем.</li></ul><h2>Советы для лучшего вида</h2><ul><li>Приходите <strong>за 30-40 минут</strong> до заката, чтобы занять столик в таверне с видом или найти хорошее место для фото.</li><li>Час после заката (так называемый «синий час») дарит самые мягкие цвета неба.</li><li>Совместите это с <a href="/guide/sithonia">исследованием Ситонии</a> или ужином для <a href="/guide/for-couples">пары</a>.</li></ul>`,
+      ro: `<h2>Cele Mai Frumoase Apusuri în Halkidiki</h2><p>Datorită orientării celor trei peninsule, Halkidiki oferă unele dintre cele mai <strong>frumoase apusuri</strong> din nordul Greciei. Coastele vestice privesc direct spre soarele apus, cu culori aurii și roz oglindindu-se pe mare. Iată cele mai bune locuri pe peninsulă.</p><h2>Kassandra</h2><ul><li><strong>Capul Possidi:</strong> Limba lungă de nisip cu far este locul cel mai cunoscut — soarele apune deasupra golfului Thermaic.</li><li><strong>Siviri și Nea Skioni:</strong> Sate de pe coasta de vest, unde soarele apune deasupra mării deschise.</li><li><strong>Sani & Siviri:</strong> Orizont deschis pe coasta vestică, perfect pentru un cocktail pe plajă.</li></ul><h2>Sithonia</h2><ul><li><strong>Porto Koufo & Toroni:</strong> Portul natural închis și golful sunt orientate spre sud-vest — ideale pentru o băutură de seară lângă apă.</li><li><strong>Neos Marmaras & Porto Carras:</strong> Apusul peste marină și insulițele din golf.</li><li><strong>Kalogria:</strong> Plajă deschisă spre vest, populară și pentru windsurf după-amiaza.</li></ul><h2>Sfaturi pentru cea Mai Bună Vedere</h2><ul><li>Ajungeți cu <strong>30-40 de minute mai devreme</strong> pentru a prinde o masă la o tavernă cu vedere sau un loc bun pentru fotografii.</li><li>Ora imediat după apus (așa-numita „oră albastră”) oferă cele mai delicate culori pe cer.</li><li>Combinați-l cu o <a href="/guide/sithonia">explorare a Sithoniei</a> sau o cină pentru <a href="/guide/for-couples">cupluri</a>.</li></ul>`,
       sr: `<h2>Najlepši Zalazak Sunca u Halkidikiju</h2>
 <p>Zahvaljujući orijentaciji tri poluostrva, Halkidiki nudi neke od <strong>najlepših zalazaka sunca</strong> u severnoj Grčkoj. Zapadne obale gledaju direktno u zalazeće sunce, sa zlatnim i ružičastim bojama koje se ogledaju na moru. Evo najboljih mesta po poluostrvu.</p>
 <h2>Kassandra</h2>
 <ul>
-<li><strong>Rt Possidi:</strong> Dugačka peščana prevlaka sa istorijskim svetionikom je najpoznatije mesto — sunce zalazi u more sa obe strane.</li>
-<li><strong>Afytos:</strong> Kameni balkoni sa panoramskim pogledom na Toroneos zaliv, sa Sithonijom preko puta.</li>
+<li><strong>Rt Posidi:</strong> Dugačak peščani jezičak sa svetionikom najpoznatije je mesto — sunce zalazi nad Termajskim zalivom.</li>
+<li><strong>Siviri i Nea Skioni:</strong> Primorska sela na zapadnoj obali, gde sunce zalazi nad otvorenim morem.</li>
 <li><strong>Sani & Siviri:</strong> Otvoren horizont na zapadnoj obali, savršen za koktel na plaži.</li>
 </ul>
 <h2>Sithonia</h2>
@@ -7128,7 +6983,7 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Χειροποίητα σαπούνια:</strong> Σαπούνια με βάση το ελαιόλαδο, εμπλουτισμένα με λεβάντα, θυμάρι ή μέλι — ελαφριά και εύκολα στη συσκευασία</li>
 <li><strong>Κατασκευές από ελαιόξυλο:</strong> Σανίδες κοπής, κουτάλια, μπολ και κουζινικά σκεύη σκαλισμένα από τοπικό ελαιόξυλο. Κάθε κομμάτι είναι μοναδικό λόγω της φυσικής υφής του ξύλου.</li>
-<li><strong>Φυσικά σφουγγάρια:</strong> Συλλέγονται από τοπικούς δύτες και διατίθενται σε τουριστικά καταστήματα σε όλη τη χερσόνησο</li>
+
 <li><strong>Τοπικό κρασί:</strong> Αναζητήστε Μαλαγουζιά (αρωματικό λευκό) και Ασύρτικο (τραγανό λευκό) από τοπικούς αμπελώνες. Το οινοποιείο Porto Carras στη Σιθωνία είναι γνωστό.</li>
 <li><strong>Βότανα και μπαχαρικά:</strong> Αποξηραμένη ρίγανη, τσάι του βουνού και φασκόμηλο από τις πλαγιές</li>
 </ul>
@@ -7169,7 +7024,7 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Handmade soap:</strong> Olive oil-based soaps infused with lavender, thyme, or honey — lightweight and easy to pack</li>
 <li><strong>Olive wood crafts:</strong> Cutting boards, salad servers, bowls, and kitchen utensils carved from local olive wood. Each piece is unique due to the wood's natural grain.</li>
-<li><strong>Natural sea sponges:</strong> Harvested by local divers, available in tourist shops throughout the peninsula</li>
+
 <li><strong>Local wine:</strong> Look for Malagouzia (aromatic white) and Assyrtiko (crisp white) from local vineyards. Porto Carras winery in Sithonia is well-known.</li>
 <li><strong>Herbs and spices:</strong> Dried oregano, mountain tea (tsai tou vounou), and sage from the hillsides</li>
 </ul>
@@ -7211,7 +7066,7 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Handgemachte Seifen:</strong> Seifen auf Olivenölbasis, angereichert mit Lavendel, Thymian oder Honig — leicht und einfach zu verpacken</li>
 <li><strong>Olivenholz-Handwerk:</strong> Schneidebretter, Salatbesteck, Schalen und Küchenutensilien aus lokalem Olivenholz. Jedes Stück ist aufgrund der natürlichen Maserung des Holzes einzigartig.</li>
-<li><strong>Natürliche Schwämme:</strong> Von lokalen Tauchern geerntet und in Touristenläden auf der gesamten Halbinsel erhältlich</li>
+
 <li><strong>Lokaler Wein:</strong> Suchen Sie nach Malagouzia (aromatischer Weißwein) und Assyrtiko (knackiger Weißwein) aus lokalen Weinbergen. Das Weingut Porto Carras in Sithonia ist bekannt.</li>
 <li><strong>Kräuter und Gewürze:</strong> Getrockneter Oregano, Bergtee und Salbei von den Hügeln</li>
 </ul>
@@ -7253,7 +7108,7 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Ръчно изработени сапуни:</strong> Сапуни на основата на зехтин, обогатени с лавандула, мащерка или мед — леки и лесни за опаковане</li>
 <li><strong>Изделия от маслиново дърво:</strong> Дъски за рязане, лъжици, купи и кухненски прибори, издълбани от местно маслиново дърво. Всяко парче е уникално поради естествената текстура на дървото.</li>
-<li><strong>Естествени морски гъби:</strong> Събирани от местни водолази и налични в туристическите магазини по цялата полуостров</li>
+
 <li><strong>Местно вино:</strong> Търсете Малагузия (ароматно бяло) и Асиртико (хрупкаво бяло) от местни лозови насаждения. Винарната Porto Carras в Ситония е добре известна.</li>
 <li><strong>Билки и подправки:</strong> Сушена риган, планински чай и салвия от склоновете</li>
 </ul>
@@ -7295,7 +7150,7 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Ручное мыло:</strong> Мыло на основе оливкового масла с добавлением лаванды, тимьяна или мёда — лёгкое и удобное для упаковки</li>
 <li><strong>Изделия из оливкового дерева:</strong> Разделочные доски, ложки для салата, миски и кухонные принадлежности, вырезанные из местного оливкового дерева. Каждое изделие уникально благодаря естественной текстуре дерева.</li>
-<li><strong>Натуральные морские губки:</strong> Собираются местными водолазами и продаются в туристических магазинах по всей полуострову</li>
+
 <li><strong>Местное вино:</strong> Ищите Малагузья (ароматное белое) и Ассиртико (хрустящее белое) из местных виноградников. Винодельня Porto Carras в Ситонии широко известна.</li>
 <li><strong>Травы и специи:</strong> Сушёный орегано, горный чай и шалфей с холмов</li>
 </ul>
@@ -7337,7 +7192,7 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Săpunuri handmade:</strong> Săpunuri pe bază de ulei de măsline, infuzate cu lavandă, cimbru sau miere — ușoare și ușor de împachetat</li>
 <li><strong>Artizanat din lemn de măslin:</strong> Plăci de tăiat, linguri, boluri și ustensile de bucătărie sculptate din lemn de măslin local. Fiecare piesă este unică datorită texturii naturale a lemnului.</li>
-<li><strong>Bureți naturali de mare:</strong> Recoltați de scafandri locali, disponibili în magazinele turistice din întreaga peninsulă</li>
+
 <li><strong>Vin local:</strong> Caută Malagouzia (alb aromatic) și Assyrtiko (alb crocant) din podgoriile locale. Crama Porto Carras din Sithonia este bine cunoscută.</li>
 <li><strong>Plante și condimente:</strong> Oregano uscat, ceai de munte și salvie de pe versanți</li>
 </ul>
@@ -7379,7 +7234,7 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Ručni sapuni:</strong> Sapuni na bazi maslinovog ulja obogaćeni lavandom, timijanom ili medom — lagani i laki za pakovanje</li>
 <li><strong>Proizvodi od maslinovog drveta:</strong> Daske za sečenje, kašike, činije i kuhinjski pribor izrađeni od lokalnog maslinovog drveta. Svaki komad je jedinstven zbog prirodne teksture drveta.</li>
-<li><strong>Prirodne morske sunđere:</strong> Prikupljaju ih lokalni ronioci i dostupni su u turističkim prodavnicama širom poluostrva</li>
+
 <li><strong>Lokalno vino:</strong> Potražite Malagouzia (aromatično belo) i Assyrtiko (hrskavo belo) iz lokalnih vinograda. Vinarija Porto Carras u Sitoniji je poznata.</li>
 <li><strong>Bilje i začini:</strong> Sušena origano, planinski čaj i žalfija sa padina</li>
 </ul>
@@ -7412,7 +7267,7 @@ export const GUIDES: Guide[] = [
     metaDesc: { el: 'Χαλκιδική ή Σκιάθος; Παραλίες, πρόσβαση, κόστος, οικογένειες — πλήρης σύγκριση 2026.', en: 'Halkidiki or Skiathos? Beaches, access, cost, families — full 2026 comparison.', de: 'Chalkidiki oder Skiathos? Strände, Anreise, Kosten — Vergleich 2026.', bg: 'Халкидики или Скиатос? Плажове, достъп — пълно сравнение 2026.', ru: 'Халкидики или Скиатос? Пляжи, доступ — сравнение 2026.', ro: 'Halkidiki sau Skiathos? Plaje, acces — comparație 2026.', sr: 'Halkidiki ili Skiatos? Plaže, pristup — poređenje 2026.' },
     content: {
       el: `<h2>Χαλκιδική ή Σκιάθος;</h2>
-<p>Δύο δημοφιλείς προορισμοί της Βόρειας Ελλάδας, καθένας με τον δικό του μοναδικό χαρακτήρα. Η <strong>Χαλκιδική</strong> είναι μια εκτεταμένη ηπειρωτική περιοχή με τρεις εντυπωσιακές χερσονήσους: την Κασσάνδρα, τη Σιθωνία και τον Άθω, ενώ η <strong>Σκιάθος</strong> είναι ένα μικρό, καταπράσινο νησί των Σποράδων, γνωστό για τις εξαιρετικές του παραλίες και την έντονη φυσική ομορφιά του.</p>
+<p>Δύο δημοφιλείς καλοκαιρινοί προορισμοί με διαφορετικό χαρακτήρα. Η <strong>Χαλκιδική</strong> είναι μεγάλη ηπειρωτική περιοχή της Βόρειας Ελλάδας, γνωστή για τις τρεις χερσονήσους της, καθεμία με τα δικά της τοπία. Η <strong>Σκιάθος</strong> είναι μικρό, καταπράσινο νησί των Σποράδων, γνωστό για τις παραλίες και τη ζωντανή του ατμόσφαιρα.</p>
 
 <h2>Σκιάθος</h2>
 <ul>
@@ -7433,7 +7288,7 @@ export const GUIDES: Guide[] = [
 <h2>Ποιο να Διαλέξεις;</h2>
 <p>Διάλεξε τη <strong>Σκιάθο</strong> αν επιθυμείς τη γοητεία ενός συμπαγούς νησιού με εμβληματικές παραλίες σε κοντινές αποστάσεις, ιδανικό για όσους θέλουν να εξερευνήσουν κάθε γωνιά του νησιού εύκολα. Από την άλλη, διάλεξε τη <strong>Χαλκιδική</strong> αν προτιμάς περισσότερο χώρο, χαμηλότερο κόστος, ευκολία με αυτοκίνητο και μεγαλύτερη ποικιλία σε παραλίες και εκδρομές. Και οι δύο προορισμοί προσφέρουν υπέροχα, κρυστάλλινα νερά — απλώς σε διαφορετική κλίμακα και με διαφορετικές εμπειρίες να προσφέρουν.</p>`,
       en: `<h2>Halkidiki or Skiathos?</h2>
-<p>Two popular Northern Greece destinations with distinct characters. <strong>Halkidiki</strong> is a vast mainland region known for its three peninsulas, each offering unique landscapes and experiences. In contrast, <strong>Skiathos</strong> is a small, lush island of the Sporades, renowned for its stunning beaches and vibrant atmosphere.</p>
+<p>Two popular summer destinations with distinct characters. <strong>Halkidiki</strong> is a large mainland region in Northern Greece known for its three peninsulas, each with its own landscapes. <strong>Skiathos</strong> is a small, green island of the Sporades, known for its beaches and lively atmosphere.</p>
 
 <h2>Skiathos</h2>
 <ul>
@@ -7454,7 +7309,7 @@ export const GUIDES: Guide[] = [
 <h2>Which to Choose?</h2>
 <p>Choose <strong>Skiathos</strong> if you desire the charm of a compact island with iconic beaches at short distances, perfect for a relaxing getaway with easy access to all amenities. Opt for <strong>Halkidiki</strong> if you prefer more space, lower costs, and the convenience of exploring by car. Halkidiki offers a greater variety of beaches and excursions, from the vibrant nightlife of Kallithea to the serene beauty of Vourvourou and Diaporos Island. Both destinations promise wonderful waters and unforgettable experiences, each at their own scale and pace.</p>`,
       de: `<h2>Chalkidiki oder Skiathos?</h2>
-<p>Zwei beliebte Reiseziele in Nordgriechenland, die jeweils ihren eigenen, einzigartigen Charakter haben. <strong>Chalkidiki</strong> ist eine weitläufige Festlandregion, bekannt für ihre drei Halbinseln, die jeweils einzigartige Landschaften und Erlebnisse bieten. Im Gegensatz dazu ist <strong>Skiathos</strong> eine kleine, grüne Insel der Sporaden, berühmt für ihre atemberaubenden Strände und lebendige Atmosphäre.</p>
+<p>Zwei beliebte Sommerziele mit unterschiedlichem Charakter. <strong>Chalkidiki</strong> ist eine große Festlandregion in Nordgriechenland mit drei Halbinseln, jede mit eigener Landschaft. <strong>Skiathos</strong> ist eine kleine, grüne Insel der Sporaden, bekannt für ihre Strände und ihre lebhafte Atmosphäre.</p>
 
 <h2>Skiathos</h2>
 <ul>
@@ -7475,7 +7330,7 @@ export const GUIDES: Guide[] = [
 <h2>Welche Wahl treffen?</h2>
 <p>Wählen Sie <strong>Skiathos</strong>, wenn Sie den Charme einer kompakten Insel mit ikonischen Stränden in kurzer Entfernung wünschen, ideal für einen entspannten Kurzurlaub mit einfachem Zugang zu allen Annehmlichkeiten. Entscheiden Sie sich für <strong>Chalkidiki</strong>, wenn Sie mehr Platz, niedrigere Kosten und die Bequemlichkeit bevorzugen, die Region mit dem Auto zu erkunden. Chalkidiki bietet eine größere Vielfalt an Stränden und Ausflügen, von der lebendigen Nacht in Kallithea bis zur ruhigen Schönheit von Vourvourou und der Insel Diaporos. Beide Ziele versprechen wunderbare Gewässer und unvergessliche Erlebnisse, jeweils in ihrem eigenen Maßstab und Tempo.</p>`,
       bg: `<h2>Халкидики или Скиатос?</h2>
-<p>Два популярни дестинации в Северна Гърция, всяка със свой уникален характер. <strong>Халкидики</strong> е обширен континентален регион, известен със своите три полуострова: Касандра, Ситония и Атон, всеки предлагащ уникални пейзажи и преживявания. За разлика от тях, <strong>Скиатос</strong> е малък, зелен остров от Спорадите, прочут със своите великолепни плажове и живописна атмосфера.</p>
+<p>Две популярни летни дестинации с различен характер. <strong>Халкидики</strong> е голяма континентална област в Северна Гърция с три полуострова, всеки със свой пейзаж. <strong>Скиатос</strong> е малък зелен остров от Северните Споради, известен с плажовете и оживената си атмосфера.</p>
 
 <h2>Скиатос</h2>
 <ul>
@@ -7496,7 +7351,7 @@ export const GUIDES: Guide[] = [
 <h2>Кое да избереш?</h2>
 <p>Избери <strong>Скиатос</strong> ако желаеш чарът на компактен остров с емблематични плажове на кратки разстояния, идеален за релаксиращо бягство с лесен достъп до всички удобства. Избери <strong>Халкидики</strong> ако предпочиташ повече пространство, по-ниски разходи и удобството да изследваш с кола. Халкидики предлага по-голямо разнообразие от плажове и екскурзии, от оживения нощен живот на Калитея до спокойната красота на Вурвуру и остров Диапорос. И двете дестинации обещават прекрасни води и незабравими преживявания, всяка със своя собствен мащаб и ритъм.</p>`,
       ru: `<h2>Халкидики или Скиатос?</h2>
-<p>Два популярных направления на севере Греции, каждое из которых обладает своим уникальным характером. <strong>Халкидики</strong> — это обширный материковый регион с тремя впечатляющими полуостровами: Касандра, Ситония и Афон, каждый из которых предлагает уникальные пейзажи и впечатления. В отличие от него, <strong>Скиатос</strong> — это небольшой, зеленый остров Спорад, известный своими потрясающими пляжами и яркой атмосферой.</p>
+<p>Два популярных летних направления с разным характером. <strong>Халкидики</strong> — большой материковый регион Северной Греции с тремя полуостровами, у каждого свой пейзаж. <strong>Скиатос</strong> — небольшой зелёный остров Северных Спорад, известный пляжами и оживлённой атмосферой.</p>
 
 <h2>Скиатос</h2>
 <ul>
@@ -7517,7 +7372,7 @@ export const GUIDES: Guide[] = [
 <h2>Что выбрать?</h2>
 <p>Выбери <strong>Скиатос</strong>, если ты жаждешь очарования компактного острова с знаковыми пляжами на коротких расстояниях, идеально подходящего для тех, кто хочет легко исследовать каждый уголок острова. С другой стороны, выбери <strong>Халкидики</strong>, если предпочитаешь больше пространства, более низкие затраты, удобство путешествия на автомобиле и большее разнообразие пляжей и экскурсий. Оба направления предлагают великолепные, кристально чистые воды — просто в разном масштабе и с разными впечатлениями, которые они могут предложить.</p>`,
       ro: `<h2>Halkidiki sau Skiathos?</h2>
-<p>Două destinații populare din nordul Greciei, fiecare cu un caracter distinct. <strong>Halkidiki</strong> este o regiune continentală vastă, cunoscută pentru cele trei peninsule ale sale, fiecare oferind peisaje și experiențe unice. În contrast, <strong>Skiathos</strong> este o insulă mică și verde din Sporade, renumită pentru plajele sale uimitoare și atmosfera vibrantă.</p>
+<p>Două destinații de vară populare, cu caractere diferite. <strong>Halkidiki</strong> este o regiune continentală mare din nordul Greciei, cunoscută pentru cele trei peninsule, fiecare cu peisajele ei. <strong>Skiathos</strong> este o insulă mică și verde din Sporade, cunoscută pentru plaje și atmosfera animată.</p>
 
 <h2>Skiathos</h2>
 <ul>
@@ -7538,7 +7393,7 @@ export const GUIDES: Guide[] = [
 <h2>Pe care să-l alegi?</h2>
 <p>Alege <strong>Skiathos</strong> dacă dorești farmecul unei insule compacte cu plaje emblematice la distanțe scurte, perfectă pentru o escapadă relaxantă cu acces facil la toate facilitățile. Optează pentru <strong>Halkidiki</strong> dacă preferi mai mult spațiu, costuri mai mici și comoditatea explorării cu mașina. Halkidiki oferă o varietate mai mare de plaje și excursii, de la viața de noapte vibrantă din Kallithea la frumusețea serenă din Vourvourou și Insula Diaporos. Ambele destinații promit ape minunate și experiențe de neuitat, fiecare la propria sa scară și ritm.</p>`,
       sr: `<h2>Halkidiki ili Skiatos?</h2>
-<p>Dva popularna odredišta severne Grčke, svako sa svojim jedinstvenim karakterom. <strong>Halkidiki</strong> je prostrana kopnena oblast poznata po svojim trima poluostrvima: Kassandra, Sithonia i Athos, dok je <strong>Skiatos</strong> malo, zeleno ostrvo u Sporadima, poznato po prelepim plažama i živopisnoj prirodi.</p>
+<p>Dve popularne letnje destinacije različitog karaktera. <strong>Halkidiki</strong> je velika kopnena oblast u severnoj Grčkoj, poznata po tri poluostrva, svako sa svojim pejzažima. <strong>Skijatos</strong> je malo, zeleno ostrvo Sporada, poznato po plažama i živahnoj atmosferi.</p>
 
 <h2>Skiatos</h2>
 <ul>
@@ -8456,13 +8311,13 @@ export const GUIDES: Guide[] = [
     metaTitle: { el: 'Χαλκιδική για Ζευγάρια — Ρομαντικός Οδηγός 2026', en: 'Halkidiki for Couples — Romantic Guide 2026', de: 'Chalkidiki für Paare — Romantikführer 2026', bg: 'Халкидики за двойки 2026', ru: 'Халкидики для пар 2026', ro: 'Halkidiki pentru cupluri 2026', sr: 'Halkidiki za parove 2026' },
     metaDesc: { el: 'Ρομαντικές δραστηριότητες για ζευγάρια: βόλτες στη θάλασσα, δείπνα με θέα, boutique καταλύματα.', en: 'Romantic activities for couples: seaside walks, dinners with a view, boutique stays.', de: 'Romantische Aktivitäten für Paare.', bg: 'Романтични дейности за двойки.', ru: 'Романтические занятия для пар.', ro: 'Activități romantice pentru cupluri.', sr: 'Romantične aktivnosti za parove.' },
     content: {
-      el: `<h2>Χαλκιδική για Ζευγάρια</h2><p>Είτε για μια <strong>ρομαντική απόδραση</strong> ένα Σαββατοκύριακο είτε για επέτειο, η Χαλκιδική προσφέρει ήσυχες παραλίες, γραφικά πέτρινα χωριά και μαγικά ηλιοβασιλέματα. Ο συνδυασμός θάλασσας και βουνού δίνει άπειρες επιλογές για δυο, από χαλαρές μέρες στην άμμο μέχρι εξερευνήσεις με το αυτοκίνητο.</p><h2>Εμπειρίες για Δύο</h2><ul><li><strong>Ηλιοβασίλεμα:</strong> Το ακρωτήρι <strong>Ποσείδι</strong> με τον φάρο και οι μπαλκονάτες ταβέρνες της <strong>Αφύτου</strong> — δες και τα <a href="/guide/sunset-spots">σημεία ηλιοβασιλέματος</a>.</li><li><strong>Απομονωμένες παραλίες:</strong> Οι κρυμμένοι όρμοι της <a href="/guide/sithonia">Σιθωνίας</a>, όπως οι Καβουρότρυπες και η Τρανή Άμμουδα, με σμαραγδένια νερά.</li><li><strong>Γεύση:</strong> Φρέσκο ψάρι δίπλα στο κύμα στο Πόρτο Κουφό και γευσιγνωσία κρασιού στο οινοποιείο <strong>Porto Carras</strong>.</li></ul><h2>Ρομαντικοί Περίπατοι</h2><p>Ο <strong>Παρθενώνας</strong>, ένα πέτρινο χωριό πάνω από τον Νέο Μαρμαρά, και τα καλντερίμια της <strong>Αφύτου</strong> είναι ιδανικά για βραδινή βόλτα χέρι-χέρι. Μια βαρκάδα στο ηλιοβασίλεμα γύρω από τη Βουρβουρού ή ένα ήσυχο δείπνο στο Πόρτο Κουφό ολοκληρώνουν τέλεια τη μέρα. Για ακόμη πιο ξεχωριστές στιγμές, δες και τον οδηγό για <a href="/guide/honeymoon">μήνα του μέλιτος</a>.</p><h2>Tips</h2><ul><li>Προτίμησε <strong>Ιούνιο ή Σεπτέμβριο</strong> για ησυχία, ήπιο κλίμα και ζεστή θάλασσα.</li><li>Νοίκιασε <a href="/guide/car-rental">αυτοκίνητο</a> για αυθόρμητες εξορμήσεις σε κρυφές παραλίες και ταβέρνες.</li></ul>`,
-      en: `<h2>Halkidiki for Couples</h2><p>Whether for a <strong>romantic weekend escape</strong> or an anniversary, Halkidiki offers quiet beaches, picturesque stone villages and magical sunsets. The mix of sea and mountain gives endless options for two, from relaxed days on the sand to road trips of discovery.</p><h2>Experiences for Two</h2><ul><li><strong>Sunset:</strong> The <strong>Possidi</strong> cape with its lighthouse and the balcony tavernas of <strong>Afytos</strong> — see also the <a href="/guide/sunset-spots">best sunset spots</a>.</li><li><strong>Secluded beaches:</strong> The hidden coves of <a href="/guide/sithonia">Sithonia</a>, such as Kavourotrypes and Trani Ammouda, with emerald water.</li><li><strong>Taste:</strong> Fresh fish by the water at Porto Koufo and wine tasting at the <strong>Porto Carras</strong> winery.</li></ul><h2>Romantic Walks</h2><p><strong>Parthenonas</strong>, a stone village above Neos Marmaras, and the lanes of <strong>Afytos</strong> are ideal for an evening stroll hand in hand. A sunset boat trip around Vourvourou or a quiet dinner at Porto Koufo rounds off the day perfectly. For even more special moments, see the <a href="/guide/honeymoon">honeymoon guide</a>.</p><h2>Tips</h2><ul><li>Prefer <strong>June or September</strong> for quiet, mild weather and warm water.</li><li>Rent a <a href="/guide/car-rental">car</a> for spontaneous trips to hidden beaches and tavernas.</li></ul>`,
+      el: `<h2>Χαλκιδική για Ζευγάρια</h2><p>Είτε για μια <strong>ρομαντική απόδραση</strong> ένα Σαββατοκύριακο είτε για επέτειο, η Χαλκιδική προσφέρει ήσυχες παραλίες, γραφικά πέτρινα χωριά και μαγικά ηλιοβασιλέματα. Ο συνδυασμός θάλασσας και βουνού δίνει άπειρες επιλογές για δυο, από χαλαρές μέρες στην άμμο μέχρι εξερευνήσεις με το αυτοκίνητο.</p><h2>Εμπειρίες για Δύο</h2><ul><li><strong>Ηλιοβασίλεμα:</strong> Το ακρωτήρι <strong>Ποσείδι</strong> με τον φάρο και οι παραλίες της δυτικής ακτής της Κασσάνδρας — δες και τα <a href="/guide/sunset-spots">σημεία ηλιοβασιλέματος</a>.</li><li><strong>Απομονωμένες παραλίες:</strong> Οι κρυμμένοι όρμοι της <a href="/guide/sithonia">Σιθωνίας</a>, όπως οι Καβουρότρυπες και η Τρανή Άμμουδα, με σμαραγδένια νερά.</li><li><strong>Γεύση:</strong> Φρέσκο ψάρι δίπλα στο κύμα στο Πόρτο Κουφό και γευσιγνωσία κρασιού στο οινοποιείο <strong>Porto Carras</strong>.</li></ul><h2>Ρομαντικοί Περίπατοι</h2><p>Ο <strong>Παρθενώνας</strong>, ένα πέτρινο χωριό πάνω από τον Νέο Μαρμαρά, και τα καλντερίμια της <strong>Αφύτου</strong> είναι ιδανικά για βραδινή βόλτα χέρι-χέρι. Μια βαρκάδα στο ηλιοβασίλεμα γύρω από τη Βουρβουρού ή ένα ήσυχο δείπνο στο Πόρτο Κουφό ολοκληρώνουν τέλεια τη μέρα. Για ακόμη πιο ξεχωριστές στιγμές, δες και τον οδηγό για <a href="/guide/honeymoon">μήνα του μέλιτος</a>.</p><h2>Tips</h2><ul><li>Προτίμησε <strong>Ιούνιο ή Σεπτέμβριο</strong> για ησυχία, ήπιο κλίμα και ζεστή θάλασσα.</li><li>Νοίκιασε <a href="/guide/car-rental">αυτοκίνητο</a> για αυθόρμητες εξορμήσεις σε κρυφές παραλίες και ταβέρνες.</li></ul>`,
+      en: `<h2>Halkidiki for Couples</h2><p>Whether for a <strong>romantic weekend escape</strong> or an anniversary, Halkidiki offers quiet beaches, picturesque stone villages and magical sunsets. The mix of sea and mountain gives endless options for two, from relaxed days on the sand to road trips of discovery.</p><h2>Experiences for Two</h2><ul><li><strong>Sunset:</strong> The <strong>Possidi</strong> cape with its lighthouse and the beaches of the western coast of Kassandra — see also the <a href="/guide/sunset-spots">best sunset spots</a>.</li><li><strong>Secluded beaches:</strong> The hidden coves of <a href="/guide/sithonia">Sithonia</a>, such as Kavourotrypes and Trani Ammouda, with emerald water.</li><li><strong>Taste:</strong> Fresh fish by the water at Porto Koufo and wine tasting at the <strong>Porto Carras</strong> winery.</li></ul><h2>Romantic Walks</h2><p><strong>Parthenonas</strong>, a stone village above Neos Marmaras, and the lanes of <strong>Afytos</strong> are ideal for an evening stroll hand in hand. A sunset boat trip around Vourvourou or a quiet dinner at Porto Koufo rounds off the day perfectly. For even more special moments, see the <a href="/guide/honeymoon">honeymoon guide</a>.</p><h2>Tips</h2><ul><li>Prefer <strong>June or September</strong> for quiet, mild weather and warm water.</li><li>Rent a <a href="/guide/car-rental">car</a> for spontaneous trips to hidden beaches and tavernas.</li></ul>`,
       de: `<h2>Chalkidiki für Paare</h2>
 <p>Ob für einen <strong>romantischen Wochenendausflug</strong> oder einen Jahrestag, Chalkidiki bietet ruhige Strände, malerische Steindörfer und magische Sonnenuntergänge. Die Mischung aus Meer und Bergen bietet unendliche Möglichkeiten für zwei, von entspannten Tagen am Sand bis hin zu Entdeckungstouren mit dem Auto.</p>
 <h2>Erlebnisse für Zwei</h2>
 <ul>
-<li><strong>Sonnenuntergang:</strong> Das Kap <strong>Possidi</strong> mit seinem Leuchtturm und die Balkontavernen von <strong>Afytos</strong> — sieh dir auch die <a href="/guide/sunset-spots">schönsten Sonnenuntergangsplätze</a> an.</li>
+<li><strong>Sonnenuntergang:</strong> Das Kap <strong>Possidi</strong> mit seinem Leuchtturm und die Strände an der Westküste von Kassandra — siehe auch die <a href="/guide/sunset-spots">schönsten Sonnenuntergangsplätze</a>.</li>
 <li><strong>Abgeschiedene Strände:</strong> Die versteckten Buchten von <a href="/guide/sithonia">Sithonia</a>, wie Kavourotrypes und Trani Ammouda, mit smaragdgrünem Wasser.</li>
 <li><strong>Geschmack:</strong> Frischer Fisch direkt am Wasser in Porto Koufo und Weinverkostung im Weingut <strong>Porto Carras</strong>.</li>
 </ul>
@@ -8473,14 +8328,14 @@ export const GUIDES: Guide[] = [
 <li>Bevorzuge <strong>Juni oder September</strong> für Ruhe, mildes Klima und warmes Wasser.</li>
 <li>Miete ein <a href="/guide/car-rental">Auto</a> für spontane Ausflüge zu versteckten Stränden und Tavernen.</li>
 </ul>`,
-      bg: `<h2>Халкидики за двойки</h2><p>Независимо дали става дума за <strong>романтично бягство през уикенда</strong> или за годишнина, Халкидики предлага тихи плажове, живописни каменни села и магически залези. Комбинацията от море и планина предоставя безкрайни възможности за двама, от спокойни дни на пясъка до автомобилни екскурзии за открития.</p><h2>Изживявания за двама</h2><ul><li><strong>Залез:</strong> Нос <strong>Посиди</strong> с неговия фар и балконските таверни на <strong>Афитос</strong> — вижте също <a href="/guide/sunset-spots">най-добрите места за залез</a>.</li><li><strong>Уединени плажове:</strong> Скритите заливи на <a href="/guide/sithonia">Ситония</a>, като Кавуротрипес и Трани Аммоуда, със смарагдови води.</li><li><strong>Вкус:</strong> Прясна риба край водата в Порто Куфо и дегустация на вино в избата <strong>Порто Карас</strong>.</li></ul><h2>Романтични разходки</h2><p><strong>Партенонас</strong>, каменно село над Неос Мармарас, и калдъръмените улички на <strong>Афитос</strong> са идеални за вечерна разходка ръка за ръка. Разходка с лодка по залез около Вурвуру или тихо вечеря в Порто Куфо завършват перфектно деня. За още по-специални моменти, разгледайте <a href="/guide/honeymoon">ръководството за меден месец</a>.</p><h2>Съвети</h2><ul><li>Предпочетете <strong>юни или септември</strong> за спокойствие, мек климат и топло море.</li><li>Наемете <a href="/guide/car-rental">автомобил</a> за спонтанни пътувания до скрити плажове и таверни.</li></ul>`,
-      ru: `<h2>Халкидики для пар</h2><p>Будь то <strong>романтический уикенд</strong> или годовщина, Халкидики предлагает тихие пляжи, живописные каменные деревни и волшебные закаты. Сочетание моря и гор предоставляет бесконечные возможности для двоих: от расслабленных дней на песке до автомобильных путешествий по окрестностям.</p><h2>Впечатления для двоих</h2><ul><li><strong>Закат:</strong> Мыс <strong>Поссиди</strong> с маяком и таверны с террасами в <strong>Афитосе</strong> — смотрите также <a href="/guide/sunset-spots">лучшие места для наблюдения заката</a>.</li><li><strong>Уединенные пляжи:</strong> Скрытые бухты <a href="/guide/sithonia">Ситонии</a>, такие как Кавуротрюпес и Трани Аммуда, с изумрудной водой.</li><li><strong>Вкус:</strong> Свежая рыба у воды в Порто Куфо и дегустация вин в винодельне <strong>Porto Carras</strong>.</li></ul><h2>Романтические прогулки</h2><p><strong>Парфенонас</strong>, каменная деревня над Неос Мармарасом, и улочки <strong>Афитоса</strong> идеально подходят для вечерней прогулки рука об руку. Прогулка на лодке на закате вокруг Вурвуру или тихий ужин в Порто Куфо прекрасно завершат день. Для еще более особенных моментов смотрите <a href="/guide/honeymoon">гид по медовому месяцу</a>.</p><h2>Советы</h2><ul><li>Предпочтите <strong>июнь или сентябрь</strong> для тишины, мягкого климата и теплого моря.</li><li>Арендуйте <a href="/guide/car-rental">автомобиль</a> для спонтанных поездок на скрытые пляжи и в таверны.</li></ul>`,
-      ro: `<h2>Halkidiki pentru Cupluri</h2><p>Fie că este vorba despre o <strong>evadare romantică de weekend</strong> sau o aniversare, Halkidiki oferă plaje liniștite, sate pitorești din piatră și apusuri de soare magice. Combinația de mare și munte oferă opțiuni nesfârșite pentru doi, de la zile relaxante pe nisip până la excursii cu mașina pentru a descoperi locuri noi.</p><h2>Experiențe pentru Doi</h2><ul><li><strong>Apus de soare:</strong> Capul <strong>Possidi</strong> cu farul său și tavernele cu terase din <strong>Afytos</strong> — vezi și <a href="/guide/sunset-spots">cele mai bune locuri pentru apus</a>.</li><li><strong>Plaje izolate:</strong> Golfurile ascunse din <a href="/guide/sithonia">Sithonia</a>, cum ar fi Kavourotrypes și Trani Ammouda, cu ape smarald.</li><li><strong>Gust:</strong> Pește proaspăt lângă apă la Porto Koufo și degustare de vinuri la crama <strong>Porto Carras</strong>.</li></ul><h2>Plimbări Romantice</h2><p><strong>Parthenonas</strong>, un sat de piatră deasupra Neos Marmaras, și aleile din <strong>Afytos</strong> sunt ideale pentru o plimbare de seară, mână în mână. O excursie cu barca la apus în jurul Vourvourou sau o cină liniștită la Porto Koufo completează perfect ziua. Pentru momente și mai speciale, vezi <a href="/guide/honeymoon">ghidul pentru luna de miere</a>.</p><h2>Sfaturi</h2><ul><li>Preferă <strong>iunie sau septembrie</strong> pentru liniște, vreme blândă și apă caldă.</li><li>Închiriază o <a href="/guide/car-rental">mașină</a> pentru excursii spontane la plaje ascunse și taverne.</li></ul>`,
+      bg: `<h2>Халкидики за двойки</h2><p>Независимо дали става дума за <strong>романтично бягство през уикенда</strong> или за годишнина, Халкидики предлага тихи плажове, живописни каменни села и магически залези. Комбинацията от море и планина предоставя безкрайни възможности за двама, от спокойни дни на пясъка до автомобилни екскурзии за открития.</p><h2>Изживявания за двама</h2><ul><li><strong>Залез:</strong> Нос <strong>Посиди</strong> с фара и плажовете по западния бряг на Касандра — вижте също <a href="/guide/sunset-spots">най-добрите места за залез</a>.</li><li><strong>Уединени плажове:</strong> Скритите заливи на <a href="/guide/sithonia">Ситония</a>, като Кавуротрипес и Трани Аммоуда, със смарагдови води.</li><li><strong>Вкус:</strong> Прясна риба край водата в Порто Куфо и дегустация на вино в избата <strong>Порто Карас</strong>.</li></ul><h2>Романтични разходки</h2><p><strong>Партенонас</strong>, каменно село над Неос Мармарас, и калдъръмените улички на <strong>Афитос</strong> са идеални за вечерна разходка ръка за ръка. Разходка с лодка по залез около Вурвуру или тихо вечеря в Порто Куфо завършват перфектно деня. За още по-специални моменти, разгледайте <a href="/guide/honeymoon">ръководството за меден месец</a>.</p><h2>Съвети</h2><ul><li>Предпочетете <strong>юни или септември</strong> за спокойствие, мек климат и топло море.</li><li>Наемете <a href="/guide/car-rental">автомобил</a> за спонтанни пътувания до скрити плажове и таверни.</li></ul>`,
+      ru: `<h2>Халкидики для пар</h2><p>Будь то <strong>романтический уикенд</strong> или годовщина, Халкидики предлагает тихие пляжи, живописные каменные деревни и волшебные закаты. Сочетание моря и гор предоставляет бесконечные возможности для двоих: от расслабленных дней на песке до автомобильных путешествий по окрестностям.</p><h2>Впечатления для двоих</h2><ul><li><strong>Закат:</strong> Мыс <strong>Поссиди</strong> с маяком и пляжи западного побережья Кассандры — смотрите также <a href="/guide/sunset-spots">лучшие места для заката</a>.</li><li><strong>Уединенные пляжи:</strong> Скрытые бухты <a href="/guide/sithonia">Ситонии</a>, такие как Кавуротрюпес и Трани Аммуда, с изумрудной водой.</li><li><strong>Вкус:</strong> Свежая рыба у воды в Порто Куфо и дегустация вин в винодельне <strong>Porto Carras</strong>.</li></ul><h2>Романтические прогулки</h2><p><strong>Парфенонас</strong>, каменная деревня над Неос Мармарасом, и улочки <strong>Афитоса</strong> идеально подходят для вечерней прогулки рука об руку. Прогулка на лодке на закате вокруг Вурвуру или тихий ужин в Порто Куфо прекрасно завершат день. Для еще более особенных моментов смотрите <a href="/guide/honeymoon">гид по медовому месяцу</a>.</p><h2>Советы</h2><ul><li>Предпочтите <strong>июнь или сентябрь</strong> для тишины, мягкого климата и теплого моря.</li><li>Арендуйте <a href="/guide/car-rental">автомобиль</a> для спонтанных поездок на скрытые пляжи и в таверны.</li></ul>`,
+      ro: `<h2>Halkidiki pentru Cupluri</h2><p>Fie că este vorba despre o <strong>evadare romantică de weekend</strong> sau o aniversare, Halkidiki oferă plaje liniștite, sate pitorești din piatră și apusuri de soare magice. Combinația de mare și munte oferă opțiuni nesfârșite pentru doi, de la zile relaxante pe nisip până la excursii cu mașina pentru a descoperi locuri noi.</p><h2>Experiențe pentru Doi</h2><ul><li><strong>Apus de soare:</strong> Capul <strong>Possidi</strong> cu farul său și plajele de pe coasta de vest a Kassandrei — vezi și <a href="/guide/sunset-spots">cele mai bune locuri pentru apus</a>.</li><li><strong>Plaje izolate:</strong> Golfurile ascunse din <a href="/guide/sithonia">Sithonia</a>, cum ar fi Kavourotrypes și Trani Ammouda, cu ape smarald.</li><li><strong>Gust:</strong> Pește proaspăt lângă apă la Porto Koufo și degustare de vinuri la crama <strong>Porto Carras</strong>.</li></ul><h2>Plimbări Romantice</h2><p><strong>Parthenonas</strong>, un sat de piatră deasupra Neos Marmaras, și aleile din <strong>Afytos</strong> sunt ideale pentru o plimbare de seară, mână în mână. O excursie cu barca la apus în jurul Vourvourou sau o cină liniștită la Porto Koufo completează perfect ziua. Pentru momente și mai speciale, vezi <a href="/guide/honeymoon">ghidul pentru luna de miere</a>.</p><h2>Sfaturi</h2><ul><li>Preferă <strong>iunie sau septembrie</strong> pentru liniște, vreme blândă și apă caldă.</li><li>Închiriază o <a href="/guide/car-rental">mașină</a> pentru excursii spontane la plaje ascunse și taverne.</li></ul>`,
       sr: `<h2>Halkidiki za Parove</h2>
 <p>Bilo da planirate <strong>romantičan vikend beg</strong> ili proslavu godišnjice, Halkidiki nudi mirne plaže, slikovita kamena sela i čarobne zalaske sunca. Spoj mora i planine pruža beskrajne mogućnosti za dvoje, od opuštenih dana na pesku do avanturističkih vožnji automobilom.</p>
 <h2>Iskustva za Dvoje</h2>
 <ul>
-<li><strong>Zalazak sunca:</strong> Rt <strong>Possidi</strong> sa svojim svetionikom i balkonske taverne u <strong>Afytosu</strong> — pogledajte i <a href="/guide/sunset-spots">najbolja mesta za zalazak sunca</a>.</li>
+<li><strong>Zalazak sunca:</strong> Rt <strong>Posidi</strong> sa svetionikom i plaže zapadne obale Kasandre — pogledajte i <a href="/guide/sunset-spots">najbolja mesta za zalazak sunca</a>.</li>
 <li><strong>Skrivene plaže:</strong> Skriveni zalivi <a href="/guide/sithonia">Sitonije</a>, poput Kavourotrypes i Trani Ammouda, sa smaragdnim vodama.</li>
 <li><strong>Ukus:</strong> Sveža riba pored vode u Porto Koufu i degustacija vina u vinariji <strong>Porto Carras</strong>.</li>
 </ul>
@@ -8791,9 +8646,9 @@ export const GUIDES: Guide[] = [
     metaTitle: { el: 'Λάθη στη Χαλκιδική που πρέπει να Αποφύγεις 2026', en: 'Halkidiki Mistakes to Avoid 2026', de: 'Chalkidiki-Fehler vermeiden 2026', bg: 'Грешки в Халкидики 2026', ru: 'Ошибки в Халкидики 2026', ro: 'Greșeli Halkidiki 2026', sr: 'Greške u Halkidikiju 2026' },
     metaDesc: { el: 'Τα πιο συχνά λάθη που κάνουν οι τουρίστες στη Χαλκιδική — και πώς να τα αποφύγεις.', en: 'The most common mistakes tourists make in Halkidiki — and how to avoid them.', de: 'Die häufigsten Touristenfehler — und wie man sie vermeidet.', bg: 'Най-честите грешки на туристите.', ru: 'Самые частые ошибки туристов.', ro: 'Cele mai comune greșeli turistice.', sr: 'Najčešće turističke greške.' },
     content: {
-      el: `<h2>Τα Πιο Συχνά Λάθη των Τουριστών</h2><p>Λίγη προετοιμασία κάνει τη διαφορά ανάμεσα σε καλές και <strong>αξέχαστες διακοπές</strong>. Να τι να αποφύγεις στη Χαλκιδική.</p><h2>Προγραμματισμός & Μετακινήσεις</h2><ul><li><strong>Κράτηση τελευταία στιγμή:</strong> Τον Αύγουστο τα καλά καταλύματα εξαντλούνται από την άνοιξη — κλείσε από Απρίλιο. Δες τον <a href="/guide/budget">οδηγό κόστους</a>.</li><li><strong>Να υποτιμάς τις αποστάσεις:</strong> Η Χαλκιδική είναι μεγάλη — από την άκρη της Κασσάνδρας στην άκρη της Σιθωνίας θέλεις πάνω από 2 ώρες. Δες τις <a href="/guide/driving-distances">αποστάσεις</a>.</li><li><strong>Να μη νοικιάσεις αυτοκίνητο:</strong> Οι συγκοινωνίες είναι αραιές· χωρίς αμάξι χάνεις τις κρυμμένες παραλίες. Δες τον <a href="/guide/car-rental">οδηγό ενοικίασης</a>.</li></ul><h2>Παραλίες</h2><ul><li><strong>Να μένεις μόνο στην Κασσάνδρα:</strong> Η <a href="/guide/sithonia">Σιθωνία</a> έχει τα πιο εντυπωσιακά νερά (Καβουρότρυπες, Καρύδι).</li><li><strong>Μόνο οργανωμένες πλαζ:</strong> Οι <a href="/best/free-beaches">ελεύθερες παραλίες</a> είναι συχνά πιο όμορφες — απλώς φέρε νερό και σκίαστρο.</li><li><strong>Να αγνοείς το μελτέμι:</strong> Τα εκτεθειμένα δυτικά και βόρεια ακρογιάλια σηκώνουν αέρα το απόγευμα· τα κλειστά κολπάκια μένουν ήρεμα.</li></ul><h2>Φαγητό</h2><ul><li><strong>Tourist traps:</strong> Απόφυγε μαγαζιά πάνω στην πλαζ με μενού σε πέντε γλώσσες και φωτογραφίες παντού.</li><li><strong>Λάθος πιάτο, λάθος μαγαζί:</strong> Σουβλάκι σε ψαροταβέρνα ή ψάρι σε σουβλατζίδικο σπάνια πετυχαίνει — διάλεξε το σωστό <a href="/restaurants">εστιατόριο</a>.</li><li><strong>Να μη δοκιμάσεις τα ντόπια:</strong> Πράσινη ελιά Χαλκιδικής ΠΟΠ, μύδια Ολυμπιάδας, μέλι και τσίπουρο.</li></ul><h2>Άγιο Όρος & Πρακτικά</h2><ul><li><strong>Άγιο Όρος χωρίς άδεια:</strong> Χρειάζεται «διαμονητήριο» κλεισμένο εβδομάδες πριν, και επιτρέπονται μόνο άνδρες. Οι γυναίκες βλέπουν τα μοναστήρια με <a href="/mount-athos">κρουαζιέρα</a>.</li><li><strong>Να μην έχεις μετρητά:</strong> Πολλές ταβέρνες και καντίνες δέχονται μόνο cash.</li><li><strong>Οδήγηση με αλκοόλ ή υπερβολική ταχύτητα:</strong> Η τροχαία κάνει συχνούς ελέγχους — οδήγησε προσεκτικά στους στενούς δρόμους της Σιθωνίας.</li></ul>`,
-      en: `<h2>The Most Common Tourist Mistakes</h2><p>A little preparation is the difference between a good holiday and an <strong>unforgettable</strong> one. Here is what to avoid in Halkidiki.</p><h2>Planning & Getting Around</h2><ul><li><strong>Booking last minute:</strong> In August the good places sell out by spring — book from April. See the <a href="/guide/budget">cost guide</a>.</li><li><strong>Underestimating distances:</strong> Halkidiki is large — from the tip of Kassandra to the tip of Sithonia is over 2 hours. Check the <a href="/guide/driving-distances">driving distances</a>.</li><li><strong>Not renting a car:</strong> Public transport is sparse; without a car you miss the hidden beaches. See the <a href="/guide/car-rental">car rental guide</a>.</li></ul><h2>Beaches</h2><ul><li><strong>Staying only in Kassandra:</strong> <a href="/guide/sithonia">Sithonia</a> has the most striking water (Kavourotrypes, Karydi).</li><li><strong>Only organised beaches:</strong> <a href="/best/free-beaches">Free beaches</a> are often more beautiful — just bring water and shade.</li><li><strong>Ignoring the meltemi:</strong> Exposed west and north shores get windy in the afternoon; sheltered coves stay calm.</li></ul><h2>Food</h2><ul><li><strong>Tourist traps:</strong> Avoid places right on the beach with menus in five languages and photos everywhere.</li><li><strong>Wrong dish, wrong place:</strong> Souvlaki at a fish tavern (or fish at a grill house) rarely works — pick the right <a href="/restaurants">restaurant</a>.</li><li><strong>Not trying the local products:</strong> PDO Halkidiki green olives, Olympiada mussels, honey and tsipouro.</li></ul><h2>Mount Athos & Practicalities</h2><ul><li><strong>Mount Athos without a permit:</strong> You need a "diamonitirion" booked weeks ahead, and only men may enter. Women see the monasteries by <a href="/mount-athos">boat cruise</a>.</li><li><strong>Carrying no cash:</strong> Many tavernas and canteens are cash-only.</li><li><strong>Drinking and driving or speeding:</strong> Traffic police run frequent checks — drive carefully on Sithonia's narrow roads.</li></ul>`,
-      de: `<h2>Die Häufigsten Touristenfehler</h2><p>Ein wenig Vorbereitung macht den Unterschied zwischen einem guten und einem <strong>unvergesslichen Urlaub</strong>. Hier ist, was Sie in Chalkidiki vermeiden sollten.</p><h2>Planung & Fortbewegung</h2><ul><li><strong>Last-Minute-Buchungen:</strong> Im August sind die guten Unterkünfte schon im Frühling ausgebucht — buchen Sie ab April. Sehen Sie den <a href="/guide/budget">Kostenführer</a>.</li><li><strong>Entfernungen unterschätzen:</strong> Chalkidiki ist groß — von der Spitze Kassandras bis zur Spitze Sithonias sind es über 2 Stunden. Prüfen Sie die <a href="/guide/driving-distances">Fahrdistanzen</a>.</li><li><strong>Kein Auto mieten:</strong> Der öffentliche Verkehr ist spärlich; ohne Auto verpassen Sie die versteckten Strände. Sehen Sie den <a href="/guide/car-rental">Mietwagenführer</a>.</li></ul><h2>Strände</h2><ul><li><strong>Nur in Kassandra bleiben:</strong> <a href="/guide/sithonia">Sithonia</a> hat das beeindruckendste Wasser (Kavourotrypes, Karydi).</li><li><strong>Nur organisierte Strände:</strong> <a href="/best/free-beaches">Freie Strände</a> sind oft schöner — bringen Sie einfach Wasser und Schatten mit.</li><li><strong>Das Meltemi ignorieren:</strong> Die exponierten westlichen und nördlichen Küsten werden nachmittags windig; geschützte Buchten bleiben ruhig.</li></ul><h2>Essen</h2><ul><li><strong>Touristenfallen:</strong> Vermeiden Sie Lokale direkt am Strand mit Menüs in fünf Sprachen und überall Fotos.</li><li><strong>Falsches Gericht, falscher Ort:</strong> Souvlaki in einer Fisch-Taverne (oder Fisch in einer Grillstube) funktioniert selten — wählen Sie das richtige <a href="/restaurants">Restaurant</a>.</li><li><strong>Die lokalen Produkte nicht probieren:</strong> Grüne Chalkidiki-Oliven g.g.A., Olympiada-Muscheln, Honig und Tsipouro.</li></ul><h2>Berg Athos & Praktisches</h2><ul><li><strong>Berg Athos ohne Genehmigung:</strong> Sie benötigen ein "Diamonitirion", das Wochen im Voraus gebucht werden muss, und nur Männer dürfen eintreten. Frauen sehen die Klöster per <a href="/mount-athos">Bootstour</a>.</li><li><strong>Kein Bargeld dabei:</strong> Viele Tavernen und Kantinen akzeptieren nur Bargeld.</li><li><strong>Alkohol am Steuer oder zu schnelles Fahren:</strong> Die Verkehrspolizei führt häufig Kontrollen durch — fahren Sie vorsichtig auf den engen Straßen Sithonias.</li></ul>`,
+      el: `<h2>Τα Πιο Συχνά Λάθη των Τουριστών</h2><p>Λίγη προετοιμασία κάνει τη διαφορά ανάμεσα σε καλές και <strong>αξέχαστες διακοπές</strong>. Να τι να αποφύγεις στη Χαλκιδική.</p><h2>Προγραμματισμός & Μετακινήσεις</h2><ul><li><strong>Κράτηση τελευταία στιγμή:</strong> Τον Αύγουστο τα καλά καταλύματα εξαντλούνται από την άνοιξη — κλείσε από Απρίλιο. Δες τον <a href="/guide/budget">οδηγό κόστους</a>.</li><li><strong>Να υποτιμάς τις αποστάσεις:</strong> Η Χαλκιδική είναι μεγάλη — από την άκρη της Κασσάνδρας στην άκρη της Σιθωνίας θέλεις πάνω από 2 ώρες. Δες τις <a href="/guide/driving-distances">αποστάσεις</a>.</li><li><strong>Να μη νοικιάσεις αυτοκίνητο:</strong> Οι συγκοινωνίες είναι αραιές· χωρίς αμάξι χάνεις τις κρυμμένες παραλίες. Δες τον <a href="/guide/car-rental">οδηγό ενοικίασης</a>.</li></ul><h2>Παραλίες</h2><ul><li><strong>Να μένεις μόνο στην Κασσάνδρα:</strong> Η <a href="/guide/sithonia">Σιθωνία</a> έχει τα πιο εντυπωσιακά νερά (Καβουρότρυπες, Καρύδι).</li><li><strong>Μόνο οργανωμένες πλαζ:</strong> Οι <a href="/best/free-beaches">ελεύθερες παραλίες</a> είναι συχνά πιο όμορφες — απλώς φέρε νερό και σκίαστρο.</li><li><strong>Να αγνοείς το μελτέμι:</strong> Τα εκτεθειμένα δυτικά και βόρεια ακρογιάλια σηκώνουν αέρα το απόγευμα· τα κλειστά κολπάκια μένουν ήρεμα.</li></ul><h2>Φαγητό</h2><ul><li><strong>Tourist traps:</strong> Απόφυγε μαγαζιά πάνω στην πλαζ με μενού σε πέντε γλώσσες και φωτογραφίες παντού.</li><li><strong>Λάθος πιάτο, λάθος μαγαζί:</strong> Σουβλάκι σε ψαροταβέρνα ή ψάρι σε σουβλατζίδικο σπάνια πετυχαίνει — διάλεξε το σωστό <a href="/restaurants">εστιατόριο</a>.</li><li><strong>Να μη δοκιμάσετε τα τοπικά προϊόντα:</strong> Πράσινες ελιές Χαλκιδικής ΠΟΠ, μύδια του Θερμαϊκού, μέλι και τσίπουρο.</li></ul><h2>Άγιο Όρος & Πρακτικά</h2><ul><li><strong>Άγιο Όρος χωρίς άδεια:</strong> Χρειάζεται «διαμονητήριο» κλεισμένο εβδομάδες πριν, και επιτρέπονται μόνο άνδρες. Οι γυναίκες βλέπουν τα μοναστήρια με <a href="/mount-athos">κρουαζιέρα</a>.</li><li><strong>Να μην έχεις μετρητά:</strong> Πολλές ταβέρνες και καντίνες δέχονται μόνο cash.</li><li><strong>Οδήγηση με αλκοόλ ή υπερβολική ταχύτητα:</strong> Η τροχαία κάνει συχνούς ελέγχους — οδήγησε προσεκτικά στους στενούς δρόμους της Σιθωνίας.</li></ul>`,
+      en: `<h2>The Most Common Tourist Mistakes</h2><p>A little preparation is the difference between a good holiday and an <strong>unforgettable</strong> one. Here is what to avoid in Halkidiki.</p><h2>Planning & Getting Around</h2><ul><li><strong>Booking last minute:</strong> In August the good places sell out by spring — book from April. See the <a href="/guide/budget">cost guide</a>.</li><li><strong>Underestimating distances:</strong> Halkidiki is large — from the tip of Kassandra to the tip of Sithonia is over 2 hours. Check the <a href="/guide/driving-distances">driving distances</a>.</li><li><strong>Not renting a car:</strong> Public transport is sparse; without a car you miss the hidden beaches. See the <a href="/guide/car-rental">car rental guide</a>.</li></ul><h2>Beaches</h2><ul><li><strong>Staying only in Kassandra:</strong> <a href="/guide/sithonia">Sithonia</a> has the most striking water (Kavourotrypes, Karydi).</li><li><strong>Only organised beaches:</strong> <a href="/best/free-beaches">Free beaches</a> are often more beautiful — just bring water and shade.</li><li><strong>Ignoring the meltemi:</strong> Exposed west and north shores get windy in the afternoon; sheltered coves stay calm.</li></ul><h2>Food</h2><ul><li><strong>Tourist traps:</strong> Avoid places right on the beach with menus in five languages and photos everywhere.</li><li><strong>Wrong dish, wrong place:</strong> Souvlaki at a fish tavern (or fish at a grill house) rarely works — pick the right <a href="/restaurants">restaurant</a>.</li><li><strong>Not trying the local products:</strong> PDO Halkidiki green olives, mussels from the Thermaic Gulf, honey and tsipouro.</li></ul><h2>Mount Athos & Practicalities</h2><ul><li><strong>Mount Athos without a permit:</strong> You need a "diamonitirion" booked weeks ahead, and only men may enter. Women see the monasteries by <a href="/mount-athos">boat cruise</a>.</li><li><strong>Carrying no cash:</strong> Many tavernas and canteens are cash-only.</li><li><strong>Drinking and driving or speeding:</strong> Traffic police run frequent checks — drive carefully on Sithonia's narrow roads.</li></ul>`,
+      de: `<h2>Die Häufigsten Touristenfehler</h2><p>Ein wenig Vorbereitung macht den Unterschied zwischen einem guten und einem <strong>unvergesslichen Urlaub</strong>. Hier ist, was Sie in Chalkidiki vermeiden sollten.</p><h2>Planung & Fortbewegung</h2><ul><li><strong>Last-Minute-Buchungen:</strong> Im August sind die guten Unterkünfte schon im Frühling ausgebucht — buchen Sie ab April. Sehen Sie den <a href="/guide/budget">Kostenführer</a>.</li><li><strong>Entfernungen unterschätzen:</strong> Chalkidiki ist groß — von der Spitze Kassandras bis zur Spitze Sithonias sind es über 2 Stunden. Prüfen Sie die <a href="/guide/driving-distances">Fahrdistanzen</a>.</li><li><strong>Kein Auto mieten:</strong> Der öffentliche Verkehr ist spärlich; ohne Auto verpassen Sie die versteckten Strände. Sehen Sie den <a href="/guide/car-rental">Mietwagenführer</a>.</li></ul><h2>Strände</h2><ul><li><strong>Nur in Kassandra bleiben:</strong> <a href="/guide/sithonia">Sithonia</a> hat das beeindruckendste Wasser (Kavourotrypes, Karydi).</li><li><strong>Nur organisierte Strände:</strong> <a href="/best/free-beaches">Freie Strände</a> sind oft schöner — bringen Sie einfach Wasser und Schatten mit.</li><li><strong>Das Meltemi ignorieren:</strong> Die exponierten westlichen und nördlichen Küsten werden nachmittags windig; geschützte Buchten bleiben ruhig.</li></ul><h2>Essen</h2><ul><li><strong>Touristenfallen:</strong> Vermeiden Sie Lokale direkt am Strand mit Menüs in fünf Sprachen und überall Fotos.</li><li><strong>Falsches Gericht, falscher Ort:</strong> Souvlaki in einer Fisch-Taverne (oder Fisch in einer Grillstube) funktioniert selten — wählen Sie das richtige <a href="/restaurants">Restaurant</a>.</li><li><strong>Die lokalen Produkte nicht probieren:</strong> grüne g.U.-Oliven aus Chalkidiki, Muscheln aus dem Thermaischen Golf, Honig und Tsipouro.</li></ul><h2>Berg Athos & Praktisches</h2><ul><li><strong>Berg Athos ohne Genehmigung:</strong> Sie benötigen ein "Diamonitirion", das Wochen im Voraus gebucht werden muss, und nur Männer dürfen eintreten. Frauen sehen die Klöster per <a href="/mount-athos">Bootstour</a>.</li><li><strong>Kein Bargeld dabei:</strong> Viele Tavernen und Kantinen akzeptieren nur Bargeld.</li><li><strong>Alkohol am Steuer oder zu schnelles Fahren:</strong> Die Verkehrspolizei führt häufig Kontrollen durch — fahren Sie vorsichtig auf den engen Straßen Sithonias.</li></ul>`,
       bg: `<h2>Най-честите грешки на туристите</h2>
 <p>Малко подготовка прави разликата между добри и <strong>незабравими почивки</strong>. Ето какво да избягвате в Халкидики.</p>
 <h2>Планиране и придвижване</h2>
@@ -8812,7 +8667,7 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Туристически капани:</strong> Избягвайте местата точно на плажа с менюта на пет езика и снимки навсякъде.</li>
 <li><strong>Грешно ястие, грешно място:</strong> Сувлаки в рибна таверна (или риба в сувлаки ресторант) рядко е добра идея — изберете правилното <a href="/restaurants">заведение</a>.</li>
-<li><strong>Да не опитате местните продукти:</strong> Зелени маслини Халкидики ПДО, миди от Олимпиада, мед и ципуро.</li>
+<li><strong>Да не опитате местните продукти:</strong> зелени маслини Халкидики със ЗНП, миди от Термайския залив, мед и ципуро.</li>
 </ul>
 <h2>Света гора и практични съвети</h2>
 <ul>
@@ -8820,8 +8675,8 @@ export const GUIDES: Guide[] = [
 <li><strong>Да не носите пари в брой:</strong> Много таверни и кантини приемат само кеш.</li>
 <li><strong>Шофиране с алкохол или превишена скорост:</strong> Пътната полиция прави чести проверки — шофирайте внимателно по тесните пътища на Ситония.</li>
 </ul>`,
-      ru: `<h2>Самые Частые Ошибки Туристов</h2><p>Небольшая подготовка — это разница между хорошим отпуском и <strong>незабываемым</strong>. Вот чего стоит избегать на Халкидиках.</p><h2>Планирование и Передвижение</h2><ul><li><strong>Бронирование в последний момент:</strong> В августе хорошие места заканчиваются уже весной — бронируйте с апреля. Ознакомьтесь с <a href="/guide/budget">руководством по стоимости</a>.</li><li><strong>Недооценка расстояний:</strong> Халкидики — большой регион, от края Касандры до края Ситонии более 2 часов. Проверьте <a href="/guide/driving-distances">расстояния</a>.</li><li><strong>Не арендуя автомобиль:</strong> Общественный транспорт редкий; без машины вы упустите скрытые пляжи. Ознакомьтесь с <a href="/guide/car-rental">руководством по аренде автомобилей</a>.</li></ul><h2>Пляжи</h2><ul><li><strong>Оставаться только на Касандре:</strong> <a href="/guide/sithonia">Ситония</a> славится самыми впечатляющими водами (Кавуротрюпес, Кариди).</li><li><strong>Только организованные пляжи:</strong> <a href="/best/free-beaches">Свободные пляжи</a> часто более красивы — просто возьмите с собой воду и защиту от солнца.</li><li><strong>Игнорирование мелтеми:</strong> Открытые западные и северные берега становятся ветренными днем; защищенные бухты остаются спокойными.</li></ul><h2>Еда</h2><ul><li><strong>Туристические ловушки:</strong> Избегайте мест прямо на пляже с меню на пяти языках и фотографиями повсюду.</li><li><strong>Неправильное блюдо, неправильное место:</strong> Сувлаки в рыбной таверне (или рыба в гриль-хаусе) редко удаются — выберите правильный <a href="/restaurants">ресторан</a>.</li><li><strong>Не попробовать местные продукты:</strong> Зеленые оливки Халкидики ПДО, мидии из Олимпиады, мед и тсипуро.</li></ul><h2>Афон и Практические Советы</h2><ul><li><strong>Афон без разрешения:</strong> Необходимо иметь «диамонитирион», забронированный за несколько недель, и только мужчины могут войти. Женщины могут увидеть монастыри на <a href="/mount-athos">круизе на лодке</a>.</li><li><strong>Отсутствие наличных:</strong> Многие таверны и киоски принимают только наличные.</li><li><strong>Вождение в нетрезвом состоянии или превышение скорости:</strong> Дорожная полиция часто проводит проверки — будьте осторожны на узких дорогах Ситонии.</li></ul>`,
-      ro: `<h2>Cele Mai Comune Greșeli ale Turiștilor</h2><p>Puțină pregătire face diferența între o vacanță bună și una <strong>de neuitat</strong>. Iată ce să eviți în Halkidiki.</p><h2>Planificare & Deplasare</h2><ul><li><strong>Rezervare în ultimul moment:</strong> În august, locurile bune se epuizează din primăvară — rezervă din aprilie. Vezi <a href="/guide/budget">ghidul de costuri</a>.</li><li><strong>Subestimarea distanțelor:</strong> Halkidiki este mare — de la capătul Kassandrei până la capătul Sithoniei faci peste 2 ore. Verifică <a href="/guide/driving-distances">distanțele de condus</a>.</li><li><strong>Neînchirierea unei mașini:</strong> Transportul public este rar; fără mașină ratezi plajele ascunse. Vezi <a href="/guide/car-rental">ghidul de închiriere auto</a>.</li></ul><h2>Plaje</h2><ul><li><strong>Rămâi doar în Kassandra:</strong> <a href="/guide/sithonia">Sithonia</a> are cele mai impresionante ape (Kavourotrypes, Karydi).</li><li><strong>Doar plaje organizate:</strong> <a href="/best/free-beaches">Plajele libere</a> sunt adesea mai frumoase — adu doar apă și umbră.</li><li><strong>Ignorarea meltemi-ului:</strong> Malurile expuse din vest și nord devin vântoase după-amiaza; golfurile adăpostite rămân calme.</li></ul><h2>Mâncare</h2><ul><li><strong>Capcane pentru turiști:</strong> Evită locurile chiar pe plajă cu meniuri în cinci limbi și fotografii peste tot.</li><li><strong>Fel greșit, loc greșit:</strong> Souvlaki la o tavernă de pește (sau pește la un grătar) rareori funcționează — alege <a href="/restaurants">restaurantul</a> potrivit.</li><li><strong>Neîncercarea produselor locale:</strong> Măsline verzi Halkidiki DOP, midii din Olympiada, miere și tsipouro.</li></ul><h2>Muntele Athos & Aspecte Practice</h2><ul><li><strong>Muntele Athos fără permis:</strong> Ai nevoie de un "diamonitirion" rezervat cu săptămâni înainte, și doar bărbații pot intra. Femeile pot vedea mănăstirile prin <a href="/mount-athos">croazieră</a>.</li><li><strong>Lipsa numerarului:</strong> Multe taverne și cantine acceptă doar numerar.</li><li><strong>Conducerea sub influența alcoolului sau cu viteză excesivă:</strong> Poliția rutieră face controale frecvente — conduceți cu atenție pe drumurile înguste din Sithonia.</li></ul>`,
+      ru: `<h2>Самые Частые Ошибки Туристов</h2><p>Небольшая подготовка — это разница между хорошим отпуском и <strong>незабываемым</strong>. Вот чего стоит избегать на Халкидиках.</p><h2>Планирование и Передвижение</h2><ul><li><strong>Бронирование в последний момент:</strong> В августе хорошие места заканчиваются уже весной — бронируйте с апреля. Ознакомьтесь с <a href="/guide/budget">руководством по стоимости</a>.</li><li><strong>Недооценка расстояний:</strong> Халкидики — большой регион, от края Касандры до края Ситонии более 2 часов. Проверьте <a href="/guide/driving-distances">расстояния</a>.</li><li><strong>Не арендуя автомобиль:</strong> Общественный транспорт редкий; без машины вы упустите скрытые пляжи. Ознакомьтесь с <a href="/guide/car-rental">руководством по аренде автомобилей</a>.</li></ul><h2>Пляжи</h2><ul><li><strong>Оставаться только на Касандре:</strong> <a href="/guide/sithonia">Ситония</a> славится самыми впечатляющими водами (Кавуротрюпес, Кариди).</li><li><strong>Только организованные пляжи:</strong> <a href="/best/free-beaches">Свободные пляжи</a> часто более красивы — просто возьмите с собой воду и защиту от солнца.</li><li><strong>Игнорирование мелтеми:</strong> Открытые западные и северные берега становятся ветренными днем; защищенные бухты остаются спокойными.</li></ul><h2>Еда</h2><ul><li><strong>Туристические ловушки:</strong> Избегайте мест прямо на пляже с меню на пяти языках и фотографиями повсюду.</li><li><strong>Неправильное блюдо, неправильное место:</strong> Сувлаки в рыбной таверне (или рыба в гриль-хаусе) редко удаются — выберите правильный <a href="/restaurants">ресторан</a>.</li><li><strong>Не попробовать местные продукты:</strong> зелёные оливки Халкидики с ЗНП, мидии из Термаического залива, мёд и ципуро.</li></ul><h2>Афон и Практические Советы</h2><ul><li><strong>Афон без разрешения:</strong> Необходимо иметь «диамонитирион», забронированный за несколько недель, и только мужчины могут войти. Женщины могут увидеть монастыри на <a href="/mount-athos">круизе на лодке</a>.</li><li><strong>Отсутствие наличных:</strong> Многие таверны и киоски принимают только наличные.</li><li><strong>Вождение в нетрезвом состоянии или превышение скорости:</strong> Дорожная полиция часто проводит проверки — будьте осторожны на узких дорогах Ситонии.</li></ul>`,
+      ro: `<h2>Cele Mai Comune Greșeli ale Turiștilor</h2><p>Puțină pregătire face diferența între o vacanță bună și una <strong>de neuitat</strong>. Iată ce să eviți în Halkidiki.</p><h2>Planificare & Deplasare</h2><ul><li><strong>Rezervare în ultimul moment:</strong> În august, locurile bune se epuizează din primăvară — rezervă din aprilie. Vezi <a href="/guide/budget">ghidul de costuri</a>.</li><li><strong>Subestimarea distanțelor:</strong> Halkidiki este mare — de la capătul Kassandrei până la capătul Sithoniei faci peste 2 ore. Verifică <a href="/guide/driving-distances">distanțele de condus</a>.</li><li><strong>Neînchirierea unei mașini:</strong> Transportul public este rar; fără mașină ratezi plajele ascunse. Vezi <a href="/guide/car-rental">ghidul de închiriere auto</a>.</li></ul><h2>Plaje</h2><ul><li><strong>Rămâi doar în Kassandra:</strong> <a href="/guide/sithonia">Sithonia</a> are cele mai impresionante ape (Kavourotrypes, Karydi).</li><li><strong>Doar plaje organizate:</strong> <a href="/best/free-beaches">Plajele libere</a> sunt adesea mai frumoase — adu doar apă și umbră.</li><li><strong>Ignorarea meltemi-ului:</strong> Malurile expuse din vest și nord devin vântoase după-amiaza; golfurile adăpostite rămân calme.</li></ul><h2>Mâncare</h2><ul><li><strong>Capcane pentru turiști:</strong> Evită locurile chiar pe plajă cu meniuri în cinci limbi și fotografii peste tot.</li><li><strong>Fel greșit, loc greșit:</strong> Souvlaki la o tavernă de pește (sau pește la un grătar) rareori funcționează — alege <a href="/restaurants">restaurantul</a> potrivit.</li><li><strong>Să nu încercați produsele locale:</strong> măsline verzi de Halkidiki DOP, midii din golful Thermaic, miere și tsipouro.</li></ul><h2>Muntele Athos & Aspecte Practice</h2><ul><li><strong>Muntele Athos fără permis:</strong> Ai nevoie de un "diamonitirion" rezervat cu săptămâni înainte, și doar bărbații pot intra. Femeile pot vedea mănăstirile prin <a href="/mount-athos">croazieră</a>.</li><li><strong>Lipsa numerarului:</strong> Multe taverne și cantine acceptă doar numerar.</li><li><strong>Conducerea sub influența alcoolului sau cu viteză excesivă:</strong> Poliția rutieră face controale frecvente — conduceți cu atenție pe drumurile înguste din Sithonia.</li></ul>`,
       sr: `<h2>Najčešće greške turista</h2>
 <p>Malo pripreme može napraviti razliku između dobrog i <strong>nezaboravnog odmora</strong>. Evo šta da izbegnete u Halkidikiju.</p>
 <h2>Planiranje & Kretanje</h2>
@@ -8840,7 +8695,7 @@ export const GUIDES: Guide[] = [
 <ul>
 <li><strong>Turističke zamke:</strong> Izbegavajte mesta odmah na plaži sa menijima na pet jezika i fotografijama svuda.</li>
 <li><strong>Pogrešno jelo, pogrešno mesto:</strong> Souvlaki u ribljoj taverni (ili riba u roštiljarnici) retko uspeva — izaberite pravi <a href="/restaurants">restoran</a>.</li>
-<li><strong>Neprobavanje lokalnih proizvoda:</strong> Zelene masline Halkidiki PDO, dagnje iz Olimpijade, med i tsipouro.</li>
+<li><strong>Ne probati lokalne proizvode:</strong> zelene masline Halkidiki sa ZOP oznakom, dagnje iz Termajskog zaliva, med i cipuro.</li>
 </ul>
 <h2>Sveta Gora & Praktičnosti</h2>
 <ul>
@@ -9010,2253 +8865,1088 @@ export const GUIDES: Guide[] = [
     slug: 'first-time-halkidiki', icon: 'Compass', color: 'teal',
     title: { el: 'Πρώτη Φορά στη Χαλκιδική — Ο Πλήρης Οδηγός', en: 'First Time in Halkidiki — The Complete Guide', de: 'Zum ersten Mal in Chalkidiki — Der komplette Reiseführer', bg: 'За първи път в Халкидики — Пълен пътеводител', ru: 'Впервые в Халкидики — Полный путеводитель', ro: 'Prima dată în Halkidiki — Ghidul complet', sr: 'Prvi put u Halkidikiju — Kompletan vodič' },
     description: { el: 'Όλα όσα χρειάζεσαι για το πρώτο σου ταξίδι στη Χαλκιδική', en: 'Everything you need for your first trip to Halkidiki', de: 'Alles, was Sie für Ihre erste Reise nach Chalkidiki brauchen', bg: 'Всичко необходимо за първото ви пътуване', ru: 'Всё необходимое для вашей первой поездки', ro: 'Tot ce ai nevoie pentru prima călătorie', sr: 'Sve što vam treba za prvo putovanje' },
-    metaTitle: { el: 'Πρώτη Φορά στη Χαλκιδική 2026 — Πλήρης Οδηγός Ταξιδιού', en: 'First Time in Halkidiki 2026 — Complete Travel Guide', de: 'Erstes Mal in Chalkidiki 2026 — Komplettführer', bg: 'За първи път в Халкидики 2026 — Пътеводител', ru: 'Первый раз в Халкидики 2026 — Путеводитель', ro: 'Prima oară în Halkidiki 2026 — Ghid', sr: 'Prvi put u Halkidikiju 2026 — Vodič' },
-    metaDesc: { el: 'Ταξιδεύεις πρώτη φορά στη Χαλκιδική; Ο πλήρης οδηγός 2026 — ποια χερσόνησο να επιλέξεις, πότε να πας, πού να μείνεις, τι να δεις. Από ντόπιους.', en: 'First time in Halkidiki? The complete 2026 guide — which peninsula to choose, when to go, where to stay, what to see. Written by locals.', de: 'Erstes Mal in Chalkidiki? Der komplette Reiseführer 2026 — welche Halbinsel, wann, wo übernachten, was sehen.', bg: 'За първи път в Халкидики? Пълен пътеводител 2026 — кой полуостров, кога, къде да отседнете, какво да видите.', ru: 'Впервые в Халкидики? Полный путеводитель 2026 — какой полуостров выбрать, когда ехать, где остановиться, что посмотреть.', ro: 'Prima dată în Halkidiki? Ghidul complet 2026 — ce peninsulă să alegi, când să mergi, unde să stai, ce să vezi.', sr: 'Prvi put u Halkidikiju? Kompletan vodič 2026 — koji poluostrvo, kada, gde odsesti, šta videti.' },
+    metaTitle: { el: 'Πρώτη φορά στη Χαλκιδική — Πλήρης οδηγός', en: 'First Time in Halkidiki — Complete Guide', de: 'Zum ersten Mal in Chalkidiki — der komplette Ratgeber', bg: 'За първи път в Халкидики — пълен пътеводител', ru: 'Впервые на Халкидики — полный путеводитель', ro: 'Prima dată în Halkidiki — ghid complet', sr: 'Prvi put na Halkidikiju — kompletan vodič' },
+    metaDesc: { el: 'Πρώτη φορά στη Χαλκιδική; Ποια χερσόνησο να διαλέξετε, πότε να πάτε, πώς θα φτάσετε, πού να μείνετε και τι να μη χάσετε.', en: 'First time in Halkidiki? Which peninsula to choose, when to go, how to get there, where to stay and what not to miss.', de: 'Zum ersten Mal in Chalkidiki? Welche Halbinsel, wann reisen, wie hinkommen, wo übernachten und was man nicht verpassen sollte.', bg: 'За първи път в Халкидики? Кой полуостров да изберете, кога да отидете, как да стигнете, къде да отседнете и какво да не пропускате.', ru: 'Впервые на Халкидики? Какой полуостров выбрать, когда ехать, как добраться, где жить и что нельзя пропустить.', ro: 'Prima dată în Halkidiki? Ce peninsulă să alegeți, când să mergeți, cum ajungeți, unde să stați și ce să nu ratați.', sr: 'Prvi put na Halkidikiju? Koje poluostrvo izabrati, kada ići, kako stići, gde odseći i šta ne propustiti.' },
     content: {
-      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Η Χαλκιδική έχει 3 χερσονήσους, πάνω από 550 χλμ ακτογραμμής και 70+ χωριά. Αν έρχεσαι πρώτη φορά, ο σωστός σχεδιασμός αλλάζει εντελώς την εμπειρία. Ο οδηγός που ακολουθεί γράφτηκε από ντόπιους και ενημερώνεται κάθε σεζόν.</p>
-
-<h2>Γιατί Χαλκιδική για Πρώτη Φορά;</h2>
-<p>Η Χαλκιδική δεν είναι ένα μικρό ελληνικό νησί που «βλέπεις σε 3 μέρες». Είναι ένας ολόκληρος νομός στη Βόρεια Ελλάδα, με τρεις διαφορετικές χερσονήσους (<strong>Κασσάνδρα</strong>, <strong>Σιθωνία</strong>, <strong>Άθως</strong>) που μοιάζουν με δάχτυλα στον Θερμαϊκό. Κάθε μία έχει διαφορετικό χαρακτήρα, κοινό και τιμές.</p>
-<p>Για τον πρωτοεμφανιζόμενο επισκέπτη, το πλεονέκτημα είναι διπλό: <strong>εύκολη πρόσβαση</strong> (μόλις 70 χλμ από το αεροδρόμιο «Μακεδονία» της Θεσσαλονίκης) και <strong>τεράστια ποικιλία</strong> — από luxury resorts στη <a href="/places/sani-kassandra">Σάνη</a> μέχρι εξωτικές παραλίες χωρίς σήμανση στη <a href="/places/sarti">Σάρτη</a>.</p>
-
-<h2>Ποια Χερσόνησο να Επιλέξω;</h2>
-<p>Η μεγαλύτερη απόφαση. Δεν υπάρχει σωστή απάντηση — υπάρχει σωστή για εσένα. Σύντομα:</p>
+      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Η Χαλκιδική έχει τρεις χερσονήσους, εκατοντάδες χιλιόμετρα ακτών και δεκάδες χωριά. Στην πρώτη επίσκεψη, λίγος προγραμματισμός κάνει τη διαφορά.</p>
+<h2>Ποια χερσόνησος;</h2>
 <ul>
-  <li><strong>Κασσάνδρα</strong> — η πιο τουριστικά αναπτυγμένη. Άπειρα ξενοδοχεία, beach bars, νυχτερινή ζωή, οργανωμένες παραλίες. Ιδανική για <a href="/guide/families">οικογένειες</a> και πρώτη επίσκεψη. Δες <a href="/places/kallithea">Καλλιθέα</a>, <a href="/places/hanioti">Χανιώτη</a>, <a href="/places/pefkohori">Πευκοχώρι</a>.</li>
-  <li><strong>Σιθωνία</strong> — πιο άγρια, πιο πράσινη, λιγότερο τουριστική. Εδώ είναι οι πιο εξωτικές παραλίες της Χαλκιδικής — <a href="/places/vourvourou">Βουρβουρού</a>, <a href="/places/sarti">Σάρτη</a>, <a href="/places/neos-marmaras">Νέος Μαρμαράς</a>. Για ήρεμες διακοπές ή <a href="/guide/honeymoon">γαμήλιο ταξίδι</a>.</li>
-  <li><strong>Άθως</strong> — η τρίτη χερσόνησος. Η κορυφή της (Άγιο Όρος) είναι κλειστή για γυναίκες και απαιτεί διαμονητήριο. Η νότια πλευρά (<a href="/places/ouranoupoli">Ουρανούπολη</a>, <a href="/places/ierissos">Ιερισσός</a>) είναι ιδανική για ησυχία και πεζοπορία.</li>
+<li><strong>Κασσάνδρα</strong> — η πιο ανεπτυγμένη: πολλά ξενοδοχεία, οργανωμένες παραλίες και η πιο ζωντανή νυχτερινή ζωή (Καλλιθέα, Χανιώτη, Πευκοχώρι). Καλή για οικογένειες και για πρώτη φορά.</li>
+<li><strong>Σιθωνία</strong> — πιο πράσινη και ήσυχη, με πεύκα ως τη θάλασσα και κολπίσκους με καθαρά νερά (Βουρβουρού, Καβουρότρυπες, Σάρτη). Καλή για ζευγάρια και φυσιολάτρες.</li>
+<li><strong>Άθως</strong> — το νότιο τμήμα της είναι η Αθωνική Πολιτεία, όπου μπαίνουν μόνο άνδρες με άδεια. Η Ουρανούπολη και η Ιερισσός, έξω από το όριο, είναι ήσυχες βάσεις.</li>
 </ul>
-<p>Για βαθιά σύγκριση, δες τον ειδικό οδηγό <a href="/guide/kassandra-vs-sithonia">Κασσάνδρα vs Σιθωνία</a> ή τη <a href="/guide/kassandra-sithonia-athos">3-way σύγκριση</a>.</p>
-
-<h2>Πότε να Πάω;</h2>
-<p>Η περίοδος <strong>15 Ιουνίου — 15 Σεπτεμβρίου</strong> είναι η «αληθινή» σεζόν. Η κορύφωση είναι <strong>1-25 Αυγούστου</strong>, που τα πάντα είναι γεμάτα και οι τιμές φτάνουν στο +60% σε σχέση με τον Ιούνιο.</p>
-<table class="w-full border-collapse my-4">
-  <thead><tr class="bg-gray-100"><th class="border p-2 text-left">Μήνας</th><th class="border p-2 text-left">Θάλασσα</th><th class="border p-2 text-left">Πόσοι τουρίστες</th><th class="border p-2 text-left">Τιμές</th></tr></thead>
-  <tbody>
-    <tr><td class="border p-2"><a href="/guide/may">Μάιος</a></td><td class="border p-2">19-21°C, λίγο κρύα</td><td class="border p-2">Ελάχιστοι</td><td class="border p-2">€</td></tr>
-    <tr><td class="border p-2"><a href="/guide/june">Ιούνιος</a></td><td class="border p-2">22-24°C</td><td class="border p-2">Μέτριοι</td><td class="border p-2">€€</td></tr>
-    <tr><td class="border p-2"><a href="/guide/july-august">Ιούλιος-Αύγουστος</a></td><td class="border p-2">25-27°C</td><td class="border p-2">Πάρα πολλοί</td><td class="border p-2">€€€€</td></tr>
-    <tr><td class="border p-2"><a href="/guide/september">Σεπτέμβριος</a></td><td class="border p-2">24-26°C</td><td class="border p-2">Μέτριοι</td><td class="border p-2">€€</td></tr>
-    <tr><td class="border p-2"><a href="/guide/october">Οκτώβριος</a></td><td class="border p-2">20-22°C</td><td class="border p-2">Ελάχιστοι</td><td class="border p-2">€</td></tr>
-  </tbody>
-</table>
-<p><strong>Τοπική γνώση:</strong> Ο <strong>Σεπτέμβριος είναι το διαμάντι της σεζόν</strong>. Θάλασσα ζεστή, παραλίες με άνεση, εστιατόρια χωρίς αναμονή, τιμές -30%. Πρόσεξε μόνο: μετά τις 15 Σεπτεμβρίου πολλά beach bars στη Σιθωνία κλείνουν.</p>
-
-<h2>Πώς Φτάνω;</h2>
-<p>Το <strong>αεροδρόμιο Θεσσαλονίκης (SKG)</strong> είναι η κύρια πύλη. Συνδέεται απευθείας με τις περισσότερες ευρωπαϊκές πρωτεύουσες. Από εκεί:</p>
+<p>Περισσότερα: <a href="/guide/kassandra-vs-sithonia">Κασσάνδρα ή Σιθωνία</a> και η <a href="/guide/kassandra-sithonia-athos">σύγκριση των τριών χερσονήσων</a>.</p>
+<h2>Πότε να πάτε</h2>
+<p>Η κύρια σεζόν είναι από τον Ιούνιο ως τον Σεπτέμβριο. Ιούλιος και Αύγουστος είναι οι πιο ζεστοί και πολυσύχναστοι μήνες, με τη θάλασσα γύρω στους 25–27°C· Ιούνιος και Σεπτέμβριος είναι πιο ήρεμοι, με ζεστά νερά και χαμηλότερες τιμές. Τον Μάιο και τον Οκτώβριο η θάλασσα είναι πιο δροσερή. Δείτε <a href="/guide/best-time-to-visit">την καλύτερη εποχή</a>.</p>
+<h2>Πώς θα φτάσετε</h2>
 <ul>
-  <li><strong>Αυτοκίνητο</strong> (προτεινόμενο): 1:00-2:30 ώρα ανάλογα με τον προορισμό. Δες τον οδηγό <a href="/guide/car-rental">ενοικίασης αυτοκινήτου</a>.</li>
-  <li><strong>Λεωφορείο ΚΤΕΛ Χαλκιδικής</strong>: από τον σταθμό ΚΤΕΛ Χαλκιδικής (όχι από αεροδρόμιο — πρέπει να πάρεις πρώτα αστικό 01Χ). Οικονομικό αλλά χρονοβόρο.</li>
-  <li><strong>Ιδιωτικό transfer</strong>: €80-160 ανάλογα με την απόσταση. Καλύτερη επιλογή για οικογένειες με βαλίτσες.</li>
+<li><strong>Με αυτοκίνητο:</strong> από το αεροδρόμιο Θεσσαλονίκης (SKG) χρειάζεστε περίπου 1 ώρα και 10 λεπτά ως την Καλλιθέα, 1 ώρα και 20 λεπτά ως τη Νικήτη και περίπου 2 ώρες ως τη Σάρτη ή την Ουρανούπολη. Δείτε <a href="/guide/car-rental">ενοικίαση αυτοκινήτου</a>.</li>
+<li><strong>ΚΤΕΛ:</strong> από τον σταθμό ΚΤΕΛ Χαλκιδικής στη Θεσσαλονίκη (όχι από το αεροδρόμιο) — φθηνό αλλά αργό.</li>
+<li><strong>Transfer ή ταξί:</strong> βολικό για οικογένειες με αποσκευές· συμφωνήστε την τιμή από πριν.</li>
 </ul>
-<p>Αν έρχεσαι οδικώς, δες τους αναλυτικούς οδηγούς <a href="/from/sofia">από Σόφια</a>, <a href="/from/bucharest">από Βουκουρέστι</a>, <a href="/from/belgrade">από Βελιγράδι</a> ή <a href="/from/skopje">από Σκόπια</a>.</p>
-
-<h2>Πόσες Μέρες Χρειάζομαι;</h2>
-<p>Η ελάχιστη πρόταση: <strong>7 μέρες</strong>. Λιγότερες και θα νιώσεις ότι βιάζεσαι. Αν έχεις μόνο μερικές μέρες, περιορίσου σε <em>μία</em> χερσόνησο.</p>
+<h2>Πόσες μέρες;</h2>
 <ul>
-  <li><strong>3-4 μέρες</strong> → Κασσάνδρα μόνο. Δες <a href="/itinerary/3">3ήμερο itinerary</a>.</li>
-  <li><strong>5-7 μέρες</strong> → Σιθωνία ή συνδυασμός Κασσάνδρα + 1 μέρα Σιθωνία. Δες <a href="/itinerary/7">7ήμερο itinerary</a>.</li>
-  <li><strong>10-14 μέρες</strong> → Και οι τρεις χερσόνησοι + Θεσσαλονίκη + Μετέωρα. Δες <a href="/itinerary/10">10ήμερο itinerary</a>.</li>
+<li><strong>3–4 μέρες:</strong> μείνετε σε μία χερσόνησο.</li>
+<li><strong>Μία εβδομάδα:</strong> μία βάση με ημερήσιες εκδρομές ή μοιρασμένη διαμονή σε Κασσάνδρα και Σιθωνία.</li>
+<li><strong>10 μέρες και πάνω:</strong> και οι τρεις χερσόνησοι, συν μία μέρα στη Θεσσαλονίκη.</li>
 </ul>
-
-<h2>Πού να Μείνω;</h2>
-<p>Η επιλογή βάσης καθορίζει το 70% της εμπειρίας. Σύντομος οδηγός:</p>
-<h3>Για πρώτη φορά + οικογένεια</h3>
-<p><a href="/places/kallithea">Καλλιθέα</a>, <a href="/places/hanioti">Χανιώτη</a> ή <a href="/places/pefkohori">Πευκοχώρι</a>. Οργανωμένες παραλίες, αρκετά εστιατόρια με αγγλικά μενού, αγορές, φαρμακεία.</p>
-<h3>Για ζευγάρια / ησυχία</h3>
-<p><a href="/places/afytos">Άφυτος</a> (Κασσάνδρα), <a href="/places/nikiti">Νικήτη</a> ή <a href="/places/vourvourou">Βουρβουρού</a> (Σιθωνία).</p>
-<h3>Για luxury</h3>
-<p><a href="/places/sani-kassandra">Σάνη</a>, <a href="/best/luxury-hotels">5άστερα ξενοδοχεία</a>, <a href="/guide/villas">ιδιωτικές βίλες</a>.</p>
-<h3>Για budget</h3>
-<p><a href="/places/pefkohori">Πευκοχώρι</a>, <a href="/places/sarti">Σάρτη</a>. Δες και <a href="/guide/camping">camping</a> και <a href="/guide/budget">budget tips</a>.</p>
-
-<h2>Τι ΠΡΕΠΕΙ να Δεις</h2>
-<ol>
-  <li><strong><a href="/places/karidi-sithonia">Παραλία Καρύδι</a></strong> — ίσως η πιο διάσημη παραλία. Τιρκουάζ νερά, πευκοδάσος.</li>
-  <li><strong><a href="/places/portokali-sithonia">Καβουρότρυπες (Orange Beach)</a></strong> — εξωτικό τοπίο με πορτοκαλί βότσαλα.</li>
-  <li><strong><a href="/places/afytos">Άφυτος</a></strong> — το πιο γραφικό χωριό της Κασσάνδρας, πέτρινα σοκάκια πάνω από θάλασσα.</li>
-  <li><strong>Κρουαζιέρα γύρω από το <a href="/mount-athos">Άγιο Όρος</a></strong> — για γυναίκες ο μόνος τρόπος να δουν τα μοναστήρια. Εκκινεί από <a href="/places/ouranoupoli">Ουρανούπολη</a>.</li>
-  <li><strong><a href="/guide/petralona-cave">Σπήλαιο Πετραλώνων</a></strong> — αρχαιολογικός θησαυρός ηλικίας 700.000 ετών.</li>
-  <li><strong><a href="/places/parthenonas">Παρθενώνας</a></strong> — εγκαταλελειμμένο χωριό-κόσμημα πάνω από τον Νέο Μαρμαρά.</li>
-</ol>
-
-<h2>Πρακτικά που ΔΕΝ θα σου πει κανείς</h2>
+<h2>Πού να μείνετε</h2>
 <ul>
-  <li><strong>Τα μετρητά είναι ακόμα βασιλιάς</strong>. Πολλές ταβέρνες σε χωριά και beach bars δεν δέχονται κάρτα ή έχουν «χαλασμένο POS» τον Αύγουστο.</li>
-  <li><strong>Τα πάρκινγκ στις δημοφιλείς παραλίες γεμίζουν πριν τις 10:30</strong> τον Ιούλιο-Αύγουστο. Φτάσε στις 9:00 ή μετά τις 17:00.</li>
-  <li><strong>Το νερό της βρύσης είναι πόσιμο</strong> στις περισσότερες περιοχές, αλλά έχει έντονη γεύση — οι ντόπιοι πίνουν εμφιαλωμένο.</li>
-  <li><strong>Η θάλασσα είναι «καθαρή» αλλά τσούχτρες εμφανίζονται σποραδικά</strong>, κυρίως τέλη Αυγούστου-αρχές Σεπτέμβρη όταν αλλάζουν ρεύματα.</li>
-  <li><strong>Αποφύγετε να τρώτε σε εστιατόρια δίπλα ακριβώς στην πλαζ με μενού σε 5 γλώσσες</strong> — δες τις <a href="/best/traditional-tavernas">αυθεντικές ταβέρνες</a>.</li>
+<li><strong>Οικογένειες:</strong> Καλλιθέα, Χανιώτη, Πευκοχώρι.</li>
+<li><strong>Ζευγάρια και ησυχία:</strong> Άφυτος, Νικήτη, Βουρβουρού.</li>
+<li><strong>Πολυτέλεια:</strong> Σάνη και τα μεγάλα θέρετρα — δείτε <a href="/guide/luxury">πολυτελείς διακοπές</a>.</li>
+<li><strong>Οικονομικά:</strong> ενοικιαζόμενα δωμάτια και κάμπινγκ — δείτε <a href="/guide/budget">οικονομικές διακοπές</a>.</li>
 </ul>
-
-<h2>Προϋπολογισμός</h2>
-<p>Για 7 μέρες, 2 άτομα, μεσαία κατηγορία (Ιούλιος-Αύγουστος):</p>
+<h2>Μην χάσετε</h2>
 <ul>
-  <li>Διαμονή: €700-1400 (€100-200/βράδυ)</li>
-  <li>Φαγητό: €400-600 (ταβέρνες + ένα δύο πιο premium)</li>
-  <li>Αυτοκίνητο + βενζίνη: €350-500</li>
-  <li>Παραλία (ξαπλώστρες, beach bar): €150-300</li>
-  <li>Εκδρομές/δραστηριότητες: €150-400</li>
+<li>Τις <strong>Καβουρότρυπες</strong> και το <strong>Καρύδι</strong> στη Σιθωνία.</li>
+<li>Την <strong>Άφυτο</strong>, το πέτρινο χωριό πάνω από τη θάλασσα.</li>
+<li>Μια <strong>κρουαζιέρα γύρω από το Άγιο Όρος</strong> από την Ουρανούπολη — ο μόνος τρόπος για τις γυναίκες να δουν τις μονές.</li>
+<li>Το <strong>Σπήλαιο Πετραλώνων</strong> και την <strong>Αρχαία Όλυνθο</strong>.</li>
+<li>Τον <strong>Παρθενώνα</strong>, το αναστηλωμένο πέτρινο χωριό πάνω από τον Νέο Μαρμαρά.</li>
 </ul>
-<p><strong>Σύνολο: ~€1800-3200</strong>. Για πιο οικονομικές λύσεις, δες τον οδηγό <a href="/guide/budget">budget διακοπές</a>.</p>
-
-<h2>Συχνές Ερωτήσεις</h2>
-<h3>Είναι ασφαλής η Χαλκιδική για τουρίστες;</h3>
-<p>Απολύτως. Ο δείκτης εγκληματικότητας είναι εξαιρετικά χαμηλός. Οι μόνες «απάτες» που μπορεί να συναντήσεις είναι τουριστικές παγίδες σε εστιατόρια — δες τον οδηγό <a href="/guide/scams-to-avoid">απάτες προς αποφυγή</a>.</p>
-<h3>Χρειάζομαι οπωσδήποτε αυτοκίνητο;</h3>
-<p>Όχι οπωσδήποτε, αλλά χωρίς αυτό η εμπειρία περιορίζεται δραστικά. Τα ΚΤΕΛ κινούνται, αλλά σπάνια σε μικρές παραλίες. Δες τον <a href="/guide/halkidiki-without-car">οδηγό χωρίς αυτοκίνητο</a> αν έχεις αποφασίσει έτσι.</p>
-<h3>Μιλούν αγγλικά οι ντόπιοι;</h3>
-<p>Ναι, σε μεγάλο βαθμό — ειδικά όσοι εργάζονται στον τουρισμό. Σε πιο απομακρυσμένα χωριά (Άθως, εσωτερικό) λιγότερο. Βασικές ελληνικές λέξεις («ευχαριστώ», «παρακαλώ») πάντα βοηθούν.</p>
-<h3>Μπορούν οι γυναίκες να επισκεφτούν το Άγιο Όρος;</h3>
-<p>Όχι, απαγορεύεται η είσοδος σε γυναίκες (το λεγόμενο άβατο). Μπορούν όμως να κάνουν κρουαζιέρα γύρω από την κορυφή της χερσονήσου και να δουν τα μοναστήρια από τη θάλασσα (500 μέτρα απόσταση από την ακτή).</p>
-<h3>Χρειάζομαι αντικουνουπικό;</h3>
-<p>Ναι, ιδίως τον Ιούλιο και τον Αύγουστο. Τα <a href="/guide/jellyfish-mosquitoes">κουνούπια</a> είναι υπαρκτά αλλά όχι επιθετικά.</p>
-<h3>Ποια είναι η καλύτερη παραλία για πρώτη επίσκεψη;</h3>
-<p>Για «wow factor» το <a href="/places/karidi-sithonia">Καρύδι</a>. Για άνεση με παιδιά η <a href="/places/kallithea">Καλλιθέα</a>. Δες και τις <a href="/best/beaches-sithonia">top παραλίες Σιθωνίας</a>.</p>`,
-      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki has three peninsulas, over 550 km of coastline, and 70+ villages. If you're coming for the first time, smart planning transforms the experience. This guide is written by locals and updated every season.</p>
-
-<h2>Why Halkidiki for Your First Visit?</h2>
-<p>Halkidiki isn't a small Greek island you "see in three days." It's an entire region in Northern Greece, with three distinct peninsulas — <strong>Kassandra</strong>, <strong>Sithonia</strong>, and <strong>Athos</strong> — that look like fingers reaching into the Thermaic Gulf. Each has its own character, crowd, and pricing.</p>
-<p>For first-time visitors, the appeal is twofold: <strong>easy access</strong> (just 70 km from Thessaloniki's "Makedonia" airport) and <strong>massive variety</strong> — from luxury resorts at <a href="/places/sani-kassandra">Sani</a> to unmarked exotic beaches at <a href="/places/sarti">Sarti</a>.</p>
-
-<h2>Which Peninsula Should I Choose?</h2>
-<p>The biggest decision. There's no right answer — only the right one for you.</p>
+<h2>Πρακτικές συμβουλές</h2>
 <ul>
-  <li><strong>Kassandra</strong> — the most touristically developed. Countless hotels, beach bars, nightlife, organized beaches. Ideal for <a href="/guide/families">families</a> and first-timers. See <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>, <a href="/places/pefkohori">Pefkohori</a>.</li>
-  <li><strong>Sithonia</strong> — wilder, greener, less touristy. Home to Halkidiki's most exotic beaches — <a href="/places/vourvourou">Vourvourou</a>, <a href="/places/sarti">Sarti</a>, <a href="/places/neos-marmaras">Neos Marmaras</a>. Best for quiet stays or a <a href="/guide/honeymoon">honeymoon</a>.</li>
-  <li><strong>Athos</strong> — the third peninsula. Its tip (Mount Athos) is closed to women and requires a pilgrim permit. The south (<a href="/places/ouranoupoli">Ouranoupoli</a>, <a href="/places/ierissos">Ierissos</a>) is ideal for quiet and hiking.</li>
-</ul>
-<p>For deep comparison, see <a href="/guide/kassandra-vs-sithonia">Kassandra vs Sithonia</a> or the <a href="/guide/kassandra-sithonia-athos">3-way comparison</a>.</p>
-
-<h2>When to Go</h2>
-<p>The "real" season is <strong>15 June — 15 September</strong>. The peak is <strong>1-25 August</strong>, when everything is packed and prices jump +60% vs June.</p>
-<table class="w-full border-collapse my-4">
-  <thead><tr class="bg-gray-100"><th class="border p-2 text-left">Month</th><th class="border p-2 text-left">Sea temp</th><th class="border p-2 text-left">Crowds</th><th class="border p-2 text-left">Prices</th></tr></thead>
-  <tbody>
-    <tr><td class="border p-2"><a href="/guide/may">May</a></td><td class="border p-2">19-21°C, a bit cold</td><td class="border p-2">Few</td><td class="border p-2">€</td></tr>
-    <tr><td class="border p-2"><a href="/guide/june">June</a></td><td class="border p-2">22-24°C</td><td class="border p-2">Moderate</td><td class="border p-2">€€</td></tr>
-    <tr><td class="border p-2"><a href="/guide/july-august">July-August</a></td><td class="border p-2">25-27°C</td><td class="border p-2">Heavy</td><td class="border p-2">€€€€</td></tr>
-    <tr><td class="border p-2"><a href="/guide/september">September</a></td><td class="border p-2">24-26°C</td><td class="border p-2">Moderate</td><td class="border p-2">€€</td></tr>
-    <tr><td class="border p-2"><a href="/guide/october">October</a></td><td class="border p-2">20-22°C</td><td class="border p-2">Few</td><td class="border p-2">€</td></tr>
-  </tbody>
-</table>
-<p><strong>Local tip:</strong> <strong>September is the hidden gem of the season.</strong> Warm sea, comfortable beaches, restaurants without waits, prices -30%. Watch out though: after 15 September many Sithonia beach bars close.</p>
-
-<h2>How to Get There</h2>
-<p><strong>Thessaloniki airport (SKG)</strong> is the main gateway, with direct flights from most European capitals. From there:</p>
+<li>Έχετε μαζί σας μετρητά: μικρές ταβέρνες και καντίνες μπορεί να μη δέχονται κάρτα.</li>
+<li>Στις δημοφιλείς παραλίες τον Ιούλιο και τον Αύγουστο, πηγαίνετε νωρίς για να βρείτε πάρκινγκ.</li>
+<li>Το νερό της βρύσης είναι γενικά ασφαλές, αλλά πολλοί προτιμούν εμφιαλωμένο.</li>
+<li>Νοικιάστε αυτοκίνητο: τα λεωφορεία σπάνια φτάνουν στις μικρότερες παραλίες.</li>
+</ul>`,
+      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki has three peninsulas, hundreds of kilometres of coastline and dozens of villages. On a first visit, a little planning makes all the difference.</p>
+<h2>Which peninsula?</h2>
 <ul>
-  <li><strong>Car</strong> (recommended): 1:00-2:30h depending on destination. See <a href="/guide/car-rental">car rental guide</a>.</li>
-  <li><strong>KTEL bus</strong>: from Halkidiki KTEL station (not from airport — you need city bus 01X first). Cheap but slow.</li>
-  <li><strong>Private transfer</strong>: €80-160 depending on distance. Best for families with luggage.</li>
+<li><strong>Kassandra</strong> — the most developed: many hotels, organised beaches and the liveliest nightlife (Kallithea, Hanioti, Pefkohori). Good for families and first-timers.</li>
+<li><strong>Sithonia</strong> — greener and quieter, with pine forest down to coves of clear water (Vourvourou, Kavourotrypes, Sarti). Good for couples and nature lovers.</li>
+<li><strong>Athos</strong> — its southern part is the monastic state of Mount Athos, open only to men with a permit. Ouranoupoli and Ierissos, outside the border, are quiet bases.</li>
 </ul>
-<p>If driving overland, see guides <a href="/from/sofia">from Sofia</a>, <a href="/from/bucharest">from Bucharest</a>, <a href="/from/belgrade">from Belgrade</a>, <a href="/from/skopje">from Skopje</a>.</p>
-
-<h2>How Many Days Do I Need?</h2>
-<p>Minimum suggested: <strong>7 days</strong>. Fewer and you'll feel rushed. If you only have a few days, stick to <em>one</em> peninsula.</p>
+<p>More: <a href="/guide/kassandra-vs-sithonia">Kassandra vs Sithonia</a> and the <a href="/guide/kassandra-sithonia-athos">three-way comparison</a>.</p>
+<h2>When to go</h2>
+<p>The main season runs from June to September. July and August are the warmest and busiest months, with the sea around 25–27°C; June and September are calmer, with warm water and lower prices. In May and October the sea is cooler. See <a href="/guide/best-time-to-visit">the best time to visit</a>.</p>
+<h2>Getting there</h2>
 <ul>
-  <li><strong>3-4 days</strong> → Kassandra only. See <a href="/itinerary/3">3-day itinerary</a>.</li>
-  <li><strong>5-7 days</strong> → Sithonia or Kassandra + 1 day Sithonia. See <a href="/itinerary/7">7-day itinerary</a>.</li>
-  <li><strong>10-14 days</strong> → All three peninsulas + Thessaloniki + Meteora. See <a href="/itinerary/10">10-day itinerary</a>.</li>
+<li><strong>By car:</strong> from Thessaloniki Airport (SKG) it takes about 1 hour 10 minutes to Kallithea, 1 hour 20 minutes to Nikiti and about 2 hours to Sarti or Ouranoupoli. See <a href="/guide/car-rental">car rental</a>.</li>
+<li><strong>KTEL bus:</strong> from the KTEL Halkidiki station in Thessaloniki (not from the airport) — cheap but slow.</li>
+<li><strong>Transfer or taxi:</strong> convenient for families with luggage; agree the price in advance.</li>
 </ul>
-
-<h2>Where to Stay</h2>
-<h3>First-timers + families</h3>
-<p><a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>, or <a href="/places/pefkohori">Pefkohori</a>. Organized beaches, plenty of English-menu restaurants, supermarkets, pharmacies.</p>
-<h3>Couples / quiet</h3>
-<p><a href="/places/afytos">Afytos</a> (Kassandra), <a href="/places/nikiti">Nikiti</a>, or <a href="/places/vourvourou">Vourvourou</a> (Sithonia).</p>
-<h3>Luxury</h3>
-<p><a href="/places/sani-kassandra">Sani</a>, <a href="/best/luxury-hotels">5-star hotels</a>, <a href="/guide/villas">private villas</a>.</p>
-<h3>Budget</h3>
-<p><a href="/places/pefkohori">Pefkohori</a>, <a href="/places/sarti">Sarti</a>. See also <a href="/guide/camping">camping</a> and <a href="/guide/budget">budget tips</a>.</p>
-
-<h2>Must-See</h2>
-<ol>
-  <li><strong><a href="/places/karidi-sithonia">Karidi Beach</a></strong> — possibly the most famous beach. Turquoise water, pine forest.</li>
-  <li><strong><a href="/places/portokali-sithonia">Kavourotrypes (Orange Beach)</a></strong> — exotic landscape with orange pebbles.</li>
-  <li><strong><a href="/places/afytos">Afytos</a></strong> — the most picturesque village of Kassandra, stone alleys above the sea.</li>
-  <li><strong>Cruise around <a href="/mount-athos">Mount Athos</a></strong> — for women, the only way to see the monasteries. Departs from <a href="/places/ouranoupoli">Ouranoupoli</a>.</li>
-  <li><strong><a href="/guide/petralona-cave">Petralona Cave</a></strong> — archaeological treasure 700,000 years old.</li>
-  <li><strong><a href="/places/parthenonas">Parthenonas</a></strong> — abandoned gem village above Neos Marmaras.</li>
-</ol>
-
-<h2>Practical Things Nobody Tells You</h2>
+<h2>How many days?</h2>
 <ul>
-  <li><strong>Cash is still king.</strong> Many village tavernas and beach bars refuse cards or "the POS is broken" in August.</li>
-  <li><strong>Parking at popular beaches fills up before 10:30</strong> in July-August. Arrive by 9:00 or after 17:00.</li>
-  <li><strong>Tap water is drinkable</strong> in most areas but has a strong taste — locals drink bottled.</li>
-  <li><strong>The sea is clean but jellyfish appear sporadically</strong>, mostly late August — early September when currents shift.</li>
-  <li><strong>Avoid eating at beachfront restaurants with menus in 5 languages</strong> — see <a href="/best/traditional-tavernas">authentic tavernas</a>.</li>
+<li><strong>3–4 days:</strong> stay on one peninsula.</li>
+<li><strong>A week:</strong> one base plus day trips, or split your stay between Kassandra and Sithonia.</li>
+<li><strong>10 days or more:</strong> all three peninsulas, plus a day in Thessaloniki.</li>
 </ul>
-
-<h2>Budget</h2>
-<p>For 7 days, 2 people, mid-range (July-August):</p>
+<h2>Where to stay</h2>
 <ul>
-  <li>Accommodation: €700-1400 (€100-200/night)</li>
-  <li>Food: €400-600</li>
-  <li>Car + fuel: €350-500</li>
-  <li>Beach (loungers, bar): €150-300</li>
-  <li>Activities: €150-400</li>
+<li><strong>Families:</strong> Kallithea, Hanioti, Pefkohori.</li>
+<li><strong>Couples and quiet:</strong> Afytos, Nikiti, Vourvourou.</li>
+<li><strong>Luxury:</strong> Sani and the large resorts — see <a href="/guide/luxury">luxury holidays</a>.</li>
+<li><strong>Budget:</strong> rooms to let and campsites — see <a href="/guide/budget">budget holidays</a>.</li>
 </ul>
-<p><strong>Total: ~€1800-3200</strong>. For cheaper options see the <a href="/guide/budget">budget guide</a>.</p>
-
-<h2>FAQ</h2>
-<h3>Is Halkidiki safe for tourists?</h3>
-<p>Absolutely. Crime rate is very low. The only "scams" you might meet are tourist traps in restaurants — see <a href="/guide/scams-to-avoid">scams to avoid</a>.</p>
-<h3>Do I really need a car?</h3>
-<p>Not mandatory, but without one the experience is drastically limited. Buses run, but rarely to small beaches. See the <a href="/guide/halkidiki-without-car">without-car guide</a>.</p>
-<h3>Do locals speak English?</h3>
-<p>Yes, especially those in tourism. In remote villages (Athos, inland), less so. Basic Greek words always help.</p>
-<h3>Can women visit Mount Athos?</h3>
-<p>No — entry is forbidden to women (the "avaton" rule). But they can take a cruise around the peninsula's tip and see monasteries from the sea (500 m off the coast).</p>
-<h3>Do I need mosquito repellent?</h3>
-<p>Yes, especially in July-August. <a href="/guide/jellyfish-mosquitoes">Mosquitoes</a> exist but aren't aggressive.</p>
-<h3>What's the best beach for a first visit?</h3>
-<p>For the "wow factor," <a href="/places/karidi-sithonia">Karidi</a>. For comfort with kids, <a href="/places/kallithea">Kallithea</a>. See also <a href="/best/beaches-sithonia">top Sithonia beaches</a>.</p>`,
-      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Chalkidiki hat drei Halbinseln, über 550 km Küste und mehr als 70 Dörfer. Für den ersten Besuch macht kluge Planung den Unterschied.</p>
-
-<h2>Warum Chalkidiki beim ersten Besuch?</h2>
-<p>Chalkidiki ist keine kleine griechische Insel, die man in drei Tagen sieht. Es ist eine ganze Region mit drei Halbinseln: <strong>Kassandra</strong>, <strong>Sithonia</strong> und <strong>Athos</strong>.</p>
-
-<h2>Welche Halbinsel wählen?</h2>
+<h2>Don't miss</h2>
 <ul>
-  <li><strong>Kassandra</strong> — am touristischsten entwickelt. Hotels, Beach Bars, Nachtleben. Ideal für <a href="/guide/families">Familien</a>. Siehe <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>.</li>
-  <li><strong>Sithonia</strong> — wilder, grüner. Die exotischsten Strände: <a href="/places/vourvourou">Vourvourou</a>, <a href="/places/sarti">Sarti</a>. Perfekt für <a href="/guide/honeymoon">Flitterwochen</a>.</li>
-  <li><strong>Athos</strong> — die dritte Halbinsel. Der Heilige Berg ist für Frauen geschlossen. Der Süden (<a href="/places/ouranoupoli">Ouranoupoli</a>) ist ruhig und ideal zum Wandern.</li>
+<li><strong>Kavourotrypes</strong> and <strong>Karydi</strong> in Sithonia.</li>
+<li><strong>Afytos</strong>, the stone village above the sea.</li>
+<li>A <strong>cruise around Mount Athos</strong> from Ouranoupoli — the only way for women to see the monasteries.</li>
+<li>The <strong>Petralona Cave</strong> and <strong>Ancient Olynthos</strong>.</li>
+<li><strong>Parthenonas</strong>, the restored stone village above Neos Marmaras.</li>
 </ul>
-<p>Siehe den Vergleich <a href="/guide/kassandra-vs-sithonia">Kassandra vs Sithonia</a>.</p>
-
-<h2>Wann reisen?</h2>
-<p>Die "echte" Saison: <strong>15. Juni — 15. September</strong>. Spitze: Anfang August. <strong>Lokaler Tipp:</strong> September ist das versteckte Juwel — warmes Meer, -30% Preise.</p>
-
+<h2>Practical tips</h2>
+<ul>
+<li>Carry some cash: small tavernas and canteens may not take cards.</li>
+<li>At popular beaches in July and August, arrive early to find parking.</li>
+<li>Tap water is generally safe, but many visitors prefer bottled water.</li>
+<li>Rent a car: buses rarely reach the smaller beaches.</li>
+</ul>`,
+      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Chalkidiki hat drei Halbinseln, Hunderte Kilometer Küste und Dutzende Dörfer. Beim ersten Besuch macht ein wenig Planung den Unterschied.</p>
+<h2>Welche Halbinsel?</h2>
+<ul>
+<li><strong>Kassandra</strong> — die am stärksten erschlossene: viele Hotels, organisierte Strände und das lebhafteste Nachtleben (Kallithea, Hanioti, Pefkohori). Gut für Familien und Erstbesucher.</li>
+<li><strong>Sithonia</strong> — grüner und ruhiger, mit Kiefernwald bis ans Meer und Buchten mit klarem Wasser (Vourvourou, Kavourotrypes, Sarti). Gut für Paare und Naturfreunde.</li>
+<li><strong>Athos</strong> — der Süden ist der Mönchsstaat Berg Athos, nur für Männer mit Genehmigung zugänglich. Ouranoupoli und Ierissos außerhalb der Grenze sind ruhige Standorte.</li>
+</ul>
+<p>Mehr: <a href="/guide/kassandra-vs-sithonia">Kassandra oder Sithonia</a> und der <a href="/guide/kassandra-sithonia-athos">Vergleich aller drei Halbinseln</a>.</p>
+<h2>Reisezeit</h2>
+<p>Die Hauptsaison reicht von Juni bis September. Juli und August sind die heißesten und vollsten Monate, das Meer hat etwa 25–27°C; Juni und September sind ruhiger, mit warmem Wasser und niedrigeren Preisen. Im Mai und Oktober ist das Meer kühler. Siehe <a href="/guide/best-time-to-visit">beste Reisezeit</a>.</p>
 <h2>Anreise</h2>
-<p>Flughafen Thessaloniki (SKG). Von dort:</p>
 <ul>
-  <li>Mietwagen (empfohlen) — siehe <a href="/guide/car-rental">Mietwagen-Guide</a></li>
-  <li>KTEL-Bus (günstig)</li>
-  <li>Private Transfers: €80-160</li>
+<li><strong>Mit dem Auto:</strong> Vom Flughafen Thessaloniki (SKG) sind es etwa 1 Stunde 10 Minuten bis Kallithea, 1 Stunde 20 Minuten bis Nikiti und etwa 2 Stunden bis Sarti oder Ouranoupoli. Siehe <a href="/guide/car-rental">Mietwagen</a>.</li>
+<li><strong>KTEL-Bus:</strong> vom KTEL-Busbahnhof Chalkidiki in Thessaloniki (nicht vom Flughafen) — günstig, aber langsam.</li>
+<li><strong>Transfer oder Taxi:</strong> praktisch für Familien mit Gepäck; den Preis vorher vereinbaren.</li>
 </ul>
-<p>Überlandanreise: <a href="/from/munich">aus München</a>, <a href="/from/berlin">aus Berlin</a>.</p>
-
 <h2>Wie viele Tage?</h2>
 <ul>
-  <li>3-4 Tage → nur Kassandra — <a href="/itinerary/3">3-Tage-Route</a></li>
-  <li>5-7 Tage → Sithonia — <a href="/itinerary/7">7-Tage-Route</a></li>
-  <li>10-14 Tage → alle drei Halbinseln — <a href="/itinerary/10">10-Tage-Route</a></li>
+<li><strong>3–4 Tage:</strong> auf einer Halbinsel bleiben.</li>
+<li><strong>Eine Woche:</strong> ein Standort mit Tagesausflügen oder ein geteilter Aufenthalt auf Kassandra und Sithonia.</li>
+<li><strong>10 Tage oder mehr:</strong> alle drei Halbinseln plus ein Tag in Thessaloniki.</li>
 </ul>
-
 <h2>Wo übernachten</h2>
 <ul>
-  <li>Familien: <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a></li>
-  <li>Paare: <a href="/places/afytos">Afytos</a>, <a href="/places/nikiti">Nikiti</a></li>
-  <li>Luxus: <a href="/places/sani-kassandra">Sani</a>, <a href="/best/luxury-hotels">5-Sterne-Hotels</a></li>
+<li><strong>Familien:</strong> Kallithea, Hanioti, Pefkohori.</li>
+<li><strong>Paare und Ruhe:</strong> Afytos, Nikiti, Vourvourou.</li>
+<li><strong>Luxus:</strong> Sani und die großen Resorts — siehe <a href="/guide/luxury">Luxusurlaub</a>.</li>
+<li><strong>Budget:</strong> Privatzimmer und Campingplätze — siehe <a href="/guide/budget">günstiger Urlaub</a>.</li>
 </ul>
-
-<h2>Sehenswürdigkeiten</h2>
-<ol>
-  <li><a href="/places/karidi-sithonia">Karidi Beach</a></li>
-  <li><a href="/places/portokali-sithonia">Orange Beach</a></li>
-  <li><a href="/places/afytos">Afytos</a></li>
-  <li>Kreuzfahrt um den <a href="/mount-athos">Heiligen Berg</a></li>
-  <li><a href="/guide/petralona-cave">Petralona-Höhle</a></li>
-</ol>
-
+<h2>Nicht verpassen</h2>
+<ul>
+<li><strong>Kavourotrypes</strong> und <strong>Karydi</strong> auf Sithonia.</li>
+<li><strong>Afytos</strong>, das Steindorf über dem Meer.</li>
+<li>Eine <strong>Bootsfahrt rund um den Athos</strong> ab Ouranoupoli — für Frauen die einzige Möglichkeit, die Klöster zu sehen.</li>
+<li>Die <strong>Höhle von Petralona</strong> und das <strong>antike Olynth</strong>.</li>
+<li><strong>Parthenonas</strong>, das restaurierte Steindorf über Neos Marmaras.</li>
+</ul>
 <h2>Praktische Tipps</h2>
 <ul>
-  <li>Bargeld dabei haben</li>
-  <li>Parkplätze an Stränden vor 10:30 besetzt</li>
-  <li>Flaschenwasser empfohlen</li>
-  <li>Touristenfallen meiden — siehe <a href="/best/traditional-tavernas">authentische Tavernen</a></li>
-</ul>
-
-<h2>Budget</h2>
-<p>7 Tage, 2 Personen, Mittelklasse: €1800-3200. Siehe <a href="/guide/budget">Budget-Tipps</a>.</p>
-
-<h2>FAQ</h2>
-<h3>Ist Chalkidiki sicher?</h3>
-<p>Ja, sehr sicher. Siehe <a href="/guide/scams-to-avoid">Betrugsfallen</a>.</p>
-<h3>Brauche ich ein Auto?</h3>
-<p>Empfohlen. Ohne Auto: <a href="/guide/halkidiki-without-car">Guide</a>.</p>
-<h3>Dürfen Frauen zum Heiligen Berg?</h3>
-<p>Nein — nur Kreuzfahrt um die Küste.</p>`,
-      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики има три полуострова, над 550 км брегова линия и 70+ села. Ако идвате за първи път, правилното планиране променя всичко.</p>
-
-<h2>Защо Халкидики за първо посещение?</h2>
-<p>Халкидики не е малък гръцки остров "за три дни". Това е цял регион с три полуострова — <strong>Касандра</strong>, <strong>Ситония</strong> и <strong>Атон</strong>.</p>
-
+<li>Haben Sie Bargeld dabei: Kleine Tavernen und Strandkioske nehmen nicht immer Karten.</li>
+<li>An beliebten Stränden im Juli und August früh kommen, um einen Parkplatz zu finden.</li>
+<li>Leitungswasser ist in der Regel unbedenklich, viele Besucher trinken aber lieber Flaschenwasser.</li>
+<li>Mieten Sie ein Auto: Busse fahren die kleineren Strände selten an.</li>
+</ul>`,
+      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики има три полуострова, стотици километри брегова линия и десетки села. При първо посещение малко планиране прави голяма разлика.</p>
 <h2>Кой полуостров?</h2>
 <ul>
-  <li><strong>Касандра</strong> — най-развитият. Идеален за <a href="/guide/families">семейства</a>. <a href="/places/kallithea">Калитея</a>, <a href="/places/hanioti">Ханиоти</a>.</li>
-  <li><strong>Ситония</strong> — по-див, по-зелен. Екзотични плажове: <a href="/places/vourvourou">Вурвуру</a>, <a href="/places/sarti">Сарти</a>.</li>
-  <li><strong>Атон</strong> — Светата гора е затворена за жени. Юг: <a href="/places/ouranoupoli">Уранополис</a>.</li>
+<li><strong>Касандра</strong> — най-развитият: много хотели, организирани плажове и най-оживеният нощен живот (Калитеа, Ханиоти, Пефкохори). Подходящ за семейства и за първо посещение.</li>
+<li><strong>Ситония</strong> — по-зелена и по-тиха, с борови гори до морето и заливчета с бистра вода (Вурвуру, Кавуротрипес, Сарти). Подходяща за двойки и любители на природата.</li>
+<li><strong>Атон</strong> — южната му част е монашеската държава Света гора, достъпна само за мъже с разрешение. Уранополи и Ерисос, извън границата, са тихи бази.</li>
 </ul>
-<p>Сравнение: <a href="/guide/kassandra-vs-sithonia">Касандра vs Ситония</a>.</p>
-
-<h2>Кога?</h2>
-<p>Истински сезон: <strong>15 юни — 15 септември</strong>. Пик: август. <strong>Местен съвет:</strong> септември е перлата — топло море, -30% цени.</p>
-
+<p>Още: <a href="/guide/kassandra-vs-sithonia">Касандра или Ситония</a> и <a href="/guide/kassandra-sithonia-athos">сравнението на трите полуострова</a>.</p>
+<h2>Кога да отидете</h2>
+<p>Основният сезон е от юни до септември. Юли и август са най-горещите и най-натоварените месеци, морето е около 25–27°C; юни и септември са по-спокойни, с топла вода и по-ниски цени. През май и октомври морето е по-хладно. Вижте <a href="/guide/best-time-to-visit">най-доброто време за посещение</a>.</p>
 <h2>Как да стигнете</h2>
-<p>Летище Солун (SKG) или с кола: <a href="/from/sofia">от София</a>.</p>
 <ul>
-  <li>Кола под наем — <a href="/guide/car-rental">гид</a></li>
-  <li>KTEL автобус — евтино</li>
-  <li>Частен трансфер: €80-160</li>
+<li><strong>С кола:</strong> от летище Солун (SKG) до Калитеа се пътува около 1 час и 10 минути, до Никити — 1 час и 20 минути, а до Сарти или Уранополи — около 2 часа. Вижте <a href="/guide/car-rental">коли под наем</a>.</li>
+<li><strong>Автобус КТЕЛ:</strong> от автогарата КТЕЛ Халкидики в Солун (не от летището) — евтино, но бавно.</li>
+<li><strong>Трансфер или такси:</strong> удобно за семейства с багаж; договорете цената предварително.</li>
 </ul>
-
 <h2>Колко дни?</h2>
 <ul>
-  <li>3-4 дни → само Касандра — <a href="/itinerary/3">маршрут 3 дни</a></li>
-  <li>5-7 дни → Ситония — <a href="/itinerary/7">маршрут 7 дни</a></li>
-  <li>10+ дни → трите полуострова — <a href="/itinerary/10">маршрут 10 дни</a></li>
+<li><strong>3–4 дни:</strong> останете на един полуостров.</li>
+<li><strong>Седмица:</strong> една база с еднодневни екскурзии или престой, разделен между Касандра и Ситония.</li>
+<li><strong>10 и повече дни:</strong> и трите полуострова, плюс ден в Солун.</li>
 </ul>
-
 <h2>Къде да отседнете</h2>
 <ul>
-  <li>Семейства: <a href="/places/kallithea">Калитея</a>, <a href="/places/hanioti">Ханиоти</a></li>
-  <li>Двойки: <a href="/places/afytos">Афитос</a>, <a href="/places/nikiti">Никити</a></li>
-  <li>Лукс: <a href="/places/sani-kassandra">Сани</a></li>
+<li><strong>Семейства:</strong> Калитеа, Ханиоти, Пефкохори.</li>
+<li><strong>Двойки и спокойствие:</strong> Афитос, Никити, Вурвуру.</li>
+<li><strong>Лукс:</strong> Сани и големите курорти — вижте <a href="/guide/luxury">луксозна почивка</a>.</li>
+<li><strong>Бюджетно:</strong> стаи под наем и къмпинги — вижте <a href="/guide/budget">евтина почивка</a>.</li>
 </ul>
-
-<h2>Задължително за виждане</h2>
-<ol>
-  <li><a href="/places/karidi-sithonia">Плаж Кариди</a></li>
-  <li><a href="/places/portokali-sithonia">Оранжев плаж</a></li>
-  <li><a href="/places/afytos">Афитос</a></li>
-  <li>Круиз около <a href="/mount-athos">Атон</a></li>
-  <li><a href="/guide/petralona-cave">Пещерата Петралона</a></li>
-</ol>
-
-<h2>Практически съвети</h2>
+<h2>Не пропускайте</h2>
 <ul>
-  <li>Носете пари в брой</li>
-  <li>Паркингите на плажовете се пълнят до 10:30</li>
-  <li>Избягвайте туристически капани — <a href="/best/traditional-tavernas">автентични таверни</a></li>
+<li><strong>Кавуротрипес</strong> и <strong>Кариди</strong> в Ситония.</li>
+<li><strong>Афитос</strong>, каменното село над морето.</li>
+<li><strong>Круиз около Света гора</strong> от Уранополи — единственият начин жените да видят манастирите.</li>
+<li><strong>Пещерата Петралона</strong> и <strong>Древен Олинт</strong>.</li>
+<li><strong>Партенонас</strong>, възстановеното каменно село над Неос Мармарас.</li>
 </ul>
-
-<h2>Бюджет</h2>
-<p>7 дни, 2 души: €1800-3200. Виж <a href="/guide/budget">бюджет съвети</a>.</p>
-
-<h2>Често задавани въпроси</h2>
-<h3>Халкидики безопасна ли е?</h3>
-<p>Да, много. Виж <a href="/guide/scams-to-avoid">измами</a>.</p>
-<h3>Имам ли нужда от кола?</h3>
-<p>Препоръчва се. Без кола: <a href="/guide/halkidiki-without-car">гид</a>.</p>
-<h3>Жени могат ли в Атон?</h3>
-<p>Не — само круиз около полуострова.</p>`,
-      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">У Халкидиков три полуострова, более 550 км побережья и 70+ деревень. Для первой поездки правильное планирование меняет всё.</p>
-
-<h2>Почему Халкидики для первого визита?</h2>
-<p>Халкидики — не маленький греческий остров "на три дня". Это целый регион с тремя полуостровами: <strong>Кассандра</strong>, <strong>Ситония</strong> и <strong>Афон</strong>.</p>
-
+<h2>Практични съвети</h2>
+<ul>
+<li>Носете малко пари в брой: малките таверни и павилиони не винаги приемат карти.</li>
+<li>На популярните плажове през юли и август идете рано, за да намерите паркомясто.</li>
+<li>Чешмяната вода обикновено е безопасна, но много посетители предпочитат бутилирана.</li>
+<li>Наемете кола: автобусите рядко стигат до по-малките плажове.</li>
+</ul>`,
+      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">На Халкидики три полуострова, сотни километров побережья и десятки деревень. В первую поездку немного планирования решает всё.</p>
 <h2>Какой полуостров?</h2>
 <ul>
-  <li><strong>Кассандра</strong> — самый туристический. Идеален для <a href="/guide/families">семей</a>. <a href="/places/kallithea">Каллифея</a>, <a href="/places/hanioti">Ханиоти</a>.</li>
-  <li><strong>Ситония</strong> — дикий, зелёный. Экзотические пляжи: <a href="/places/vourvourou">Вурвуру</a>, <a href="/places/sarti">Сарти</a>.</li>
-  <li><strong>Афон</strong> — Святая Гора закрыта для женщин. Юг: <a href="/places/ouranoupoli">Уранополис</a>.</li>
+<li><strong>Кассандра</strong> — самый освоенный: много отелей, организованные пляжи и самая оживлённая ночная жизнь (Каллифея, Ханиоти, Пефкохори). Подходит семьям и тем, кто едет впервые.</li>
+<li><strong>Ситония</strong> — зеленее и спокойнее: сосны до самого моря и бухты с прозрачной водой (Вурвуру, Кавуротрипес, Сарти). Подходит парам и любителям природы.</li>
+<li><strong>Афон</strong> — его южная часть — монашеская республика Святой Горы, куда пускают только мужчин с разрешением. Уранополис и Иериссос за её границей — тихие базы.</li>
 </ul>
-<p>Сравнение: <a href="/guide/kassandra-vs-sithonia">Кассандра vs Ситония</a>.</p>
-
-<h2>Когда ехать?</h2>
-<p>Настоящий сезон: <strong>15 июня — 15 сентября</strong>. Пик: август. <strong>Совет местных:</strong> сентябрь — скрытая жемчужина, тёплое море, -30% цены.</p>
-
+<p>Подробнее: <a href="/guide/kassandra-vs-sithonia">Кассандра или Ситония</a> и <a href="/guide/kassandra-sithonia-athos">сравнение трёх полуостровов</a>.</p>
+<h2>Когда ехать</h2>
+<p>Основной сезон длится с июня по сентябрь. Июль и август — самые жаркие и людные месяцы, море около 25–27°C; июнь и сентябрь спокойнее, вода тёплая, цены ниже. В мае и октябре море прохладнее. См. <a href="/guide/best-time-to-visit">лучшее время для поездки</a>.</p>
 <h2>Как добраться</h2>
-<p>Аэропорт Салоники (SKG). Оттуда:</p>
 <ul>
-  <li>Аренда авто — <a href="/guide/car-rental">гид</a></li>
-  <li>Автобус KTEL — дёшево</li>
-  <li>Частный трансфер: €80-160</li>
+<li><strong>На машине:</strong> от аэропорта Салоник (SKG) около 1 часа 10 минут до Каллифеи, 1 часа 20 минут до Никити и около 2 часов до Сарти или Уранополиса. См. <a href="/guide/car-rental">аренду авто</a>.</li>
+<li><strong>Автобус КТЕЛ:</strong> с автовокзала КТЕЛ Халкидики в Салониках (не из аэропорта) — дёшево, но медленно.</li>
+<li><strong>Трансфер или такси:</strong> удобно для семей с багажом; договоритесь о цене заранее.</li>
 </ul>
-
 <h2>Сколько дней?</h2>
 <ul>
-  <li>3-4 дня → только Кассандра — <a href="/itinerary/3">маршрут 3 дня</a></li>
-  <li>5-7 дней → Ситония — <a href="/itinerary/7">маршрут 7 дней</a></li>
-  <li>10+ дней → три полуострова — <a href="/itinerary/10">маршрут 10 дней</a></li>
+<li><strong>3–4 дня:</strong> оставайтесь на одном полуострове.</li>
+<li><strong>Неделя:</strong> одна база с поездками на день или проживание поровну на Кассандре и Ситонии.</li>
+<li><strong>10 дней и больше:</strong> все три полуострова плюс день в Салониках.</li>
 </ul>
-
 <h2>Где жить</h2>
 <ul>
-  <li>Семьи: <a href="/places/kallithea">Каллифея</a>, <a href="/places/hanioti">Ханиоти</a></li>
-  <li>Пары: <a href="/places/afytos">Афитос</a>, <a href="/places/nikiti">Никити</a></li>
-  <li>Люкс: <a href="/places/sani-kassandra">Сани</a></li>
+<li><strong>Семьи:</strong> Каллифея, Ханиоти, Пефкохори.</li>
+<li><strong>Пары и тишина:</strong> Афитос, Никити, Вурвуру.</li>
+<li><strong>Люкс:</strong> Сани и крупные курорты — см. <a href="/guide/luxury">роскошный отдых</a>.</li>
+<li><strong>Бюджетно:</strong> комнаты и кемпинги — см. <a href="/guide/budget">недорогой отдых</a>.</li>
 </ul>
-
-<h2>Обязательно к посещению</h2>
-<ol>
-  <li><a href="/places/karidi-sithonia">Пляж Кариди</a></li>
-  <li><a href="/places/portokali-sithonia">Оранжевый пляж</a></li>
-  <li><a href="/places/afytos">Афитос</a></li>
-  <li>Круиз вокруг <a href="/mount-athos">Афона</a></li>
-  <li><a href="/guide/petralona-cave">Пещера Петралона</a></li>
-</ol>
-
+<h2>Не пропустите</h2>
+<ul>
+<li><strong>Кавуротрипес</strong> и <strong>Кариди</strong> на Ситонии.</li>
+<li><strong>Афитос</strong> — каменную деревню над морем.</li>
+<li><strong>Круиз вокруг Афона</strong> из Уранополиса — единственная возможность для женщин увидеть монастыри.</li>
+<li><strong>Пещеру Петралона</strong> и <strong>Древний Олинф</strong>.</li>
+<li><strong>Парфенонас</strong> — восстановленную каменную деревню над Неос-Мармарасом.</li>
+</ul>
 <h2>Практические советы</h2>
 <ul>
-  <li>Имейте наличные</li>
-  <li>Парковки заполняются до 10:30</li>
-  <li>Избегайте туристических ловушек — <a href="/best/traditional-tavernas">аутентичные таверны</a></li>
-</ul>
-
-<h2>Бюджет</h2>
-<p>7 дней, 2 человека: €1800-3200. См. <a href="/guide/budget">бюджет-советы</a>.</p>
-
-<h2>Часто задаваемые вопросы</h2>
-<h3>Халкидики безопасны?</h3>
-<p>Да, очень. См. <a href="/guide/scams-to-avoid">мошенничества</a>.</p>
-<h3>Нужна ли машина?</h3>
-<p>Рекомендуется. Без машины: <a href="/guide/halkidiki-without-car">гид</a>.</p>
-<h3>Могут ли женщины на Афон?</h3>
-<p>Нет — только круиз вокруг полуострова.</p>`,
-      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki are trei peninsule, peste 550 km de coastă și 70+ sate. Pentru prima vizită, o planificare corectă schimbă totul.</p>
-
-<h2>De ce Halkidiki pentru prima vizită?</h2>
-<p>Halkidiki nu este o mică insulă grecească "de trei zile". Este o întreagă regiune cu trei peninsule: <strong>Kassandra</strong>, <strong>Sithonia</strong> și <strong>Athos</strong>.</p>
-
-<h2>Ce peninsulă să alegi?</h2>
+<li>Держите при себе наличные: небольшие таверны и киоски не всегда принимают карты.</li>
+<li>На популярные пляжи в июле и августе приезжайте пораньше, чтобы найти парковку.</li>
+<li>Водопроводная вода обычно безопасна, но многие предпочитают бутилированную.</li>
+<li>Возьмите машину: автобусы редко доезжают до небольших пляжей.</li>
+</ul>`,
+      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki are trei peninsule, sute de kilometri de coastă și zeci de sate. La prima vizită, puțină planificare face toată diferența.</p>
+<h2>Ce peninsulă?</h2>
 <ul>
-  <li><strong>Kassandra</strong> — cea mai turistică. Ideală pentru <a href="/guide/families">familii</a>. <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>.</li>
-  <li><strong>Sithonia</strong> — sălbatică, verde. Plaje exotice: <a href="/places/vourvourou">Vourvourou</a>, <a href="/places/sarti">Sarti</a>.</li>
-  <li><strong>Athos</strong> — Muntele Athos interzis femeilor. Sud: <a href="/places/ouranoupoli">Ouranoupoli</a>.</li>
+<li><strong>Kassandra</strong> — cea mai dezvoltată: multe hoteluri, plaje amenajate și cea mai animată viață de noapte (Kallithea, Hanioti, Pefkohori). Potrivită pentru familii și pentru prima vizită.</li>
+<li><strong>Sithonia</strong> — mai verde și mai liniștită, cu păduri de pin până la mare și golfulețe cu apă limpede (Vourvourou, Kavourotrypes, Sarti). Potrivită pentru cupluri și iubitorii de natură.</li>
+<li><strong>Athos</strong> — partea sa de sud este statul monahal al Muntelui Athos, accesibil doar bărbaților cu permis. Ouranoupoli și Ierissos, în afara graniței, sunt baze liniștite.</li>
 </ul>
-<p>Comparație: <a href="/guide/kassandra-vs-sithonia">Kassandra vs Sithonia</a>.</p>
-
-<h2>Când să mergi?</h2>
-<p>Sezonul real: <strong>15 iunie — 15 septembrie</strong>. Vârf: august. <strong>Sfat local:</strong> septembrie = bijuteria ascunsă — mare caldă, -30% prețuri.</p>
-
-<h2>Cum ajungi</h2>
-<p>Aeroportul Salonic (SKG) sau cu mașina: <a href="/from/bucharest">din București</a>.</p>
+<p>Mai multe: <a href="/guide/kassandra-vs-sithonia">Kassandra sau Sithonia</a> și <a href="/guide/kassandra-sithonia-athos">comparația celor trei peninsule</a>.</p>
+<h2>Când să mergeți</h2>
+<p>Sezonul principal ține din iunie până în septembrie. Iulie și august sunt cele mai calde și mai aglomerate luni, cu marea în jur de 25–27°C; iunie și septembrie sunt mai liniștite, cu apă caldă și prețuri mai mici. În mai și octombrie marea este mai răcoroasă. Vedeți <a href="/guide/best-time-to-visit">cea mai bună perioadă</a>.</p>
+<h2>Cum ajungeți</h2>
 <ul>
-  <li>Închiriere mașină — <a href="/guide/car-rental">ghid</a></li>
-  <li>Autobuz KTEL — ieftin</li>
-  <li>Transfer privat: €80-160</li>
+<li><strong>Cu mașina:</strong> de la aeroportul din Salonic (SKG) faceți aproximativ 1 oră și 10 minute până la Kallithea, 1 oră și 20 de minute până la Nikiti și circa 2 ore până la Sarti sau Ouranoupoli. Vedeți <a href="/guide/car-rental">închirieri auto</a>.</li>
+<li><strong>Autobuz KTEL:</strong> din autogara KTEL Halkidiki din Salonic (nu de la aeroport) — ieftin, dar lent.</li>
+<li><strong>Transfer sau taxi:</strong> comod pentru familii cu bagaje; stabiliți prețul dinainte.</li>
 </ul>
-
 <h2>Câte zile?</h2>
 <ul>
-  <li>3-4 zile → doar Kassandra — <a href="/itinerary/3">traseu 3 zile</a></li>
-  <li>5-7 zile → Sithonia — <a href="/itinerary/7">traseu 7 zile</a></li>
-  <li>10+ zile → toate peninsulele — <a href="/itinerary/10">traseu 10 zile</a></li>
+<li><strong>3–4 zile:</strong> rămâneți pe o singură peninsulă.</li>
+<li><strong>O săptămână:</strong> o bază cu excursii de o zi sau un sejur împărțit între Kassandra și Sithonia.</li>
+<li><strong>10 zile sau mai mult:</strong> toate cele trei peninsule, plus o zi în Salonic.</li>
 </ul>
-
-<h2>Unde să stai</h2>
+<h2>Unde să stați</h2>
 <ul>
-  <li>Familii: <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a></li>
-  <li>Cupluri: <a href="/places/afytos">Afytos</a>, <a href="/places/nikiti">Nikiti</a></li>
-  <li>Lux: <a href="/places/sani-kassandra">Sani</a></li>
+<li><strong>Familii:</strong> Kallithea, Hanioti, Pefkohori.</li>
+<li><strong>Cupluri și liniște:</strong> Afytos, Nikiti, Vourvourou.</li>
+<li><strong>Lux:</strong> Sani și marile resorturi — vedeți <a href="/guide/luxury">vacanțe de lux</a>.</li>
+<li><strong>Buget redus:</strong> camere de închiriat și campinguri — vedeți <a href="/guide/budget">vacanțe ieftine</a>.</li>
 </ul>
-
-<h2>Obligatoriu de văzut</h2>
-<ol>
-  <li><a href="/places/karidi-sithonia">Plaja Karidi</a></li>
-  <li><a href="/places/portokali-sithonia">Plaja Portocalie</a></li>
-  <li><a href="/places/afytos">Afytos</a></li>
-  <li>Croazieră în jurul <a href="/mount-athos">Athos</a></li>
-  <li><a href="/guide/petralona-cave">Peștera Petralona</a></li>
-</ol>
-
+<h2>De neratat</h2>
+<ul>
+<li><strong>Kavourotrypes</strong> și <strong>Karydi</strong> în Sithonia.</li>
+<li><strong>Afytos</strong>, satul de piatră de deasupra mării.</li>
+<li>O <strong>croazieră în jurul Muntelui Athos</strong> din Ouranoupoli — singura cale prin care femeile pot vedea mănăstirile.</li>
+<li><strong>Peștera Petralona</strong> și <strong>Olynthos antic</strong>.</li>
+<li><strong>Parthenonas</strong>, satul de piatră restaurat de deasupra Neos Marmaras.</li>
+</ul>
 <h2>Sfaturi practice</h2>
 <ul>
-  <li>Aveți numerar</li>
-  <li>Parcările se umplu până la 10:30</li>
-  <li>Evitați capcanele — <a href="/best/traditional-tavernas">taverne autentice</a></li>
-</ul>
-
-<h2>Buget</h2>
-<p>7 zile, 2 persoane: €1800-3200. Vezi <a href="/guide/budget">sfaturi buget</a>.</p>
-
-<h2>Întrebări frecvente</h2>
-<h3>E sigură Halkidiki?</h3>
-<p>Da, foarte. Vezi <a href="/guide/scams-to-avoid">escrocherii</a>.</p>
-<h3>Am nevoie de mașină?</h3>
-<p>Recomandat. Fără mașină: <a href="/guide/halkidiki-without-car">ghid</a>.</p>
-<h3>Femeile pot vizita Athos?</h3>
-<p>Nu — doar croazieră în jurul peninsulei.</p>`,
-      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki ima tri poluostrva, preko 550 km obale i 70+ sela. Za prvi put, pravilno planiranje menja iskustvo.</p>
-
-<h2>Zašto Halkidiki za prvi put?</h2>
-<p>Halkidiki nije malo grčko ostrvo "za tri dana". To je cela regija sa tri poluostrva: <strong>Kasandra</strong>, <strong>Sitonija</strong> i <strong>Atos</strong>.</p>
-
+<li>Aveți la voi bani cash: tavernele mici și chioșcurile nu acceptă întotdeauna card.</li>
+<li>La plajele populare, în iulie și august, ajungeți devreme ca să găsiți loc de parcare.</li>
+<li>Apa de la robinet este în general sigură, dar mulți preferă apa îmbuteliată.</li>
+<li>Închiriați o mașină: autobuzele ajung rar la plajele mai mici.</li>
+</ul>`,
+      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki ima tri poluostrva, stotine kilometara obale i desetine sela. Pri prvoj poseti malo planiranja pravi veliku razliku.</p>
 <h2>Koje poluostrvo?</h2>
 <ul>
-  <li><strong>Kasandra</strong> — najviše turistička. Idealna za <a href="/guide/families">porodice</a>. <a href="/places/kallithea">Kalitea</a>, <a href="/places/hanioti">Hanioti</a>.</li>
-  <li><strong>Sitonija</strong> — divlja, zelena. Egzotične plaže: <a href="/places/vourvourou">Vurvuru</a>, <a href="/places/sarti">Sarti</a>.</li>
-  <li><strong>Atos</strong> — Sveta Gora zabranjena ženama. Jug: <a href="/places/ouranoupoli">Uranopolis</a>.</li>
+<li><strong>Kasandra</strong> — najrazvijenija: mnogo hotela, uređene plaže i najživlji noćni život (Kalitea, Hanioti, Pefkohori). Dobra za porodice i prvu posetu.</li>
+<li><strong>Sitonija</strong> — zelenija i mirnija, s borovima do mora i uvalama bistre vode (Vurvuru, Kavurotripes, Sarti). Dobra za parove i ljubitelje prirode.</li>
+<li><strong>Atos</strong> — njegov južni deo je monaška država Sveta Gora, u koju mogu samo muškarci s dozvolom. Uranupolis i Jerisos, izvan granice, mirne su baze.</li>
 </ul>
-<p>Poređenje: <a href="/guide/kassandra-vs-sithonia">Kasandra vs Sitonija</a>.</p>
-
-<h2>Kada?</h2>
-<p>Prava sezona: <strong>15. jun — 15. septembar</strong>. Vrh: avgust. <strong>Lokalni savet:</strong> septembar je biser — toplo more, -30% cene.</p>
-
+<p>Više: <a href="/guide/kassandra-vs-sithonia">Kasandra ili Sitonija</a> i <a href="/guide/kassandra-sithonia-athos">poređenje tri poluostrva</a>.</p>
+<h2>Kada ići</h2>
+<p>Glavna sezona traje od juna do septembra. Jul i avgust su najtopliji i najprometniji meseci, more je oko 25–27°C; jun i septembar su mirniji, s toplom vodom i nižim cenama. U maju i oktobru more je hladnije. Pogledajte <a href="/guide/best-time-to-visit">najbolje vreme za posetu</a>.</p>
 <h2>Kako stići</h2>
-<p>Aerodrom Solun (SKG) ili kolima: <a href="/from/belgrade">iz Beograda</a>.</p>
 <ul>
-  <li>Rent-a-car — <a href="/guide/car-rental">vodič</a></li>
-  <li>KTEL autobus — jeftino</li>
-  <li>Privatni transfer: €80-160</li>
+<li><strong>Kolima:</strong> od aerodroma u Solunu (SKG) do Kalitee treba oko 1 sat i 10 minuta, do Nikitija 1 sat i 20 minuta, a do Sartija ili Uranupolisa oko 2 sata. Pogledajte <a href="/guide/car-rental">rent-a-car</a>.</li>
+<li><strong>KTEL autobus:</strong> sa autobuske stanice KTEL Halkidiki u Solunu (ne s aerodroma) — jeftino, ali sporo.</li>
+<li><strong>Transfer ili taksi:</strong> praktično za porodice s prtljagom; cenu dogovorite unapred.</li>
 </ul>
-
 <h2>Koliko dana?</h2>
 <ul>
-  <li>3-4 dana → samo Kasandra — <a href="/itinerary/3">ruta 3 dana</a></li>
-  <li>5-7 dana → Sitonija — <a href="/itinerary/7">ruta 7 dana</a></li>
-  <li>10+ dana → sva poluostrva — <a href="/itinerary/10">ruta 10 dana</a></li>
+<li><strong>3–4 dana:</strong> ostanite na jednom poluostrvu.</li>
+<li><strong>Nedelju dana:</strong> jedna baza s jednodnevnim izletima ili boravak podeljen između Kasandre i Sitonije.</li>
+<li><strong>10 dana i više:</strong> sva tri poluostrva, plus dan u Solunu.</li>
 </ul>
-
-<h2>Gde odsesti</h2>
+<h2>Gde odseći</h2>
 <ul>
-  <li>Porodice: <a href="/places/kallithea">Kalitea</a>, <a href="/places/hanioti">Hanioti</a></li>
-  <li>Parovi: <a href="/places/afytos">Afitos</a>, <a href="/places/nikiti">Nikiti</a></li>
-  <li>Luksuz: <a href="/places/sani-kassandra">Sani</a></li>
+<li><strong>Porodice:</strong> Kalitea, Hanioti, Pefkohori.</li>
+<li><strong>Parovi i mir:</strong> Afitos, Nikiti, Vurvuru.</li>
+<li><strong>Luksuz:</strong> Sani i veliki rizorti — pogledajte <a href="/guide/luxury">luksuzni odmor</a>.</li>
+<li><strong>Povoljno:</strong> sobe za izdavanje i kampovi — pogledajte <a href="/guide/budget">povoljan odmor</a>.</li>
 </ul>
-
-<h2>Obavezno videti</h2>
-<ol>
-  <li><a href="/places/karidi-sithonia">Plaža Karidi</a></li>
-  <li><a href="/places/portokali-sithonia">Narandžasta plaža</a></li>
-  <li><a href="/places/afytos">Afitos</a></li>
-  <li>Krstarenje oko <a href="/mount-athos">Atosa</a></li>
-  <li><a href="/guide/petralona-cave">Pećina Petralona</a></li>
-</ol>
-
+<h2>Ne propustite</h2>
+<ul>
+<li><strong>Kavurotripes</strong> i <strong>Karidi</strong> na Sitoniji.</li>
+<li><strong>Afitos</strong>, kameno selo iznad mora.</li>
+<li><strong>Krstarenje oko Svete Gore</strong> iz Uranupolisa — jedini način da žene vide manastire.</li>
+<li><strong>Pećinu Petralona</strong> i <strong>Antički Olint</strong>.</li>
+<li><strong>Partenonas</strong>, obnovljeno kameno selo iznad Neos Marmarasa.</li>
+</ul>
 <h2>Praktični saveti</h2>
 <ul>
-  <li>Imajte gotovinu</li>
-  <li>Parkinzi se pune do 10:30</li>
-  <li>Izbegavajte turističke zamke — <a href="/best/traditional-tavernas">autentične taverne</a></li>
-</ul>
-
-<h2>Budžet</h2>
-<p>7 dana, 2 osobe: €1800-3200. Vidi <a href="/guide/budget">budžet savete</a>.</p>
-
-<h2>Česta pitanja</h2>
-<h3>Da li je Halkidiki bezbedan?</h3>
-<p>Da, veoma. Vidi <a href="/guide/scams-to-avoid">prevare</a>.</p>
-<h3>Treba li mi auto?</h3>
-<p>Preporučuje se. Bez auta: <a href="/guide/halkidiki-without-car">vodič</a>.</p>
-<h3>Da li žene mogu na Atos?</h3>
-<p>Ne — samo krstarenje oko poluostrva.</p>`,
+<li>Imajte kod sebe gotovinu: male taverne i kiosci ne primaju uvek kartice.</li>
+<li>Na popularne plaže u julu i avgustu dođite rano da biste našli parking.</li>
+<li>Voda iz česme je uglavnom bezbedna, ali mnogi radije piju flaširanu.</li>
+<li>Iznajmite automobil: autobusi retko stižu do manjih plaža.</li>
+</ul>`,
     },
   },
   {
     slug: 'kassandra-sithonia-athos', icon: 'GitCompareArrows', color: 'violet',
     title: { el: 'Κασσάνδρα vs Σιθωνία vs Άθως — Τριπλή Σύγκριση', en: 'Kassandra vs Sithonia vs Athos — 3-Way Comparison', de: 'Kassandra vs Sithonia vs Athos — Dreifachvergleich', bg: 'Касандра vs Ситония vs Атон — Тройно сравнение', ru: 'Кассандра vs Ситония vs Афон — Тройное сравнение', ro: 'Kassandra vs Sithonia vs Athos — Comparație triplă', sr: 'Kasandra vs Sitonija vs Atos — Trostruko poređenje' },
     description: { el: 'Βαθιά σύγκριση των τριών χερσονήσων — ποια ταιριάζει σε εσένα', en: 'Deep comparison of the three peninsulas — which one suits you', de: 'Tiefer Vergleich der drei Halbinseln', bg: 'Дълбоко сравнение на трите полуострова', ru: 'Глубокое сравнение трёх полуостровов', ro: 'Comparație profundă a celor trei peninsule', sr: 'Duboko poređenje tri poluostrva' },
-    metaTitle: { el: 'Κασσάνδρα ή Σιθωνία ή Άθως; Σύγκριση 2026', en: 'Kassandra or Sithonia or Athos? 2026 Comparison', de: 'Kassandra oder Sithonia oder Athos? Vergleich 2026', bg: 'Касандра или Ситония или Атон? Сравнение 2026', ru: 'Кассандра или Ситония или Афон? Сравнение 2026', ro: 'Kassandra sau Sithonia sau Athos? Comparație 2026', sr: 'Kasandra ili Sitonija ili Atos? Poređenje 2026' },
-    metaDesc: { el: 'Κασσάνδρα, Σιθωνία ή Άθως; Πλήρης σύγκριση 2026: παραλίες, κόσμος, τιμές, νυχτερινή ζωή, ατμόσφαιρα — ποια να επιλέξεις.', en: 'Kassandra, Sithonia or Athos? Full 2026 comparison: beaches, crowds, prices, nightlife, atmosphere — which to pick.', de: 'Kassandra, Sithonia oder Athos? Vergleich 2026: Strände, Preise, Nachtleben.', bg: 'Касандра, Ситония или Атон? Пълно сравнение 2026.', ru: 'Кассандра, Ситония или Афон? Полное сравнение 2026.', ro: 'Kassandra, Sithonia sau Athos? Comparație 2026.', sr: 'Kasandra, Sitonija ili Atos? Poređenje 2026.' },
+    metaTitle: { el: 'Κασσάνδρα, Σιθωνία ή Άθως; Σύγκριση', en: 'Kassandra, Sithonia or Athos? Comparison', de: 'Kassandra, Sithonia oder Athos? Der Vergleich', bg: 'Касандра, Ситония или Атон? Сравнение', ru: 'Кассандра, Ситония или Афон? Сравнение', ro: 'Kassandra, Sithonia sau Athos? Comparație', sr: 'Kasandra, Sitonija ili Atos? Poređenje' },
+    metaDesc: { el: 'Κασσάνδρα, Σιθωνία ή Άθως; Παραλίες, ατμόσφαιρα, νυχτερινή ζωή, αποστάσεις και σε ποιον ταιριάζει η καθεμία — μια πρακτική σύγκριση.', en: 'Kassandra, Sithonia or Athos? Beaches, atmosphere, nightlife, distances and who each peninsula suits — a practical comparison.', de: 'Kassandra, Sithonia oder Athos? Strände, Atmosphäre, Nachtleben, Entfernungen und für wen welche Halbinsel passt — ein praktischer Vergleich.', bg: 'Касандра, Ситония или Атон? Плажове, атмосфера, нощен живот, разстояния и за кого е всеки полуостров — практично сравнение.', ru: 'Кассандра, Ситония или Афон? Пляжи, атмосфера, ночная жизнь, расстояния и кому подходит каждый полуостров — практичное сравнение.', ro: 'Kassandra, Sithonia sau Athos? Plaje, atmosferă, viață de noapte, distanțe și cui i se potrivește fiecare peninsulă — o comparație practică.', sr: 'Kasandra, Sitonija ili Atos? Plaže, atmosfera, noćni život, udaljenosti i kome koje poluostrvo odgovara — praktično poređenje.' },
     content: {
-      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Οι τρεις χερσόνησοι της Χαλκιδικής — Κασσάνδρα, Σιθωνία, Άθως — είναι τρεις εντελώς διαφορετικοί κόσμοι. Αν σκέφτεσαι "ποια να διαλέξω", αυτός ο οδηγός είναι για σένα.</p>
-
-<h2>Γρήγορη Απόφαση σε 30 Δευτερόλεπτα</h2>
+      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Οι τρεις χερσόνησοι της Χαλκιδικής — Κασσάνδρα, Σιθωνία και Άθως — μοιάζουν με τρεις διαφορετικές διακοπές. Δείτε πώς συγκρίνονται.</p>
+<h2>Σε 30 δευτερόλεπτα</h2>
 <ul>
-  <li>Θέλεις <strong>οργανωμένες παραλίες, πολύ κόσμο, νυχτερινή ζωή</strong> → <strong>Κασσάνδρα</strong>.</li>
-  <li>Θέλεις <strong>εξωτικές παραλίες, ησυχία, φύση</strong> → <strong>Σιθωνία</strong>.</li>
-  <li>Θέλεις <strong>θρησκευτικό/φιλοσοφικό ταξίδι, ορεινή πεζοπορία, μηδαμινός τουρισμός</strong> → <strong>Άθως</strong>.</li>
+<li>Οργανωμένες παραλίες, πολλές επιλογές, νυχτερινή ζωή → <strong>Κασσάνδρα</strong>.</li>
+<li>Πράσινα τοπία, καθαροί κολπίσκοι, πιο ήρεμος ρυθμός → <strong>Σιθωνία</strong>.</li>
+<li>Ησυχία, ιστορία και ο κόσμος του Αγίου Όρους → <strong>Άθως</strong>.</li>
 </ul>
-
-<h2>Πίνακας Σύγκρισης</h2>
-<table class="w-full border-collapse my-4 text-sm">
-  <thead><tr class="bg-gray-100"><th class="border p-2 text-left">Κριτήριο</th><th class="border p-2 text-left">Κασσάνδρα</th><th class="border p-2 text-left">Σιθωνία</th><th class="border p-2 text-left">Άθως</th></tr></thead>
-  <tbody>
-    <tr><td class="border p-2"><strong>Χαρακτήρας</strong></td><td class="border p-2">Τουριστικός, κοσμικός</td><td class="border p-2">Φυσικός, χαλαρός</td><td class="border p-2">Θρησκευτικός, ήσυχος</td></tr>
-    <tr><td class="border p-2"><strong>Παραλίες</strong></td><td class="border p-2">Οργανωμένες, μεγάλες</td><td class="border p-2">Εξωτικές, ποικίλες</td><td class="border p-2">Ερημικές, άγριες</td></tr>
-    <tr><td class="border p-2"><strong>Νυχτερινή ζωή</strong></td><td class="border p-2">Έντονη</td><td class="border p-2">Ήπια</td><td class="border p-2">Ανύπαρκτη</td></tr>
-    <tr><td class="border p-2"><strong>Ξενοδοχεία</strong></td><td class="border p-2">Άπειρα (500+)</td><td class="border p-2">Αρκετά (200+)</td><td class="border p-2">Λίγα (50+)</td></tr>
-    <tr><td class="border p-2"><strong>Τιμές</strong></td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
-    <tr><td class="border p-2"><strong>Καταλληλότητα για παιδιά</strong></td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
-    <tr><td class="border p-2"><strong>Για γαμήλιο ταξίδι</strong></td><td class="border p-2">⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
-    <tr><td class="border p-2"><strong>Για πεζοπορία</strong></td><td class="border p-2">⭐⭐</td><td class="border p-2">⭐⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐⭐</td></tr>
-    <tr><td class="border p-2"><strong>Απόσταση από SKG</strong></td><td class="border p-2">70-110 χλμ</td><td class="border p-2">100-140 χλμ</td><td class="border p-2">120-160 χλμ</td></tr>
-  </tbody>
+<h2>Σύγκριση</h2>
+<table>
+<tr><th>Κριτήριο</th><th>Κασσάνδρα</th><th>Σιθωνία</th><th>Άθως</th></tr>
+<tr><td>Χαρακτήρας</td><td>Ζωντανή, ανεπτυγμένη</td><td>Φυσική, χαλαρή</td><td>Ήσυχη, πνευματική</td></tr>
+<tr><td>Παραλίες</td><td>Μεγάλες, αμμουδερές, οργανωμένες</td><td>Κολπίσκοι και πευκοδάση</td><td>Λιγότερες και πιο ήσυχες</td></tr>
+<tr><td>Νυχτερινή ζωή</td><td>Η περισσότερη</td><td>Λίγη (Νέος Μαρμαράς)</td><td>Ελάχιστη</td></tr>
+<tr><td>Διαμονή</td><td>Η μεγαλύτερη επιλογή</td><td>Καλή επιλογή, περισσότερες βίλες και κάμπινγκ</td><td>Περιορισμένη (Ουρανούπολη, Ιερισσός)</td></tr>
+<tr><td>Από το αεροδρόμιο SKG</td><td>~1–1,5 ώρα</td><td>~1,5–2 ώρες</td><td>~2 ώρες</td></tr>
 </table>
-
-<h2>Κασσάνδρα — η Πρώτη Χερσόνησος</h2>
-<p>Η πιο κοντινή στη Θεσσαλονίκη (μόλις 70 χλμ), η Κασσάνδρα είναι η πιο τουριστικά ώριμη. Πάνω από 500 ξενοδοχεία, δεκάδες beach bars, supermarkets, κλινικές — όλα εδώ.</p>
-<h3>Υπέρ</h3>
+<h2>Κασσάνδρα</h2>
+<p>Η πιο κοντινή χερσόνησος στη Θεσσαλονίκη και η πιο ανεπτυγμένη: μεγάλες αμμουδιές, οργανωμένες παραλίες με ξαπλώστρες στα πολυσύχναστα θέρετρα, πολλά ξενοδοχεία και η πιο ζωντανή νυχτερινή ζωή (Καλλιθέα, Χανιώτη, Πευκοχώρι). Η Άφυτος είναι το πιο γραφικό της χωριό. Τον Αύγουστο έχει πολύ κόσμο και το πάρκινγκ δυσκολεύει.</p>
+<p><strong>Ιδανική για:</strong> πρώτη επίσκεψη, οικογένειες με μικρά παιδιά, νυχτερινή ζωή.</p>
+<h2>Σιθωνία</h2>
+<p>Η μεσαία χερσόνησος: πεύκα ως τη θάλασσα, κολπίσκοι με καθαρά νερά (Καβουρότρυπες, Καρύδι, τα νησάκια της Βουρβουρούς) και πιο αργός ρυθμός. Λιγότερα μεγάλα ξενοδοχεία, περισσότερες βίλες, δωμάτια και κάμπινγκ. Οι αποστάσεις είναι μεγαλύτερες και η νότια Σιθωνία έχει λιγότερες υπηρεσίες.</p>
+<p><strong>Ιδανική για:</strong> ζευγάρια, φυσιολάτρες, όσους ξαναέρχονται.</p>
+<h2>Άθως</h2>
+<p>Το νότιο τμήμα της χερσονήσου είναι η Αθωνική Πολιτεία: μόνο για άνδρες, με άδεια. Έξω από το όριο, η Ουρανούπολη και η Ιερισσός είναι ήσυχες βάσεις, η κρουαζιέρα γύρω από το Άγιο Όρος ξεκινά από την Ουρανούπολη και η Αμμουλιανή απέχει λίγα λεπτά με το φέρι από τον Τρυπητή. Λίγο βορειότερα βρίσκονται τα Αρχαία Στάγειρα και η Ολυμπιάδα.</p>
+<p><strong>Ιδανική για:</strong> όσους αναζητούν ησυχία, προσκυνητές, λάτρεις της ιστορίας.</p>
+<h2>Συνδυασμός χερσονήσων</h2>
+<p>Με μία εβδομάδα ή περισσότερο μπορείτε να συνδυάσετε δύο. Κασσάνδρα και Σιθωνία απέχουν περίπου 1–1,5 ώρα με αυτοκίνητο και η Ουρανούπολη περίπου 1 ώρα και 15 λεπτά από τη Νικήτη. Η Νικήτη, στην είσοδο της Σιθωνίας, είναι πρακτική βάση για εκδρομές.</p>
+<h2>Συχνές ερωτήσεις</h2>
+<h3>Πού είναι τα πιο καθαρά νερά;</h3>
+<p>Και οι τρεις έχουν εξαιρετικά νερά και πολλές παραλίες με Γαλάζια Σημαία· οι κολπίσκοι της Σιθωνίας είναι οι πιο φωτογραφημένοι.</p>
+<h3>Ποια είναι καλύτερη για μικρά παιδιά;</h3>
+<p>Η Κασσάνδρα, για τις μεγάλες αμμουδιές με ρηχά νερά και τις πολλές υπηρεσίες.</p>`,
+      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">The three peninsulas of Halkidiki — Kassandra, Sithonia and Athos — feel like three different holidays. Here is how they compare.</p>
+<h2>In 30 seconds</h2>
 <ul>
-  <li><strong>Οργανωμένες παραλίες:</strong> Ξαπλώστρες, ομπρέλες, ναυαγοσώστης (<a href="/beaches/feature/lifeguard">δες τις με ναυαγοσώστη</a>).</li>
-  <li><strong>Νυχτερινή ζωή:</strong> Τα beach bars του <a href="/places/kallithea">Καλλιθέας</a> και του <a href="/places/hanioti">Χανιώτη</a> γεμίζουν μέχρι τις 4 π.μ. Δες <a href="/guide/nightlife">νυχτερινή ζωή</a>.</li>
-  <li><strong>Οικογενειακές υποδομές:</strong> Water parks, mini golf, animation — τέλεια για <a href="/guide/families">οικογένειες</a>.</li>
-  <li><strong>Luxury options:</strong> Η <a href="/places/sani-kassandra">Σάνη</a> είναι από τους κορυφαίους resort προορισμούς της Μεσογείου.</li>
-  <li><strong>Γραφικά χωριά:</strong> Ο <a href="/places/afytos">Άφυτος</a> είναι ένα από τα πιο όμορφα χωριά της Ελλάδας.</li>
+<li>Organised beaches, plenty of choice, nightlife → <strong>Kassandra</strong>.</li>
+<li>Green landscapes, clear coves, a calmer pace → <strong>Sithonia</strong>.</li>
+<li>Quiet, history and the world of Mount Athos → <strong>Athos</strong>.</li>
 </ul>
-<h3>Κατά</h3>
-<ul>
-  <li><strong>Κόσμος:</strong> Τον Αύγουστο θα παλέψεις για κάθε πάρκινγκ.</li>
-  <li><strong>Υπερκατασκευή:</strong> Μεγάλες πολυκατοικίες και τσιμέντο σε μερικά σημεία.</li>
-  <li><strong>Παραλίες:</strong> Όμορφες, αλλά όχι τόσο «εξωτικές» όσο της Σιθωνίας.</li>
-</ul>
-<p><strong>Ιδανική για:</strong> πρώτη επίσκεψη, οικογένειες με μικρά παιδιά, βραχείες αποδράσεις, νυχτοκόσμο.</p>
-<p>Δες αναλυτικά: <a href="/places/kallithea">Καλλιθέα</a>, <a href="/places/hanioti">Χανιώτη</a>, <a href="/places/pefkohori">Πευκοχώρι</a>, <a href="/places/afytos">Άφυτος</a>, <a href="/places/paliouri">Παλιούρι</a>, <a href="/places/nea-fokea">Νέα Φώκαια</a>.</p>
-
-<h2>Σιθωνία — το Πράσινο Διαμάντι</h2>
-<p>Η μεσαία χερσόνησος. Λιγότερη δόμηση, περισσότερο πράσινο, και οι πιο διάσημες εξωτικές παραλίες της Χαλκιδικής.</p>
-<h3>Υπέρ</h3>
-<ul>
-  <li><strong>Παραλίες απίστευτου κάλλους:</strong> <a href="/places/karidi-sithonia">Καρύδι</a>, <a href="/places/portokali-sithonia">Καβουρότρυπες</a>, <a href="/places/vourvourou">Βουρβουρού</a> — δες όλες τις <a href="/best/beaches-sithonia">top Σιθωνίας</a>.</li>
-  <li><strong>Πεύκα μέχρι τη θάλασσα:</strong> Το τοπίο θυμίζει περισσότερο Κεφαλονιά παρά Χαλκιδική.</li>
-  <li><strong>Ιδανική για ζευγάρια:</strong> <a href="/places/parthenonas">Παρθενώνας</a> με θέα, ψαροταβέρνες στο <a href="/places/porto-koufo">Πόρτο Κουφό</a>.</li>
-  <li><strong>Μικρότερη τουριστική δόμηση:</strong> Πιο αυθεντική ελληνική αίσθηση.</li>
-  <li><strong>Νησίδες:</strong> Η Διάπορος και τα «Μικρά Νησιά» της Βουρβουρούς θυμίζουν Σεϋχέλλες.</li>
-</ul>
-<h3>Κατά</h3>
-<ul>
-  <li><strong>Λιγότερη υποδομή:</strong> Μικρότερα supermarkets, σποραδική κάλυψη ιατρείων.</li>
-  <li><strong>Περισσότερη απόσταση:</strong> Αν μένεις στη Σάρτη, είσαι 2 ώρες από το αεροδρόμιο.</li>
-  <li><strong>Μικρή νυχτερινή ζωή:</strong> Εκτός από τον <a href="/places/neos-marmaras">Νέο Μαρμαρά</a>, είναι ήσυχα.</li>
-</ul>
-<p><strong>Ιδανική για:</strong> ζευγάρια, <a href="/guide/honeymoon">γαμήλιο ταξίδι</a>, nature lovers, οικογένειες με μεγαλύτερα παιδιά, φωτογράφους.</p>
-<p>Δες αναλυτικά: <a href="/places/nikiti">Νικήτη</a>, <a href="/places/vourvourou">Βουρβουρού</a>, <a href="/places/neos-marmaras">Νέος Μαρμαράς</a>, <a href="/places/sarti">Σάρτη</a>, <a href="/places/toroni">Τορώνη</a>, <a href="/places/porto-koufo">Πόρτο Κουφό</a>, <a href="/places/parthenonas">Παρθενώνας</a>.</p>
-
-<h2>Άθως — η Άγνωστη Χερσόνησος</h2>
-<p>Η τρίτη και πιο «μυστηριώδης». Στην κορυφή της βρίσκεται το <a href="/mount-athos">Άγιο Όρος</a>, η θρησκευτική αυτόνομη πολιτεία των μοναχών (κλειστή σε γυναίκες). Η νότια και δυτική πλευρά είναι ανοιχτή σε όλους.</p>
-<h3>Υπέρ</h3>
-<ul>
-  <li><strong>Ελάχιστος τουρισμός:</strong> Ακόμα και τον Αύγουστο οι παραλίες έχουν χώρο.</li>
-  <li><strong>Κρουαζιέρα Αγίου Όρους:</strong> Η μόνη ευκαιρία (για γυναίκες) να δεις τα <a href="/mount-athos/monasteries">μοναστήρια</a>.</li>
-  <li><strong>Πεζοπορία:</strong> Το δίκτυο μονοπατιών είναι εξαιρετικό. Δες <a href="/guide/hiking-halkidiki">πεζοπορία στη Χαλκιδική</a>.</li>
-  <li><strong>Ιστορικά χωριά:</strong> <a href="/places/stagira">Στάγειρα</a> (γενέτειρα Αριστοτέλη), <a href="/places/arnea">Αρναία</a>.</li>
-  <li><strong>Τιμές:</strong> Αρκετά οικονομικότερα από Κασσάνδρα/Σιθωνία.</li>
-</ul>
-<h3>Κατά</h3>
-<ul>
-  <li><strong>Περιορισμένες επιλογές φαγητού/διαμονής</strong> σε σύγκριση με τις άλλες.</li>
-  <li><strong>Μεγάλη απόσταση</strong> από ΣKG αεροδρόμιο.</li>
-  <li><strong>Το άβατο:</strong> Γυναίκες δεν μπορούν να μπουν στο Άγιο Όρος.</li>
-</ul>
-<p><strong>Ιδανική για:</strong> πεζοπόρους, προσκυνητές, όσους θέλουν μονή + ορθόδοξη εμπειρία, nature photographers, ζευγάρια με αγάπη για την ησυχία.</p>
-<p>Δες αναλυτικά: <a href="/places/ouranoupoli">Ουρανούπολη</a>, <a href="/places/ierissos">Ιερισσός</a>, <a href="/places/stagira">Στάγειρα</a>, <a href="/places/olympiada">Ολυμπιάδα</a>, <a href="/places/nea-roda">Νέα Ρόδα</a>, <a href="/places/pyrgadikia">Πυργαδίκια</a>.</p>
-
-<h2>Ποια να Επιλέξεις με Βάση τον Τύπο σου;</h2>
-<h3>Ταξιδεύεις μόνος/μόνη σου</h3>
-<p>Ο <a href="/places/neos-marmaras">Νέος Μαρμαράς</a> έχει ωραία social σκηνή και θάλασσα. Ή η <a href="/places/ouranoupoli">Ουρανούπολη</a> για πιο ρεφλεξιβ ταξίδι.</p>
-<h3>Ζευγάρι σε ρομαντικές διακοπές</h3>
-<p>Σιθωνία, χωρίς δεύτερη σκέψη. Δες <a href="/guide/honeymoon">γαμήλιο ταξίδι</a> και <a href="/best/romantic-restaurants">ρομαντικά εστιατόρια</a>.</p>
-<h3>Οικογένεια με παιδιά κάτω των 6</h3>
-<p>Κασσάνδρα — οργανωμένες παραλίες, παιδιατρικά, water parks.</p>
-<h3>Οικογένεια με εφήβους</h3>
-<p>Συνδυασμός Κασσάνδρας + Σιθωνίας. Δες <a href="/itinerary/10">10ήμερο</a>.</p>
-<h3>Ομάδα φίλων που βγαίνουν νύχτα</h3>
-<p>Νότια <a href="/places/kallithea">Κασσάνδρα</a> — το πιο κοντινό σε κανονικά clubs είναι στο Πευκοχώρι.</p>
-<h3>Επιστρέφεις δεύτερη φορά</h3>
-<p>Αυτή τη φορά πήγαινε Σιθωνία. Αν έχεις ήδη πάει, δοκίμασε Άθως.</p>
-
-<h2>Τι Μπορείς να Συνδυάσεις</h2>
-<p>Αν έχεις τουλάχιστον 10 μέρες, σκέψου συνδυασμό. Η Σιθωνία και η Κασσάνδρα είναι 1 ώρα μεταξύ τους μέσω Πολύγυρου. Η Άθως είναι 1:30 από τη Σιθωνία.</p>
-<ul>
-  <li><strong>7 ημέρες Κασσάνδρα + 3 ημέρες Σιθωνία</strong> — ισορροπημένο πρώτο ταξίδι.</li>
-  <li><strong>5 ημέρες Σιθωνία + 2 ημέρες Άθως</strong> — ήρεμο, φυσιολατρικό.</li>
-  <li><strong>14ήμερο Grand Tour:</strong> 5-5-4 και στις τρεις. Δες <a href="/itinerary/14">14ήμερο itinerary</a>.</li>
-</ul>
-
-<h2>Συχνές Ερωτήσεις</h2>
-<h3>Πού είναι φθηνότερα;</h3>
-<p>Γενικά η Άθως είναι η πιο οικονομική, ακολουθεί η Σιθωνία, και η Κασσάνδρα είναι η πιο ακριβή (ιδίως Σάνη, Καλλιθέα). Δες <a href="/guide/budget">budget tips</a>.</p>
-<h3>Ποια έχει τα πιο καθαρά νερά;</h3>
-<p>Όλες έχουν εξαιρετικά καθαρά νερά (πολλές με <a href="/beaches/feature/blue-flag">Γαλάζια Σημαία</a>), αλλά η Σιθωνία έχει τα πιο φωτογενή — το βάθος + η αμμώδης βάση δημιουργούν τα τιρκουάζ χρώματα.</p>
-<h3>Ποια έχει καλύτερα εστιατόρια;</h3>
-<p>Η Κασσάνδρα έχει ποικιλία (διεθνή, gourmet, παραδοσιακά). Η Σιθωνία έχει τις καλύτερες ψαροταβέρνες. Η Άθως έχει τα πιο αυθεντικά. Δες <a href="/best/traditional-tavernas">παραδοσιακές ταβέρνες</a>.</p>
-<h3>Μπορώ να μείνω σε μία και να κάνω day trips στις άλλες;</h3>
-<p>Ναι, αλλά με κόστος χρόνου. Μείνε στη <a href="/places/nikiti">Νικήτη</a> (Σιθωνία) που είναι στην είσοδο — μπορείς να φτάσεις σε 45' στο <a href="/places/afytos">Άφυτο</a> ή σε 1:15 στην <a href="/places/ouranoupoli">Ουρανούπολη</a>.</p>
-<h3>Ποια είναι καλύτερη για παιδιά με ειδικές ανάγκες;</h3>
-<p>Κασσάνδρα — έχει περισσότερες <a href="/beaches/feature/accessible">προσβάσιμες παραλίες</a> και υποδομές.</p>`,
-      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">The three peninsulas of Halkidiki — Kassandra, Sithonia, Athos — are three entirely different worlds. If you're wondering "which one should I pick," this guide is for you.</p>
-
-<h2>30-Second Decision</h2>
-<ul>
-  <li>You want <strong>organized beaches, crowds, nightlife</strong> → <strong>Kassandra</strong>.</li>
-  <li>You want <strong>exotic beaches, quiet, nature</strong> → <strong>Sithonia</strong>.</li>
-  <li>You want <strong>religious/philosophical journey, mountain hiking, almost zero tourism</strong> → <strong>Athos</strong>.</li>
-</ul>
-
-<h2>Comparison Table</h2>
-<table class="w-full border-collapse my-4 text-sm">
-  <thead><tr class="bg-gray-100"><th class="border p-2 text-left">Criterion</th><th class="border p-2 text-left">Kassandra</th><th class="border p-2 text-left">Sithonia</th><th class="border p-2 text-left">Athos</th></tr></thead>
-  <tbody>
-    <tr><td class="border p-2"><strong>Character</strong></td><td class="border p-2">Touristy, social</td><td class="border p-2">Natural, relaxed</td><td class="border p-2">Religious, quiet</td></tr>
-    <tr><td class="border p-2"><strong>Beaches</strong></td><td class="border p-2">Organized, large</td><td class="border p-2">Exotic, varied</td><td class="border p-2">Remote, wild</td></tr>
-    <tr><td class="border p-2"><strong>Nightlife</strong></td><td class="border p-2">Intense</td><td class="border p-2">Mild</td><td class="border p-2">None</td></tr>
-    <tr><td class="border p-2"><strong>Hotels</strong></td><td class="border p-2">Plenty (500+)</td><td class="border p-2">Several (200+)</td><td class="border p-2">Few (50+)</td></tr>
-    <tr><td class="border p-2"><strong>Prices</strong></td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
-    <tr><td class="border p-2"><strong>Kid-friendly</strong></td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
-    <tr><td class="border p-2"><strong>Honeymoon</strong></td><td class="border p-2">⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
-    <tr><td class="border p-2"><strong>Hiking</strong></td><td class="border p-2">⭐⭐</td><td class="border p-2">⭐⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐⭐</td></tr>
-    <tr><td class="border p-2"><strong>Distance from SKG</strong></td><td class="border p-2">70-110 km</td><td class="border p-2">100-140 km</td><td class="border p-2">120-160 km</td></tr>
-  </tbody>
+<h2>Comparison</h2>
+<table>
+<tr><th>Criterion</th><th>Kassandra</th><th>Sithonia</th><th>Athos</th></tr>
+<tr><td>Character</td><td>Lively, developed</td><td>Natural, relaxed</td><td>Quiet, spiritual</td></tr>
+<tr><td>Beaches</td><td>Long, sandy, organised</td><td>Coves and pine forest</td><td>Fewer and quieter</td></tr>
+<tr><td>Nightlife</td><td>The most</td><td>Some (Neos Marmaras)</td><td>Very little</td></tr>
+<tr><td>Accommodation</td><td>The widest choice</td><td>Good choice, more villas and campsites</td><td>Limited (Ouranoupoli, Ierissos)</td></tr>
+<tr><td>From SKG airport</td><td>~1–1.5 h</td><td>~1.5–2 h</td><td>~2 h</td></tr>
 </table>
-
-<h2>Kassandra — the First Peninsula</h2>
-<p>Closest to Thessaloniki (just 70 km), Kassandra is the most developed touristically. 500+ hotels, dozens of beach bars, supermarkets, clinics — all here.</p>
-<h3>Pros</h3>
-<ul>
-  <li><strong>Organized beaches:</strong> Sunbeds, umbrellas, lifeguards (<a href="/beaches/feature/lifeguard">see beaches with lifeguards</a>).</li>
-  <li><strong>Nightlife:</strong> Beach bars at <a href="/places/kallithea">Kallithea</a> and <a href="/places/hanioti">Hanioti</a> run until 4 a.m. See <a href="/guide/nightlife">nightlife guide</a>.</li>
-  <li><strong>Family infrastructure:</strong> Water parks, mini golf, animation — great for <a href="/guide/families">families</a>.</li>
-  <li><strong>Luxury options:</strong> <a href="/places/sani-kassandra">Sani</a> is among the top Mediterranean resort destinations.</li>
-  <li><strong>Picturesque villages:</strong> <a href="/places/afytos">Afytos</a> is one of Greece's prettiest villages.</li>
-</ul>
-<h3>Cons</h3>
-<ul>
-  <li><strong>Crowds:</strong> In August you'll fight for every parking spot.</li>
-  <li><strong>Overbuilding:</strong> Large apartment blocks in some areas.</li>
-  <li><strong>Beaches:</strong> Beautiful, but not as "exotic" as Sithonia's.</li>
-</ul>
-<p><strong>Ideal for:</strong> first visit, families with young kids, short breaks, party lovers.</p>
-<p>Explore: <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>, <a href="/places/pefkohori">Pefkohori</a>, <a href="/places/afytos">Afytos</a>, <a href="/places/paliouri">Paliouri</a>.</p>
-
-<h2>Sithonia — the Green Diamond</h2>
-<p>The middle peninsula. Less built-up, greener, and home to Halkidiki's most famous exotic beaches.</p>
-<h3>Pros</h3>
-<ul>
-  <li><strong>Beaches of unbelievable beauty:</strong> <a href="/places/karidi-sithonia">Karidi</a>, <a href="/places/portokali-sithonia">Kavourotrypes</a>, <a href="/places/vourvourou">Vourvourou</a> — see all <a href="/best/beaches-sithonia">top Sithonia</a>.</li>
-  <li><strong>Pines down to the sea:</strong> The landscape feels more like Kefalonia than Halkidiki.</li>
-  <li><strong>Ideal for couples:</strong> <a href="/places/parthenonas">Parthenonas</a> with views, fish tavernas at <a href="/places/porto-koufo">Porto Koufo</a>.</li>
-  <li><strong>Less touristy:</strong> More authentic Greek feel.</li>
-  <li><strong>Islets:</strong> Diaporos and the "Little Islands" of Vourvourou feel Seychelles-like.</li>
-</ul>
-<h3>Cons</h3>
-<ul>
-  <li><strong>Less infrastructure:</strong> Smaller shops, sparse medical.</li>
-  <li><strong>Farther:</strong> If you stay in Sarti, you're 2 hours from the airport.</li>
-  <li><strong>Limited nightlife:</strong> Besides <a href="/places/neos-marmaras">Neos Marmaras</a>, it's quiet.</li>
-</ul>
-<p><strong>Ideal for:</strong> couples, <a href="/guide/honeymoon">honeymoon</a>, nature lovers, families with older kids, photographers.</p>
-<p>Explore: <a href="/places/nikiti">Nikiti</a>, <a href="/places/vourvourou">Vourvourou</a>, <a href="/places/neos-marmaras">Neos Marmaras</a>, <a href="/places/sarti">Sarti</a>, <a href="/places/toroni">Toroni</a>, <a href="/places/porto-koufo">Porto Koufo</a>, <a href="/places/parthenonas">Parthenonas</a>.</p>
-
-<h2>Athos — the Unknown Peninsula</h2>
-<p>The third and most "mysterious." At its tip lies <a href="/mount-athos">Mount Athos</a>, the autonomous monastic state (closed to women). The south and west are open to all.</p>
-<h3>Pros</h3>
-<ul>
-  <li><strong>Minimal tourism:</strong> Even in August beaches have space.</li>
-  <li><strong>Mount Athos cruise:</strong> The only way for women to see the <a href="/mount-athos/monasteries">monasteries</a>.</li>
-  <li><strong>Hiking:</strong> Excellent trail network. See <a href="/guide/hiking-halkidiki">hiking Halkidiki</a>.</li>
-  <li><strong>Historic villages:</strong> <a href="/places/stagira">Stagira</a> (Aristotle's birthplace), <a href="/places/arnea">Arnea</a>.</li>
-  <li><strong>Prices:</strong> More affordable than Kassandra/Sithonia.</li>
-</ul>
-<h3>Cons</h3>
-<ul>
-  <li><strong>Limited food/lodging options</strong> vs other peninsulas.</li>
-  <li><strong>Longest drive</strong> from SKG airport.</li>
-  <li><strong>The "avaton":</strong> Women cannot enter Mount Athos proper.</li>
-</ul>
-<p><strong>Ideal for:</strong> hikers, pilgrims, those seeking monastic + Orthodox experience, nature photographers, couples who value silence.</p>
-<p>Explore: <a href="/places/ouranoupoli">Ouranoupoli</a>, <a href="/places/ierissos">Ierissos</a>, <a href="/places/stagira">Stagira</a>, <a href="/places/olympiada">Olympiada</a>, <a href="/places/nea-roda">Nea Roda</a>.</p>
-
-<h2>Which to Pick by Traveler Type</h2>
-<h3>Solo traveler</h3>
-<p><a href="/places/neos-marmaras">Neos Marmaras</a> has a nice social scene. Or <a href="/places/ouranoupoli">Ouranoupoli</a> for a reflective trip.</p>
-<h3>Couple, romantic holiday</h3>
-<p>Sithonia, hands down. See <a href="/guide/honeymoon">honeymoon</a> and <a href="/best/romantic-restaurants">romantic restaurants</a>.</p>
-<h3>Family, kids under 6</h3>
-<p>Kassandra — organized beaches, pediatric care, water parks.</p>
-<h3>Family, teenagers</h3>
-<p>Kassandra + Sithonia combo. See <a href="/itinerary/10">10-day itinerary</a>.</p>
-<h3>Friend group, party</h3>
-<p>Southern <a href="/places/kallithea">Kassandra</a> — closest to real clubs is in Pefkohori.</p>
-<h3>Second-time visitor</h3>
-<p>This time go Sithonia. If you've done both, try Athos.</p>
-
-<h2>What to Combine</h2>
-<p>With 10+ days, consider a combo. Sithonia and Kassandra are 1 hour apart via Polygyros. Athos is 1:30 from Sithonia.</p>
-<ul>
-  <li><strong>7 days Kassandra + 3 days Sithonia</strong> — balanced first trip.</li>
-  <li><strong>5 days Sithonia + 2 days Athos</strong> — calm, nature-focused.</li>
-  <li><strong>14-day Grand Tour:</strong> 5-5-4 across all three. See <a href="/itinerary/14">14-day itinerary</a>.</li>
-</ul>
-
+<h2>Kassandra</h2>
+<p>The closest peninsula to Thessaloniki and the most developed: long sandy beaches, organised beaches with sunbeds in the busy resorts, many hotels and the liveliest nightlife (Kallithea, Hanioti, Pefkohori). Afytos is its most picturesque village. In August it is busy and parking can be hard.</p>
+<p><strong>Ideal for:</strong> first visits, families with young children, nightlife.</p>
+<h2>Sithonia</h2>
+<p>The middle peninsula: pine forest down to the sea, coves of clear water (Kavourotrypes, Karydi, the Vourvourou islets) and a slower rhythm. Fewer large hotels, more villas, rooms and campsites. Distances are longer, and southern Sithonia has fewer services.</p>
+<p><strong>Ideal for:</strong> couples, nature lovers, repeat visitors.</p>
+<h2>Athos</h2>
+<p>The southern part of the peninsula is the monastic state of Mount Athos: men only, with a permit. Outside the border, Ouranoupoli and Ierissos are quiet bases, the cruise around Mount Athos leaves from Ouranoupoli, and Ammouliani island is a short ferry ride from Tripiti. Ancient Stagira and Olympiada lie a little further north.</p>
+<p><strong>Ideal for:</strong> those seeking quiet, pilgrims, history lovers.</p>
+<h2>Combining peninsulas</h2>
+<p>With a week or more you can combine two. Kassandra and Sithonia are about 1–1.5 hours apart by car, and Ouranoupoli is about 1 hour 15 minutes from Nikiti. Nikiti, at the entrance to Sithonia, is a practical base for day trips.</p>
 <h2>FAQ</h2>
-<h3>Where is it cheapest?</h3>
-<p>Generally Athos, then Sithonia, then Kassandra (especially Sani, Kallithea). See <a href="/guide/budget">budget tips</a>.</p>
 <h3>Which has the clearest water?</h3>
-<p>All are excellent (many <a href="/beaches/feature/blue-flag">Blue Flag</a>), but Sithonia has the most photogenic — depth + sandy base produce turquoise colors.</p>
-<h3>Which has the best restaurants?</h3>
-<p>Kassandra for variety, Sithonia for fish tavernas, Athos for authenticity. See <a href="/best/traditional-tavernas">traditional tavernas</a>.</p>
-<h3>Can I base myself in one and day-trip?</h3>
-<p>Yes, but time cost. Stay at <a href="/places/nikiti">Nikiti</a> (Sithonia) at the entrance — you can reach <a href="/places/afytos">Afytos</a> in 45', <a href="/places/ouranoupoli">Ouranoupoli</a> in 1:15.</p>
-<h3>Best for special-needs kids?</h3>
-<p>Kassandra — more <a href="/beaches/feature/accessible">accessible beaches</a> and infrastructure.</p>`,
-      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Die drei Halbinseln Chalkidikis — Kassandra, Sithonia, Athos — sind drei völlig unterschiedliche Welten.</p>
-
-<h2>Schnelle Entscheidung</h2>
+<p>All three have excellent water and many Blue Flag beaches; Sithonia's coves are the most photographed.</p>
+<h3>Which is best for small children?</h3>
+<p>Kassandra, for its long sandy beaches with shallow water and its many services.</p>`,
+      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Die drei Halbinseln Chalkidikis — Kassandra, Sithonia und Athos — fühlen sich an wie drei verschiedene Urlaube. So unterscheiden sie sich.</p>
+<h2>In 30 Sekunden</h2>
 <ul>
-  <li>Organisierte Strände, Nachtleben → <strong>Kassandra</strong></li>
-  <li>Exotische Strände, Ruhe → <strong>Sithonia</strong></li>
-  <li>Wandern, minimaler Tourismus → <strong>Athos</strong></li>
+<li>Organisierte Strände, viel Auswahl, Nachtleben → <strong>Kassandra</strong>.</li>
+<li>Grüne Landschaften, klare Buchten, ruhigeres Tempo → <strong>Sithonia</strong>.</li>
+<li>Ruhe, Geschichte und die Welt des Athos → <strong>Athos</strong>.</li>
 </ul>
-
-<h2>Vergleichstabelle</h2>
-<table class="w-full border-collapse my-4 text-sm">
-  <thead><tr class="bg-gray-100"><th class="border p-2">Kriterium</th><th class="border p-2">Kassandra</th><th class="border p-2">Sithonia</th><th class="border p-2">Athos</th></tr></thead>
-  <tbody>
-    <tr><td class="border p-2">Charakter</td><td class="border p-2">Touristisch</td><td class="border p-2">Natürlich</td><td class="border p-2">Religiös</td></tr>
-    <tr><td class="border p-2">Preise</td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
-    <tr><td class="border p-2">Familien</td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
-    <tr><td class="border p-2">Paare</td><td class="border p-2">⭐⭐⭐</td><td class="border p-2">⭐⭐⭐⭐⭐</td><td class="border p-2">⭐⭐</td></tr>
-  </tbody>
+<h2>Vergleich</h2>
+<table>
+<tr><th>Kriterium</th><th>Kassandra</th><th>Sithonia</th><th>Athos</th></tr>
+<tr><td>Charakter</td><td>Lebhaft, erschlossen</td><td>Natürlich, entspannt</td><td>Ruhig, spirituell</td></tr>
+<tr><td>Strände</td><td>Lang, sandig, organisiert</td><td>Buchten und Kiefernwald</td><td>Weniger und ruhiger</td></tr>
+<tr><td>Nachtleben</td><td>Am meisten</td><td>Etwas (Neos Marmaras)</td><td>Sehr wenig</td></tr>
+<tr><td>Unterkünfte</td><td>Größte Auswahl</td><td>Gute Auswahl, mehr Villen und Campingplätze</td><td>Begrenzt (Ouranoupoli, Ierissos)</td></tr>
+<tr><td>Vom Flughafen SKG</td><td>~1–1,5 Std.</td><td>~1,5–2 Std.</td><td>~2 Std.</td></tr>
 </table>
-
 <h2>Kassandra</h2>
-<p>Am entwickeltsten. 500+ Hotels. Siehe <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>, <a href="/places/afytos">Afytos</a>, <a href="/places/sani-kassandra">Sani</a>.</p>
-<p><strong>Ideal für:</strong> Erste Reise, <a href="/guide/families">Familien</a>, Nachtleben.</p>
-
+<p>Die Thessaloniki am nächsten gelegene und am stärksten erschlossene Halbinsel: lange Sandstrände, organisierte Strände mit Liegen in den belebten Orten, viele Hotels und das lebhafteste Nachtleben (Kallithea, Hanioti, Pefkohori). Afytos ist ihr malerischstes Dorf. Im August ist es voll und Parkplätze sind knapp.</p>
+<p><strong>Ideal für:</strong> Erstbesucher, Familien mit kleinen Kindern, Nachtleben.</p>
 <h2>Sithonia</h2>
-<p>Grüner, ruhiger. Berühmte Strände: <a href="/places/karidi-sithonia">Karidi</a>, <a href="/places/portokali-sithonia">Orange Beach</a>, <a href="/places/vourvourou">Vourvourou</a>.</p>
-<p><strong>Ideal für:</strong> Paare, <a href="/guide/honeymoon">Flitterwochen</a>, Naturliebhaber.</p>
-
+<p>Die mittlere Halbinsel: Kiefernwald bis ans Meer, Buchten mit klarem Wasser (Kavourotrypes, Karydi, die Inselchen von Vourvourou) und ein langsamerer Rhythmus. Weniger große Hotels, mehr Villen, Zimmer und Campingplätze. Die Wege sind länger, und im Süden Sithonias gibt es weniger Infrastruktur.</p>
+<p><strong>Ideal für:</strong> Paare, Naturfreunde, Wiederkehrer.</p>
 <h2>Athos</h2>
-<p>Der Heilige Berg — geschlossen für Frauen. <a href="/places/ouranoupoli">Ouranoupoli</a>, <a href="/places/ierissos">Ierissos</a>, <a href="/places/stagira">Stagira</a>.</p>
-<p><strong>Ideal für:</strong> Wanderer (siehe <a href="/guide/hiking-halkidiki">Wandern</a>), Pilger, Ruhesuchende.</p>
-
-<h2>Kombinationen</h2>
+<p>Der Süden der Halbinsel ist der Mönchsstaat Berg Athos: nur für Männer, mit Genehmigung. Außerhalb der Grenze sind Ouranoupoli und Ierissos ruhige Standorte, die Bootsfahrt rund um den Athos startet in Ouranoupoli, und die Insel Ammouliani liegt eine kurze Fährfahrt von Tripiti entfernt. Etwas weiter nördlich liegen das antike Stagira und Olympiada.</p>
+<p><strong>Ideal für:</strong> Ruhesuchende, Pilger, Geschichtsinteressierte.</p>
+<h2>Halbinseln kombinieren</h2>
+<p>Mit einer Woche oder mehr lassen sich zwei kombinieren. Kassandra und Sithonia liegen etwa 1–1,5 Autostunden auseinander, Ouranoupoli etwa 1 Stunde 15 Minuten von Nikiti. Nikiti am Eingang Sithonias ist ein praktischer Standort für Ausflüge.</p>
+<h2>Häufige Fragen</h2>
+<h3>Wo ist das Wasser am klarsten?</h3>
+<p>Alle drei haben ausgezeichnetes Wasser und viele Strände mit Blauer Flagge; die Buchten Sithonias sind am meisten fotografiert.</p>
+<h3>Was ist am besten für kleine Kinder?</h3>
+<p>Kassandra, wegen der langen Sandstrände mit flachem Wasser und der vielen Angebote.</p>`,
+      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Трите полуострова на Халкидики — Касандра, Ситония и Атон — са като три различни почивки. Ето как се сравняват.</p>
+<h2>За 30 секунди</h2>
 <ul>
-  <li>7 Tage Kassandra + 3 Tage Sithonia</li>
-  <li>14-Tage Grand Tour — <a href="/itinerary/14">14-Tage-Route</a></li>
+<li>Организирани плажове, голям избор, нощен живот → <strong>Касандра</strong>.</li>
+<li>Зелени пейзажи, бистри заливчета, по-спокоен ритъм → <strong>Ситония</strong>.</li>
+<li>Тишина, история и светът на Света гора → <strong>Атон</strong>.</li>
 </ul>
-
-<h2>FAQ</h2>
-<h3>Welche ist am günstigsten?</h3>
-<p>Athos, dann Sithonia, dann Kassandra. <a href="/guide/budget">Budget-Tipps</a>.</p>
-<h3>Klarstes Wasser?</h3>
-<p>Alle exzellent, Sithonia am fotogensten.</p>`,
-      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Трите полуострова на Халкидики — Касандра, Ситония, Атон — са три напълно различни свята.</p>
-
-<h2>Бързо решение</h2>
-<ul>
-  <li>Организирани плажове, нощен живот → <strong>Касандра</strong></li>
-  <li>Екзотични плажове, тишина → <strong>Ситония</strong></li>
-  <li>Планинарство, минимален туризъм → <strong>Атон</strong></li>
-</ul>
-
-<h2>Таблица за сравнение</h2>
-<table class="w-full border-collapse my-4 text-sm">
-  <thead><tr class="bg-gray-100"><th class="border p-2">Критерий</th><th class="border p-2">Касандра</th><th class="border p-2">Ситония</th><th class="border p-2">Атон</th></tr></thead>
-  <tbody>
-    <tr><td class="border p-2">Характер</td><td class="border p-2">Туристически</td><td class="border p-2">Природен</td><td class="border p-2">Религиозен</td></tr>
-    <tr><td class="border p-2">Цени</td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
-  </tbody>
+<h2>Сравнение</h2>
+<table>
+<tr><th>Критерий</th><th>Касандра</th><th>Ситония</th><th>Атон</th></tr>
+<tr><td>Характер</td><td>Оживен, развит</td><td>Природен, спокоен</td><td>Тих, духовен</td></tr>
+<tr><td>Плажове</td><td>Дълги, пясъчни, организирани</td><td>Заливчета и борови гори</td><td>По-малко и по-тихи</td></tr>
+<tr><td>Нощен живот</td><td>Най-много</td><td>Малко (Неос Мармарас)</td><td>Съвсем малко</td></tr>
+<tr><td>Настаняване</td><td>Най-голям избор</td><td>Добър избор, повече вили и къмпинги</td><td>Ограничено (Уранополи, Ерисос)</td></tr>
+<tr><td>От летище SKG</td><td>~1–1,5 ч</td><td>~1,5–2 ч</td><td>~2 ч</td></tr>
 </table>
-
 <h2>Касандра</h2>
-<p>Най-развит. 500+ хотела. <a href="/places/kallithea">Калитея</a>, <a href="/places/hanioti">Ханиоти</a>, <a href="/places/afytos">Афитос</a>.</p>
-
+<p>Най-близкият до Солун и най-развит полуостров: дълги пясъчни плажове, организирани плажове с шезлонги в оживените курорти, много хотели и най-оживеният нощен живот (Калитеа, Ханиоти, Пефкохори). Афитос е най-живописното ѝ село. През август е пълно с хора и паркирането е трудно.</p>
+<p><strong>Подходяща за:</strong> първо посещение, семейства с малки деца, нощен живот.</p>
 <h2>Ситония</h2>
-<p>По-зелена, по-тиха. <a href="/places/karidi-sithonia">Кариди</a>, <a href="/places/portokali-sithonia">Оранжев плаж</a>, <a href="/places/vourvourou">Вурвуру</a>.</p>
-
+<p>Средният полуостров: борови гори до морето, заливчета с бистра вода (Кавуротрипес, Кариди, островчетата при Вурвуру) и по-бавен ритъм. По-малко големи хотели, повече вили, стаи и къмпинги. Разстоянията са по-големи, а в южна Ситония услугите са по-малко.</p>
+<p><strong>Подходяща за:</strong> двойки, любители на природата, хора, които се връщат отново.</p>
 <h2>Атон</h2>
-<p>Светата гора — затворена за жени. <a href="/places/ouranoupoli">Уранополис</a>, <a href="/places/ierissos">Иерисос</a>.</p>
-
-<h2>Комбинации</h2>
-<ul>
-  <li>7 дни Касандра + 3 дни Ситония</li>
-  <li>14 дни всичките — <a href="/itinerary/14">маршрут 14 дни</a></li>
-</ul>
-
+<p>Южната част на полуострова е монашеската държава Света гора: само за мъже, с разрешение. Извън границата Уранополи и Ерисос са тихи бази, круизът около Света гора тръгва от Уранополи, а остров Амулиани е на кратко пътуване с ферибот от Трипити. Малко по-на север са Древна Стагира и Олимпиада.</p>
+<p><strong>Подходящ за:</strong> търсещите тишина, поклонници, любители на историята.</p>
+<h2>Комбиниране на полуострови</h2>
+<p>С една седмица или повече можете да съчетаете два. Касандра и Ситония са на около 1–1,5 часа с кола една от друга, а Уранополи е на около 1 час и 15 минути от Никити. Никити, на входа на Ситония, е практична база за екскурзии.</p>
 <h2>Често задавани въпроси</h2>
-<h3>Коя е най-евтина?</h3>
-<p>Атон, после Ситония, после Касандра. <a href="/guide/budget">Бюджет</a>.</p>`,
-      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Три полуострова Халкидиков — Кассандра, Ситония, Афон — три совершенно разных мира.</p>
-
-<h2>Быстрое решение</h2>
+<h3>Къде е най-бистрата вода?</h3>
+<p>И трите имат отлична вода и много плажове със Син флаг; заливчетата на Ситония са най-снимани.</p>
+<h3>Кой е най-подходящ за малки деца?</h3>
+<p>Касандра — заради дългите пясъчни плажове с плитка вода и многото услуги.</p>`,
+      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Три полуострова Халкидики — Кассандра, Ситония и Афон — словно три разных отпуска. Вот чем они отличаются.</p>
+<h2>За 30 секунд</h2>
 <ul>
-  <li>Организованные пляжи, ночная жизнь → <strong>Кассандра</strong></li>
-  <li>Экзотические пляжи, тишина → <strong>Ситония</strong></li>
-  <li>Походы, минимум туризма → <strong>Афон</strong></li>
+<li>Организованные пляжи, большой выбор, ночная жизнь → <strong>Кассандра</strong>.</li>
+<li>Зелёные пейзажи, прозрачные бухты, неспешный ритм → <strong>Ситония</strong>.</li>
+<li>Тишина, история и мир Святой Горы → <strong>Афон</strong>.</li>
 </ul>
-
-<h2>Таблица сравнения</h2>
-<table class="w-full border-collapse my-4 text-sm">
-  <thead><tr class="bg-gray-100"><th class="border p-2">Критерий</th><th class="border p-2">Кассандра</th><th class="border p-2">Ситония</th><th class="border p-2">Афон</th></tr></thead>
-  <tbody>
-    <tr><td class="border p-2">Характер</td><td class="border p-2">Туристический</td><td class="border p-2">Природный</td><td class="border p-2">Религиозный</td></tr>
-    <tr><td class="border p-2">Цены</td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
-  </tbody>
+<h2>Сравнение</h2>
+<table>
+<tr><th>Критерий</th><th>Кассандра</th><th>Ситония</th><th>Афон</th></tr>
+<tr><td>Характер</td><td>Оживлённая, освоенная</td><td>Природная, спокойная</td><td>Тихий, духовный</td></tr>
+<tr><td>Пляжи</td><td>Длинные, песчаные, организованные</td><td>Бухты и сосновые леса</td><td>Меньше и тише</td></tr>
+<tr><td>Ночная жизнь</td><td>Больше всего</td><td>Немного (Неос-Мармарас)</td><td>Почти нет</td></tr>
+<tr><td>Жильё</td><td>Самый большой выбор</td><td>Хороший выбор, больше вилл и кемпингов</td><td>Ограничено (Уранополис, Иериссос)</td></tr>
+<tr><td>От аэропорта SKG</td><td>~1–1,5 ч</td><td>~1,5–2 ч</td><td>~2 ч</td></tr>
 </table>
-
 <h2>Кассандра</h2>
-<p>Самый развитый. <a href="/places/kallithea">Каллифея</a>, <a href="/places/hanioti">Ханиоти</a>, <a href="/places/afytos">Афитос</a>.</p>
-
+<p>Ближайший к Салоникам и самый освоенный полуостров: длинные песчаные пляжи, организованные пляжи с лежаками в оживлённых курортах, много отелей и самая яркая ночная жизнь (Каллифея, Ханиоти, Пефкохори). Самая живописная деревня — Афитос. В августе многолюдно, с парковкой сложно.</p>
+<p><strong>Подходит для:</strong> первой поездки, семей с маленькими детьми, ночной жизни.</p>
 <h2>Ситония</h2>
-<p>Зеленее, тише. <a href="/places/karidi-sithonia">Кариди</a>, <a href="/places/portokali-sithonia">Оранжевый пляж</a>, <a href="/places/vourvourou">Вурвуру</a>.</p>
-
+<p>Средний полуостров: сосны до самого моря, бухты с прозрачной водой (Кавуротрипес, Кариди, островки у Вурвуру) и более медленный ритм. Меньше крупных отелей, больше вилл, комнат и кемпингов. Расстояния больше, а на юге Ситонии меньше инфраструктуры.</p>
+<p><strong>Подходит для:</strong> пар, любителей природы, тех, кто возвращается снова.</p>
 <h2>Афон</h2>
-<p>Святая Гора — закрыта для женщин. <a href="/places/ouranoupoli">Уранополис</a>, <a href="/places/ierissos">Иериссос</a>.</p>
-
-<h2>Комбинации</h2>
+<p>Южная часть полуострова — монашеская республика Святой Горы: только для мужчин, по разрешению. За её границей Уранополис и Иериссос — тихие базы; круиз вокруг Афона отправляется из Уранополиса, а остров Аммулиани — в нескольких минутах на пароме из Трипити. Чуть севернее — Древняя Стагира и Олимпиада.</p>
+<p><strong>Подходит для:</strong> ищущих тишины, паломников, любителей истории.</p>
+<h2>Как совместить полуострова</h2>
+<p>За неделю и больше можно объединить два. Кассандру и Ситонию разделяет около 1–1,5 часа на машине, а Уранополис — примерно 1 час 15 минут от Никити. Никити, у въезда на Ситонию, — удобная база для поездок.</p>
+<h2>Частые вопросы</h2>
+<h3>Где самая прозрачная вода?</h3>
+<p>На всех трёх вода отличная и много пляжей с Голубым флагом; бухты Ситонии — самые фотографируемые.</p>
+<h3>Что лучше для маленьких детей?</h3>
+<p>Кассандра — благодаря длинным песчаным пляжам с мелкой водой и развитой инфраструктуре.</p>`,
+      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Cele trei peninsule ale Halkidiki — Kassandra, Sithonia și Athos — par trei vacanțe diferite. Iată cum se compară.</p>
+<h2>În 30 de secunde</h2>
 <ul>
-  <li>7 дней Кассандра + 3 дня Ситония</li>
-  <li>14 дней все три — <a href="/itinerary/14">маршрут 14 дней</a></li>
+<li>Plaje amenajate, multe opțiuni, viață de noapte → <strong>Kassandra</strong>.</li>
+<li>Peisaje verzi, golfulețe limpezi, ritm mai calm → <strong>Sithonia</strong>.</li>
+<li>Liniște, istorie și lumea Muntelui Athos → <strong>Athos</strong>.</li>
 </ul>
-
-<h2>Часто задаваемые вопросы</h2>
-<h3>Где дешевле?</h3>
-<p>Афон, Ситония, Кассандра. <a href="/guide/budget">Бюджет-советы</a>.</p>`,
-      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Cele trei peninsule din Halkidiki — Kassandra, Sithonia, Athos — sunt trei lumi complet diferite.</p>
-
-<h2>Decizie rapidă</h2>
-<ul>
-  <li>Plaje organizate, viață de noapte → <strong>Kassandra</strong></li>
-  <li>Plaje exotice, liniște → <strong>Sithonia</strong></li>
-  <li>Drumeții, turism minim → <strong>Athos</strong></li>
-</ul>
-
-<h2>Tabel comparativ</h2>
-<table class="w-full border-collapse my-4 text-sm">
-  <thead><tr class="bg-gray-100"><th class="border p-2">Criteriu</th><th class="border p-2">Kassandra</th><th class="border p-2">Sithonia</th><th class="border p-2">Athos</th></tr></thead>
-  <tbody>
-    <tr><td class="border p-2">Caracter</td><td class="border p-2">Turistic</td><td class="border p-2">Natural</td><td class="border p-2">Religios</td></tr>
-    <tr><td class="border p-2">Prețuri</td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
-  </tbody>
+<h2>Comparație</h2>
+<table>
+<tr><th>Criteriu</th><th>Kassandra</th><th>Sithonia</th><th>Athos</th></tr>
+<tr><td>Caracter</td><td>Animată, dezvoltată</td><td>Naturală, relaxată</td><td>Liniștit, spiritual</td></tr>
+<tr><td>Plaje</td><td>Lungi, nisipoase, amenajate</td><td>Golfulețe și păduri de pin</td><td>Mai puține și mai liniștite</td></tr>
+<tr><td>Viață de noapte</td><td>Cea mai multă</td><td>Puțină (Neos Marmaras)</td><td>Foarte puțină</td></tr>
+<tr><td>Cazare</td><td>Cea mai mare ofertă</td><td>Ofertă bună, mai multe vile și campinguri</td><td>Limitată (Ouranoupoli, Ierissos)</td></tr>
+<tr><td>De la aeroportul SKG</td><td>~1–1,5 h</td><td>~1,5–2 h</td><td>~2 h</td></tr>
 </table>
-
 <h2>Kassandra</h2>
-<p>Cea mai dezvoltată. <a href="/places/kallithea">Kallithea</a>, <a href="/places/hanioti">Hanioti</a>, <a href="/places/afytos">Afytos</a>.</p>
-
+<p>Cea mai apropiată peninsulă de Salonic și cea mai dezvoltată: plaje lungi cu nisip, plaje amenajate cu șezlonguri în stațiunile aglomerate, multe hoteluri și cea mai animată viață de noapte (Kallithea, Hanioti, Pefkohori). Afytos este satul ei cel mai pitoresc. În august e aglomerat și parcarea e dificilă.</p>
+<p><strong>Ideală pentru:</strong> prima vizită, familii cu copii mici, viață de noapte.</p>
 <h2>Sithonia</h2>
-<p>Mai verde, mai liniștită. <a href="/places/karidi-sithonia">Karidi</a>, <a href="/places/portokali-sithonia">Plaja Portocalie</a>, <a href="/places/vourvourou">Vourvourou</a>.</p>
-
+<p>Peninsula din mijloc: păduri de pin până la mare, golfulețe cu apă limpede (Kavourotrypes, Karydi, insulițele de la Vourvourou) și un ritm mai lent. Mai puține hoteluri mari, mai multe vile, camere și campinguri. Distanțele sunt mai mari, iar sudul Sithoniei are mai puține servicii.</p>
+<p><strong>Ideală pentru:</strong> cupluri, iubitorii de natură, cei care revin.</p>
 <h2>Athos</h2>
-<p>Muntele Athos — închis femeilor. <a href="/places/ouranoupoli">Ouranoupoli</a>, <a href="/places/ierissos">Ierissos</a>.</p>
-
-<h2>Combinații</h2>
-<ul>
-  <li>7 zile Kassandra + 3 zile Sithonia</li>
-  <li>14 zile toate — <a href="/itinerary/14">traseu 14 zile</a></li>
-</ul>
-
+<p>Partea de sud a peninsulei este statul monahal al Muntelui Athos: doar pentru bărbați, cu permis. În afara graniței, Ouranoupoli și Ierissos sunt baze liniștite, croaziera în jurul Muntelui Athos pleacă din Ouranoupoli, iar insula Ammouliani este la un scurt drum cu feribotul din Tripiti. Puțin mai la nord se află Stagira antică și Olympiada.</p>
+<p><strong>Ideal pentru:</strong> cei care caută liniște, pelerini, pasionații de istorie.</p>
+<h2>Combinarea peninsulelor</h2>
+<p>Cu o săptămână sau mai mult puteți combina două. Kassandra și Sithonia sunt la circa 1–1,5 ore de mers cu mașina una de alta, iar Ouranoupoli la aproximativ 1 oră și 15 minute de Nikiti. Nikiti, la intrarea în Sithonia, este o bază practică pentru excursii.</p>
 <h2>Întrebări frecvente</h2>
-<h3>Cea mai ieftină?</h3>
-<p>Athos, apoi Sithonia, apoi Kassandra. <a href="/guide/budget">Buget</a>.</p>`,
-      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Tri poluostrva Halkidikija — Kasandra, Sitonija, Atos — su tri potpuno različita sveta.</p>
-
-<h2>Brza odluka</h2>
+<h3>Unde este apa cea mai limpede?</h3>
+<p>Toate trei au ape excelente și multe plaje cu Steag Albastru; golfulețele din Sithonia sunt cele mai fotografiate.</p>
+<h3>Care e cea mai bună pentru copii mici?</h3>
+<p>Kassandra, pentru plajele lungi cu nisip și apă puțin adâncă și pentru multele servicii.</p>`,
+      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Tri poluostrva Halkidikija — Kasandra, Sitonija i Atos — deluju kao tri različita odmora. Evo kako se razlikuju.</p>
+<h2>Za 30 sekundi</h2>
 <ul>
-  <li>Organizovane plaže, noćni život → <strong>Kasandra</strong></li>
-  <li>Egzotične plaže, tišina → <strong>Sitonija</strong></li>
-  <li>Planinarenje, minimum turizma → <strong>Atos</strong></li>
+<li>Uređene plaže, veliki izbor, noćni život → <strong>Kasandra</strong>.</li>
+<li>Zeleni pejzaži, bistre uvale, mirniji ritam → <strong>Sitonija</strong>.</li>
+<li>Mir, istorija i svet Svete Gore → <strong>Atos</strong>.</li>
 </ul>
-
-<h2>Uporedna tabela</h2>
-<table class="w-full border-collapse my-4 text-sm">
-  <thead><tr class="bg-gray-100"><th class="border p-2">Kriterijum</th><th class="border p-2">Kasandra</th><th class="border p-2">Sitonija</th><th class="border p-2">Atos</th></tr></thead>
-  <tbody>
-    <tr><td class="border p-2">Karakter</td><td class="border p-2">Turistički</td><td class="border p-2">Prirodni</td><td class="border p-2">Religiozni</td></tr>
-    <tr><td class="border p-2">Cene</td><td class="border p-2">€€-€€€€</td><td class="border p-2">€€-€€€</td><td class="border p-2">€-€€</td></tr>
-  </tbody>
+<h2>Poređenje</h2>
+<table>
+<tr><th>Kriterijum</th><th>Kasandra</th><th>Sitonija</th><th>Atos</th></tr>
+<tr><td>Karakter</td><td>Živahna, razvijena</td><td>Prirodna, opuštena</td><td>Miran, duhovan</td></tr>
+<tr><td>Plaže</td><td>Duge, peščane, uređene</td><td>Uvale i borove šume</td><td>Manje i mirnije</td></tr>
+<tr><td>Noćni život</td><td>Najviše</td><td>Malo (Neos Marmaras)</td><td>Vrlo malo</td></tr>
+<tr><td>Smeštaj</td><td>Najveći izbor</td><td>Dobar izbor, više vila i kampova</td><td>Ograničen (Uranupolis, Jerisos)</td></tr>
+<tr><td>Od aerodroma SKG</td><td>~1–1,5 h</td><td>~1,5–2 h</td><td>~2 h</td></tr>
 </table>
-
 <h2>Kasandra</h2>
-<p>Najrazvijenija. <a href="/places/kallithea">Kalitea</a>, <a href="/places/hanioti">Hanioti</a>, <a href="/places/afytos">Afitos</a>.</p>
-
+<p>Poluostrvo najbliže Solunu i najrazvijenije: duge peščane plaže, uređene plaže s ležaljkama u prometnim mestima, mnogo hotela i najživlji noćni život (Kalitea, Hanioti, Pefkohori). Afitos je njeno najslikovitije selo. U avgustu je gužva i parking je težak.</p>
+<p><strong>Idealna za:</strong> prvu posetu, porodice s malom decom, noćni život.</p>
 <h2>Sitonija</h2>
-<p>Zelenija, tiša. <a href="/places/karidi-sithonia">Karidi</a>, <a href="/places/portokali-sithonia">Narandžasta plaža</a>, <a href="/places/vourvourou">Vurvuru</a>.</p>
-
+<p>Srednje poluostrvo: borovi do mora, uvale bistre vode (Kavurotripes, Karidi, ostrvca kod Vurvurua) i sporiji ritam. Manje velikih hotela, više vila, soba i kampova. Udaljenosti su veće, a na jugu Sitonije ima manje usluga.</p>
+<p><strong>Idealna za:</strong> parove, ljubitelje prirode, one koji se vraćaju.</p>
 <h2>Atos</h2>
-<p>Sveta Gora — zabranjena ženama. <a href="/places/ouranoupoli">Uranopolis</a>, <a href="/places/ierissos">Jerisos</a>.</p>
-
-<h2>Kombinacije</h2>
-<ul>
-  <li>7 dana Kasandra + 3 dana Sitonija</li>
-  <li>14 dana sve tri — <a href="/itinerary/14">ruta 14 dana</a></li>
-</ul>
-
+<p>Južni deo poluostrva je monaška država Sveta Gora: samo za muškarce, uz dozvolu. Izvan granice, Uranupolis i Jerisos su mirne baze, krstarenje oko Svete Gore polazi iz Uranupolisa, a ostrvo Amuljani je kratka vožnja trajektom iz Tripitija. Nešto severnije su Antička Stagira i Olimpijada.</p>
+<p><strong>Idealan za:</strong> one koji traže mir, hodočasnike, ljubitelje istorije.</p>
+<h2>Kombinovanje poluostrva</h2>
+<p>Sa nedelju dana ili više možete spojiti dva. Kasandra i Sitonija su oko 1–1,5 sat vožnje jedna od druge, a Uranupolis je oko 1 sat i 15 minuta od Nikitija. Nikiti, na ulazu u Sitoniju, praktična je baza za izlete.</p>
 <h2>Česta pitanja</h2>
-<h3>Najjeftinija?</h3>
-<p>Atos, zatim Sitonija, zatim Kasandra. <a href="/guide/budget">Budžet</a>.</p>`,
+<h3>Gde je najbistrija voda?</h3>
+<p>Sva tri imaju odličnu vodu i mnogo plaža s Plavom zastavom; uvale Sitonije su najfotografisanije.</p>
+<h3>Šta je najbolje za malu decu?</h3>
+<p>Kasandra, zbog dugih peščanih plaža s plitkom vodom i mnogo usluga.</p>`,
     },
   },
   {
     slug: 'hiking-halkidiki', icon: 'Mountain', color: 'emerald',
     title: { el: 'Πεζοπορία στη Χαλκιδική — Διαδρομές & Μονοπάτια', en: 'Hiking in Halkidiki — Trails & Routes', de: 'Wandern in Chalkidiki — Wege & Routen', bg: 'Планинарство в Халкидики — Маршрути', ru: 'Пешие походы в Халкидики — Маршруты', ro: 'Drumeții în Halkidiki — Rute și poteci', sr: 'Planinarenje u Halkidikiju — Staze' },
-    description: { el: 'Οι καλύτερες διαδρομές πεζοπορίας στη Χαλκιδική', en: 'The best hiking routes in Halkidiki', de: 'Die besten Wanderwege in Chalkidiki', bg: 'Най-добрите пешеходни маршрути', ru: 'Лучшие пешие маршруты', ro: 'Cele mai bune rute de drumeție', sr: 'Najbolje staze za planinarenje' },
-    metaTitle: { el: 'Πεζοπορία Χαλκιδική 2026 — Διαδρομές, Μονοπάτια, Δυσκολία', en: 'Hiking Halkidiki 2026 — Trails, Routes, Difficulty', de: 'Wandern Chalkidiki 2026 — Routen, Wege', bg: 'Планинарство Халкидики 2026 — Маршрути', ru: 'Пешие походы Халкидики 2026', ro: 'Drumeții Halkidiki 2026 — Rute', sr: 'Planinarenje Halkidiki 2026' },
-    metaDesc: { el: 'Πλήρης οδηγός πεζοπορίας στη Χαλκιδική: 15+ διαδρομές σε Ιτάμο, Χολομώντα, Στρατονικό, με δυσκολία, απόσταση, χρόνο, tips.', en: 'Complete hiking guide in Halkidiki: 15+ trails on Itamos, Holomontas, Stratoniko with difficulty, distance, time, tips.', de: 'Kompletter Wanderführer Chalkidiki: 15+ Routen auf Itamos, Holomontas.', bg: 'Пълен пътеводител за планинарство: 15+ маршрута на Итамос, Холомонтас.', ru: 'Полный путеводитель по пешим походам: 15+ маршрутов на Итамосе, Холомондасе.', ro: 'Ghid complet drumeții: 15+ rute pe Itamos, Holomontas.', sr: 'Kompletan vodič za planinarenje: 15+ staza na Itamosu, Holomondasu.' },
+    description: { el: 'Βουνά, δάση και μονοπάτια της Χαλκιδικής', en: 'Mountains, forests and paths of Halkidiki', de: 'Berge, Wälder und Pfade in Chalkidiki', bg: 'Планини, гори и пътеки в Халкидики', ru: 'Горы, леса и тропы Халкидики', ro: 'Munți, păduri și poteci în Halkidiki', sr: 'Planine, šume i staze Halkidikija' },
+    metaTitle: { el: 'Πεζοπορία στη Χαλκιδική — Βουνά, μονοπάτια, συμβουλές', en: 'Hiking in Halkidiki — Mountains, Paths & Tips', de: 'Wandern in Chalkidiki — Berge, Pfade & Tipps', bg: 'Преходи в Халкидики — планини, пътеки и съвети', ru: 'Походы по Халкидики — горы, тропы и советы', ro: 'Drumeții în Halkidiki — munți, poteci și sfaturi', sr: 'Planinarenje na Halkidikiju — planine, staze i saveti' },
+    metaDesc: { el: 'Πού να περπατήσετε στη Χαλκιδική: δάση του Χολομώντα, Ιτάμος πάνω από τον Νέο Μαρμαρά, Αρχαία Στάγειρα και Άγιο Όρος — πότε να πάτε και τι να προσέξετε.', en: 'Where to hike in Halkidiki: the Cholomontas forests, Itamos above Neos Marmaras, Ancient Stagira and Mount Athos — when to go and how to prepare.', de: 'Wo man in Chalkidiki wandert: die Wälder des Cholomontas, der Itamos über Neos Marmaras, das antike Stagira und der Athos — beste Zeit und Vorbereitung.', bg: 'Къде да ходите пеша в Халкидики: горите на Холомондас, Итамос над Неос Мармарас, Древна Стагира и Света гора — кога да отидете и как да се подготвите.', ru: 'Где гулять пешком на Халкидики: леса Холомонтаса, Итамос над Неос-Мармарасом, Древняя Стагира и Афон — когда ехать и как подготовиться.', ro: 'Unde să faceți drumeții în Halkidiki: pădurile din Holomontas, Itamos deasupra Neos Marmaras, Stagira antică și Muntele Athos — când să mergeți și cum să vă pregătiți.', sr: 'Gde planinariti na Halkidikiju: šume Holomontasa, Itamos iznad Neos Marmarasa, Antička Stagira i Sveta Gora — kada ići i kako se pripremiti.' },
     content: {
-      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Η Χαλκιδική δεν είναι μόνο παραλίες. Το εσωτερικό της κρύβει τρία σημαντικά βουνά — Ιτάμος, Χολομώντας, Στρατονικό — με πυκνά δάση οξιάς, καστανιάς και πεύκου, μοναστήρια, αρχαιολογικούς χώρους και μονοπάτια που φτάνουν μέχρι τη θάλασσα.</p>
-
-<h2>Γιατί Πεζοπορία στη Χαλκιδική;</h2>
-<p>Η περιοχή συνδυάζει κάτι μοναδικό: <strong>βουνό και θάλασσα σε απόσταση 30 λεπτών</strong>. Μπορείς να ξεκινήσεις το πρωί από το δάσος στα 800μ. υψόμετρο και το απόγευμα να κάνεις βουτιά στα τιρκουάζ νερά της Σιθωνίας. Αντίθετα με τις Κυκλάδες όπου «πεζοπορία» σημαίνει ξερό μονοπάτι κάτω από τον ήλιο, εδώ οι διαδρομές είναι σκιερές, πράσινες και δροσερές.</p>
-
-<h2>Τα 3 Βουνά της Χαλκιδικής</h2>
-<h3>1. Ιτάμος (Σιθωνία)</h3>
-<p>Η «ράχη» της Σιθωνίας, υψόμετρο 811μ., πυκνό πευκοδάσος που φτάνει μέχρι τη θάλασσα. Ιδανικό για συνδυασμό πεζοπορίας + κολύμβησης. Η κορυφή του προσφέρει την πιο εντυπωσιακή θέα — βλέπεις ταυτόχρονα τον Τορωναίο και Σιγγιτικό κόλπο.</p>
-<h3>2. Χολομώντας (κεντρική Χαλκιδική)</h3>
-<p>Το μεγαλύτερο βουνό (1.165μ.), στα όρια Σιθωνίας και Αθω. Πυκνά δάση καστανιάς και οξιάς, μοναστήρια, εγκαταλελειμμένα μεταλλεία χρυσού. Εδώ ξεκινά και καταλήγει το Ε4 Ευρωπαϊκό μονοπάτι.</p>
-<h3>3. Στρατονικό (ΒΑ Χαλκιδική)</h3>
-<p>Συνδέει τη <a href="/places/arnea">Αρναία</a> με τα μεταλλοφόρα χωριά (<a href="/places/stratoni">Στρατώνι</a>, <a href="/places/olympiada">Ολυμπιάδα</a>). Πλούσια χλωρίδα, λιγότερο τουριστικό.</p>
-
-<h2>Οι 10 Καλύτερες Διαδρομές</h2>
-
-<h3>1. Αρναία → Ι.Μ. Αγίας Αναστασίας (4 χλμ, εύκολη)</h3>
-<p><strong>Διάρκεια:</strong> 1:30 ώρα | <strong>Υψομ. διαφορά:</strong> 180μ. | <strong>Εκκίνηση:</strong> <a href="/places/arnea">Αρναία</a>, πλατεία<br>
-Παραδοσιακό μονοπάτι που συνδέει την Αρναία με την ιστορική μονή. Ωραίο για οικογένειες. Σκιά σχεδόν σε όλη τη διαδρομή. Το μοναστήρι ιδρύθηκε τον 9ο αιώνα.</p>
-
-<h3>2. Παρθενώνας → Κορυφή Ιτάμου (7 χλμ, μέτρια)</h3>
-<p><strong>Διάρκεια:</strong> 3:00 ώρες | <strong>Υψομ. διαφορά:</strong> 680μ. | <strong>Εκκίνηση:</strong> <a href="/places/parthenonas">Παρθενώνας</a><br>
-Η κορυφαία διαδρομή της Σιθωνίας. Ανηφόρα σταθερή. Από την κορυφή βλέπεις τη <a href="/places/vourvourou">Βουρβουρού</a>, τον <a href="/places/neos-marmaras">Νέο Μαρμαρά</a>, και — σε καθαρές μέρες — τον Άθωνα. Ξεκίνα στις 7 π.μ. για να αποφύγεις τη ζέστη.</p>
-
-<h3>3. Κήπος Αριστοτέλη → <a href="/places/stagira">Στάγειρα</a> (5 χλμ, εύκολη)</h3>
-<p><strong>Διάρκεια:</strong> 2:00 ώρες | <strong>Υψομ. διαφορά:</strong> 200μ.<br>
-Πολιτιστική πεζοπορία στη γενέτειρα του Αριστοτέλη. Ο Κήπος έχει διαδραστικά όργανα βασισμένα στις επιστήμες του φιλόσοφου.</p>
-
-<h3>4. Ε4 Τμήμα Χολομώντα (12 χλμ, μέτρια-δύσκολη)</h3>
-<p><strong>Διάρκεια:</strong> 5:00 ώρες | <strong>Υψομ. διαφορά:</strong> 550μ.<br>
-Από Ταξιάρχη προς Πολύγυρο. Μέρος του Ευρωπαϊκού μονοπατιού Ε4 που διασχίζει όλη τη Χαλκιδική. Δάσος καστανιάς, πηγές, ιστορικές τοποθεσίες.</p>
-
-<h3>5. Ουρανούπολη → Ζωγράφου (8 χλμ, εύκολη)</h3>
-<p><strong>Διάρκεια:</strong> 2:30 ώρες | <strong>Υψομ. διαφορά:</strong> 120μ. | <strong>Εκκίνηση:</strong> <a href="/places/ouranoupoli">Ουρανούπολη</a><br>
-Παραθαλάσσιο μονοπάτι μέχρι τα σύνορα του <a href="/mount-athos">Αγίου Όρους</a>. Δες δελφίνια και σπάνια πουλιά. Πιο άγριο από όσο φαντάζεσαι.</p>
-
-<h3>6. Ταξιάρχης → Κορυφή Χολομώντα (10 χλμ, δύσκολη)</h3>
-<p><strong>Διάρκεια:</strong> 5:30 ώρες | <strong>Υψομ. διαφορά:</strong> 780μ.<br>
-Ανάβαση στην ψηλότερη κορυφή της Χαλκιδικής (1.165μ.). Απαιτεί καλή φυσική κατάσταση. Το χειμώνα χιονίζει — οι ντόπιοι ανεβαίνουν με ραβδιά.</p>
-
-<h3>7. Πόρτο Κουφό → Στάβρος (6 χλμ, εύκολη-μέτρια)</h3>
-<p><strong>Διάρκεια:</strong> 2:30 ώρες<br>
-Παραθαλάσσια διαδρομή στη ΝΔ άκρη της <a href="/places/porto-koufo">Σιθωνίας</a>. Βράχοι, μικρές ανεξερεύνητες παραλίες, δράκοι θαλάσσιοι. Πρέπει να έχεις παπούτσια trekking.</p>
-
-<h3>8. Παλαιοχώρι → Βαρβάρα (7 χλμ, εύκολη)</h3>
-<p><strong>Διάρκεια:</strong> 2:30 ώρες<br>
-Μονοπάτι μέσα σε δάσος καστανιάς. Αν είσαι εκεί Σεπτέμβριο-Οκτώβριο θα δεις πρωτοφανείς όγκους κάστανων.</p>
-
-<h3>9. Μονή Ζωγράφου Περιμετρικά (15 χλμ, δύσκολη)</h3>
-<p><strong>Διάρκεια:</strong> 6:00 ώρες<br>
-<strong>ΠΡΟΣΟΧΗ:</strong> Απαιτεί διαμονητήριο Αγίου Όρους (μόνο άνδρες). Είναι η πεζοπορία γύρω από το βουλγαρικό μοναστήρι. Δες <a href="/mount-athos/hiking">πεζοπορία Αγίου Όρους</a>.</p>
-
-<h3>10. Κρήνη → <a href="/places/palaiokastro">Παλαιόκαστρο</a> (5 χλμ, εύκολη)</h3>
-<p><strong>Διάρκεια:</strong> 1:45 ώρα<br>
-Μικρή διαδρομή σε βυζαντινό κάστρο. Ιστορικό ενδιαφέρον, ωραία θέα.</p>
-
-<h2>Πότε να Πεζοπορήσεις</h2>
-<p>Τα καλύτερα «παράθυρα»:</p>
+      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Η Χαλκιδική δεν είναι μόνο παραλίες. Μακριά από την ακτή, δασωμένα βουνά και παλιά μονοπάτια των χωριών προσφέρουν ήσυχες πεζοπορίες — ιδανικά την άνοιξη και το φθινόπωρο.</p>
+<h2>Πού να περπατήσετε</h2>
+<h3>Χολομώντας (κεντρική Χαλκιδική)</h3>
+<p>Το ψηλότερο βουνό της Χαλκιδικής (περίπου 1.165 μ.) υψώνεται ανάμεσα στην <a href="/places/arnea">Αρναία</a>, τον Πολύγυρο και τον Ταξιάρχη. Οι πλαγιές του καλύπτονται από δάση με βελανιδιές, καστανιές και οξιές, ενώ γύρω από τον Ταξιάρχη βρίσκεται το Πανεπιστημιακό Δάσος του Αριστοτελείου Πανεπιστημίου Θεσσαλονίκης. Δασικοί δρόμοι και μονοπάτια ενώνουν τα ορεινά χωριά, με πηγές στη διαδρομή.</p>
+<h3>Ιτάμος (Σιθωνία)</h3>
+<p>Το πευκόφυτο βουνό που διασχίζει τη ραχοκοκαλιά της Σιθωνίας ξεπερνά λίγο τα 800 μ. Από τον <a href="/places/parthenonas">Παρθενώνα</a>, το παλιό πέτρινο χωριό πάνω από τον Νέο Μαρμαρά, μονοπάτια και δασικοί δρόμοι ανεβαίνουν προς την κορυφογραμμή, με θέα στον Τορωναίο και τον Σιγγιτικό κόλπο.</p>
+<h3>Αρχαία Στάγειρα και Πάρκο Αριστοτέλη</h3>
+<p>Σύντομες, εύκολες διαδρομές: ο αρχαιολογικός χώρος των Αρχαίων Σταγείρων σε μια μικρή χερσόνησο δίπλα στην <a href="/places/olympiada">Ολυμπιάδα</a> και το Πάρκο του Αριστοτέλη στο χωριό Στάγειρα, με θέα στον Στρυμονικό κόλπο. Δείτε τον <a href="/guide/aristotle-trail">οδηγό για τον Αριστοτέλη</a>.</p>
+<h3>Άγιο Όρος</h3>
+<p>Μέσα στην Αθωνική Πολιτεία, τα παλιά μονοπάτια ανάμεσα στις μονές είναι μέρος της εμπειρίας του προσκυνητή — μόνο για άνδρες, με διαμονητήριο. Δείτε την <a href="/mount-athos/hiking">ανάβαση στον Άθω</a>.</p>
+<h2>Πότε να πάτε</h2>
 <ul>
-  <li><strong><a href="/guide/april">Απρίλιος</a>-Μάιος:</strong> Άνθιση, δροσιά (12-20°C), φθηνή περίοδος.</li>
-  <li><strong>Σεπτέμβριος-Οκτώβριος:</strong> Θερμοκρασία ιδανική, λιγότεροι τουρίστες, πολλά χρώματα στο δάσος.</li>
-  <li><strong>Ιούνιος πρωινά:</strong> Πρέπει να ξεκινάς πριν τις 8 π.μ. για να αποφύγεις τη ζέστη.</li>
+<li><strong>Απρίλιος–Ιούνιος και Σεπτέμβριος–Νοέμβριος:</strong> ήπιες θερμοκρασίες και καταπράσινα δάση.</li>
+<li><strong>Ιούλιος–Αύγουστος:</strong> μόνο νωρίς το πρωί, κατά προτίμηση στα σκιερά δάση του Χολομώντα.</li>
 </ul>
-<p><strong>Να αποφύγεις:</strong> Ιούλιο και Αύγουστο εκτός από βουνά με σκιά (Χολομώντας). Κίνδυνος ηλιοθεραπείας.</p>
-
-<h2>Εξοπλισμός & Απαιτήσεις</h2>
-<h3>Απαραίτητα</h3>
+<h2>Πριν ξεκινήσετε</h2>
 <ul>
-  <li>Παπούτσια trekking (όχι sneakers)</li>
-  <li>Καπέλο + αντηλιακό + γυαλιά</li>
-  <li>2+ λίτρα νερό ανά άτομο το καλοκαίρι</li>
-  <li>Σνακ υψηλής ενέργειας (ξηροί καρποί, αποξηραμένα)</li>
-  <li>Φαρμακείο: τσιμπίδα για τσιμπούρια (ΣΗΜΑΝΤΙΚΟ — η Χαλκιδική έχει πολλά), κρέμα για τσουξίματα</li>
-  <li>Χάρτης offline στο κινητό (AllTrails, Gaia GPS, Wikiloc)</li>
+<li>Τα μονοπάτια δεν είναι πάντα σηματοδοτημένα: κατεβάστε χάρτη εκτός σύνδεσης ή καταγεγραμμένη διαδρομή και ενημερώστε κάποιον για το πού πηγαίνετε.</li>
+<li>Πάρτε αρκετό νερό (τουλάχιστον 1,5–2 λίτρα όταν κάνει ζέστη), καπέλο και κατάλληλα παπούτσια.</li>
+<li>Το καλοκαίρι ελέγξτε τον ημερήσιο χάρτη κινδύνου πυρκαγιάς: τις μέρες πολύ υψηλού κινδύνου η πρόσβαση στα δάση μπορεί να απαγορεύεται.</li>
+<li>Στα χόρτα και στα δάση υπάρχουν τσιμπούρια: φορέστε μακρύ παντελόνι και ελέγξτε τον εαυτό σας μετά τη διαδρομή.</li>
 </ul>
-<h3>Για πιο δύσκολες διαδρομές</h3>
+<h2>Περπάτημα και μπάνιο</h2>
 <ul>
-  <li>Ραβδιά πεζοπορίας</li>
-  <li>Αδιάβροχο (οι βροχές στη Χαλκιδική έρχονται απρόσμενα)</li>
-  <li>Headlamp (σε περίπτωση που νυχτώσει)</li>
-</ul>
-
-<h2>Συνδυασμός Πεζοπορία + Θάλασσα</h2>
-<p>Η μαγική συνταγή: ανάβαση το πρωί, θάλασσα το απόγευμα. Προτάσεις:</p>
+<li>Πρωινή βόλτα στον Παρθενώνα, απογευματινό μπάνιο στις παραλίες του Νέου Μαρμαρά.</li>
+<li>Αρχαία Στάγειρα με τα πόδια και μετά μπάνιο στην Ολυμπιάδα.</li>
+</ul>`,
+      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki is not only beaches. Away from the coast, forested mountains and old village paths offer quiet walks — best in spring and autumn.</p>
+<h2>Where to walk</h2>
+<h3>Cholomontas (central Halkidiki)</h3>
+<p>The highest mountain of Halkidiki (about 1,165 m) rises between <a href="/places/arnea">Arnaia</a>, Polygyros and Taxiarchis. Its slopes are covered with oak, chestnut and beech forest, and around Taxiarchis lies the University Forest of the Aristotle University of Thessaloniki. Forest roads and paths link the mountain villages, with springs along the way.</p>
+<h3>Itamos (Sithonia)</h3>
+<p>The pine-covered mountain along the spine of Sithonia rises to a little over 800 m. From <a href="/places/parthenonas">Parthenonas</a>, the old stone village above Neos Marmaras, paths and forest roads climb towards the ridge, with views over the Toroneos and Singitic gulfs.</p>
+<h3>Ancient Stagira and Aristotle's Park</h3>
+<p>Short, easy walks: the archaeological site of Ancient Stagira on a small peninsula next to <a href="/places/olympiada">Olympiada</a>, and Aristotle's Park in the village of Stagira, with views over the Strymonic Gulf. See the <a href="/guide/aristotle-trail">Aristotle guide</a>.</p>
+<h3>Mount Athos</h3>
+<p>Inside the monastic state, the old footpaths between monasteries are part of the pilgrim's experience — men only, with a diamonitirion. See <a href="/mount-athos/hiking">climbing Mount Athos</a>.</p>
+<h2>When to go</h2>
 <ul>
-  <li>Παρθενώνας κορυφή (6-10 π.μ.) + κολύμβηση <a href="/places/karidi-sithonia">Καρύδι</a> (12-16)</li>
-  <li>Ιτάμος + <a href="/places/portokali-sithonia">Καβουρότρυπες</a></li>
-  <li>Ζωγράφου περιμετρικά + <a href="/places/komitsa-athos">Κομίτσα</a></li>
-  <li>Αρναία μονή + <a href="/places/olympiada">Ολυμπιάδα</a> παραλία</li>
+<li><strong>April–June and September–November:</strong> mild temperatures and green forests.</li>
+<li><strong>July–August:</strong> only early in the morning, preferably in the shaded forests of Cholomontas.</li>
 </ul>
-
-<h2>Οργανωμένες Εκδρομές vs Ανεξάρτητη Πεζοπορία</h2>
-<p><strong>Οργανωμένες:</strong> Υπάρχουν τοπικές εταιρείες που προσφέρουν πεζοπορίες με οδηγό (€35-60/άτομο). Ιδανικές αν είναι η πρώτη σου φορά ή αν δεν έχεις χάρτη offline.</p>
-<p><strong>Ανεξάρτητη:</strong> Οι περισσότερες διαδρομές είναι σηματοδοτημένες. Με μια εφαρμογή όπως Wikiloc δεν χάνεσαι. Εξοικονομείς 60%.</p>
-
-<h2>Συχνές Ερωτήσεις</h2>
-<h3>Υπάρχουν αρκούδες ή λύκοι;</h3>
-<p>Δεν υπάρχουν αρκούδες. Λύκοι υπάρχουν στα όρη Χολομώντα αλλά εξαιρετικά σπάνιοι και φοβούνται τον άνθρωπο. Μηδενικός κίνδυνος.</p>
-<h3>Μπορώ να κάνω πεζοπορία με παιδιά;</h3>
-<p>Ναι — διαδρομές #1, #3, #5, #10 είναι κατάλληλες. Δες και <a href="/guide/families">οικογενειακές διακοπές</a>.</p>
-<h3>Υπάρχουν τσιμπούρια;</h3>
-<p>Ναι, κυρίως από τον Μάιο. Φόρεσε μακρύ παντελόνι, ρίξε αντικουνουπικό με DEET, και έλεγξε σώμα μετά την πεζοπορία. Δες <a href="/guide/jellyfish-mosquitoes">tips</a>.</p>
-<h3>Ποιες εφαρμογές να κατεβάσω;</h3>
-<p>Wikiloc (οι περισσότερες χαλκιδικές διαδρομές), AllTrails, Gaia GPS (για offline χάρτες). Κατέβασε τους χάρτες ΠΡΙΝ ξεκινήσεις.</p>
-<h3>Υπάρχουν πηγές νερού στη διαδρομή;</h3>
-<p>Ορισμένες πηγές είναι πόσιμες (σηματοδοτημένες) αλλά καλύτερα να έχεις μαζί σου. Η Αρναία και ο Ταξιάρχης έχουν άφθονες πηγές.</p>
-<h3>Έχει καθαρίσει το δίκτυο μετά τις πυρκαγιές;</h3>
-<p>Ναι. Οι πυρκαγιές του 2023 επηρέασαν το ΒΑ τμήμα (Νέα Πλάγια) αλλά τα κεντρικά μονοπάτια είναι ανοιχτά. Πριν ξεκινήσεις, έλεγξε τοπικές ανακοινώσεις.</p>`,
-      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki isn't only beaches. The interior hides three significant mountains — Itamos, Holomontas, Stratoniko — with dense beech, chestnut and pine forests, monasteries, archaeological sites, and trails that reach the sea.</p>
-
-<h2>Why Hike in Halkidiki?</h2>
-<p>The area combines something unique: <strong>mountain and sea within 30 minutes</strong>. You can start your morning in the forest at 800 m elevation and dive into the turquoise waters of Sithonia in the afternoon. Unlike the Cyclades where "hiking" means a dry path under the sun, here trails are shady, green, and cool.</p>
-
-<h2>The 3 Mountains</h2>
-<h3>1. Itamos (Sithonia)</h3>
-<p>Sithonia's "spine," 811 m, dense pine forest reaching the sea. Ideal for hiking + swimming combos. Its peak offers the most stunning view — you see both the Toronean and Singitic gulfs.</p>
-<h3>2. Holomontas (central Halkidiki)</h3>
-<p>The largest mountain (1,165 m), on the Sithonia-Athos boundary. Dense chestnut and beech forests, monasteries, abandoned gold mines. The European E4 long-distance trail passes through.</p>
-<h3>3. Stratoniko (NE Halkidiki)</h3>
-<p>Connects <a href="/places/arnea">Arnea</a> with the mining villages (<a href="/places/stratoni">Stratoni</a>, <a href="/places/olympiada">Olympiada</a>). Rich flora, less touristy.</p>
-
-<h2>The 10 Best Trails</h2>
-
-<h3>1. Arnea → Agia Anastasia Monastery (4 km, easy)</h3>
-<p><strong>Duration:</strong> 1:30h | <strong>Elevation:</strong> 180 m | <strong>Start:</strong> <a href="/places/arnea">Arnea</a> square<br>
-Traditional trail connecting Arnea with the historic monastery. Family-friendly. Shade almost all the way. Monastery founded in the 9th century.</p>
-
-<h3>2. Parthenonas → Itamos Peak (7 km, moderate)</h3>
-<p><strong>Duration:</strong> 3:00h | <strong>Elevation:</strong> 680 m | <strong>Start:</strong> <a href="/places/parthenonas">Parthenonas</a><br>
-Sithonia's signature hike. Steady climb. From the top: <a href="/places/vourvourou">Vourvourou</a>, <a href="/places/neos-marmaras">Neos Marmaras</a>, and on clear days Mount Athos. Start at 7 a.m. to avoid heat.</p>
-
-<h3>3. Aristotle Grove → <a href="/places/stagira">Stagira</a> (5 km, easy)</h3>
-<p><strong>Duration:</strong> 2:00h | <strong>Elevation:</strong> 200 m<br>
-Cultural hike to Aristotle's birthplace. The park has interactive instruments based on his sciences.</p>
-
-<h3>4. E4 Holomontas section (12 km, moderate-difficult)</h3>
-<p><strong>Duration:</strong> 5:00h | <strong>Elevation:</strong> 550 m<br>
-Taxiarchis to Polygyros. Part of the European E4 crossing all of Halkidiki. Chestnut forest, springs, historic sites.</p>
-
-<h3>5. Ouranoupoli → Zografou (8 km, easy)</h3>
-<p><strong>Duration:</strong> 2:30h | <strong>Elevation:</strong> 120 m | <strong>Start:</strong> <a href="/places/ouranoupoli">Ouranoupoli</a><br>
-Coastal trail up to the <a href="/mount-athos">Mount Athos</a> border. Spot dolphins and rare birds. Wilder than you'd think.</p>
-
-<h3>6. Taxiarchis → Holomontas Peak (10 km, difficult)</h3>
-<p><strong>Duration:</strong> 5:30h | <strong>Elevation:</strong> 780 m<br>
-Climb to Halkidiki's highest peak (1,165 m). Requires good fitness. In winter it snows — locals use poles.</p>
-
-<h3>7. Porto Koufo → Stavros (6 km, easy-moderate)</h3>
-<p><strong>Duration:</strong> 2:30h<br>
-Coastal route at the SW tip of <a href="/places/porto-koufo">Sithonia</a>. Cliffs, hidden beaches, scorpion fish. Trekking shoes required.</p>
-
-<h3>8. Palaiohori → Varvara (7 km, easy)</h3>
-<p><strong>Duration:</strong> 2:30h<br>
-Trail through chestnut forest. In September-October you'll see massive chestnut harvests.</p>
-
-<h3>9. Zografou Perimeter (15 km, difficult)</h3>
-<p><strong>Duration:</strong> 6:00h<br>
-<strong>NOTE:</strong> Requires Mount Athos permit (men only). Circumnavigates the Bulgarian monastery. See <a href="/mount-athos/hiking">hiking Mount Athos</a>.</p>
-
-<h3>10. Krini → <a href="/places/palaiokastro">Palaiokastro</a> (5 km, easy)</h3>
-<p><strong>Duration:</strong> 1:45h<br>
-Short trail to a Byzantine castle. Historic interest, nice view.</p>
-
-<h2>When to Hike</h2>
+<h2>Before you set out</h2>
 <ul>
-  <li><strong><a href="/guide/april">April</a>-May:</strong> Blooms, coolness (12-20°C), cheap period.</li>
-  <li><strong>September-October:</strong> Ideal temperature, fewer tourists, forest colors.</li>
-  <li><strong>June mornings:</strong> Must start before 8 a.m. to avoid heat.</li>
+<li>Paths are not always waymarked: download an offline map or a recorded route, and tell someone where you are going.</li>
+<li>Carry enough water (at least 1.5–2 litres in warm weather), a hat and proper walking shoes.</li>
+<li>In summer, check the daily fire-risk map: on very high-risk days, access to forests may be restricted.</li>
+<li>Ticks live in grass and woodland: wear long trousers and check yourself after the walk.</li>
 </ul>
-<p><strong>Avoid:</strong> July and August except shaded mountains (Holomontas). Sunstroke risk.</p>
-
-<h2>Gear & Requirements</h2>
-<h3>Essentials</h3>
+<h2>Walk and swim</h2>
 <ul>
-  <li>Trekking shoes (not sneakers)</li>
-  <li>Hat + sunscreen + sunglasses</li>
-  <li>2+ liters water per person in summer</li>
-  <li>High-energy snacks</li>
-  <li>First aid: tick tweezers (IMPORTANT — Halkidiki has many), sting cream</li>
-  <li>Offline map on phone (AllTrails, Gaia GPS, Wikiloc)</li>
-</ul>
-
-<h2>Hiking + Swim Combos</h2>
+<li>A morning walk at Parthenonas, an afternoon swim at the beaches of Neos Marmaras.</li>
+<li>Ancient Stagira on foot, then a swim at Olympiada.</li>
+</ul>`,
+      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Chalkidiki besteht nicht nur aus Stränden. Abseits der Küste bieten bewaldete Berge und alte Dorfpfade ruhige Wanderungen — am schönsten im Frühling und Herbst.</p>
+<h2>Wo man wandert</h2>
+<h3>Cholomontas (zentrales Chalkidiki)</h3>
+<p>Der höchste Berg Chalkidikis (etwa 1.165 m) erhebt sich zwischen <a href="/places/arnea">Arnaia</a>, Polygyros und Taxiarchis. Seine Hänge sind mit Eichen-, Kastanien- und Buchenwald bedeckt; rund um Taxiarchis liegt der Universitätswald der Aristoteles-Universität Thessaloniki. Forstwege und Pfade verbinden die Bergdörfer, mit Quellen unterwegs.</p>
+<h3>Itamos (Sithonia)</h3>
+<p>Der kiefernbewachsene Bergrücken in der Mitte Sithonias ist etwas über 800 m hoch. Von <a href="/places/parthenonas">Parthenonas</a>, dem alten Steindorf über Neos Marmaras, führen Pfade und Forstwege zum Kamm hinauf, mit Blick auf den Toronäischen und den Singitischen Golf.</p>
+<h3>Antikes Stagira und Aristoteles-Park</h3>
+<p>Kurze, leichte Wege: die Ausgrabungsstätte des antiken Stagira auf einer kleinen Halbinsel neben <a href="/places/olympiada">Olympiada</a> und der Aristoteles-Park im Dorf Stagira mit Blick auf den Strymonischen Golf. Siehe den <a href="/guide/aristotle-trail">Aristoteles-Führer</a>.</p>
+<h3>Berg Athos</h3>
+<p>Innerhalb des Mönchsstaates gehören die alten Pfade zwischen den Klöstern zur Pilgererfahrung — nur für Männer, mit Diamonitirion. Siehe <a href="/mount-athos/hiking">Besteigung des Athos</a>.</p>
+<h2>Beste Zeit</h2>
 <ul>
-  <li>Parthenonas peak + <a href="/places/karidi-sithonia">Karidi</a></li>
-  <li>Itamos + <a href="/places/portokali-sithonia">Kavourotrypes</a></li>
-  <li>Zografou loop + <a href="/places/komitsa-athos">Komitsa</a></li>
-  <li>Arnea monastery + <a href="/places/olympiada">Olympiada</a> beach</li>
+<li><strong>April–Juni und September–November:</strong> milde Temperaturen und grüne Wälder.</li>
+<li><strong>Juli–August:</strong> nur früh am Morgen, am besten in den schattigen Wäldern des Cholomontas.</li>
 </ul>
-
-<h2>Guided vs Independent</h2>
-<p><strong>Guided:</strong> Local operators offer hikes (€35-60/person). Ideal if it's your first time or you lack offline maps.</p>
-<p><strong>Independent:</strong> Most trails are marked. With Wikiloc you won't get lost. Save 60%.</p>
-
-<h2>FAQ</h2>
-<h3>Are there bears or wolves?</h3>
-<p>No bears. Wolves exist in Holomontas but are extremely rare and fear humans. Zero risk.</p>
-<h3>Can I hike with kids?</h3>
-<p>Yes — trails #1, #3, #5, #10 suit families. See <a href="/guide/families">family holidays</a>.</p>
-<h3>Are there ticks?</h3>
-<p>Yes, mainly from May. Wear long pants, apply DEET, check body after hike. See <a href="/guide/jellyfish-mosquitoes">tips</a>.</p>
-<h3>Which apps?</h3>
-<p>Wikiloc (most Halkidiki routes), AllTrails, Gaia GPS (offline maps). Download maps BEFORE you start.</p>
-<h3>Water sources on trails?</h3>
-<p>Some marked springs are potable but bring your own. Arnea and Taxiarchis have plenty.</p>
-<h3>Network cleared after fires?</h3>
-<p>Yes. The 2023 fires affected the NE section (Nea Plagia) but central trails are open. Check local notices before you start.</p>`,
-      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Chalkidiki hat drei bedeutende Berge — Itamos, Holomontas, Stratoniko — mit dichten Wäldern und Wanderwegen bis zum Meer.</p>
-
-<h2>Die 3 Berge</h2>
+<h2>Vor dem Start</h2>
 <ul>
-  <li><strong>Itamos</strong> (Sithonia, 811m) — Kiefernwald bis ans Meer</li>
-  <li><strong>Holomontas</strong> (1.165m) — höchster Berg, E4-Fernwanderweg</li>
-  <li><strong>Stratoniko</strong> — verbindet <a href="/places/arnea">Arnea</a> mit der Ostküste</li>
+<li>Die Wege sind nicht immer markiert: Laden Sie eine Offline-Karte oder einen aufgezeichneten Track herunter und sagen Sie jemandem, wohin Sie gehen.</li>
+<li>Nehmen Sie genug Wasser mit (bei Wärme mindestens 1,5–2 Liter), einen Hut und feste Schuhe.</li>
+<li>Prüfen Sie im Sommer die tägliche Waldbrand-Gefahrenkarte: An Tagen mit sehr hohem Risiko kann der Zugang zu Wäldern gesperrt sein.</li>
+<li>In Gras und Wald gibt es Zecken: Tragen Sie lange Hosen und suchen Sie sich nach der Wanderung ab.</li>
 </ul>
-
-<h2>Top Routen</h2>
-<h3>1. Parthenonas → Itamos-Gipfel (7 km, mittel)</h3>
-<p>3 Stunden, 680m Höhenunterschied. Start: <a href="/places/parthenonas">Parthenonas</a>. Blick auf <a href="/places/vourvourou">Vourvourou</a> und den <a href="/mount-athos">Heiligen Berg</a>.</p>
-
-<h3>2. Arnea → Kloster Agia Anastasia (4 km, leicht)</h3>
-<p>1:30 Stunden. Start: <a href="/places/arnea">Arnea</a>. Familienfreundlich.</p>
-
-<h3>3. Ouranoupoli → Zografou (8 km, leicht)</h3>
-<p>Küstenpfad bis zur <a href="/mount-athos">Athos-Grenze</a>. Start: <a href="/places/ouranoupoli">Ouranoupoli</a>.</p>
-
-<h3>4. Aristoteles-Park → <a href="/places/stagira">Stagira</a> (5 km, leicht)</h3>
-<p>Kulturelle Wanderung zu Aristoteles' Geburtsort.</p>
-
-<h2>Wann wandern?</h2>
+<h2>Wandern und Baden</h2>
 <ul>
-  <li>April-Mai und September-Oktober optimal</li>
-  <li>Juli-August nur früh morgens</li>
-</ul>
-
-<h2>Ausrüstung</h2>
+<li>Morgens eine Wanderung bei Parthenonas, nachmittags Baden an den Stränden von Neos Marmaras.</li>
+<li>Das antike Stagira zu Fuß, danach Baden in Olympiada.</li>
+</ul>`,
+      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики не е само плажове. Далеч от брега гористите планини и старите селски пътеки предлагат тихи преходи — най-хубави през пролетта и есента.</p>
+<h2>Къде да ходите</h2>
+<h3>Холомондас (централна Халкидики)</h3>
+<p>Най-високата планина в Халкидики (около 1165 м) се издига между <a href="/places/arnea">Арнеа</a>, Полигирос и Таксиархис. Склоновете ѝ са покрити с дъбови, кестенови и букови гори, а около Таксиархис се намира Университетската гора на Аристотелевия университет в Солун. Горски пътища и пътеки свързват планинските села, с извори по пътя.</p>
+<h3>Итамос (Ситония)</h3>
+<p>Покритата с борове планина по гръбнака на Ситония е малко над 800 м. От <a href="/places/parthenonas">Партенонас</a>, старото каменно село над Неос Мармарас, пътеки и горски пътища водят към билото, с гледка към Торонейския и Сингитския залив.</p>
+<h3>Древна Стагира и паркът на Аристотел</h3>
+<p>Кратки, лесни разходки: археологическият обект Древна Стагира на малък полуостров до <a href="/places/olympiada">Олимпиада</a> и паркът на Аристотел в село Стагира, с гледка към Струмския залив. Вижте <a href="/guide/aristotle-trail">пътеводителя за Аристотел</a>.</p>
+<h3>Света гора</h3>
+<p>В монашеската държава старите пътеки между манастирите са част от преживяването на поклонника — само за мъже, с диамонитирион. Вижте <a href="/mount-athos/hiking">изкачването на Атон</a>.</p>
+<h2>Кога да отидете</h2>
 <ul>
-  <li>Wanderschuhe, Hut, Sonnencreme</li>
-  <li>2+ Liter Wasser</li>
-  <li>Zeckenzange (WICHTIG)</li>
-  <li>Offline-Karten (Wikiloc, Gaia GPS)</li>
+<li><strong>Април–юни и септември–ноември:</strong> меки температури и зелени гори.</li>
+<li><strong>Юли–август:</strong> само рано сутрин, за предпочитане в сенчестите гори на Холомондас.</li>
 </ul>
-
-<h2>Kombinationen Wandern + Meer</h2>
+<h2>Преди да тръгнете</h2>
 <ul>
-  <li>Itamos + <a href="/places/karidi-sithonia">Karidi</a></li>
-  <li>Arnea + <a href="/places/olympiada">Olympiada</a></li>
+<li>Пътеките не винаги са маркирани: изтеглете офлайн карта или записан маршрут и кажете на някого къде отивате.</li>
+<li>Носете достатъчно вода (поне 1,5–2 литра в топло време), шапка и подходящи обувки.</li>
+<li>През лятото проверявайте дневната карта за риск от пожари: в дни с много висок риск достъпът до горите може да бъде забранен.</li>
+<li>В тревата и горите има кърлежи: носете дълги панталони и се огледайте след прехода.</li>
 </ul>
-
-<h2>FAQ</h2>
-<h3>Bären oder Wölfe?</h3>
-<p>Keine Bären. Wölfe extrem selten. Null Risiko.</p>
-<h3>Mit Kindern?</h3>
-<p>Leichte Routen geeignet. Siehe <a href="/guide/families">Familienurlaub</a>.</p>`,
-      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики има три планини — Итамос, Холомонтас, Стратонико — с гъсти гори и пътеки до морето.</p>
-
-<h2>3-те планини</h2>
+<h2>Преход и плаж</h2>
 <ul>
-  <li><strong>Итамос</strong> (Ситония, 811м)</li>
-  <li><strong>Холомонтас</strong> (1165м)</li>
-  <li><strong>Стратонико</strong></li>
-</ul>
-
-<h2>Топ маршрути</h2>
-<h3>1. Партенонас → връх Итамос (7 км, среден)</h3>
-<p>3 часа. Старт: <a href="/places/parthenonas">Партенонас</a>.</p>
-
-<h3>2. Арнеа → Манастир Агия Анастасия (4 км, лесен)</h3>
-<p>1:30 часа. Подходящ за семейства. Старт: <a href="/places/arnea">Арнеа</a>.</p>
-
-<h3>3. Уранополис → Зографу (8 км, лесен)</h3>
-<p>Крайбрежна пътека до границата с <a href="/mount-athos">Атон</a>.</p>
-
-<h2>Кога да планинарите?</h2>
+<li>Сутрешна разходка в Партенонас, следобеден плаж край Неос Мармарас.</li>
+<li>Древна Стагира пеша, после плуване в Олимпиада.</li>
+</ul>`,
+      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики — это не только пляжи. Вдали от побережья лесистые горы и старые деревенские тропы дарят тихие прогулки — лучше всего весной и осенью.</p>
+<h2>Где гулять</h2>
+<h3>Холомонтас (центральная Халкидики)</h3>
+<p>Самая высокая гора Халкидики (около 1165 м) возвышается между <a href="/places/arnea">Арнеей</a>, Полигиросом и Таксиархисом. Её склоны покрыты дубовыми, каштановыми и буковыми лесами, а около Таксиархиса находится Университетский лес Салоникского университета имени Аристотеля. Лесные дороги и тропы связывают горные деревни, по пути встречаются источники.</p>
+<h3>Итамос (Ситония)</h3>
+<p>Поросший соснами хребет в центре Ситонии поднимается чуть выше 800 м. Из <a href="/places/parthenonas">Парфенонаса</a>, старой каменной деревни над Неос-Мармарасом, тропы и лесные дороги ведут к гребню, откуда видны Торонейский и Сингитский заливы.</p>
+<h3>Древняя Стагира и парк Аристотеля</h3>
+<p>Короткие лёгкие прогулки: археологическая зона Древней Стагиры на небольшом полуострове рядом с <a href="/places/olympiada">Олимпиадой</a> и парк Аристотеля в деревне Стагира с видом на Стримонский залив. См. <a href="/guide/aristotle-trail">путеводитель по местам Аристотеля</a>.</p>
+<h3>Афон</h3>
+<p>В монашеской республике старые тропы между монастырями — часть паломничества: только для мужчин, с диамонитирионом. См. <a href="/mount-athos/hiking">восхождение на Афон</a>.</p>
+<h2>Когда ехать</h2>
 <ul>
-  <li>Април-май и септември-октомври оптимално</li>
+<li><strong>Апрель–июнь и сентябрь–ноябрь:</strong> мягкая погода и зелёные леса.</li>
+<li><strong>Июль–август:</strong> только рано утром, лучше в тенистых лесах Холомонтаса.</li>
 </ul>
-
-<h2>Екипировка</h2>
+<h2>Перед выходом</h2>
 <ul>
-  <li>Туристически обувки, вода, щипка за кърлежи</li>
-  <li>Офлайн карти (Wikiloc)</li>
+<li>Тропы не всегда размечены: скачайте офлайн-карту или записанный трек и сообщите кому-нибудь свой маршрут.</li>
+<li>Возьмите достаточно воды (в жару не меньше 1,5–2 литров), головной убор и удобную обувь.</li>
+<li>Летом проверяйте ежедневную карту пожарной опасности: в дни очень высокого риска доступ в леса может быть закрыт.</li>
+<li>В траве и лесу водятся клещи: надевайте длинные брюки и осматривайте себя после прогулки.</li>
 </ul>
-
-<h2>Често задавани въпроси</h2>
-<h3>Има ли мечки?</h3>
-<p>Не. Нула риск.</p>
-<h3>С деца?</h3>
-<p>Леки маршрути подходящи. Виж <a href="/guide/families">семейства</a>.</p>`,
-      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">В Халкидиках три горы — Итамос, Холомондас, Стратонико — с густыми лесами и тропами до моря.</p>
-
-<h2>3 горы</h2>
+<h2>Прогулка и купание</h2>
 <ul>
-  <li><strong>Итамос</strong> (Ситония, 811м)</li>
-  <li><strong>Холомондас</strong> (1165м)</li>
-  <li><strong>Стратонико</strong></li>
-</ul>
-
-<h2>Топ маршруты</h2>
-<h3>1. Партенонас → вершина Итамос (7 км, средний)</h3>
-<p>3 часа. Старт: <a href="/places/parthenonas">Партенонас</a>.</p>
-
-<h3>2. Арнея → монастырь Агия Анастасия (4 км, лёгкий)</h3>
-<p>1:30 часа. Для семей. Старт: <a href="/places/arnea">Арнея</a>.</p>
-
-<h3>3. Уранополис → Зографу (8 км, лёгкий)</h3>
-<p>Прибрежная тропа до границы <a href="/mount-athos">Афона</a>.</p>
-
-<h2>Когда ходить?</h2>
+<li>Утром прогулка у Парфенонаса, днём купание на пляжах Неос-Мармараса.</li>
+<li>Древняя Стагира пешком, затем купание в Олимпиаде.</li>
+</ul>`,
+      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki nu înseamnă doar plaje. Departe de coastă, munți împăduriți și poteci vechi între sate oferă drumeții liniștite — cel mai frumos primăvara și toamna.</p>
+<h2>Unde să mergeți</h2>
+<h3>Holomontas (centrul Halkidiki)</h3>
+<p>Cel mai înalt munte din Halkidiki (circa 1.165 m) se ridică între <a href="/places/arnea">Arnaia</a>, Polygyros și Taxiarchis. Versanții săi sunt acoperiți de păduri de stejar, castan și fag, iar în jurul satului Taxiarchis se află Pădurea Universitară a Universității Aristotel din Salonic. Drumuri forestiere și poteci leagă satele de munte, cu izvoare pe traseu.</p>
+<h3>Itamos (Sithonia)</h3>
+<p>Muntele acoperit de pini de pe coama Sithoniei depășește puțin 800 m. Din <a href="/places/parthenonas">Parthenonas</a>, vechiul sat de piatră de deasupra Neos Marmaras, poteci și drumuri forestiere urcă spre creastă, cu vedere spre golfurile Toroneos și Singitic.</p>
+<h3>Stagira antică și Parcul lui Aristotel</h3>
+<p>Plimbări scurte și ușoare: situl arheologic al Stagirei antice, pe o mică peninsulă lângă <a href="/places/olympiada">Olympiada</a>, și Parcul lui Aristotel din satul Stagira, cu vedere spre golful Strymonic. Vedeți <a href="/guide/aristotle-trail">ghidul despre Aristotel</a>.</p>
+<h3>Muntele Athos</h3>
+<p>În interiorul statului monahal, potecile vechi dintre mănăstiri fac parte din experiența pelerinului — doar pentru bărbați, cu diamonitirion. Vedeți <a href="/mount-athos/hiking">urcarea pe Athos</a>.</p>
+<h2>Când să mergeți</h2>
 <ul>
-  <li>Апрель-май и сентябрь-октябрь — оптимально</li>
+<li><strong>Aprilie–iunie și septembrie–noiembrie:</strong> temperaturi blânde și păduri verzi.</li>
+<li><strong>Iulie–august:</strong> doar dimineața devreme, de preferat în pădurile umbroase din Holomontas.</li>
 </ul>
-
-<h2>Снаряжение</h2>
+<h2>Înainte de plecare</h2>
 <ul>
-  <li>Трекинговые ботинки, вода, пинцет для клещей</li>
-  <li>Офлайн-карты (Wikiloc)</li>
+<li>Potecile nu sunt întotdeauna marcate: descărcați o hartă offline sau un traseu înregistrat și spuneți cuiva unde mergeți.</li>
+<li>Luați suficientă apă (cel puțin 1,5–2 litri pe căldură), o pălărie și încălțăminte potrivită.</li>
+<li>Vara, verificați harta zilnică a riscului de incendiu: în zilele cu risc foarte ridicat, accesul în păduri poate fi interzis.</li>
+<li>În iarbă și în păduri există căpușe: purtați pantaloni lungi și verificați-vă după drumeție.</li>
 </ul>
-
-<h2>Часто задаваемые вопросы</h2>
-<h3>Есть ли медведи?</h3>
-<p>Нет. Нулевой риск.</p>
-<h3>С детьми?</h3>
-<p>Лёгкие маршруты подходят. См. <a href="/guide/families">семьи</a>.</p>`,
-      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki are trei munți — Itamos, Holomontas, Stratoniko — cu păduri dense și poteci până la mare.</p>
-
-<h2>Cei 3 munți</h2>
+<h2>Drumeție și baie</h2>
 <ul>
-  <li><strong>Itamos</strong> (Sithonia, 811m)</li>
-  <li><strong>Holomontas</strong> (1165m)</li>
-  <li><strong>Stratoniko</strong></li>
-</ul>
-
-<h2>Top rute</h2>
-<h3>1. Parthenonas → Vârful Itamos (7 km, mediu)</h3>
-<p>3 ore. Start: <a href="/places/parthenonas">Parthenonas</a>.</p>
-
-<h3>2. Arnea → Mănăstirea Agia Anastasia (4 km, ușor)</h3>
-<p>1:30 ore. Familie. Start: <a href="/places/arnea">Arnea</a>.</p>
-
-<h3>3. Ouranoupoli → Zografou (8 km, ușor)</h3>
-<p>Potecă de coastă până la granița cu <a href="/mount-athos">Athos</a>.</p>
-
-<h2>Când?</h2>
+<li>Dimineața o plimbare la Parthenonas, după-amiaza o baie pe plajele din Neos Marmaras.</li>
+<li>Stagira antică pe jos, apoi o baie la Olympiada.</li>
+</ul>`,
+      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki nije samo plaže. Daleko od obale, pošumljene planine i stare seoske staze nude mirne šetnje — najlepše u proleće i jesen.</p>
+<h2>Gde pešačiti</h2>
+<h3>Holomontas (centralni Halkidiki)</h3>
+<p>Najviša planina Halkidikija (oko 1.165 m) uzdiže se između <a href="/places/arnea">Arnee</a>, Poligirosa i Taksijarhisa. Padine su joj pokrivene šumama hrasta, kestena i bukve, a oko Taksijarhisa se nalazi Univerzitetska šuma Aristotelovog univerziteta u Solunu. Šumski putevi i staze povezuju planinska sela, uz izvore usput.</p>
+<h3>Itamos (Sitonija)</h3>
+<p>Borovima obrasla planina duž hrbata Sitonije visoka je nešto preko 800 m. Iz <a href="/places/parthenonas">Partenonasa</a>, starog kamenog sela iznad Neos Marmarasa, staze i šumski putevi penju se ka grebenu, s pogledom na Toronejski i Singitski zaliv.</p>
+<h3>Antička Stagira i Aristotelov park</h3>
+<p>Kratke, lake šetnje: arheološki lokalitet Antičke Stagire na malom poluostrvu pored <a href="/places/olympiada">Olimpijade</a> i Aristotelov park u selu Stagira, s pogledom na Strimonski zaliv. Pogledajte <a href="/guide/aristotle-trail">vodič o Aristotelu</a>.</p>
+<h3>Sveta Gora</h3>
+<p>Unutar monaške države, stare staze između manastira deo su hodočasničkog iskustva — samo za muškarce, uz dijamonitirion. Pogledajte <a href="/mount-athos/hiking">uspon na Atos</a>.</p>
+<h2>Kada ići</h2>
 <ul>
-  <li>Aprilie-mai și septembrie-octombrie — optim</li>
+<li><strong>April–jun i septembar–novembar:</strong> blage temperature i zelene šume.</li>
+<li><strong>Jul–avgust:</strong> samo rano ujutru, po mogućstvu u senovitim šumama Holomontasa.</li>
 </ul>
-
-<h2>Echipament</h2>
+<h2>Pre polaska</h2>
 <ul>
-  <li>Ghete de drumeție, apă, pensetă pentru căpușe</li>
-  <li>Hărți offline (Wikiloc)</li>
+<li>Staze nisu uvek obeležene: preuzmite oflajn mapu ili snimljenu rutu i javite nekome kuda idete.</li>
+<li>Ponesite dovoljno vode (bar 1,5–2 litra kad je toplo), šešir i odgovarajuću obuću.</li>
+<li>Leti proverite dnevnu mapu opasnosti od požara: u danima vrlo visokog rizika pristup šumama može biti zabranjen.</li>
+<li>U travi i šumi ima krpelja: nosite duge pantalone i pregledajte se posle šetnje.</li>
 </ul>
-
-<h2>Întrebări frecvente</h2>
-<h3>Sunt urși?</h3>
-<p>Nu. Risc zero.</p>
-<h3>Cu copii?</h3>
-<p>Rute ușoare potrivite. Vezi <a href="/guide/families">familii</a>.</p>`,
-      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki ima tri planine — Itamos, Holomondas, Stratoniko — sa gustim šumama i stazama do mora.</p>
-
-<h2>3 planine</h2>
+<h2>Šetnja i kupanje</h2>
 <ul>
-  <li><strong>Itamos</strong> (Sitonija, 811m)</li>
-  <li><strong>Holomondas</strong> (1165m)</li>
-  <li><strong>Stratoniko</strong></li>
-</ul>
-
-<h2>Top staze</h2>
-<h3>1. Partenonas → Vrh Itamos (7 km, srednje)</h3>
-<p>3 sata. Start: <a href="/places/parthenonas">Partenonas</a>.</p>
-
-<h3>2. Arnea → Manastir Agija Anastasija (4 km, lako)</h3>
-<p>1:30 sati. Porodice. Start: <a href="/places/arnea">Arnea</a>.</p>
-
-<h3>3. Uranopolis → Zografu (8 km, lako)</h3>
-<p>Obalska staza do granice sa <a href="/mount-athos">Atosom</a>.</p>
-
-<h2>Kada?</h2>
-<ul>
-  <li>April-maj i septembar-oktobar — optimalno</li>
-</ul>
-
-<h2>Oprema</h2>
-<ul>
-  <li>Planinarske cipele, voda, pinceta za krpelje</li>
-  <li>Offline mape (Wikiloc)</li>
-</ul>
-
-<h2>Česta pitanja</h2>
-<h3>Ima li medveda?</h3>
-<p>Ne. Nulti rizik.</p>
-<h3>Sa decom?</h3>
-<p>Lake staze. Vidi <a href="/guide/families">porodice</a>.</p>`,
+<li>Ujutru šetnja kod Partenonasa, popodne kupanje na plažama Neos Marmarasa.</li>
+<li>Antička Stagira peške, zatim kupanje u Olimpijadi.</li>
+</ul>`,
     },
   },
   {
     slug: 'wine-tours-halkidiki', icon: 'Wine', color: 'rose',
     title: { el: 'Οινοτουρισμός στη Χαλκιδική — Οινοποιεία & Δοκιμές', en: 'Wine Tours in Halkidiki — Wineries & Tastings', de: 'Weintourismus in Chalkidiki — Weingüter & Proben', bg: 'Винен туризъм в Халкидики — Винарни', ru: 'Винный туризм в Халкидики — Винодельни', ro: 'Tururi viticole în Halkidiki — Crame', sr: 'Vinski turizam u Halkidikiju — Vinarije' },
-    description: { el: 'Οι καλύτερες οινοποιητικές επισκέψεις στη Χαλκιδική', en: 'The best winery visits in Halkidiki', de: 'Die besten Weingüter in Chalkidiki', bg: 'Най-добрите посещения на винарни', ru: 'Лучшие винодельни Халкидики', ro: 'Cele mai bune vizite la crame', sr: 'Najbolje posete vinarijama' },
-    metaTitle: { el: 'Οινοτουρισμός Χαλκιδική 2026 — Οινοποιεία, Δοκιμές, Tours', en: 'Wine Tours Halkidiki 2026 — Wineries, Tastings', de: 'Weintourismus Chalkidiki 2026', bg: 'Винен туризъм Халкидики 2026', ru: 'Винный туризм Халкидики 2026', ro: 'Tururi viticole Halkidiki 2026', sr: 'Vinski turizam Halkidiki 2026' },
-    metaDesc: { el: 'Πλήρης οδηγός οινοτουρισμού στη Χαλκιδική: 8+ οινοποιεία, τοπικές ποικιλίες, τιμές δοκιμών, προτεινόμενες διαδρομές.', en: 'Complete wine tourism guide in Halkidiki: 8+ wineries, local varieties, tasting prices, routes.', de: 'Kompletter Weintourismus-Guide: 8+ Weingüter, Sorten, Preise.', bg: 'Пълен пътеводител за винен туризъм: 8+ винарни.', ru: 'Полный путеводитель винного туризма: 8+ виноделен.', ro: 'Ghid complet: 8+ crame, varietăți, prețuri.', sr: 'Kompletan vodič: 8+ vinarija, sorte, cene.' },
+    description: { el: 'Οινοποιεία, τοπικές ποικιλίες και συμβουλές για γευσιγνωσίες', en: 'Wineries, local varieties and tasting tips', de: 'Weingüter, lokale Rebsorten und Tipps für Verkostungen', bg: 'Винарни, местни сортове и съвети за дегустации', ru: 'Винодельни, местные сорта и советы по дегустациям', ro: 'Crame, soiuri locale și sfaturi pentru degustări', sr: 'Vinarije, lokalne sorte i saveti za degustacije' },
+    metaTitle: { el: 'Οινοτουρισμός στη Χαλκιδική — Οινοποιεία & γευσιγνωσίες', en: 'Wine Tours in Halkidiki — Wineries & Tastings', de: 'Weintouren in Chalkidiki — Weingüter & Verkostungen', bg: 'Винен туризъм в Халкидики — винарни и дегустации', ru: 'Винные туры по Халкидики — винодельни и дегустации', ro: 'Turism viticol în Halkidiki — crame și degustări', sr: 'Vinske ture na Halkidikiju — vinarije i degustacije' },
+    metaDesc: { el: 'Το κρασί της Χαλκιδικής: ΠΟΠ Πλαγιές Μελίτωνα, Κτήμα Πόρτο Καρρά, Τσάνταλης και κρασιά του Αγίου Όρους, Κτήμα Claudia Papayianni στην Αρναία — ποικιλίες και συμβουλές.', en: 'Wine in Halkidiki: the Slopes of Meliton PDO, Domaine Porto Carras, Tsantali and Mount Athos wines, Claudia Papayianni in Arnaia — local varieties and tips.', de: 'Wein in Chalkidiki: g.U. Hänge des Meliton, Domaine Porto Carras, Tsantali und Athos-Weine, Claudia Papayianni in Arnaia — Rebsorten und Tipps.', bg: 'Виното на Халкидики: ЗНП Склоновете на Мелитон, Domaine Porto Carras, Цантали и вина от Света гора, Claudia Papayianni в Арнеа — сортове и съвети.', ru: 'Вино Халкидики: ЗНП «Склоны Мелитона», Domaine Porto Carras, Цантали и афонские вина, Claudia Papayianni в Арнее — сорта и советы.', ro: 'Vinul din Halkidiki: DOP Pantele Melitonului, Domaine Porto Carras, Tsantali și vinurile de la Athos, Claudia Papayianni în Arnaia — soiuri și sfaturi.', sr: 'Vino Halkidikija: ZOP Padine Melitona, Domaine Porto Carras, Tsantali i vina sa Svete Gore, Claudia Papayianni u Arnei — sorte i saveti.' },
     content: {
-      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Η Χαλκιδική παράγει κρασί από την αρχαιότητα — ο Αριστοτέλης έγραψε για τους αμπελώνες της Σιθωνίας τον 4ο π.Χ. αιώνα. Σήμερα, ένα δίκτυο 10+ οικογενειακών οινοποιείων και δύο σημαντικές ΠΟΠ περιοχές (Σιθωνία, Αγία Παρασκευή) κάνουν τον οινοτουρισμό μια από τις πιο ωραίες εμπειρίες στον νομό — και εντελώς underrated.</p>
-
-<h2>Γιατί Οινοτουρισμός στη Χαλκιδική;</h2>
-<p>Πέντε λόγοι που οι οινογνώστες έρχονται εδώ:</p>
+      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Η Χαλκιδική έχει μακρά παράδοση στο κρασί και αρκετά οινοποιεία δέχονται επισκέπτες για ξενάγηση και γευσιγνωσία. Ένα πρωινό σε οινοποιείο συνδυάζεται εύκολα με ένα απόγευμα στην παραλία.</p>
+<h2>Οι αμπελουργικές περιοχές</h2>
 <ul>
-  <li><strong>Σπάνιες ντόπιες ποικιλίες:</strong> Η Χαλκιδική έχει τη μεγαλύτερη συγκέντρωση του σπάνιου <strong>Λημνιού</strong> (αρχαία ποικιλία), ενώ εδώ ευδοκιμούν και το <strong>Ασύρτικο</strong>, <strong>Ροδίτης</strong>, <strong>Ξινόμαυρο</strong>, <strong>Μαλαγουζιά</strong>.</li>
-  <li><strong>ΠΟΠ Σιθωνία:</strong> Η ζώνη ΠΟΠ αναγνωρίστηκε το 2011. Καλύπτει αμπελώνες σε υψόμετρο 50-400 μέτρα πάνω από τη θάλασσα.</li>
-  <li><strong>Οικογενειακός χαρακτήρας:</strong> Δεν θα βρεις industrial wineries — όλα είναι οικογενειακές επιχειρήσεις 2-3 γενεών.</li>
-  <li><strong>Συνδυασμός με παραλία:</strong> Δοκιμή κρασιού στις 11 π.μ., ελληνικό μεσημεριανό, μπάνιο στις 15:30.</li>
-  <li><strong>Τιμές:</strong> Οι δοκιμές κοστίζουν €10-25, πολύ χαμηλότερα από Τοσκάνη ή Μπορντώ.</li>
+<li><strong>Πλαγιές Μελίτωνα (Σιθωνία):</strong> ζώνη κρασιών ΠΟΠ στις πλαγιές πάνω από τον Νέο Μαρμαρά, στενά δεμένη με το Κτήμα Πόρτο Καρρά.</li>
+<li><strong>Άγιο Όρος:</strong> αμπελώνες που καλλιεργούν οι μονές· ορισμένα αγιορείτικα κρασιά παράγει ο Τσάνταλης σε συνεργασία μαζί τους.</li>
+<li><strong>Ορεινή ενδοχώρα:</strong> μικρότερα κτήματα, όπως της Claudia Papayianni κοντά στην Αρναία.</li>
 </ul>
-
-<h2>Τα Κορυφαία Οινοποιεία της Χαλκιδικής</h2>
-
-<h3>1. Κτήμα Claudia Papagianni — Πολύγυρος</h3>
-<p><strong>Τοποθεσία:</strong> Κοντά στον <a href="/places/polygyros">Πολύγυρο</a> | <strong>Ποικιλίες:</strong> Syrah, Merlot, Ασύρτικο<br>
-Μικρό boutique οινοποιείο με οργανικές καλλιέργειες. Οι δοκιμές γίνονται μέσα σε παραδοσιακό πετρόχτιστο κελάρι. Η Claudia, Γερμανίδα στην καταγωγή, έχει μεταφέρει βορειοευρωπαϊκή τεχνογνωσία σε μεσογειακό έδαφος.</p>
-<p><strong>Προτεινόμενη δοκιμή:</strong> Πακέτο 5 κρασιών + mezedes, €25. Πρέπει να κλείσεις ραντεβού.</p>
-
-<h3>2. Κτήμα Πόρτο Καρράς — Νέος Μαρμαράς</h3>
-<p><strong>Τοποθεσία:</strong> <a href="/places/neos-marmaras">Νέος Μαρμαράς</a> | <strong>Μέγεθος:</strong> 475 εκτάρια αμπελώνων — το μεγαλύτερο της Ελλάδας<br>
-Ο «Πατριάρχης» του οινοτουρισμού της Χαλκιδικής. Ιδρύθηκε το 1960s από τον Γιάννη Καρρά. Καλλιεργεί 25 ποικιλίες και παράγει πάνω από 2 εκατομμύρια μπουκάλια ετησίως. Οι επισκέψεις περιλαμβάνουν ξενάγηση στους αμπελώνες, το κελάρι και δοκιμή 6 κρασιών.</p>
-<p><strong>Προτεινόμενη δοκιμή:</strong> Premium tasting €30 (ενηλίκων). Διαθέτει εστιατόριο με wine pairing.</p>
-
-<h3>3. Κτήμα Τσάνταλη — Αγιος Παύλος</h3>
-<p><strong>Τοποθεσία:</strong> Κοντά στην <a href="/places/ouranoupoli">Ουρανούπολη</a> | <strong>Σημαντικότερο κρασί:</strong> Metoxi Chromitsa (από το μετόχι του Αγίου Παντελεήμονα)<br>
-Η Τσάνταλη έχει τη μοναδική άδεια να καλλιεργεί αμπέλια μέσα στο <a href="/mount-athos">Άγιο Όρος</a> — σε συνεργασία με τη Ρωσική μονή Αγίου Παντελεήμονα. Τα κρασιά Metoxi είναι από τα πιο αναζητημένα στην Ελλάδα.</p>
-<p><strong>Προτεινόμενη δοκιμή:</strong> €15-35, ξενάγηση και δοκιμή. Αγόρασε Metoxi Chromitsa Red — θα εντυπωσιάσει τους οινοφίλους στο σπίτι.</p>
-
-<h3>4. Αμπελώνες Πορτοτηνία — Παλιούρι</h3>
-<p><strong>Τοποθεσία:</strong> <a href="/places/paliouri">Παλιούρι</a> | <strong>Ειδικότητα:</strong> Λημνιό, αρχαία ποικιλία<br>
-Μικρό, family-run οινοποιείο. Ο Κώστας Τσιμπούκας, 3ης γενιάς αμπελουργός, καλλιεργεί το σπάνιο Λημνιό που ανέφερε και ο Αριστοτέλης. Το θέρος η οικογένεια οργανώνει δείπνα στον αμπελώνα με ηλιοβασίλεμα.</p>
-<p><strong>Προτεινόμενη δοκιμή:</strong> Παραδοσιακή εμπειρία €20 με σπιτικά μεζέ.</p>
-
-<h3>5. Κτήμα Gerovassiliou — Επανομή (συνοριακή Χαλκιδική)</h3>
-<p><strong>Τοποθεσία:</strong> Μόλις εκτός Χαλκιδικής, 30 λεπτά από αεροδρόμιο<br>
-Αν και τεχνικά στη Θεσσαλονίκη, πολλοί επισκέπτες το συνδυάζουν με τη Χαλκιδική. Το Μουσείο Αμπέλου και Οίνου είναι από τα πιο εντυπωσιακά στην Ευρώπη.</p>
-<p><strong>Προτεινόμενη δοκιμή:</strong> €18, περιλαμβάνει Μαλαγουζιά — την ποικιλία που επανέφερε η οικογένεια από την εξαφάνιση.</p>
-
-<h3>6. Ούζο & Κρασί Μπαμπατζιμόπουλος — Πολύγυρος</h3>
-<p><strong>Σημαντικό:</strong> Παράγει και ούζο. Για όποιον θέλει να μυηθεί και στα δύο ταυτόχρονα.<br>
-Μικρή οικογενειακή μονάδα, περισσότερο αυθεντική εμπειρία, λιγότερο «τουριστικό στήσιμο». Θα μιλήσεις με τον ιδιοκτήτη, όχι με υπάλληλο μάρκετινγκ.</p>
-
-<h3>7. Διονύσου Αμπελώνες — Αφυτος</h3>
-<p><strong>Τοποθεσία:</strong> Κοντά στον <a href="/places/afytos">Άφυτο</a> | <strong>Ειδικότητα:</strong> Ασύρτικο, Σαρντονέ<br>
-Μοντέρνα εγκατάσταση με μινιμαλιστική αρχιτεκτονική. Πολύ δημοφιλές σε Instagrammers για τη θέα του αμπελώνα στον Θερμαϊκό.</p>
-
-<h3>8. Amyntaion Cooperative (εκδρομή)</h3>
-<p>Για όσους θέλουν να πάνε πιο βαθιά, μια μονοήμερη εκδρομή στον αμπελώνα του Ξινόμαυρου στη Μακεδονία αξίζει τον κόπο (1:30 ώρα οδικώς από Χαλκιδική).</p>
-
-<h2>Η «Τέλεια Μέρα Οινοτουρισμού»</h2>
-<p>Προτεινόμενη διαδρομή για ζευγάρι με ένα άτομο που οδηγεί (ο/η άλλος/η δοκιμάζει):</p>
-<ol>
-  <li><strong>9:30 π.μ.</strong> Ξεκίνημα από Χανιώτη/Καλλιθέα</li>
-  <li><strong>10:30</strong> Claudia Papagianni — πρώτη δοκιμή</li>
-  <li><strong>13:00</strong> Μεσημεριανό στον <a href="/places/polygyros">Πολύγυρο</a> σε ταβέρνα</li>
-  <li><strong>15:00</strong> Τσάνταλη (Αγιος Παύλος) — δεύτερη δοκιμή + ξενάγηση</li>
-  <li><strong>18:00</strong> Μπάνιο στο <a href="/places/olympiada">Ολυμπιάδα</a> (λογικά κοντά) ή επιστροφή μέσω <a href="/places/arnea">Αρναίας</a></li>
-  <li><strong>21:00</strong> Δείπνο σε <a href="/best/traditional-tavernas">παραδοσιακή ταβέρνα</a></li>
-</ol>
-
-<h2>Πότε να Πας</h2>
+<h2>Οινοποιεία για επίσκεψη</h2>
+<h3>Κτήμα Πόρτο Καρρά (Νέος Μαρμαράς)</h3>
+<p>Το πιο γνωστό κτήμα της Χαλκιδικής, με μεγάλους αμπελώνες στις πλαγιές του Μελίτωνα πάνω από τη θάλασσα. Εδώ καλλιεργούνται ελληνικές ποικιλίες όπως Ασύρτικο, Μαλαγουζιά, Αθήρι και Λημνιό, μαζί με διεθνείς.</p>
+<h3>Τσάνταλης (Άγιος Παύλος)</h3>
+<p>Από τους μεγαλύτερους Έλληνες οινοπαραγωγούς, με έδρα τη Χαλκιδική. Στη γκάμα του περιλαμβάνονται κρασιά από τους αμπελώνες του Αγίου Όρους, όπως το Μετόχι Χρωμίτσα.</p>
+<h3>Κτήμα Claudia Papayianni (Αρναία)</h3>
+<p>Οικογενειακό κτήμα στα βουνά κοντά στην Αρναία, με λευκά και κόκκινα κρασιά από ελληνικές και διεθνείς ποικιλίες.</p>
+<h3>Κοντά στη Θεσσαλονίκη: Κτήμα Γεροβασιλείου (Επανομή)</h3>
+<p>Λίγο έξω από τη Χαλκιδική και κοντά στο αεροδρόμιο. Το κτήμα είναι γνωστό για την αναβίωση της Μαλαγουζιάς και διαθέτει μουσείο οίνου.</p>
+<h2>Τοπικές ποικιλίες</h2>
 <ul>
-  <li><strong>Μάιος-Ιούνιος:</strong> Αμπελώνες καταπράσινοι, άνθιση, ιδανικές θερμοκρασίες.</li>
-  <li><strong>Σεπτέμβριος:</strong> ΤΡΥΓΟΣ. Η πιο ατμοσφαιρική περίοδος. Πολλά οινοποιεία αφήνουν τους επισκέπτες να συμμετέχουν στον τρύγο.</li>
-  <li><strong>Χειμώνας:</strong> Μερικά οινοποιεία είναι κλειστά. Κάλεσε πρώτα.</li>
+<li><strong>Λημνιό:</strong> αρχαία ερυθρή ποικιλία, που αναφέρει ήδη ο Αριστοτέλης.</li>
+<li><strong>Ασύρτικο</strong> και <strong>Μαλαγουζιά:</strong> φρέσκα, αρωματικά λευκά.</li>
+<li><strong>Αθήρι</strong> και <strong>Ροδίτης:</strong> παραδοσιακές ελληνικές λευκές ποικιλίες.</li>
 </ul>
-
-<h2>Πρακτικά Tips</h2>
+<h2>Συμβουλές</h2>
 <ul>
-  <li><strong>Κλείσε ραντεβού εκ των προτέρων</strong> — τα περισσότερα δεν δέχονται walk-ins.</li>
-  <li><strong>Όρισε designated driver</strong> ή πάρε ταξί/Uber-Beat. Το αλκοτέστ στην Ελλάδα είναι στα 0.25mg/l και η αστυνομία στήνει μπλόκα.</li>
-  <li><strong>Αγόρασε χύμα ή εμφιαλωμένο για το σπίτι</strong>. Τα οινοποιεία έχουν σημαντική έκπτωση (-20% έως -40% από τα supermarket).</li>
-  <li><strong>Μην ντυθείς «τουριστικά»</strong>. Casual αλλά σωστά. Ο οινογεύστης θα σε πάρει πιο σοβαρά.</li>
-  <li><strong>Φάε κάτι πριν</strong>. Ακόμα και οι πιο μικρές δοκιμές σερβίρουν 5-7 κρασιά.</li>
-</ul>
-
-<h2>Συνδυασμοί με Άλλες Εμπειρίες</h2>
+<li>Κλείνετε πάντα από πριν την ξενάγηση ή τη γευσιγνωσία, ειδικά εκτός καλοκαιριού.</li>
+<li>Φροντίστε να οδηγεί κάποιος που δεν πίνει: το όριο στην Ελλάδα είναι 0,5 g/l (0,2 g/l για νέους οδηγούς).</li>
+<li>Τέλη Αυγούστου και Σεπτέμβριος είναι εποχή τρύγου — υπέροχη περίοδος για επίσκεψη.</li>
+<li>Συνδυάστε τη γευσιγνωσία με βόλτα στην Αρναία ή μπάνιο στη Σιθωνία. Δείτε και τον οδηγό <a href="/guide/food-and-wine">φαγητό & κρασί</a>.</li>
+</ul>`,
+      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki has a long wine tradition, and several wineries welcome visitors for tours and tastings. A morning at a winery combines easily with an afternoon on the beach.</p>
+<h2>The wine areas</h2>
 <ul>
-  <li><strong>Wine + Beach:</strong> Δοκιμή το πρωί, παραλία το απόγευμα. Δες <a href="/best/beaches-sithonia">Σιθωνία</a>.</li>
-  <li><strong>Wine + Hiking:</strong> Πεζοπορία στον Χολομώντα, δοκιμή στην Αρναία. Δες <a href="/guide/hiking-halkidiki">πεζοπορία</a>.</li>
-  <li><strong>Wine + Villages:</strong> Μια μέρα στην <a href="/places/arnea">Αρναία</a> + <a href="/places/parthenonas">Παρθενώνα</a> + οινοποιείο.</li>
-  <li><strong>Wine + Φαγητό:</strong> Δοκιμή + wine pairing dinner. Δες <a href="/guide/food-and-wine">φαγητό & κρασί</a>.</li>
+<li><strong>Slopes of Meliton (Sithonia):</strong> a PDO wine zone on the hillsides above Neos Marmaras, closely linked with Domaine Porto Carras.</li>
+<li><strong>Mount Athos:</strong> vineyards cultivated by the monasteries; some Athonite wines are produced by Tsantali in cooperation with them.</li>
+<li><strong>The mountain interior:</strong> smaller estates such as Claudia Papayianni near Arnaia.</li>
 </ul>
-
-<h2>Συχνές Ερωτήσεις</h2>
-<h3>Πόσο κοστίζει μια δοκιμή;</h3>
-<p>€10-35 ανάλογα με το οινοποιείο και το πακέτο. Τα premium (Πόρτο Καρράς, Τσάνταλη) είναι στο €25-35. Τα μικρότερα στο €10-20.</p>
-<h3>Πόσο διαρκεί μια επίσκεψη;</h3>
-<p>1:30 έως 2:30 ώρες συνήθως. Αν έχεις πραγματικό ενδιαφέρον, πολλά οινοποιεία σου δίνουν χρόνο.</p>
-<h3>Μπορώ να πάω με παιδιά;</h3>
-<p>Ναι σχεδόν παντού. Τα παιδιά συνήθως κερνιούνται χυμούς. Τα περισσότερα οινοποιεία έχουν κήπους και σκιά. Δες και <a href="/guide/families">οικογενειακές διακοπές</a>.</p>
-<h3>Μπορώ να αγοράσω online μετά;</h3>
-<p>Ναι, τα περισσότερα έχουν e-shop. Αλλά οι τιμές επί τόπου είναι συνήθως καλύτερες + έχεις και γνώμη.</p>
-<h3>Ποιο είναι το πιο «επισκέψιμο» οινοποιείο για αρχάριους;</h3>
-<p>Το Πόρτο Καρράς — κλίμακα, οργάνωση, ξεναγήσεις στα αγγλικά, ταβέρνα, εύκολη πρόσβαση. Για πιο αυθεντική εμπειρία, πήγαινε σε κάποιο μικρότερο όπως Πορτοτηνία.</p>
-<h3>Μπορώ να κάνω wine tour χωρίς αυτοκίνητο;</h3>
-<p>Πολύ δύσκολα. Τα περισσότερα οινοποιεία είναι εκτός δρόμου. Οι καλύτερες επιλογές: (1) ιδιωτικό tour με driver (€150-250/μέρα για 4 άτομα), (2) κάνε ραντεβού και πάρε Uber.</p>`,
-      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki has produced wine since antiquity — Aristotle wrote about Sithonia's vineyards in the 4th century BC. Today, 10+ family wineries and two PDO zones (Sithonia, Agia Paraskevi) make wine tourism one of the loveliest — and most underrated — experiences here.</p>
-
-<h2>Why Wine Tourism in Halkidiki?</h2>
+<h2>Wineries to visit</h2>
+<h3>Domaine Porto Carras (Neos Marmaras)</h3>
+<p>The best-known estate of Halkidiki, with large vineyards on the slopes of Meliton above the sea. Greek varieties such as Assyrtiko, Malagouzia, Athiri and Limnio grow here alongside international ones.</p>
+<h3>Tsantali (Agios Pavlos)</h3>
+<p>One of the largest Greek wine producers, based in Halkidiki. Its range includes wines from the vineyards of Mount Athos, such as Metochi Chromitsa.</p>
+<h3>Claudia Papayianni Estate (Arnaia)</h3>
+<p>A family estate in the mountains near Arnaia, making white and red wines from Greek and international varieties.</p>
+<h3>Near Thessaloniki: Ktima Gerovassiliou (Epanomi)</h3>
+<p>Just outside Halkidiki and close to the airport. The estate is known for reviving the Malagouzia variety and has a wine museum.</p>
+<h2>Local varieties</h2>
 <ul>
-  <li><strong>Rare local varieties:</strong> The largest concentration of rare <strong>Limnio</strong> (ancient variety), plus <strong>Assyrtiko</strong>, <strong>Roditis</strong>, <strong>Xinomavro</strong>, <strong>Malagouzia</strong>.</li>
-  <li><strong>PDO Sithonia:</strong> Recognized in 2011. Covers vineyards at 50-400 m above sea level.</li>
-  <li><strong>Family character:</strong> No industrial wineries — everything is family-run for 2-3 generations.</li>
-  <li><strong>Beach combo:</strong> Tasting at 11 a.m., Greek lunch, swim at 15:30.</li>
-  <li><strong>Prices:</strong> €10-25 per tasting, much cheaper than Tuscany or Bordeaux.</li>
+<li><strong>Limnio:</strong> an ancient red variety, already mentioned by Aristotle.</li>
+<li><strong>Assyrtiko</strong> and <strong>Malagouzia:</strong> fresh, aromatic whites.</li>
+<li><strong>Athiri</strong> and <strong>Roditis:</strong> traditional Greek white varieties.</li>
 </ul>
-
-<h2>Top Wineries</h2>
-
-<h3>1. Claudia Papagianni Estate — Polygyros</h3>
-<p><strong>Near:</strong> <a href="/places/polygyros">Polygyros</a> | <strong>Varieties:</strong> Syrah, Merlot, Assyrtiko<br>
-Boutique organic winery. Tastings in a stone cellar. Claudia, German-born, brings Northern European know-how to Mediterranean soil.</p>
-<p><strong>Recommended:</strong> 5-wine + mezze package, €25. Reservation required.</p>
-
-<h3>2. Porto Carras Estate — Neos Marmaras</h3>
-<p><strong>In:</strong> <a href="/places/neos-marmaras">Neos Marmaras</a> | <strong>Size:</strong> 475 hectares — Greece's largest<br>
-The "patriarch" of Halkidiki wine tourism. Founded in the 1960s by Giannis Carras. 25 varieties, 2M+ bottles/year. Tours include vineyards, cellar, 6-wine tasting.</p>
-<p><strong>Recommended:</strong> Premium tasting €30. Has a wine-pairing restaurant.</p>
-
-<h3>3. Tsantali Estate — Agios Pavlos</h3>
-<p><strong>Near:</strong> <a href="/places/ouranoupoli">Ouranoupoli</a> | <strong>Signature wine:</strong> Metoxi Chromitsa (from the Agios Panteleimon metochion)<br>
-Tsantali holds the unique permit to farm inside <a href="/mount-athos">Mount Athos</a> — in cooperation with the Russian Agios Panteleimon monastery. Metoxi wines are among the most sought-after in Greece.</p>
-<p><strong>Recommended:</strong> €15-35, tour + tasting. Buy Metoxi Chromitsa Red — it will impress wine friends back home.</p>
-
-<h3>4. Portotinia Vineyards — Paliouri</h3>
-<p><strong>In:</strong> <a href="/places/paliouri">Paliouri</a> | <strong>Specialty:</strong> Limnio, an ancient variety<br>
-Small, family-run. Kostas Tsimpoukas, 3rd-generation, farms the rare Limnio Aristotle mentioned. In summer the family hosts vineyard sunset dinners.</p>
-
-<h3>5. Gerovassiliou Estate — Epanomi (Halkidiki border)</h3>
-<p><strong>Location:</strong> Just outside Halkidiki, 30' from the airport<br>
-Technically in Thessaloniki, but many combine it with Halkidiki. The Wine & Vine Museum is among Europe's most impressive.</p>
-<p><strong>Recommended:</strong> €18, includes Malagouzia — the variety the family saved from extinction.</p>
-
-<h3>6. Babatzimopoulos — Polygyros</h3>
-<p>Also makes ouzo. Smaller, more authentic — you'll speak to the owner, not a marketing rep.</p>
-
-<h3>7. Dionysos Vineyards — Afytos</h3>
-<p><strong>Near:</strong> <a href="/places/afytos">Afytos</a> | <strong>Specialty:</strong> Assyrtiko, Chardonnay<br>
-Modern facility with minimalist design. Instagram-popular for vineyard views over Thermaic Gulf.</p>
-
-<h2>The "Perfect Wine Day"</h2>
-<ol>
-  <li>9:30 a.m. Leave from Hanioti/Kallithea</li>
-  <li>10:30 Claudia Papagianni — first tasting</li>
-  <li>13:00 Lunch in <a href="/places/polygyros">Polygyros</a></li>
-  <li>15:00 Tsantali — second tasting + tour</li>
-  <li>18:00 Swim at <a href="/places/olympiada">Olympiada</a> or return via <a href="/places/arnea">Arnea</a></li>
-  <li>21:00 Dinner at a <a href="/best/traditional-tavernas">traditional taverna</a></li>
-</ol>
-
-<h2>When to Go</h2>
+<h2>Tips</h2>
 <ul>
-  <li><strong>May-June:</strong> Green vineyards, bloom, ideal temperatures.</li>
-  <li><strong>September:</strong> HARVEST. Most atmospheric period. Many wineries let visitors join.</li>
-  <li><strong>Winter:</strong> Some closed. Call first.</li>
-</ul>
-
-<h2>Practical Tips</h2>
+<li>Always book a tour or tasting in advance, especially outside the summer season.</li>
+<li>Plan a designated driver: the legal limit in Greece is 0.5 g/l (0.2 g/l for new drivers).</li>
+<li>Late August and September are harvest time — a lovely period for a visit.</li>
+<li>Combine a tasting with a walk in Arnaia or a swim in Sithonia. See also <a href="/guide/food-and-wine">food & wine</a>.</li>
+</ul>`,
+      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Chalkidiki hat eine lange Weintradition, und mehrere Weingüter empfangen Besucher zu Führungen und Verkostungen. Ein Vormittag im Weingut lässt sich leicht mit einem Nachmittag am Strand verbinden.</p>
+<h2>Die Weinregionen</h2>
 <ul>
-  <li>Book ahead — walk-ins rarely accepted.</li>
-  <li>Designated driver or taxi. Greek limit is 0.25 mg/l; police set up checkpoints.</li>
-  <li>Buy wine to take home — 20-40% cheaper than supermarkets.</li>
-  <li>Dress casual but smart. You'll be taken more seriously.</li>
-  <li>Eat beforehand — even small tastings pour 5-7 wines.</li>
+<li><strong>Hänge des Meliton (Sithonia):</strong> eine g.U.-Weinzone an den Hängen über Neos Marmaras, eng mit der Domaine Porto Carras verbunden.</li>
+<li><strong>Berg Athos:</strong> Weinberge, die von den Klöstern bewirtschaftet werden; einige Athos-Weine erzeugt Tsantali in Zusammenarbeit mit ihnen.</li>
+<li><strong>Das Bergland:</strong> kleinere Güter wie Claudia Papayianni bei Arnaia.</li>
 </ul>
-
-<h2>Combos</h2>
+<h2>Weingüter zum Besuchen</h2>
+<h3>Domaine Porto Carras (Neos Marmaras)</h3>
+<p>Das bekannteste Weingut Chalkidikis, mit großen Weinbergen an den Hängen des Meliton über dem Meer. Hier wachsen griechische Sorten wie Assyrtiko, Malagouzia, Athiri und Limnio neben internationalen.</p>
+<h3>Tsantali (Agios Pavlos)</h3>
+<p>Einer der größten Weinerzeuger Griechenlands, mit Sitz in Chalkidiki. Zum Sortiment gehören Weine aus den Weinbergen des Athos, etwa Metochi Chromitsa.</p>
+<h3>Weingut Claudia Papayianni (Arnaia)</h3>
+<p>Ein Familienweingut in den Bergen bei Arnaia mit Weiß- und Rotweinen aus griechischen und internationalen Sorten.</p>
+<h3>Bei Thessaloniki: Ktima Gerovassiliou (Epanomi)</h3>
+<p>Knapp außerhalb Chalkidikis und nahe am Flughafen. Das Gut ist bekannt dafür, die Rebsorte Malagouzia wiederbelebt zu haben, und hat ein Weinmuseum.</p>
+<h2>Lokale Rebsorten</h2>
 <ul>
-  <li><strong>Wine + Beach:</strong> Morning tasting, afternoon <a href="/best/beaches-sithonia">Sithonia beach</a>.</li>
-  <li><strong>Wine + Hiking:</strong> Holomontas hike + Arnea tasting. See <a href="/guide/hiking-halkidiki">hiking</a>.</li>
-  <li><strong>Wine + Villages:</strong> <a href="/places/arnea">Arnea</a> + <a href="/places/parthenonas">Parthenonas</a> + winery.</li>
-  <li><strong>Wine + Food:</strong> Pairing dinner. See <a href="/guide/food-and-wine">food & wine</a>.</li>
+<li><strong>Limnio:</strong> eine uralte rote Sorte, schon bei Aristoteles erwähnt.</li>
+<li><strong>Assyrtiko</strong> und <strong>Malagouzia:</strong> frische, aromatische Weißweine.</li>
+<li><strong>Athiri</strong> und <strong>Roditis:</strong> traditionelle griechische weiße Sorten.</li>
 </ul>
-
-<h2>FAQ</h2>
-<h3>How much does a tasting cost?</h3>
-<p>€10-35 depending on winery and package. Premium €25-35, smaller €10-20.</p>
-<h3>How long is a visit?</h3>
-<p>Usually 1:30-2:30 hours. If genuinely interested, many wineries give you time.</p>
-<h3>Can I bring kids?</h3>
-<p>Yes, almost anywhere. Kids usually get juice. Most have gardens/shade. See <a href="/guide/families">family holidays</a>.</p>
-<h3>Most beginner-friendly?</h3>
-<p>Porto Carras — scale, organization, English tours, restaurant, easy access. For authenticity, go smaller like Portotinia.</p>
-<h3>Wine tour without a car?</h3>
-<p>Hard. Most wineries are off-road. Best: (1) private tour with driver (€150-250/day for 4), (2) prebook + Uber.</p>`,
-      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Chalkidiki produziert seit der Antike Wein. Heute bieten 10+ Familienweingüter eine unterbewertete Tourismuserfahrung.</p>
-
-<h2>Warum Weintourismus hier?</h2>
-<ul>
-  <li>Seltene Rebsorten: <strong>Limnio</strong>, Assyrtiko, Malagouzia</li>
-  <li>PDO-Zonen (Sithonia, Agia Paraskevi)</li>
-  <li>Familienbetriebe, keine Industrie</li>
-  <li>Proben: €10-25 (viel günstiger als Toskana)</li>
-</ul>
-
-<h2>Top Weingüter</h2>
-<h3>Porto Carras — Neos Marmaras</h3>
-<p>Das größte Weingut Griechenlands (475 ha). In <a href="/places/neos-marmaras">Neos Marmaras</a>. Premium-Tasting €30.</p>
-
-<h3>Tsantali — Agios Pavlos</h3>
-<p>Einzige Genehmigung, auf dem <a href="/mount-athos">Heiligen Berg</a> anzubauen. Metoxi Chromitsa ist ihr Signature-Wein. Nahe <a href="/places/ouranoupoli">Ouranoupoli</a>.</p>
-
-<h3>Claudia Papagianni — Polygyros</h3>
-<p>Bio-Boutique-Weingut. Proben in Steinkeller. Nahe <a href="/places/polygyros">Polygyros</a>.</p>
-
-<h3>Portotinia — Paliouri</h3>
-<p>Familienbetrieb, Limnio-Spezialist. In <a href="/places/paliouri">Paliouri</a>.</p>
-
-<h2>Wann besuchen?</h2>
-<ul>
-  <li>Mai-Juni: grüne Weinberge</li>
-  <li>September: Weinlese</li>
-</ul>
-
 <h2>Tipps</h2>
 <ul>
-  <li>Vorab reservieren</li>
-  <li>Fahrer bestimmen — Grenze 0,25 mg/l</li>
-  <li>Wein mitnehmen: 20-40% günstiger</li>
-</ul>
-
-<h2>Kombinationen</h2>
+<li>Führungen und Verkostungen immer vorab buchen, besonders außerhalb der Sommersaison.</li>
+<li>Planen Sie einen Fahrer, der nicht trinkt: Die Promillegrenze in Griechenland liegt bei 0,5 g/l (0,2 g/l für Fahranfänger).</li>
+<li>Ende August und September ist Lesezeit — eine schöne Zeit für einen Besuch.</li>
+<li>Verbinden Sie eine Verkostung mit einem Spaziergang in Arnaia oder einem Bad in Sithonia. Siehe auch <a href="/guide/food-and-wine">Essen & Wein</a>.</li>
+</ul>`,
+      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики има дълга винена традиция и няколко винарни посрещат посетители за обиколки и дегустации. Сутрин във винарна лесно се съчетава със следобед на плажа.</p>
+<h2>Винените райони</h2>
 <ul>
-  <li>Wein + <a href="/best/beaches-sithonia">Sithonia-Strände</a></li>
-  <li>Wein + <a href="/guide/hiking-halkidiki">Wandern</a></li>
-  <li>Wein + <a href="/places/arnea">Arnea</a></li>
+<li><strong>Склоновете на Мелитон (Ситония):</strong> зона за вина със ЗНП по склоновете над Неос Мармарас, тясно свързана с Domaine Porto Carras.</li>
+<li><strong>Света гора:</strong> лозя, обработвани от манастирите; някои светогорски вина се произвеждат от Цантали в сътрудничество с тях.</li>
+<li><strong>Планинската вътрешност:</strong> по-малки имения като Claudia Papayianni край Арнеа.</li>
 </ul>
-
-<h2>FAQ</h2>
-<h3>Preis?</h3>
-<p>€10-35. <a href="/guide/food-and-wine">Essen & Wein</a>.</p>
-<h3>Mit Kindern?</h3>
-<p>Ja. Kinder bekommen Saft.</p>`,
-      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики произвежда вино от древността. Днес 10+ семейни винарни предлагат подценено туристическо преживяване.</p>
-
-<h2>Защо винен туризъм?</h2>
+<h2>Винарни за посещение</h2>
+<h3>Domaine Porto Carras (Неос Мармарас)</h3>
+<p>Най-известното имение в Халкидики, с големи лозя по склоновете на Мелитон над морето. Тук се отглеждат гръцки сортове като Асиртико, Малагузия, Атири и Лимнио, заедно с международни.</p>
+<h3>Цантали (Агиос Павлос)</h3>
+<p>Един от най-големите гръцки винопроизводители, със седалище в Халкидики. Гамата му включва вина от лозята на Света гора, като Metochi Chromitsa.</p>
+<h3>Имение Claudia Papayianni (Арнеа)</h3>
+<p>Семейно имение в планината край Арнеа, с бели и червени вина от гръцки и международни сортове.</p>
+<h3>Край Солун: Ktima Gerovassiliou (Епаноми)</h3>
+<p>Точно извън Халкидики и близо до летището. Имението е известно с това, че възроди сорта Малагузия, и има музей на виното.</p>
+<h2>Местни сортове</h2>
 <ul>
-  <li>Редки местни сортове: <strong>Лимнио</strong>, Асиртико, Малагузия</li>
-  <li>Семейни бизнеси</li>
-  <li>Дегустации: €10-25</li>
+<li><strong>Лимнио:</strong> древен червен сорт, споменат още от Аристотел.</li>
+<li><strong>Асиртико</strong> и <strong>Малагузия:</strong> свежи, ароматни бели вина.</li>
+<li><strong>Атири</strong> и <strong>Родитис:</strong> традиционни гръцки бели сортове.</li>
 </ul>
-
-<h2>Топ винарни</h2>
-<h3>Порто Карас — Неос Мармарас</h3>
-<p>Най-голямата винарна в Гърция. В <a href="/places/neos-marmaras">Неос Мармарас</a>. Премиум €30.</p>
-
-<h3>Цанталис — Агиос Павлос</h3>
-<p>Единствени с разрешение да отглеждат на <a href="/mount-athos">Атон</a>. Близо до <a href="/places/ouranoupoli">Уранополис</a>.</p>
-
-<h3>Клаудия Папаяни — Полигирос</h3>
-<p>Био-бутик, каменен склад. Близо до <a href="/places/polygyros">Полигирос</a>.</p>
-
-<h2>Кога?</h2>
-<ul>
-  <li>Май-юни: зелени лозя</li>
-  <li>Септември: гроздобер</li>
-</ul>
-
 <h2>Съвети</h2>
 <ul>
-  <li>Предварителна резервация</li>
-  <li>Назначен шофьор</li>
-</ul>
-
-<h2>Често задавани въпроси</h2>
-<h3>Цена?</h3>
-<p>€10-35. Виж <a href="/guide/food-and-wine">храна и вино</a>.</p>`,
-      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Халкидики производит вино с древности. Сегодня 10+ семейных виноделен предлагают недооценённый туристический опыт.</p>
-
-<h2>Почему винный туризм?</h2>
+<li>Винаги резервирайте обиколка или дегустация предварително, особено извън летния сезон.</li>
+<li>Осигурете трезв шофьор: законовата граница в Гърция е 0,5 g/l (0,2 g/l за нови шофьори).</li>
+<li>Краят на август и септември е времето на гроздобера — чудесен период за посещение.</li>
+<li>Съчетайте дегустацията с разходка в Арнеа или плуване в Ситония. Вижте и <a href="/guide/food-and-wine">храна и вино</a>.</li>
+</ul>`,
+      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">У Халкидики давняя винодельческая традиция, и несколько виноделен принимают гостей на экскурсии и дегустации. Утро на винодельне легко совместить с днём на пляже.</p>
+<h2>Винодельческие районы</h2>
 <ul>
-  <li>Редкие сорта: <strong>Лимнио</strong>, Асиртико, Малагузья</li>
-  <li>Семейные предприятия</li>
-  <li>Дегустации: €10-25</li>
+<li><strong>Склоны Мелитона (Ситония):</strong> винодельческая зона с ЗНП на склонах над Неос-Мармарасом, тесно связанная с Domaine Porto Carras.</li>
+<li><strong>Афон:</strong> виноградники, которые возделывают монастыри; часть афонских вин производит Цантали в сотрудничестве с ними.</li>
+<li><strong>Горная часть:</strong> небольшие хозяйства, например Claudia Papayianni у Арнеи.</li>
 </ul>
-
-<h2>Топ винодельни</h2>
-<h3>Порто Каррас — Неос Мармарас</h3>
-<p>Крупнейшая винодельня Греции. В <a href="/places/neos-marmaras">Неос Мармарас</a>. Премиум €30.</p>
-
-<h3>Цанталис — Агиос Павлос</h3>
-<p>Единственное разрешение выращивать на <a href="/mount-athos">Афоне</a>. Рядом <a href="/places/ouranoupoli">Уранополис</a>.</p>
-
-<h3>Клаудия Папаянни — Полигирос</h3>
-<p>Био-бутик, каменный погреб. Рядом <a href="/places/polygyros">Полигирос</a>.</p>
-
-<h2>Когда?</h2>
+<h2>Винодельни для посещения</h2>
+<h3>Domaine Porto Carras (Неос-Мармарас)</h3>
+<p>Самое известное хозяйство Халкидики с большими виноградниками на склонах Мелитона над морем. Здесь выращивают греческие сорта — ассиртико, малагузию, атири и лимнио — вместе с международными.</p>
+<h3>Цантали (Агиос-Павлос)</h3>
+<p>Один из крупнейших производителей вина в Греции, базирующийся на Халкидики. В его линейке есть вина с афонских виноградников, например Metochi Chromitsa.</p>
+<h3>Хозяйство Claudia Papayianni (Арнея)</h3>
+<p>Семейное хозяйство в горах у Арнеи: белые и красные вина из греческих и международных сортов.</p>
+<h3>Рядом с Салониками: Ktima Gerovassiliou (Эпаноми)</h3>
+<p>Чуть за пределами Халкидики, недалеко от аэропорта. Хозяйство известно возрождением сорта малагузия, здесь есть музей вина.</p>
+<h2>Местные сорта</h2>
 <ul>
-  <li>Май-июнь: зелёные виноградники</li>
-  <li>Сентябрь: сбор урожая</li>
+<li><strong>Лимнио:</strong> древний красный сорт, упомянутый ещё Аристотелем.</li>
+<li><strong>Ассиртико</strong> и <strong>малагузия:</strong> свежие ароматные белые вина.</li>
+<li><strong>Атири</strong> и <strong>родитис:</strong> традиционные греческие белые сорта.</li>
 </ul>
-
 <h2>Советы</h2>
 <ul>
-  <li>Предварительная запись</li>
-  <li>Трезвый водитель</li>
-</ul>
-
-<h2>Часто задаваемые вопросы</h2>
-<h3>Цена?</h3>
-<p>€10-35. См. <a href="/guide/food-and-wine">еда и вино</a>.</p>`,
-      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki produce vin din antichitate. Astăzi, 10+ crame familiale oferă o experiență turistică subevaluată.</p>
-
-<h2>De ce turism viticol?</h2>
+<li>Всегда бронируйте экскурсию или дегустацию заранее, особенно вне летнего сезона.</li>
+<li>Договоритесь о трезвом водителе: допустимый предел в Греции — 0,5 г/л (0,2 г/л для начинающих водителей).</li>
+<li>Конец августа и сентябрь — время сбора урожая и прекрасный период для поездки.</li>
+<li>Совместите дегустацию с прогулкой по Арнее или купанием на Ситонии. См. также <a href="/guide/food-and-wine">еда и вино</a>.</li>
+</ul>`,
+      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki are o lungă tradiție a vinului, iar mai multe crame primesc vizitatori pentru tururi și degustări. O dimineață la cramă se combină ușor cu o după-amiază la plajă.</p>
+<h2>Zonele viticole</h2>
 <ul>
-  <li>Soiuri rare: <strong>Limnio</strong>, Assyrtiko, Malagouzia</li>
-  <li>Afaceri de familie</li>
-  <li>Degustări: €10-25</li>
+<li><strong>Pantele Melitonului (Sithonia):</strong> o zonă viticolă DOP pe dealurile de deasupra Neos Marmaras, strâns legată de Domaine Porto Carras.</li>
+<li><strong>Muntele Athos:</strong> vii lucrate de mănăstiri; unele vinuri athonite sunt produse de Tsantali în colaborare cu acestea.</li>
+<li><strong>Zona montană:</strong> domenii mai mici, precum Claudia Papayianni lângă Arnaia.</li>
 </ul>
-
-<h2>Top crame</h2>
-<h3>Porto Carras — Neos Marmaras</h3>
-<p>Cea mai mare cramă din Grecia. În <a href="/places/neos-marmaras">Neos Marmaras</a>. Premium €30.</p>
-
-<h3>Tsantali — Agios Pavlos</h3>
-<p>Unica cu permis de cultivare pe <a href="/mount-athos">Athos</a>. Lângă <a href="/places/ouranoupoli">Ouranoupoli</a>.</p>
-
-<h3>Claudia Papagianni — Polygyros</h3>
-<p>Bio-butic, pivniță de piatră. Lângă <a href="/places/polygyros">Polygyros</a>.</p>
-
-<h2>Când?</h2>
+<h2>Crame de vizitat</h2>
+<h3>Domaine Porto Carras (Neos Marmaras)</h3>
+<p>Cel mai cunoscut domeniu din Halkidiki, cu vii întinse pe pantele Melitonului, deasupra mării. Aici cresc soiuri grecești precum Assyrtiko, Malagouzia, Athiri și Limnio, alături de soiuri internaționale.</p>
+<h3>Tsantali (Agios Pavlos)</h3>
+<p>Unul dintre cei mai mari producători de vin din Grecia, cu sediul în Halkidiki. Gama sa include vinuri din podgoriile Muntelui Athos, precum Metochi Chromitsa.</p>
+<h3>Domeniul Claudia Papayianni (Arnaia)</h3>
+<p>Un domeniu de familie în munții de lângă Arnaia, cu vinuri albe și roșii din soiuri grecești și internaționale.</p>
+<h3>Lângă Salonic: Ktima Gerovassiliou (Epanomi)</h3>
+<p>Imediat în afara Halkidiki și aproape de aeroport. Domeniul este cunoscut pentru readucerea la viață a soiului Malagouzia și are un muzeu al vinului.</p>
+<h2>Soiuri locale</h2>
 <ul>
-  <li>Mai-iunie: vii verzi</li>
-  <li>Septembrie: culesul strugurilor</li>
+<li><strong>Limnio:</strong> un soi roșu străvechi, pomenit deja de Aristotel.</li>
+<li><strong>Assyrtiko</strong> și <strong>Malagouzia:</strong> vinuri albe proaspete și aromate.</li>
+<li><strong>Athiri</strong> și <strong>Roditis:</strong> soiuri albe tradiționale grecești.</li>
 </ul>
-
 <h2>Sfaturi</h2>
 <ul>
-  <li>Rezervare prealabilă</li>
-  <li>Șofer desemnat</li>
-</ul>
-
-<h2>Întrebări frecvente</h2>
-<h3>Preț?</h3>
-<p>€10-35. Vezi <a href="/guide/food-and-wine">mâncare și vin</a>.</p>`,
-      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki proizvodi vino od antike. Danas 10+ porodičnih vinarija nude potcenjeno turističko iskustvo.</p>
-
-<h2>Zašto vinski turizam?</h2>
+<li>Rezervați întotdeauna turul sau degustarea din timp, mai ales în afara sezonului de vară.</li>
+<li>Stabiliți un șofer care nu bea: limita legală în Grecia este 0,5 g/l (0,2 g/l pentru șoferii începători).</li>
+<li>Sfârșitul lui august și septembrie sunt perioada culesului — un moment minunat pentru vizită.</li>
+<li>Combinați degustarea cu o plimbare prin Arnaia sau o baie în Sithonia. Vedeți și <a href="/guide/food-and-wine">mâncare și vin</a>.</li>
+</ul>`,
+      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Halkidiki ima dugu vinsku tradiciju, a nekoliko vinarija prima posetioce na obilaske i degustacije. Jutro u vinariji lako se spaja s popodnevom na plaži.</p>
+<h2>Vinska područja</h2>
 <ul>
-  <li>Retke sorte: <strong>Limnio</strong>, Asirtiko, Malaguzija</li>
-  <li>Porodični biznisi</li>
-  <li>Degustacije: €10-25</li>
+<li><strong>Padine Melitona (Sitonija):</strong> vinska zona sa ZOP oznakom na padinama iznad Neos Marmarasa, tesno povezana s Domaine Porto Carras.</li>
+<li><strong>Sveta Gora:</strong> vinogradi koje obrađuju manastiri; deo svetogorskih vina proizvodi Tsantali u saradnji s njima.</li>
+<li><strong>Planinska unutrašnjost:</strong> manja imanja, poput Claudia Papayianni kod Arnee.</li>
 </ul>
-
-<h2>Top vinarije</h2>
-<h3>Porto Karas — Neos Marmaras</h3>
-<p>Najveća vinarija u Grčkoj. U <a href="/places/neos-marmaras">Neos Marmaras</a>. Premium €30.</p>
-
-<h3>Cantalis — Agios Pavlos</h3>
-<p>Jedinstvena dozvola za uzgoj na <a href="/mount-athos">Atosu</a>. Blizu <a href="/places/ouranoupoli">Uranopolisa</a>.</p>
-
-<h3>Klaudija Papajani — Poligiros</h3>
-<p>Bio-butik. Blizu <a href="/places/polygyros">Poligirosa</a>.</p>
-
-<h2>Kada?</h2>
+<h2>Vinarije za posetu</h2>
+<h3>Domaine Porto Carras (Neos Marmaras)</h3>
+<p>Najpoznatije imanje Halkidikija, s velikim vinogradima na padinama Melitona iznad mora. Ovde se uz međunarodne gaje i grčke sorte poput asirtika, malaguzije, atirija i limnija.</p>
+<h3>Tsantali (Agios Pavlos)</h3>
+<p>Jedan od najvećih proizvođača vina u Grčkoj, sa sedištem na Halkidikiju. U ponudi su i vina iz svetogorskih vinograda, poput Metochi Chromitsa.</p>
+<h3>Imanje Claudia Papayianni (Arnea)</h3>
+<p>Porodično imanje u planinama kod Arnee, s belim i crvenim vinima od grčkih i međunarodnih sorti.</p>
+<h3>Kod Soluna: Ktima Gerovassiliou (Epanomi)</h3>
+<p>Odmah izvan Halkidikija, blizu aerodroma. Imanje je poznato po oživljavanju sorte malaguzija i ima muzej vina.</p>
+<h2>Lokalne sorte</h2>
 <ul>
-  <li>Maj-jun: zeleni vinogradi</li>
-  <li>Septembar: berba</li>
+<li><strong>Limnio:</strong> drevna crvena sorta koju pominje još Aristotel.</li>
+<li><strong>Asirtiko</strong> i <strong>malaguzija:</strong> sveža, aromatična bela vina.</li>
+<li><strong>Atiri</strong> i <strong>roditis:</strong> tradicionalne grčke bele sorte.</li>
 </ul>
-
 <h2>Saveti</h2>
 <ul>
-  <li>Rezervacija unapred</li>
-  <li>Određeni vozač</li>
-</ul>
-
-<h2>Česta pitanja</h2>
-<h3>Cena?</h3>
-<p>€10-35. Vidi <a href="/guide/food-and-wine">hrana i vino</a>.</p>`,
+<li>Obilazak ili degustaciju uvek rezervišite unapred, naročito van letnje sezone.</li>
+<li>Obezbedite vozača koji ne pije: zakonska granica u Grčkoj je 0,5 g/l (0,2 g/l za mlade vozače).</li>
+<li>Kraj avgusta i septembar su vreme berbe — divan period za posetu.</li>
+<li>Spojite degustaciju sa šetnjom kroz Arneu ili kupanjem na Sitoniji. Pogledajte i <a href="/guide/food-and-wine">hrana i vino</a>.</li>
+</ul>`,
     },
   },
   {
     slug: 'petralona-cave', icon: 'Gem', color: 'stone',
     title: { el: 'Σπήλαιο Πετραλώνων — Πλήρης Οδηγός Επίσκεψης', en: 'Petralona Cave — Complete Visitor Guide', de: 'Petralona-Höhle — Kompletter Besucherführer', bg: 'Пещерата Петралона — Пълен пътеводител', ru: 'Пещера Петралона — Полный путеводитель', ro: 'Peștera Petralona — Ghid complet', sr: 'Pećina Petralona — Kompletan vodič' },
-    description: { el: 'Το σπήλαιο με τον αρχαιότερο Ευρωπαίο άνθρωπο', en: 'The cave with the oldest European human', de: 'Die Höhle mit dem ältesten Europäer', bg: 'Пещерата с най-стария европеец', ru: 'Пещера с древнейшим европейцем', ro: 'Peștera cu cel mai vechi european', sr: 'Pećina sa najstarijim Evropljaninom' },
-    metaTitle: { el: 'Σπήλαιο Πετραλώνων 2026 — Ώρες, Εισιτήρια, Ιστορία', en: 'Petralona Cave 2026 — Hours, Tickets, History', de: 'Petralona-Höhle 2026 — Öffnungszeiten, Tickets', bg: 'Пещерата Петралона 2026 — Часове, Билети', ru: 'Пещера Петралона 2026 — Часы, Билеты', ro: 'Peștera Petralona 2026 — Orar, Bilete', sr: 'Pećina Petralona 2026 — Radno vreme, Karte' },
-    metaDesc: { el: 'Όλα για το Σπήλαιο Πετραλώνων: ώρες, εισιτήρια, ιστορία 700.000 ετών, πώς φτάνεις, τι να δεις, tips από ντόπιους.', en: 'All about Petralona Cave: hours, tickets, 700,000-year history, how to get there, what to see, local tips.', de: 'Petralona-Höhle: Öffnungszeiten, Tickets, 700.000 Jahre Geschichte.', bg: 'Петралона: часове, билети, 700 000 години история.', ru: 'Петралона: часы, билеты, 700 000 лет истории.', ro: 'Petralona: orar, bilete, 700.000 ani de istorie.', sr: 'Petralona: radno vreme, karte, 700.000 godina istorije.' },
+    description: { el: 'Το σπήλαιο του κρανίου των Πετραλώνων', en: 'The cave of the Petralona skull', de: 'Die Höhle des Schädels von Petralona', bg: 'Пещерата на черепа от Петралона', ru: 'Пещера петралонского черепа', ro: 'Peștera craniului de la Petralona', sr: 'Pećina lobanje iz Petralone' },
+    metaTitle: { el: 'Σπήλαιο Πετραλώνων — Οδηγός επίσκεψης', en: 'Petralona Cave — Visitor Guide', de: 'Höhle von Petralona — Besucherführer', bg: 'Пещерата Петралона — пътеводител за посетители', ru: 'Пещера Петралона — гид для посетителей', ro: 'Peștera Petralona — ghid pentru vizitatori', sr: 'Pećina Petralona — vodič za posetioce' },
+    metaDesc: { el: 'Το Σπήλαιο Πετραλώνων στη Χαλκιδική: το κρανίο που βρέθηκε το 1960, τι θα δείτε στην ξενάγηση, το μουσείο, πώς να πάτε και συμβουλές.', en: 'Petralona Cave in Halkidiki: the skull found in 1960, what you see on the guided tour, the museum, how to get there and tips for your visit.', de: 'Die Höhle von Petralona in Chalkidiki: der Schädelfund von 1960, was man bei der Führung sieht, das Museum, Anfahrt und Tipps.', bg: 'Пещерата Петралона в Халкидики: черепът, открит през 1960 г., какво ще видите при обиколката, музеят, как да стигнете и съвети.', ru: 'Пещера Петралона на Халкидики: череп, найденный в 1960 году, что увидеть на экскурсии, музей, как добраться и советы.', ro: 'Peștera Petralona din Halkidiki: craniul găsit în 1960, ce vedeți în turul ghidat, muzeul, cum ajungeți și sfaturi.', sr: 'Pećina Petralona na Halkidikiju: lobanja pronađena 1960, šta se vidi u obilasku s vodičem, muzej, kako stići i saveti.' },
     content: {
-      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Το Σπήλαιο Πετραλώνων είναι ένας από τους πιο σημαντικούς παλαιοντολογικούς χώρους της Ευρώπης. Εδώ, το 1960, ανακαλύφθηκε ο «Αρχάνθρωπος των Πετραλώνων» — ένα ανθρώπινο κρανίο ηλικίας περίπου 700.000 ετών, το αρχαιότερο ανθρώπινο απολίθωμα που έχει βρεθεί στην Ευρώπη. Αν περάσεις από τη Χαλκιδική, είναι υποχρεωτική στάση.</p>
-
-<h2>Γιατί Αξίζει η Επίσκεψη;</h2>
-<p>Δεν είναι απλώς ένα σπήλαιο. Είναι:</p>
+      el: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Το Σπήλαιο Πετραλώνων, στο όρος Κατσίκα κοντά στο χωριό Πετράλωνα της δυτικής Χαλκιδικής, είναι γνωστό για τους σταλακτίτες του και για το ανθρώπινο κρανίο που βρέθηκε εκεί το 1960 — ένα από τα σημαντικότερα ευρήματα πρώιμων ανθρώπων στην Ελλάδα.</p>
+<h2>Το κρανίο των Πετραλώνων</h2>
+<p>Το κρανίο ανήκει σε αρχαϊκό άνθρωπο, που συνήθως κατατάσσεται στον <em>Homo heidelbergensis</em>. Η ηλικία του συζητείται εδώ και δεκαετίες: οι εκτιμήσεις κυμαίνονται από περίπου 150.000 έως πάνω από 700.000 χρόνια.</p>
+<h2>Η επίσκεψη</h2>
+<p>Η επίσκεψη γίνεται με ξενάγηση, σε διαδρομή μέσα από θαλάμους με σταλακτίτες και σταλαγμίτες. Στο σπήλαιο βρέθηκαν και απολιθώματα ζώων, ανάμεσά τους σπηλαιοαρκούδες. Δίπλα λειτουργεί το Ανθρωπολογικό Μουσείο με ευρήματα από τις ανασκαφές.</p>
 <ul>
-  <li><strong>Μοναδικό παγκόσμιας σημασίας</strong> — εδώ ζούσαν άνθρωποι πριν 700.000 χρόνια. Για σύγκριση, οι Νεάντερταλ εμφανίστηκαν «μόλις» πριν 400.000 χρόνια.</li>
-  <li><strong>Πλούσιο σε σταλακτίτες και σταλαγμίτες</strong> — θεωρείται ένα από τα πιο όμορφα σπήλαια της Ελλάδας.</li>
-  <li><strong>Δίπλα σε Ανθρωπολογικό Μουσείο</strong> με εκθέματα ευρημάτων (κρανίο, εργαλεία, οστά ζώων).</li>
-  <li><strong>Πολύ κοντά σε Θεσσαλονίκη</strong> (40 χλμ) και στην <a href="/guide/kassandra-sithonia-athos">Κασσάνδρα</a> (25 χλμ).</li>
-  <li><strong>Κατάλληλο για όλες τις ηλικίες</strong>, συμπεριλαμβανομένων <a href="/guide/families">οικογενειών</a> με παιδιά.</li>
+<li>Μέσα η θερμοκρασία παραμένει δροσερή όλο τον χρόνο — πάρτε ελαφριά ζακέτα ακόμη και το καλοκαίρι.</li>
+<li>Η διαδρομή έχει σκαλοπάτια και μπορεί να έχει υγρασία· φορέστε άνετα παπούτσια.</li>
+<li>Το ωράριο και οι τιμές των εισιτηρίων αλλάζουν — ελέγξτε τα πριν πάτε.</li>
 </ul>
-
-<h2>Η Ιστορία σε 5 Σημεία</h2>
-<ol>
-  <li><strong>1959-60:</strong> Ντόπιοι βοσκοί παρατηρούν «σπηλιά με κόκαλα» στον λόφο Κατσίκας. Ο ανθρωπολόγος Άρης Πουλιανός ξεκινά ανασκαφές.</li>
-  <li><strong>1960:</strong> Ανακαλύπτεται πλήρες ανθρώπινο κρανίο. Αρχικά χρονολογείται στα 70.000 χρόνια — μεταγενέστερες αναλύσεις το ανεβάζουν στα <strong>700.000</strong>.</li>
-  <li><strong>1968:</strong> Ξεκινά η κατασκευή διαδρομής επισκεψιμότητας.</li>
-  <li><strong>1979:</strong> Ιδρύεται το Ανθρωπολογικό Μουσείο Πετραλώνων.</li>
-  <li><strong>Σήμερα:</strong> Το σπήλαιο λειτουργεί υπό την αιγίδα της Εφορείας Παλαιοανθρωπολογίας-Σπηλαιολογίας του Υπουργείου Πολιτισμού.</li>
-</ol>
-
-<h2>Τι θα Δεις στο Σπήλαιο</h2>
-<p>Η επισκέψιμη διαδρομή έχει μήκος περίπου <strong>300 μέτρα</strong> και διαρκεί 30-40 λεπτά. Με αγγλόφωνη ή ελληνόφωνη ξενάγηση. Βλέπεις:</p>
+<h2>Πώς θα πάτε</h2>
+<p>Το σπήλαιο απέχει περίπου 50 χλμ. από τη Θεσσαλονίκη (γύρω στη μία ώρα με αυτοκίνητο) και περίπου 45 χλμ. από την Καλλιθέα της Κασσάνδρας· υπάρχουν πινακίδες από τον δρόμο Θεσσαλονίκης–Νέων Μουδανιών. Χωρίς αυτοκίνητο, η πρακτική λύση είναι ταξί ή οργανωμένη εκδρομή.</p>
+<h2>Συνδυάστε με</h2>
 <ul>
-  <li><strong>Αίθουσα Αρχανθρώπου</strong> — το σημείο όπου βρέθηκε το κρανίο (αντίγραφο, το αυθεντικό είναι στο μουσείο).</li>
-  <li><strong>Αίθουσα του «Κολώνη»</strong> — εντυπωσιακός σταλαγμίτης ύψους 3 μέτρων.</li>
-  <li><strong>Αίθουσα των Θησαυρών</strong> — πυκνή συγκέντρωση σπηλαιωτικών σχηματισμών σε παλέτα από λευκό, πορτοκαλί, κόκκινο.</li>
-  <li><strong>Παλαιοντολογικά κρεβάτια</strong> — σημεία όπου ανακαλύφθηκαν οστά αρκούδας σπηλαίων, γίγαντος ζαρκαδιού, ιπποπόταμου (!), καρχαροδόντων τίγρης.</li>
-  <li><strong>Θαλάσσιες κοιλότητες</strong> — αποδεικνύουν ότι η περιοχή ήταν κάποτε κάτω από τη θάλασσα.</li>
-</ul>
-
-<h2>Το Μουσείο</h2>
-<p>Δίπλα στην είσοδο, στο Ανθρωπολογικό Μουσείο θα δεις:</p>
+<li><strong>Αρχαία Όλυνθο:</strong> κλασική πόλη γνωστή για τα βοτσαλωτά ψηφιδωτά της, σε μικρή απόσταση.</li>
+<li>Τις παραλίες των Νέων Μουδανιών και της δυτικής Κασσάνδρας. Δείτε και τις <a href="/guide/day-trips">ημερήσιες εκδρομές</a>.</li>
+</ul>`,
+      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">The Petralona Cave, on Mount Katsika near the village of Petralona in western Halkidiki, is known for its stalactites and for the human skull found there in 1960 — one of the most important fossil finds of early humans in Greece.</p>
+<h2>The Petralona skull</h2>
+<p>The skull belongs to an archaic human, usually grouped with <em>Homo heidelbergensis</em>. Its age has been debated for decades: estimates range from about 150,000 to more than 700,000 years.</p>
+<h2>The visit</h2>
+<p>Visits are guided, along a path through chambers with stalactites and stalagmites. Fossils of animals, among them cave bears, were also found in the cave. Next to it, the Anthropological Museum presents finds from the excavations.</p>
 <ul>
-  <li>Το <strong>αυθεντικό κρανίο Πετραλώνων</strong> (πίσω από ασφαλές γυαλί).</li>
-  <li>Πέτρινα εργαλεία και εστίες φωτιάς (τα αρχαιότερα αποδεικτικά χρήσης φωτιάς από άνθρωπο, 700.000 χρόνια).</li>
-  <li>Απολιθωμένα οστά από 22 είδη ζώων — πολλά εξαφανισμένα.</li>
-  <li>Αναπαράσταση του Αρχανθρώπου (Homo heidelbergensis) σε φυσικές διαστάσεις.</li>
-  <li>Video 20 λεπτών με την ιστορία της ανακάλυψης.</li>
+<li>The temperature inside stays cool all year — bring a light jacket even in summer.</li>
+<li>The path has steps and can be damp; wear comfortable shoes.</li>
+<li>Opening hours and ticket prices change — check them before you go.</li>
 </ul>
-
-<h2>Πρακτικές Πληροφορίες</h2>
-<h3>Ωράριο</h3>
+<h2>Getting there</h2>
+<p>The cave is about 50 km from Thessaloniki (around an hour by car) and about 45 km from Kallithea in Kassandra; it is signposted from the Thessaloniki–Nea Moudania road. Without a car, a taxi or an organised excursion is the practical option.</p>
+<h2>Combine it with</h2>
 <ul>
-  <li><strong>Θέρος (1 Μαΐου - 31 Οκτωβρίου):</strong> 9:00 - 17:00 καθημερινά</li>
-  <li><strong>Χειμώνας (1 Νοεμβρίου - 30 Απριλίου):</strong> 9:00 - 16:00 καθημερινά</li>
-  <li><strong>Κλειστό:</strong> 1 Ιανουαρίου, 25 Μαρτίου, Κυριακή Πάσχα, 1 Μαΐου, 25-26 Δεκεμβρίου</li>
-</ul>
-<p>Τελευταία είσοδος 30 λεπτά πριν το κλείσιμο. Προτείνουμε να πας <strong>πρωί</strong> για να αποφύγεις ζέστη έξω και να έχεις χρόνο στο μουσείο μετά.</p>
-
-<h3>Εισιτήρια (τιμές 2026)</h3>
+<li><strong>Ancient Olynthos:</strong> a classical city known for its pebble mosaics, a short drive away.</li>
+<li>The beaches of Nea Moudania and western Kassandra. See also <a href="/guide/day-trips">day trips</a>.</li>
+</ul>`,
+      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Die Höhle von Petralona am Berg Katsika nahe dem Dorf Petralona im Westen Chalkidikis ist bekannt für ihre Tropfsteine und für den menschlichen Schädel, der dort 1960 gefunden wurde — einer der wichtigsten Funde früher Menschen in Griechenland.</p>
+<h2>Der Schädel von Petralona</h2>
+<p>Der Schädel gehört zu einem archaischen Menschen, der meist dem <em>Homo heidelbergensis</em> zugeordnet wird. Sein Alter ist seit Jahrzehnten umstritten: Die Schätzungen reichen von etwa 150.000 bis über 700.000 Jahre.</p>
+<h2>Der Besuch</h2>
+<p>Besichtigungen erfolgen mit Führung auf einem Weg durch Kammern mit Stalaktiten und Stalagmiten. In der Höhle wurden auch Tierfossilien gefunden, darunter Höhlenbären. Daneben zeigt das Anthropologische Museum Funde aus den Ausgrabungen.</p>
 <ul>
-  <li>Ενήλικες: €8</li>
-  <li>Παιδιά 6-18, φοιτητές: €4</li>
-  <li>Παιδιά κάτω των 6: δωρεάν</li>
-  <li>Ομάδες (10+ άτομα): έκπτωση 20%</li>
-  <li>Το εισιτήριο περιλαμβάνει ξενάγηση + μουσείο.</li>
+<li>Innen bleibt es das ganze Jahr kühl — nehmen Sie auch im Sommer eine leichte Jacke mit.</li>
+<li>Der Weg hat Stufen und kann feucht sein; tragen Sie bequeme Schuhe.</li>
+<li>Öffnungszeiten und Eintrittspreise ändern sich — prüfen Sie sie vor dem Besuch.</li>
 </ul>
-<p><strong>Σημαντικό:</strong> Δεν δέχεται πάντα κάρτες στο ταμείο — πάρε μετρητά.</p>
-
-<h3>Πώς Φτάνεις</h3>
-<p><strong>Με αυτοκίνητο:</strong></p>
+<h2>Anfahrt</h2>
+<p>Die Höhle liegt etwa 50 km von Thessaloniki (rund eine Stunde mit dem Auto) und etwa 45 km von Kallithea auf Kassandra entfernt; sie ist von der Straße Thessaloniki–Nea Moudania ausgeschildert. Ohne Auto sind Taxi oder ein organisierter Ausflug die praktische Lösung.</p>
+<h2>Kombinieren mit</h2>
 <ul>
-  <li>Από Θεσσαλονίκη: 40 χλμ, ~45 λεπτά. Ε75 προς Νέα Μουδανιά, έξοδος Νέα Τρίγλια, κατεύθυνση Πετράλωνα.</li>
-  <li>Από Κασσάνδρα (Καλλιθέα, Χανιώτη): 50 χλμ, ~1 ώρα μέσω <a href="/places/nea-moudania">Νέας Μουδανιάς</a>.</li>
-  <li>Από Σιθωνία (Νικήτη): 70 χλμ, ~1:15 ώρα.</li>
-</ul>
-<p>GPS: 40.3700°N, 23.1620°E. Σηματοδότηση στα ελληνικά και αγγλικά από τα Νέα Μουδανιά. Μεγάλο δωρεάν πάρκινγκ στην είσοδο.</p>
-<p><strong>Χωρίς αυτοκίνητο:</strong> Δύσκολα. Υπάρχουν περιστασιακά KTEL από Θεσσαλονίκη προς Πετράλωνα (χωριό) αλλά η στάση είναι 2 χλμ από το σπήλαιο. Καλύτερη λύση: οργανωμένη εκδρομή από Χαλκιδική/Θεσσαλονίκη (€35-50) ή ταξί. Δες <a href="/guide/halkidiki-without-car">οδηγός χωρίς αυτοκίνητο</a>.</p>
-
-<h3>Παροχές</h3>
+<li><strong>Antikes Olynth:</strong> eine klassische Stadt, bekannt für ihre Kieselmosaiken, nur eine kurze Fahrt entfernt.</li>
+<li>Den Stränden von Nea Moudania und West-Kassandra. Siehe auch <a href="/guide/day-trips">Tagesausflüge</a>.</li>
+</ul>`,
+      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Пещерата Петралона, на планината Кацика край село Петралона в западна Халкидики, е известна със сталактитите си и с човешкия череп, открит там през 1960 г. — една от най-важните находки на ранни хора в Гърция.</p>
+<h2>Черепът от Петралона</h2>
+<p>Черепът принадлежи на архаичен човек, обикновено причисляван към <em>Homo heidelbergensis</em>. Възрастта му се обсъжда от десетилетия: оценките варират от около 150 000 до над 700 000 години.</p>
+<h2>Посещението</h2>
+<p>Посещенията са с екскурзовод, по пътека през зали със сталактити и сталагмити. В пещерата са открити и вкаменелости на животни, сред тях пещерни мечки. До нея Антропологическият музей показва находки от разкопките.</p>
 <ul>
-  <li>Τουαλέτες, κυλικείο με σνακ/αναψυκτικά</li>
-  <li>Πάρκινγκ δωρεάν, σκιά κάτω από πεύκα</li>
-  <li>Πωλητήριο με βιβλία & αναπαραγωγές</li>
-  <li>Πρόσβαση ΑΜΕΑ <strong>μόνο στο μουσείο</strong> — το σπήλαιο έχει σκαλοπάτια.</li>
+<li>Вътре температурата остава прохладна през цялата година — вземете леко яке дори през лятото.</li>
+<li>Пътеката има стъпала и може да е влажна; обуйте удобни обувки.</li>
+<li>Работното време и цените на билетите се променят — проверете ги преди посещението.</li>
 </ul>
-
-<h3>Ντύσιμο & Εξοπλισμός</h3>
+<h2>Как да стигнете</h2>
+<p>Пещерата е на около 50 км от Солун (около час с кола) и на около 45 км от Калитеа на Касандра; има табели от пътя Солун–Неа Муданя. Без кола практичният вариант е такси или организирана екскурзия.</p>
+<h2>Съчетайте с</h2>
 <ul>
-  <li>Μέσα στο σπήλαιο η θερμοκρασία είναι <strong>16-17°C ΟΛΟ τον χρόνο</strong> — πάρε ζακέτα ακόμη και τον Ιούλιο.</li>
-  <li>Άνετα παπούτσια (δάπεδα μπορεί να είναι υγρά και ολισθηρά).</li>
-  <li>Φωτογραφίες επιτρέπονται χωρίς φλας.</li>
-</ul>
-
-<h2>Συνδυασμοί για Καλύτερη Μέρα</h2>
-
-<h3>Συνδυασμός 1: Πετραλώνα + Θάλασσα (οικογένεια)</h3>
-<ol>
-  <li>10:00 — Πετραλώνα (2 ώρες)</li>
-  <li>12:30 — Μεσημεριανό στη <a href="/places/nea-moudania">Νέα Μουδανιά</a> (ψαροταβέρνα)</li>
-  <li>14:30 — Παραλία <a href="/places/possidi">Ποσείδι</a> (30' διαδρομή)</li>
-  <li>19:00 — <a href="/places/afytos">Άφυτος</a> για ηλιοβασίλεμα</li>
-</ol>
-
-<h3>Συνδυασμός 2: Πετραλώνα + Αρχαιολογικός Ολυνθος (ιστορία)</h3>
-<p>Αν αγαπάς την ιστορία, μετά το σπήλαιο πήγαινε στην <a href="/places/olynthos">Αρχαία Όλυνθο</a>, ελληνιστική πόλη με τα αρχαιότερα σωζόμενα μωσαϊκά της Ευρώπης (δωρεάν είσοδος στα περισσότερα σημεία).</p>
-
-<h3>Συνδυασμός 3: Πετραλώνα + Θεσσαλονίκη (city + nature)</h3>
-<p>Φεύγεις από Θεσσαλονίκη στις 9, επιστρέφεις στις 18. Ιδανική μονοήμερη.</p>
-
-<h2>Tips που ΔΕΝ θα σου πει ο ξεναγός</h2>
+<li><strong>Древен Олинт:</strong> класически град, известен с мозайките си от речни камъчета, на кратко разстояние.</li>
+<li>Плажовете на Неа Муданя и западна Касандра. Вижте и <a href="/guide/day-trips">еднодневни екскурзии</a>.</li>
+</ul>`,
+      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Пещера Петралона на горе Кацика, у деревни Петралона в западной части Халкидики, известна сталактитами и человеческим черепом, найденным здесь в 1960 году, — одной из важнейших находок ранних людей в Греции.</p>
+<h2>Петралонский череп</h2>
+<p>Череп принадлежит архаичному человеку, которого обычно относят к <em>Homo heidelbergensis</em>. О его возрасте спорят десятилетиями: оценки колеблются примерно от 150 000 до более чем 700 000 лет.</p>
+<h2>Посещение</h2>
+<p>Осмотр проходит с гидом по тропе через залы со сталактитами и сталагмитами. В пещере нашли и окаменелости животных, в том числе пещерных медведей. Рядом работает Антропологический музей с находками раскопок.</p>
 <ul>
-  <li><strong>Η ξενάγηση ξεκινά «όταν γεμίσει η ομάδα».</strong> Τον Αύγουστο περιμένεις 5 λεπτά. Τον Νοέμβριο ίσως 30. Πήγαινε σε peak ώρα (11:00-14:00) για πιο γρήγορη είσοδο.</li>
-  <li><strong>Οι επιστήμονες ακόμη διαφωνούν</strong> για το αν ο Αρχάνθρωπος Πετραλώνων ήταν Homo heidelbergensis ή κάτι μοναδικό. Αξίζει να ρωτήσεις τον ξεναγό — απαντά με πάθος.</li>
-  <li><strong>Το κρύο στο σπήλαιο είναι ευεργετικό</strong> για τους σταλακτίτες — αυτός είναι και ο λόγος που αναπτύχθηκαν τόσο πολύ.</li>
-  <li><strong>Μερικά εκθέματα στο μουσείο μπορεί να κλείσουν</strong> προσωρινά για συντήρηση. Δεν επηρεάζει την επίσκεψη στο σπήλαιο.</li>
-  <li><strong>Υπάρχει πιο μυστηριώδες τμήμα</strong> που ΔΕΝ είναι επισκέψιμο — κλειδωμένο για την προστασία του. Ρώτα τον ξεναγό να σου δείξει φωτογραφίες.</li>
+<li>Внутри прохладно круглый год — возьмите лёгкую куртку даже летом.</li>
+<li>На тропе есть ступени, бывает влажно; наденьте удобную обувь.</li>
+<li>Часы работы и цены билетов меняются — уточняйте их перед поездкой.</li>
 </ul>
-
-<h2>Συχνές Ερωτήσεις</h2>
-<h3>Πόση ώρα χρειάζομαι για επίσκεψη;</h3>
-<p>Υπολόγισε 2 ώρες συνολικά: 30' αναμονή + 40' ξενάγηση + 50' μουσείο. Αν αγαπάς την αρχαιολογία, μπορεί να σου πάρει 3 ώρες.</p>
-<h3>Έχει νόημα με μικρά παιδιά;</h3>
-<p>Από 5 ετών και πάνω απολαμβάνουν. Κάτω από αυτή την ηλικία μπορεί να τα φοβίσει το σκοτάδι. Δες τον οδηγό <a href="/guide/families">οικογένειες</a>.</p>
-<h3>Κάνει κρύο ακόμη και το καλοκαίρι;</h3>
-<p>Ναι — 16-17°C. Πάρε μακρύ μανίκι.</p>
-<h3>Μπορώ να φωτογραφίσω;</h3>
-<p>Ναι, χωρίς φλας. Βίντεο επιτρέπονται επίσης.</p>
-<h3>Είναι κατάλληλο για ηλικιωμένους;</h3>
-<p>Υπάρχουν πολλά σκαλοπάτια (~100). Αν κάποιος έχει πρόβλημα κινητικότητας, το μουσείο μπορεί να επισκεφθεί αυτόνομα (είναι προσβάσιμο).</p>
-<h3>Υπάρχει wifi;</h3>
-<p>Όχι μέσα στο σπήλαιο (φυσικά). Στο κυλικείο υπάρχει limited wifi.</p>
-<h3>Κλείνω εισιτήριο online;</h3>
-<p>Όχι επί του παρόντος. Τα εισιτήρια κόβονται στην είσοδο.</p>
-<h3>Πόσος κόσμος συνήθως;</h3>
-<p>Τον Αύγουστο μπορεί να έχει 600-800 επισκέπτες/μέρα. Τον Οκτώβριο 50-100. Για ήσυχη εμπειρία προτίμησε εκτός σαιζόν.</p>
-<h3>Πού να φάω κοντά;</h3>
-<p>Στο χωριό Πετράλωνα υπάρχουν 2-3 ταβέρνες. Πιο ποιοτικές επιλογές στη <a href="/places/nea-moudania">Νέα Μουδανιά</a> (15 λεπτά) ή στη <a href="/places/nea-triglia">Νέα Τρίγλια</a>. Δες <a href="/best/traditional-tavernas">παραδοσιακές ταβέρνες</a>.</p>`,
-      en: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Petralona Cave is one of Europe's most important paleontological sites. In 1960, the "Petralona Archanthropus" was found here — a human skull roughly 700,000 years old, the oldest human fossil ever found in Europe. If you're passing through Halkidiki, it's a mandatory stop.</p>
-
-<h2>Why Visit?</h2>
+<h2>Как добраться</h2>
+<p>Пещера находится примерно в 50 км от Салоник (около часа на машине) и примерно в 45 км от Каллифеи на Кассандре; от дороги Салоники–Неа-Муданья есть указатели. Без машины удобнее всего такси или организованная экскурсия.</p>
+<h2>Что совместить</h2>
 <ul>
-  <li><strong>World-class significance</strong> — people lived here 700,000 years ago. Neanderthals appeared "only" 400,000 years ago.</li>
-  <li><strong>Rich in stalactites and stalagmites</strong> — one of Greece's most beautiful caves.</li>
-  <li><strong>Anthropological Museum next door</strong> with findings (skull, tools, animal bones).</li>
-  <li><strong>Close to Thessaloniki</strong> (40 km) and <a href="/guide/kassandra-sithonia-athos">Kassandra</a> (25 km).</li>
-  <li><strong>Suitable for all ages</strong>, including <a href="/guide/families">families</a>.</li>
-</ul>
-
-<h2>History in 5 Points</h2>
-<ol>
-  <li><strong>1959-60:</strong> Local shepherds spot a "cave with bones" on Katsikas Hill. Anthropologist Aris Poulianos begins excavations.</li>
-  <li><strong>1960:</strong> Complete human skull discovered. Initially dated at 70,000 years — later analyses push it to <strong>700,000</strong>.</li>
-  <li><strong>1968:</strong> Visitor path construction begins.</li>
-  <li><strong>1979:</strong> Petralona Anthropological Museum founded.</li>
-  <li><strong>Today:</strong> The cave operates under the Ministry of Culture's Paleoanthropology-Speleology Ephorate.</li>
-</ol>
-
-<h2>What You'll See in the Cave</h2>
-<p>The visitor path is about <strong>300 meters</strong> and takes 30-40 minutes with an English- or Greek-speaking guide. You'll see:</p>
+<li><strong>Древний Олинф:</strong> классический город, известный галечными мозаиками, совсем недалеко.</li>
+<li>Пляжи Неа-Муданьи и западной Кассандры. См. также <a href="/guide/day-trips">однодневные поездки</a>.</li>
+</ul>`,
+      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Peștera Petralona, pe muntele Katsika, lângă satul Petralona din vestul Halkidiki, este cunoscută pentru stalactitele sale și pentru craniul uman găsit aici în 1960 — una dintre cele mai importante descoperiri de oameni timpurii din Grecia.</p>
+<h2>Craniul de la Petralona</h2>
+<p>Craniul aparține unui om arhaic, încadrat de obicei la <em>Homo heidelbergensis</em>. Vârsta lui este dezbătută de decenii: estimările variază între aproximativ 150.000 și peste 700.000 de ani.</p>
+<h2>Vizita</h2>
+<p>Vizitele se fac cu ghid, pe o potecă prin săli cu stalactite și stalagmite. În peșteră s-au găsit și fosile de animale, printre care urși de peșteră. Alături, Muzeul Antropologic prezintă descoperiri din săpături.</p>
 <ul>
-  <li><strong>Archanthropus Chamber</strong> — where the skull was found (replica; original in the museum).</li>
-  <li><strong>"The Column" Chamber</strong> — impressive 3-meter stalagmite.</li>
-  <li><strong>Chamber of Treasures</strong> — dense formations in white, orange, red.</li>
-  <li><strong>Paleontological beds</strong> — where cave bear, giant deer, hippopotamus(!) and saber-toothed tiger bones were found.</li>
-  <li><strong>Marine cavities</strong> — proving the area was once underwater.</li>
+<li>Înăuntru temperatura rămâne răcoroasă tot anul — luați o jachetă subțire chiar și vara.</li>
+<li>Poteca are trepte și poate fi umedă; purtați încălțăminte comodă.</li>
+<li>Programul și prețul biletelor se schimbă — verificați-le înainte de vizită.</li>
 </ul>
-
-<h2>The Museum</h2>
+<h2>Cum ajungeți</h2>
+<p>Peștera se află la aproximativ 50 km de Salonic (în jur de o oră cu mașina) și la circa 45 km de Kallithea, în Kassandra; există indicatoare de pe drumul Salonic–Nea Moudania. Fără mașină, varianta practică este un taxi sau o excursie organizată.</p>
+<h2>Combinați cu</h2>
 <ul>
-  <li>The <strong>original Petralona skull</strong> (behind safety glass).</li>
-  <li>Stone tools and fire hearths (earliest evidence of human fire use, 700,000 years).</li>
-  <li>Fossils from 22 animal species — many extinct.</li>
-  <li>Life-size reconstruction of the Archanthropus (Homo heidelbergensis).</li>
-  <li>20-minute video on the discovery.</li>
-</ul>
-
-<h2>Practical Info</h2>
-<h3>Hours</h3>
+<li><strong>Olynthos antic:</strong> un oraș din epoca clasică, cunoscut pentru mozaicurile din pietricele, la mică distanță.</li>
+<li>Plajele din Nea Moudania și vestul Kassandrei. Vedeți și <a href="/guide/day-trips">excursii de o zi</a>.</li>
+</ul>`,
+      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Pećina Petralona, na planini Kacika kod sela Petralona u zapadnom Halkidikiju, poznata je po stalaktitima i po ljudskoj lobanji pronađenoj ovde 1960. godine — jednom od najvažnijih nalaza ranih ljudi u Grčkoj.</p>
+<h2>Lobanja iz Petralone</h2>
+<p>Lobanja pripada arhaičnom čoveku, koji se obično svrstava u <em>Homo heidelbergensis</em>. O njenoj starosti se raspravlja decenijama: procene se kreću od oko 150.000 do više od 700.000 godina.</p>
+<h2>Poseta</h2>
+<p>Obilasci su s vodičem, stazom kroz dvorane sa stalaktitima i stalagmitima. U pećini su pronađeni i fosili životinja, među njima pećinskih medveda. Pored nje, Antropološki muzej izlaže nalaze sa iskopavanja.</p>
 <ul>
-  <li><strong>Summer (1 May - 31 Oct):</strong> 9:00 - 17:00 daily</li>
-  <li><strong>Winter (1 Nov - 30 Apr):</strong> 9:00 - 16:00 daily</li>
-  <li><strong>Closed:</strong> 1 Jan, 25 Mar, Easter Sunday, 1 May, 25-26 Dec</li>
+<li>Unutra je sveže tokom cele godine — ponesite laganu jaknu i leti.</li>
+<li>Staza ima stepenice i može biti vlažna; obujte udobne cipele.</li>
+<li>Radno vreme i cene ulaznica se menjaju — proverite ih pre posete.</li>
 </ul>
-<p>Last entry 30 min before closing. We suggest going in the <strong>morning</strong> to avoid heat outside and have time for the museum after.</p>
-
-<h3>Tickets (2026 prices)</h3>
+<h2>Kako stići</h2>
+<p>Pećina je oko 50 km od Soluna (oko sat vremena kolima) i oko 45 km od Kalitee na Kasandri; obeležena je s puta Solun–Nea Mudanija. Bez automobila, praktično rešenje je taksi ili organizovan izlet.</p>
+<h2>Spojite sa</h2>
 <ul>
-  <li>Adults: €8</li>
-  <li>Kids 6-18, students: €4</li>
-  <li>Under 6: free</li>
-  <li>Groups (10+): 20% discount</li>
-  <li>Ticket includes guided tour + museum.</li>
-</ul>
-<p><strong>Important:</strong> Cards not always accepted — bring cash.</p>
-
-<h3>How to Get There</h3>
-<p><strong>By car:</strong></p>
-<ul>
-  <li>From Thessaloniki: 40 km, ~45 min. E75 toward Nea Moudania, exit Nea Triglia, follow signs to Petralona.</li>
-  <li>From Kassandra (Kallithea, Hanioti): 50 km, ~1 h via <a href="/places/nea-moudania">Nea Moudania</a>.</li>
-  <li>From Sithonia (Nikiti): 70 km, ~1:15 h.</li>
-</ul>
-<p>GPS: 40.3700°N, 23.1620°E. Signs in Greek and English from Nea Moudania. Large free parking at the entrance.</p>
-<p><strong>Without a car:</strong> Hard. Occasional KTEL buses from Thessaloniki to Petralona village, but the stop is 2 km from the cave. Better: organized tour from Halkidiki/Thessaloniki (€35-50) or taxi. See <a href="/guide/halkidiki-without-car">no-car guide</a>.</p>
-
-<h3>Facilities</h3>
-<ul>
-  <li>Toilets, snack bar</li>
-  <li>Free parking with pine shade</li>
-  <li>Gift shop with books & replicas</li>
-  <li>Accessibility: <strong>museum only</strong> — cave has stairs.</li>
-</ul>
-
-<h3>Clothing & Gear</h3>
-<ul>
-  <li>Cave temperature is <strong>16-17°C year-round</strong> — bring a jacket even in July.</li>
-  <li>Comfortable shoes (floors may be wet and slippery).</li>
-  <li>Photos allowed without flash.</li>
-</ul>
-
-<h2>Combos</h2>
-
-<h3>Combo 1: Petralona + Sea (family)</h3>
-<ol>
-  <li>10:00 — Petralona (2 hours)</li>
-  <li>12:30 — Lunch at <a href="/places/nea-moudania">Nea Moudania</a> fish taverna</li>
-  <li>14:30 — <a href="/places/possidi">Possidi</a> beach (30')</li>
-  <li>19:00 — <a href="/places/afytos">Afytos</a> sunset</li>
-</ol>
-
-<h3>Combo 2: Petralona + Ancient Olynthos (history)</h3>
-<p>After the cave, visit <a href="/places/olynthos">Ancient Olynthos</a>, Hellenistic city with Europe's oldest preserved mosaics.</p>
-
-<h3>Combo 3: Petralona + Thessaloniki</h3>
-<p>Leave Thessaloniki at 9, return by 18. Ideal day trip.</p>
-
-<h2>Tips the Guide Won't Tell You</h2>
-<ul>
-  <li><strong>Tours start "when the group fills up."</strong> In August you wait 5 minutes; in November maybe 30. Go at peak (11:00-14:00) for faster entry.</li>
-  <li><strong>Scientists still debate</strong> whether Petralona Archanthropus is Homo heidelbergensis or something unique. Ask the guide — they answer with passion.</li>
-  <li><strong>The cold inside benefits the stalactites</strong> — hence why they grew so large.</li>
-  <li><strong>Some museum exhibits may close</strong> temporarily for maintenance. Doesn't affect the cave visit.</li>
-  <li><strong>A more mysterious section</strong> is NOT open — locked for preservation. Ask the guide to show photos.</li>
-</ul>
-
-<h2>FAQ</h2>
-<h3>How much time do I need?</h3>
-<p>Count on 2 hours: 30' wait + 40' tour + 50' museum. Archaeology fans: up to 3 hours.</p>
-<h3>OK with small kids?</h3>
-<p>Ages 5+ enjoy. Below that the dark may scare them. See <a href="/guide/families">family guide</a>.</p>
-<h3>Cold even in summer?</h3>
-<p>Yes — 16-17°C. Bring long sleeves.</p>
-<h3>Can I photograph?</h3>
-<p>Yes, no flash. Video also allowed.</p>
-<h3>Suitable for elderly?</h3>
-<p>Many steps (~100). Mobility-limited can visit the museum independently (accessible).</p>
-<h3>Wifi?</h3>
-<p>Not in the cave. Limited at the snack bar.</p>
-<h3>Book online?</h3>
-<p>Not currently. Buy at entrance.</p>
-<h3>Where to eat nearby?</h3>
-<p>Petralona village has 2-3 tavernas. Better options in <a href="/places/nea-moudania">Nea Moudania</a> (15 min) or <a href="/places/nea-triglia">Nea Triglia</a>. See <a href="/best/traditional-tavernas">traditional tavernas</a>.</p>`,
-      de: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Die Petralona-Höhle ist eine der bedeutendsten paläontologischen Stätten Europas. 1960 wurde hier ein Menschenschädel von etwa 700.000 Jahren gefunden — das älteste europäische menschliche Fossil.</p>
-
-<h2>Warum besuchen?</h2>
-<ul>
-  <li>700.000 Jahre alter Menschenschädel</li>
-  <li>Beeindruckende Stalaktiten</li>
-  <li>Anthropologisches Museum</li>
-  <li>Nur 40 km von Thessaloniki</li>
-  <li>Familienfreundlich (<a href="/guide/families">Familien</a>)</li>
-</ul>
-
-<h2>Geschichte</h2>
-<p>1960: Schädelfund durch Anthropologen Aris Poulianos. Der Archanthropus Petralonensis ist der älteste Europäer.</p>
-
-<h2>Was Sie sehen</h2>
-<p>300 m Rundgang, 30-40 Min Führung. Sie sehen die Archanthropus-Kammer, Stalagmiten, paläontologische Funde.</p>
-
-<h2>Praktisches</h2>
-<h3>Öffnungszeiten</h3>
-<ul>
-  <li>Sommer: 9:00-17:00</li>
-  <li>Winter: 9:00-16:00</li>
-</ul>
-
-<h3>Preise 2026</h3>
-<ul>
-  <li>Erwachsene: €8</li>
-  <li>Kinder 6-18: €4</li>
-  <li>Unter 6: frei</li>
-</ul>
-
-<h3>Anreise</h3>
-<ul>
-  <li>Von Thessaloniki: 40 km (45 Min)</li>
-  <li>Von <a href="/places/nea-moudania">Nea Moudania</a>: 20 km</li>
-  <li>Von Kassandra: 50 km</li>
-</ul>
-<p>Ohne Auto: siehe <a href="/guide/halkidiki-without-car">Ohne-Auto-Guide</a>.</p>
-
-<h3>Kleidung</h3>
-<p>Höhlentemperatur: 16-17°C ganzjährig. Jacke mitnehmen.</p>
-
-<h2>Kombinationen</h2>
-<ul>
-  <li>Petralona + <a href="/places/possidi">Possidi-Strand</a></li>
-  <li>Petralona + <a href="/places/olynthos">Antikes Olynthos</a></li>
-  <li>Petralona + Thessaloniki-Tagesausflug</li>
-</ul>
-
-<h2>FAQ</h2>
-<h3>Zeitbedarf?</h3>
-<p>2 Stunden gesamt.</p>
-<h3>Kalt im Sommer?</h3>
-<p>Ja, 16-17°C.</p>
-<h3>Mit Kindern?</h3>
-<p>Ab 5 Jahren super.</p>`,
-      bg: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Пещерата Петралона е един от най-важните палеонтологични обекти в Европа. През 1960 г. тук е открит човешки череп на около 700 000 години.</p>
-
-<h2>Защо да посетите?</h2>
-<ul>
-  <li>700 000-годишен череп</li>
-  <li>Сталактити и сталагмити</li>
-  <li>Антропологичен музей</li>
-  <li>40 км от Солун</li>
-  <li>Подходящо за <a href="/guide/families">семейства</a></li>
-</ul>
-
-<h2>Какво ще видите</h2>
-<p>300-метрова обиколка, 30-40 мин с водач.</p>
-
-<h2>Практическо</h2>
-<h3>Часове</h3>
-<ul>
-  <li>Лято: 9:00-17:00</li>
-  <li>Зима: 9:00-16:00</li>
-</ul>
-
-<h3>Цени 2026</h3>
-<ul>
-  <li>Възрастни: €8</li>
-  <li>Деца 6-18: €4</li>
-  <li>Под 6: безплатно</li>
-</ul>
-
-<h3>Как да стигнете</h3>
-<ul>
-  <li>От Солун: 40 км</li>
-  <li>От <a href="/places/nea-moudania">Неа Муданя</a>: 20 км</li>
-</ul>
-<p>Без кола: <a href="/guide/halkidiki-without-car">гид</a>.</p>
-
-<h3>Облекло</h3>
-<p>В пещерата 16-17°C целогодишно. Вземете яке.</p>
-
-<h2>Комбинации</h2>
-<ul>
-  <li>Петралона + плаж <a href="/places/possidi">Посиди</a></li>
-  <li>Петралона + <a href="/places/olynthos">Древен Олинтос</a></li>
-</ul>
-
-<h2>Често задавани въпроси</h2>
-<h3>Колко време?</h3>
-<p>2 часа общо.</p>
-<h3>Студено ли е през лятото?</h3>
-<p>Да, 16-17°C.</p>`,
-      ru: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Пещера Петралона — один из важнейших палеонтологических объектов Европы. В 1960 году здесь найден человеческий череп возрастом около 700 000 лет.</p>
-
-<h2>Почему посетить?</h2>
-<ul>
-  <li>Череп 700 000 лет</li>
-  <li>Сталактиты и сталагмиты</li>
-  <li>Антропологический музей</li>
-  <li>40 км от Салоник</li>
-  <li>Для <a href="/guide/families">семей</a></li>
-</ul>
-
-<h2>Что увидите</h2>
-<p>300-метровый маршрут, 30-40 мин с гидом.</p>
-
-<h2>Практика</h2>
-<h3>Часы</h3>
-<ul>
-  <li>Лето: 9:00-17:00</li>
-  <li>Зима: 9:00-16:00</li>
-</ul>
-
-<h3>Цены 2026</h3>
-<ul>
-  <li>Взрослые: €8</li>
-  <li>Дети 6-18: €4</li>
-  <li>До 6: бесплатно</li>
-</ul>
-
-<h3>Как добраться</h3>
-<ul>
-  <li>От Салоник: 40 км</li>
-  <li>От <a href="/places/nea-moudania">Неа Муданьи</a>: 20 км</li>
-</ul>
-<p>Без машины: <a href="/guide/halkidiki-without-car">гид</a>.</p>
-
-<h3>Одежда</h3>
-<p>В пещере 16-17°C круглый год. Возьмите куртку.</p>
-
-<h2>Комбинации</h2>
-<ul>
-  <li>Петралона + пляж <a href="/places/possidi">Посиди</a></li>
-  <li>Петралона + <a href="/places/olynthos">Древний Олинф</a></li>
-</ul>
-
-<h2>Часто задаваемые вопросы</h2>
-<h3>Сколько времени?</h3>
-<p>2 часа всего.</p>
-<h3>Холодно летом?</h3>
-<p>Да, 16-17°C.</p>`,
-      ro: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Peștera Petralona este unul dintre cele mai importante situri paleontologice ale Europei. În 1960 s-a găsit aici un craniu uman de aproximativ 700.000 de ani.</p>
-
-<h2>De ce să vizitezi?</h2>
-<ul>
-  <li>Craniu de 700.000 ani</li>
-  <li>Stalactite și stalagmite</li>
-  <li>Muzeul Antropologic</li>
-  <li>40 km de Salonic</li>
-  <li>Pentru <a href="/guide/families">familii</a></li>
-</ul>
-
-<h2>Ce vei vedea</h2>
-<p>Traseu de 300 m, 30-40 min cu ghid.</p>
-
-<h2>Practică</h2>
-<h3>Orar</h3>
-<ul>
-  <li>Vara: 9:00-17:00</li>
-  <li>Iarna: 9:00-16:00</li>
-</ul>
-
-<h3>Prețuri 2026</h3>
-<ul>
-  <li>Adulți: €8</li>
-  <li>Copii 6-18: €4</li>
-  <li>Sub 6: gratuit</li>
-</ul>
-
-<h3>Cum ajungi</h3>
-<ul>
-  <li>Din Salonic: 40 km</li>
-  <li>Din <a href="/places/nea-moudania">Nea Moudania</a>: 20 km</li>
-</ul>
-<p>Fără mașină: <a href="/guide/halkidiki-without-car">ghid</a>.</p>
-
-<h3>Îmbrăcăminte</h3>
-<p>În peșteră 16-17°C tot anul. Luați o geacă.</p>
-
-<h2>Combinații</h2>
-<ul>
-  <li>Petralona + plaja <a href="/places/possidi">Possidi</a></li>
-  <li>Petralona + <a href="/places/olynthos">Olynthos antic</a></li>
-</ul>
-
-<h2>Întrebări frecvente</h2>
-<h3>Cât timp?</h3>
-<p>2 ore în total.</p>
-<h3>E rece vara?</h3>
-<p>Da, 16-17°C.</p>`,
-      sr: `<p class="text-lg text-gray-600 italic border-l-4 border-primary-500 pl-4 my-6">Pećina Petralona je jedno od najvažnijih paleontoloških nalazišta Evrope. 1960. ovde je pronađena ljudska lobanja stara oko 700.000 godina.</p>
-
-<h2>Zašto posetiti?</h2>
-<ul>
-  <li>Lobanja stara 700.000 godina</li>
-  <li>Stalaktiti i stalagmiti</li>
-  <li>Antropološki muzej</li>
-  <li>40 km od Soluna</li>
-  <li>Za <a href="/guide/families">porodice</a></li>
-</ul>
-
-<h2>Šta ćete videti</h2>
-<p>Staza od 300 m, 30-40 min sa vodičem.</p>
-
-<h2>Praktično</h2>
-<h3>Radno vreme</h3>
-<ul>
-  <li>Leto: 9:00-17:00</li>
-  <li>Zima: 9:00-16:00</li>
-</ul>
-
-<h3>Cene 2026</h3>
-<ul>
-  <li>Odrasli: €8</li>
-  <li>Deca 6-18: €4</li>
-  <li>Ispod 6: besplatno</li>
-</ul>
-
-<h3>Kako stići</h3>
-<ul>
-  <li>Iz Soluna: 40 km</li>
-  <li>Iz <a href="/places/nea-moudania">Nea Mudanje</a>: 20 km</li>
-</ul>
-<p>Bez auta: <a href="/guide/halkidiki-without-car">vodič</a>.</p>
-
-<h3>Odeća</h3>
-<p>U pećini 16-17°C cele godine. Ponesite jaknu.</p>
-
-<h2>Kombinacije</h2>
-<ul>
-  <li>Petralona + plaža <a href="/places/possidi">Posidi</a></li>
-  <li>Petralona + <a href="/places/olynthos">Antički Olint</a></li>
-</ul>
-
-<h2>Česta pitanja</h2>
-<h3>Koliko vremena?</h3>
-<p>2 sata ukupno.</p>
-<h3>Hladno leti?</h3>
-<p>Da, 16-17°C.</p>`,
+<li><strong>Antičkim Olintom:</strong> gradom iz klasičnog perioda, poznatim po mozaicima od šljunka, na maloj udaljenosti.</li>
+<li>Plažama Nea Mudanije i zapadne Kasandre. Pogledajte i <a href="/guide/day-trips">jednodnevne izlete</a>.</li>
+</ul>`,
     },
   },
 ];
