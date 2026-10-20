@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl';
 import { hasSupabaseAuthCookie } from '@/lib/auth-cookie';
 import { MessageSquare, Loader2, CheckCircle, LogIn, User } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
+import { textLang } from '@/lib/i18n/script';
 
 interface Comment {
   id: string;
@@ -88,7 +89,7 @@ export function CommentSection({ articleId }: { articleId: string }) {
                   <span className="text-sm font-medium text-gray-900">{c.author_name}</span>
                   <span className="text-xs text-slate-500">{new Date(c.created_at).toLocaleDateString(locale, { timeZone: 'Europe/Athens' })}</span>
                 </div>
-                <p className="mt-1 text-sm text-gray-600">{c.comment}</p>
+                <p className="mt-1 text-sm text-gray-600" lang={textLang(c.comment)}>{c.comment}</p>
               </div>
             </div>
           ))}

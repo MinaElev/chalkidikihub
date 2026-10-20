@@ -620,9 +620,9 @@ export const ITINERARIES: ItineraryGuide[] = [
 <p>Арнеа и Партенонас. Вижте <a href="/guide/villages">пътеводител за селата</a>.</p>
 
 <h3>Ден 6 — Амулиани & Дрения</h3>
-<p><a href="/guide/ammouliani-island">Амулиани</a> и островите Дрения. <a href="/listings">Настаняване</a> близо до Уранополис.</p>
+<p><a href="/guide/ammouliani-island">Амулиани</a> и островите Дрения. <a href="/listings">Настаняване</a> близо до Уранополи.</p>
 
-<h3>Ден 7 — Уранополис & Круиз до Атон</h3>
+<h3>Ден 7 — Уранополи & Круиз до Атон</h3>
 <p>Круиз около Атон — <a href="/guide/boat-tours">морски разходки</a>. <a href="/guide/car-rental">Кола под наем</a> за цялото пътуване.</p>
 
 <h2>Бюджет</h2>

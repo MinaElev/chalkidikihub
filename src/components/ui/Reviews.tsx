@@ -2,6 +2,7 @@ import { Star } from 'lucide-react';
 import type { Locale } from '@/i18n/config';
 import { formatDate } from '@/lib/content/format';
 import type { ReviewRow } from '@/lib/content/reviews';
+import { textLang } from '@/lib/i18n/script';
 
 /** Genuine visitor reviews only — callers pass the output of genuineReviews(). */
 export function Reviews({
@@ -41,7 +42,7 @@ export function Reviews({
                   ))}
                 </p>
               </div>
-              {r.comment_el && <p className="mt-2 text-slate-700">{r.comment_el}</p>}
+              {r.comment_el && <p className="mt-2 text-slate-700" lang={textLang(r.comment_el)}>{r.comment_el}</p>}
               <p className="mt-3 text-xs text-slate-500">{formatDate(r.created_at, locale)}</p>
             </li>
           ))}

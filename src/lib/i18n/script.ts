@@ -54,3 +54,27 @@ export function serbianLatin(text: string): string {
     });
   });
 }
+
+/**
+ * The language of a visitor's own text (reviews, comments), for the `lang`
+ * attribute. Only answers when the letters make it certain: Greek script,
+ * Serbian/Russian/Bulgarian-only Cyrillic letters, or Romanian/German/Serbian
+ * Latin diacritics. Plain Latin text is left unmarked.
+ */
+export function textLang(text: string | null | undefined): string | undefined {
+  if (!text) return undefined;
+  const { greek, cyrillic, latin } = letters(text);
+  const total = greek + cyrillic + latin;
+  if (total < 3) return undefined;
+  if (greek / total >= 0.5) return 'el';
+  if (cyrillic / total >= 0.5) {
+    if (/[ЂђЈјЉљЊњЋћЏџ]/.test(text)) return 'sr';
+    if (/[ЫыЭэЁё]/.test(text)) return 'ru';
+    if (/[Ъъ]/.test(text)) return 'bg';
+    return undefined;
+  }
+  if (/[ăîșțşţĂÎȘȚ]/.test(text)) return 'ro';
+  if (/[ćđĆĐ]/.test(text)) return 'sr';
+  if (/[äöüßÄÖÜ]/.test(text)) return 'de';
+  return undefined;
+}

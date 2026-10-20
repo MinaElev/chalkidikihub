@@ -214,4 +214,15 @@ describe('alphabet checks', () => {
     expect(serbianLatin('Љубљана и Његош')).toBe('Ljubljana i Njegoš');
     expect(serbianLatin('Гранична Полиция (BG)')).toBe('Granična Полиция (BG)'); // Bulgarian word left as is
   });
+
+  it('marks the language of visitor text only when the letters make it certain', async () => {
+    const { textLang } = await import('@/lib/i18n/script');
+    expect(textLang('Υπέροχο κατάλυμα, καθαρό και ήσυχο')).toBe('el');
+    expect(textLang('Отлично место, мы вернёмся')).toBe('ru');
+    expect(textLang('Страхотно място, ще се върнем отново')).toBe('bg');
+    expect(textLang('Odličan smeštaj, vraćamo se')).toBe('sr');
+    expect(textLang('Cazare foarte curată, recomandăm')).toBe('ro');
+    expect(textLang('Sehr schöne Unterkunft')).toBe('de');
+    expect(textLang('Great place, very clean')).toBeUndefined();
+  });
 });
