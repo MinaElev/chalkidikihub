@@ -732,7 +732,7 @@ function Testimonial() {
       <Glow accent="emerald" pos="tl" />
       <div style={{ display: 'flex', marginBottom: 24 }}><BrandChip label="Από έναν ιδιοκτήτη" /></div>
       <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', fontSize: 200, fontWeight: 800, color: '#34d399', lineHeight: 0.7 }}>"</div>
+        <div style={{ display: 'flex', fontSize: 200, fontWeight: 800, color: '#34d399', lineHeight: 0.7 }}>{'"'}</div>
         <div style={{ display: 'flex', fontSize: 48, fontWeight: 700, lineHeight: 1.25, marginTop: -30, maxWidth: 920 }}>
           Σε 5 λεπτά είχα site, QR, graphics. Ο πρώτος guest με κάλεσε απευθείας.
         </div>
@@ -1126,7 +1126,7 @@ function Carousel2() {
       <div style={{ display: 'flex', fontSize: 220, fontWeight: 800, lineHeight: 0.9, color: '#34d399', letterSpacing: '-0.05em' }}>1</div>
       <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, lineHeight: 1.05, marginTop: 10, letterSpacing: '-0.02em' }}>Κάνε εγγραφή.</div>
       <div style={{ display: 'flex', fontSize: 30, color: 'rgba(255,255,255,0.8)', marginTop: 20, maxWidth: 900, lineHeight: 1.4 }}>
-        Email + κωδικός. Χωρίς πιστωτική κάρτα. Χωρίς "free trial που γίνεται paid". Δωρεάν για πάντα.
+        Email + κωδικός. Χωρίς πιστωτική κάρτα. Χωρίς «free trial που γίνεται paid». Δωρεάν για πάντα.
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 40, width: 700 }}>
         <div style={{ display: 'flex', backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 12, padding: '18px 22px', fontSize: 22, color: 'rgba(255,255,255,0.55)' }}>

@@ -101,6 +101,8 @@ export default function MapClient() {
           maxZoom: 18,
         }).addTo(map);
 
+        // updateMarkers is a hoisted function declaration, called after leaflet loads.
+        // eslint-disable-next-line react-hooks/immutability
         updateMarkers(L, map);
       }
     });

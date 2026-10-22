@@ -72,7 +72,11 @@ export const GUIDE_MERGES: Record<string, string> = {
   easter: '/guide/best-time-to-visit',
   'car-rental': '/costs/car-rental-prices',
   budget: '/costs/daily-budget',
-  diving: '/blog/chalkidiki-diving',
+  // The diving article is unpublished (published_at null); the diving activity owns the intent.
+  diving: '/activities/scuba-diving-kassandra',
+  // Dropped guides that still had impressions in GSC.
+  wedding: '/listings',
+  'halkidiki-vs-crete': '/guide/halkidiki-vs-thassos',
   families: '/blog/halkidiki-with-kids-complete-guide',
   'ammouliani-island': '/blog/ammouliani-island-complete-guide',
   'road-trip': '/guide/day-trips',
@@ -195,9 +199,11 @@ export const BLOG_MERGES: Record<string, string> = {
   'things-to-do-halkidiki': '/activities',
   'snorkeling-beaches-halkidiki': '/activities/sithonia-snorkeling-sithonia',
   'drastiriotita-mountain-biking-halkidiki': '/activities/sithonia-cycling-trail-sithonia',
-  'halkidiki-in-winter': '/guide/winter',
-  'halkidiki-in-august': '/guide/july-august',
-  'halkidiki-in-may-june': '/guide/may',
+  // Point straight at the final page: /guide/winter etc. are themselves merged (no 2-hop chains).
+  'halkidiki-in-winter': '/guide/best-time-to-visit',
+  'halkidiki-in-august': '/guide/best-time-to-visit',
+  'halkidiki-in-may-june': '/guide/best-time-to-visit',
+  'chalkidiki-diving': '/activities/scuba-diving-kassandra',
 };
 
 // Next matches redirect sources case-insensitively, so a rule that only fixes
@@ -220,7 +226,18 @@ const LEGACY_SLUG_FIXES: Array<[string, string]> = [
   ['/places/pyrgadikia-mainland', '/places/pyrgadikia'],
   // Duplicate of the beach page (same place, thinner text, wrong distances).
   ['/activities/toroni-beach-sithonia', '/beaches/toroni-beach-sithonia'],
+  // There is no authors index; the bylines link to /authors/{username}.
+  ['/authors', '/about'],
 ];
+
+/** Listings removed from the database that still had impressions; folded into their village. */
+export const REMOVED_LISTINGS: Record<string, string> = {
+  'theros-apartments-a-mola-kaliva': 'mola-kalyva',
+  'theros-apartments-s-mola-kaliva': 'mola-kalyva',
+  'vrachos-lofts-afytos': 'afytos',
+  'inlofts-studios-afytos-afytos': 'afytos',
+  'okkio-sea-view-vergia-kallikrateia': 'nea-kallikratia',
+};
 
 export function buildRedirects(): Rule[] {
   const rules: Rule[] = [];
@@ -228,6 +245,10 @@ export function buildRedirects(): Rule[] {
   for (const [from, to] of LEGACY_SLUG_FIXES) rules.push(...both(from, to));
   for (const [article, village] of Object.entries(BLOG_TO_PLACE)) rules.push(...both(`/blog/${article}`, `/places/${village}`));
   for (const [article, to] of Object.entries(BLOG_MERGES)) rules.push(...both(`/blog/${article}`, to));
+  // One rule pair per village (the platform caps the number of redirects).
+  const removedByVillage = new Map<string, string[]>();
+  for (const [slug, village] of Object.entries(REMOVED_LISTINGS)) removedByVillage.set(village, [...(removedByVillage.get(village) ?? []), slug]);
+  for (const [village, slugs] of removedByVillage) rules.push(...both(`/:base(listings|stay)/:slug(${slugs.join('|')})`, `/places/${village}`));
   // Wrong-peninsula / garbled database slugs (content/rewrites/slug-renames.ts).
   for (const [table, map] of Object.entries(SLUG_RENAMES)) for (const [from, to] of Object.entries(map)) rules.push(...both(`/${table}/${from}`, `/${table}/${to}`));
   rules.push(...both('/places/pyrgadikia-mainland/:path*', '/places/pyrgadikia/:path*'));

@@ -47,6 +47,8 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
       if (!raw) return;
       const saved = JSON.parse(raw);
       if (saved && typeof saved === 'object') {
+        // Restoring from localStorage must happen after mount (see above), so setState in an effect is intended.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setForm(f => ({
           ...f,
           ...saved,

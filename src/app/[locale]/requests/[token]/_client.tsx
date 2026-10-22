@@ -71,6 +71,8 @@ export default function GuestDashboardClient({ token }: { token: string }) {
   }, [token]);
 
   useEffect(() => {
+    // Initial fetch; load() sets loading/error state by design.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
     // Auto-refresh every 5 minutes — but ONLY when the tab is actually visible.
     // A guest who leaves a tab open in background used to burn one Supabase
