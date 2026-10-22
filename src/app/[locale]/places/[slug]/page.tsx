@@ -118,7 +118,8 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
         <div>
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
-          <Prose html={await renderLinked(body.text, locale, `/places/${slug}`)} />
+          {/* Stored descriptions use <h3> sections; under the page <h1> they are the second level. */}
+          <Prose html={await renderLinked(/<h2[\s>]/i.test(body.text) ? body.text : body.text.replace(/<(\/?)h3(?=[\s>])/gi, '<$1h2'), locale, `/places/${slug}`)} />
         </div>
         <aside className="space-y-3 text-sm lg:sticky lg:top-24 lg:self-start">
           {(['beaches', 'restaurants', 'activities'] as const).map((k) => (
