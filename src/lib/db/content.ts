@@ -40,6 +40,8 @@ export type RestaurantCard = Row & {
   price_level: string | null;
   rating: number | null;
   reviews_count: number | null;
+  /** Used by /best/romantic-restaurants. */
+  has_sea_view: boolean | null;
   updated_at: string;
 };
 
@@ -133,7 +135,7 @@ export const getBeach = cached('beaches:one', [TAGS.beaches, TAGS.reviews], asyn
 export const getRestaurants = cached('restaurants:cards', [TAGS.restaurants], async () =>
   all<RestaurantCard>(
     'restaurants',
-    `id, slug, area, latitude, longitude, image_url, image_alt, cuisine, price_level, rating, reviews_count, updated_at, ${NAME}`,
+    `id, slug, area, latitude, longitude, image_url, image_alt, cuisine, price_level, rating, reviews_count, has_sea_view, updated_at, ${NAME}`,
   ),
 );
 export const getRestaurant = cached('restaurants:one', [TAGS.restaurants, TAGS.reviews], (slug: string) =>
