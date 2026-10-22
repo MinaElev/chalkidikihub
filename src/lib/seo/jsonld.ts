@@ -4,6 +4,7 @@ import { localeUrl, SITE_NAME, SITE_URL } from './site';
 
 const ORG_ID = `${SITE_URL}/#organization`;
 const SITE_ID = `${SITE_URL}/#website`;
+const SAME_AS = [process.env.NEXT_PUBLIC_INSTAGRAM_URL, process.env.NEXT_PUBLIC_FACEBOOK_URL].filter((u): u is string => Boolean(u?.startsWith('https://')));
 
 export function organizationLd() {
   return {
@@ -13,7 +14,10 @@ export function organizationLd() {
     name: SITE_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/icons/icon-512.png`,
+    description: 'Independent travel guide to Halkidiki (Chalkidiki), Greece, in seven languages.',
     areaServed: { '@type': 'AdministrativeArea', name: 'Chalkidiki, Greece' },
+    // Official social profiles (set in the environment); they let search engines and assistants tie the brand together.
+    ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
   };
 }
 
