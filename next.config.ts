@@ -31,6 +31,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Self-contained server bundle (.next/standalone) for Node hosts such as Plesk/Passenger; Vercel ignores it.
+  output: 'standalone',
   poweredByHeader: false,
   compiler: { removeConsole: { exclude: ['error', 'warn'] } },
   experimental: {

@@ -67,3 +67,6 @@ supabase/.temp/
 next-env.d.ts
 !.env.example
 scripts/tmp/
+
+# Self-hosting bundle (scripts/tmp/make-deploy)
+/deploy/

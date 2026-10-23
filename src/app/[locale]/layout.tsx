@@ -65,8 +65,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
           <GoogleAnalytics />
         </NextIntlClientProvider>
         <JsonLd data={[organizationLd(), websiteLd(locale as Locale)]} />
-        <Analytics />
-        <SpeedInsights />
+        {/* Vercel-only scripts (served from /_vercel/*); off when self-hosted, e.g. on Plesk. */}
+        {process.env.VERCEL && <Analytics />}
+        {process.env.VERCEL && <SpeedInsights />}
       </body>
     </html>
   );
