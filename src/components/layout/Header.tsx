@@ -4,6 +4,7 @@ import { AREA_SLUGS, getVillages } from '@/lib/db/content';
 import { AREA_NAMES, placeName } from '@/lib/content/place-names';
 import { Link } from '@/i18n/navigation';
 import { localeNames, locales, type Locale } from '@/i18n/config';
+import { AccountMenu } from './AccountMenu';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { BrandIcon } from '@/components/ui/BrandIcon';
 
@@ -116,13 +117,12 @@ export async function Header({ locale }: { locale: Locale }) {
             <Search className="size-5" aria-hidden />
           </Link>
           <LanguageSwitcher current={locale} languages={languages} label={t('language')} />
-          {/* /dashboard sends signed-out visitors to the login form and signed-in ones straight in. */}
-          <Link prefetch={false} href="/dashboard" className="hidden rounded-lg px-3 py-2 text-sm font-medium text-sea-600 transition-colors hover:bg-sea-50 xl:block">
-            {nav('login')}
-          </Link>
-          <Link prefetch={false} href="/auth/register" className="hidden rounded-lg bg-sea-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-sea-700 xl:block">
-            {nav('register')}
-          </Link>
+          <AccountMenu
+            labels={{
+              login: nav('login'), register: nav('register'), dashboard: nav('dashboard'), listings: nav('myListings'),
+              profile: nav('profile'), favourites: FAVOURITES[locale], logout: nav('logout'), account: nav('myAccount'),
+            }}
+          />
 
           {/* Mobile menu: native <details>, so it works before any JS loads. */}
           <details className="group relative xl:hidden">

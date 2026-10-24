@@ -392,7 +392,9 @@
     "kind_restaurant": "Essen",
     "kind_activity": "Aktivität",
     "kind_listing": "Unterkunft",
-    "kind_article": "Artikel"
+    "kind_article": "Artikel",
+    "kind_area": "Region",
+    "all": "Alle Ergebnisse für „{q}“"
   },
   "ev": {
     "title": "E-Ladestationen auf Chalkidiki",

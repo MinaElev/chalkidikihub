@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { ArrowRight, CalendarDays, Car, ChevronDown, Coins, Home, MapPin, Route, Search, Waves } from 'lucide-react';
+import { ArrowRight, CalendarDays, Car, ChevronDown, Coins, Home, MapPin, Route, Waves } from 'lucide-react';
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { AREA_SLUGS, getAreas, getArticles, getBeaches, getListings, getVillages } from '@/lib/db/content';
@@ -13,6 +13,7 @@ import { plainText } from '@/lib/content/render';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container } from '@/components/ui/Layout';
+import { SearchSuggest } from '@/components/search/SearchSuggest';
 import { ClientIntl } from '@/components/ClientIntl';
 import { BeachFinder, type FinderBeach } from '@/components/home/BeachFinder';
 import { LastMinuteDealsPopup } from '@/components/v3/LastMinuteDealsPopup';
@@ -138,17 +139,20 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         <Container>
           <h1 className="rise max-w-4xl text-[2.6rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">{t('h1')}</h1>
           <p className="rise rise-2 mt-5 max-w-2xl text-lg text-white/85 sm:text-xl">{t('lead')}</p>
-          <form action={locale === 'el' ? '/search' : `/${locale}/search`} role="search" className="glass-card rise rise-3 mt-8 flex max-w-2xl flex-col gap-2 rounded-2xl p-2 sm:flex-row">
-            <label htmlFor="hero-q" className="sr-only">{search('title')}</label>
-            <span className="flex flex-1 items-center gap-2 rounded-xl bg-white/10 px-4">
-              <MapPin className="size-5 shrink-0 text-white/70" aria-hidden />
-              <input id="hero-q" name="q" type="search" minLength={2} required placeholder={search('placeholder')} className="min-w-0 flex-1 bg-transparent py-3 text-base text-white placeholder:text-white/70 focus:outline-none" />
-            </span>
-            <button type="submit" className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 font-semibold text-sea-700 shadow-lg transition hover:bg-sea-50">
-              <Search className="size-4" aria-hidden />
-              {search('submit')}
-            </button>
-          </form>
+          {/* z-20: the suggestions list must sit above the animated rows below it. */}
+          <div className="rise rise-3 relative z-20 mt-8 max-w-2xl">
+            <SearchSuggest
+              locale={locale}
+              action={locale === 'el' ? '/search' : `/${locale}/search`}
+              formClassName="glass-card flex flex-col gap-2 rounded-2xl p-2 sm:flex-row"
+              label={search('title')}
+              placeholder={search('placeholder')}
+              submit={search('submit')}
+              allLabel={search.raw('all')}
+              noneLabel={search.raw('none')}
+              kinds={Object.fromEntries(['area', 'village', 'beach', 'listing', 'restaurant', 'activity', 'article'].map((k) => [k, search(`kind_${k}`)]))}
+            />
+          </div>
           {/* v3: one request reaches every owner in the area. */}
           <p className="rise rise-4 mt-3 flex flex-wrap items-center gap-2 text-sm text-white/80">
             {avail('ctaHeroPrefix')}

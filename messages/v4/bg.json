@@ -392,7 +392,9 @@
     "kind_restaurant": "Храна",
     "kind_activity": "Занимание",
     "kind_listing": "Квартира",
-    "kind_article": "Статия"
+    "kind_article": "Статия",
+    "kind_area": "Район",
+    "all": "Всички резултати за „{q}“"
   },
   "ev": {
     "title": "Зарядни станции за електромобили в Халкидики",

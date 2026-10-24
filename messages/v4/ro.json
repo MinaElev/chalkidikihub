@@ -392,7 +392,9 @@
     "kind_restaurant": "Mâncare",
     "kind_activity": "Activitate",
     "kind_listing": "Cazare",
-    "kind_article": "Articol"
+    "kind_article": "Articol",
+    "kind_area": "Zonă",
+    "all": "Toate rezultatele pentru „{q}”"
   },
   "ev": {
     "title": "Stații de încărcare pentru mașini electrice în Halkidiki",

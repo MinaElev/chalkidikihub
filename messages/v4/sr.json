@@ -392,7 +392,9 @@
     "kind_restaurant": "Hrana",
     "kind_activity": "Aktivnost",
     "kind_listing": "Smeštaj",
-    "kind_article": "Članak"
+    "kind_article": "Članak",
+    "kind_area": "Oblast",
+    "all": "Svi rezultati za „{q}“"
   },
   "ev": {
     "title": "Punjači za električna vozila na Halkidikiju",

@@ -392,7 +392,9 @@
     "kind_restaurant": "Food",
     "kind_activity": "Activity",
     "kind_listing": "Stay",
-    "kind_article": "Article"
+    "kind_article": "Article",
+    "kind_area": "Area",
+    "all": "All results for “{q}”"
   },
   "ev": {
     "title": "EV charging stations in Halkidiki",
