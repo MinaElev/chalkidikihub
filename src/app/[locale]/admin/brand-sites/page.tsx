@@ -38,8 +38,6 @@ export default function AdminBrandSitesPage() {
   const [q, setQ] = useState('');
   const [areaFilter, setAreaFilter] = useState<string>('');
 
-  useEffect(() => { load(); }, []);
-
   async function load() {
     const supabase = createClient();
 
@@ -75,7 +73,7 @@ export default function AdminBrandSitesPage() {
 
     // Owner emails (best-effort)
     const ownerIds = Array.from(new Set(listings.map(l => l.owner_id).filter(Boolean))) as string[];
-    let emailsMap: Record<string, string> = {};
+    const emailsMap: Record<string, string> = {};
     if (ownerIds.length > 0) {
       const { data: profiles } = await supabase
         .from('profiles')
@@ -111,6 +109,9 @@ export default function AdminBrandSitesPage() {
     setRows(mapped);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { load(); }, []);
 
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();

@@ -100,6 +100,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       const saved = localStorage.getItem(SECTIONS_KEY);
       if (saved) {
         const parsed = JSON.parse(saved) as Record<string, boolean>;
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- restore browser-stored state after mount (avoids a hydration mismatch)
         setOpen((cur) => ({ ...cur, ...parsed }));
       }
     } catch { /* ignore */ }
@@ -135,6 +136,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     });
   }, [router]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- close the mobile drawer after navigation
   useEffect(() => { setDrawerOpen(false); }, [pathname]);
 
   function toggleSection(id: string) {
@@ -197,7 +199,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  function NavContent() {
+  // A render helper, not a component: defining a component inside another remounts it on every render.
+  function renderNav() {
     const attention = ATTENTION.filter((a) => (badges[a.href] || 0) > 0);
     return (
       <>
@@ -315,7 +318,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </button>
               </div>
               <div className="p-4">
-                <NavContent />
+                {renderNav()}
               </div>
             </div>
           </div>
@@ -325,7 +328,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {/* Desktop sidebar */}
           <aside className="hidden md:block md:w-64 shrink-0">
             <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto shadow-sm">
-              <NavContent />
+              {renderNav()}
             </div>
           </aside>
 

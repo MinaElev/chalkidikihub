@@ -122,7 +122,7 @@ export default function BrokenLinksPage() {
         <div className="text-center py-16 bg-white border border-gray-200 rounded-xl">
           <LinkIcon className="w-12 h-12 text-gray-300 mx-auto mb-4" />
           <p className="text-gray-500 mb-2">Σκανάρει εσωτερικούς links σε blog, παραλίες, εστιατόρια, δραστηριότητες, χωριά</p>
-          <p className="text-xs text-gray-400">Πατήστε "Scan Now" για να ξεκινήσει ο έλεγχος</p>
+          <p className="text-xs text-gray-400">Πατήστε “Scan Now” για να ξεκινήσει ο έλεγχος</p>
         </div>
       )}
     </div>

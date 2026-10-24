@@ -16,10 +16,10 @@ export async function GET() {
 
     // Join owner info
     if (data) {
-      const ownerIds = [...new Set(data.map((s: any) => s.owner_id))];
+      const ownerIds = [...new Set(data.map((s) => s.owner_id))];
       const { data: profiles } = await supabase.from('profiles').select('id, full_name, phone, email, role').in('id', ownerIds);
-      const profileMap = new Map(profiles?.map((p: any) => [p.id, p]) || []);
-      const enriched = data.map((s: any) => ({
+      const profileMap = new Map(profiles?.map((p) => [p.id, p]) || []);
+      const enriched = data.map((s) => ({
         ...s,
         owner: profileMap.get(s.owner_id) || null,
       }));

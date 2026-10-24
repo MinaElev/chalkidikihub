@@ -25,8 +25,6 @@ export default function AdminHostsPage() {
   const [filter, setFilter] = useState<'enabled' | 'eligible' | 'all'>('enabled');
   const [savingId, setSavingId] = useState<string | null>(null);
 
-  useEffect(() => { load(); }, []);
-
   async function load() {
     setLoading(true);
     const supabase = createClient();
@@ -57,6 +55,9 @@ export default function AdminHostsPage() {
     setRows(hostRows);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { load(); }, []);
 
   async function toggleEnabled(row: HostRow) {
     if (!row.public_slug) {

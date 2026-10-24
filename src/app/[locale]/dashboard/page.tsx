@@ -346,7 +346,7 @@ export default function DashboardPage() {
                             </a>
                           </div>
                           {inq.message && (
-                            <p className="text-xs text-slate-600 mt-2 line-clamp-2 italic">"{inq.message}"</p>
+                            <p className="text-xs text-slate-600 mt-2 line-clamp-2 italic">“{inq.message}”</p>
                           )}
                           <div className="mt-2.5">
                             {seen ? (

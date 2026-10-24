@@ -280,7 +280,7 @@ export default function SeoHealthPage() {
       {!report && !loading && !error && (
         <div className="text-center py-12 text-gray-500">
           <Activity className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-sm">Click "Run check" to crawl a sample of rendered pages.</p>
+          <p className="text-sm">Click “Run check” to crawl a sample of rendered pages.</p>
           <p className="text-xs mt-1">Takes ~30-60 seconds. Crawls ~120 URLs at a sample of 5.</p>
         </div>
       )}

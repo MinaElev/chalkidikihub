@@ -29,8 +29,6 @@ export default function AdminReviewsPage() {
   const [filter, setFilter] = useState('all');
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  useEffect(() => { loadPending(); }, []);
-
   async function loadPending() {
     setLoading(true);
     try {
@@ -40,6 +38,9 @@ export default function AdminReviewsPage() {
     } catch {}
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadPending(); }, []);
 
   async function handleAction(item: PendingItem, action: 'approved' | 'rejected') {
     setActionLoading(item.id);

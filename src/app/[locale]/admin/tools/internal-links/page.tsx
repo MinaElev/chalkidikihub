@@ -21,8 +21,6 @@ export default function InternalLinksPage() {
   const [applying, setApplying] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, string>>({});
 
-  useEffect(() => { scan(); }, []);
-
   async function scan() {
     setLoading(true);
     const supabase = createClient();
@@ -125,6 +123,9 @@ export default function InternalLinksPage() {
     setItems(contentItems);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { scan(); }, []);
 
   async function applyLinks(item: ContentItem) {
     setApplying(item.id);
@@ -243,8 +244,8 @@ export default function InternalLinksPage() {
         <ul className="text-xs text-gray-500 space-y-1">
           <li>• Σκανάρει τα blog articles για αναφορές σε παραλίες, εστιατόρια, αξιοθέατα, περιοχές</li>
           <li>• Προτείνει internal links που λείπουν</li>
-          <li>• "Apply" ενημερώνει τα related_slugs στη βάση</li>
-          <li>• Αυτά εμφανίζονται στο "Related content" κάτω από κάθε άρθρο</li>
+          <li>• “Apply” ενημερώνει τα related_slugs στη βάση</li>
+          <li>• Αυτά εμφανίζονται στο “Related content” κάτω από κάθε άρθρο</li>
           <li>• Περισσότερα internal links = καλύτερο SEO</li>
         </ul>
       </div>

@@ -41,10 +41,6 @@ export default function AdminDashboard() {
   const [logFilter, setLogFilter] = useState<'all' | 'error' | 'admin'>('all');
   const [qrStats, setQrStats] = useState<Array<{ slug: string; title: string; views: number }>>([]);
 
-  useEffect(() => {
-    loadAll();
-  }, []);
-
   async function loadAll() {
     const supabase = createClient();
 
@@ -161,6 +157,9 @@ export default function AdminDashboard() {
 
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadAll(); }, []);
 
   const filteredLogs = recentLogs.filter(log => {
     if (logFilter === 'error') return log.severity === 'error' || log.severity === 'warning';

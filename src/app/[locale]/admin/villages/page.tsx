@@ -58,8 +58,6 @@ export default function AdminVillagesPage() {
   const [sortKey, setSortKey] = useState<SortKey>('name');
   const [sortDir, setSortDir] = useState<SortDir>('asc');
 
-  useEffect(() => { loadVillages(); }, []);
-
   async function loadVillages() {
     const supabase = createClient();
     const { data } = await supabase.from('villages')
@@ -68,6 +66,9 @@ export default function AdminVillagesPage() {
     setVillages((data as Village[]) || []);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadVillages(); }, []);
 
   async function deleteVillage(id: string) {
     if (!confirm('Διαγραφή αυτού του χωριού ΜΟΝΙΜΑ;')) return;
@@ -133,7 +134,7 @@ export default function AdminVillagesPage() {
   const hasImage = villages.filter(v => !!v.image_url).length;
   const hasPop = villages.filter(v => v.population && v.population > 0).length;
 
-  function SortIcon({ col }: { col: SortKey }) {
+  function sortIcon(col: SortKey) {
     if (sortKey !== col) return <ArrowUpDown className="w-3 h-3 text-gray-300" />;
     return sortDir === 'asc' ? <ArrowUp className="w-3 h-3 text-red-600" /> : <ArrowDown className="w-3 h-3 text-red-600" />;
   }
@@ -212,19 +213,19 @@ export default function AdminVillagesPage() {
           <thead className="bg-red-50 border-b border-red-100">
             <tr>
               <th className="text-left px-4 py-3 font-semibold text-red-900 cursor-pointer select-none" onClick={() => handleSort('name')}>
-                <span className="flex items-center gap-1">Name <SortIcon col="name" /></span>
+                <span className="flex items-center gap-1">Name {sortIcon('name')}</span>
               </th>
               <th className="text-left px-4 py-3 font-semibold text-red-900 cursor-pointer select-none" onClick={() => handleSort('area')}>
-                <span className="flex items-center gap-1">Area <SortIcon col="area" /></span>
+                <span className="flex items-center gap-1">Area {sortIcon('area')}</span>
               </th>
               <th className="text-center px-4 py-3 font-semibold text-red-900 cursor-pointer select-none" onClick={() => handleSort('population')}>
-                <span className="flex items-center justify-center gap-1">Pop. <SortIcon col="population" /></span>
+                <span className="flex items-center justify-center gap-1">Pop. {sortIcon('population')}</span>
               </th>
               <th className="text-center px-4 py-3 font-semibold text-red-900 cursor-pointer select-none" onClick={() => handleSort('image')}>
-                <span className="flex items-center justify-center gap-1">Image <SortIcon col="image" /></span>
+                <span className="flex items-center justify-center gap-1">Image {sortIcon('image')}</span>
               </th>
               <th className="text-center px-4 py-3 font-semibold text-red-900 cursor-pointer select-none" onClick={() => handleSort('seo')}>
-                <span className="flex items-center justify-center gap-1">SEO <SortIcon col="seo" /></span>
+                <span className="flex items-center justify-center gap-1">SEO {sortIcon('seo')}</span>
               </th>
               <th className="text-right px-4 py-3 font-semibold text-red-900">Actions</th>
             </tr>

@@ -15,6 +15,7 @@ const eslintConfig = defineConfig([
     // Vendored minified library and one-off maintenance scripts.
     "public/**/*.min.js",
     "scripts/tmp/**",
+    "deploy/**",
   ]),
 ]);
 

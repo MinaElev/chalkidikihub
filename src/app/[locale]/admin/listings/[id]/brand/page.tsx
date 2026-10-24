@@ -103,6 +103,7 @@ export default function AdminBrandEditorPage() {
     setLoading(false);
   }, [listingId]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
   useEffect(() => { load(); }, [load]);
 
   function updateField(field: keyof BrandData, lang: LocaleCode, value: string) {

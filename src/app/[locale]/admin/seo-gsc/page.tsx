@@ -54,6 +54,7 @@ export default function SeoGscPage() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
     reload();
     // Read URL params for connect feedback
     const u = new URL(window.location.href);
@@ -100,6 +101,7 @@ export default function SeoGscPage() {
           <p className="text-sm text-gray-600 mb-6 max-w-md mx-auto">
             Συνδέσου με τον Google account που έχει το chalkidikihub.gr verified στο Search Console για να δεις queries, impressions, opportunities, και CTR fixes.
           </p>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- API route that starts the OAuth redirect, not a page */}
           <a
             href="/api/admin/gsc/connect"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl"

@@ -34,6 +34,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   useEffect(() => {
     try {
       const saved = localStorage.getItem(MORE_OPEN_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- restore browser-stored state after mount (avoids a hydration mismatch)
       if (saved != null) setMoreOpen(saved === '1');
     } catch { /* ignore */ }
   }, []);
@@ -93,6 +94,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     });
   }, [router]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- close the mobile drawer after navigation
   useEffect(() => { setDrawerOpen(false); }, [pathname]);
 
   function toggleMore() {
@@ -176,7 +178,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     );
   }
 
-  function NavContent() {
+  // A render helper, not a component: defining a component inside another remounts it on every render.
+  function renderNav() {
     return (
       <>
         <div className="mb-4 pb-4 border-b border-slate-100 flex items-center gap-3">
@@ -313,7 +316,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </button>
               </div>
               <div className="p-4">
-                <NavContent />
+                {renderNav()}
               </div>
             </div>
           </div>
@@ -323,7 +326,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {/* Desktop sidebar */}
           <aside className="hidden md:block md:w-64 shrink-0">
             <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto shadow-sm">
-              <NavContent />
+              {renderNav()}
             </div>
           </aside>
 

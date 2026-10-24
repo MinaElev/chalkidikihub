@@ -78,6 +78,7 @@ export default function NewListingPage() {
       if (raw) {
         const saved = JSON.parse(raw);
         if (saved && typeof saved === 'object') {
+          // eslint-disable-next-line react-hooks/set-state-in-effect -- restore browser-stored state after mount (avoids a hydration mismatch)
           setForm((f) => ({ ...f, ...saved }));
           setDraftRestored(true);
         }
@@ -519,7 +520,7 @@ export default function NewListingPage() {
               </div>
             ) : (
               <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-sm text-emerald-900 leading-relaxed">
-                🎁 <strong>Δωρεάν για πάντα:</strong> Οι καταχωρήσεις μέχρι τις <strong>{CUTOFF_FREE_UNTIL_EL}</strong> είναι δωρεάν εφ' όρου ζωής. Κάθε νέο κατάλυμα ελέγχεται από την ομάδα του ChalkidikiHub πριν εμφανιστεί δημόσια — θα λάβετε email επιβεβαίωσης και νέο email μόλις δημοσιευτεί.
+                🎁 <strong>Δωρεάν για πάντα:</strong> Οι καταχωρήσεις μέχρι τις <strong>{CUTOFF_FREE_UNTIL_EL}</strong> είναι δωρεάν εφ’ όρου ζωής. Κάθε νέο κατάλυμα ελέγχεται από την ομάδα του ChalkidikiHub πριν εμφανιστεί δημόσια — θα λάβετε email επιβεβαίωσης και νέο email μόλις δημοσιευτεί.
               </div>
             )}
             <div className="flex justify-end">

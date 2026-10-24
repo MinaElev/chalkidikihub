@@ -13,6 +13,7 @@ export function useBusinessTypes() {
   const [types, setTypes] = useState<BusinessType[]>(cache || []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- serve the module-level cache synchronously
     if (cache) { setTypes(cache); return; }
     fetch('/api/business-types')
       .then(r => r.json())

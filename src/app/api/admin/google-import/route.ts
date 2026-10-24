@@ -2,6 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/api-helpers';
 import { requireSuperAdmin } from '@/lib/admin-auth';
 
+/** The fields of a Places Nearby Search result that the import uses. */
+type GooglePlace = {
+  place_id: string;
+  name: string;
+  geometry?: { location?: { lat: number; lng: number } };
+  vicinity?: string;
+  rating?: number;
+  user_ratings_total?: number;
+  types?: string[];
+  photos?: Array<{ photo_reference: string }>;
+  opening_hours?: { open_now?: boolean };
+  price_level?: number;
+};
+
 export const maxDuration = 60;
 
 async function getGoogleKey(): Promise<string> {
@@ -27,13 +41,13 @@ export async function GET(request: NextRequest) {
 
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${radius}&type=${type}&key=${apiKey}`;
     const res = await fetch(url);
-    const data = await res.json();
+    const data = (await res.json()) as { status: string; error_message?: string; results?: GooglePlace[] };
 
     if (data.status !== 'OK' && data.status !== 'ZERO_RESULTS') {
       return NextResponse.json({ error: `Google API: ${data.status} - ${data.error_message || ''}` }, { status: 500 });
     }
 
-    const places = (data.results || []).map((p: any) => ({
+    const places = (data.results || []).map((p) => ({
       place_id: p.place_id,
       name: p.name,
       latitude: p.geometry?.location?.lat,
@@ -42,7 +56,7 @@ export async function GET(request: NextRequest) {
       rating: p.rating || 0,
       reviews_count: p.user_ratings_total || 0,
       types: p.types || [],
-      photo_refs: (p.photos || []).slice(0, 5).map((ph: any) => ph.photo_reference),
+      photo_refs: (p.photos || []).slice(0, 5).map((ph) => ph.photo_reference),
       open_now: p.opening_hours?.open_now,
       price_level: p.price_level,
     }));

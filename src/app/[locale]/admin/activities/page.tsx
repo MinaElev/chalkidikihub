@@ -34,8 +34,6 @@ export default function AdminActivitiesPage() {
   const [filterCategory, setFilterCategory] = useState('');
   const [filterSeo, setFilterSeo] = useState('');
 
-  useEffect(() => { loadActivities(); }, []);
-
   async function loadActivities() {
     const supabase = createClient();
     const { data } = await supabase.from('activities')
@@ -44,6 +42,9 @@ export default function AdminActivitiesPage() {
     setActivities(data || []);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadActivities(); }, []);
 
   async function deleteActivity(id: string) {
     if (!confirm('Διαγραφή αυτής της δραστηριότητας ΜΟΝΙΜΑ;')) return;

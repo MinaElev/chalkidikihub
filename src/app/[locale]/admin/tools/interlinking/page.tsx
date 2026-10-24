@@ -23,8 +23,6 @@ export default function InterlinkingPage() {
   const [improved, setImproved] = useState<Record<string, string>>({});
   const [filter, setFilter] = useState<'all' | 'weak' | 'orphan'>('all');
 
-  useEffect(() => { analyze(); }, []);
-
   async function analyze() {
     setLoading(true);
     const supabase = createClient();
@@ -129,6 +127,9 @@ export default function InterlinkingPage() {
     setPages(scores);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { analyze(); }, []);
 
   async function aiImproveDescription(page: PageScore) {
     setImproving(page.slug);

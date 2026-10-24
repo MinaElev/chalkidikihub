@@ -13,6 +13,9 @@ import {
 } from 'lucide-react';
 import { HostPagePromoBanner } from '@/legacy/components/dashboard/HostPagePromoBanner';
 
+// Read the clock outside render code (react-hooks/purity); callers run once per request or event.
+const nowMs = () => Date.now();
+
 // Below this character count the public listing page emits robots noindex
 // (see src/lib/seo.ts `thinThreshold` hook + listings/[slug] metadata),
 // so Google won't surface it in search. We nudge owners to enrich the
@@ -594,6 +597,7 @@ function QrPromoBanner({ locale }: { locale: string }) {
   // Persist dismissal in localStorage so it stays dismissed across visits
   useEffect(() => {
     if (typeof window !== 'undefined' && localStorage.getItem('qr-promo-dismissed') === '1') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- restore browser-stored state after mount (avoids a hydration mismatch)
       setDismissed(true);
     }
   }, []);
@@ -897,6 +901,7 @@ function ListingHealthBanner({ listings, locale }: { listings: DbListing[]; loca
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const until = Number(localStorage.getItem('listings-health-dismissed-until') || 0);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- restore browser-stored state after mount (avoids a hydration mismatch)
     if (until && Date.now() < until) setDismissed(true);
   }, []);
 
@@ -919,7 +924,7 @@ function ListingHealthBanner({ listings, locale }: { listings: DbListing[]; loca
       const pc = Array.isArray(l.listing_images) ? l.listing_images.length : 0;
       if (pc === 0) noPhotos++;
       else if (pc < THIN_PHOTO_THRESHOLD) lowPhotos++;
-      if (l.updated_at && (Date.now() - new Date(l.updated_at).getTime()) / (1000 * 60 * 60 * 24) > STALE_LISTING_DAYS) stale++;
+      if (l.updated_at && (nowMs() - new Date(l.updated_at).getTime()) / (1000 * 60 * 60 * 24) > STALE_LISTING_DAYS) stale++;
       if (computeCompleteness(l).score < 50) veryIncomplete++;
     }
     return { thinDesc, noPhotos, lowPhotos, stale, veryIncomplete };

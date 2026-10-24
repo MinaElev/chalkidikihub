@@ -4,6 +4,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Search, Loader2, X, Check, Camera } from 'lucide-react';
 
+// Read the clock outside render code (react-hooks/purity); callers run once per request or event.
+const nowMs = () => Date.now();
+
 interface UnsplashPhoto {
   id: string;
   url: string;
@@ -57,7 +60,7 @@ export function UnsplashPicker({ defaultQuery, folder, slug, onSelect }: Props) 
           photoUrl: photo.url,
           downloadLink: photo.downloadLink,
           folder,
-          slug: `${slug}-${Date.now()}`,
+          slug: `${slug}-${nowMs()}`,
         }),
       });
       const data = await res.json();

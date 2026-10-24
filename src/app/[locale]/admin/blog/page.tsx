@@ -31,8 +31,6 @@ export default function AdminBlogPage() {
   const [filterCategory, setFilterCategory] = useState('');
   const [filterSeo, setFilterSeo] = useState('');
 
-  useEffect(() => { loadArticles(); }, []);
-
   async function loadArticles() {
     const supabase = createClient();
     const { data } = await supabase.from('blog_articles')
@@ -41,6 +39,9 @@ export default function AdminBlogPage() {
     setArticles(data || []);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadArticles(); }, []);
 
   async function deleteArticle(id: string) {
     if (!confirm('Διαγραφή αυτού του άρθρου ΜΟΝΙΜΑ;')) return;

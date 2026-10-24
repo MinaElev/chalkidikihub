@@ -32,8 +32,6 @@ export default function AdminBeachesPage() {
   const [filterArea, setFilterArea] = useState('');
   const [filterSeo, setFilterSeo] = useState('');
 
-  useEffect(() => { loadBeaches(); }, []);
-
   async function loadBeaches() {
     const supabase = createClient();
     const { data } = await supabase.from('beaches')
@@ -42,6 +40,9 @@ export default function AdminBeachesPage() {
     setBeaches((data as Beach[]) || []);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadBeaches(); }, []);
 
   async function deleteBeach(id: string) {
     if (!confirm('Διαγραφή αυτής της παραλίας ΜΟΝΙΜΑ;')) return;

@@ -26,10 +26,6 @@ export default function MyCalendarsPage() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [missingColumn, setMissingColumn] = useState(false);
 
-  useEffect(() => {
-    loadListings();
-  }, []);
-
   async function loadListings() {
     setErrorMsg(null);
     setMissingColumn(false);
@@ -96,6 +92,9 @@ export default function MyCalendarsPage() {
     }
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadListings(); }, []);
 
   async function toggleShowCalendar(listingId: string, current: boolean) {
     setTogglingId(listingId);

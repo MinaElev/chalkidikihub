@@ -31,8 +31,6 @@ export default function TranslationsPage() {
   const [filterStatus, setFilterStatus] = useState<'all' | 'incomplete' | 'complete'>('all');
   const [filling, setFilling] = useState<string | null>(null);
 
-  useEffect(() => { loadAll(); }, []);
-
   async function loadAll() {
     const supabase = createClient();
     const allItems: ContentItem[] = [];
@@ -62,6 +60,9 @@ export default function TranslationsPage() {
     setItems(allItems);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadAll(); }, []);
 
   async function handleAiFill(item: ContentItem) {
     setFilling(item.id);

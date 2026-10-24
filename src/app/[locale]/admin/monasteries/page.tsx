@@ -47,8 +47,6 @@ export default function AdminMonasteriesPage() {
   const [sortKey, setSortKey] = useState<SortKey>('rank');
   const [sortDir, setSortDir] = useState<SortDir>('asc');
 
-  useEffect(() => { loadData(); }, []);
-
   async function loadData() {
     const supabase = createClient();
     const { data } = await supabase.from('monasteries')
@@ -57,6 +55,9 @@ export default function AdminMonasteriesPage() {
     setMonasteries((data as Monastery[]) || []);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadData(); }, []);
 
   function handleSort(key: SortKey) {
     if (sortKey === key) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
@@ -86,7 +87,7 @@ export default function AdminMonasteriesPage() {
 
   const totalComplete = monasteries.filter(m => getSeoStatus(m).length === 0).length;
 
-  function SortIcon({ col }: { col: SortKey }) {
+  function sortIcon(col: SortKey) {
     if (sortKey !== col) return <ArrowUpDown className="w-3 h-3 text-gray-300" />;
     return sortDir === 'asc' ? <ArrowUp className="w-3 h-3 text-red-600" /> : <ArrowDown className="w-3 h-3 text-red-600" />;
   }
@@ -124,11 +125,11 @@ export default function AdminMonasteriesPage() {
         <table className="w-full text-sm">
           <thead className="bg-red-50 border-b border-red-100">
             <tr>
-              <th className="text-center px-3 py-3 font-semibold text-red-900 cursor-pointer" onClick={() => handleSort('rank')}><span className="flex items-center justify-center gap-1"># <SortIcon col="rank" /></span></th>
-              <th className="text-left px-4 py-3 font-semibold text-red-900 cursor-pointer" onClick={() => handleSort('name')}><span className="flex items-center gap-1">Name <SortIcon col="name" /></span></th>
+              <th className="text-center px-3 py-3 font-semibold text-red-900 cursor-pointer" onClick={() => handleSort('rank')}><span className="flex items-center justify-center gap-1"># {sortIcon('rank')}</span></th>
+              <th className="text-left px-4 py-3 font-semibold text-red-900 cursor-pointer" onClick={() => handleSort('name')}><span className="flex items-center gap-1">Name {sortIcon('name')}</span></th>
               <th className="text-center px-3 py-3 font-semibold text-red-900">Founded</th>
-              <th className="text-center px-3 py-3 font-semibold text-red-900 cursor-pointer" onClick={() => handleSort('nation')}><span className="flex items-center justify-center gap-1">Nation <SortIcon col="nation" /></span></th>
-              <th className="text-center px-3 py-3 font-semibold text-red-900 cursor-pointer" onClick={() => handleSort('seo')}><span className="flex items-center justify-center gap-1">SEO <SortIcon col="seo" /></span></th>
+              <th className="text-center px-3 py-3 font-semibold text-red-900 cursor-pointer" onClick={() => handleSort('nation')}><span className="flex items-center justify-center gap-1">Nation {sortIcon('nation')}</span></th>
+              <th className="text-center px-3 py-3 font-semibold text-red-900 cursor-pointer" onClick={() => handleSort('seo')}><span className="flex items-center justify-center gap-1">SEO {sortIcon('seo')}</span></th>
               <th className="text-right px-4 py-3 font-semibold text-red-900">Actions</th>
             </tr>
           </thead>

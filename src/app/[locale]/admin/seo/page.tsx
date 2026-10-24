@@ -27,8 +27,6 @@ export default function AdminSeoPage() {
   const [filterType, setFilterType] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'issues' | 'perfect'>('all');
 
-  useEffect(() => { loadAll(); }, []);
-
   async function loadAll() {
     setLoading(true);
     const supabase = createClient();
@@ -112,6 +110,9 @@ export default function AdminSeoPage() {
     setRecords(all);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadAll(); }, []);
 
   const filtered = records.filter(r => {
     if (filterType && r.type !== filterType) return false;

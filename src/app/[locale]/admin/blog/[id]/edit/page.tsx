@@ -432,7 +432,7 @@ function ContentTabs({ form, update, id }: { form: Record<string, unknown>; upda
           {((form[contentKey] as string) || '').length} chars | ~{Math.ceil(((form[contentKey] as string) || '').split(/\s+/).length / 200)} min read
         </span>
         {!hasContent && activeTab !== 'el' && (
-          <span className="text-xs text-amber-600">❌ Χωρίς μετάφραση - πάτα "Μετάφραση Content"</span>
+          <span className="text-xs text-amber-600">❌ Χωρίς μετάφραση - πάτα “Μετάφραση Content”</span>
         )}
       </div>
     </div>

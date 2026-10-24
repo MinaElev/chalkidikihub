@@ -143,7 +143,7 @@ export default function SuggestRestaurantPage() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
               {AREA_SLUGS.map((a) => <option key={a} value={a}>{areaLabels[a]}</option>)}
             </select>
-            <p className="text-xs text-gray-400 mt-1">Σε ποιο "πόδι" της Χαλκιδικής βρίσκεται;</p>
+            <p className="text-xs text-gray-400 mt-1">Σε ποιο “πόδι” της Χαλκιδικής βρίσκεται;</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Τύπος *</label>

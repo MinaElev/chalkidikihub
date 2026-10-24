@@ -60,6 +60,7 @@ export default function SeoCoveragePage() {
     } catch (e) { setError(String(e)); } finally { setLoading(false); }
   }, []);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
   useEffect(() => { reload(); }, [reload]);
 
   async function runInspect(seed = false) {

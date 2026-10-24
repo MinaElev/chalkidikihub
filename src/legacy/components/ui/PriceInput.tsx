@@ -40,6 +40,7 @@ export default function PriceInput({
   useEffect(() => {
     const current = parseFloat(text);
     const same = current === value || (isNaN(current) && value === 0);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- keep the text field in sync when the value prop changes
     if (!same) setText(value > 0 ? String(value) : '');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);

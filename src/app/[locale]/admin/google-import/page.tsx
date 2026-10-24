@@ -310,7 +310,7 @@ export default function GoogleImportPage() {
         <ol className="text-xs text-gray-500 space-y-1">
           <li>1. Επιλέξτε τοποθεσία + τύπο + ακτίνα → Αναζήτηση</li>
           <li>2. Βλέπετε πραγματικά μαγαζιά από Google Maps με rating + photos</li>
-          <li>3. "Import" αποθηκεύει: όνομα, GPS, τηλέφωνο, ωράριο, rating, φωτογραφία</li>
+          <li>3. “Import” αποθηκεύει: όνομα, GPS, τηλέφωνο, ωράριο, rating, φωτογραφία</li>
           <li>4. Μετά πηγαίνετε Admin → Restaurants → Edit → AI Auto-Complete → μεταφράσεις + SEO</li>
           <li>5. Tip: μετά το import, χρησιμοποιήστε AI Bulk SEO για μαζικές μεταφράσεις</li>
         </ol>

@@ -36,8 +36,6 @@ export default function AdminRestaurantsPage() {
   const [filterPrice, setFilterPrice] = useState('');
   const [filterSeo, setFilterSeo] = useState('');
 
-  useEffect(() => { loadRestaurants(); }, []);
-
   async function loadRestaurants() {
     const supabase = createClient();
     const { data } = await supabase.from('restaurants')
@@ -46,6 +44,9 @@ export default function AdminRestaurantsPage() {
     setRestaurants(data || []);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadRestaurants(); }, []);
 
   async function deleteRestaurant(id: string) {
     if (!confirm('Διαγραφή αυτού του εστιατορίου ΜΟΝΙΜΑ;')) return;

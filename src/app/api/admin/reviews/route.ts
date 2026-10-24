@@ -13,7 +13,7 @@ export async function GET() {
 
     // Beach reviews
     const { data: beachR } = await supabase.from('beach_reviews').select('*, beaches(name_el)').eq('status', 'pending');
-    (beachR || []).forEach((r: any) => pending.push({
+    (beachR || []).forEach((r) => pending.push({
       id: r.id, table: 'beach_reviews', type: 'beach',
       author_name: r.author_name, rating: r.rating,
       comment: r.comment_el || '', item_name: r.beaches?.name_el || '',
@@ -22,7 +22,7 @@ export async function GET() {
 
     // Restaurant reviews
     const { data: restR } = await supabase.from('restaurant_reviews').select('*, restaurants(name_el)').eq('status', 'pending');
-    (restR || []).forEach((r: any) => pending.push({
+    (restR || []).forEach((r) => pending.push({
       id: r.id, table: 'restaurant_reviews', type: 'restaurant',
       author_name: r.author_name, rating: r.rating,
       comment: r.comment_el || '', item_name: r.restaurants?.name_el || '',
@@ -31,7 +31,7 @@ export async function GET() {
 
     // Activity reviews
     const { data: actR } = await supabase.from('activity_reviews').select('*, activities(name_el)').eq('status', 'pending');
-    (actR || []).forEach((r: any) => pending.push({
+    (actR || []).forEach((r) => pending.push({
       id: r.id, table: 'activity_reviews', type: 'activity',
       author_name: r.author_name, rating: r.rating,
       comment: r.comment_el || '', item_name: r.activities?.name_el || '',
@@ -40,7 +40,7 @@ export async function GET() {
 
     // Listing reviews
     const { data: listR } = await supabase.from('listing_reviews').select('*, listings(title_el)').eq('status', 'pending');
-    (listR || []).forEach((r: any) => pending.push({
+    (listR || []).forEach((r) => pending.push({
       id: r.id, table: 'listing_reviews', type: 'listing',
       author_name: r.author_name, rating: r.rating,
       comment: r.comment_el || '', item_name: r.listings?.title_el || '',
@@ -49,7 +49,7 @@ export async function GET() {
 
     // Blog comments
     const { data: blogC } = await supabase.from('blog_comments').select('*, blog_articles(title_el)').eq('status', 'pending');
-    (blogC || []).forEach((c: any) => pending.push({
+    (blogC || []).forEach((c) => pending.push({
       id: c.id, table: 'blog_comments', type: 'comment',
       author_name: c.author_name,
       comment: c.comment || '', item_name: c.blog_articles?.title_el || '',
@@ -81,7 +81,7 @@ export async function PATCH(request: NextRequest) {
 
       const { data: review } = await supabase.from(table).select(fkField).eq('id', id).single();
       if (review) {
-        const parentId = (review as any)[fkField];
+        const parentId = (review as Record<string, unknown>)[fkField];
         const { data: allReviews } = await supabase.from(table).select('rating').eq(fkField, parentId).eq('status', 'approved');
         if (allReviews && allReviews.length > 0) {
           const avg = allReviews.reduce((s, r) => s + (r.rating || 0), 0) / allReviews.length;

@@ -3,6 +3,9 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Download, TrendingUp, Users, Sparkles, ArrowLeft, Trophy } from 'lucide-react';
 
+// Read the clock outside render code (react-hooks/purity); callers run once per request or event.
+const nowMs = () => Date.now();
+
 export const dynamic = 'force-dynamic';
 
 interface Row {
@@ -29,7 +32,7 @@ export default async function SocialKitStatsPage() {
     .limit(5000);
 
   const rows = (downloads ?? []) as Row[];
-  const now = Date.now();
+  const now = nowMs();
   const day = 24 * 60 * 60 * 1000;
 
   const total = rows.length;

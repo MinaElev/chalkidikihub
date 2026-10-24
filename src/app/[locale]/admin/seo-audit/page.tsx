@@ -39,8 +39,6 @@ export default function SeoAuditPage() {
   const [filterStatus, setFilterStatus] = useState<'all' | 'issues' | 'critical' | 'perfect'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => { runAudit(); }, []);
-
   async function runAudit() {
     setLoading(true);
     const supabase = createClient();
@@ -126,6 +124,9 @@ export default function SeoAuditPage() {
     setItems(allItems);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { runAudit(); }, []);
 
   const filtered = items.filter(i => {
     if (filterTable && i.table !== filterTable) return false;

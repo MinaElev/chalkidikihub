@@ -42,7 +42,7 @@ export default function BusinessTypesPage() {
     setAdding(false);
     setForm({
       slug: t.slug, sort_order: String(t.sort_order),
-      ...Object.fromEntries(LANGS.map(l => [`name_${l}`, (t as any)[`name_${l}`] || ''])),
+      ...Object.fromEntries(LANGS.map(l => [`name_${l}`, (t as unknown as Record<string, string | undefined>)[`name_${l}`] || ''])),
     });
   }
 
@@ -207,7 +207,7 @@ export default function BusinessTypesPage() {
           </thead>
           <tbody className="divide-y divide-gray-100">
             {types.map(t => {
-              const filledLangs = LANGS.filter(l => (t as any)[`name_${l}`]).length;
+              const filledLangs = LANGS.filter(l => (t as unknown as Record<string, string | undefined>)[`name_${l}`]).length;
               return (
                 <tr key={t.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 text-xs text-gray-400">{t.sort_order}</td>

@@ -211,7 +211,7 @@ export default function AdminEditMonasteryPage() {
         {/* Highlights */}
         <div>
           <h3 className="text-lg font-semibold text-gray-900 mb-3">Highlights (6 languages)</h3>
-          <p className="text-xs text-gray-500 mb-2">Separate with | (e.g. "Library|Icon|Frescoes")</p>
+          <p className="text-xs text-gray-500 mb-2">Separate with | (e.g. “Library|Icon|Frescoes”)</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {LANGS.map(lang => (
               <div key={lang}>

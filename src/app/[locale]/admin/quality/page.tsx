@@ -31,8 +31,6 @@ export default function QualityPage() {
   const [filterTable, setFilterTable] = useState<string>('');
   const [filterSeverity, setFilterSeverity] = useState<'all' | 'critical' | 'warning' | 'perfect'>('all');
 
-  useEffect(() => { loadAll(); }, []);
-
   async function loadAll() {
     const supabase = createClient();
     const allItems: QualityItem[] = [];
@@ -126,6 +124,9 @@ export default function QualityPage() {
     setItems(allItems);
     setLoading(false);
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initial data load on mount
+  useEffect(() => { loadAll(); }, []);
 
   const filtered = items.filter(i => {
     if (filterTable && i.table !== filterTable) return false;

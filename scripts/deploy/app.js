@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Passenger loads the startup file as CommonJS. */
 // Startup file for Plesk's Node.js extension (Phusion Passenger).
 // Loads the server-side settings from .env.production (kept next to this file, outside the public document root),
 // then starts Next.js' standalone server. Passenger takes over the port, so PORT is only a fallback.
