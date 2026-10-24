@@ -155,9 +155,11 @@ body {
   animation: kenburns 22s ease-out both;
   will-change: transform;
 }
+/* Movement only: the hero heading is the largest text on the home page, and an element that
+   starts at opacity 0 is not counted as painted, so the page would report no LCP at all. */
 @keyframes rise {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: none; }
+  from { transform: translateY(18px); }
+  to { transform: none; }
 }
 .rise {
   animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;

@@ -124,11 +124,15 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
     <>
       {/* ── Hero (v3 layout: slow zoom, glass search, glass stat cards) ── */}
       <section className="relative isolate flex min-h-[600px] items-center overflow-hidden text-white" style={{ height: '88svh' }}>
+        {/* The hero photo is the LCP element: React hoists these into <head>, so the download starts
+            with the stylesheet instead of after it. Same media/type split as the <picture> below. */}
+        <link rel="preload" as="image" href="/images/hero/halkidiki-hero-mobile.avif" type="image/avif" media="(max-width: 640px)" fetchPriority="high" />
+        <link rel="preload" as="image" href="/images/hero/halkidiki-hero.avif" type="image/avif" media="(min-width: 641px)" fetchPriority="high" />
         <picture>
           <source media="(max-width: 640px)" srcSet="/images/hero/halkidiki-hero-mobile.avif" type="image/avif" />
           <source media="(max-width: 640px)" srcSet="/images/hero/halkidiki-hero-mobile.webp" type="image/webp" />
           <source srcSet="/images/hero/halkidiki-hero.avif" type="image/avif" />
-          <img src="/images/hero/halkidiki-hero.webp" alt="" fetchPriority="high" decoding="async" className="kenburns absolute inset-0 -z-20 size-full object-cover" />
+          <img src="/images/hero/halkidiki-hero.webp" alt="" fetchPriority="high" className="kenburns absolute inset-0 -z-20 size-full object-cover" />
         </picture>
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-gray-900/60 via-gray-900/40 to-gray-900/70" aria-hidden />
         <Container>

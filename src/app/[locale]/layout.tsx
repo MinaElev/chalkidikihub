@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { notFound } from 'next/navigation';
+import { preconnect } from 'react-dom';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Analytics } from '@vercel/analytics/react';
@@ -41,6 +42,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'shell' });
   const avail = await getTranslations({ locale, namespace: 'availabilityRequest' });
+  // Photos come from Supabase Storage: open that connection while the HTML is still arriving,
+  // so the hero image (the LCP element on most pages) doesn't pay for DNS + TLS on slow networks.
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL) preconnect(process.env.NEXT_PUBLIC_SUPABASE_URL);
 
   return (
     <html lang={htmlLang[locale as Locale]}>
