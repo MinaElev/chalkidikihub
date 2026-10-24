@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import QRCode from 'qrcode';
 import { createAdminClient } from '@/lib/api-helpers';
 import { requireSuperAdmin } from '@/lib/admin-auth';
@@ -56,10 +56,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: `Δεν υπάρχουν δεδομένα για ${monthLabelGreek(win.monthKey)}. Τρέξτε πρώτα το snapshot.` }, { status: 400 });
     }
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: gmailAddress, pass: gmailPassword.replace(/\s/g, '') },
-    });
+    const transporter = await createMailTransport(gmailAddress, gmailPassword.replace(/\s/g, ''));
     const subject = `📊 ChalkidikiHub — Η αναφορά σας για τον ${monthLabelGreek(win.monthKey)}`;
 
     // ChalkidikiHub QR as a CID attachment (reliable in Gmail, unlike SVG/data URIs).
@@ -76,7 +73,7 @@ export async function POST(request: NextRequest) {
     if (testTo) {
       const sample = allReports[0];
       await transporter.sendMail({
-        from: `ChalkidikiHub <${gmailAddress}>`,
+        from: await mailFrom(gmailAddress),
         to: testTo,
         subject: `[TEST] ${subject}`,
         html: renderOwnerEmailHtml(sample, site, win.monthKey, renderOpts),
@@ -100,7 +97,7 @@ export async function POST(request: NextRequest) {
       const r = pool[i];
       try {
         await transporter.sendMail({
-          from: `ChalkidikiHub <${gmailAddress}>`,
+          from: await mailFrom(gmailAddress),
           to: r.email,
           subject,
           html: renderOwnerEmailHtml(r, site, win.monthKey, renderOpts),

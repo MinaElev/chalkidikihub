@@ -1,6 +1,6 @@
 // Guard: signed-in user; per-user send window in email_verifications.
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { randomInt } from 'crypto';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/api-helpers';
@@ -88,15 +88,12 @@ export async function POST() {
       return NextResponse.json({ error: 'Email not configured' }, { status: 500 });
     }
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: gmailAddress, pass: gmailPassword.replace(/\s/g, '') },
-    });
+    const transporter = await createMailTransport(gmailAddress, gmailPassword.replace(/\s/g, ''));
 
     const name = (profile?.full_name || '').trim();
 
     await transporter.sendMail({
-      from: `ChalkidikiHub <${gmailAddress}>`,
+      from: await mailFrom(gmailAddress),
       to: user.email,
       subject: `${code} — Κωδικός επιβεβαίωσης ChalkidikiHub`,
       html: `

@@ -3,42 +3,106 @@ import nodemailer, { type Transporter } from 'nodemailer';
 import { adminDb } from '@/lib/supabase/clients';
 
 /**
- * Outgoing mail. Uses the same Gmail account v3 used (credentials stored in
- * site_settings: gmail_address / gmail_app_password, editable in admin), so
- * nothing has to be reconfigured for the switch.
+ * Outgoing mail — the one place that decides how email leaves the site.
+ *
+ * Default: the Gmail account v3 used (site_settings: gmail_address /
+ * gmail_app_password, editable in admin).
+ *
+ * Optional: a regular SMTP server, e.g. the hosting provider's mail server for
+ * info@chalkidikihub.gr. Many shared hosts block outgoing connections to
+ * Gmail, while their own mail server is always reachable. Configure it either
+ * in site_settings (smtp_host, smtp_port, smtp_user, smtp_password, smtp_from)
+ * or in the environment (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD,
+ * SMTP_FROM); when present it takes precedence over Gmail.
  */
 
-let cached: { transporter: Transporter; from: string; at: number } | null = null;
+const SENDER_NAME = 'ChalkidikiHub';
+const TTL = 10 * 60_000;
 
-async function transport() {
-  if (cached && Date.now() - cached.at < 10 * 60_000) return cached;
+type Smtp = { host: string; port: number; user: string; pass: string; from: string };
+type Settings = { smtp: Smtp | null; gmailUser: string; gmailPass: string };
+
+let settingsCache: { value: Settings; at: number } | null = null;
+
+async function settings(): Promise<Settings> {
+  if (settingsCache && Date.now() - settingsCache.at < TTL) return settingsCache.value;
   const { data } = await adminDb()
     .from('site_settings')
     .select('key, value')
-    .in('key', ['gmail_address', 'gmail_app_password']);
-  const s = Object.fromEntries((data ?? []).map((r) => [r.key, r.value as string]));
-  if (!s.gmail_address || !s.gmail_app_password) return null;
-  cached = {
-    transporter: nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: s.gmail_address, pass: s.gmail_app_password.replace(/\s/g, '') },
-    }),
-    from: `ChalkidikiHub <${s.gmail_address}>`,
-    at: Date.now(),
+    .in('key', ['gmail_address', 'gmail_app_password', 'smtp_host', 'smtp_port', 'smtp_user', 'smtp_password', 'smtp_from']);
+  const s = Object.fromEntries((data ?? []).map((r) => [r.key, String(r.value ?? '').trim()]));
+  const host = process.env.SMTP_HOST || s.smtp_host;
+  const user = process.env.SMTP_USER || s.smtp_user;
+  const pass = process.env.SMTP_PASSWORD || s.smtp_password;
+  const smtp = host && user && pass
+    ? { host, user, pass, port: Number(process.env.SMTP_PORT || s.smtp_port) || 587, from: process.env.SMTP_FROM || s.smtp_from || user }
+    : null;
+  const value = {
+    smtp,
+    gmailUser: s.gmail_address || process.env.GMAIL_ADDRESS || '',
+    gmailPass: (s.gmail_app_password || process.env.GMAIL_APP_PASSWORD || '').replace(/\s/g, ''),
   };
-  return cached;
+  settingsCache = { value, at: Date.now() };
+  return value;
+}
+
+/** Extra nodemailer options some senders use (connection pooling, rate limits). */
+type Extra = { pool?: boolean; maxConnections?: number; maxMessages?: number; rateDelta?: number; rateLimit?: number };
+
+/**
+ * A transporter for the configured provider. `gmailUser`/`gmailPass` are the
+ * Gmail credentials the caller already looked up; they are used only when no
+ * SMTP server is configured.
+ */
+export async function createMailTransport(gmailUser?: string, gmailPass?: string, extra: Extra = {}): Promise<Transporter> {
+  const s = await settings();
+  if (s.smtp) {
+    return nodemailer.createTransport({
+      host: s.smtp.host,
+      port: s.smtp.port,
+      secure: s.smtp.port === 465,
+      auth: { user: s.smtp.user, pass: s.smtp.pass },
+      ...extra,
+    } as Parameters<typeof nodemailer.createTransport>[0]);
+  }
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: gmailUser || s.gmailUser, pass: (gmailPass || s.gmailPass).replace(/\s/g, '') },
+    ...extra,
+  } as Parameters<typeof nodemailer.createTransport>[0]);
+}
+
+/** The From header that matches the provider (a mismatched sender is rejected or flagged as spam). */
+export async function mailFrom(gmailUser?: string): Promise<string> {
+  const s = await settings();
+  return `${SENDER_NAME} <${s.smtp ? s.smtp.from : gmailUser || s.gmailUser}>`;
+}
+
+/** Which provider is active and whether the server can log in — for the admin check. Sends nothing. */
+export async function verifyMail(): Promise<{ provider: 'smtp' | 'gmail' | 'none'; from: string; ok: boolean; error?: string }> {
+  const s = await settings();
+  const provider = s.smtp ? 'smtp' : s.gmailUser && s.gmailPass ? 'gmail' : 'none';
+  if (provider === 'none') return { provider, from: '', ok: false, error: 'No mail credentials configured' };
+  const from = await mailFrom();
+  try {
+    await (await createMailTransport()).verify();
+    return { provider, from, ok: true };
+  } catch (err) {
+    const e = err as Error & { code?: string };
+    return { provider, from, ok: false, error: [e.code, e.message].filter(Boolean).join(': ').slice(0, 300) };
+  }
 }
 
 export type Mail = { to: string; subject: string; html: string; text?: string; replyTo?: string };
 
 export async function sendMail(mail: Mail): Promise<boolean> {
-  const t = await transport();
-  if (!t) {
-    console.error('sendMail: Gmail credentials missing in site_settings');
+  const s = await settings();
+  if (!s.smtp && !(s.gmailUser && s.gmailPass)) {
+    console.error('sendMail: no mail credentials (site_settings gmail_* or smtp_*)');
     return false;
   }
   try {
-    await t.transporter.sendMail({ from: t.from, ...mail });
+    await (await createMailTransport()).sendMail({ from: await mailFrom(), ...mail });
     return true;
   } catch (err) {
     console.error('sendMail failed', (err as Error).message);

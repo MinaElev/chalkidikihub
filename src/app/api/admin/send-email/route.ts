@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { createAdminClient } from '@/lib/api-helpers';
 import { requireSuperAdmin } from '@/lib/admin-auth';
 
@@ -43,25 +43,14 @@ export async function POST(request: NextRequest) {
     // Pooled: one SMTP connection reused for the whole batch instead of a fresh
     // handshake per message, which is where most of the old runtime went.
     // rateLimit paces us so Gmail doesn't start refusing.
-    const transporter = nodemailer.createTransport({
-      pool: true,
-      service: 'gmail',
-      maxConnections: 1,
-      maxMessages: 100,
-      rateDelta: 1000,
-      rateLimit: 4,
-      auth: {
-        user: gmailAddress,
-        pass: gmailPassword.replace(/\s/g, ''),
-      },
-    });
+    const transporter = await createMailTransport(gmailAddress, gmailPassword.replace(/\s/g, ''), { pool: true, maxConnections: 1, maxMessages: 100, rateDelta: 1000, rateLimit: 4 });
 
     const results: SendResult[] = [];
 
     for (const recipient of recipients) {
       try {
         await transporter.sendMail({
-          from: `ChalkidikiHub <${gmailAddress}>`,
+          from: await mailFrom(gmailAddress),
           to: recipient.email,
           subject,
           html: `<div style="font-family: system-ui, sans-serif; line-height: 1.6; color: #333;">${body}</div>`,

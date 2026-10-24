@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { createAdminClient } from '@/lib/api-helpers';
 import { requireSuperAdmin } from '@/lib/admin-auth';
 
@@ -50,10 +50,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: gmailAddress, pass: gmailPassword.replace(/\s/g, '') },
-    });
+    const transporter = await createMailTransport(gmailAddress, gmailPassword.replace(/\s/g, ''));
 
     const greeting = fullName ? `Γεια σου ${fullName},` : 'Γεια σου,';
     const html = `
@@ -98,7 +95,7 @@ export async function POST(request: NextRequest) {
 </html>`;
 
     await transporter.sendMail({
-      from: `ChalkidikiHub <${gmailAddress}>`,
+      from: await mailFrom(gmailAddress),
       to: email,
       subject: 'Επαναφορά κωδικού — ChalkidikiHub',
       html,

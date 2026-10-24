@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { createAdminClient } from '@/lib/api-helpers';
 import { netFromGross } from '@/lib/billing';
 import { requireInternalOrSuperAdmin } from '@/lib/route-guards';
@@ -70,9 +70,7 @@ export async function POST(request: NextRequest) {
     if (!map.gmail_address || !map.gmail_app_password) {
       return NextResponse.json({ error: 'Email not configured' }, { status: 500 });
     }
-    const transporter = nodemailer.createTransport({
-      service: 'gmail', auth: { user: map.gmail_address, pass: map.gmail_app_password.replace(/\s/g, '') },
-    });
+    const transporter = await createMailTransport(map.gmail_address, map.gmail_app_password.replace(/\s/g, ''));
 
     const amount = pay.amount_cents || 0;
     const isFree = amount <= 0;
@@ -99,7 +97,7 @@ export async function POST(request: NextRequest) {
     ].join('');
 
     await transporter.sendMail({
-      from: `ChalkidikiHub <${map.gmail_address}>`,
+      from: await mailFrom(map.gmail_address),
       to: ownerEmail,
       replyTo: ADMIN_EMAIL,
       subject: isFree

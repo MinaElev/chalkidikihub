@@ -1,6 +1,6 @@
 // Guard: Vercel cron bearer secret.
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { createAdminClient } from '@/lib/api-helpers';
 import { ANNUAL_PLAN } from '@/lib/billing';
 
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
     const map: Record<string, string> = {};
     settings?.forEach((s) => { map[s.key] = s.value; });
     const transporter = (map.gmail_address && map.gmail_app_password)
-      ? nodemailer.createTransport({ service: 'gmail', auth: { user: map.gmail_address, pass: map.gmail_app_password.replace(/\s/g, '') } })
+      ? await createMailTransport(map.gmail_address, map.gmail_app_password.replace(/\s/g, ''))
       : null;
 
     const ownerCache: Record<string, { email: string | null; name: string | null }> = {};
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
           ? `Η ετήσια καταχώρηση για το «${t}» έληξε. Έχετε <strong>${GRACE_DAYS} μέρες</strong> περίοδο χάριτος για ανανέωση (${ANNUAL_PLAN.priceLabel}/έτος) πριν αποσυρθεί.`
           : `Η καταχώρηση «${t}» αποσύρθηκε λόγω μη ανανέωσης. Μπορείτε να την επαναφέρετε ανανεώνοντας από το dashboard.`;
       await transporter.sendMail({
-        from: `ChalkidikiHub <${map.gmail_address}>`, to, replyTo: ADMIN_EMAIL,
+        from: await mailFrom(map.gmail_address), to, replyTo: ADMIN_EMAIL,
         subject: `${phase === 'archived' ? '⚠️' : '🔔'} ${head} — ${title}`,
         html: `<!DOCTYPE html><html lang="el"><head><meta charset="utf-8"></head>
 <body style="margin:0;background:#f3f4f6;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#111827;">

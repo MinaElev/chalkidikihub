@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { createAdminClient } from '@/lib/api-helpers';
 import { allowRequest } from '@/lib/rate-limit';
 
@@ -74,10 +74,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email not configured' }, { status: 500 });
     }
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: gmailAddress, pass: gmailPassword.replace(/\s/g, '') },
-    });
+    const transporter = await createMailTransport(gmailAddress, gmailPassword.replace(/\s/g, ''));
 
     const html = `
 <!DOCTYPE html>
@@ -121,7 +118,7 @@ export async function POST(request: NextRequest) {
 </html>`;
 
     await transporter.sendMail({
-      from: `ChalkidikiHub <${gmailAddress}>`,
+      from: await mailFrom(gmailAddress),
       to: cleanEmail,
       subject: 'Επαναφορά κωδικού — ChalkidikiHub',
       html,

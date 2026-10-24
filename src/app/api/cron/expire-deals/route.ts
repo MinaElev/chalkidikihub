@@ -1,6 +1,6 @@
 // Guard: Vercel cron bearer secret.
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { createAdminClient } from '@/lib/api-helpers';
 
 export const maxDuration = 60;
@@ -162,17 +162,14 @@ export async function GET(request: NextRequest) {
     let failed = 0;
 
     if (gmailAddress && gmailPassword) {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: { user: gmailAddress, pass: gmailPassword.replace(/\s/g, '') },
-      });
+      const transporter = await createMailTransport(gmailAddress, gmailPassword.replace(/\s/g, ''));
 
       for (let i = 0; i < deals.length; i++) {
         const deal = deals[i];
         if (!deal.owner_email) continue; // orphaned/admin-imported deal — nothing to notify
         try {
           await transporter.sendMail({
-            from: `ChalkidikiHub <${gmailAddress}>`,
+            from: await mailFrom(gmailAddress),
             to: deal.owner_email,
             replyTo: ADMIN_EMAIL,
             subject: `Η διαθεσιμότητα τελευταίας στιγμής έκλεισε — ${deal.listing_title_el || deal.listing_title_en || ''}`.trim(),

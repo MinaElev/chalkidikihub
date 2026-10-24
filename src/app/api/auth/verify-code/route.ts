@@ -1,6 +1,6 @@
 // Guard: signed-in user; attempt counter in email_verifications.
 import { NextRequest, NextResponse, after } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/api-helpers';
 import { hashVerificationCode, MAX_VERIFY_ATTEMPTS } from '@/lib/email-verification';
@@ -135,15 +135,12 @@ async function sendWelcomeEmail(
     const gmailPassword = map.gmail_app_password;
     if (!gmailAddress || !gmailPassword) return;
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: gmailAddress, pass: gmailPassword.replace(/\s/g, '') },
-    });
+    const transporter = await createMailTransport(gmailAddress, gmailPassword.replace(/\s/g, ''));
 
     const cleanName = (name || '').trim().replace(/</g, '&lt;');
 
     await transporter.sendMail({
-      from: `ChalkidikiHub <${gmailAddress}>`,
+      from: await mailFrom(gmailAddress),
       to: email,
       subject: 'Καλωσορίσατε στο ChalkidikiHub! 🎉',
       html: `

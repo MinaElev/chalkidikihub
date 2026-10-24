@@ -1,5 +1,5 @@
-import nodemailer from 'nodemailer';
 import { createAdminClient } from '@/lib/api-helpers';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { buildNewUserEmail } from '@/lib/emails/new-user';
 
 const ADMIN_EMAIL = 'mnc@hotmail.gr';
@@ -72,17 +72,14 @@ export async function notifyAdminOfNewUser(
     return { skipped: 'email_not_configured' as const };
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: gmailAddress, pass: gmailPassword.replace(/\s/g, '') },
-  });
+  const transporter = await createMailTransport(gmailAddress, gmailPassword.replace(/\s/g, ''));
 
   const html = buildNewUserEmail({
     name, email, phone, when, verified, totalUsers: totalUsers ?? null,
   });
 
   await transporter.sendMail({
-    from: `ChalkidikiHub <${gmailAddress}>`,
+    from: await mailFrom(gmailAddress),
     to: ADMIN_EMAIL,
     replyTo: email,
     subject: `Νέα εγγραφή: ${name !== '—' ? name : email}`,

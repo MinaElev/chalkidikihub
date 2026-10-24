@@ -12,7 +12,7 @@
  *   - Per-owner weekly cap honoured via owner_broadcast_settings.max_per_week
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 
 export const MAX_RECIPIENTS_PER_REQUEST = 50;
 export const MAX_REQUESTS_PER_DAY = 30;
@@ -319,10 +319,7 @@ export async function sendBroadcast(
   creds: GmailCreds,
 ): Promise<{ sent: number; failed: number }> {
   const area = AREA_LABELS[req.area] || req.area;
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: creds.user, pass: creds.pass.replace(/\s/g, '') },
-  });
+  const transporter = await createMailTransport(creds.user, creds.pass.replace(/\s/g, ''));
 
   let sent = 0;
   let failed = 0;
@@ -350,7 +347,7 @@ export async function sendBroadcast(
 
     try {
       await transporter.sendMail({
-        from: `ChalkidikiHub <${creds.user}>`,
+        from: await mailFrom(creds.user),
         to: c.email,
         subject: `Αίτημα διαθεσιμότητας · ${area} · ${fmtDate(req.check_in)} → ${fmtDate(req.check_out)}`,
         html: buildOwnerEmailHtml(req, responseUrl, unsubscribeUrl),
@@ -559,14 +556,11 @@ export async function sendGuestConfirmation(
     copy.footer,
   ].join('\n');
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: creds.user, pass: creds.pass.replace(/\s/g, '') },
-  });
+  const transporter = await createMailTransport(creds.user, creds.pass.replace(/\s/g, ''));
 
   await transporter
     .sendMail({
-      from: `ChalkidikiHub <${creds.user}>`,
+      from: await mailFrom(creds.user),
       to: req.guest_email,
       subject: copy.subject(area),
       html,
@@ -607,14 +601,11 @@ export async function notifyGuestFirstResponse(
   const area = localizedArea(req.area, locale);
   const dashboardUrl = `${SITE_URL}/requests/${req.public_token}`;
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: creds.user, pass: creds.pass.replace(/\s/g, '') },
-  });
+  const transporter = await createMailTransport(creds.user, creds.pass.replace(/\s/g, ''));
 
   await transporter
     .sendMail({
-      from: `ChalkidikiHub <${creds.user}>`,
+      from: await mailFrom(creds.user),
       to: req.guest_email,
       subject: copy.subject(area),
       html: `<div style="font-family:system-ui;max-width:480px;margin:0 auto;padding:24px;">

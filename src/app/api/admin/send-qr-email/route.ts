@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import QRCode from 'qrcode';
 import { createAdminClient } from '@/lib/api-helpers';
 import { requireSuperAdmin } from '@/lib/admin-auth';
@@ -49,13 +49,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: gmailAddress,
-        pass: gmailPassword.replace(/\s/g, ''),
-      },
-    });
+    const transporter = await createMailTransport(gmailAddress, gmailPassword.replace(/\s/g, ''));
 
     let sent = 0;
     let failed = 0;
@@ -136,7 +130,7 @@ export async function POST(request: NextRequest) {
 </html>`;
 
         await transporter.sendMail({
-          from: `ChalkidikiHub <${gmailAddress}>`,
+          from: await mailFrom(gmailAddress),
           to: r.email,
           subject: subject.replace(/\{listing_title\}/g, r.listingTitle),
           html,

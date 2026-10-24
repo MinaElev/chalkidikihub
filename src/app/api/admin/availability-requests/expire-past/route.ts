@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { createAdminClient } from '@/lib/api-helpers';
 import { requireSuperAdmin } from '@/lib/admin-auth';
 import {
@@ -63,17 +63,14 @@ export async function POST() {
     let failed = 0;
     const creds = await loadGmailCreds(supabase);
     if (creds) {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: { user: creds.user, pass: creds.pass.replace(/\s/g, '') },
-      });
+      const transporter = await createMailTransport(creds.user, creds.pass.replace(/\s/g, ''));
       for (let i = 0; i < list.length; i++) {
         const req = list[i];
         if (!req.guest_email) continue;
         const { subject, html, text } = buildExpiryEmail(req);
         try {
           await transporter.sendMail({
-            from: `ChalkidikiHub <${creds.user}>`,
+            from: await mailFrom(creds.user),
             to: req.guest_email,
             subject,
             html,

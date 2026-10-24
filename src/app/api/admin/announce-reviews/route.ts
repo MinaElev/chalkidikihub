@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { createAdminClient } from '@/lib/api-helpers';
 import { requireSuperAdmin } from '@/lib/admin-auth';
 import {
@@ -63,16 +63,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Δεν βρέθηκαν ιδιοκτήτες με δημοσιευμένο κατάλυμα και email.' }, { status: 400 });
     }
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: gmailAddress, pass: gmailPassword.replace(/\s/g, '') },
-    });
+    const transporter = await createMailTransport(gmailAddress, gmailPassword.replace(/\s/g, ''));
 
     // ── Test mode: one sample, nothing recorded ──
     if (testTo) {
       const sample = allOwners[0];
       await transporter.sendMail({
-        from: `ChalkidikiHub <${gmailAddress}>`,
+        from: await mailFrom(gmailAddress),
         to: testTo,
         subject: `[TEST] ${ANNOUNCEMENT_SUBJECT}`,
         html: renderAnnouncementHtml(sample),
@@ -90,7 +87,7 @@ export async function POST(request: NextRequest) {
       const o = pool[i];
       try {
         await transporter.sendMail({
-          from: `ChalkidikiHub <${gmailAddress}>`,
+          from: await mailFrom(gmailAddress),
           to: o.email,
           subject: ANNOUNCEMENT_SUBJECT,
           html: renderAnnouncementHtml(o),
