@@ -4,7 +4,7 @@ import { AREA_SLUGS, getVillages } from '@/lib/db/content';
 import { AREA_NAMES, placeName } from '@/lib/content/place-names';
 import { Link } from '@/i18n/navigation';
 import { localeNames, locales, type Locale } from '@/i18n/config';
-import { AccountMenu } from './AccountMenu';
+import { AccountMenu, MobileAccount, type AccountLabels } from './AccountMenu';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { BrandIcon } from '@/components/ui/BrandIcon';
 
@@ -34,6 +34,10 @@ export async function Header({ locale }: { locale: Locale }) {
   }));
   const DOTS: Record<string, string> = { kassandra: 'bg-blue-500', sithonia: 'bg-green-500', athos: 'bg-amber-500', mainland: 'bg-gray-400' };
   const languages = locales.map((l) => ({ code: l, name: localeNames[l] }));
+  const accountLabels: AccountLabels = {
+    login: nav('login'), register: nav('register'), dashboard: nav('dashboard'), listings: nav('myListings'),
+    profile: nav('profile'), favourites: FAVOURITES[locale], logout: nav('logout'), account: nav('myAccount'), admin: 'Admin panel',
+  };
 
   return (
     <header className="sticky top-0 z-40 border-b border-gray-100 bg-white/90 shadow-sm shadow-gray-900/[0.03] backdrop-blur-xl supports-[backdrop-filter]:bg-white/80">
@@ -110,19 +114,15 @@ export async function Header({ locale }: { locale: Locale }) {
         </nav>
 
         <div className="ml-auto flex items-center gap-1">
-          <Link prefetch={false} href="/favorites" className="flex size-10 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 hover:text-red-500" aria-label={FAVOURITES[locale]} title={FAVOURITES[locale]}>
+          {/* Phones under 640px: the bar has no room for it, the menu carries Favourites instead. */}
+          <Link prefetch={false} href="/favorites" className="hidden size-10 items-center sm:flex justify-center rounded-lg text-slate-700 hover:bg-slate-100 hover:text-red-500" aria-label={FAVOURITES[locale]} title={FAVOURITES[locale]}>
             <Heart className="size-5" aria-hidden />
           </Link>
           <Link href="/search" className="flex size-10 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100" aria-label={t('search')}>
             <Search className="size-5" aria-hidden />
           </Link>
           <LanguageSwitcher current={locale} languages={languages} label={t('language')} />
-          <AccountMenu
-            labels={{
-              login: nav('login'), register: nav('register'), dashboard: nav('dashboard'), listings: nav('myListings'),
-              profile: nav('profile'), favourites: FAVOURITES[locale], logout: nav('logout'), account: nav('myAccount'), admin: 'Admin panel',
-            }}
-          />
+          <AccountMenu labels={accountLabels} />
 
           {/* Mobile menu: native <details>, so it works before any JS loads. */}
           <details className="group relative xl:hidden">
@@ -135,6 +135,7 @@ export async function Header({ locale }: { locale: Locale }) {
               aria-label={t('menu')}
               className="fixed inset-x-0 top-16 max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-slate-200 bg-white px-4 pb-6 pt-2 shadow-lg"
             >
+              <MobileAccount labels={accountLabels} />
               <ul className="divide-y divide-slate-100 text-base font-medium text-slate-800">
                 {PRIMARY_NAV.map((item) => (
                   <li key={item.href}>
@@ -156,7 +157,7 @@ export async function Header({ locale }: { locale: Locale }) {
                   <Link prefetch={false} href="/sales" className="block py-3.5 text-emerald-700">{nav('sales')}</Link>
                 </li>
                 <li>
-                  <Link prefetch={false} href="/dashboard" className="block py-3.5 text-sea-700">{t('account')}</Link>
+                  <Link prefetch={false} href="/favorites" className="block py-3.5">{FAVOURITES[locale]}</Link>
                 </li>
               </ul>
             </nav>

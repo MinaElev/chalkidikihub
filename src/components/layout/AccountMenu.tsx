@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { ChevronDown, Heart, Home, LayoutDashboard, LogOut, ShieldCheck, User } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 
-type Labels = { login: string; register: string; dashboard: string; listings: string; profile: string; favourites: string; logout: string; account: string; admin: string };
+export type AccountLabels = { login: string; register: string; dashboard: string; listings: string; profile: string; favourites: string; logout: string; account: string; admin: string };
 type Who = { name: string; email: string; isAdmin?: boolean };
+type Me = { signedIn: boolean; name?: string; isAdmin?: boolean } | null;
 
 /**
  * Pages are cached for everyone, so the server can't know who is looking.
@@ -38,31 +39,38 @@ function sessionUser(): Who | null {
   }
 }
 
-/** Closes the header's <details> menus (mobile menu, account menu). */
+/** Closes the header's <details> menus (mobile menu, account menu, languages). */
 function closeHeaderMenus() {
   document.querySelectorAll('header details[open]').forEach((d) => d.removeAttribute('open'));
 }
 
-export function AccountMenu({ labels }: { labels: Labels }) {
+// Both header variants ask once per signed-in email, not once each.
+const meRequests = new Map<string, Promise<Me>>();
+function fetchMe(email: string): Promise<Me> {
+  if (!meRequests.has(email)) {
+    meRequests.set(email, fetch('/api/auth/me', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null));
+  }
+  return meRequests.get(email)!;
+}
+
+const keepIfSame = (prev: Who | null): Who | null => {
+  const next = sessionUser();
+  return next && prev?.email === next.email ? prev : next;
+};
+
+/** Who is signed in, kept current across client-side navigations (signup and login move on without a page load). */
+function useAccount(): Who | null {
   const pathname = usePathname();
   const [who, setWho] = useState<Who | null>(null);
 
-  // Signing up or logging in moves on without a page load, so the header
-  // re-reads the session on every navigation and when the tab regains focus.
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- the cookie only exists in the browser; reading it during render would break hydration
-    setWho((prev) => {
-      const next = sessionUser();
-      return next && prev?.email === next.email ? prev : next;
-    });
+    setWho(keepIfSame);
     closeHeaderMenus();
   }, [pathname]);
 
   useEffect(() => {
-    const refresh = () => setWho((prev) => {
-      const next = sessionUser();
-      return next && prev?.email === next.email ? prev : next;
-    });
+    const refresh = () => setWho(keepIfSame);
     // The menus cover the page on phones: tapping a link inside one closes it,
     // also when the link points at the page already open.
     const onClick = (e: MouseEvent) => {
@@ -81,14 +89,27 @@ export function AccountMenu({ labels }: { labels: Labels }) {
   useEffect(() => {
     if (!email) return;
     let live = true;
-    fetch('/api/auth/me', { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((me: { signedIn: boolean; name?: string; isAdmin?: boolean } | null) => {
-        if (live && me?.signedIn) setWho((prev) => (prev ? { ...prev, name: me.name || prev.name, isAdmin: Boolean(me.isAdmin) } : prev));
-      })
-      .catch(() => {});
+    fetchMe(email).then((me) => {
+      if (live && me?.signedIn) setWho((prev) => (prev ? { ...prev, name: me.name || prev.name, isAdmin: Boolean(me.isAdmin) } : prev));
+    });
     return () => { live = false; };
   }, [email]);
+
+  return who;
+}
+
+async function signOut() {
+  const { browserDb } = await import('@/lib/supabase/browser');
+  await browserDb().auth.signOut();
+  meRequests.clear();
+  window.location.reload();
+}
+
+const initialsOf = (name: string) => name.split(/\s+/).slice(0, 2).map((p) => p[0]?.toUpperCase() ?? '').join('');
+
+/** Desktop header: Login/Register, or the signed-in account with its menu. */
+export function AccountMenu({ labels }: { labels: AccountLabels }) {
+  const who = useAccount();
 
   if (!who) {
     return (
@@ -104,28 +125,21 @@ export function AccountMenu({ labels }: { labels: Labels }) {
     );
   }
 
-  const first = who.name.split(/\s+/)[0];
-  const initials = who.name.split(/\s+/).slice(0, 2).map((p) => p[0]?.toUpperCase() ?? '').join('');
   const item = 'flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-sea-700';
 
-  async function signOut() {
-    const { browserDb } = await import('@/lib/supabase/browser');
-    await browserDb().auth.signOut();
-    window.location.reload();
-  }
-
+  // Phones get the account inside the main menu instead (MobileAccount): the bar has no room for another button.
   return (
-    <details className="group relative">
+    <details className="group relative hidden xl:block">
       <summary
         className="flex cursor-pointer list-none items-center gap-2 rounded-full py-1 pl-1 pr-2 hover:bg-gray-100 [&::-webkit-details-marker]:hidden"
         aria-label={labels.account}
         title={who.email}
       >
         <span className="flex size-8 items-center justify-center rounded-full bg-sea-600 text-xs font-bold text-white" aria-hidden>
-          {initials || <User className="size-4" />}
+          {initialsOf(who.name) || <User className="size-4" />}
         </span>
-        <span className="hidden max-w-[9rem] truncate text-sm font-semibold text-gray-800 xl:block">{first}</span>
-        <ChevronDown className="hidden size-3.5 text-gray-500 transition-transform group-open:rotate-180 xl:block" aria-hidden />
+        <span className="max-w-[9rem] truncate text-sm font-semibold text-gray-800">{who.name.split(/\s+/)[0]}</span>
+        <ChevronDown className="size-3.5 text-gray-500 transition-transform group-open:rotate-180" aria-hidden />
       </summary>
       <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-2xl border border-gray-200 bg-white p-2 shadow-xl">
         <div className="border-b border-gray-100 px-3 pb-2.5 pt-1.5">
@@ -146,5 +160,40 @@ export function AccountMenu({ labels }: { labels: Labels }) {
         </button>
       </div>
     </details>
+  );
+}
+
+/** The account block at the top of the mobile menu: who is signed in and their links, or Login/Register. */
+export function MobileAccount({ labels }: { labels: AccountLabels }) {
+  const who = useAccount();
+  const row = 'flex items-center gap-3 py-3 text-base font-medium text-slate-800';
+
+  if (!who) {
+    return (
+      <div className="grid grid-cols-2 gap-2 border-b border-slate-100 pb-4 pt-2">
+        <Link prefetch={false} href="/dashboard" className="rounded-xl border border-sea-200 py-2.5 text-center font-semibold text-sea-700">{labels.login}</Link>
+        <Link prefetch={false} href="/auth/register" className="rounded-xl bg-sea-600 py-2.5 text-center font-semibold text-white">{labels.register}</Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="border-b border-slate-100 pb-2 pt-2">
+      <div className="flex items-center gap-3 rounded-xl bg-sea-50 p-3">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-sea-600 text-sm font-bold text-white" aria-hidden>
+          {initialsOf(who.name) || <User className="size-5" />}
+        </span>
+        <span className="min-w-0">
+          <span className="block truncate font-semibold text-slate-900">{who.name}</span>
+          <span className="block truncate text-sm text-slate-500">{who.email}</span>
+        </span>
+      </div>
+      {who.isAdmin && (
+        <Link prefetch={false} href="/admin" className={`${row} text-emerald-700`}><ShieldCheck className="size-5" aria-hidden />{labels.admin}</Link>
+      )}
+      <Link prefetch={false} href="/dashboard" className={row}><LayoutDashboard className="size-5 text-slate-500" aria-hidden />{labels.dashboard}</Link>
+      <Link prefetch={false} href="/dashboard/listings" className={row}><Home className="size-5 text-slate-500" aria-hidden />{labels.listings}</Link>
+      <button type="button" onClick={signOut} className={`${row} w-full text-red-600`}><LogOut className="size-5" aria-hidden />{labels.logout}</button>
+    </div>
   );
 }
