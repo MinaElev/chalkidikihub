@@ -166,7 +166,8 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
         </p>
         <QuickActions lat={geo ? beach.latitude : null} lng={geo ? beach.longitude : null} directionsLabel={common('directions')} shareTitle={name} label={shell('quickActions')}>
           {geo && (
-            <Suspense fallback={null}>
+            // Same-size placeholder: the figure streams in a moment later and must not push the photo down.
+            <Suspense fallback={<span className="inline-block h-9 w-48 rounded-full bg-sea-50" aria-hidden />}>
               <SeaTemperature chip locale={locale} lat={beach.latitude!} lng={beach.longitude!} />
             </Suspense>
           )}
