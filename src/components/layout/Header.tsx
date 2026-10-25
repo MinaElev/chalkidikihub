@@ -120,7 +120,7 @@ export async function Header({ locale }: { locale: Locale }) {
           <AccountMenu
             labels={{
               login: nav('login'), register: nav('register'), dashboard: nav('dashboard'), listings: nav('myListings'),
-              profile: nav('profile'), favourites: FAVOURITES[locale], logout: nav('logout'), account: nav('myAccount'),
+              profile: nav('profile'), favourites: FAVOURITES[locale], logout: nav('logout'), account: nav('myAccount'), admin: 'Admin panel',
             }}
           />
 

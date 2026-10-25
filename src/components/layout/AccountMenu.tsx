@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ChevronDown, Heart, Home, LayoutDashboard, LogOut, User } from 'lucide-react';
-import { Link } from '@/i18n/navigation';
+import { ChevronDown, Heart, Home, LayoutDashboard, LogOut, ShieldCheck, User } from 'lucide-react';
+import { Link, usePathname } from '@/i18n/navigation';
 
-type Labels = { login: string; register: string; dashboard: string; listings: string; profile: string; favourites: string; logout: string; account: string };
-type Who = { name: string; email: string };
+type Labels = { login: string; register: string; dashboard: string; listings: string; profile: string; favourites: string; logout: string; account: string; admin: string };
+type Who = { name: string; email: string; isAdmin?: boolean };
 
 /**
  * Pages are cached for everyone, so the server can't know who is looking.
@@ -38,10 +38,57 @@ function sessionUser(): Who | null {
   }
 }
 
+/** Closes the header's <details> menus (mobile menu, account menu). */
+function closeHeaderMenus() {
+  document.querySelectorAll('header details[open]').forEach((d) => d.removeAttribute('open'));
+}
+
 export function AccountMenu({ labels }: { labels: Labels }) {
+  const pathname = usePathname();
   const [who, setWho] = useState<Who | null>(null);
-  // eslint-disable-next-line react-hooks/set-state-in-effect -- the cookie only exists in the browser; reading it during render would break hydration
-  useEffect(() => setWho(sessionUser()), []);
+
+  // Signing up or logging in moves on without a page load, so the header
+  // re-reads the session on every navigation and when the tab regains focus.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the cookie only exists in the browser; reading it during render would break hydration
+    setWho((prev) => {
+      const next = sessionUser();
+      return next && prev?.email === next.email ? prev : next;
+    });
+    closeHeaderMenus();
+  }, [pathname]);
+
+  useEffect(() => {
+    const refresh = () => setWho((prev) => {
+      const next = sessionUser();
+      return next && prev?.email === next.email ? prev : next;
+    });
+    // The menus cover the page on phones: tapping a link inside one closes it,
+    // also when the link points at the page already open.
+    const onClick = (e: MouseEvent) => {
+      if ((e.target as Element | null)?.closest?.('header details a')) closeHeaderMenus();
+    };
+    window.addEventListener('focus', refresh);
+    document.addEventListener('click', onClick);
+    return () => {
+      window.removeEventListener('focus', refresh);
+      document.removeEventListener('click', onClick);
+    };
+  }, []);
+
+  // The cookie says who; the server says whether they are the admin (role lives in profiles).
+  const email = who?.email;
+  useEffect(() => {
+    if (!email) return;
+    let live = true;
+    fetch('/api/auth/me', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((me: { signedIn: boolean; name?: string; isAdmin?: boolean } | null) => {
+        if (live && me?.signedIn) setWho((prev) => (prev ? { ...prev, name: me.name || prev.name, isAdmin: Boolean(me.isAdmin) } : prev));
+      })
+      .catch(() => {});
+    return () => { live = false; };
+  }, [email]);
 
   if (!who) {
     return (
@@ -86,6 +133,9 @@ export function AccountMenu({ labels }: { labels: Labels }) {
           <p className="truncate text-xs text-gray-500">{who.email}</p>
         </div>
         <nav className="py-1.5" aria-label={labels.account}>
+          {who.isAdmin && (
+            <Link prefetch={false} href="/admin" className={`${item} font-semibold text-emerald-700 hover:text-emerald-800`}><ShieldCheck className="size-4" aria-hidden />{labels.admin}</Link>
+          )}
           <Link prefetch={false} href="/dashboard" className={item}><LayoutDashboard className="size-4" aria-hidden />{labels.dashboard}</Link>
           <Link prefetch={false} href="/dashboard/listings" className={item}><Home className="size-4" aria-hidden />{labels.listings}</Link>
           <Link prefetch={false} href="/dashboard/profile" className={item}><User className="size-4" aria-hidden />{labels.profile}</Link>
