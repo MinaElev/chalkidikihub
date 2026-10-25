@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { createAdminClient } from '@/lib/api-helpers';
 import { allowRequest } from '@/lib/rate-limit';
@@ -117,20 +117,27 @@ export async function POST(request: NextRequest) {
 </body>
 </html>`;
 
-    await transporter.sendMail({
-      from: await mailFrom(gmailAddress),
-      to: cleanEmail,
-      subject: 'Επαναφορά κωδικού — ChalkidikiHub',
-      html,
-    });
-
+    // The reply is the same whether or not the mail goes out (no account
+    // probing), so send after it: a slow mail server never holds the form.
     emailLastSent.set(cleanEmail, now);
+    after(async () => {
+      try {
+        await transporter.sendMail({
+          from: await mailFrom(gmailAddress),
+          to: cleanEmail,
+          subject: 'Επαναφορά κωδικού — ChalkidikiHub',
+          html,
+        });
 
-    await supabase.from('activity_logs').insert({
-      type: 'user_action',
-      severity: 'info',
-      message: `Self-service password reset email sent to ${cleanEmail}`,
-      details: { email: cleanEmail, ip },
+        await supabase.from('activity_logs').insert({
+          type: 'user_action',
+          severity: 'info',
+          message: `Self-service password reset email sent to ${cleanEmail}`,
+          details: { email: cleanEmail, ip },
+        });
+      } catch (e) {
+        await supabase.from('activity_logs').insert({ type: 'error', severity: 'error', message: 'Password reset email failed', details: { email: cleanEmail, error: (e as Error).message.slice(0, 300) } });
+      }
     });
 
     return okResponse;

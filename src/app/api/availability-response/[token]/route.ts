@@ -1,5 +1,5 @@
 // Guard: public by unguessable per-owner response token.
-import { NextRequest, NextResponse } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/api-helpers';
 import { notifyGuestFirstResponse } from '@/lib/availability/dispatch';
 
@@ -189,7 +189,8 @@ export async function POST(
 
   // Send 1-shot guest notification on the first positive offer
   if (isOffer) {
-    await notifyGuestFirstResponse(supabase, recipient.request_id).catch(() => {});
+    // After the response: the owner sees the guest's contact at once, whatever the mail server does.
+    after(() => notifyGuestFirstResponse(supabase, recipient.request_id).catch(() => {}));
   }
 
   // Reveal the guest's contact details only now, as the reward for a complete

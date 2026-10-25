@@ -205,16 +205,13 @@ export default function MyListingsPage() {
     // If the owner self-publishes (vs admin approval) they still get the
     // platform-benefits walkthrough, which is the higher-signal scenario
     // to optimise for — a missing email is worse than a duplicate one.
+    // Not awaited: the list refreshes at once, the email follows on its own.
     if (newStatus === 'published') {
-      try {
-        await fetch('/api/listings/notify-published', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ listing_id: id }),
-        });
-      } catch (e) {
-        console.error('notify-published failed', e);
-      }
+      fetch('/api/listings/notify-published', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ listing_id: id }),
+      }).catch((e) => console.error('notify-published failed', e));
     }
     loadListings();
   }

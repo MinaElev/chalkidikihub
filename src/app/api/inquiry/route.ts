@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from 'next/server';
+import { after, NextResponse, type NextRequest } from 'next/server';
 import { adminDb } from '@/lib/supabase/clients';
 import { allowRequest } from '@/lib/rate-limit';
 import { emailLayout, escapeHtml, sendMail } from '@/lib/email/mailer';
@@ -83,19 +83,24 @@ export async function POST(request: NextRequest) {
       ['Τηλέφωνο', phone || '-'],
       ['Γλώσσα επισκέπτη', locale.toUpperCase()],
     ];
-    await sendMail({
-      to,
-      replyTo: email,
-      subject: `Νέο αίτημα διαθεσιμότητας — ${title}`,
-      html: emailLayout(
-        'Νέο αίτημα διαθεσιμότητας',
-        `<p>${owner?.full_name ? `Γεια σας, ${escapeHtml(owner.full_name)}.` : 'Γεια σας,'}</p>
-         <p>Ένας επισκέπτης ρώτησε για διαθεσιμότητα μέσω του ChalkidikiHub. Απαντήστε απευθείας σε αυτό το email.</p>
-         <table cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">${rows
-           .map(([k, v]) => `<tr><td style="color:#64748b;width:40%">${k}</td><td><strong>${escapeHtml(v)}</strong></td></tr>`)
-           .join('')}</table>
-         ${message ? `<p style="margin-top:16px;padding:12px;background:#f1f5f9;border-radius:8px">${escapeHtml(message).replace(/\n/g, '<br>')}</p>` : ''}`,
-      ),
+    // Already stored in contact_messages; mail the owner after the response so a
+    // slow mail server never keeps the guest waiting.
+    after(async () => {
+      const ok = await sendMail({
+        to,
+        replyTo: email,
+        subject: `Νέο αίτημα διαθεσιμότητας — ${title}`,
+        html: emailLayout(
+          'Νέο αίτημα διαθεσιμότητας',
+          `<p>${owner?.full_name ? `Γεια σας, ${escapeHtml(owner.full_name)}.` : 'Γεια σας,'}</p>
+           <p>Ένας επισκέπτης ρώτησε για διαθεσιμότητα μέσω του ChalkidikiHub. Απαντήστε απευθείας σε αυτό το email.</p>
+           <table cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">${rows
+             .map(([k, v]) => `<tr><td style="color:#64748b;width:40%">${k}</td><td><strong>${escapeHtml(v)}</strong></td></tr>`)
+             .join('')}</table>
+           ${message ? `<p style="margin-top:16px;padding:12px;background:#f1f5f9;border-radius:8px">${escapeHtml(message).replace(/\n/g, '<br>')}</p>` : ''}`,
+        ),
+      });
+      if (!ok) await db.from('activity_logs').insert({ type: 'error', severity: 'error', message: 'Inquiry email to owner failed', details: { slug, to } });
     });
   }
 

@@ -62,19 +62,15 @@ export default function AdminListingsPage() {
   }
 
   // Best-effort owner notification when a listing transitions to published.
-  // Awaited so the email lands before loadListings re-renders (and any UI
-  // hint the admin gets), but failures don't roll back the DB update —
-  // the status change is the source of truth, the email is the courtesy.
+  // Not awaited: a slow mail server must not hold up the admin list. Failures
+  // don't roll back the DB update — the status change is the source of truth,
+  // the email is the courtesy.
   async function notifyOwnerPublished(listingId: string) {
-    try {
-      await fetch('/api/listings/notify-published', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ listing_id: listingId }),
-      });
-    } catch (e) {
-      console.error('notify-published failed', e);
-    }
+    fetch('/api/listings/notify-published', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ listing_id: listingId }),
+    }).catch((e) => console.error('notify-published failed', e));
   }
 
   // Every status change here flips whether the public detail page exists, so it
