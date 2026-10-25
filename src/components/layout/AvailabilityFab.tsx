@@ -9,7 +9,8 @@ const HIDDEN = ['/admin', '/dashboard', '/auth', '/availability-request', '/requ
 /**
  * v3's floating "Request availability" button: one request reaches every
  * owner in the chosen area (app/[locale]/availability-request). It fades in
- * after a moment so it doesn't compete with the page's first paint.
+ * after a moment so it doesn't compete with the page's first paint. Phones
+ * get the same link in the bottom bar (BottomNav) instead.
  */
 export function AvailabilityFab({ label, tooltip }: { label: string; tooltip: string }) {
   const pathname = usePathname();
@@ -20,7 +21,7 @@ export function AvailabilityFab({ label, tooltip }: { label: string; tooltip: st
       prefetch={false}
       aria-label={tooltip}
       title={tooltip}
-      className="availability-fab fab-in group fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sea-600 to-sea-700 py-3 pl-3 pr-4 text-white shadow-xl shadow-sea-700/30 transition hover:from-sea-700 hover:to-sea-800 md:bottom-7 md:right-7"
+      className="availability-fab fab-in group fixed bottom-5 right-5 z-50 hidden md:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sea-600 to-sea-700 py-3 pl-3 pr-4 text-white shadow-xl shadow-sea-700/30 transition hover:from-sea-700 hover:to-sea-800 md:bottom-7 md:right-7"
     >
       <Bell className="size-5" aria-hidden />
       <span className="hidden whitespace-nowrap text-sm font-semibold md:inline">{label}</span>

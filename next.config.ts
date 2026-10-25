@@ -58,6 +58,8 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: '/(.*)', headers: securityHeaders },
+      // The service worker must never be cached, or a fix to it would take days to reach visitors.
+      { source: '/sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache, max-age=0' }] },
       {
         // Owner-facing promo material linked from emails — reachable, never indexed.
         source: '/(marketing/.*|email-template-owners.html)',

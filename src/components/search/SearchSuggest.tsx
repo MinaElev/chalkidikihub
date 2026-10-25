@@ -5,6 +5,7 @@ import { ArrowRight, Building2, FileText, Home, Landmark, MapPin, Search, Utensi
 import { useRouter } from '@/i18n/navigation';
 import imageLoader from '@/lib/image-loader';
 import { matchScore, norm } from '@/lib/search/normalize';
+import { readRecent } from '@/components/v3/RecentlyViewed';
 import type { Locale } from '@/i18n/config';
 
 type Row = [kind: string, href: string, title: string, sub: string, image: string, keys: string, boost: number];
@@ -30,9 +31,14 @@ function loadIndex(locale: Locale): Promise<Entry[]> {
  * locally against the whole site (accent-, script- and typo-tolerant), so
  * "nikiti", "Νικητη" and "nikti" all suggest Nikiti.
  */
-export function SearchSuggest({ locale, action, placeholder, label, submit, kinds, allLabel, noneLabel, formClassName }: {
+export function SearchSuggest({ locale, action, placeholder, label, submit, kinds, allLabel, noneLabel, formClassName, variant = 'hero', autoFocus = false, onNavigate }: {
   locale: Locale;
   formClassName: string;
+  /** hero: white on the photo, suggestions float below. light: dark on white, suggestions in the flow (the search overlay). */
+  variant?: 'hero' | 'light';
+  autoFocus?: boolean;
+  /** Called after a suggestion is opened, e.g. to close the overlay it lives in. */
+  onNavigate?: () => void;
   action: string;
   placeholder: string;
   label: string;
@@ -46,21 +52,24 @@ export function SearchSuggest({ locale, action, placeholder, label, submit, kind
   const id = useId();
   const [q, setQ] = useState('');
   const [index, setIndex] = useState<Entry[] | null>(null);
+  const [recent, setRecent] = useState<Entry[]>([]);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
   const box = useRef<HTMLDivElement>(null);
+  const input = useRef<HTMLInputElement>(null);
 
   const results = useMemo(() => {
     if (!index) return [];
     const needle = norm(q);
-    if (needle.length < 2) return index.filter((e) => e.kind === 'area');
+    // Nothing typed yet: what this visitor opened lately, then the four areas.
+    if (needle.length < 2) return [...recent.slice(0, 5), ...index.filter((e) => e.kind === 'area')];
     const scored: Array<{ e: Entry; s: number }> = [];
     for (const e of index) {
       const s = matchScore(needle, e.keys);
       if (s) scored.push({ e, s: s + e.boost });
     }
     return scored.sort((a, b) => b.s - a.s).slice(0, 8).map((x) => x.e);
-  }, [index, q]);
+  }, [index, q, recent]);
 
   useEffect(() => {
     if (!open) return;
@@ -71,13 +80,24 @@ export function SearchSuggest({ locale, action, placeholder, label, submit, kind
 
   function warm() {
     setOpen(true);
-    if (!index) loadIndex(locale).then(setIndex);
+    if (!index) {
+      loadIndex(locale).then(setIndex);
+      setRecent(readRecent().map((r) => ({ kind: r.kind, href: r.href, title: r.title, sub: '', image: r.image ?? '', keys: [], boost: 0 })));
+    }
   }
 
   function go(href: string) {
     setOpen(false);
+    onNavigate?.();
     router.push(href);
   }
+
+  const hero = variant === 'hero';
+  // The overlay opens with the keyboard up. A real focus() (React's autoFocus
+  // fires no focus event) so onFocus loads the suggestions straight away.
+  useEffect(() => {
+    if (autoFocus) input.current?.focus();
+  }, [autoFocus]);
 
   const showAll = norm(q).length >= 2;
   const count = results.length + (showAll ? 1 : 0);
@@ -105,9 +125,10 @@ export function SearchSuggest({ locale, action, placeholder, label, submit, kind
     <div ref={box} className="relative">
       <form action={action} role="search" className={formClassName}>
         <label htmlFor={`${id}-q`} className="sr-only">{label}</label>
-        <span className="flex flex-1 items-center gap-2 rounded-xl bg-white/10 px-4">
-          <MapPin className="size-5 shrink-0 text-white/70" aria-hidden />
+        <span className={`flex flex-1 items-center gap-2 rounded-xl px-4 ${hero ? 'bg-white/10' : 'border border-slate-300 bg-white focus-within:border-sea-500 focus-within:ring-2 focus-within:ring-sea-200'}`}>
+          <MapPin className={`size-5 shrink-0 ${hero ? 'text-white/70' : 'text-slate-400'}`} aria-hidden />
           <input
+            ref={input}
             id={`${id}-q`}
             name="q"
             type="search"
@@ -124,22 +145,23 @@ export function SearchSuggest({ locale, action, placeholder, label, submit, kind
             aria-controls={listId}
             aria-autocomplete="list"
             aria-activedescendant={expanded && active >= 0 ? optId(active) : undefined}
-            className="min-w-0 flex-1 bg-transparent py-3 text-base text-white placeholder:text-white/70 focus:outline-none"
+            className={`min-w-0 flex-1 bg-transparent py-3 text-base focus:outline-none ${hero ? 'text-white placeholder:text-white/70' : 'text-slate-900 placeholder:text-slate-400'}`}
           />
         </span>
-        <button type="submit" className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 font-semibold text-sea-700 shadow-lg transition hover:bg-sea-50">
+        <button type="submit" className={`inline-flex items-center justify-center gap-2 rounded-xl py-3 font-semibold transition ${hero ? 'bg-white px-6 text-sea-700 shadow-lg hover:bg-sea-50' : 'bg-sea-600 px-4 text-white hover:bg-sea-700 sm:px-6'}`}>
           <Search className="size-4" aria-hidden />
-          {submit}
+          {/* In the overlay a phone needs the width for typing: icon only below 640px. */}
+          <span className={hero ? undefined : 'sr-only sm:not-sr-only'}>{submit}</span>
         </button>
       </form>
 
       {expanded && (
-        <ul id={listId} role="listbox" aria-label={label} className="absolute inset-x-0 top-full z-30 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-gray-200 bg-white p-1.5 text-left text-gray-900 shadow-2xl">
+        <ul id={listId} role="listbox" aria-label={label} className={`text-left text-gray-900 ${hero ? 'absolute inset-x-0 top-full z-30 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-gray-200 bg-white p-1.5 shadow-2xl' : 'mt-3'}`}>
           {results.map((e, i) => {
             const Icon = ICONS[e.kind] ?? MapPin;
             return (
               <li
-                key={e.href}
+                key={`${i}-${e.href}`}
                 id={optId(i)}
                 role="option"
                 aria-selected={active === i}

@@ -14,6 +14,7 @@ import { buildMetadata } from '@/lib/seo/metadata';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container } from '@/components/ui/Layout';
 import { SearchSuggest } from '@/components/search/SearchSuggest';
+import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { ClientIntl } from '@/components/ClientIntl';
 import { BeachFinder, type FinderBeach } from '@/components/home/BeachFinder';
 import { LastMinuteDealsPopup } from '@/components/v3/LastMinuteDealsPopup';
@@ -183,6 +184,11 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           <ChevronDown className="size-5" aria-hidden />
         </a>
       </section>
+
+      {/* ── Returning visitors: pick up where they left off (this browser only; renders nothing for first visits) ── */}
+      <Container>
+        <RecentlyViewed className="pt-10" />
+      </Container>
 
       {/* ── Peninsulas: an accordion of photos on desktop, a swipe row on phones ── */}
       <section aria-labelledby="peninsulas" className="bg-mesh-light reveal py-16 sm:py-20">

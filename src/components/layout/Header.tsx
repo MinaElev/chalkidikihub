@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { Building, ChevronDown, Heart, Menu, Search, X } from 'lucide-react';
+import { BedDouble, BookOpen, Building, CalendarDays, ChevronDown, Church, Compass, FileText, Heart, Landmark, Map, MapPin, Menu, UtensilsCrossed, Waves, X } from 'lucide-react';
 import { AREA_SLUGS, getVillages } from '@/lib/db/content';
 import { AREA_NAMES, placeName } from '@/lib/content/place-names';
 import { Link } from '@/i18n/navigation';
@@ -7,6 +7,8 @@ import { localeNames, locales, type Locale } from '@/i18n/config';
 import { AccountMenu, MobileAccount, type AccountLabels } from './AccountMenu';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { BrandIcon } from '@/components/ui/BrandIcon';
+import { SearchOverlay, type SearchOverlayLabels } from '@/components/search/SearchOverlay';
+import { InstallApp } from './InstallApp';
 
 const FAVOURITES: Record<Locale, string> = {
   el: 'Αγαπημένα', en: 'Favourites', de: 'Favoriten', ro: 'Favorite', bg: 'Любими', sr: 'Omiljeno', ru: 'Избранное',
@@ -22,9 +24,22 @@ export const PRIMARY_NAV = [
   { href: '/mount-athos', key: 'athos' },
 ] as const;
 
+// Icons for the mobile menu rows.
+const NAV_ICONS = { beaches: Waves, places: MapPin, stay: BedDouble, food: UtensilsCrossed, activities: Landmark, guides: Compass, athos: Church } as const;
+
 export async function Header({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale, namespace: 'shell' });
   const nav = await getTranslations({ locale, namespace: 'nav' });
+  const search = await getTranslations({ locale, namespace: 'search' });
+  const searchLabels: SearchOverlayLabels = {
+    title: search('title'),
+    placeholder: search('placeholder'),
+    submit: search('submit'),
+    close: t('close'),
+    all: search.raw('all'),
+    none: search.raw('none'),
+    kinds: Object.fromEntries(['area', 'village', 'beach', 'listing', 'restaurant', 'activity', 'article'].map((k) => [k, search(`kind_${k}`)])),
+  };
   // v3's areas mega menu: each peninsula with its villages. Pure CSS (hover /
   // focus-within), so it costs no JavaScript and its links are crawlable.
   const villages = (await getVillages()).filter((v) => v.slug !== 'pyrgadikia-mainland');
@@ -118,9 +133,7 @@ export async function Header({ locale }: { locale: Locale }) {
           <Link prefetch={false} href="/favorites" className="hidden size-10 items-center sm:flex justify-center rounded-lg text-slate-700 hover:bg-slate-100 hover:text-red-500" aria-label={FAVOURITES[locale]} title={FAVOURITES[locale]}>
             <Heart className="size-5" aria-hidden />
           </Link>
-          <Link href="/search" className="flex size-10 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100" aria-label={t('search')}>
-            <Search className="size-5" aria-hidden />
-          </Link>
+          <SearchOverlay locale={locale} labels={searchLabels} />
           <LanguageSwitcher current={locale} languages={languages} label={t('language')} />
           <AccountMenu labels={accountLabels} />
 
@@ -136,30 +149,73 @@ export async function Header({ locale }: { locale: Locale }) {
               className="fixed inset-x-0 top-16 max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-slate-200 bg-white px-4 pb-6 pt-2 shadow-lg"
             >
               <MobileAccount labels={accountLabels} />
+              <div className="pt-3">
+                <SearchOverlay locale={locale} labels={searchLabels} trigger="field" />
+              </div>
               <ul className="divide-y divide-slate-100 text-base font-medium text-slate-800">
-                {PRIMARY_NAV.map((item) => (
-                  <li key={item.href}>
-                    <Link href={item.href} className="block py-3.5">
-                      {t(item.key)}
-                    </Link>
-                  </li>
-                ))}
+                {PRIMARY_NAV.map((item) => {
+                  const Icon = NAV_ICONS[item.key];
+                  return item.key === 'places' ? (
+                    // Villages by peninsula, as in the desktop mega menu.
+                    <li key={item.href}>
+                      <details className="group/places">
+                        <summary className="flex items-center gap-3 py-3.5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                          <Icon className="size-5 text-sea-600" aria-hidden />
+                          <span className="flex-1">{t(item.key)}</span>
+                          <ChevronDown className="size-4 text-slate-400 transition-transform group-open/places:rotate-180" aria-hidden />
+                        </summary>
+                        <div className="space-y-4 pb-4 pl-8">
+                          {byArea.map(({ area, list }) => (
+                            <div key={area}>
+                              <Link prefetch={false} href={`/areas/${area}`} className="flex items-center gap-2 text-sm font-bold text-slate-900">
+                                <span className={`size-2 rounded-full ${DOTS[area]}`} aria-hidden />
+                                {AREA_NAMES[area][locale]}
+                              </Link>
+                              <div className="mt-2 flex flex-wrap gap-1.5">
+                                {list.slice(0, 8).map((v) => (
+                                  <Link prefetch={false} key={v.slug} href={`/places/${v.slug}`} className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-normal text-slate-700">
+                                    {placeName(v.slug, locale, v)}
+                                  </Link>
+                                ))}
+                                {list.length > 8 && (
+                                  <Link prefetch={false} href={`/areas/${area}`} className="px-2 py-1 text-xs font-normal text-sea-700">+{list.length - 8}</Link>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                          <Link prefetch={false} href="/places" className="inline-block text-sm font-semibold text-sea-700">{t('areas')} →</Link>
+                        </div>
+                      </details>
+                    </li>
+                  ) : (
+                    <li key={item.href}>
+                      <Link href={item.href} className="flex items-center gap-3 py-3.5">
+                        <Icon className="size-5 text-sea-600" aria-hidden />
+                        {t(item.key)}
+                      </Link>
+                    </li>
+                  );
+                })}
                 <li>
-                  <Link href="/events" className="block py-3.5">{t('events')}</Link>
+                  <Link href="/events" className="flex items-center gap-3 py-3.5"><CalendarDays className="size-5 text-sea-600" aria-hidden />{t('events')}</Link>
                 </li>
                 <li>
-                  <Link href="/map" className="block py-3.5">{t('map')}</Link>
+                  <Link href="/map" className="flex items-center gap-3 py-3.5"><Map className="size-5 text-sea-600" aria-hidden />{t('map')}</Link>
                 </li>
                 <li>
-                  <Link href="/blog" className="block py-3.5">{t('blog')}</Link>
+                  <Link href="/blog" className="flex items-center gap-3 py-3.5"><BookOpen className="size-5 text-sea-600" aria-hidden />{t('blog')}</Link>
                 </li>
                 <li>
-                  <Link prefetch={false} href="/sales" className="block py-3.5 text-emerald-700">{nav('sales')}</Link>
+                  <Link prefetch={false} href="/favorites" className="flex items-center gap-3 py-3.5"><Heart className="size-5 text-sea-600" aria-hidden />{FAVOURITES[locale]}</Link>
                 </li>
                 <li>
-                  <Link prefetch={false} href="/favorites" className="block py-3.5">{FAVOURITES[locale]}</Link>
+                  <Link prefetch={false} href="/sales" className="flex items-center gap-3 py-3.5 text-emerald-700"><Building className="size-5" aria-hidden />{nav('sales')}</Link>
+                </li>
+                <li>
+                  <Link prefetch={false} href="/about" className="flex items-center gap-3 py-3.5 text-slate-600"><FileText className="size-5 text-slate-400" aria-hidden />{nav('about')}</Link>
                 </li>
               </ul>
+              <InstallApp label={t('installApp')} />
             </nav>
           </details>
         </div>

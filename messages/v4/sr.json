@@ -43,7 +43,10 @@
     "kassandra": "Kasandra",
     "sithonia": "Sitonija",
     "athosLeg": "Atos",
-    "mainland": "Kopno"
+    "mainland": "Kopno",
+    "availShort": "Dostupnost",
+    "installApp": "Instaliraj aplikaciju",
+    "quickActions": "Brze radnje"
   },
   "common": {
     "viewAll": "Pogledajte sve",

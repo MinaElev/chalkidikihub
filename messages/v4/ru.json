@@ -43,7 +43,10 @@
     "kassandra": "Кассандра",
     "sithonia": "Ситония",
     "athosLeg": "Афон",
-    "mainland": "Материковая часть"
+    "mainland": "Материковая часть",
+    "availShort": "Наличие",
+    "installApp": "Установить приложение",
+    "quickActions": "Быстрые действия"
   },
   "common": {
     "viewAll": "Смотреть все",

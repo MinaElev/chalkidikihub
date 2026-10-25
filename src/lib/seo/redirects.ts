@@ -253,7 +253,6 @@ export function buildRedirects(): Rule[] {
   for (const [table, map] of Object.entries(SLUG_RENAMES)) for (const [from, to] of Object.entries(map)) rules.push(...both(`/${table}/${from}`, `/${table}/${to}`));
   rules.push(...both('/places/pyrgadikia-mainland/:path*', '/places/pyrgadikia/:path*'));
   // v3 top-level files that browsers and Search Console still request.
-  rules.push({ source: '/favicon.ico', destination: '/icons/icon-192.png', permanent: true });
   rules.push({ source: '/image-sitemap.xml', destination: '/sitemap.xml', permanent: true });
 
   // /stay/{slug} stays live as the owner's shareable brand page (noindex,

@@ -25,6 +25,7 @@ import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
 import { Reviews } from '@/components/ui/Reviews';
 import { SeaTemperature } from '@/components/beach/SeaTemperature';
+import { QuickActions } from '@/components/ui/QuickActions';
 import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { CrowdIndicator } from '@/components/v3/CrowdIndicator';
@@ -163,6 +164,13 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
         <p className="mt-2 text-slate-600">
           {village ? `${villageName}, ${AREA_NAMES[beach.area][locale]}` : AREA_NAMES[beach.area][locale]}
         </p>
+        <QuickActions lat={geo ? beach.latitude : null} lng={geo ? beach.longitude : null} directionsLabel={common('directions')} shareTitle={name} label={shell('quickActions')}>
+          {geo && (
+            <Suspense fallback={null}>
+              <SeaTemperature chip locale={locale} lat={beach.latitude!} lng={beach.longitude!} />
+            </Suspense>
+          )}
+        </QuickActions>
       </PageIntro>
       <HeroImage src={beach.image_url} alt={greekAlt(beach.image_alt, locale) ?? name} />
 

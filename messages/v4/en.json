@@ -43,7 +43,10 @@
     "kassandra": "Kassandra",
     "sithonia": "Sithonia",
     "athosLeg": "Athos",
-    "mainland": "Mainland"
+    "mainland": "Mainland",
+    "availShort": "Availability",
+    "installApp": "Install the app",
+    "quickActions": "Quick actions"
   },
   "common": {
     "viewAll": "View all",

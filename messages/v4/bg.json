@@ -43,7 +43,10 @@
     "kassandra": "Касандра",
     "sithonia": "Ситония",
     "athosLeg": "Атон",
-    "mainland": "Вътрешността"
+    "mainland": "Вътрешността",
+    "availShort": "Наличност",
+    "installApp": "Инсталирай приложението",
+    "quickActions": "Бързи действия"
   },
   "common": {
     "viewAll": "Вижте всички",

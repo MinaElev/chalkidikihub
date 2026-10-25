@@ -20,12 +20,24 @@ async function fetchMarine(lat: number, lng: number): Promise<Marine | null> {
   }
 }
 
-/** Live water temperature, rendered on the server — no client JavaScript. */
-export async function SeaTemperature({ locale, lat, lng }: { locale: Locale; lat: number; lng: number }) {
+/**
+ * Live water temperature, rendered on the server — no client JavaScript.
+ * `chip`: just today's figure, for the quick actions under the title (the
+ * full card sits further down, which on a phone is after the whole text).
+ */
+export async function SeaTemperature({ locale, lat, lng, chip = false }: { locale: Locale; lat: number; lng: number; chip?: boolean }) {
   const data = await fetchMarine(lat, lng);
   const now = data?.current?.sea_surface_temperature;
   if (now == null) return null;
   const t = await getTranslations({ locale, namespace: 'beach' });
+  if (chip) {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-sea-50 px-3.5 py-2 text-sm font-semibold text-sea-800 ring-1 ring-sea-100">
+        <Waves className="size-4 text-sea-600" aria-hidden />
+        {Math.round(now)}°C <span className="font-normal text-sea-700">{t('seaTemp')}</span>
+      </span>
+    );
+  }
   const days = (data?.daily?.time ?? []).slice(1, 6).map((d, i) => ({
     day: new Intl.DateTimeFormat(htmlLang[locale], { weekday: 'short' }).format(new Date(`${d}T12:00:00`)),
     temp: data?.daily?.sea_surface_temperature_max?.[i + 1],

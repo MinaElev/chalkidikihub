@@ -43,7 +43,10 @@
     "kassandra": "Κασσάνδρα",
     "sithonia": "Σιθωνία",
     "athosLeg": "Άθως",
-    "mainland": "Ενδοχώρα"
+    "mainland": "Ενδοχώρα",
+    "availShort": "Διαθέσιμα",
+    "installApp": "Εγκατάσταση εφαρμογής",
+    "quickActions": "Γρήγορες ενέργειες"
   },
   "common": {
     "viewAll": "Δείτε όλα",

@@ -23,6 +23,8 @@ import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { WeatherBadge } from '@/components/v3/WeatherBadge';
+import { QuickActions } from '@/components/ui/QuickActions';
+import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { renderLinked } from '@/lib/content/autolink';
 
 export const revalidate = 86400;
@@ -112,6 +114,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
             <WeatherBadge latitude={Number(village.latitude)} longitude={Number(village.longitude)} />
           </div>
         ) : null}
+        <QuickActions lat={geo ? village.latitude : null} lng={geo ? village.longitude : null} directionsLabel={common('directions')} shareTitle={`${name}, ${HALKIDIKI[locale]}`} label={shell('quickActions')} />
       </PageIntro>
       <HeroImage src={image} alt={greekAlt(village.image_alt, locale) ?? name} />
 
@@ -243,6 +246,8 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
           </ul>
         </Section>
       )}
+
+      <RecentlyViewed type="village" slug={slug} title={name} image={image} />
 
       <JsonLd
         data={{

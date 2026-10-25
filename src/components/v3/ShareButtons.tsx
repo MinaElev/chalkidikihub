@@ -18,9 +18,11 @@ interface ShareButtonsProps {
   title: string;
   description?: string;
   compact?: boolean;
+  /** Compact mode: replaces the look of the share button (e.g. a pill in a row of quick actions). */
+  buttonClassName?: string;
 }
 
-export function ShareButtons({ title, description, compact = false }: ShareButtonsProps) {
+export function ShareButtons({ title, description, compact = false, buttonClassName }: ShareButtonsProps) {
   const t = L[useLocale()] ?? L.en;
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(false);
@@ -90,13 +92,13 @@ export function ShareButtons({ title, description, compact = false }: ShareButto
     return (
       <div className="relative">
         <button type="button" onClick={nativeShare} aria-label={t.share}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+          className={buttonClassName ?? 'flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors'}>
           <Share2 className="w-4 h-4" aria-hidden />
-          <span className="hidden sm:inline">{t.share}</span>
+          <span className={buttonClassName ? undefined : 'hidden sm:inline'}>{t.share}</span>
         </button>
 
         {open && (
-          <div className="absolute right-0 top-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg p-2 z-50 flex gap-1">
+          <div className="absolute left-0 top-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg p-2 z-50 flex gap-1">
             {buttons.map((btn) => (
               <button type="button" key={btn.label} onClick={btn.onClick} title={btn.label} aria-label={btn.label}
                 className={`p-2 rounded-lg text-gray-600 transition-colors ${btn.color}`}>

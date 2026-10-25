@@ -26,7 +26,7 @@ export function BackToTop() {
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label={LABEL[locale] ?? LABEL.en}
       title={LABEL[locale] ?? LABEL.en}
-      className="fixed bottom-20 right-5 z-40 flex size-11 items-center justify-center rounded-full bg-white text-sea-700 shadow-lg ring-1 ring-gray-200 transition hover:bg-sea-50 md:bottom-24 md:right-7"
+      className="fixed bottom-24 right-5 z-40 flex size-11 items-center justify-center rounded-full bg-white text-sea-700 shadow-lg ring-1 ring-gray-200 transition hover:bg-sea-50 md:bottom-24 md:right-7"
     >
       <ArrowUp className="size-5" aria-hidden />
     </button>

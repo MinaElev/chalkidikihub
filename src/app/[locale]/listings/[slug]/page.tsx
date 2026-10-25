@@ -224,7 +224,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
         </div>
 
         <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div id="inquiry" className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             {l.price_per_night ? (
               <p className="text-slate-600">
                 {common('from')}{' '}
@@ -258,6 +258,32 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
         <ShareButtons title={name} />
       </div>
       <RecentlyViewed type="listing" slug={slug} title={name} image={pics[0]?.url} />
+
+      {/* Phones: the price and the request form sit after the whole description, so they stay one tap away.
+          Takes the place of the site's bottom bar on this page (BottomNav hides itself here). */}
+      {(!l.is_closed || phone) && (
+        <>
+          <div className="h-20 md:hidden" aria-hidden />
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur md:hidden">
+            <div className="flex items-center gap-3">
+              {l.price_per_night ? (
+                <p className="min-w-0 flex-1 text-sm leading-tight text-slate-600">
+                  {common('from')} <span className="text-lg font-semibold text-slate-900">{formatPrice(Number(l.price_per_night), locale)}</span>
+                  <span className="block text-xs">{t('perNight')}</span>
+                </p>
+              ) : <span className="flex-1" />}
+              {phone && (
+                <a href={`tel:${phone.replace(/s+/g, '')}`} aria-label={`${t('call')}: ${phone}`} className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-sea-200 text-sea-800">
+                  <Phone className="size-5" aria-hidden />
+                </a>
+              )}
+              {!l.is_closed && (
+                <a href="#inquiry" className="shrink-0 rounded-xl bg-sea-600 px-4 py-3 text-sm font-semibold text-white">{t('formTitle')}</a>
+              )}
+            </div>
+          </div>
+        </>
+      )}
       <Faq title={t('faqTitle')} items={faqs} />
 
       {beaches.length > 0 && (
