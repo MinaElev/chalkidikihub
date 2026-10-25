@@ -46,6 +46,13 @@ async function settings(): Promise<Settings> {
   return value;
 }
 
+/**
+ * Without limits nodemailer waits up to 2 minutes to connect and 10 minutes on
+ * a silent socket. On a host whose firewall drops outgoing SMTP that turned a
+ * signup into a spinner that never ended, so every transport fails fast.
+ */
+const TIMEOUTS = { connectionTimeout: 10_000, greetingTimeout: 10_000, socketTimeout: 30_000 };
+
 /** Extra nodemailer options some senders use (connection pooling, rate limits). */
 type Extra = { pool?: boolean; maxConnections?: number; maxMessages?: number; rateDelta?: number; rateLimit?: number };
 
@@ -62,12 +69,14 @@ export async function createMailTransport(gmailUser?: string, gmailPass?: string
       port: s.smtp.port,
       secure: s.smtp.port === 465,
       auth: { user: s.smtp.user, pass: s.smtp.pass },
+      ...TIMEOUTS,
       ...extra,
     } as Parameters<typeof nodemailer.createTransport>[0]);
   }
   return nodemailer.createTransport({
     service: 'gmail',
     auth: { user: gmailUser || s.gmailUser, pass: (gmailPass || s.gmailPass).replace(/\s/g, '') },
+    ...TIMEOUTS,
     ...extra,
   } as Parameters<typeof nodemailer.createTransport>[0]);
 }
@@ -79,17 +88,18 @@ export async function mailFrom(gmailUser?: string): Promise<string> {
 }
 
 /** Which provider is active and whether the server can log in — for the admin check. Sends nothing. */
-export async function verifyMail(): Promise<{ provider: 'smtp' | 'gmail' | 'none'; from: string; ok: boolean; error?: string }> {
+export async function verifyMail(): Promise<{ provider: 'smtp' | 'gmail' | 'none'; from: string; ok: boolean; ms?: number; error?: string }> {
   const s = await settings();
   const provider = s.smtp ? 'smtp' : s.gmailUser && s.gmailPass ? 'gmail' : 'none';
   if (provider === 'none') return { provider, from: '', ok: false, error: 'No mail credentials configured' };
   const from = await mailFrom();
+  const start = Date.now();
   try {
     await (await createMailTransport()).verify();
-    return { provider, from, ok: true };
+    return { provider, from, ok: true, ms: Date.now() - start };
   } catch (err) {
     const e = err as Error & { code?: string };
-    return { provider, from, ok: false, error: [e.code, e.message].filter(Boolean).join(': ').slice(0, 300) };
+    return { provider, from, ok: false, ms: Date.now() - start, error: [e.code, e.message].filter(Boolean).join(': ').slice(0, 300) };
   }
 }
 

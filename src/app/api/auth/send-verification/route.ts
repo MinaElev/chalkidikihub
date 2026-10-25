@@ -1,5 +1,5 @@
 // Guard: signed-in user; per-user send window in email_verifications.
-import { NextResponse } from 'next/server';
+import { after, NextResponse } from 'next/server';
 import { createMailTransport, mailFrom } from '@/lib/email/mailer';
 import { randomInt } from 'crypto';
 import { createClient } from '@/lib/supabase/server';
@@ -92,11 +92,16 @@ export async function POST() {
 
     const name = (profile?.full_name || '').trim();
 
-    await transporter.sendMail({
-      from: await mailFrom(gmailAddress),
-      to: user.email,
-      subject: `${code} — Κωδικός επιβεβαίωσης ChalkidikiHub`,
-      html: `
+    // The code is saved; mail it after the response so the signup form moves on
+    // straight away. A slow or blocked mail server used to keep the visitor on a
+    // spinner; now a failed send is logged and the verify page offers "resend".
+    after(async () => {
+      try {
+        await transporter.sendMail({
+          from: await mailFrom(gmailAddress),
+          to: user.email,
+          subject: `${code} — Κωδικός επιβεβαίωσης ChalkidikiHub`,
+          html: `
 <!DOCTYPE html>
 <html lang="el"><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#f3f4f6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;color:#111827;">
@@ -134,6 +139,14 @@ export async function POST() {
     </td></tr>
   </table>
 </body></html>`,
+        });
+      } catch (e) {
+        console.error('verification email failed', (e as Error).message);
+        await admin.from('activity_logs').insert({
+          type: 'error', severity: 'error', message: 'Verification email failed',
+          details: { user_id: user.id, error: (e as Error).message.slice(0, 300) },
+        });
+      }
     });
 
     // Announce the signup from the server, where no stale client bundle can
