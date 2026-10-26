@@ -8,6 +8,7 @@ import { publicDb } from '@/lib/supabase/clients';
 import { bestGuides, costs, fromCities, guides, indexableLocales as editorialLocales, itineraries } from '@/lib/editorial';
 import { KEPT_FEATURES, KEPT_RESTAURANT_CATEGORIES } from './redirects';
 import { hostLocales, isProven } from './quality';
+import { SITE_URL } from './site';
 import { activityIndex, articleIndex, beachIndex, eventIndex, listingIndex, restaurantIndex, villageIndex } from './indexability';
 import { MONASTERIES } from '@/content/editorial/monasteries';
 import { bestIndexable, loadBest } from '@/lib/content/best';
@@ -20,7 +21,8 @@ import { AUTHOR_LIST } from '@/content/authors';
  * is never in the sitemap while carrying noindex.
  */
 
-export type Entry = { path: string; locales: Locale[]; lastModified?: string; priority: number };
+/** `images`: the page's own photo, listed in the sitemap so Google Images finds it (image sitemap extension). */
+export type Entry = { path: string; locales: Locale[]; lastModified?: string; priority: number; images?: string[] };
 
 const ALL = [...locales];
 const withProven = (path: string, ls: readonly Locale[]) => ALL.filter((l) => ls.includes(l) || isProven(l, path));
@@ -50,10 +52,14 @@ export async function inventory(): Promise<Entry[]> {
   ]);
   const [bI, rI, aI, artI, eI, vI, lI] = idx;
 
-  const detail = (base: string, rows: Array<{ slug: string; updated_at?: string }>, map: Record<string, Locale[]>, priority: number) => {
+  const photo = (r: { image_url?: string | null; cover_url?: string | null }) => {
+    const u = r.cover_url ?? r.image_url;
+    return u ? [u.startsWith('/') ? `${SITE_URL}${u}` : u] : undefined;
+  };
+  const detail = (base: string, rows: Array<{ slug: string; updated_at?: string; image_url?: string | null; cover_url?: string | null }>, map: Record<string, Locale[]>, priority: number) => {
     for (const r of rows) {
       const path = `${base}/${r.slug}`;
-      entries.push({ path, locales: withProven(path, map[r.slug] ?? []), lastModified: r.updated_at, priority });
+      entries.push({ path, locales: withProven(path, map[r.slug] ?? []), lastModified: r.updated_at, priority, images: photo(r) });
     }
   };
   detail('/beaches', beaches, bI, 0.7);

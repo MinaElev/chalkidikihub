@@ -19,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: e.lastModified ? new Date(e.lastModified) : undefined,
       priority: e.priority,
       alternates: e.locales.length > 1 ? { languages: hreflangMap(e.path, e.locales) } : undefined,
+      images: e.images,
     })),
   );
 }
