@@ -46,7 +46,9 @@
     "mainland": "Вътрешността",
     "availShort": "Наличност",
     "installApp": "Инсталирай приложението",
-    "quickActions": "Бързи действия"
+    "quickActions": "Бързи действия",
+    "previous": "Предишна",
+    "next": "Следваща"
   },
   "common": {
     "viewAll": "Вижте всички",

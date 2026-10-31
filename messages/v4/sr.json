@@ -46,7 +46,9 @@
     "mainland": "Kopno",
     "availShort": "Dostupnost",
     "installApp": "Instaliraj aplikaciju",
-    "quickActions": "Brze radnje"
+    "quickActions": "Brze radnje",
+    "previous": "Prethodna",
+    "next": "Sledeća"
   },
   "common": {
     "viewAll": "Pogledajte sve",

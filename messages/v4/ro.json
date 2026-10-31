@@ -46,7 +46,9 @@
     "mainland": "Zona continentală",
     "availShort": "Disponibil",
     "installApp": "Instalează aplicația",
-    "quickActions": "Acțiuni rapide"
+    "quickActions": "Acțiuni rapide",
+    "previous": "Anterioara",
+    "next": "Următoarea"
   },
   "common": {
     "viewAll": "Vezi toate",

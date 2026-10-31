@@ -162,7 +162,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
         </ul>
       </PageIntro>
 
-      <Gallery photos={pics} label={t('photos')} />
+      <Gallery photos={pics} label={t('photos')} labels={{ close: shell('close'), previous: shell('previous'), next: shell('next') }} />
 
       {l.is_closed && (
         <p className="mt-6 rounded-xl bg-amber-50 px-4 py-3 text-amber-900">

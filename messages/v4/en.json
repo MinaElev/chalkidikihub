@@ -46,7 +46,9 @@
     "mainland": "Mainland",
     "availShort": "Availability",
     "installApp": "Install the app",
-    "quickActions": "Quick actions"
+    "quickActions": "Quick actions",
+    "previous": "Previous",
+    "next": "Next"
   },
   "common": {
     "viewAll": "View all",

@@ -79,7 +79,7 @@ export default async function SalePage({ params }: PageProps<'/[locale]/sales/[s
       >
         {price > 0 && <p className="mt-2 text-2xl font-semibold text-sea-800">{formatPrice(price, locale)}</p>}
       </PageIntro>
-      <Gallery photos={photos} label={title} />
+      <Gallery photos={photos} label={title} labels={{ close: shell('close'), previous: shell('previous'), next: shell('next') }} />
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div>
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}

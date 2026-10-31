@@ -46,7 +46,9 @@
     "mainland": "Ενδοχώρα",
     "availShort": "Διαθέσιμα",
     "installApp": "Εγκατάσταση εφαρμογής",
-    "quickActions": "Γρήγορες ενέργειες"
+    "quickActions": "Γρήγορες ενέργειες",
+    "previous": "Προηγούμενη",
+    "next": "Επόμενη"
   },
   "common": {
     "viewAll": "Δείτε όλα",

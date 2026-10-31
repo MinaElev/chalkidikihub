@@ -46,7 +46,9 @@
     "mainland": "Материковая часть",
     "availShort": "Наличие",
     "installApp": "Установить приложение",
-    "quickActions": "Быстрые действия"
+    "quickActions": "Быстрые действия",
+    "previous": "Предыдущая",
+    "next": "Следующая"
   },
   "common": {
     "viewAll": "Смотреть все",

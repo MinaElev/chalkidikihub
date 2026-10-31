@@ -46,7 +46,9 @@
     "mainland": "Festland",
     "availShort": "Verfügbar",
     "installApp": "App installieren",
-    "quickActions": "Schnellaktionen"
+    "quickActions": "Schnellaktionen",
+    "previous": "Zurück",
+    "next": "Weiter"
   },
   "common": {
     "viewAll": "Alle ansehen",
