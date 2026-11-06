@@ -304,7 +304,7 @@ export default function OwnerResponseClient({
               <div className="text-xs text-gray-600 mb-3">
                 Ο επισκέπτης ζήτησε {fmt(r.check_in)} → {fmt(r.check_out)}. Άλλαξε ό,τι χρειάζεται.
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <FieldLabel label="Άφιξη" icon={Calendar}>
                   <input
                     type="date"

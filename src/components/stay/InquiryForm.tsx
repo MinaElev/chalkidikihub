@@ -49,7 +49,7 @@ export function InquiryForm({ slug, locale, maxGuests, labels }: { slug: string;
         <h2 className="text-lg font-semibold text-slate-900">{labels.formTitle}</h2>
         <p className="mt-1 text-sm text-slate-600">{labels.formIntro}</p>
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <label className="text-xs font-medium text-slate-700">
           {labels.formCheckIn}
           <input type="date" name="checkIn" min={today} required className={field} />

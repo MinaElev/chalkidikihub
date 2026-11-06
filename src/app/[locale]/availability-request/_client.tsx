@@ -279,7 +279,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
         </Field>
 
         {/* Dates */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field label={t('checkIn')} icon={CalendarDays} required error={attempted ? fieldErrors.check_in : undefined}>
             <input
               type="date"
