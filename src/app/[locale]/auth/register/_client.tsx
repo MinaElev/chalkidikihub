@@ -74,9 +74,7 @@ export default function RegisterClient({ stats }: { stats: SiteStats }) {
     // Supabase email confirmation is OFF — user is auto-logged-in. Our own
     // 4-digit code flow takes over: send the code, then ask for it.
     await fetch('/api/auth/send-verification', { method: 'POST' }).catch(() => {});
-    // Admin heads-up. Fire-and-forget and deliberately not awaited: a mail
-    // problem must never hold up the person who just signed up.
-    fetch('/api/auth/notify-new-user', { method: 'POST' }).catch(() => {});
+    // The admin heads-up goes out from send-verification on the server (one call, not two).
     router.push('/auth/verify');
   }
 

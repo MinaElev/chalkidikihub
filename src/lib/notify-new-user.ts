@@ -18,7 +18,10 @@ const LOG_MESSAGE = 'Admin notified: new user registered';
  * fresh client code to notify the operator will eventually miss.
  *
  * Safe to call more than once and from more than one place: the activity_logs
- * marker collapses repeats into a single email.
+ * marker collapses repeats into a single email. The marker is claimed before
+ * sending, not after: two calls arriving together (the register form and
+ * send-verification fire within a few hundred ms) both used to see "not yet
+ * notified" and both sent.
  */
 export async function notifyAdminOfNewUser(
   userId: string,
@@ -27,14 +30,30 @@ export async function notifyAdminOfNewUser(
 ): Promise<{ sent: true } | { skipped: string }> {
   const admin = createAdminClient();
 
-  // Already told them about this account? Don't tell them twice.
-  const { data: already } = await admin
+  // Markers for this account, oldest first. (Not maybeSingle(): with the duplicate
+  // markers the old race left behind it errored, read as "none", and sent again.)
+  const markers = async () =>
+    (await admin
+      .from('activity_logs')
+      .select('id, created_at')
+      .eq('message', LOG_MESSAGE)
+      .contains('details', { user_id: userId })
+      .order('created_at', { ascending: true })
+      .order('id', { ascending: true })).data ?? [];
+
+  if ((await markers()).length) return { skipped: 'already_notified' as const };
+
+  // Claim, then check who won: every concurrent caller inserts its own marker
+  // and only the oldest one sends; the others remove theirs and stop.
+  const { data: mine } = await admin
     .from('activity_logs')
+    .insert({ type: 'system', severity: 'info', message: LOG_MESSAGE, details: { user_id: userId, email: fallbackEmail } })
     .select('id')
-    .eq('message', LOG_MESSAGE)
-    .contains('details', { user_id: userId })
-    .maybeSingle();
-  if (already) {
+    .single();
+  if (!mine) return { skipped: 'claim_failed' as const };
+  const release = () => admin.from('activity_logs').delete().eq('id', mine.id);
+  if ((await markers())[0]?.id !== mine.id) {
+    await release();
     return { skipped: 'already_notified' as const };
   }
 
@@ -69,6 +88,7 @@ export async function notifyAdminOfNewUser(
   const gmailPassword = settingsMap.gmail_app_password;
 
   if (!gmailAddress || !gmailPassword) {
+    await release();
     return { skipped: 'email_not_configured' as const };
   }
 
@@ -78,20 +98,19 @@ export async function notifyAdminOfNewUser(
     name, email, phone, when, verified, totalUsers: totalUsers ?? null,
   });
 
-  await transporter.sendMail({
-    from: await mailFrom(gmailAddress),
-    to: ADMIN_EMAIL,
-    replyTo: email,
-    subject: `Νέα εγγραφή: ${name !== '—' ? name : email}`,
-    html,
-  });
-
-  await admin.from('activity_logs').insert({
-    type: 'system',
-    severity: 'info',
-    message: LOG_MESSAGE,
-    details: { user_id: userId, email },
-  });
+  try {
+    await transporter.sendMail({
+      from: await mailFrom(gmailAddress),
+      to: ADMIN_EMAIL,
+      replyTo: email,
+      subject: `Νέα εγγραφή: ${name !== '—' ? name : email}`,
+      html,
+    });
+  } catch (err) {
+    // Give the claim back so the next call (e.g. a resent code) can try again.
+    await release();
+    throw err;
+  }
 
   return { sent: true };
 }
