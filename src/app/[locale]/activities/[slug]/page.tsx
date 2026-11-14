@@ -13,7 +13,7 @@ import { plainText, renderRichText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { activityIndex } from '@/lib/seo/indexability';
-import { addressLd, geoLd, ratingLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
+import { addressLd, geoLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
@@ -188,7 +188,9 @@ export default async function ActivityPage({ params }: PageProps<'/[locale]/acti
           address: addressLd(villageName),
           geo: geoLd(a),
           isAccessibleForFree: /free/i.test(a.price_range ?? '') || undefined,
-          aggregateRating: ratingLd(rating.rating, rating.count),
+          // No aggregateRating: Google accepts review snippets only on types such as LocalBusiness,
+          // Product or Event; on Beach/TouristAttraction Search Console flags it as an invalid
+          // <parent_node>. The rating is still shown on the page.
         }}
       />
     </Container>
