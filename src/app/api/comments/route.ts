@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/api-helpers';
 import { allowRequest } from '@/lib/rate-limit';
+import { cachedGet } from '@/lib/api-cache';
 
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const articleId = searchParams.get('article_id');
   if (!articleId) return NextResponse.json([]);
@@ -53,3 +54,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 120);

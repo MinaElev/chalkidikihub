@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/api-helpers';
 import { transformRestaurant, transformBeach, transformActivity, transformListing } from '@/lib/data';
+import { cachedGet } from '@/lib/api-cache';
 
 const LISTING_SELECT_FIELDS = `
   id, slug, owner_id,
@@ -54,7 +55,7 @@ async function fetchListings(supabase: ReturnType<typeof createApiClient>, area:
   return (data || []).map((row) => transformListing(row as Record<string, unknown>));
 }
 
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get('type');
   const area = searchParams.get('area');
@@ -96,3 +97,6 @@ export async function GET(request: NextRequest) {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 300);

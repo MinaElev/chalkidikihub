@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import imageLoader from '@/lib/image-loader';
+import { optimizedImage } from '@/lib/image-url';
 
 export type Photo = { url: string; alt: string };
 export type GalleryLabels = { close: string; previous: string; next: string };
@@ -73,7 +73,8 @@ function Viewer({ photos, start, label, labels, onClose }: { photos: Photo[]; st
     };
   }, [go, onClose]);
 
-  const src = (k: number) => imageLoader({ src: photos[k].url, width: 1600, quality: 80 });
+  // Sized to the screen (and its pixel density), capped at 1920px wide.
+  const src = (k: number) => optimizedImage(photos[k].url, Math.min(1920, Math.ceil(window.innerWidth * (window.devicePixelRatio || 1))), 65);
   const nav = 'absolute top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur hover:bg-white/25';
 
   return createPortal(
@@ -98,7 +99,7 @@ function Viewer({ photos, start, label, labels, onClose }: { photos: Photo[]; st
       </div>
       {/* Clicking the dark area around the photo closes the viewer, like most galleries. */}
       <div className="relative flex min-h-0 flex-1 items-center justify-center px-2 pb-6" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-        {/* eslint-disable-next-line @next/next/no-img-element -- full-size view from the Supabase render endpoint; next/image's fill/sizes model adds nothing here */}
+        {/* eslint-disable-next-line @next/next/no-img-element -- full-screen view; next/image's fill/sizes model adds nothing here */}
         <img key={i} src={src(i)} alt={photos[i].alt} className="max-h-full max-w-full rounded-lg object-contain" />
         {n > 1 && (
           <>

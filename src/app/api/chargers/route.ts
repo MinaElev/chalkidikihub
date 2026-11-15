@@ -2,8 +2,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getChargers } from '@/lib/get-chargers';
 import { Area } from '@/types';
+import { cachedGet } from '@/lib/api-cache';
 
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const area = searchParams.get('area') as Area | null;
   const slug = searchParams.get('slug');
@@ -28,3 +29,6 @@ export async function GET(request: NextRequest) {
     },
   });
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 3600);

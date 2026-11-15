@@ -1,8 +1,9 @@
 // Guard: public read-only content (published rows only).
 import { NextRequest, NextResponse } from 'next/server';
 import { getBeachBySlug, getBeachesFiltered, toBeachCard } from '@/lib/data';
+import { cachedGet } from '@/lib/api-cache';
 
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get('slug');
 
@@ -27,3 +28,6 @@ export async function GET(request: NextRequest) {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 300);

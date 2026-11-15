@@ -2,8 +2,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/api-helpers';
 import { transformArticle, ARTICLE_CARD_FIELDS } from '@/lib/data';
+import { cachedGet } from '@/lib/api-cache';
 
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const supabase = createApiClient();
   const { searchParams } = new URL(request.url);
   const category = searchParams.get('category');
@@ -30,3 +31,6 @@ export async function GET(request: NextRequest) {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 300);

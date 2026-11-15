@@ -1,10 +1,11 @@
 // Guard: public read-only content.
 import { NextResponse } from 'next/server';
 import { createApiClient } from '@/lib/api-helpers';
+import { cachedGet } from '@/lib/api-cache';
 
 // Lightweight endpoint: returns ONLY slugs + names for auto-linking
 // Much smaller than fetching full records from 5 separate APIs
-export async function GET() {
+async function getHandler() {
   const supabase = createApiClient();
 
   const [beaches, restaurants, activities, blogs, areas, villages] = await Promise.all([
@@ -29,3 +30,6 @@ export async function GET() {
     headers: { 'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1200' },
   });
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 600);

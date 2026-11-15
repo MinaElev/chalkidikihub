@@ -5,6 +5,7 @@ import { estimateCrowd } from '@/lib/crowd-estimation';
 import { createApiClient } from '@/lib/api-helpers';
 import { Beach } from '@/types';
 import { dbSlug } from '@/content/rewrites/slug-renames';
+import { cachedGet } from '@/lib/api-cache';
 
 const COLUMNS = 'id, slug, area, latitude, longitude, features, rating, reviews_count';
 
@@ -24,7 +25,7 @@ function toBeach(row: Record<string, unknown>): Beach {
  * all of them. Only the columns the estimate uses are read: v3 loaded every
  * beach with all seven languages of text on each call.
  */
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const beachId = searchParams.get('id');
   const lang = searchParams.get('lang') || 'en';
@@ -50,3 +51,6 @@ export async function GET(request: NextRequest) {
   const weather = await getWeather(beach.latitude, beach.longitude, lang);
   return NextResponse.json({ beach_id: beach.id, slug: beach.slug, crowd: estimateCrowd(beach, weather), weather }, { headers });
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 600);

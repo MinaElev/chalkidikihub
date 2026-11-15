@@ -1,6 +1,7 @@
 // Guard: public read-only content (published listings only).
 import { NextRequest, NextResponse } from 'next/server';
 import { getListingBySlug, getListingsFiltered, toListingCard } from '@/lib/data';
+import { cachedGet } from '@/lib/api-cache';
 
 // Guest-only details (WiFi passwords, key/door instructions) belong to the QR
 // guest guide, never to the public listing feed.
@@ -11,7 +12,7 @@ const withoutGuestOnly = <T extends object>(l: T) => {
   return copy as T;
 };
 
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get('slug');
 
@@ -34,3 +35,6 @@ export async function GET(request: NextRequest) {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 300);

@@ -11,10 +11,11 @@
  */
 import { NextRequest, NextResponse } from 'next/server';
 import QRCode from 'qrcode';
+import { cachedGet } from '@/lib/api-cache';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const target = searchParams.get('url') || `${SITE_URL}/near`;
   const size = Math.max(128, Math.min(2048, Number(searchParams.get('size') || 512)));
@@ -47,3 +48,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: (err as Error).message }, { status: 400 });
   }
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 604800);

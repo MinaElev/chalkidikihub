@@ -1,8 +1,9 @@
 // Guard: public read-only proxy of a free weather API.
 import { NextRequest, NextResponse } from 'next/server';
 import { getWeather } from '@/lib/weather-api';
+import { cachedGet } from '@/lib/api-cache';
 
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const lat = parseFloat(searchParams.get('lat') || '0');
   const lng = parseFloat(searchParams.get('lng') || '0');
@@ -16,3 +17,6 @@ export async function GET(request: NextRequest) {
     headers: { 'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800' },
   });
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 900);

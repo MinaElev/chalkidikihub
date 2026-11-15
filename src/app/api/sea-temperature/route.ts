@@ -1,11 +1,12 @@
 // Guard: public read-only proxy.
 import { NextRequest, NextResponse } from 'next/server';
+import { cachedGet } from '@/lib/api-cache';
 
 // Open-Meteo Marine — free, no API key, generous rate limits. Cached at the
 // edge for 1h so 60+ beaches × 7 locales don't hammer the upstream API.
 export const revalidate = 3600;
 
-export async function GET(req: NextRequest) {
+async function getHandler(req: NextRequest) {
   const lat = req.nextUrl.searchParams.get('lat');
   const lon = req.nextUrl.searchParams.get('lon');
   if (!lat || !lon) {
@@ -37,3 +38,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'fetch_failed' }, { status: 500 });
   }
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 3600);

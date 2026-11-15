@@ -1,6 +1,7 @@
 // Guard: public read-only content.
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import { cachedGet } from '@/lib/api-cache';
 
 interface SearchItem {
   slug: string;
@@ -9,7 +10,7 @@ interface SearchItem {
   category?: string;
 }
 
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const q = searchParams.get('q')?.trim();
   const limit = Math.min(Number(searchParams.get('limit')) || 5, 20);
@@ -122,3 +123,6 @@ export async function GET(request: NextRequest) {
     },
   );
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 30);

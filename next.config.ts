@@ -42,13 +42,20 @@ const nextConfig: NextConfig = {
     // beach page. A linked, immutable CSS file is fetched once per visit.
   },
   images: {
-    // Vercel's optimizer is capped on the Hobby plan (402 once exceeded);
-    // Supabase Storage resizes on delivery instead. See src/lib/image-loader.ts.
-    loader: 'custom',
-    loaderFile: './src/lib/image-loader.ts',
-    qualities: [50, 65, 75],
+    // Next's own optimizer, on our server. Self-hosted it has no quota; Supabase's
+    // render endpoint (used while on Vercel) bills every distinct photo it resizes
+    // per month, and 1,800 photos ran far past the Pro plan's 100. Each size is
+    // made once and kept in .next/cache/images; Supabase only serves originals.
+    // WebP only: AVIF encoding costs several times the CPU on a shared host.
+    formats: ['image/webp'],
+    // One working quality: next/image asks for 75 by default and snaps to the nearest
+    // allowed value, so every photo is made at 65 (as before) and cached once.
+    qualities: [50, 60, 65],
+    // Uploads get timestamped names, so a cached size never goes stale.
+    minimumCacheTTL: 2592000,
     remotePatterns: [
-      { protocol: 'https', hostname: '*.supabase.co' },
+      // Only public Storage objects, so the optimizer can't be used as an open proxy.
+      { protocol: 'https', hostname: 'bvwiwxmgbtklztgapxyp.supabase.co', pathname: '/storage/v1/object/public/**' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
   },

@@ -3,7 +3,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { ArrowRight, Building2, FileText, Home, Landmark, MapPin, Search, UtensilsCrossed, Waves } from 'lucide-react';
 import { useRouter } from '@/i18n/navigation';
-import imageLoader from '@/lib/image-loader';
+import { optimizedImage } from '@/lib/image-url';
 import { matchScore, norm } from '@/lib/search/normalize';
 import { readRecent } from '@/components/v3/RecentlyViewed';
 import type { Locale } from '@/i18n/config';
@@ -170,8 +170,8 @@ export function SearchSuggest({ locale, action, placeholder, label, submit, kind
                 className={`flex cursor-pointer items-center gap-3 rounded-xl px-2.5 py-2 ${active === i ? 'bg-sea-50' : ''}`}
               >
                 {e.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- 40px thumbnail from the Supabase render endpoint; next/image adds nothing here
-                  <img src={imageLoader({ src: e.image, width: 96 })} alt="" width={40} height={40} loading="lazy" className="size-10 shrink-0 rounded-lg object-cover" />
+                  // eslint-disable-next-line @next/next/no-img-element -- 40px thumbnail; next/image's layout model adds nothing here
+                  <img src={optimizedImage(e.image, 96)} alt="" width={40} height={40} loading="lazy" className="size-10 shrink-0 rounded-lg object-cover" />
                 ) : (
                   <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-sea-50 text-sea-700"><Icon className="size-5" aria-hidden /></span>
                 )}

@@ -1,8 +1,9 @@
 // Guard: public read-only content.
 import { NextResponse } from 'next/server';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import { cachedGet } from '@/lib/api-cache';
 
-export async function GET() {
+async function getHandler() {
   const supabase = createApiClient();
   const { data } = await supabase.from('areas').select('*').order('sort_order', { ascending: true });
 
@@ -26,3 +27,6 @@ export async function GET() {
     headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
   });
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 300);

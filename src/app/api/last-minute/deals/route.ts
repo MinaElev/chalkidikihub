@@ -4,6 +4,7 @@ import { publicDb } from '@/lib/supabase/clients';
 import { locales, type Locale } from '@/i18n/config';
 import { publicSlug } from '@/content/rewrites/slug-renames';
 import { listingTitle } from '@/lib/content/listing-title';
+import { cachedGet } from '@/lib/api-cache';
 
 type Raw = {
   id: string;
@@ -16,9 +17,9 @@ type Raw = {
 /**
  * Feeds the homepage deals popup. v3 queried Supabase from the browser, which
  * shipped the 53 KB Supabase client to every homepage visitor; this answers
- * from the CDN cache instead.
+ * from the server cache instead (lib/api-cache.ts).
  */
-export async function GET(request: NextRequest) {
+async function getHandler(request: NextRequest) {
   const raw = request.nextUrl.searchParams.get('locale') as Locale | null;
   const locale: Locale = raw && (locales as readonly string[]).includes(raw) ? raw : 'en';
   const today = new Date().toISOString().slice(0, 10);
@@ -51,3 +52,6 @@ export async function GET(request: NextRequest) {
     });
   return NextResponse.json(deals, { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' } });
 }
+
+// Cached in-process (no CDN in front of the self-hosted server); see lib/api-cache.ts.
+export const GET = cachedGet(getHandler, 300);
