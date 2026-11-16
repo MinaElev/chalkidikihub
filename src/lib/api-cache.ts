@@ -26,6 +26,9 @@ function respond(e: Entry, seconds: number, hit: boolean): Response {
   // Browsers may keep it too (up to 5 minutes), so a visitor's repeat views cost nothing.
   headers.set('Cache-Control', `public, max-age=${Math.min(seconds, 300)}, s-maxage=${seconds}`);
   headers.set('X-Cache', hit ? 'HIT' : 'MISS');
+  // Which server process answered, how long it has been up and how full its store is: on the
+  // Plesk host this shows whether Passenger runs several processes or restarts them (the cache is per process).
+  headers.set('X-Cache-Proc', `${process.pid};up=${Math.round(process.uptime())}s;n=${store.size}`);
   return new Response(e.body.slice(0), { status: e.status, headers });
 }
 
