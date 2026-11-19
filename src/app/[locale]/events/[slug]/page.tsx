@@ -21,11 +21,12 @@ import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
 import { eventVenue, REGION_WIDE_EVENTS } from '@/content/editorial/event-venues';
 import { renderLinked } from '@/lib/content/autolink';
+import { detailParams } from '@/lib/build-params';
 
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
-  return (await getEvents()).map((e) => ({ slug: e.slug }));
+  return detailParams(async () => (await getEvents()).map((e) => ({ slug: e.slug })));
 }
 
 type Row = EventRow & Record<string, unknown> & { latitude: number | null; longitude: number | null };

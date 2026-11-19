@@ -16,11 +16,12 @@ import { Container, FactList, PageIntro, Prose } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
 import { Gallery } from '@/components/stay/Gallery';
+import { detailParams } from '@/lib/build-params';
 
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  return (await getSales()).map((s) => ({ slug: s.slug }));
+  return detailParams(async () => (await getSales()).map((s) => ({ slug: s.slug })));
 }
 
 const load = async (slug: string) => (await getSales()).find((s) => s.slug === slug) ?? null;

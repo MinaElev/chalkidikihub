@@ -32,11 +32,12 @@ import { CrowdIndicator } from '@/components/v3/CrowdIndicator';
 import { ClientIntl } from '@/components/ClientIntl';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { renderLinked } from '@/lib/content/autolink';
+import { detailParams } from '@/lib/build-params';
 
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
-  return (await getBeaches()).map((b) => ({ slug: b.slug }));
+  return detailParams(async () => (await getBeaches()).map((b) => ({ slug: b.slug })));
 }
 
 type BeachRow = BeachCard & Record<string, unknown> & { beach_reviews?: ReviewRow[] };

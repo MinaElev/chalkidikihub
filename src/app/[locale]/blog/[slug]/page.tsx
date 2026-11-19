@@ -20,11 +20,12 @@ import { CommentSection } from '@/components/v3/CommentSection';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { renderLinked } from '@/lib/content/autolink';
+import { detailParams } from '@/lib/build-params';
 
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
-  return (await getArticles()).map((a) => ({ slug: a.slug }));
+  return detailParams(async () => (await getArticles()).map((a) => ({ slug: a.slug })));
 }
 
 type Row = Awaited<ReturnType<typeof getArticle>> & Record<string, unknown>;

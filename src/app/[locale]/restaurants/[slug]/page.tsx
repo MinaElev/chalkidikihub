@@ -25,11 +25,12 @@ import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { renderLinked } from '@/lib/content/autolink';
+import { detailParams } from '@/lib/build-params';
 
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
-  return (await getRestaurants()).map((r) => ({ slug: r.slug }));
+  return detailParams(async () => (await getRestaurants()).map((r) => ({ slug: r.slug })));
 }
 
 type Row = RestaurantCard & Record<string, unknown>;

@@ -30,11 +30,12 @@ import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { renderLinked } from '@/lib/content/autolink';
+import { detailParams } from '@/lib/build-params';
 
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
-  return (await getListings()).map((l) => ({ slug: l.slug }));
+  return detailParams(async () => (await getListings()).map((l) => ({ slug: l.slug })));
 }
 
 type Row = ListingCard & Record<string, unknown> & {

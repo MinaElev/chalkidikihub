@@ -26,11 +26,12 @@ import { WeatherBadge } from '@/components/v3/WeatherBadge';
 import { QuickActions } from '@/components/ui/QuickActions';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { renderLinked } from '@/lib/content/autolink';
+import { detailParams } from '@/lib/build-params';
 
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
-  return (await getVillages()).filter((v) => v.slug !== 'pyrgadikia-mainland').map((v) => ({ slug: v.slug }));
+  return detailParams(async () => (await getVillages()).filter((v) => v.slug !== 'pyrgadikia-mainland').map((v) => ({ slug: v.slug })));
 }
 
 async function load(slug: string) {

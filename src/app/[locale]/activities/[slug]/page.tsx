@@ -26,11 +26,12 @@ import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { renderLinked } from '@/lib/content/autolink';
+import { detailParams } from '@/lib/build-params';
 
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
-  return (await getActivities()).map((a) => ({ slug: a.slug }));
+  return detailParams(async () => (await getActivities()).map((a) => ({ slug: a.slug })));
 }
 
 type Row = ActivityCard & Record<string, unknown> & { activity_reviews?: ReviewRow[] };

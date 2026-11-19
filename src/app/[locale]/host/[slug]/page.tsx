@@ -11,12 +11,12 @@ import { hostLocales } from '@/lib/seo/quality';
 import { breadcrumbLd } from '@/lib/seo/jsonld';
 import type { Locale } from '@/i18n/config';
 import { Mail, Phone, Globe, Star } from 'lucide-react';
+import { detailParams } from '@/lib/build-params';
 
 export const revalidate = 2592000; // ISR: 30d - on-demand revalidation from admin saves keeps content fresh
 
 export async function generateStaticParams() {
-  const hosts = await getPublicHosts();
-  return hosts.map((h) => ({ slug: h.slug }));
+  return detailParams(async () => (await getPublicHosts()).map((h) => ({ slug: h.slug })));
 }
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
