@@ -72,7 +72,94 @@ ${items.map((i) => `            <div style="font-size:14.5px;line-height:1.6;col
 const INTEREST_URL =
   'https://chalkidikihub.gr/contact?subject=%CE%99%CF%83%CF%84%CE%BF%CF%83%CE%B5%CE%BB%CE%AF%CE%B4%CE%B1%20%CE%BA%CE%B1%CF%84%CE%B1%CE%BB%CF%8D%CE%BC%CE%B1%CF%84%CE%BF%CF%82%20%28mdeploy%29&message=%CE%95%CE%BD%CE%B4%CE%B9%CE%B1%CF%86%CE%AD%CF%81%CE%BF%CE%BC%CE%B1%CE%B9%20%CE%B3%CE%B9%CE%B1%20%CF%84%CE%B7%CE%BD%20%CE%BA%CE%B1%CF%84%CE%B1%CF%83%CE%BA%CE%B5%CF%85%CE%AE%20%CE%B9%CF%83%CF%84%CE%BF%CF%83%CE%B5%CE%BB%CE%AF%CE%B4%CE%B1%CF%82%20%CE%B3%CE%B9%CE%B1%20%CF%84%CE%BF%20%CE%BA%CE%B1%CF%84%CE%AC%CE%BB%CF%85%CE%BC%CE%AC%20%CE%BC%CE%BF%CF%85%20%28%CF%80%CF%81%CE%BF%CF%83%CF%86%CE%BF%CF%81%CE%AC%20200%E2%82%AC%20%CF%83%CE%B5%20%CF%83%CF%85%CE%BD%CE%B5%CF%81%CE%B3%CE%B1%CF%83%CE%AF%CE%B1%20%CE%BC%CE%B5%20%CF%84%CE%B7%CE%BD%20mdeploy.gr%29.%0A%0A%CE%8C%CE%BD%CE%BF%CE%BC%CE%B1%20%CE%BA%CE%B1%CF%84%CE%B1%CE%BB%CF%8D%CE%BC%CE%B1%CF%84%CE%BF%CF%82%3A%0A%CE%A0%CE%B5%CF%81%CE%B9%CE%BF%CF%87%CE%AE%3A%0A%CE%A4%CE%B7%CE%BB%CE%AD%CF%86%CF%89%CE%BD%CE%BF%3A';
 
+const SITE = 'https://chalkidikihub.gr';
+
+/** Full-width screenshot from /public/email (served by our own host, so it needs the deploy first). */
+const shot = (file: string, alt: string, caption: string) =>
+  `      <tr><td style="padding:4px 28px 18px;">
+        <img src="${SITE}/email/${file}" alt="${alt}" width="584" style="display:block;width:100%;max-width:584px;height:auto;border:1px solid #e5e7eb;border-radius:10px;">
+        <div style="font-size:12.5px;line-height:1.5;color:#6b7280;margin-top:8px;text-align:center;">${caption}</div>
+      </td></tr>`;
+
+/** Numbered step: blue circle + bold title + text. */
+const step = (n: number, title: string, text: string) =>
+  `      <tr><td style="padding:0 28px 14px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+          <td width="40" valign="top"><div style="width:30px;height:30px;border-radius:15px;background:#026aa7;color:#ffffff;font-size:15px;font-weight:700;line-height:30px;text-align:center;">${n}</div></td>
+          <td valign="top" style="font-size:15px;line-height:1.6;color:#374151;"><strong style="color:#111827;">${title}</strong><br>${text}</td>
+        </tr></table>
+      </td></tr>`;
+
+const label = (text: string, color: string) =>
+  `      <tr><td style="padding:14px 28px 6px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${color};margin-bottom:6px;">${text}</div>
+      </td></tr>`;
+
+/** Where to copy the link on each platform (menu names per their help pages, Nov 2026). */
+const platformBox = (name: string, color: string, path: string, note: string) =>
+  `      <tr><td style="padding:0 28px 12px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid ${color};border-radius:10px;">
+          <tr><td style="padding:14px 16px;">
+            <div style="font-size:15px;font-weight:700;color:#111827;">${name}</div>
+            <div style="font-size:14.5px;line-height:1.7;color:#374151;margin-top:4px;">${path}</div>
+            <div style="font-size:12.5px;line-height:1.5;color:#6b7280;margin-top:6px;">${note}</div>
+          </td></tr>
+        </table>
+      </td></tr>`;
+
 export const EMAIL_TEMPLATES: EmailTemplate[] = [
+  // ── 0. iCal sync with Airbnb / Booking.com ───────────────────────────
+  {
+    id: 'ical-sync',
+    name: 'Νέο: ζωντανή διαθεσιμότητα από Airbnb / Booking',
+    hint: 'Ανακοίνωση του συγχρονισμού iCal, με οδηγίες βήμα-βήμα',
+    emoji: '📅',
+    subject: 'Νέο: η διαθεσιμότητά σας από Airbnb & Booking.com, ζωντανά στο ChalkidikiHub',
+    body: shell(
+      '#026aa7', '#0ea5e9',
+      'ChalkidikiHub · Νέα δυνατότητα',
+      'Το ημερολόγιό σας, πάντα ενημερωμένο. Αυτόματα.',
+      'Συνδέστε Airbnb ή Booking.com μία φορά, σε 2 λεπτά',
+      [
+        p('Γεια σας,'),
+        p('Πόσες φορές σας ρώτησε κάποιος «είναι ελεύθερο τον Αύγουστο;» για ημερομηνίες που είχαν κλείσει εδώ και μήνες; Από σήμερα, ο επισκέπτης το βλέπει <strong>πριν σας γράψει</strong>.'),
+        p('Αν το κατάλυμά σας είναι ήδη στο <strong>Airbnb</strong> ή στο <strong>Booking.com</strong>, το ChalkidikiHub μπορεί πλέον να διαβάζει το ημερολόγιό σας από εκεί και να δείχνει στη σελίδα σας <strong>ποιες μέρες είναι ελεύθερες και ποιες κλεισμένες</strong>, για τους επόμενους τρεις μήνες, στις 7 γλώσσες του site.'),
+        shot('ical-public-calendar.png', 'Το ημερολόγιο διαθεσιμότητας όπως το βλέπει ο επισκέπτης στη σελίδα του καταλύματος', 'Έτσι βλέπει ο επισκέπτης τη διαθεσιμότητα στη σελίδα του καταλύματός σας.'),
+        label('Τι κερδίζετε', '#026aa7'),
+        bullets('#075985', '#f0f9ff', '#bae6fd', [
+          '🔄 <strong>Μηδέν διπλή δουλειά.</strong> Μια νέα κράτηση στο Airbnb ή στο Booking.com εμφανίζεται και εδώ, χωρίς να αγγίξετε τίποτα. Ο συγχρονισμός γίνεται αυτόματα κάθε λίγες ώρες.',
+          '📩 <strong>Πιο «ζεστά» αιτήματα.</strong> Ο επισκέπτης σας γράφει για μέρες που ξέρει ότι είναι ελεύθερες. Λιγότερα άσκοπα email, περισσότερες πραγματικές κρατήσεις.',
+          '✅ <strong>Αξιοπιστία που φαίνεται.</strong> Ένα ενημερωμένο ημερολόγιο, με την ένδειξη «Ενημερώθηκε», δείχνει ενεργό ιδιοκτήτη. Και ο επισκέπτης κλείνει πιο εύκολα με κάποιον που εμπιστεύεται.',
+          '💶 <strong>Απευθείας κράτηση, 0% προμήθεια.</strong> Όποιος σας βρει εδώ, κλείνει απευθείας μαζί σας. Χωρίς επιπλέον χρέωση για τη νέα δυνατότητα.',
+          '🔒 <strong>Μόνο ημερομηνίες.</strong> Δεν βλέπουμε και δεν δείχνουμε ονόματα επισκεπτών ή στοιχεία κρατήσεων· μόνο ποιες μέρες είναι κλεισμένες.',
+        ]),
+        label('Πώς το ενεργοποιείτε · 2 λεπτά', '#026aa7'),
+        step(1, 'Αντιγράψτε τον σύνδεσμο iCal', 'Από το Airbnb ή το Booking.com (δείτε παρακάτω πού ακριβώς θα τον βρείτε). Είναι ένας σύνδεσμος που ξεκινά με <em>https://</em>.'),
+        step(2, 'Ανοίξτε το ημερολόγιο του καταλύματός σας στο ChalkidikiHub', 'Πίνακας ελέγχου → <strong>Τα Καταλύματά μου</strong> → στο κατάλυμα, το κουμπί <strong>Ημερολόγιο</strong>.'),
+        shot('ical-step2-calendar-button.png', 'Η λίστα Τα Καταλύματά μου, με τονισμένο το κουμπί Ημερολόγιο', 'Στα «Τα Καταλύματά μου», πατήστε <strong>Ημερολόγιο</strong> στο κατάλυμα που θέλετε να συνδέσετε.'),
+        step(3, 'Επικολλήστε τον σύνδεσμο και πατήστε «Προσθήκη»', 'Στην ενότητα <strong>Συγχρονισμός με Airbnb / Booking.com</strong>. Ο πρώτος συγχρονισμός γίνεται αμέσως και βλέπετε πόσες κλεισμένες μέρες βρέθηκαν.'),
+        shot('ical-owner-sync.png', 'Η ενότητα Συγχρονισμός με Airbnb / Booking.com στον πίνακα ελέγχου του ιδιοκτήτη', 'Η ενότητα συγχρονισμού στον πίνακα ελέγχου σας, με ένα συνδεδεμένο ημερολόγιο Airbnb.'),
+        step(4, 'Ενεργοποιήστε τη «Δημόσια εμφάνιση ημερολογίου»', 'Στην ίδια σελίδα, γυρίστε τον διακόπτη σε <strong>ΝΑΙ</strong>. Μόνο τότε βλέπουν οι επισκέπτες το ημερολόγιο· μέχρι εκεί το βλέπετε μόνο εσείς.'),
+        p('<span style="font-size:13.5px;color:#6b7280;">Οι μέρες που ήρθαν από Airbnb/Booking.com σημειώνονται με μια κουκκίδα και ενημερώνονται μόνες τους. Μπορείτε να συνεχίσετε να μπλοκάρετε και δικές σας μέρες με το χέρι· ο συγχρονισμός δεν τις αγγίζει. Έχετε και τις δύο πλατφόρμες; Προσθέστε και τους δύο συνδέσμους.</span>'),
+        label('Πού θα βρείτε τον σύνδεσμο', '#026aa7'),
+        platformBox(
+          'Airbnb',
+          '#ff5a5f',
+          'Από υπολογιστή: <strong>Ημερολόγιο</strong> → επιλέξτε το κατάλυμα → <strong>Διαθεσιμότητα</strong> → <strong>Σύνδεση ημερολογίων</strong> → <strong>Σύνδεση με άλλον ιστότοπο</strong> → αντιγράψτε τον <strong>σύνδεσμο ημερολογίου Airbnb</strong>.',
+          'Η ονομασία των μενού μπορεί να διαφέρει λίγο ανάλογα με την έκδοση του Airbnb. Αναζητήστε «Σύνδεση ημερολογίων» / «Connect calendars».',
+        ),
+        platformBox(
+          'Booking.com',
+          '#003580',
+          'Στο <strong>Extranet</strong>: <strong>Τιμές &amp; Διαθεσιμότητα</strong> → <strong>Συγχρονισμός ημερολογίων</strong> → <strong>Αντιγραφή συνδέσμου</strong>. Επιλέξτε να εξάγονται οι κλεισμένες <em>και</em> οι μη διαθέσιμες μέρες.',
+          'Η Booking.com δίνει αυτή την επιλογή μόνο σε καταλύματα χωρίς channel manager και με έως 20 τύπους δωματίων (ένα κατάλυμα ανά τύπο). Αν δεν τη βλέπετε, συνδέστε μόνο το Airbnb.',
+        ),
+        cta(`${SITE}/dashboard/listings`, 'Συνδέστε το ημερολόγιό σας →', '#026aa7'),
+        p('<span style="font-size:13.5px;color:#6b7280;">Κάτι δεν δουλεύει ή δεν βρίσκετε τον σύνδεσμο; Γράψτε μας από τη <a href="' + SITE + '/contact" style="color:#026aa7;font-weight:600;">φόρμα επικοινωνίας</a> και θα σας βοηθήσουμε να το συνδέσετε.</span>'),
+      ].join('\n'),
+    ),
+  },
+
   // ── 1. mdeploy.gr partnership ────────────────────────────────────────
   {
     id: 'mdeploy-website',

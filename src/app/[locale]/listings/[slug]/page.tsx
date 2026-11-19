@@ -249,7 +249,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
         </aside>
       </div>
 
-      {Boolean(l.show_calendar) && <AvailabilityCalendar listingId={l.id} locale={locale} title={t('availability')} />}
+      {Boolean(l.show_calendar) && <AvailabilityCalendar listingId={l.id} locale={locale} title={t('availability')} labels={{ free: t('availabilityFree'), busy: t('availabilityBusy'), updated: t.raw('availabilityUpdated') as string }} />}
       {reviews.length > 0 && <Reviews locale={locale} title={t('reviews')} empty={t('noReviews')} reviews={reviews} rating={rating} />}
       <div className="max-w-2xl">
         <ReviewForm type="listing" itemId={String(l.id)} itemName={name} />

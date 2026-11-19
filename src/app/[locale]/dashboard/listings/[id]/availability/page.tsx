@@ -5,12 +5,14 @@ import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, Loader2, Check, X, Ban, Calendar as CalendarIcon, Save, Trash2, Eye, EyeOff, Info } from 'lucide-react';
+import { IcalFeeds } from './IcalFeeds';
 
 interface AvailabilityRow {
   id: string;
   date: string; // YYYY-MM-DD
   status: 'blocked' | 'booked';
   note?: string | null;
+  feed_id?: string | null; // set when imported from an Airbnb / Booking.com iCal feed
 }
 
 type CellStatus = 'available' | 'blocked' | 'booked';
@@ -51,6 +53,14 @@ export default function ListingAvailabilityPage() {
     })();
   }, [listingId]);
 
+  async function reloadRows() {
+    const { data } = await createClient().from('listing_availability').select('*').eq('listing_id', listingId);
+    if (data) setRows(data as AvailabilityRow[]);
+  }
+
+  // Days imported from iCal are owned by the sync, so they cannot be clicked.
+  const importedDates = useMemo(() => new Set(rows.filter(r => r.feed_id).map(r => r.date)), [rows]);
+
   // Quick lookup: YYYY-MM-DD -> status (accounting for pending changes)
   const statusByDate = useMemo(() => {
     const m = new Map<string, CellStatus>();
@@ -70,6 +80,7 @@ export default function ListingAvailabilityPage() {
   }
 
   function toggleDate(dateStr: string) {
+    if (importedDates.has(dateStr)) return;
     const current = statusByDate.get(dateStr) || 'available';
     let next: CellStatus;
     if (toolMode === 'available') {
@@ -95,6 +106,7 @@ export default function ListingAvailabilityPage() {
     const toUpsert: { listing_id: string; date: string; status: string }[] = [];
     const toDelete: string[] = [];
     pendingChanges.forEach((status, date) => {
+      if (importedDates.has(date)) return;
       if (status === 'available') toDelete.push(date);
       else toUpsert.push({ listing_id: listingId, date, status });
     });
@@ -115,9 +127,7 @@ export default function ListingAvailabilityPage() {
         if (error) throw error;
       }
 
-      // Reload from DB
-      const { data } = await supabase.from('listing_availability').select('*').eq('listing_id', listingId);
-      if (data) setRows(data as AvailabilityRow[]);
+      await reloadRows();
       setPendingChanges(new Map());
       setSuccess(true);
       setTimeout(() => setSuccess(false), 2000);
@@ -151,13 +161,13 @@ export default function ListingAvailabilityPage() {
   }
 
   async function clearAllBlocks() {
-    if (!confirm('Να διαγραφούν ΟΛΕΣ οι μη διαθέσιμες μέρες;')) return;
+    if (!confirm('Να διαγραφούν ΟΛΕΣ οι μη διαθέσιμες μέρες που σημείωσες εσύ; (Όσες ήρθαν από Airbnb/Booking.com μένουν.)')) return;
     setSaving(true);
     const supabase = createClient();
-    const { error } = await supabase.from('listing_availability').delete().eq('listing_id', listingId);
+    const { error } = await supabase.from('listing_availability').delete().eq('listing_id', listingId).is('feed_id', null);
     if (error) alert('Σφάλμα: ' + error.message);
     else {
-      setRows([]);
+      await reloadRows();
       setPendingChanges(new Map());
     }
     setSaving(false);
@@ -271,6 +281,8 @@ export default function ListingAvailabilityPage() {
         </div>
       </div>
 
+      <IcalFeeds listingId={listingId} onChanged={reloadRows} />
+
       {/* Toolbar */}
       <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4 shadow-sm">
         <p className="text-sm font-medium text-gray-700 mb-3">Εργαλείο: κάνε κλικ σε μία μέρα για να την αλλάξεις</p>
@@ -321,7 +333,7 @@ export default function ListingAvailabilityPage() {
             <button
               type="button"
               onClick={clearAllBlocks}
-              disabled={saving || rows.length === 0}
+              disabled={saving || rows.every(r => r.feed_id)}
               className="flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-xl transition-colors disabled:opacity-40"
             >
               <Trash2 className="w-4 h-4" />
@@ -375,6 +387,7 @@ export default function ListingAvailabilityPage() {
             key={`${m.getFullYear()}-${m.getMonth()}`}
             month={m}
             statusByDate={statusByDate}
+            importedDates={importedDates}
             onToggle={toggleDate}
             formatDate={formatDate}
           />
@@ -394,6 +407,12 @@ export default function ListingAvailabilityPage() {
         <div className="flex items-center gap-2">
           <div className="w-5 h-5 bg-red-200 border border-red-400 rounded"></div>
           Κρατημένη
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-5 h-5 bg-red-200 border border-red-400 rounded flex items-center justify-center">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-700" />
+          </div>
+          Από Airbnb / Booking.com (αυτόματα)
         </div>
       </div>
 
@@ -436,11 +455,13 @@ export default function ListingAvailabilityPage() {
 function MonthGrid({
   month,
   statusByDate,
+  importedDates,
   onToggle,
   formatDate,
 }: {
   month: Date;
   statusByDate: Map<string, CellStatus>;
+  importedDates: Set<string>;
   onToggle: (dateStr: string) => void;
   formatDate: (d: Date) => string;
 }) {
@@ -480,7 +501,9 @@ function MonthGrid({
           if (!cell) return <div key={i} />;
           const dateStr = formatDate(cell);
           const status = statusByDate.get(dateStr) || 'available';
+          const isImported = importedDates.has(dateStr);
           const isPast = cell < today;
+          const locked = isPast || isImported;
           const isToday = cell.getTime() === today.getTime();
 
           let bg = 'bg-white hover:bg-gray-50 border-gray-200';
@@ -491,13 +514,15 @@ function MonthGrid({
             <button
               key={i}
               type="button"
-              onClick={() => !isPast && onToggle(dateStr)}
-              disabled={isPast}
-              className={`aspect-square flex items-center justify-center text-sm rounded border transition-colors ${bg} ${
-                isPast ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
+              onClick={() => !locked && onToggle(dateStr)}
+              disabled={locked}
+              title={isImported ? 'Από Airbnb / Booking.com' : undefined}
+              className={`relative aspect-square flex items-center justify-center text-sm rounded border transition-colors ${bg} ${
+                isPast ? 'opacity-40 cursor-not-allowed' : isImported ? 'cursor-not-allowed' : 'cursor-pointer'
               } ${isToday ? 'ring-2 ring-primary-500 font-bold' : ''}`}
             >
               {cell.getDate()}
+              {isImported && <span className="absolute bottom-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-red-700" />}
             </button>
           );
         })}
