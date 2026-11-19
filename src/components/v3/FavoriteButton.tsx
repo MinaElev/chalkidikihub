@@ -37,6 +37,29 @@ function load(): Promise<State> {
   })());
 }
 
+/**
+ * v3's counter on the header heart: how many items the signed-in visitor has
+ * saved. Shares the page's one favourites lookup with every card heart, so
+ * toggling a heart updates it at once. Renders nothing for anonymous visitors
+ * or an empty list.
+ */
+export function FavoritesCount() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    let alive = true;
+    const sync = () => load().then((s) => alive && setCount(s.keys.size));
+    sync();
+    listeners.add(sync);
+    return () => { alive = false; listeners.delete(sync); };
+  }, []);
+  if (!count) return null;
+  return (
+    <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold leading-none text-white ring-2 ring-white" aria-hidden>
+      {count > 99 ? '99+' : count}
+    </span>
+  );
+}
+
 /** v3's heart: signed-in visitors save beaches, stays, restaurants and activities to /favorites. */
 export function FavoriteButton({ itemType, itemSlug, size = 'sm' }: { itemType: FavoriteType; itemSlug: string; size?: 'sm' | 'md' }) {
   const locale = useLocale() as Locale;

@@ -21,6 +21,8 @@ export type CardProps = {
   highlight?: string;
   /** Price pill on the photo, top right (v3 stay cards); the rating then moves top left. */
   price?: string;
+  /** Small pill on the photo, bottom left, e.g. "Live availability" for stays with a synced iCal calendar. */
+  live?: string;
   /** Shows v3's heart so signed-in visitors can save the item to /favorites. */
   favorite?: { type: FavoriteType; slug: string };
   priority?: boolean;
@@ -29,7 +31,7 @@ export type CardProps = {
 
 /** The one card used across beaches, villages, restaurants, stays and articles. */
 export function Card({
-  href, title, image, imageAlt, eyebrow, meta, rating, reviews, ratingSource, badges, distance, highlight, price, favorite, priority,
+  href, title, image, imageAlt, eyebrow, meta, rating, reviews, ratingSource, badges, distance, highlight, price, live, favorite, priority,
   sizes = '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw',
 }: CardProps) {
   const hasRating = rating != null && rating > 0;
@@ -71,6 +73,15 @@ export function Card({
         </div>
         {price && (
           <span className="absolute right-3 top-3 rounded-lg bg-white/95 px-2.5 py-1 text-xs font-bold text-gray-900 shadow-sm">{price}</span>
+        )}
+        {live && (
+          <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-emerald-800 shadow-sm">
+            <span className="relative flex size-2" aria-hidden>
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-60 motion-reduce:animate-none" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+            </span>
+            {live}
+          </span>
         )}
         {hasRating && ratingSlot === 'right' && <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-bold text-gray-900 shadow-sm">{stars}</span>}
       </div>

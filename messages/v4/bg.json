@@ -294,7 +294,8 @@
     "call": "Обадете се",
     "bookNow": "Резервирайте онлайн",
     "alsoOn": "Налично и в",
-    "featured": "Препоръчано"
+    "featured": "Препоръчано",
+    "liveAvailability": "Наличност в реално време"
   },
   "articles": {
     "hubTitle": "Статии и пътеводители за Халкидики",
@@ -422,5 +423,22 @@
     "viewAll": "Всички плажове",
     "prev": "Назад",
     "next": "Напред"
+  },
+  "availabilityRequest": {
+    "addDate": "Избери дата",
+    "pickCheckIn": "Избери ден на пристигане",
+    "pickCheckOut": "Сега избери ден на заминаване",
+    "clearDates": "Изчисти",
+    "done": "Готово",
+    "prevMonth": "Предишен месец",
+    "nextMonth": "Следващ месец",
+    "fewer": "По-малко",
+    "more": "Повече",
+    "nights": "{count, plural, one {# нощ} other {# нощи}}",
+    "missingDates": "Моля, избери дати на пристигане и заминаване.",
+    "datesLabel": "Дати",
+    "budgetAny": "Без значение",
+    "budgetUpTo": "До {amount} €",
+    "budgetOver": "Над {amount} €"
   }
 }

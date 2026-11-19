@@ -1,6 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
-import { AREA_SLUGS, getListings } from '@/lib/db/content';
+import { AREA_SLUGS, getListings, getLiveCalendarListingIds } from '@/lib/db/content';
 import { closestVillagesFor, displayName, ratingProps } from '@/lib/content/nearby';
 import { AREA_LOCATIVE, AREA_NAMES } from '@/lib/content/place-names';
 import { formatPrice } from '@/lib/content/format';
@@ -36,14 +36,16 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/listings
 export default async function ListingsPage({ params }: PageProps<'/[locale]/listings'>) {
   const locale = (await params).locale as Locale;
   setRequestLocale(locale);
-  const [t, shell, common, f, amenityT, items] = await Promise.all([
+  const [t, shell, common, f, amenityT, items, liveIds] = await Promise.all([
     getTranslations({ locale, namespace: 'stay' }),
     getTranslations({ locale, namespace: 'shell' }),
     getTranslations({ locale, namespace: 'common' }),
     getTranslations({ locale, namespace: 'listings.filters' }),
     getTranslations({ locale, namespace: 'amenities' }),
     getListings(),
+    getLiveCalendarListingIds(),
   ]);
+  const live = new Set(liveIds);
   const open = items.filter((l) => !l.is_closed);
   const villages = await closestVillagesFor(open, locale, 6);
   const cardFor = (l: (typeof open)[number], priority = false) => ({
@@ -54,6 +56,7 @@ export default async function ListingsPage({ params }: PageProps<'/[locale]/list
     image: l.cover_url,
     priority,
     highlight: l.featured ? t('featured') : undefined,
+    live: live.has(l.id) ? t('liveAvailability') : undefined,
     meta: t('guests', { count: l.guests_max }),
     price: l.price_per_night ? `${common('from')} ${formatPrice(Number(l.price_per_night), locale)} ${t('perNight')}` : undefined,
     ...ratingProps(l, 'listing'),
@@ -65,6 +68,7 @@ export default async function ListingsPage({ params }: PageProps<'/[locale]/list
     guests: l.guests_max,
     amenities: l.amenities ?? [],
     updated: l.updated_at,
+    live: live.has(l.id),
   }));
   const present = new Set(open.flatMap((l) => l.amenities ?? []));
   const amenityLabels = Object.fromEntries(ALL_AMENITIES.filter((a) => present.has(a)).map((a) => [a, amenityT(a)]));
@@ -73,6 +77,7 @@ export default async function ListingsPage({ params }: PageProps<'/[locale]/list
     guestsMin: f('guestsMin'), amenities: f('amenities'), sortBy: f('sortBy'), sortNewest: f('sortNewest'),
     sortPriceLow: f('sortPriceLow'), sortPriceHigh: f('sortPriceHigh'), clearFilters: f('clearFilters'), open: f('open'),
     results: RESULTS[locale],
+    liveOnly: t('liveAvailability'),
   };
 
   return (

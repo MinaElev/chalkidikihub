@@ -294,7 +294,8 @@
     "call": "Anrufen",
     "bookNow": "Online buchen",
     "alsoOn": "Auch verfügbar auf",
-    "featured": "Empfohlen"
+    "featured": "Empfohlen",
+    "liveAvailability": "Live-Verfügbarkeit"
   },
   "articles": {
     "hubTitle": "Artikel und Reiseführer zu Chalkidiki",
@@ -422,5 +423,22 @@
     "viewAll": "Alle Strände",
     "prev": "Zurück",
     "next": "Weiter"
+  },
+  "availabilityRequest": {
+    "addDate": "Datum wählen",
+    "pickCheckIn": "Anreisetag wählen",
+    "pickCheckOut": "Jetzt den Abreisetag wählen",
+    "clearDates": "Löschen",
+    "done": "Fertig",
+    "prevMonth": "Vorheriger Monat",
+    "nextMonth": "Nächster Monat",
+    "fewer": "Weniger",
+    "more": "Mehr",
+    "nights": "{count, plural, one {# Nacht} other {# Nächte}}",
+    "missingDates": "Bitte wählen Sie An- und Abreisedatum.",
+    "datesLabel": "Reisedaten",
+    "budgetAny": "Egal",
+    "budgetUpTo": "Bis {amount} €",
+    "budgetOver": "Ab {amount} €"
   }
 }

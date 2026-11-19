@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ArrowRight, CalendarDays, Car, ChevronDown, Coins, Home, MapPin, Route, Waves } from 'lucide-react';
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
-import { AREA_SLUGS, getAreas, getArticles, getBeaches, getListings, getVillages } from '@/lib/db/content';
+import { AREA_SLUGS, getAreas, getArticles, getBeaches, getListings, getLiveCalendarListingIds, getVillages } from '@/lib/db/content';
 import { nearest } from '@/lib/geo';
 import { pick } from '@/lib/i18n/localize';
 import { closestVillagesFor, displayName, ratingProps } from '@/lib/content/nearby';
@@ -55,10 +55,37 @@ function Heading({ id, badge, title, lead, action, center = false }: { id: strin
   );
 }
 
+/** Always the first stay on the home page, live calendar or not. */
+const HOME_PINNED_STAY = 'amira-house';
+
+/**
+ * The home page's `size` stays: Amira House first, then the usual order, with
+ * at least one other stay that has live (iCal-synced) availability. If none of
+ * the usual ones is live, a live stay replaces the last ordinary card (Premium
+ * stays are never displaced). Which live stay gets in rotates every hour (the
+ * page revalidates hourly), so each one gets its turn.
+ */
+function withLiveStays<T extends { id: string; slug: string; featured?: boolean }>(stays: T[], live: Set<string>, size: number): T[] {
+  const pinned = stays.find((s) => s.slug.startsWith(HOME_PINNED_STAY));
+  const others = stays.filter((s) => s !== pinned);
+  const shown = [...(pinned ? [pinned] : []), ...others.slice(0, size - (pinned ? 1 : 0))];
+  const isOtherLive = (s: T) => s !== pinned && live.has(s.id);
+  const pool = others.filter((s) => live.has(s.id) && !shown.includes(s));
+  if (shown.some(isOtherLive) || !pool.length) return shown;
+  const pick = pool[Math.floor(Date.now() / 3_600_000) % pool.length];
+  for (let i = shown.length - 1; i >= 0; i--) {
+    if (shown[i] !== pinned && !shown[i].featured) {
+      shown[i] = pick;
+      break;
+    }
+  }
+  return shown;
+}
+
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   const locale = (await params).locale as Locale;
   setRequestLocale(locale);
-  const [t, shell, common, search, features, avail, beaches, villages, listings, articles, areas] = await Promise.all([
+  const [t, shell, common, search, features, avail, beaches, villages, listings, articles, areas, liveIds, stayT] = await Promise.all([
     getTranslations({ locale, namespace: 'home' }),
     getTranslations({ locale, namespace: 'shell' }),
     getTranslations({ locale, namespace: 'common' }),
@@ -70,12 +97,15 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
     getListings(),
     getArticles(),
     getAreas(),
+    getLiveCalendarListingIds(),
+    getTranslations({ locale, namespace: 'stay' }),
   ]);
 
   const ranked = [...beaches]
     .filter((b) => b.image_url)
     .sort((a, b) => (b.reviews_count ?? 0) - (a.reviews_count ?? 0) || (b.rating ?? 0) - (a.rating ?? 0));
-  const openStays = listings.filter((l) => !l.is_closed && l.cover_url).slice(0, 6);
+  const live = new Set(liveIds);
+  const openStays = withLiveStays(listings.filter((l) => !l.is_closed && l.cover_url), live, 6);
   const [beachVillages, stayVillages] = await Promise.all([closestVillagesFor(ranked, locale), closestVillagesFor(openStays, locale, 6)]);
 
   const finderBeaches: FinderBeach[] = ranked.map((b) => ({
@@ -230,6 +260,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
                 title={displayName(l, locale, 'listing')}
                 eyebrow={stayVillages.get(l.slug)}
                 image={l.cover_url}
+                live={live.has(l.id) ? stayT('liveAvailability') : undefined}
                 price={l.price_per_night ? `${common('from')} ${formatPrice(Number(l.price_per_night), locale)} ${common('perNight')}` : undefined}
                 sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 {...ratingProps(l, 'listing')}

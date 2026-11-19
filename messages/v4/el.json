@@ -294,7 +294,8 @@
     "call": "Κλήση",
     "bookNow": "Κράτηση online",
     "alsoOn": "Διαθέσιμο επίσης σε",
-    "featured": "Προτεινόμενο"
+    "featured": "Προτεινόμενο",
+    "liveAvailability": "Ζωντανή διαθεσιμότητα"
   },
   "articles": {
     "hubTitle": "Άρθρα και οδηγοί για τη Χαλκιδική",
@@ -422,5 +423,23 @@
     "viewAll": "Όλες οι παραλίες",
     "prev": "Προηγούμενα",
     "next": "Επόμενα"
+  },
+  "availabilityRequest": {
+    "addDate": "Προσθήκη",
+    "pickCheckIn": "Διάλεξε ημέρα άφιξης",
+    "pickCheckOut": "Τώρα διάλεξε ημέρα αναχώρησης",
+    "clearDates": "Καθαρισμός",
+    "done": "Έτοιμο",
+    "prevMonth": "Προηγούμενος μήνας",
+    "nextMonth": "Επόμενος μήνας",
+    "fewer": "Λιγότερα",
+    "more": "Περισσότερα",
+    "nights": "{count, plural, one {# βράδυ} other {# βράδια}}",
+    "missingDates": "Διάλεξε ημερομηνίες άφιξης και αναχώρησης.",
+    "datesLabel": "Ημερομηνίες",
+    "summaryBar": "{nights, plural, one {# βράδυ} other {# βράδια}} · {guests, plural, one {# άτομο} other {# άτομα}}",
+    "budgetAny": "Οποιοδήποτε",
+    "budgetUpTo": "Έως {amount}€",
+    "budgetOver": "{amount}€+"
   }
 }

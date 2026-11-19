@@ -13,8 +13,10 @@ type Body = { text: string; native: boolean; from: Locale | null };
 
 /** Long-form editorial page: breadcrumbs, H1, lead, table of contents, body, related links. */
 export async function EditorialPage({
-  locale, crumbs, title, lead, body, path, contentsLabel, related, relatedLabel, children, updated,
+  locale, crumbs, title, lead, body, path, contentsLabel, related, relatedLabel, top, children, updated,
 }: {
+  /** Shown above the table of contents, e.g. a comparison table. */
+  top?: React.ReactNode;
   locale: Locale;
   crumbs: Crumb[];
   title: string;
@@ -37,6 +39,7 @@ export async function EditorialPage({
       </Narrow>
       <Narrow className="mt-8">
         {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
+        {top}
         {toc.length >= 3 && (
           <nav aria-label={contentsLabel} className="mb-10 rounded-2xl bg-sand-50 p-5">
             <p className="text-sm font-semibold text-slate-900">{contentsLabel}</p>

@@ -5,6 +5,7 @@ import { buildMetadata } from '@/lib/seo/metadata';
 import { field, guideBody, indexableLocales, type EditorialDoc } from '@/lib/editorial';
 import { plainText } from '@/lib/content/render';
 import { EditorialPage } from './EditorialPage';
+import { Narrow } from '@/components/ui/Layout';
 
 type Params = Promise<{ locale: string } & Record<string, string>>;
 
@@ -20,6 +21,10 @@ export function editorialRoute(opts: {
   sectionKey: 'secPlan' | 'secCosts' | 'secFrom' | 'secItineraries';
   sectionHref: string;
   useOverrides?: boolean;
+  /** Extra block above the body (e.g. a comparison table). */
+  top?: (slug: string, locale: Locale) => React.ReactNode;
+  /** Extra block after the body (e.g. a distance table). */
+  bottom?: (slug: string, locale: Locale) => React.ReactNode;
 }) {
   const find = (slug: string) => opts.list().find((d) => d.slug === slug);
 
@@ -76,7 +81,10 @@ export function editorialRoute(opts: {
         contentsLabel={articles('contents')}
         related={related}
         relatedLabel={t('related')}
-      />
+        top={opts.top?.(doc.slug, locale)}
+      >
+        {opts.bottom && <Narrow>{opts.bottom(doc.slug, locale)}</Narrow>}
+      </EditorialPage>
     );
   }
 

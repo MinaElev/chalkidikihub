@@ -294,7 +294,8 @@
     "call": "Sună",
     "bookNow": "Rezervă online",
     "alsoOn": "Disponibil și pe",
-    "featured": "Recomandat"
+    "featured": "Recomandat",
+    "liveAvailability": "Disponibilitate în timp real"
   },
   "articles": {
     "hubTitle": "Articole și ghiduri despre Halkidiki",
@@ -422,5 +423,22 @@
     "viewAll": "Toate plajele",
     "prev": "Înapoi",
     "next": "Înainte"
+  },
+  "availabilityRequest": {
+    "addDate": "Alege data",
+    "pickCheckIn": "Alege ziua sosirii",
+    "pickCheckOut": "Acum alege ziua plecării",
+    "clearDates": "Șterge",
+    "done": "Gata",
+    "prevMonth": "Luna anterioară",
+    "nextMonth": "Luna următoare",
+    "fewer": "Mai puțini",
+    "more": "Mai mulți",
+    "nights": "{count, plural, one {# noapte} few {# nopți} other {# de nopți}}",
+    "missingDates": "Te rog alege datele de sosire și de plecare.",
+    "datesLabel": "Date",
+    "budgetAny": "Oricât",
+    "budgetUpTo": "Până la {amount} €",
+    "budgetOver": "Peste {amount} €"
   }
 }

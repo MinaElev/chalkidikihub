@@ -1,6 +1,6 @@
 import 'server-only';
 import { BLOG_MERGES, BLOG_TO_PLACE } from '@/lib/seo/redirects';
-import { publicDb } from '@/lib/supabase/clients';
+import { adminDb, publicDb } from '@/lib/supabase/clients';
 import { localizedColumns } from '@/lib/i18n/localize';
 import { cached, TAGS } from './cache';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
@@ -198,6 +198,37 @@ export const getListings = cached('listings:cards', [TAGS.listings, TAGS.reviews
     return { ...rest, cover_url: (cover as string) || null, featured } as unknown as ListingCard;
   }).sort((a, b) => Number(b.featured) - Number(a.featured));
 });
+
+/**
+ * Listings whose calendar is "live": public calendar on, and at least one
+ * Airbnb / Booking.com iCal feed that synced fine in the last 24 hours (the
+ * cron runs every 2 hours, so a stale feed drops the badge within a day).
+ * The feeds table is service-role only; only ids and status are read here,
+ * never the private feed URLs. Hourly cache: feed status has no save hook.
+ */
+export const getLiveCalendarListingIds = cached(
+  'listings:live-calendar',
+  [TAGS.listings],
+  async (): Promise<string[]> => {
+    // A badge is never worth breaking the page: any failure means no badges.
+    try {
+      const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+      const { data, error } = await adminDb()
+        .from('listing_ical_feeds')
+        .select('listing_id, listings!inner(show_calendar, status)')
+        .eq('last_status', 'ok')
+        .gte('last_synced_at', since)
+        .eq('listings.show_calendar', true)
+        .eq('listings.status', 'published');
+      if (error) throw new Error(error.message);
+      return [...new Set((data ?? []).map((r) => r.listing_id as string))];
+    } catch (e) {
+      console.error('live-calendar:', e instanceof Error ? e.message : e);
+      return [];
+    }
+  },
+  3600,
+);
 
 export const getListing = cached('listings:one', [TAGS.listings, TAGS.reviews], async (slug: string) => {
   const { data, error } = await publicDb()

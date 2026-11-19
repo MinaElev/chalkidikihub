@@ -3,10 +3,18 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
-import { CalendarDays, Users, Wallet, Home, Send, CheckCircle2, AlertCircle, MapPin, Phone, Mail, User, Search, Sparkles, MailCheck, Loader2 } from 'lucide-react';
+import { CalendarDays, Users, Wallet, Send, CheckCircle2, AlertCircle, MapPin, Phone, Mail, User, Search, Sparkles, MailCheck, Loader2, Minus, Plus } from 'lucide-react';
+import { DateRangePicker, isoDate } from '@/components/forms/DateRangePicker';
+import { hasSupabaseAuthCookie } from '@/lib/auth-cookie';
 
 const AREA_KEYS = ['kassandra', 'sithonia', 'athos', 'mainland'] as const;
-const PROPERTY_TYPE_KEYS = ['', 'rooms', 'studio', 'apartment', 'house', 'villa'] as const;
+/** Budget per night. Stays on the site: median 100€, a quarter above 160€ (Nov 2026). */
+const BUDGETS = [
+  { key: 'any', min: '', max: '' },
+  { key: 'upTo100', min: '', max: '100' },
+  { key: 'upTo150', min: '', max: '150' },
+  { key: 'over', min: '150', max: '' },
+] as const;
 const STORAGE_KEY = 'chub_availability_request_v1';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -32,9 +40,9 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
     check_out: '',
     adults: 2,
     children: 0,
-    budget_min: '',
-    budget_max: '',
-    property_type: '',
+    budget_min: '' as string,
+    budget_max: '' as string,
+    // No property type: owners are matched on area and guests only, so asking for it did nothing.
     notes: '',
     website: '', // honeypot
   });
@@ -47,6 +55,12 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
       if (!raw) return;
       const saved = JSON.parse(raw);
       if (saved && typeof saved === 'object') {
+        delete saved.property_type; // drafts saved before the field was removed
+        // Drafts from the old free-text budget: keep only a pair a button can show.
+        if (!BUDGETS.some(b => b.min === String(saved.budget_min ?? '') && b.max === String(saved.budget_max ?? ''))) {
+          saved.budget_min = '';
+          saved.budget_max = '';
+        }
         // Restoring from localStorage must happen after mount (see above), so setState in an effect is intended.
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setForm(f => ({
@@ -102,23 +116,37 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, [form, submitting, done, t]);
 
-  const minCheckIn = useMemo(() => {
-    const d = new Date();
-    return d.toISOString().slice(0, 10);
+  // Signed-in visitors: fill name, email and phone from their account, only
+  // where the field is still empty (a restored draft wins).
+  useEffect(() => {
+    if (!hasSupabaseAuthCookie()) return;
+    let alive = true;
+    fetch('/api/auth/me')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((me: { signedIn?: boolean; name?: string; email?: string; phone?: string } | null) => {
+        if (!alive || !me?.signedIn) return;
+        setForm((f) => ({
+          ...f,
+          guest_name: f.guest_name || me.name || '',
+          guest_email: f.guest_email || me.email || '',
+          guest_phone: f.guest_phone || me.phone || '',
+        }));
+      })
+      .catch(() => {});
+    return () => { alive = false; };
   }, []);
 
-  const minCheckOut = useMemo(() => {
-    if (!form.check_in) return minCheckIn;
-    const d = new Date(form.check_in);
-    d.setDate(d.getDate() + 1);
-    return d.toISOString().slice(0, 10);
-  }, [form.check_in, minCheckIn]);
+  // Local date, not toISOString(): that is UTC and reads as "yesterday" just after midnight in Greece.
+  const minCheckIn = useMemo(() => isoDate(new Date()), []);
 
   // Live, per-field validation (only flags fields the user has actually filled —
   // empties are handled by the native `required` attributes). Mirrors the
   // server-side checks so problems surface before the round-trip.
   const fieldErrors = useMemo(() => {
     const errs: Record<string, string> = {};
+    // The area chips and the calendar are buttons, so `required` can't catch these.
+    if (!form.area) errs.area = t('error.invalid_area');
+    if (!form.check_in || !form.check_out) errs.dates = t('missingDates');
     const name = form.guest_name.trim();
     if (name && name.length < 2) errs.guest_name = t('error.missing_name');
     const email = form.guest_email.trim();
@@ -263,109 +291,69 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
           aria-hidden="true"
         />
 
-        {/* Area */}
-        <Field label={t('areaLabel')} icon={MapPin} required>
-          <select
-            required
-            value={form.area}
-            onChange={e => setForm({ ...form, area: e.target.value })}
-            className="input"
-          >
-            <option value="">{t('areaPlaceholder')}</option>
+        {/* Area: one tap instead of a dropdown */}
+        <Field group label={t('areaLabel')} icon={MapPin} required error={attempted ? fieldErrors.area : undefined}>
+          <div className="grid grid-cols-2 gap-2">
             {AREA_KEYS.map(a => (
-              <option key={a} value={a}>{t(`area.${a}`)}</option>
+              <button
+                key={a}
+                type="button"
+                aria-pressed={form.area === a}
+                onClick={() => setForm(f => ({ ...f, area: a }))}
+                className={chip(form.area === a, 'px-2 py-2.5 leading-tight')}
+              >
+                {t(`area.${a}`)}
+              </button>
             ))}
-          </select>
+          </div>
         </Field>
 
-        {/* Dates */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field label={t('checkIn')} icon={CalendarDays} required error={attempted ? fieldErrors.check_in : undefined}>
-            <input
-              type="date"
-              required
-              min={minCheckIn}
-              value={form.check_in}
-              onChange={e => {
-                const v = e.target.value;
-                setForm(f => ({
-                  ...f,
-                  check_in: v,
-                  check_out: f.check_out && f.check_out <= v ? '' : f.check_out,
-                }));
-              }}
-              className="input"
-            />
-          </Field>
-          <Field label={t('checkOut')} icon={CalendarDays} required error={attempted ? fieldErrors.check_out : undefined}>
-            <input
-              type="date"
-              required
-              min={minCheckOut}
-              value={form.check_out}
-              onChange={e => setForm({ ...form, check_out: e.target.value })}
-              className="input"
-            />
-          </Field>
-        </div>
+        {/* Dates: one linked calendar, check-out can't be before check-in */}
+        <Field group label={t('datesLabel')} icon={CalendarDays} required error={attempted ? (fieldErrors.dates || fieldErrors.check_in || fieldErrors.check_out) : undefined}>
+          <DateRangePicker
+            checkIn={form.check_in}
+            checkOut={form.check_out}
+            onChange={({ checkIn, checkOut }) => setForm(f => ({ ...f, check_in: checkIn, check_out: checkOut }))}
+            locale={locale}
+            invalid={attempted && Boolean(fieldErrors.dates || fieldErrors.check_in || fieldErrors.check_out)}
+            labels={{
+              checkIn: t('checkIn'), checkOut: t('checkOut'), addDate: t('addDate'),
+              pickCheckIn: t('pickCheckIn'), pickCheckOut: t('pickCheckOut'),
+              clear: t('clearDates'), done: t('done'), prev: t('prevMonth'), next: t('nextMonth'),
+              nights: (count) => t('nights', { count }),
+            }}
+          />
+        </Field>
 
-        {/* Guests */}
+        {/* Guests: steppers instead of number boxes */}
         <div className="grid grid-cols-2 gap-4">
-          <Field label={t('adults')} icon={Users} required>
-            <input
-              type="number"
-              required
-              min={1}
-              max={20}
-              value={form.adults}
-              onChange={e => setForm({ ...form, adults: parseInt(e.target.value, 10) || 1 })}
-              className="input"
-            />
+          <Field group label={t('adults')} icon={Users} required>
+            <Stepper value={form.adults} min={1} max={20} onChange={v => setForm(f => ({ ...f, adults: v }))} less={t('fewer')} more={t('more')} />
           </Field>
-          <Field label={t('children')} icon={Users}>
-            <input
-              type="number"
-              min={0}
-              max={15}
-              value={form.children}
-              onChange={e => setForm({ ...form, children: parseInt(e.target.value, 10) || 0 })}
-              className="input"
-            />
+          <Field group label={t('children')} icon={Users}>
+            <Stepper value={form.children} min={0} max={15} onChange={v => setForm(f => ({ ...f, children: v }))} less={t('fewer')} more={t('more')} />
           </Field>
         </div>
-
-        {/* Property type */}
-        <Field label={t('propertyTypeLabel')} icon={Home}>
-          <select
-            value={form.property_type}
-            onChange={e => setForm({ ...form, property_type: e.target.value })}
-            className="input"
-          >
-            {PROPERTY_TYPE_KEYS.map(p => (
-              <option key={p} value={p}>{p === '' ? t('propertyType.any') : t(`propertyType.${p}`)}</option>
-            ))}
-          </select>
-        </Field>
 
         {/* Budget */}
-        <Field label={t('budgetLabel')} icon={Wallet} error={attempted ? fieldErrors.budget_max : undefined}>
-          <div className="grid grid-cols-2 gap-3">
-            <input
-              type="number"
-              placeholder={t('budgetFrom')}
-              min={0}
-              value={form.budget_min}
-              onChange={e => setForm({ ...form, budget_min: e.target.value })}
-              className="input"
-            />
-            <input
-              type="number"
-              placeholder={t('budgetTo')}
-              min={0}
-              value={form.budget_max}
-              onChange={e => setForm({ ...form, budget_max: e.target.value })}
-              className="input"
-            />
+        {/* Budget: preset buttons, one tap. Still sent as budget_min / budget_max, so owners' emails read as before. */}
+        <Field group label={t('budgetLabel')} icon={Wallet}>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {BUDGETS.map(b => {
+              const on = form.budget_min === b.min && form.budget_max === b.max;
+              const label = b.key === 'any' ? t('budgetAny') : b.key === 'over' ? t('budgetOver', { amount: b.min }) : t('budgetUpTo', { amount: b.max });
+              return (
+                <button
+                  key={b.key}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => setForm(f => ({ ...f, budget_min: b.min, budget_max: b.max }))}
+                  className={chip(on, 'px-2 py-2.5 leading-tight')}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
         </Field>
 
@@ -376,6 +364,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
           <input
             type="text"
             required
+            autoComplete="name"
             value={form.guest_name}
             onChange={e => setForm({ ...form, guest_name: e.target.value })}
             className="input"
@@ -387,6 +376,8 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
           <input
             type="email"
             required
+            autoComplete="email"
+            inputMode="email"
             value={form.guest_email}
             onChange={e => setForm({ ...form, guest_email: e.target.value })}
             className="input"
@@ -398,6 +389,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
           <input
             type="tel"
             required
+            autoComplete="tel"
             value={form.guest_phone}
             onChange={e => setForm({ ...form, guest_phone: e.target.value })}
             className="input"
@@ -569,21 +561,43 @@ function LoadingOverlay({ t }: { t: (key: string) => string }) {
   );
 }
 
+const chip = (on: boolean, size: string) =>
+  `rounded-xl ${size} text-sm font-medium transition ${on ? 'bg-sea-600 text-white shadow-sm' : 'bg-white text-gray-700 ring-1 ring-gray-200 hover:ring-sea-300'}`;
+
+function Stepper({ value, min, max, onChange, less, more }: { value: number; min: number; max: number; onChange: (v: number) => void; less: string; more: string }) {
+  const btn = 'flex size-11 shrink-0 items-center justify-center rounded-lg text-gray-700 transition hover:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent';
+  return (
+    <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-0.5">
+      <button type="button" className={btn} onClick={() => onChange(Math.max(min, value - 1))} disabled={value <= min} aria-label={less}>
+        <Minus className="size-4" aria-hidden />
+      </button>
+      <span className="text-base font-semibold tabular-nums text-gray-900" aria-live="polite">{value}</span>
+      <button type="button" className={btn} onClick={() => onChange(Math.min(max, value + 1))} disabled={value >= max} aria-label={more}>
+        <Plus className="size-4" aria-hidden />
+      </button>
+    </div>
+  );
+}
+
 function Field({
   label,
   icon: Icon,
   required,
   error,
+  group,
   children,
 }: {
   label: string;
   icon?: React.ElementType;
   required?: boolean;
   error?: string;
+  /** Buttons inside: a <label> would forward every click on it to the first button. */
+  group?: boolean;
   children: React.ReactNode;
 }) {
+  const Tag = group ? 'div' : 'label';
   return (
-    <label className="block" data-field-error={error ? '1' : undefined}>
+    <Tag className="block" data-field-error={error ? '1' : undefined} {...(group ? { role: 'group', 'aria-label': label } : {})}>
       <div className="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-1.5">
         {Icon && <Icon className="w-4 h-4 text-gray-500" />}
         <span>{label}{required && <span className="text-red-500"> *</span>}</span>
@@ -595,7 +609,7 @@ function Field({
           <span>{error}</span>
         </p>
       )}
-    </label>
+    </Tag>
   );
 }
 

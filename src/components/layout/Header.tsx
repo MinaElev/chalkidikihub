@@ -9,6 +9,7 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 import { BrandIcon } from '@/components/ui/BrandIcon';
 import { SearchOverlay, type SearchOverlayLabels } from '@/components/search/SearchOverlay';
 import { InstallApp } from './InstallApp';
+import { FavoritesCount } from '@/components/v3/FavoriteButton';
 
 const FAVOURITES: Record<Locale, string> = {
   el: 'Αγαπημένα', en: 'Favourites', de: 'Favoriten', ro: 'Favorite', bg: 'Любими', sr: 'Omiljeno', ru: 'Избранное',
@@ -130,8 +131,9 @@ export async function Header({ locale }: { locale: Locale }) {
 
         <div className="ml-auto flex items-center gap-1">
           {/* Phones under 640px: the bar has no room for it, the menu carries Favourites instead. */}
-          <Link prefetch={false} href="/favorites" className="hidden size-10 items-center sm:flex justify-center rounded-lg text-slate-700 hover:bg-slate-100 hover:text-red-500" aria-label={FAVOURITES[locale]} title={FAVOURITES[locale]}>
+          <Link prefetch={false} href="/favorites" className="relative hidden size-10 items-center sm:flex justify-center rounded-lg text-slate-700 hover:bg-slate-100 hover:text-red-500" aria-label={FAVOURITES[locale]} title={FAVOURITES[locale]}>
             <Heart className="size-5" aria-hidden />
+            <FavoritesCount />
           </Link>
           <SearchOverlay locale={locale} labels={searchLabels} />
           <LanguageSwitcher current={locale} languages={languages} label={t('language')} />

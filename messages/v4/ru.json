@@ -294,7 +294,8 @@
     "call": "Позвонить",
     "bookNow": "Забронировать онлайн",
     "alsoOn": "Также доступно на",
-    "featured": "Рекомендуем"
+    "featured": "Рекомендуем",
+    "liveAvailability": "Наличие в реальном времени"
   },
   "articles": {
     "hubTitle": "Статьи и путеводители по Халкидики",
@@ -422,5 +423,22 @@
     "viewAll": "Все пляжи",
     "prev": "Назад",
     "next": "Вперёд"
+  },
+  "availabilityRequest": {
+    "addDate": "Выбрать дату",
+    "pickCheckIn": "Выберите день заезда",
+    "pickCheckOut": "Теперь выберите день выезда",
+    "clearDates": "Сбросить",
+    "done": "Готово",
+    "prevMonth": "Предыдущий месяц",
+    "nextMonth": "Следующий месяц",
+    "fewer": "Меньше",
+    "more": "Больше",
+    "nights": "{count, plural, one {# ночь} few {# ночи} many {# ночей} other {# ночей}}",
+    "missingDates": "Выберите даты заезда и выезда.",
+    "datesLabel": "Даты",
+    "budgetAny": "Любой",
+    "budgetUpTo": "До {amount} €",
+    "budgetOver": "От {amount} €"
   }
 }

@@ -294,7 +294,8 @@
     "call": "Pozovite",
     "bookNow": "Rezervišite onlajn",
     "alsoOn": "Dostupno i na",
-    "featured": "Preporučeno"
+    "featured": "Preporučeno",
+    "liveAvailability": "Dostupnost uživo"
   },
   "articles": {
     "hubTitle": "Članci i vodiči o Halkidikiju",
@@ -422,5 +423,22 @@
     "viewAll": "Sve plaže",
     "prev": "Prethodne",
     "next": "Sledeće"
+  },
+  "availabilityRequest": {
+    "addDate": "Izaberi datum",
+    "pickCheckIn": "Izaberi dan dolaska",
+    "pickCheckOut": "Sada izaberi dan odlaska",
+    "clearDates": "Obriši",
+    "done": "Gotovo",
+    "prevMonth": "Prethodni mesec",
+    "nextMonth": "Sledeći mesec",
+    "fewer": "Manje",
+    "more": "Više",
+    "nights": "{count, plural, one {# noć} few {# noći} other {# noći}}",
+    "missingDates": "Molimo izaberi datume dolaska i odlaska.",
+    "datesLabel": "Datumi",
+    "budgetAny": "Svejedno",
+    "budgetUpTo": "Do {amount} €",
+    "budgetOver": "Preko {amount} €"
   }
 }

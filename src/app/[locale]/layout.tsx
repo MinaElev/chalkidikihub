@@ -10,6 +10,7 @@ import { SITE_URL } from '@/lib/seo/site';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { AvailabilityFab } from '@/components/layout/AvailabilityFab';
+import { ExitIntentPopup } from '@/components/layout/ExitIntentPopup';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { ServiceWorker } from '@/components/layout/ServiceWorker';
 import { CookieConsent } from '@/components/v3/CookieConsent';
@@ -75,6 +76,12 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
           </main>
           <Footer locale={locale as Locale} />
           <AvailabilityFab label={avail('floating.label')} tooltip={avail('floating.tooltip')} />
+          <ExitIntentPopup
+            labels={{
+              headline: avail('popup.headline'), body: avail('popup.body'), cta: avail('popup.cta'),
+              free: avail('popup.free'), dismiss: avail('popup.dismiss'), close: t('close'),
+            }}
+          />
           <BottomNav
             labels={{ beaches: t('beaches'), places: t('places'), stay: t('stay'), food: t('food'), availability: t('availShort'), menu: t('menu') }}
           />

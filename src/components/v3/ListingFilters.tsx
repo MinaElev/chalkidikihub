@@ -11,6 +11,8 @@ export type FilterItem = {
   guests: number;
   amenities: string[];
   updated: string;
+  /** Calendar synced from Airbnb / Booking.com (same rule as the card badge). */
+  live: boolean;
 };
 
 type Labels = {
@@ -28,6 +30,7 @@ type Labels = {
   clearFilters: string;
   open: string;
   results: string;
+  liveOnly: string;
 };
 
 type Sort = 'newest' | 'price_low' | 'price_high';
@@ -54,10 +57,13 @@ export function ListingFilters({
   const [maxPrice, setMaxPrice] = useState<number | undefined>();
   const [guests, setGuests] = useState<number | undefined>();
   const [wanted, setWanted] = useState<string[]>([]);
+  const [liveOnly, setLiveOnly] = useState(false);
+  const anyLive = items.some((i) => i.live);
 
-  const active = Boolean(area || minPrice || maxPrice || guests || wanted.length || sort !== 'newest');
+  const active = Boolean(area || minPrice || maxPrice || guests || wanted.length || liveOnly || sort !== 'newest');
   const results = useMemo(() => {
     const list = items.filter((i) =>
+      (!liveOnly || i.live) &&
       (!area || i.area === area) &&
       (!minPrice || (i.price ?? 0) >= minPrice) &&
       (!maxPrice || (i.price != null && i.price <= maxPrice)) &&
@@ -66,9 +72,9 @@ export function ListingFilters({
     if (sort === 'price_low') return [...list].sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
     if (sort === 'price_high') return [...list].sort((a, b) => (b.price ?? -1) - (a.price ?? -1));
     return [...list].sort((a, b) => b.updated.localeCompare(a.updated));
-  }, [items, area, minPrice, maxPrice, guests, wanted, sort]);
+  }, [items, area, minPrice, maxPrice, guests, wanted, liveOnly, sort]);
 
-  const clear = () => { setArea(null); setSort('newest'); setMinPrice(undefined); setMaxPrice(undefined); setGuests(undefined); setWanted([]); };
+  const clear = () => { setLiveOnly(false); setArea(null); setSort('newest'); setMinPrice(undefined); setMaxPrice(undefined); setGuests(undefined); setWanted([]); };
   const chip = (on: boolean) => `rounded-full px-3.5 py-1.5 text-sm font-medium transition ${on ? 'bg-sea-600 text-white shadow' : 'bg-white text-gray-700 ring-1 ring-gray-200 hover:ring-sea-300'}`;
   const num = (placeholder: string, value: number | undefined, set: (n: number | undefined) => void) => (
     <input
@@ -94,6 +100,12 @@ export function ListingFilters({
           {Object.entries(areas).map(([k, v]) => (
             <button key={k} type="button" onClick={() => setArea(area === k ? null : k)} aria-pressed={area === k} className={chip(area === k)}>{v}</button>
           ))}
+          {anyLive && (
+            <button type="button" onClick={() => setLiveOnly((v) => !v)} aria-pressed={liveOnly} className={`inline-flex items-center gap-2 ${chip(liveOnly)}`}>
+              <span className={`size-2 rounded-full ${liveOnly ? 'bg-white' : 'bg-emerald-500'}`} aria-hidden />
+              {labels.liveOnly}
+            </button>
+          )}
           {active && (
             <button type="button" onClick={clear} className="ml-auto inline-flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-gray-900">
               <X className="size-4" aria-hidden /> {labels.clearFilters}

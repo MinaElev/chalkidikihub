@@ -294,7 +294,8 @@
     "call": "Call",
     "bookNow": "Book online",
     "alsoOn": "Also available on",
-    "featured": "Featured"
+    "featured": "Featured",
+    "liveAvailability": "Live availability"
   },
   "articles": {
     "hubTitle": "Articles and guides about Halkidiki",
@@ -422,5 +423,22 @@
     "viewAll": "All beaches",
     "prev": "Previous",
     "next": "Next"
+  },
+  "availabilityRequest": {
+    "addDate": "Add date",
+    "pickCheckIn": "Choose your check-in day",
+    "pickCheckOut": "Now choose your check-out day",
+    "clearDates": "Clear",
+    "done": "Done",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "fewer": "Fewer",
+    "more": "More",
+    "nights": "{count, plural, one {# night} other {# nights}}",
+    "missingDates": "Please choose your check-in and check-out dates.",
+    "datesLabel": "Dates",
+    "budgetAny": "Any",
+    "budgetUpTo": "Up to {amount}€",
+    "budgetOver": "{amount}€+"
   }
 }

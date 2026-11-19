@@ -13,12 +13,14 @@ export async function GET() {
   const noStore = { headers: { 'Cache-Control': 'private, no-store' } };
   const { data: { user } } = await (await createClient()).auth.getUser();
   if (!user) return NextResponse.json({ signedIn: false }, noStore);
-  const { data: profile } = await createAdminClient().from('profiles').select('role, full_name').eq('id', user.id).maybeSingle();
+  const { data: profile } = await createAdminClient().from('profiles').select('role, full_name, phone').eq('id', user.id).maybeSingle();
   return NextResponse.json(
     {
       signedIn: true,
       name: profile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0] || '',
       email: user.email,
+      // The caller's own phone, used to pre-fill the availability request form.
+      phone: profile?.phone || '',
       isAdmin: profile?.role === 'superadmin',
     },
     noStore,
