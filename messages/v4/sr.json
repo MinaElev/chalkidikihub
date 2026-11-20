@@ -228,7 +228,8 @@
     "faqDurationQ": "Koliko traje?",
     "faqDurationA": "Računajte oko {duration}.",
     "faqPriceQ": "Koliko košta?",
-    "faqPriceA": "Okvirno {price}. Cene se menjaju svake sezone, pa proverite pre polaska."
+    "faqPriceA": "Okvirno {price}. Cene se menjaju svake sezone, pa proverite pre polaska.",
+    "inArea": "Šta raditi {area}"
   },
   "stay": {
     "hubTitle": "Smeštaj na Halkidikiju direktno od vlasnika",
@@ -457,5 +458,13 @@
     "budgetAny": "Svejedno",
     "budgetUpTo": "Do {amount} €",
     "budgetOver": "Preko {amount} €"
+  },
+  "areaPage": {
+    "overview": "Pregled",
+    "sections": "Odeljci stranice",
+    "heroLead": "Otkrijte sela, plaže i mesta za smeštaj {area}.",
+    "seeBeaches": "Pogledajte plaže",
+    "seeStays": "Pogledajte smeštaj",
+    "openMap": "Otvorite mapu"
   }
 }

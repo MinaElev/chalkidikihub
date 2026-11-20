@@ -228,7 +228,8 @@
     "faqDurationQ": "Wie lange dauert es?",
     "faqDurationA": "Planen Sie etwa {duration} ein.",
     "faqPriceQ": "Was kostet es?",
-    "faqPriceA": "Ungefähr {price}. Die Preise ändern sich jede Saison – am besten vorher nachfragen."
+    "faqPriceA": "Ungefähr {price}. Die Preise ändern sich jede Saison – am besten vorher nachfragen.",
+    "inArea": "Unternehmungen {area}"
   },
   "stay": {
     "hubTitle": "Unterkünfte auf Chalkidiki – direkt vom Vermieter",
@@ -456,5 +457,13 @@
     "budgetAny": "Egal",
     "budgetUpTo": "Bis {amount} €",
     "budgetOver": "Ab {amount} €"
+  },
+  "areaPage": {
+    "overview": "Überblick",
+    "sections": "Abschnitte der Seite",
+    "heroLead": "Entdecken Sie Dörfer, Strände und Unterkünfte {area}.",
+    "seeBeaches": "Strände ansehen",
+    "seeStays": "Unterkünfte ansehen",
+    "openMap": "Karte öffnen"
   }
 }

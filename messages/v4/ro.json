@@ -228,7 +228,8 @@
     "faqDurationQ": "Cât durează?",
     "faqDurationA": "Socotește aproximativ {duration}.",
     "faqPriceQ": "Cât costă?",
-    "faqPriceA": "Orientativ {price}. Prețurile se schimbă în fiecare sezon, așa că verifică înainte."
+    "faqPriceA": "Orientativ {price}. Prețurile se schimbă în fiecare sezon, așa că verifică înainte.",
+    "inArea": "Ce să faci {area}"
   },
   "stay": {
     "hubTitle": "Cazare în Halkidiki, direct de la proprietari",
@@ -457,5 +458,13 @@
     "budgetAny": "Oricât",
     "budgetUpTo": "Până la {amount} €",
     "budgetOver": "Peste {amount} €"
+  },
+  "areaPage": {
+    "overview": "Prezentare",
+    "sections": "Secțiunile paginii",
+    "heroLead": "Descoperă sate, plaje și locuri de cazare {area}.",
+    "seeBeaches": "Vezi plajele",
+    "seeStays": "Vezi cazările",
+    "openMap": "Deschide harta"
   }
 }

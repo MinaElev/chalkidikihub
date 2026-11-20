@@ -228,7 +228,8 @@
     "faqDurationQ": "How long does it take?",
     "faqDurationA": "Allow about {duration}.",
     "faqPriceQ": "How much does it cost?",
-    "faqPriceA": "Roughly {price}. Prices change every season, so check before you go."
+    "faqPriceA": "Roughly {price}. Prices change every season, so check before you go.",
+    "inArea": "Things to do {area}"
   },
   "stay": {
     "hubTitle": "Places to stay in Halkidiki, direct from the owners",
@@ -456,5 +457,13 @@
     "budgetAny": "Any",
     "budgetUpTo": "Up to {amount}€",
     "budgetOver": "{amount}€+"
+  },
+  "areaPage": {
+    "overview": "Overview",
+    "sections": "Page sections",
+    "heroLead": "Discover villages, beaches and places to stay {area}.",
+    "seeBeaches": "See the beaches",
+    "seeStays": "See places to stay",
+    "openMap": "Open the map"
   }
 }

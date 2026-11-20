@@ -126,3 +126,11 @@ export const SALES_AREA_INTRO: AreaMap = {
     sr: 'Kopneni deo i severna obala Halkidikija nude najpristupačnije tržište nekretnina, sa Solunom nadohvat ruke. Nea Kalikratija, Nea Mudanja i okolna područja spajaju vikend i stalne kuće, sa novogradnjom i placevima po konkurentnim cenama. Idealan izbor za one koji žele kuću uz more bez cene poluostrva, ili za investiciju u region koji stabilno raste zahvaljujući blizini grada.',
   },
 };
+
+/** Heading of the overview block on /areas/[slug]: "Get to know …" with each language's own case. */
+export const AREA_GET_TO_KNOW: Record<'kassandra' | 'sithonia' | 'athos' | 'mainland', Record<string, string>> = {
+  kassandra: { el: 'Γνωρίστε την Κασσάνδρα', en: 'Get to know Kassandra', de: 'Kassandra kennenlernen', ro: 'Descoperă Kassandra', bg: 'Опознайте Касандра', sr: 'Upoznajte Kasandru', ru: 'Знакомство с Кассандрой' },
+  sithonia: { el: 'Γνωρίστε τη Σιθωνία', en: 'Get to know Sithonia', de: 'Sithonia kennenlernen', ro: 'Descoperă Sithonia', bg: 'Опознайте Ситония', sr: 'Upoznajte Sitoniju', ru: 'Знакомство с Ситонией' },
+  athos: { el: 'Γνωρίστε τη χερσόνησο του Άθω', en: 'Get to know the Athos peninsula', de: 'Die Athos-Halbinsel kennenlernen', ro: 'Descoperă peninsula Athos', bg: 'Опознайте полуостров Атон', sr: 'Upoznajte poluostrvo Atos', ru: 'Знакомство с полуостровом Афон' },
+  mainland: { el: 'Γνωρίστε την ενδοχώρα της Χαλκιδικής', en: 'Get to know inland Halkidiki', de: 'Das Hinterland von Chalkidiki kennenlernen', ro: 'Descoperă interiorul Halkidikiului', bg: 'Опознайте вътрешността на Халкидики', sr: 'Upoznajte unutrašnjost Halkidikija', ru: 'Знакомство с внутренними районами Халкидики' },
+};
