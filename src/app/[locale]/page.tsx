@@ -18,6 +18,7 @@ import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { ClientIntl } from '@/components/ClientIntl';
 import { BeachFinder, type FinderBeach } from '@/components/home/BeachFinder';
 import { LastMinuteDealsPopup } from '@/components/v3/LastMinuteDealsPopup';
+import { HOME_STAY_SLUGS } from '@/content/home-stays';
 
 export const revalidate = 3600;
 
@@ -59,25 +60,29 @@ function Heading({ id, badge, title, lead, action, center = false }: { id: strin
 const HOME_PINNED_STAY = 'amira-house';
 
 /**
- * The home page's `size` stays: Amira House first, then the usual order, with
- * at least one other stay that has live (iCal-synced) availability. If none of
- * the usual ones is live, a live stay replaces the last ordinary card (Premium
- * stays are never displaced). Which live stay gets in rotates every hour (the
- * page revalidates hourly), so each one gets its turn.
+ * The home page's `size` stays: Amira House first, then Premium stays (the
+ * plan promises them prominence), then a rotating pick from HOME_STAY_SLUGS,
+ * the stays whose cover photo is good enough for the front page. At least one
+ * of the others has live (iCal-synced) availability. The pick rotates every
+ * hour (the page revalidates hourly), so every chosen stay gets its turn.
+ * If the list ever runs short, the usual order fills the gap.
  */
-function withLiveStays<T extends { id: string; slug: string; featured?: boolean }>(stays: T[], live: Set<string>, size: number): T[] {
+function pickHomeStays<T extends { id: string; slug: string; featured?: boolean }>(stays: T[], live: Set<string>, size: number): T[] {
+  const hour = Math.floor(Date.now() / 3_600_000);
+  const rotate = <U,>(list: U[]) => (list.length ? [...list.slice(hour % list.length), ...list.slice(0, hour % list.length)] : list);
   const pinned = stays.find((s) => s.slug.startsWith(HOME_PINNED_STAY));
-  const others = stays.filter((s) => s !== pinned);
-  const shown = [...(pinned ? [pinned] : []), ...others.slice(0, size - (pinned ? 1 : 0))];
+  const premium = stays.filter((s) => s !== pinned && s.featured);
+  const chosen = new Set(HOME_STAY_SLUGS);
+  const pool = rotate(stays.filter((s) => s !== pinned && !s.featured && chosen.has(s.slug)));
+  const rest = stays.filter((s) => s !== pinned && !s.featured && !chosen.has(s.slug));
+  const shown = [...(pinned ? [pinned] : []), ...premium, ...pool, ...rest].slice(0, size);
+
+  // Guarantee one live stay besides the pinned one, swapped in for the last ordinary card.
   const isOtherLive = (s: T) => s !== pinned && live.has(s.id);
-  const pool = others.filter((s) => live.has(s.id) && !shown.includes(s));
-  if (shown.some(isOtherLive) || !pool.length) return shown;
-  const pick = pool[Math.floor(Date.now() / 3_600_000) % pool.length];
-  for (let i = shown.length - 1; i >= 0; i--) {
-    if (shown[i] !== pinned && !shown[i].featured) {
-      shown[i] = pick;
-      break;
-    }
+  if (!shown.some(isOtherLive)) {
+    const liveStay = [...pool, ...rest].find((s) => live.has(s.id) && !shown.includes(s));
+    const slot = shown.map((s, i) => (s !== pinned && !s.featured ? i : -1)).filter((i) => i >= 0).pop();
+    if (liveStay && slot !== undefined) shown[slot] = liveStay;
   }
   return shown;
 }
@@ -105,7 +110,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
     .filter((b) => b.image_url)
     .sort((a, b) => (b.reviews_count ?? 0) - (a.reviews_count ?? 0) || (b.rating ?? 0) - (a.rating ?? 0));
   const live = new Set(liveIds);
-  const openStays = withLiveStays(listings.filter((l) => !l.is_closed && l.cover_url), live, 6);
+  const openStays = pickHomeStays(listings.filter((l) => !l.is_closed && l.cover_url), live, 6);
   const [beachVillages, stayVillages] = await Promise.all([closestVillagesFor(ranked, locale), closestVillagesFor(openStays, locale, 6)]);
 
   const finderBeaches: FinderBeach[] = ranked.map((b) => ({

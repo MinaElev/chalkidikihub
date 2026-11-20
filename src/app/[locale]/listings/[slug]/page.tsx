@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { BedDouble, Bath, Check, Phone, Users } from 'lucide-react';
+import { BedDouble, Bath, Check, ExternalLink, Globe, Phone, Users } from 'lucide-react';
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
-import { getListing, getListings, type ListingCard } from '@/lib/db/content';
+import { getListing, getListings, getLiveCalendarListingIds, type ListingCard } from '@/lib/db/content';
 import { hasCoords } from '@/lib/geo';
+import { publicDb } from '@/lib/supabase/clients';
 import { inPageScript, localize, pick } from '@/lib/i18n/localize';
 import { closestVillage, displayName, nearBeaches, nearRestaurants, ratingProps } from '@/lib/content/nearby';
 import { AREA_NAMES, inPlace, placeName } from '@/lib/content/place-names';
@@ -83,6 +84,35 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/listings
   });
 }
 
+/**
+ * A link the owner typed, made safe to render: adds https:// when missing
+ * ("www.villa.gr") and drops anything that isn't http(s) (e.g. javascript:).
+ */
+function externalUrl(raw: unknown): string | null {
+  const s = String(raw ?? '').trim();
+  if (!s) return null;
+  try {
+    const u = new URL(/^[a-z][a-z0-9+.-]*:/i.test(s) ? s : `https://${s}`);
+    return u.protocol === 'https:' || u.protocol === 'http:' ? u.href : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Booked / blocked nights for the next year (public table, same data as the availability calendar). */
+async function bookedNights(listingId: string): Promise<string[]> {
+  const from = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Athens' }).format(new Date());
+  const to = new Date(Date.parse(from) + 400 * 86_400_000).toISOString().slice(0, 10);
+  const { data } = await publicDb()
+    .from('listing_availability')
+    .select('date, status')
+    .eq('listing_id', listingId)
+    .gte('date', from)
+    .lte('date', to)
+    .limit(1000);
+  return (data ?? []).filter((d) => d.status !== 'available').map((d) => d.date as string);
+}
+
 export default async function ListingPage({ params }: PageProps<'/[locale]/listings/[slug]'>) {
   const { locale: raw, slug } = await params;
   const locale = raw as Locale;
@@ -91,12 +121,15 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
   if (!data) notFound();
   const { l, village, reviews, rating } = data;
 
-  const [t, shell, common, amenityT] = await Promise.all([
+  const [t, shell, common, amenityT, liveIds] = await Promise.all([
     getTranslations({ locale, namespace: 'stay' }),
     getTranslations({ locale, namespace: 'shell' }),
     getTranslations({ locale, namespace: 'common' }),
     getTranslations({ locale, namespace: 'amenities' }),
+    getLiveCalendarListingIds(),
   ]);
+  // Same rule as the badge on /listings (calendar public, feed synced in the last day).
+  const isLive = liveIds.includes(String(l.id));
 
   const name = displayName(l, locale, 'listing');
   // Only a tagline written for this language, in its alphabet (no English
@@ -109,6 +142,12 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
   const geo = hasCoords(l);
   const villageName = village ? placeName(village.item.slug, locale, village.item) : null;
   const phone = String(l.contact_phone ?? '').trim();
+  // The owner's own site and the stay's Booking.com / Airbnb pages, as typed by the owner.
+  const website = externalUrl(l.website_url);
+  const elsewhere = [
+    { name: 'Booking.com', href: externalUrl(l.booking_url) },
+    { name: 'Airbnb', href: externalUrl(l.airbnb_url) },
+  ].filter((x): x is { name: string; href: string } => Boolean(x.href));
   const amenities = (l.amenities ?? []).filter((a) => amenityT.has(a));
 
   const ruleValue = (v: unknown) => {
@@ -134,9 +173,19 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
 
   const [beaches, food] = geo ? await Promise.all([nearBeaches(l, 4), nearRestaurants(l, 4)]) : [[], []];
 
-  const labels = Object.fromEntries(
-    (['formTitle', 'formIntro', 'formCheckIn', 'formCheckOut', 'formGuests', 'formName', 'formEmail', 'formPhone', 'formMessage', 'formMessagePlaceholder', 'formSubmit', 'formSending', 'formSuccess', 'formError', 'formTooMany', 'formPrivacy'] as const).map((k) => [k, t(k)]),
-  ) as InquiryLabels;
+  const labels = {
+    ...Object.fromEntries(
+      ([
+        'formTitle', 'formIntro', 'formCheckIn', 'formCheckOut', 'formGuests', 'formName', 'formEmail', 'formPhone', 'formMessage',
+        'formMessagePlaceholder', 'formSubmit', 'formSending', 'formSuccess', 'formError', 'formTooMany', 'formPrivacy',
+        'formAddDate', 'formPickCheckIn', 'formPickCheckOut', 'formClearDates', 'formDone', 'formMissingDates',
+        'availabilityPrev', 'availabilityNext',
+      ] as const).map((k) => [k, t(k)]),
+    ),
+    formNights: t.raw('formNights') as InquiryLabels['formNights'],
+  } as InquiryLabels;
+  // Booked nights for the inquiry calendar (only when the owner shows a calendar).
+  const blocked = l.show_calendar ? await bookedNights(String(l.id)) : undefined;
 
   return (
     <Container>
@@ -160,6 +209,14 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
           <li className="inline-flex items-center gap-1.5"><BedDouble className="size-4 text-sea-600" aria-hidden />{t('bedrooms', { count: l.bedrooms })}</li>
           <li className="inline-flex items-center gap-1.5"><Bath className="size-4 text-sea-600" aria-hidden />{t('bathrooms', { count: l.bathrooms })}</li>
           <li>{villageName ? `${villageName}, ${AREA_NAMES[l.area][locale]}` : AREA_NAMES[l.area][locale]}</li>
+          {isLive && (
+            <li>
+              <a href="#availability" className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 font-semibold text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100">
+                <span className="size-2 rounded-full bg-emerald-500" aria-hidden />
+                {t('liveAvailability')}
+              </a>
+            </li>
+          )}
         </ul>
       </PageIntro>
 
@@ -173,6 +230,22 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div>
+          {/* The calendar comes first: when it exists it is the most useful thing on the page. */}
+          {Boolean(l.show_calendar) && (
+            <div className="mb-10">
+              <AvailabilityCalendar
+                listingId={l.id}
+                locale={locale}
+                title={t('availability')}
+                labels={{
+                  free: t('availabilityFree'), busy: t('availabilityBusy'), updated: t.raw('availabilityUpdated') as string,
+                  live: t('liveAvailability'), syncedWith: t.raw('availabilitySyncedWith') as string,
+                  prev: t('availabilityPrev'), next: t('availabilityNext'),
+                  checkoutOnly: t('availabilityCheckoutOnly'), checkinOnly: t('availabilityCheckinOnly'),
+                }}
+              />
+            </div>
+          )}
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
           <Prose html={await renderLinked(body.text, locale, `/listings/${slug}`)} />
 
@@ -239,18 +312,35 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
               <li className="flex items-center gap-2"><Check className="size-4 text-emerald-600" aria-hidden />{t('directOwner')}</li>
             </ul>
             <hr className="my-5 border-slate-200" />
-            {!l.is_closed && <InquiryForm slug={slug} locale={locale} maxGuests={l.guests_max} labels={labels} />}
+            {!l.is_closed && <InquiryForm slug={slug} locale={locale} maxGuests={l.guests_max} labels={labels} blocked={blocked} />}
             {phone && (
               <a href={`tel:${phone.replace(/\s+/g, '')}`} className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-sea-200 px-4 py-3 font-semibold text-sea-800 hover:bg-sea-50">
                 <Phone className="size-4" aria-hidden />{t('call')}: {phone}
               </a>
+            )}
+            {/* Owner-supplied links: nofollow + ugc, opened in a new tab so the visitor keeps this page. */}
+            {website && (
+              <a href={website} target="_blank" rel="nofollow ugc noopener noreferrer" className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-3 font-semibold text-slate-800 hover:bg-slate-50">
+                <Globe className="size-4" aria-hidden />{t('ownWebsite')}
+              </a>
+            )}
+            {elsewhere.length > 0 && (
+              <div className="mt-4">
+                <p className="text-center text-xs font-medium text-slate-500">{t('alsoOn')}</p>
+                <div className={`mt-2 grid gap-2 ${elsewhere.length > 1 ? 'grid-cols-2' : ''}`}>
+                  {elsewhere.map((x) => (
+                    <a key={x.name} href={x.href} target="_blank" rel="nofollow ugc noopener noreferrer" className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                      {x.name}<ExternalLink className="size-3.5 text-slate-400" aria-hidden />
+                    </a>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
           {geo && <MapEmbed lat={l.latitude!} lng={l.longitude!} title={name} directionsLabel={common('directions')} />}
         </aside>
       </div>
 
-      {Boolean(l.show_calendar) && <AvailabilityCalendar listingId={l.id} locale={locale} title={t('availability')} labels={{ free: t('availabilityFree'), busy: t('availabilityBusy'), updated: t.raw('availabilityUpdated') as string }} />}
       {reviews.length > 0 && <Reviews locale={locale} title={t('reviews')} empty={t('noReviews')} reviews={reviews} rating={rating} />}
       <div className="max-w-2xl">
         <ReviewForm type="listing" itemId={String(l.id)} itemName={name} />

@@ -295,7 +295,23 @@
     "bookNow": "Резервирайте онлайн",
     "alsoOn": "Налично и в",
     "featured": "Препоръчано",
-    "liveAvailability": "Наличност в реално време"
+    "liveAvailability": "Наличност в реално време",
+    "availabilitySyncedWith": "Синхронизира се автоматично с {source}",
+    "availabilityPrev": "Предишен месец",
+    "availabilityNext": "Следващ месец",
+    "ownWebsite": "Сайт на мястото",
+    "formAddDate": "Избери дата",
+    "formPickCheckIn": "Избери ден на пристигане",
+    "formPickCheckOut": "Сега избери ден на заминаване",
+    "formClearDates": "Изчисти",
+    "formDone": "Готово",
+    "formMissingDates": "Моля, избери дати на пристигане и заминаване.",
+    "formNights": {
+      "one": "{count} нощ",
+      "other": "{count} нощи"
+    },
+    "availabilityCheckoutOnly": "Само напускане",
+    "availabilityCheckinOnly": "Само пристигане"
   },
   "articles": {
     "hubTitle": "Статии и пътеводители за Халкидики",

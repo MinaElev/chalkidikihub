@@ -295,7 +295,23 @@
     "bookNow": "Book online",
     "alsoOn": "Also available on",
     "featured": "Featured",
-    "liveAvailability": "Live availability"
+    "liveAvailability": "Live availability",
+    "availabilitySyncedWith": "Synced automatically with {source}",
+    "availabilityPrev": "Previous month",
+    "availabilityNext": "Next month",
+    "ownWebsite": "Property website",
+    "formAddDate": "Add date",
+    "formPickCheckIn": "Choose your check-in day",
+    "formPickCheckOut": "Now choose your check-out day",
+    "formClearDates": "Clear",
+    "formDone": "Done",
+    "formMissingDates": "Please choose your check-in and check-out dates.",
+    "formNights": {
+      "one": "{count} night",
+      "other": "{count} nights"
+    },
+    "availabilityCheckoutOnly": "Check-out only",
+    "availabilityCheckinOnly": "Check-in only"
   },
   "articles": {
     "hubTitle": "Articles and guides about Halkidiki",

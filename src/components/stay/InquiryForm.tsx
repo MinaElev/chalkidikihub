@@ -1,32 +1,54 @@
 'use client';
 
-import { useState } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { DateRangePicker } from '@/components/forms/DateRangePicker';
 
 export type InquiryLabels = Record<
   | 'formTitle' | 'formIntro' | 'formCheckIn' | 'formCheckOut' | 'formGuests' | 'formName' | 'formEmail'
   | 'formPhone' | 'formMessage' | 'formMessagePlaceholder' | 'formSubmit' | 'formSending' | 'formSuccess'
-  | 'formError' | 'formTooMany' | 'formPrivacy',
+  | 'formError' | 'formTooMany' | 'formPrivacy'
+  | 'formAddDate' | 'formPickCheckIn' | 'formPickCheckOut' | 'formClearDates' | 'formDone' | 'formMissingDates'
+  | 'availabilityPrev' | 'availabilityNext',
   string
->;
+> & {
+  /** "{count} nights" per plural category (one/few/many/other); functions can't cross from the server. */
+  formNights: Partial<Record<Intl.LDMLPluralRule, string>>;
+};
 
 type Status = 'idle' | 'sending' | 'done' | 'error' | 'limited';
 
 const field = 'mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-sea-500 focus:outline-none focus:ring-2 focus:ring-sea-200';
 
-export function InquiryForm({ slug, locale, maxGuests, labels }: { slug: string; locale: string; maxGuests: number; labels: InquiryLabels }) {
+export function InquiryForm({
+  slug, locale, maxGuests, labels, blocked,
+}: {
+  slug: string;
+  locale: string;
+  maxGuests: number;
+  labels: InquiryLabels;
+  /** Booked nights from the stay's calendar, so they can't be picked. */
+  blocked?: string[];
+}) {
   const [status, setStatus] = useState<Status>('idle');
-  const today = new Date().toISOString().slice(0, 10);
+  const [dates, setDates] = useState({ checkIn: '', checkOut: '' });
+  const [missingDates, setMissingDates] = useState(false);
+  const plural = useMemo(() => new Intl.PluralRules(locale), [locale]);
+  const nights = (count: number) => (labels.formNights[plural.select(count)] ?? labels.formNights.other ?? '{count}').replace('{count}', String(count));
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!dates.checkIn || !dates.checkOut) {
+      setMissingDates(true);
+      return;
+    }
     const data = Object.fromEntries(new FormData(e.currentTarget));
     setStatus('sending');
     try {
       const res = await fetch('/api/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, slug, locale }),
+        body: JSON.stringify({ ...data, checkIn: dates.checkIn, checkOut: dates.checkOut, slug, locale }),
       });
       setStatus(res.ok ? 'done' : res.status === 429 ? 'limited' : 'error');
     } catch {
@@ -49,15 +71,28 @@ export function InquiryForm({ slug, locale, maxGuests, labels }: { slug: string;
         <h2 className="text-lg font-semibold text-slate-900">{labels.formTitle}</h2>
         <p className="mt-1 text-sm text-slate-600">{labels.formIntro}</p>
       </div>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <label className="text-xs font-medium text-slate-700">
-          {labels.formCheckIn}
-          <input type="date" name="checkIn" min={today} required className={field} />
-        </label>
-        <label className="text-xs font-medium text-slate-700">
-          {labels.formCheckOut}
-          <input type="date" name="checkOut" min={today} required className={field} />
-        </label>
+      {/* One linked calendar: check-out can't be before check-in, and booked nights can't be picked. */}
+      <div>
+        <DateRangePicker
+          checkIn={dates.checkIn}
+          checkOut={dates.checkOut}
+          onChange={(v) => { setDates(v); if (v.checkIn && v.checkOut) setMissingDates(false); }}
+          locale={locale}
+          blocked={blocked}
+          single
+          invalid={missingDates}
+          labels={{
+            checkIn: labels.formCheckIn, checkOut: labels.formCheckOut, addDate: labels.formAddDate,
+            pickCheckIn: labels.formPickCheckIn, pickCheckOut: labels.formPickCheckOut,
+            clear: labels.formClearDates, done: labels.formDone, prev: labels.availabilityPrev, next: labels.availabilityNext,
+            nights,
+          }}
+        />
+        {missingDates && (
+          <p role="alert" className="mt-1 flex items-center gap-1 text-xs text-red-600">
+            <AlertCircle className="size-3 shrink-0" aria-hidden />{labels.formMissingDates}
+          </p>
+        )}
       </div>
       <label className="block text-xs font-medium text-slate-700">
         {labels.formGuests}

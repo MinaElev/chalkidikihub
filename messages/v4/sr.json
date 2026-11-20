@@ -295,7 +295,24 @@
     "bookNow": "Rezervišite onlajn",
     "alsoOn": "Dostupno i na",
     "featured": "Preporučeno",
-    "liveAvailability": "Dostupnost uživo"
+    "liveAvailability": "Dostupnost uživo",
+    "availabilitySyncedWith": "Automatski se sinhronizuje sa {source}",
+    "availabilityPrev": "Prethodni mesec",
+    "availabilityNext": "Sledeći mesec",
+    "ownWebsite": "Sajt smeštaja",
+    "formAddDate": "Izaberi datum",
+    "formPickCheckIn": "Izaberi dan dolaska",
+    "formPickCheckOut": "Sada izaberi dan odlaska",
+    "formClearDates": "Obriši",
+    "formDone": "Gotovo",
+    "formMissingDates": "Molimo izaberi datume dolaska i odlaska.",
+    "formNights": {
+      "one": "{count} noć",
+      "few": "{count} noći",
+      "other": "{count} noći"
+    },
+    "availabilityCheckoutOnly": "Samo odlazak",
+    "availabilityCheckinOnly": "Samo dolazak"
   },
   "articles": {
     "hubTitle": "Članci i vodiči o Halkidikiju",

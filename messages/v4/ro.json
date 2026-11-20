@@ -295,7 +295,24 @@
     "bookNow": "Rezervă online",
     "alsoOn": "Disponibil și pe",
     "featured": "Recomandat",
-    "liveAvailability": "Disponibilitate în timp real"
+    "liveAvailability": "Disponibilitate în timp real",
+    "availabilitySyncedWith": "Sincronizat automat cu {source}",
+    "availabilityPrev": "Luna anterioară",
+    "availabilityNext": "Luna următoare",
+    "ownWebsite": "Site-ul cazării",
+    "formAddDate": "Alege data",
+    "formPickCheckIn": "Alege ziua sosirii",
+    "formPickCheckOut": "Acum alege ziua plecării",
+    "formClearDates": "Șterge",
+    "formDone": "Gata",
+    "formMissingDates": "Te rog alege datele de sosire și de plecare.",
+    "formNights": {
+      "one": "{count} noapte",
+      "few": "{count} nopți",
+      "other": "{count} de nopți"
+    },
+    "availabilityCheckoutOnly": "Doar plecare",
+    "availabilityCheckinOnly": "Doar sosire"
   },
   "articles": {
     "hubTitle": "Articole și ghiduri despre Halkidiki",

@@ -295,7 +295,23 @@
     "bookNow": "Online buchen",
     "alsoOn": "Auch verfügbar auf",
     "featured": "Empfohlen",
-    "liveAvailability": "Live-Verfügbarkeit"
+    "liveAvailability": "Live-Verfügbarkeit",
+    "availabilitySyncedWith": "Automatisch mit {source} synchronisiert",
+    "availabilityPrev": "Vorheriger Monat",
+    "availabilityNext": "Nächster Monat",
+    "ownWebsite": "Website der Unterkunft",
+    "formAddDate": "Datum wählen",
+    "formPickCheckIn": "Anreisetag wählen",
+    "formPickCheckOut": "Jetzt den Abreisetag wählen",
+    "formClearDates": "Löschen",
+    "formDone": "Fertig",
+    "formMissingDates": "Bitte wählen Sie An- und Abreisedatum.",
+    "formNights": {
+      "one": "{count} Nacht",
+      "other": "{count} Nächte"
+    },
+    "availabilityCheckoutOnly": "Nur Abreise",
+    "availabilityCheckinOnly": "Nur Anreise"
   },
   "articles": {
     "hubTitle": "Artikel und Reiseführer zu Chalkidiki",

@@ -295,7 +295,23 @@
     "bookNow": "Κράτηση online",
     "alsoOn": "Διαθέσιμο επίσης σε",
     "featured": "Προτεινόμενο",
-    "liveAvailability": "Ζωντανή διαθεσιμότητα"
+    "liveAvailability": "Ζωντανή διαθεσιμότητα",
+    "availabilitySyncedWith": "Συγχρονίζεται αυτόματα με {source}",
+    "availabilityPrev": "Προηγούμενος μήνας",
+    "availabilityNext": "Επόμενος μήνας",
+    "ownWebsite": "Ιστοσελίδα καταλύματος",
+    "formAddDate": "Προσθήκη",
+    "formPickCheckIn": "Διάλεξε ημέρα άφιξης",
+    "formPickCheckOut": "Τώρα διάλεξε ημέρα αναχώρησης",
+    "formClearDates": "Καθαρισμός",
+    "formDone": "Έτοιμο",
+    "formMissingDates": "Διάλεξε ημερομηνίες άφιξης και αναχώρησης.",
+    "formNights": {
+      "one": "{count} βράδυ",
+      "other": "{count} βράδια"
+    },
+    "availabilityCheckoutOnly": "Μόνο αναχώρηση",
+    "availabilityCheckinOnly": "Μόνο άφιξη"
   },
   "articles": {
     "hubTitle": "Άρθρα και οδηγοί για τη Χαλκιδική",

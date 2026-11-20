@@ -38,7 +38,7 @@ export type DateRangeLabels = {
  * it never runs off a phone screen.
  */
 export function DateRangePicker({
-  checkIn, checkOut, onChange, locale, labels, maxDays = 365, invalid,
+  checkIn, checkOut, onChange, locale, labels, maxDays = 365, invalid, blocked, single,
 }: {
   checkIn: string;
   checkOut: string;
@@ -48,7 +48,22 @@ export function DateRangePicker({
   /** How far ahead check-in may be (the server allows a year). */
   maxDays?: number;
   invalid?: boolean;
+  /**
+   * Booked nights (YYYY-MM-DD) from the stay's calendar. A booked night can't
+   * be a check-in, and a stay can't run across one: check-out is allowed up to
+   * the morning of the first booked night after check-in.
+   */
+  blocked?: string[];
+  /** One month at a time even on wide screens (narrow sidebars). */
+  single?: boolean;
 }) {
+  const blockedSet = useMemo(() => new Set(blocked ?? []), [blocked]);
+  const sortedBlocked = useMemo(() => [...blockedSet].sort(), [blockedSet]);
+  // Last possible check-out for the current check-in: the first booked night after it.
+  const lastCheckOut = useMemo(
+    () => (checkIn ? sortedBlocked.find((d) => d > checkIn) ?? null : null),
+    [checkIn, sortedBlocked],
+  );
   const today = useMemo(() => isoDate(new Date()), []);
   const lastCheckIn = useMemo(() => addDays(today, maxDays), [today, maxDays]);
   const [open, setOpen] = useState(false);
@@ -82,7 +97,9 @@ export function DateRangePicker({
   }
 
   function pick(day: string) {
-    if (picking === 'in' || !checkIn || day <= checkIn) {
+    // Starting over: a booked night can't be the first night.
+    if (picking === 'in' || !checkIn || day <= checkIn || (lastCheckOut && day > lastCheckOut)) {
+      if (blockedSet.has(day)) return;
       onChange({ checkIn: day, checkOut: '' });
       setPicking('out');
       return;
@@ -119,7 +136,12 @@ export function DateRangePicker({
         <div className="grid grid-cols-7" onMouseLeave={() => setHover(null)}>
           {cells.map((day, i) => {
             if (!day) return <span key={i} />;
-            const disabled = day < today || (picking === 'in' || !checkIn ? day > lastCheckIn : false);
+            const choosingOut = picking === 'out' && Boolean(checkIn);
+            const disabled =
+              day < today ||
+              (!choosingOut && (day > lastCheckIn || blockedSet.has(day))) ||
+              // Choosing check-out: nothing past the first booked night, and booked nights before check-in can't restart the range.
+              (choosingOut && ((lastCheckOut !== null && day > lastCheckOut) || (day <= checkIn && blockedSet.has(day))));
             const isStart = day === checkIn;
             const isEnd = day === rangeEnd;
             const inRange = Boolean(checkIn && rangeEnd && day > checkIn && day < rangeEnd);
@@ -201,9 +223,9 @@ export function DateRangePicker({
               <ChevronRight className="size-5" aria-hidden />
             </button>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className={single ? '' : 'grid gap-6 sm:grid-cols-2'}>
             {month(0)}
-            {month(1, 'hidden sm:block')}
+            {!single && month(1, 'hidden sm:block')}
           </div>
           <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-3">
             <button

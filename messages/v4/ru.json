@@ -295,7 +295,25 @@
     "bookNow": "Забронировать онлайн",
     "alsoOn": "Также доступно на",
     "featured": "Рекомендуем",
-    "liveAvailability": "Наличие в реальном времени"
+    "liveAvailability": "Наличие в реальном времени",
+    "availabilitySyncedWith": "Автоматически синхронизируется с {source}",
+    "availabilityPrev": "Предыдущий месяц",
+    "availabilityNext": "Следующий месяц",
+    "ownWebsite": "Сайт объекта",
+    "formAddDate": "Выбрать дату",
+    "formPickCheckIn": "Выберите день заезда",
+    "formPickCheckOut": "Теперь выберите день выезда",
+    "formClearDates": "Сбросить",
+    "formDone": "Готово",
+    "formMissingDates": "Выберите даты заезда и выезда.",
+    "formNights": {
+      "one": "{count} ночь",
+      "few": "{count} ночи",
+      "many": "{count} ночей",
+      "other": "{count} ночей"
+    },
+    "availabilityCheckoutOnly": "Только выезд",
+    "availabilityCheckinOnly": "Только заезд"
   },
   "articles": {
     "hubTitle": "Статьи и путеводители по Халкидики",
