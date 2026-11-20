@@ -314,7 +314,13 @@
       "other": "{count} ночей"
     },
     "availabilityCheckoutOnly": "Только выезд",
-    "availabilityCheckinOnly": "Только заезд"
+    "availabilityCheckinOnly": "Только заезд",
+    "quickAll": "Все",
+    "moreFilters": "Ещё фильтры",
+    "sortRecommended": "Рекомендуемые",
+    "allStays": "Всё жильё",
+    "noResults": "Нет жилья с такими фильтрами. Попробуйте убрать один из них.",
+    "nearBeach": "Ближайший пляж: {name} · {km}"
   },
   "articles": {
     "hubTitle": "Статьи и путеводители по Халкидики",

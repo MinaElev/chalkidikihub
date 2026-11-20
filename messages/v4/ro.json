@@ -313,7 +313,13 @@
       "other": "{count} de nopți"
     },
     "availabilityCheckoutOnly": "Doar plecare",
-    "availabilityCheckinOnly": "Doar sosire"
+    "availabilityCheckinOnly": "Doar sosire",
+    "quickAll": "Toate",
+    "moreFilters": "Mai multe filtre",
+    "sortRecommended": "Recomandate",
+    "allStays": "Toate cazările",
+    "noResults": "Nicio cazare nu corespunde acestor filtre. Încearcă să elimini unul.",
+    "nearBeach": "Cea mai apropiată plajă: {name} · {km}"
   },
   "articles": {
     "hubTitle": "Articole și ghiduri despre Halkidiki",

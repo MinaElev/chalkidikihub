@@ -312,7 +312,13 @@
       "other": "{count} nights"
     },
     "availabilityCheckoutOnly": "Check-out only",
-    "availabilityCheckinOnly": "Check-in only"
+    "availabilityCheckinOnly": "Check-in only",
+    "quickAll": "All",
+    "moreFilters": "More filters",
+    "sortRecommended": "Recommended",
+    "allStays": "All stays",
+    "noResults": "No stays match these filters. Try removing one.",
+    "nearBeach": "Nearest beach: {name} · {km}"
   },
   "articles": {
     "hubTitle": "Articles and guides about Halkidiki",

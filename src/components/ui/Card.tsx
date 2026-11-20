@@ -1,5 +1,9 @@
 import Image from 'next/image';
-import { Star, MapPin } from 'lucide-react';
+import { AirVent, Car, Eye, MapPin, PawPrint, Star, Umbrella, Waves, Wifi } from 'lucide-react';
+
+/** Amenities a stay card can show as a small icon + word. */
+export type CardFact = { key: 'pool' | 'seaView' | 'airConditioning' | 'wifi' | 'petsAllowed' | 'parking'; label: string };
+const FACT_ICON = { pool: Waves, seaView: Eye, airConditioning: AirVent, wifi: Wifi, petsAllowed: PawPrint, parking: Car } as const;
 import { Link } from '@/i18n/navigation';
 import { FavoriteButton, type FavoriteType } from '@/components/v3/FavoriteButton';
 
@@ -23,6 +27,10 @@ export type CardProps = {
   price?: string;
   /** Small pill on the photo, bottom left, e.g. "Live availability" for stays with a synced iCal calendar. */
   live?: string;
+  /** Up to three amenity icons under the title (stay cards). */
+  facts?: CardFact[];
+  /** A highlighted line at the bottom, e.g. "Nearest beach: Linaraki". */
+  note?: string;
   /** Shows v3's heart so signed-in visitors can save the item to /favorites. */
   favorite?: { type: FavoriteType; slug: string };
   priority?: boolean;
@@ -31,7 +39,7 @@ export type CardProps = {
 
 /** The one card used across beaches, villages, restaurants, stays and articles. */
 export function Card({
-  href, title, image, imageAlt, eyebrow, meta, rating, reviews, ratingSource, badges, distance, highlight, price, live, favorite, priority,
+  href, title, image, imageAlt, eyebrow, meta, rating, reviews, ratingSource, badges, distance, highlight, price, live, facts, note, favorite, priority,
   sizes = '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw',
 }: CardProps) {
   const hasRating = rating != null && rating > 0;
@@ -103,6 +111,25 @@ export function Card({
             <Star className="size-4 fill-accent-400 text-accent-400" aria-hidden />
             {rating!.toFixed(1)}
             {reviews ? <span className="font-normal text-slate-500">({reviews}{ratingSource ? ` · ${ratingSource}` : ''})</span> : null}
+          </p>
+        )}
+        {facts?.length ? (
+          <ul className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-600">
+            {facts.slice(0, 3).map((f) => {
+              const Icon = FACT_ICON[f.key];
+              return (
+                <li key={f.key} className="inline-flex items-center gap-1">
+                  <Icon className="size-3.5 text-sea-600" aria-hidden />
+                  {f.label}
+                </li>
+              );
+            })}
+          </ul>
+        ) : null}
+        {note && (
+          <p className="mt-auto flex items-center gap-1.5 rounded-lg bg-sea-50 px-2.5 py-1.5 text-xs text-sea-900">
+            <Umbrella className="size-3.5 shrink-0 text-sea-600" aria-hidden />
+            <span className="truncate">{note}</span>
           </p>
         )}
         {badges?.length ? (

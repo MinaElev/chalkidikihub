@@ -312,7 +312,13 @@
       "other": "{count} βράδια"
     },
     "availabilityCheckoutOnly": "Μόνο αναχώρηση",
-    "availabilityCheckinOnly": "Μόνο άφιξη"
+    "availabilityCheckinOnly": "Μόνο άφιξη",
+    "quickAll": "Όλα",
+    "moreFilters": "Περισσότερα φίλτρα",
+    "sortRecommended": "Προτεινόμενα",
+    "allStays": "Όλα τα καταλύματα",
+    "noResults": "Δεν βρέθηκαν καταλύματα με αυτά τα φίλτρα. Δοκίμασε να αφαιρέσεις κάποιο.",
+    "nearBeach": "Κοντινή παραλία: {name} · {km}"
   },
   "articles": {
     "hubTitle": "Άρθρα και οδηγοί για τη Χαλκιδική",

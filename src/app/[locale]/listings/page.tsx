@@ -1,22 +1,21 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
-import { AREA_SLUGS, getListings, getLiveCalendarListingIds } from '@/lib/db/content';
+import { AREA_SLUGS, getBeaches, getListings, getLiveCalendarListingIds, type Area } from '@/lib/db/content';
 import { closestVillagesFor, displayName, ratingProps } from '@/lib/content/nearby';
 import { AREA_LOCATIVE, AREA_NAMES } from '@/lib/content/place-names';
-import { formatPrice } from '@/lib/content/format';
+import { hasCoords, nearest } from '@/lib/geo';
+import { formatDistance, formatPrice } from '@/lib/content/format';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { itemListLd } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { Card, CardGrid } from '@/components/ui/Card';
-import { Container, PageIntro, Section } from '@/components/ui/Layout';
-import { ListingFilters, type FilterItem } from '@/components/v3/ListingFilters';
+import type { CardFact } from '@/components/ui/Card';
+import { Container, PageIntro } from '@/components/ui/Layout';
+import { StaysExplorer, type StayItem } from '@/components/v3/StaysExplorer';
 import { ALL_AMENITIES } from '@/lib/constants';
 
-const RESULTS: Record<Locale, string> = {
-  el: 'Αποτελέσματα: {count}', en: 'Results: {count}', de: 'Ergebnisse: {count}', ro: 'Rezultate: {count}',
-  bg: 'Резултати: {count}', sr: 'Rezultati: {count}', ru: 'Результаты: {count}',
-};
+/** Amenities shown as icons on stay cards, in this order (the ones guests ask about most). */
+const CARD_FACTS: CardFact['key'][] = ['pool', 'seaView', 'airConditioning', 'wifi', 'petsAllowed', 'parking'];
 
 export const revalidate = 3600;
 
@@ -36,7 +35,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/listings
 export default async function ListingsPage({ params }: PageProps<'/[locale]/listings'>) {
   const locale = (await params).locale as Locale;
   setRequestLocale(locale);
-  const [t, shell, common, f, amenityT, items, liveIds] = await Promise.all([
+  const [t, shell, common, f, amenityT, items, liveIds, beaches] = await Promise.all([
     getTranslations({ locale, namespace: 'stay' }),
     getTranslations({ locale, namespace: 'shell' }),
     getTranslations({ locale, namespace: 'common' }),
@@ -44,11 +43,17 @@ export default async function ListingsPage({ params }: PageProps<'/[locale]/list
     getTranslations({ locale, namespace: 'amenities' }),
     getListings(),
     getLiveCalendarListingIds(),
+    getBeaches(),
   ]);
+  const beachPoints = beaches.filter(hasCoords);
   const live = new Set(liveIds);
   const open = items.filter((l) => !l.is_closed);
   const villages = await closestVillagesFor(open, locale, 6);
-  const cardFor = (l: (typeof open)[number], priority = false) => ({
+
+  const cardFor = (l: (typeof open)[number], priority = false) => {
+    const beach = nearest(l, beachPoints, 1, 3)[0];
+    const has = new Set(l.amenities ?? []);
+    return {
     href: `/listings/${l.slug}`,
     favorite: { type: 'listing' as const, slug: l.slug },
     title: displayName(l, locale, 'listing'),
@@ -59,26 +64,24 @@ export default async function ListingsPage({ params }: PageProps<'/[locale]/list
     live: live.has(l.id) ? t('liveAvailability') : undefined,
     meta: t('guests', { count: l.guests_max }),
     price: l.price_per_night ? `${common('from')} ${formatPrice(Number(l.price_per_night), locale)} ${t('perNight')}` : undefined,
+    facts: CARD_FACTS.filter((k) => has.has(k)).slice(0, 3).map((key) => ({ key, label: amenityT(key) })),
+    // Nearest beach within 3 km, with the distance: the second question every guest asks.
+    note: beach ? t('nearBeach', { name: displayName(beach.item, locale, 'beach'), km: formatDistance(beach.km, locale) }) : undefined,
     ...ratingProps(l, 'listing'),
-  });
-  const filterItems: FilterItem[] = open.map((l) => ({
-    card: cardFor(l),
+    };
+  };
+  const stayItems: StayItem[] = open.map((l, i) => ({
+    slug: l.slug,
+    card: cardFor(l, i < 2),
     area: l.area,
     price: l.price_per_night ? Number(l.price_per_night) : null,
-    guests: l.guests_max,
     amenities: l.amenities ?? [],
     updated: l.updated_at,
     live: live.has(l.id),
   }));
   const present = new Set(open.flatMap((l) => l.amenities ?? []));
   const amenityLabels = Object.fromEntries(ALL_AMENITIES.filter((a) => present.has(a)).map((a) => [a, amenityT(a)]));
-  const filterLabels = {
-    area: f('area'), allAreas: f('allAreas'), priceRange: f('priceRange'), minPrice: f('minPrice'), maxPrice: f('maxPrice'),
-    guestsMin: f('guestsMin'), amenities: f('amenities'), sortBy: f('sortBy'), sortNewest: f('sortNewest'),
-    sortPriceLow: f('sortPriceLow'), sortPriceHigh: f('sortPriceHigh'), clearFilters: f('clearFilters'), open: f('open'),
-    results: RESULTS[locale],
-    liveOnly: t('liveAvailability'),
-  };
+  const inArea = Object.fromEntries(AREA_SLUGS.map((a) => [a, t('inArea', { area: AREA_LOCATIVE[a][locale] })])) as Record<Area, string>;
 
   return (
     <Container>
@@ -87,24 +90,21 @@ export default async function ListingsPage({ params }: PageProps<'/[locale]/list
         title={t('hubTitle')}
         lead={t('hubLead')}
       />
-      <ListingFilters
-        items={filterItems}
-        labels={filterLabels}
-        areas={Object.fromEntries(AREA_SLUGS.map((a) => [a, AREA_NAMES[a][locale]]))}
-        amenities={amenityLabels}
-      >
-        {AREA_SLUGS.map((area) => {
-          const list = open.filter((l) => l.area === area);
-          if (!list.length) return null;
-          return (
-            <Section key={area} id={area} title={t('inArea', { area: AREA_LOCATIVE[area][locale] })}>
-              <CardGrid>
-                {list.map((l, i) => <Card key={l.slug} {...cardFor(l, area === 'kassandra' && i < 2)} />)}
-              </CardGrid>
-            </Section>
-          );
-        })}
-      </ListingFilters>
+      <StaysExplorer
+        items={stayItems}
+        areaNames={Object.fromEntries(AREA_SLUGS.map((a) => [a, AREA_NAMES[a][locale]])) as Record<Area, string>}
+        amenityNames={amenityLabels}
+        locale={locale}
+        labels={{
+          area: f('area'), allAreas: f('allAreas'),
+          allTypes: t('quickAll'), liveOnly: t('liveAvailability'), more: t('moreFilters'),
+          clear: f('clearFilters'), sortBy: f('sortBy'), sortRecommended: t('sortRecommended'),
+          sortPriceLow: f('sortPriceLow'), sortPriceHigh: f('sortPriceHigh'),
+          priceRange: f('priceRange'), minPrice: f('minPrice'), maxPrice: f('maxPrice'), amenities: f('amenities'),
+          allStays: t('allStays'), inArea,
+          from: common('from'), perNight: t('perNight'), noResults: t('noResults'),
+        }}
+      />
       <JsonLd data={itemListLd(locale, open.map((l) => ({ name: displayName(l, locale, 'listing'), path: `/listings/${l.slug}` })))} />
     </Container>
   );

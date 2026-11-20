@@ -312,7 +312,13 @@
       "other": "{count} Nächte"
     },
     "availabilityCheckoutOnly": "Nur Abreise",
-    "availabilityCheckinOnly": "Nur Anreise"
+    "availabilityCheckinOnly": "Nur Anreise",
+    "quickAll": "Alle",
+    "moreFilters": "Weitere Filter",
+    "sortRecommended": "Empfohlen",
+    "allStays": "Alle Unterkünfte",
+    "noResults": "Keine Unterkünfte mit diesen Filtern. Entfernen Sie einen Filter.",
+    "nearBeach": "Nächster Strand: {name} · {km}"
   },
   "articles": {
     "hubTitle": "Artikel und Reiseführer zu Chalkidiki",

@@ -312,7 +312,13 @@
       "other": "{count} нощи"
     },
     "availabilityCheckoutOnly": "Само напускане",
-    "availabilityCheckinOnly": "Само пристигане"
+    "availabilityCheckinOnly": "Само пристигане",
+    "quickAll": "Всички",
+    "moreFilters": "Още филтри",
+    "sortRecommended": "Препоръчани",
+    "allStays": "Всички места за настаняване",
+    "noResults": "Няма места за настаняване с тези филтри. Опитай да махнеш някой.",
+    "nearBeach": "Най-близък плаж: {name} · {km}"
   },
   "articles": {
     "hubTitle": "Статии и пътеводители за Халкидики",

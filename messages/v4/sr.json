@@ -313,7 +313,13 @@
       "other": "{count} noći"
     },
     "availabilityCheckoutOnly": "Samo odlazak",
-    "availabilityCheckinOnly": "Samo dolazak"
+    "availabilityCheckinOnly": "Samo dolazak",
+    "quickAll": "Sve",
+    "moreFilters": "Još filtera",
+    "sortRecommended": "Preporučeno",
+    "allStays": "Sav smeštaj",
+    "noResults": "Nema smeštaja sa ovim filterima. Probaj da ukloniš neki.",
+    "nearBeach": "Najbliža plaža: {name} · {km}"
   },
   "articles": {
     "hubTitle": "Članci i vodiči o Halkidikiju",
