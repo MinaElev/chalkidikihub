@@ -174,7 +174,11 @@
     "faqAccessibleQ": "Ist der Strand barrierefrei?",
     "faqAccessibleA": "Ja, es gibt Einrichtungen für Menschen mit eingeschränkter Mobilität.",
     "featureMetaTitle": "{feature} auf Chalkidiki: {count, plural, one {# Strand} other {# Strände}}",
-    "featureLead": "{count, plural, one {Ein Strand} other {# Strände}} auf Chalkidiki mit dem Merkmal „{feature}“ – sortiert nach Gästebewertung und Halbinsel."
+    "featureLead": "{count, plural, one {Ein Strand} other {# Strände}} auf Chalkidiki mit dem Merkmal „{feature}“ – sortiert nach Gästebewertung und Halbinsel.",
+    "seeAllInArea": "Alle Strände {area} ({count})",
+    "areaMetaTitle": "Strände {area}: {count, plural, one {# Strand} other {# Strände}} nach Ort",
+    "areaLead": "Alle Strände {area}, nach Ort geordnet. Tippen Sie auf einen Strand für Fotos, Karte und Bewertungen.",
+    "otherBeaches": "Weitere Strände"
   },
   "food": {
     "hubTitle": "Essen gehen auf Chalkidiki",
@@ -318,7 +322,9 @@
     "sortRecommended": "Empfohlen",
     "allStays": "Alle Unterkünfte",
     "noResults": "Keine Unterkünfte mit diesen Filtern. Entfernen Sie einen Filter.",
-    "nearBeach": "Nächster Strand: {name} · {km}"
+    "nearBeach": "Nächster Strand: {name} · {km}",
+    "seeAllInArea": "Alle Unterkünfte {area}",
+    "showMore": "Mehr anzeigen"
   },
   "articles": {
     "hubTitle": "Artikel und Reiseführer zu Chalkidiki",

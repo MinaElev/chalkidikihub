@@ -174,7 +174,11 @@
     "faqAccessibleQ": "Is it accessible for people with reduced mobility?",
     "faqAccessibleA": "Yes, the beach has accessibility facilities for people with reduced mobility.",
     "featureMetaTitle": "{feature} in Halkidiki: {count, plural, one {# beach} other {# beaches}}",
-    "featureLead": "{count, plural, one {One Halkidiki beach} other {# Halkidiki beaches}} with “{feature}”, sorted by visitor rating and grouped by peninsula."
+    "featureLead": "{count, plural, one {One Halkidiki beach} other {# Halkidiki beaches}} with “{feature}”, sorted by visitor rating and grouped by peninsula.",
+    "seeAllInArea": "All beaches {area} ({count})",
+    "areaMetaTitle": "Beaches {area}: {count, plural, one {# beach} other {# beaches}} by village",
+    "areaLead": "Every beach {area}, grouped by village. Tap a beach for photos, a map and reviews.",
+    "otherBeaches": "Other beaches"
   },
   "food": {
     "hubTitle": "Where to eat in Halkidiki",
@@ -318,7 +322,9 @@
     "sortRecommended": "Recommended",
     "allStays": "All stays",
     "noResults": "No stays match these filters. Try removing one.",
-    "nearBeach": "Nearest beach: {name} · {km}"
+    "nearBeach": "Nearest beach: {name} · {km}",
+    "seeAllInArea": "All places to stay {area}",
+    "showMore": "Show more"
   },
   "articles": {
     "hubTitle": "Articles and guides about Halkidiki",

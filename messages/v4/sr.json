@@ -174,7 +174,11 @@
     "faqAccessibleQ": "Da li je pristupačna osobama sa smanjenom pokretljivošću?",
     "faqAccessibleA": "Jeste, plaža ima pristup prilagođen osobama sa smanjenom pokretljivošću.",
     "featureMetaTitle": "{feature} na Halkidikiju: {count, plural, one {# plaža} few {# plaže} other {# plaža}}",
-    "featureLead": "{count, plural, one {Jedna plaža} few {# plaže} other {# plaža}} na Halkidikiju sa oznakom „{feature}“, poređane po oceni posetilaca i po poluostrvima."
+    "featureLead": "{count, plural, one {Jedna plaža} few {# plaže} other {# plaža}} na Halkidikiju sa oznakom „{feature}“, poređane po oceni posetilaca i po poluostrvima.",
+    "seeAllInArea": "Sve plaže {area} ({count})",
+    "areaMetaTitle": "Plaže {area}: {count, plural, one {# plaža} few {# plaže} other {# plaža}} po mestima",
+    "areaLead": "Sve plaže {area}, raspoređene po mestima. Dodirnite plažu za fotografije, mapu i recenzije.",
+    "otherBeaches": "Ostale plaže"
   },
   "food": {
     "hubTitle": "Gde jesti na Halkidikiju",
@@ -319,7 +323,9 @@
     "sortRecommended": "Preporučeno",
     "allStays": "Sav smeštaj",
     "noResults": "Nema smeštaja sa ovim filterima. Probaj da ukloniš neki.",
-    "nearBeach": "Najbliža plaža: {name} · {km}"
+    "nearBeach": "Najbliža plaža: {name} · {km}",
+    "seeAllInArea": "Svi smeštaji {area}",
+    "showMore": "Prikaži još"
   },
   "articles": {
     "hubTitle": "Članci i vodiči o Halkidikiju",

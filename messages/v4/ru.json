@@ -174,7 +174,11 @@
     "faqAccessibleQ": "Доступен ли пляж для людей с ограниченной подвижностью?",
     "faqAccessibleA": "Да, на пляже есть приспособления для людей с ограниченной подвижностью.",
     "featureMetaTitle": "{feature} на Халкидиках: {count, plural, one {# пляж} few {# пляжа} many {# пляжей} other {# пляжа}}",
-    "featureLead": "{count, plural, one {# пляж} few {# пляжа} many {# пляжей} other {# пляжа}} Халкидики с отметкой «{feature}», по оценкам посетителей и полуостровам."
+    "featureLead": "{count, plural, one {# пляж} few {# пляжа} many {# пляжей} other {# пляжа}} Халкидики с отметкой «{feature}», по оценкам посетителей и полуостровам.",
+    "seeAllInArea": "Все пляжи {area} ({count})",
+    "areaMetaTitle": "Пляжи {area}: {count, plural, one {# пляж} few {# пляжа} many {# пляжей} other {# пляжа}} по посёлкам",
+    "areaLead": "Все пляжи {area}, сгруппированные по посёлкам. Нажмите на пляж, чтобы увидеть фото, карту и отзывы.",
+    "otherBeaches": "Другие пляжи"
   },
   "food": {
     "hubTitle": "Где поесть на Халкидиках",
@@ -320,7 +324,9 @@
     "sortRecommended": "Рекомендуемые",
     "allStays": "Всё жильё",
     "noResults": "Нет жилья с такими фильтрами. Попробуйте убрать один из них.",
-    "nearBeach": "Ближайший пляж: {name} · {km}"
+    "nearBeach": "Ближайший пляж: {name} · {km}",
+    "seeAllInArea": "Всё жильё {area}",
+    "showMore": "Показать ещё"
   },
   "articles": {
     "hubTitle": "Статьи и путеводители по Халкидики",

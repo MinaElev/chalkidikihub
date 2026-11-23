@@ -269,9 +269,10 @@ export function buildRedirects(): Rule[] {
   // resolveInLocation() — ~540 static rules would crowd Vercel's route table.
   rules.push(...both('/places/:slug/listings', '/places/:slug'));
 
-  // Area facets duplicated the peninsula hubs.
+  // Area facets duplicated the peninsula hubs. Not beaches: /beaches/area/{area}
+  // lists every beach of the peninsula by village (the hub shows five).
   for (const area of AREAS) {
-    for (const section of ['beaches', 'restaurants', 'activities', 'sales']) {
+    for (const section of ['restaurants', 'activities', 'sales']) {
       rules.push(...both(`/${section}/area/${area}`, `/areas/${area}`));
     }
   }

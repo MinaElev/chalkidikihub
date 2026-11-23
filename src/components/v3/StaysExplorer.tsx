@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { MapPin, SlidersHorizontal, X } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowRight, Loader2, MapPin, SlidersHorizontal, X } from 'lucide-react';
 import { Card, type CardProps } from '@/components/ui/Card';
 
 export type StayArea = 'kassandra' | 'sithonia' | 'athos' | 'mainland';
@@ -22,6 +22,9 @@ const AREAS: StayArea[] = ['kassandra', 'sithonia', 'athos', 'mainland'];
 const isArea = (v: string | null): v is StayArea => AREAS.includes(v as StayArea);
 /** One-tap filters: the amenities that most often decide a booking and that enough stays have. */
 const QUICK = ['pool', 'seaView', 'petsAllowed'] as const;
+/** Stays per area in the overview, and per "show more" step in a list. */
+const PER_AREA = 10;
+const STEP = 12;
 
 export type ExplorerLabels = {
   area: string;
@@ -41,6 +44,9 @@ export type ExplorerLabels = {
   allStays: string;
   /** Section title per area, e.g. "Stays in Sithonia". */
   inArea: Record<StayArea, string>;
+  /** Button under each area in the overview, e.g. "All places to stay on Sithonia". */
+  seeAll: Record<StayArea, string>;
+  showMore: string;
   from: string;
   perNight: string;
   noResults: string;
@@ -50,11 +56,17 @@ export type ExplorerLabels = {
  * The /listings page body: area buttons, one-tap amenities, then the stays in
  * full width. The area lives in the address so a search can be shared. No dates: only a few
  * stays have a synced calendar, so a date filter would hide most of them.
+ *
+ * The page ships only the first ten stays per area (a light first load); the
+ * moment the visitor picks an area, a filter or a sort, every stay is fetched
+ * once from /api/stays, and lists grow twelve at a time.
  */
 export function StaysExplorer({
-  items, areaNames, amenityNames, locale, labels,
+  items: first, hasMore, anyLive, areaNames, amenityNames, locale, labels,
 }: {
   items: StayItem[];
+  hasMore: Record<StayArea, boolean>;
+  anyLive: boolean;
   areaNames: Record<StayArea, string>;
   amenityNames: Record<string, string>;
   locale: string;
@@ -70,6 +82,12 @@ export function StaysExplorer({
   const [sort, setSort] = useState<Sort>('recommended');
   // The fade-in plays only after the visitor changes something, never on first paint (it would delay the first photo).
   const [touched, setTouched] = useState(false);
+  const [all, setAll] = useState<StayItem[] | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [limit, setLimit] = useState(STEP);
+  const top = useRef<HTMLDivElement>(null);
+  const asked = useRef(false);
+  const items = all ?? first;
 
   // Read the address after mount (never during render) so the static HTML is the same for everyone.
   useEffect(() => {
@@ -78,7 +96,7 @@ export function StaysExplorer({
     /* eslint-disable react-hooks/set-state-in-effect */
     if (isArea(a)) setArea(a);
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, [items]);
+  }, []);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const set = (k: string, v: string | null) => (v ? q.set(k, v) : q.delete(k));
@@ -103,13 +121,32 @@ export function StaysExplorer({
   }, [items, area, liveOnly, quick, wanted, minPrice, maxPrice, sort]);
 
   const filtered = Boolean(liveOnly || quick.length || wanted.length || minPrice || maxPrice);
-  const anyLive = items.some((i) => i.live);
+  const narrowed = Boolean(area || filtered || sort !== 'recommended');
+
+  // The first narrowing fetches every stay (once); each change starts the list again at twelve.
+  useEffect(() => {
+    // Asked at most once per visit: a failed fetch keeps the first stays instead of retrying in a loop.
+    if (!narrowed || asked.current) return;
+    asked.current = true;
+    setLoading(true);
+    fetch(`/api/stays?locale=${locale}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((list: StayItem[]) => setAll(list))
+      .catch(() => { /* keep showing the first stays */ })
+      .finally(() => setLoading(false));
+  }, [narrowed, locale]);
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setLimit(STEP);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, [area, liveOnly, quick, wanted, minPrice, maxPrice, sort]);
   const title = area ? labels.inArea[area] : labels.allStays;
   // Lowest price in what is shown; no stay counts anywhere (some areas have only a few stays so far).
   const lowest = Math.min(...results.map((i) => i.price ?? Infinity));
   const presentAmenities = Object.entries(amenityNames).filter(([k]) => !QUICK.includes(k as (typeof QUICK)[number]));
 
   const pickArea = (a: StayArea | null) => { setTouched(true); setArea(a); };
+  const openArea = (a: StayArea) => { pickArea(a); top.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
   const clear = () => {
     setArea(null); setQuick([]); setLiveOnly(false); setWanted([]); setMinPrice(undefined); setMaxPrice(undefined); setSort('recommended');
   };
@@ -118,10 +155,11 @@ export function StaysExplorer({
   const field = 'h-11 w-full min-w-0 rounded-xl border border-gray-200 bg-gray-50 px-3.5 text-sm text-gray-900 outline-none focus:border-sea-500 focus:bg-white focus:ring-4 focus:ring-sea-500/10';
 
   // With nothing narrowed down, the stays are grouped by area under real headings (they read well and rank well).
-  const grouped = !area && !filtered && sort === 'recommended';
+  const grouped = !narrowed;
+  const shown = results.slice(0, limit);
 
   return (
-    <div>
+    <div ref={top} className="scroll-mt-24">
       {/* Area buttons */}
       <div className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm">
         <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-slate-700"><MapPin className="size-4 text-sea-600" aria-hidden />{labels.area}</p>
@@ -205,17 +243,34 @@ export function StaysExplorer({
             <p className="rounded-2xl bg-slate-50 p-6 text-slate-600">{labels.noResults}</p>
           ) : grouped ? (
             AREAS.map((a) => {
-              const list = results.filter((i) => i.area === a);
+              const list = results.filter((i) => i.area === a).slice(0, PER_AREA);
               if (!list.length) return null;
               return (
-                <section key={a} id={a} className="mb-10 scroll-mt-24">
+                <section key={a} id={a} className="mb-12 scroll-mt-24">
                   <h3 className="mb-4 font-display text-xl font-bold text-gray-900">{labels.inArea[a]}</h3>
                   <Cards list={list} />
+                  {hasMore[a] && (
+                    <p className="mt-6 text-center">
+                      <button type="button" onClick={() => openArea(a)} className="inline-flex items-center gap-2 rounded-full bg-sea-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-sea-700">
+                        {labels.seeAll[a]} <ArrowRight className="size-4" aria-hidden />
+                      </button>
+                    </p>
+                  )}
                 </section>
               );
             })
           ) : (
-            <Cards list={results} />
+            <>
+              <Cards list={shown} />
+              {(results.length > shown.length || loading) && (
+                <p className="mt-8 text-center">
+                  <button type="button" disabled={loading} onClick={() => setLimit((n) => n + STEP)} className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-sea-800 ring-1 ring-sea-200 hover:bg-sea-50 disabled:opacity-60">
+                    {loading && <Loader2 className="size-4 animate-spin" aria-hidden />}
+                    {labels.showMore}
+                  </button>
+                </p>
+              )}
+            </>
           )}
           </div>
         </section>

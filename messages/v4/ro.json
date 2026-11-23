@@ -174,7 +174,11 @@
     "faqAccessibleQ": "Este accesibilă persoanelor cu mobilitate redusă?",
     "faqAccessibleA": "Da, plaja are facilități de acces pentru persoanele cu mobilitate redusă.",
     "featureMetaTitle": "{feature} în Halkidiki: {count, plural, one {# plajă} few {# plaje} other {# de plaje}}",
-    "featureLead": "{count, plural, one {O plajă} few {# plaje} other {# de plaje}} din Halkidiki cu „{feature}”, ordonate după notele vizitatorilor și grupate pe peninsule."
+    "featureLead": "{count, plural, one {O plajă} few {# plaje} other {# de plaje}} din Halkidiki cu „{feature}”, ordonate după notele vizitatorilor și grupate pe peninsule.",
+    "seeAllInArea": "Toate plajele {area} ({count})",
+    "areaMetaTitle": "Plaje {area}: {count, plural, one {# plajă} few {# plaje} other {# de plaje}} pe localități",
+    "areaLead": "Toate plajele {area}, grupate pe localități. Atingeți o plajă pentru fotografii, hartă și recenzii.",
+    "otherBeaches": "Alte plaje"
   },
   "food": {
     "hubTitle": "Unde să mănânci în Halkidiki",
@@ -319,7 +323,9 @@
     "sortRecommended": "Recomandate",
     "allStays": "Toate cazările",
     "noResults": "Nicio cazare nu corespunde acestor filtre. Încearcă să elimini unul.",
-    "nearBeach": "Cea mai apropiată plajă: {name} · {km}"
+    "nearBeach": "Cea mai apropiată plajă: {name} · {km}",
+    "seeAllInArea": "Toate cazările {area}",
+    "showMore": "Arată mai multe"
   },
   "articles": {
     "hubTitle": "Articole și ghiduri despre Halkidiki",

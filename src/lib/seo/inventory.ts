@@ -42,6 +42,7 @@ export async function inventory(): Promise<Entry[]> {
   entries.push({ path: '/map', locales: withProven('/map', ['el', 'en']), priority: 0.5 });
   AREA_SLUGS.forEach((a) => hub(`/areas/${a}`, 0.8));
   KEPT_FEATURES.forEach((f) => hub(`/beaches/feature/${f}`, 0.6));
+  AREA_SLUGS.forEach((a) => hub(`/beaches/area/${a}`, 0.7));
   KEPT_RESTAURANT_CATEGORIES.forEach((c) => hub(`/restaurants/category/${c}`, 0.6));
   AUTHOR_LIST.forEach((a) => hub(`/authors/${a.username}`, 0.3));
   MONASTERIES.forEach((m) => hub(`/mount-athos/monasteries/${m.slug}`, 0.5));
