@@ -27,6 +27,20 @@ function both(from: string, to: string): Rule[] {
   ];
 }
 
+/**
+ * One rule pair per destination: slugs that fold into the same page share a
+ * `:slug(a|b|c)` source, which keeps the route table small (the platform caps it).
+ */
+function grouped(base: string, map: Record<string, string>): Rule[] {
+  const byTarget = new Map<string, string[]>();
+  for (const [slug, to] of Object.entries(map)) byTarget.set(to, [...(byTarget.get(to) ?? []), slug]);
+  const rules: Rule[] = [];
+  for (const [to, slugs] of byTarget) {
+    rules.push(...both(slugs.length === 1 ? `${base}/${slugs[0]}` : `${base}/:slug(${slugs.join('|')})`, to));
+  }
+  return rules;
+}
+
 const AREAS = ['kassandra', 'sithonia', 'athos', 'mainland'];
 
 /** /in/{location}/… → village slug (computed from v3 location-data vs villages table). */
@@ -70,6 +84,11 @@ export const GUIDE_MERGES: Record<string, string> = {
   winter: '/guide/best-time-to-visit',
   summer: '/guide/best-time-to-visit',
   easter: '/guide/best-time-to-visit',
+  april: '/guide/best-time-to-visit',
+  // v3 guides Search Console still crawls (404 in the 2026-11-23 coverage report).
+  'kassandra-sithonia-athos': '/guide/kassandra-vs-sithonia',
+  'first-time-halkidiki': '/blog/symvouli-first-time-halkidiki',
+  'halkidiki-without-car': '/blog/getting-around-halkidiki',
   'car-rental': '/costs/car-rental-prices',
   budget: '/costs/daily-budget',
   // The diving article is unpublished (published_at null); the diving activity owns the intent.
@@ -224,6 +243,11 @@ const LEGACY_SLUG_FIXES: Array<[string, string]> = [
   ['/blog/carWash', '/blog'],
   ['/blog/tiki-Floating', '/blog'],
   ['/places/pyrgadikia-mainland', '/places/pyrgadikia'],
+  // v3 spelling of Arnaia, and the Athos monastery v3 listed as a village.
+  ['/places/arnea', '/places/arnaia'],
+  ['/places/dionysiou', '/mount-athos/monasteries/dionysiou'],
+  // No Siviri beach page under this slug; the village's beach list answers it.
+  ['/beaches/siviri-beach-kassandra', '/places/siviri/beaches'],
   // Duplicate of the beach page (same place, thinner text, wrong distances).
   ['/activities/toroni-beach-sithonia', '/beaches/toroni-beach-sithonia'],
   // There is no authors index; the bylines link to /authors/{username}.
@@ -244,7 +268,7 @@ export function buildRedirects(): Rule[] {
 
   for (const [from, to] of LEGACY_SLUG_FIXES) rules.push(...both(from, to));
   for (const [article, village] of Object.entries(BLOG_TO_PLACE)) rules.push(...both(`/blog/${article}`, `/places/${village}`));
-  for (const [article, to] of Object.entries(BLOG_MERGES)) rules.push(...both(`/blog/${article}`, to));
+  rules.push(...grouped('/blog', BLOG_MERGES));
   // One rule pair per village (the platform caps the number of redirects).
   const removedByVillage = new Map<string, string[]>();
   for (const [slug, village] of Object.entries(REMOVED_LISTINGS)) removedByVillage.set(village, [...(removedByVillage.get(village) ?? []), slug]);
@@ -252,6 +276,8 @@ export function buildRedirects(): Rule[] {
   // Wrong-peninsula / garbled database slugs (content/rewrites/slug-renames.ts).
   for (const [table, map] of Object.entries(SLUG_RENAMES)) for (const [from, to] of Object.entries(map)) rules.push(...both(`/${table}/${from}`, `/${table}/${to}`));
   rules.push(...both('/places/pyrgadikia-mainland/:path*', '/places/pyrgadikia/:path*'));
+  rules.push(...both('/places/arnea/:path*', '/places/arnaia/:path*'));
+  rules.push(...both('/places/dionysiou/:path*', '/mount-athos/monasteries/dionysiou'));
   // v3 top-level files that browsers and Search Console still request.
   rules.push({ source: '/image-sitemap.xml', destination: '/sitemap.xml', permanent: true });
 
@@ -277,14 +303,12 @@ export function buildRedirects(): Rule[] {
     }
   }
 
-  for (const [slug, to] of Object.entries(GUIDE_MERGES)) rules.push(...both(`/guide/${slug}`, to));
-  for (const [slug, to] of Object.entries(BEST_MERGES)) rules.push(...both(`/best/${slug}`, to));
-  for (const [f, to] of Object.entries(FEATURE_MERGES)) rules.push(...both(`/beaches/feature/${f}`, to));
-  for (const [c, to] of Object.entries(RESTAURANT_CATEGORY_MERGES)) {
-    rules.push(...both(`/restaurants/category/${c}`, to));
-  }
-  for (const [d, to] of Object.entries(ITINERARY_MERGES)) rules.push(...both(`/itinerary/${d}`, to));
-  for (const t of FAQ_TOPICS) rules.push(...both(`/faq/${t}`, '/faq'));
+  rules.push(...grouped('/guide', GUIDE_MERGES));
+  rules.push(...grouped('/best', BEST_MERGES));
+  rules.push(...grouped('/beaches/feature', FEATURE_MERGES));
+  rules.push(...grouped('/restaurants/category', RESTAURANT_CATEGORY_MERGES));
+  rules.push(...grouped('/itinerary', ITINERARY_MERGES));
+  rules.push(...grouped('/faq', Object.fromEntries(FAQ_TOPICS.map((t) => [t, '/faq']))));
 
   rules.push(...both('/activities/category/boatTrips', '/guide/boat-tours'));
   rules.push(...both('/from/munich', '/from'));

@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { assessQuality, wordCount } from '@/lib/seo/quality';
+import { assessQuality, indexableIn, nearbyListPasses, wordCount } from '@/lib/seo/quality';
+import { parseSitemapId, sitemapGroup } from '@/lib/seo/sitemap-groups';
+import { locales } from '@/i18n/config';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { buildRedirects, resolveInLocation } from '@/lib/seo/redirects';
 import { localize } from '@/lib/i18n/localize';
@@ -56,7 +58,9 @@ describe('redirects', () => {
     expect(find('/stay/:slug')).toBeUndefined();
     expect(find('/stay/:slug/guide')?.destination).toBe('/guest/:slug');
     expect(find('/:locale(en|de|ro|bg|sr|ru)/stay/:slug/guide')?.destination).toBe('/:locale/guest/:slug');
-    expect(find('/beaches/area/sithonia')?.destination).toBe('/areas/sithonia');
+    expect(find('/restaurants/area/sithonia')?.destination).toBe('/areas/sithonia');
+    // /beaches/area/{area} is a page of its own (every beach of the peninsula).
+    expect(find('/beaches/area/sithonia')).toBeUndefined();
   });
 
   it('keeps the brunch category out of the catch-all', () => {
@@ -112,6 +116,45 @@ describe('quality gate word minimum per locale', () => {
     expect(assessQuality({ body: words(100), nativeBody: true, hasImage: true, locale: 'en' }, 'detail').indexable).toBe(false);
     expect(assessQuality({ body: words(95), nativeBody: true, hasImage: true, locale: 'ru' }, 'detail').indexable).toBe(false);
   });
+
+  it('asks more of translated venue pages than of the Greek original', () => {
+    const venue = (n: number, locale: 'el' | 'en') => assessQuality({ body: words(n), nativeBody: true, hasImage: true, locale }, 'venue').indexable;
+    expect(venue(60, 'el')).toBe(true);
+    expect(venue(60, 'en')).toBe(false);
+    expect(venue(80, 'en')).toBe(true);
+  });
+});
+
+describe('index scope (2026-11 "crawled, not indexed" clean-up)', () => {
+  it('indexes Russian only on main hubs and proven URLs', () => {
+    expect(indexableIn('/beaches/test-beach', locales)).not.toContain('ru');
+    // A Russian URL that already earns clicks stays indexed.
+    expect(indexableIn('/beaches/sani-kassandra', locales)).toContain('ru');
+    expect(indexableIn('/beaches', locales)).toContain('ru');
+    expect(indexableIn('/beaches/sani-kassandra', locales)).toContain('de');
+    const m = buildMetadata({ locale: 'ru', path: '/places/afytos/activities', title: 'x', description: 'd' });
+    expect(m.robots).toEqual({ index: false, follow: true });
+  });
+
+  it('indexes a village list only with several places close by', () => {
+    expect(nearbyListPasses('beaches', [1, 2, 3, 4, 9])).toBe(true);
+    expect(nearbyListPasses('beaches', [1, 2, 3, 4, 12, 20])).toBe(false);
+    expect(nearbyListPasses('activities', [3, 8, 11, 14, 15])).toBe(true);
+    expect(nearbyListPasses('activities', [3, 8, 11, 14, 22])).toBe(false);
+  });
+
+  it('files every path under one sitemap family and round-trips the file id', () => {
+    expect(sitemapGroup('/')).toBe('hubs');
+    expect(sitemapGroup('/beaches')).toBe('hubs');
+    expect(sitemapGroup('/places/afytos')).toBe('places');
+    expect(sitemapGroup('/places/afytos/beaches')).toBe('places-lists');
+    expect(sitemapGroup('/beaches/feature/nudist')).toBe('beaches');
+    expect(sitemapGroup('/guide/day-trips')).toBe('guides');
+    expect(sitemapGroup('/mount-athos/monasteries/iviron')).toBe('athos');
+    expect(parseSitemapId('de-places-lists')).toEqual({ locale: 'de', group: 'places-lists' });
+    expect(parseSitemapId('xx-beaches')).toBeNull();
+    expect(parseSitemapId('de-nonsense')).toBeNull();
+  });
 });
 
 describe('beach slug renames', () => {
@@ -159,6 +202,19 @@ describe('internal link resolution', () => {
     expect(resolveInternal('/blog/BARbatolis')).toBe('/blog/barbatolis');
     expect(resolveInternal('/restaurants/category/brunch')).toBe('/restaurants/category/brunch');
     expect(resolveInternal('/beaches/karidi-sithonia')).toBe('/beaches/karidi-sithonia');
+  });
+
+  it('folds the 404s Search Console reported on 2026-11-23 into their successors', async () => {
+    const { resolveInternal } = await import('@/lib/seo/redirects');
+    expect(resolveInternal('/places/arnea')).toBe('/places/arnaia');
+    expect(resolveInternal('/places/arnea/beaches')).toBe('/places/arnaia/beaches');
+    expect(resolveInternal('/places/dionysiou')).toBe('/mount-athos/monasteries/dionysiou');
+    expect(resolveInternal('/places/dionysiou/activities')).toBe('/mount-athos/monasteries/dionysiou');
+    expect(resolveInternal('/guide/april')).toBe('/guide/best-time-to-visit');
+    expect(resolveInternal('/guide/kassandra-sithonia-athos')).toBe('/guide/kassandra-vs-sithonia');
+    expect(resolveInternal('/guide/first-time-halkidiki')).toBe('/blog/symvouli-first-time-halkidiki');
+    expect(resolveInternal('/guide/halkidiki-without-car')).toBe('/blog/getting-around-halkidiki');
+    expect(resolveInternal('/beaches/siviri-beach-kassandra')).toBe('/places/siviri/beaches');
   });
 });
 

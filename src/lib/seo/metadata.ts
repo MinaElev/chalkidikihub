@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { locales, ogLocale, type Locale } from '@/i18n/config';
 import { DEFAULT_OG_IMAGE, hreflangMap, localeUrl, SITE_NAME } from './site';
-import { isProven } from './quality';
+import { indexableIn } from './quality';
 
 export type PageSeo = {
   locale: Locale;
@@ -40,8 +40,7 @@ const BRAND_SUFFIX = new RegExp(`(\\s*[|–—-]\\s*${SITE_NAME})+\\s*$`, 'i');
 
 export function buildMetadata(seo: PageSeo): Metadata {
   // Pages that already earn clicks stay indexed even below the gate.
-  const passing = seo.indexableLocales ?? locales;
-  const indexable = locales.filter((l) => passing.includes(l) || isProven(l, seo.path));
+  const indexable = indexableIn(seo.path, seo.indexableLocales ?? locales);
   const isIndexable = indexable.includes(seo.locale);
   const canonical = localeUrl(seo.locale, seo.path);
   // Hand-written titles in the database sometimes end with the brand already

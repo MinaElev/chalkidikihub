@@ -37,6 +37,14 @@ export const MIN_WORDS = {
 } as const;
 
 /**
+ * Translations need more than the Greek original to earn a place in the index.
+ * A Greek venue page answers local searches with 55 words; the same page in
+ * German competes with every foreign-language guide to the area, and GSC
+ * (2026-11) left most of the 55–79-word translations "crawled, not indexed".
+ */
+export const TRANSLATED_MIN_WORDS = { venue: 80 } as const;
+
+/**
  * The same text takes fewer words in some languages (no articles, richer
  * inflection). Measured on our parallel 7-locale rewrites: ru runs ~20% and
  * sr ~15% shorter than en. The gate measures content, not tokens, so the word
@@ -62,7 +70,8 @@ export function assessQuality(
   const reasons: string[] = [];
   if (!input.nativeBody) reasons.push('not-translated');
   const words = wordCount(input.body);
-  const min = minWordsFor(MIN_WORDS[kind], input.locale);
+  const translated = input.locale !== undefined && input.locale !== 'el';
+  const min = minWordsFor(translated && kind === 'venue' ? TRANSLATED_MIN_WORDS.venue : MIN_WORDS[kind], input.locale);
   if (words < min) reasons.push(`thin:${words}<${min}`);
   if (!input.hasImage) reasons.push('no-image');
   if (opts.minItems !== undefined && (input.itemCount ?? 0) < opts.minItems) {
@@ -96,6 +105,45 @@ const PROVEN = new Set(proven as string[]);
  */
 export function isProven(locale: Locale, path: string): boolean {
   return PROVEN.has(localePath(locale, path));
+}
+
+/**
+ * Locales indexed only where they already earn clicks (plus the main hubs).
+ * Russian: Google sends next to no Russian-language traffic to Halkidiki
+ * (GSC 2026-11: Russia absent from the top countries) and had the lowest
+ * index rate of all locales. The pages stay up for visitors, noindex.
+ */
+export const PROVEN_ONLY_LOCALES: readonly Locale[] = ['ru'];
+const MAIN_HUBS = new Set(['/', '/beaches', '/places', '/listings', '/restaurants', '/activities', '/blog', '/areas', '/mount-athos']);
+
+/**
+ * Final say on where a page is indexable: the locales its own gate passed,
+ * minus the proven-only locales, plus wherever it already earns clicks.
+ * buildMetadata (robots/hreflang) and the sitemap both call this, so a URL is
+ * never in the sitemap while its page says noindex, or the other way round.
+ */
+export function indexableIn(path: string, passing: readonly Locale[]): Locale[] {
+  return locales.filter((l) =>
+    isProven(l, path) || (passing.includes(l) && (!PROVEN_ONLY_LOCALES.includes(l) || MAIN_HUBS.has(path))),
+  );
+}
+
+/**
+ * "Beaches / restaurants / things to do near {village}" lists carry no text of
+ * their own, so they are indexed only where the village really has several of
+ * them close by. With a 25 km radius nearly every village passed, and the
+ * activity lists showed the same handful of places (21 in total) under 64
+ * village names in 7 languages — most of it "crawled, not indexed".
+ */
+export const NEARBY_GATE = {
+  beaches: { radiusKm: 10, min: 5 },
+  restaurants: { radiusKm: 10, min: 5 },
+  activities: { radiusKm: 15, min: 5 },
+} as const;
+
+export function nearbyListPasses(kind: keyof typeof NEARBY_GATE, distancesKm: readonly number[]): boolean {
+  const { radiusKm, min } = NEARBY_GATE[kind];
+  return distancesKm.filter((km) => km <= radiusKm).length >= min;
 }
 
 

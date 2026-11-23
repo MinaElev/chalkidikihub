@@ -12,6 +12,7 @@ import {
 import { inPlace, placeName, HALKIDIKI } from '@/lib/content/place-names';
 import { formatDistance, formatList, greekAlt } from '@/lib/content/format';
 import { buildMetadata } from '@/lib/seo/metadata';
+import { nearbyListPasses } from '@/lib/seo/quality';
 import { itemListLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -20,10 +21,6 @@ import { Faq } from '@/components/ui/Faq';
 import { Container, PageIntro, Section } from '@/components/ui/Layout';
 
 export type NearbyKind = 'beaches' | 'restaurants' | 'activities';
-
-/** A "near X" page is only worth indexing if it really lists several nearby places. */
-const MIN_ITEMS_WITHIN = 3;
-const INDEX_RADIUS_KM = 25;
 
 type Item = { slug: string; name: string; km: number; image: string | null; alt: string | null; rating: number | null; reviews: number | null; source: 'google' | 'own' | null; tags: string[]; raw: Record<string, unknown> };
 
@@ -58,8 +55,8 @@ async function load(kind: NearbyKind, slug: string, locale: Locale) {
     };
   });
 
-  const withinIndexRadius = items.filter((i) => i.km <= INDEX_RADIUS_KM).length;
-  return { village, items, indexable: withinIndexRadius >= MIN_ITEMS_WITHIN };
+  // Indexed only if the village really has several close by (lib/seo/quality.ts).
+  return { village, items, indexable: nearbyListPasses(kind, items.map((i) => i.km)) };
 }
 
 export function nearbyStaticParams() {

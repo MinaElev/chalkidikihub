@@ -3,11 +3,11 @@ import { locales, type Locale } from '@/i18n/config';
 import {
   AREA_SLUGS, getActivities, getArticles, getBeaches, getEvents, getListings, getRestaurants, getVillages,
 } from '@/lib/db/content';
-import { nearest } from '@/lib/geo';
+import { nearest, type LatLng } from '@/lib/geo';
 import { publicDb } from '@/lib/supabase/clients';
 import { bestGuides, costs, fromCities, guides, indexableLocales as editorialLocales, itineraries } from '@/lib/editorial';
 import { KEPT_FEATURES, KEPT_RESTAURANT_CATEGORIES } from './redirects';
-import { hostLocales, isProven } from './quality';
+import { hostLocales, indexableIn, nearbyListPasses } from './quality';
 import { SITE_URL } from './site';
 import { activityIndex, articleIndex, beachIndex, eventIndex, listingIndex, restaurantIndex, villageIndex } from './indexability';
 import { MONASTERIES } from '@/content/editorial/monasteries';
@@ -25,11 +25,12 @@ import { AUTHOR_LIST } from '@/content/authors';
 export type Entry = { path: string; locales: Locale[]; lastModified?: string; priority: number; images?: string[] };
 
 const ALL = [...locales];
-const withProven = (path: string, ls: readonly Locale[]) => ALL.filter((l) => ls.includes(l) || isProven(l, path));
+/** The page's passing locales, filtered by the site-wide rules (proven URLs, proven-only locales). */
+const withProven = (path: string, ls: readonly Locale[]) => indexableIn(path, ls);
 
 export async function inventory(): Promise<Entry[]> {
   const entries: Entry[] = [];
-  const hub = (path: string, priority = 0.8) => entries.push({ path, locales: ALL, priority });
+  const hub = (path: string, priority = 0.8) => entries.push({ path, locales: withProven(path, ALL), priority });
 
   ['/', '/beaches', '/places', '/listings', '/restaurants', '/activities', '/blog', '/events', '/areas', '/guide', '/from', '/mount-athos', '/mount-athos/monasteries', '/faq', '/ev-chargers']
     .forEach((p) => hub(p, p === '/' ? 1 : 0.8));
@@ -73,14 +74,12 @@ export async function inventory(): Promise<Entry[]> {
   for (const v of villages) {
     if (v.slug === 'pyrgadikia-mainland') continue;
     detail('/places', [v], vI, 0.8);
-    const counts: Record<string, number> = {
-      beaches: nearest(v, beaches, 99, 25).length,
-      restaurants: nearest(v, restaurants, 99, 25).length,
-      activities: nearest(v, activities, 99, 25).length,
-    };
-    for (const [kind, n] of Object.entries(counts)) {
+    // Same rule the page applies in its metadata (features/village/nearby.tsx).
+    const lists: Record<'beaches' | 'restaurants' | 'activities', LatLng[]> = { beaches, restaurants, activities };
+    for (const kind of ['beaches', 'restaurants', 'activities'] as const) {
+      const passes = nearbyListPasses(kind, nearest(v, lists[kind], 99, 25).map((n) => n.km));
       const path = `/places/${v.slug}/${kind}`;
-      entries.push({ path, locales: withProven(path, n >= 3 ? ALL : []), priority: kind === 'beaches' ? 0.8 : 0.6 });
+      entries.push({ path, locales: withProven(path, passes ? ALL : []), priority: kind === 'beaches' ? 0.8 : 0.6 });
     }
   }
 
