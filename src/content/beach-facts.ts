@@ -126,19 +126,30 @@ for (const [slug, page] of Object.entries(SEATRAC_BEACHES)) SEATRAC_BEACHES[publ
  * September. Source: Δήμος Σιθωνίας, μελέτη 16/2025 in decision 347/2025,
  * ΑΔΑ ΨΠ6ΡΩ1Φ-ΚΗΟ (audit/sources/diavgeia). This is the legal requirement and
  * the municipality's plan, not a daily presence check, and pages say exactly
- * that. Other municipalities not checked yet. Μπανιέρες (Ν. Μαρμαράς) has no
+ * that. Other municipalities: see LIFEGUARD below. Μπανιέρες (Ν. Μαρμαράς) has no
  * beach entry; Συκιά is the municipality's own July–August addition, left out.
  */
-export const LIFEGUARD_YEARS = '2026–2027';
-export const LIFEGUARD_SOURCE = 'https://diavgeia.gov.gr/doc/ΨΠ6ΡΩ1Φ-ΚΗΟ';
-export const LIFEGUARD_REQUIRED = new Set([
-  'nikiti-beach-sithonia-2',
-  'paradisos-beach-sithonia',
-  'trani-ammouda-beach-sithonia',
-  'sarti-sithonia',
-  'toroni-beach-sithonia',
-  'platanitsi-beach-sithonia',
-  'kalamitsi-sithonia',
-  'armenistis-beach-sithonia',
+type Lifeguard = { municipality: 'sithonia' | 'polygyros' | 'aristotelis'; years: string; source: string };
+const SITHONIA_LG: Lifeguard = { municipality: 'sithonia', years: '2026–2027', source: 'https://diavgeia.gov.gr/doc/ΨΠ6ΡΩ1Φ-ΚΗΟ' };
+/**
+ * Polygyros: tender terms 384/2024 (ΑΔΑ 63ΛΨΩΞΜ-2ΨΩ) for 2025–2026, awarded by
+ * 118/2025 (ΑΔΑ 9ΘΒΚΩΞΜ-Κ1Ζ): Καλύβες, Ψακούδια, Μεταμόρφωση. Only Ψακούδια has
+ * a beach entry. Aristotelis: study 01/2026 on dimosaristoteli.gr (11 towers,
+ * €371,865.09); beach names per the municipality's statement to the press
+ * (Xalkidiki Politiki, 29 May 2026, same budget): Ιερισσός, Αλυκές Αμμουλιανής,
+ * Ξηροπόταμος, Καμπούδι Ουρανούπολης, Ολυμπιάδα. Ierissos is left out: the
+ * study's 1 km stretch cannot be matched to one of our three Ierissos entries.
+ * Kassandra and Nea Propontida: the published lists are for 2023 only or not
+ * yet read (audit/sources/lifeguards).
+ */
+const POLYGYROS_LG: Lifeguard = { municipality: 'polygyros', years: '2025–2026', source: 'https://diavgeia.gov.gr/doc/63ΛΨΩΞΜ-2ΨΩ' };
+const ARISTOTELIS_LG: Lifeguard = { municipality: 'aristotelis', years: '2026', source: 'https://dimosaristoteli.gr/wp-content/uploads/2026/04/1.-MELETH-2026_signed.pdf' };
+export const LIFEGUARD: Map<string, Lifeguard> = new Map([
+  ...['nikiti-beach-sithonia-2', 'paradisos-beach-sithonia', 'trani-ammouda-beach-sithonia', 'sarti-sithonia', 'toroni-beach-sithonia', 'platanitsi-beach-sithonia', 'kalamitsi-sithonia', 'armenistis-beach-sithonia'].map((x) => [x, SITHONIA_LG] as const),
+  ['paralia-psakoydia-kassandra', POLYGYROS_LG],
+  ['alikes-beach-sithonia', ARISTOTELIS_LG],
+  ['kampoydi-akrathos-athos', ARISTOTELIS_LG],
 ]);
-for (const slug of [...LIFEGUARD_REQUIRED]) LIFEGUARD_REQUIRED.add(publicSlug('beaches', slug));
+for (const [slug, v] of [...LIFEGUARD]) LIFEGUARD.set(publicSlug('beaches', slug), v);
+/** Kept for callers that only ask "is cover mandatory here". */
+export const LIFEGUARD_REQUIRED = { has: (slug: string) => LIFEGUARD.has(slug) };

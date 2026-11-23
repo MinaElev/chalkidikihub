@@ -73,7 +73,8 @@
     "errorTitle": "Etwas ist schiefgelaufen",
     "errorText": "Bitte versuchen Sie es in ein paar Sekunden erneut.",
     "retry": "Erneut versuchen",
-    "machineNotice": "Dieser Text liegt noch nicht auf Deutsch vor und wird daher auf {language} angezeigt."
+    "machineNotice": "Dieser Text liegt noch nicht auf Deutsch vor und wird daher auf {language} angezeigt.",
+    "seeAlso": "Siehe auch"
   },
   "places": {
     "hubTitle": "Orte und Ferienorte auf Chalkidiki",
@@ -146,7 +147,9 @@
     "faqMunicipalityQ": "Zu welcher Gemeinde gehört {name}?",
     "faqMunicipalityA": "{name} gehört zur Gemeinde {municipality} im Regionalbezirk Chalkidiki.",
     "factSeatrac": "Barrierefreier Meerzugang",
-    "factSeatracValue": "SEATRAC am Strand des Ortes"
+    "factSeatracValue": "SEATRAC am Strand des Ortes",
+    "moreStaysHeading": "{count, plural, one {# weitere Unterkunft} other {# weitere Unterkünfte}} in {inPlace}",
+    "eventsHeading": "Veranstaltungen in {inPlace}"
   },
   "beach": {
     "hubTitle": "Strände auf Chalkidiki",
@@ -218,7 +221,7 @@
     "lifeguardLabel": "Rettungsschwimmer",
     "lifeguardValue": "Vorgeschrieben vom 1. Juni bis 30. September (stark besuchter Strand)",
     "faqLifeguardQ": "Gibt es einen Rettungsschwimmer?",
-    "faqLifeguardA": "Die Hafenbehörde von Ierissos hat den Strand als stark besucht eingestuft; eine Rettungsschwimmeraufsicht ist daher vom 1. Juni bis 30. September vorgeschrieben. Die Gemeinde Sithonia hat ihn in ihren Rettungsschwimmervertrag für {years} aufgenommen."
+    "faqLifeguardA": "Die zuständige Hafenbehörde hat den Strand als stark besucht eingestuft; eine Rettungsschwimmeraufsicht ist daher vom 1. Juni bis 30. September vorgeschrieben. Die Gemeinde {municipality} hat ihn in ihren Rettungsschwimmervertrag für {years} aufgenommen."
   },
   "food": {
     "hubTitle": "Essen gehen auf Chalkidiki",

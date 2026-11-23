@@ -11,7 +11,8 @@ import {
 } from '@/lib/content/nearby';
 import { AREA_LOCATIVE, AREA_NAMES, fromPlace, inPlace, placeName } from '@/lib/content/place-names';
 import { formatDistance, formatList, formatMetres, greekAlt } from '@/lib/content/format';
-import { BEACH_PROFILES, BLUE_FLAG_2026, BLUE_FLAG_SOURCE, BLUE_FLAG_YEAR, PROFILE_SOURCE, SEATRAC_BEACHES, SEATRAC_SOURCE, LIFEGUARD_REQUIRED, LIFEGUARD_SOURCE, LIFEGUARD_YEARS } from '@/content/beach-facts';
+import { BEACH_PROFILES, BLUE_FLAG_2026, BLUE_FLAG_SOURCE, BLUE_FLAG_YEAR, PROFILE_SOURCE, SEATRAC_BEACHES, SEATRAC_SOURCE, LIFEGUARD } from '@/content/beach-facts';
+import { MUNICIPALITY_NAMES } from '@/content/village-facts';
 import { documentedFeatures, OFFICIAL_ONLY } from '@/lib/content/beach-documented';
 import { plainText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
@@ -22,6 +23,10 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Faq } from '@/components/ui/Faq';
+import { SeeAlso } from '@/components/ui/SeeAlso';
+import { bestListsFor } from '@/lib/content/best';
+import { relatedArticles } from '@/lib/content/related';
+import { ARTICLES_BY_AREA, ARTICLES_BY_BEACH, ARTICLES_BY_VILLAGE, BLUE_FLAG_ARTICLE } from '@/content/related-articles';
 import { Container, FactList, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
@@ -172,7 +177,8 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
   if (f.includes('parking')) faqs.push({ q: t('faqParkingQ'), a: t('faqParkingA') });
   if (f.includes('nudist')) faqs.push({ q: t('faqNudistQ'), a: t('faqNudistA') });
   if (blueFlag) faqs.push({ q: t('faqBlueFlagQ'), a: t('faqBlueFlagOfficialA', { year: BLUE_FLAG_YEAR }) });
-  if (LIFEGUARD_REQUIRED.has(slug)) faqs.push({ q: t('faqLifeguardQ'), a: t('faqLifeguardA', { years: LIFEGUARD_YEARS }) });
+  const lifeguard = LIFEGUARD.get(slug);
+  if (lifeguard) faqs.push({ q: t('faqLifeguardQ'), a: t('faqLifeguardA', { years: lifeguard.years, municipality: MUNICIPALITY_NAMES[lifeguard.municipality][locale] }) });
   if (SEATRAC_BEACHES[slug]) faqs.push({ q: t('faqAccessibleQ'), a: t('faqSeatracA') });
 
   return (
@@ -249,8 +255,8 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
               },
               {
                 label: t('lifeguardLabel'),
-                value: LIFEGUARD_REQUIRED.has(slug) ? (
-                  <a href={LIFEGUARD_SOURCE} target="_blank" rel="noopener" className="text-sea-700 hover:underline">
+                value: lifeguard ? (
+                  <a href={lifeguard.source} target="_blank" rel="noopener" className="text-sea-700 hover:underline">
                     {t('lifeguardValue')}
                   </a>
                 ) : null,
@@ -292,6 +298,21 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
         <ShareButtons title={name} />
       </div>
       <RecentlyViewed type="beach" slug={slug} title={name} image={beach.image_url as string | null} />
+      <SeeAlso
+        title={common('seeAlso')}
+        links={[
+          ...(await bestListsFor('beach', beach as Record<string, unknown>, locale)).map((b) => ({ href: `/best/${b.slug}`, label: b.title })),
+          ...(await relatedArticles(
+            [
+              ...(ARTICLES_BY_BEACH[slug] ?? []),
+              ...(village ? ARTICLES_BY_VILLAGE[village.item.slug] ?? [] : []),
+              ...(BLUE_FLAG_2026.has(slug) ? [BLUE_FLAG_ARTICLE] : []),
+              ...(ARTICLES_BY_AREA[String(beach.area)] ?? []),
+            ],
+            locale,
+          )),
+        ]}
+      />
       <Faq title={common('faqTitle')} items={faqs} />
 
       {otherBeaches.length > 0 && (

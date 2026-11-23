@@ -47,6 +47,7 @@ export const t = {
 
   // Nav items
   navMonasteries: { el: 'Οι 20 Μονές', en: 'The 20 Monasteries', de: 'Die 20 Klöster', bg: '20-те манастира', ru: '20 монастырей', ro: 'Cele 20 de mănăstiri', sr: '20 manastira' } as L,
+  nearbyMonasteries: { el: 'Κοντινές μονές', en: 'Nearby monasteries', de: 'Klöster in der Nähe', bg: 'Близки манастири', ru: 'Ближайшие монастыри', ro: 'Mănăstiri din apropiere', sr: 'Obližnji manastiri' } as L,
   navHowToVisit: { el: 'Πώς να Επισκεφθείτε', en: 'How to Visit', de: 'Besuch planen', bg: 'Как да посетите', ru: 'Как посетить', ro: 'Cum să vizitați', sr: 'Kako posetiti' } as L,
   navGettingThere: { el: 'Πώς να Πάτε', en: 'Getting There', de: 'Anreise', bg: 'Как да стигнете', ru: 'Как добраться', ro: 'Cum ajungeți', sr: 'Kako stići' } as L,
   navAccommodation: { el: 'Διαμονή', en: 'Accommodation', de: 'Unterkunft', bg: 'Настаняване', ru: 'Проживание', ro: 'Cazare', sr: 'Smeštaj' } as L,

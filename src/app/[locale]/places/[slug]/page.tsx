@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
-import { getBeaches, getListings, getRestaurants, getVillage, getVillages, type VillageCard } from '@/lib/db/content';
+import { getBeaches, getEvents, getListings, getRestaurants, getVillage, getVillages, type VillageCard } from '@/lib/db/content';
 import { BLUE_FLAG_2026, BLUE_FLAG_YEAR } from '@/content/beach-facts';
 import { CENSUS_SOURCE, CENSUS_YEAR, MUNICIPALITY_NAMES, SEATRAC_VILLAGES, VILLAGE_FACTS } from '@/content/village-facts';
 import { SEATRAC_SOURCE } from '@/content/beach-facts';
@@ -10,7 +10,7 @@ import { hasCoords, nearest } from '@/lib/geo';
 import { cuisineStats, priceStats } from '@/lib/content/place-stats';
 import { VillagePriceBenchmark } from '@/components/v3/VillagePriceBenchmark';
 import { VillageCuisineRatio } from '@/components/v3/VillageCuisineRatio';
-import { localize } from '@/lib/i18n/localize';
+import { localize, pick } from '@/lib/i18n/localize';
 import {
   nearActivities, nearBeaches, nearListings, nearRestaurants, nearVillages, displayName, ratingProps,
 } from '@/lib/content/nearby';
@@ -24,6 +24,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, FactList, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { Faq } from '@/components/ui/Faq';
+import { SeeAlso } from '@/components/ui/SeeAlso';
+import { relatedArticles } from '@/lib/content/related';
+import { ARTICLES_BY_VILLAGE, ATHOS_GATEWAYS } from '@/content/related-articles';
+import { tr } from '@/content/editorial/athos';
 import type { Faq as FaqItem } from '@/lib/seo/jsonld';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { WeatherBadge } from '@/components/v3/WeatherBadge';
@@ -114,6 +118,17 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
         nearVillages(village, 6),
       ])
     : [[], [], [], []];
+  // Events held in this village (closest village to the venue).
+  const events = (await getEvents())
+    .filter((e) => !/Σε όλη/.test(String(e.location_name ?? '')) && homeOf(e as unknown as { latitude: number | null; longitude: number | null }) === slug)
+    .map((e) => ({ slug: String(e.slug), name: pick(e, 'name', locale) }))
+    .filter((e) => e.name);
+  // Every other stay that sits in this village (its closest village), by name.
+  const shown = new Set(stays.map(({ item }) => item.slug));
+  const moreStays = allListings
+    .filter((l) => !l.is_closed && !shown.has(l.slug) && homeOf(l) === slug)
+    .map((l) => ({ slug: l.slug, name: displayName(l, locale, 'listing') }))
+    .sort((a, b) => a.name.localeCompare(b.name, locale));
 
   return (
     <Container>
@@ -234,6 +249,30 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
               />
             ))}
           </CardGrid>
+          {moreStays.length > 0 && (
+            <div className="mt-6">
+              <h3 className="font-semibold text-slate-900">{t('moreStaysHeading', { inPlace: ip, count: moreStays.length })}</h3>
+              <ul className="mt-2 grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2 lg:grid-cols-3">
+                {moreStays.map((m) => (
+                  <li key={m.slug}>
+                    <Link href={`/listings/${m.slug}`} className="text-sea-700 hover:underline">{m.name}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </Section>
+      )}
+
+      {events.length > 0 && (
+        <Section id="events" title={t('eventsHeading', { inPlace: ip })}>
+          <ul className="flex flex-wrap gap-2">
+            {events.map((e) => (
+              <li key={e.slug}>
+                <Link href={`/events/${e.slug}`} className="inline-block rounded-full border border-sea-200 bg-white px-3 py-1.5 text-sm font-medium text-sea-800 hover:bg-sea-50">{e.name}</Link>
+              </li>
+            ))}
+          </ul>
         </Section>
       )}
 
@@ -282,6 +321,19 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
         </Section>
       )}
 
+      <SeeAlso
+        title={common('seeAlso')}
+        links={[
+          ...(ATHOS_GATEWAYS.has(slug)
+            ? [
+                { href: '/mount-athos', label: tr('guide', locale) },
+                { href: '/mount-athos/how-to-visit', label: `${tr('mountAthos', locale)}: ${tr('navHowToVisit', locale)}` },
+                { href: '/mount-athos/monasteries', label: tr('navMonasteries', locale) },
+              ]
+            : []),
+          ...(await relatedArticles(ARTICLES_BY_VILLAGE[slug] ?? [], locale)),
+        ]}
+      />
       <Faq title={common('faqTitle')} items={villageFaqs} />
 
       {villages.length > 0 && (

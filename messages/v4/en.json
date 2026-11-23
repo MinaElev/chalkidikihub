@@ -73,7 +73,8 @@
     "errorTitle": "Something went wrong",
     "errorText": "Please try again in a few seconds.",
     "retry": "Try again",
-    "machineNotice": "This text isn't available in your language yet, so it's shown in {language}."
+    "machineNotice": "This text isn't available in your language yet, so it's shown in {language}.",
+    "seeAlso": "See also"
   },
   "places": {
     "hubTitle": "Villages and resorts of Halkidiki",
@@ -146,7 +147,9 @@
     "faqMunicipalityQ": "Which municipality is {name} in?",
     "faqMunicipalityA": "{name} belongs to the Municipality of {municipality}, in the regional unit of Halkidiki.",
     "factSeatrac": "Sea access for wheelchair users",
-    "factSeatracValue": "SEATRAC at the village beach"
+    "factSeatracValue": "SEATRAC at the village beach",
+    "moreStaysHeading": "{count, plural, one {# more place} other {# more places}} to stay in {inPlace}",
+    "eventsHeading": "Events in {inPlace}"
   },
   "beach": {
     "hubTitle": "Halkidiki beaches",
@@ -218,7 +221,7 @@
     "lifeguardLabel": "Lifeguard",
     "lifeguardValue": "Required 1 June – 30 September (busy beach)",
     "faqLifeguardQ": "Is there a lifeguard?",
-    "faqLifeguardA": "The Ierissos Port Authority has classed the beach as busy, so lifeguard cover is mandatory from 1 June to 30 September. The Municipality of Sithonia includes it in its lifeguard contract for {years}."
+    "faqLifeguardA": "The local port authority has classed the beach as busy, so lifeguard cover is mandatory from 1 June to 30 September. The Municipality of {municipality} includes it in its lifeguard contract for {years}."
   },
   "food": {
     "hubTitle": "Where to eat in Halkidiki",

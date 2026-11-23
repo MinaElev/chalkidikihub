@@ -91,6 +91,12 @@ export default async function MonasteryDetailPage({ params }: Props) {
   const idx = MONASTERIES.findIndex(x => x.slug === slug);
   const prev = idx > 0 ? MONASTERIES[idx - 1] : null;
   const next = idx < MONASTERIES.length - 1 ? MONASTERIES[idx + 1] : null;
+  // The four closest monasteries (straight-line distance from the coordinates).
+  const nearby = (m.lat && m.lng ? MONASTERIES : []).filter((x) => x.slug !== m.slug && x.lat && x.lng)
+    .map((x) => ({ x, d: Math.hypot(x.lat - m.lat, (x.lng - m.lng) * Math.cos((m.lat * Math.PI) / 180)) }))
+    .sort((a, b) => a.d - b.d)
+    .slice(0, 4)
+    .map(({ x }) => x);
 
   return (
     <article>
@@ -162,6 +168,21 @@ export default async function MonasteryDetailPage({ params }: Props) {
             className="h-56 w-full bg-gray-100"
           />
         </div>
+      )}
+
+      {nearby.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-lg font-bold text-amber-900 mb-3">{tr('nearbyMonasteries', locale)}</h2>
+          <ul className="flex flex-wrap gap-2">
+            {nearby.map((x) => (
+              <li key={x.slug}>
+                <Link href={`/mount-athos/monasteries/${x.slug}`} className="inline-block rounded-full border border-amber-200 bg-white px-3 py-1.5 text-sm font-medium text-amber-800 hover:bg-amber-50">
+                  {x.name[locale] || x.name.en}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
       {/* Prev/Next */}

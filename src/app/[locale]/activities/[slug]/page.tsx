@@ -18,6 +18,10 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Faq } from '@/components/ui/Faq';
+import { SeeAlso } from '@/components/ui/SeeAlso';
+import { bestListsFor } from '@/lib/content/best';
+import { relatedArticles } from '@/lib/content/related';
+import { ARTICLES_BY_ACTIVITY, ARTICLES_BY_CATEGORY } from '@/content/related-articles';
 import { Container, FactList, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
@@ -175,6 +179,13 @@ export default async function ActivityPage({ params }: PageProps<'/[locale]/acti
         <ShareButtons title={name} />
       </div>
       <RecentlyViewed type="activity" slug={slug} title={name} image={a.image_url as string | null} />
+      <SeeAlso
+        title={common('seeAlso')}
+        links={[
+          ...(await bestListsFor('activity', a as Record<string, unknown>, locale)).map((b) => ({ href: `/best/${b.slug}`, label: b.title })),
+          ...(await relatedArticles([...(ARTICLES_BY_ACTIVITY[slug] ?? []), ...(ARTICLES_BY_CATEGORY[String(a.category)] ?? [])], locale)),
+        ]}
+      />
       <Faq title={common('faqTitle')} items={faqs} />
 
       {otherActivities.length > 0 && (

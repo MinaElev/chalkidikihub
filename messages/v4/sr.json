@@ -73,7 +73,8 @@
     "errorTitle": "Nešto nije u redu",
     "errorText": "Pokušajte ponovo za nekoliko sekundi.",
     "retry": "Pokušajte ponovo",
-    "machineNotice": "Ovaj tekst još nije dostupan na srpskom, pa je prikazan na jeziku: {language}."
+    "machineNotice": "Ovaj tekst još nije dostupan na srpskom, pa je prikazan na jeziku: {language}.",
+    "seeAlso": "Pogledajte i"
   },
   "places": {
     "hubTitle": "Mesta i letovališta na Halkidikiju",
@@ -146,7 +147,9 @@
     "faqMunicipalityQ": "Kojoj opštini pripada {name}?",
     "faqMunicipalityA": "{name} pripada opštini {municipality}, u regionalnoj jedinici Halkidiki.",
     "factSeatrac": "Pristup moru za osobe sa invaliditetom",
-    "factSeatracValue": "SEATRAC na plaži mesta"
+    "factSeatracValue": "SEATRAC na plaži mesta",
+    "moreStaysHeading": "Još {count, plural, one {# smeštaj} few {# smeštaja} other {# smeštaja}} u mestu {inPlace}",
+    "eventsHeading": "Događaji u mestu {inPlace}"
   },
   "beach": {
     "hubTitle": "Plaže na Halkidikiju",
@@ -218,7 +221,7 @@
     "lifeguardLabel": "Spasilac",
     "lifeguardValue": "Obavezan od 1. juna do 30. septembra (posećena plaža)",
     "faqLifeguardQ": "Da li postoji spasilac?",
-    "faqLifeguardA": "Lučka kapetanija Jerisosa svrstala je plažu među posećene, pa je spasilačko obezbeđenje obavezno od 1. juna do 30. septembra. Opština Sitonija ju je uvrstila u ugovor o spasilačkom obezbeđenju za {years}."
+    "faqLifeguardA": "Nadležna lučka kapetanija svrstala je plažu među posećene, pa je spasilačko obezbeđenje obavezno od 1. juna do 30. septembra. Opština {municipality} ju je uvrstila u ugovor o spasilačkom obezbeđenju za {years}."
   },
   "food": {
     "hubTitle": "Gde jesti na Halkidikiju",

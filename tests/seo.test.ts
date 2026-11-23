@@ -410,6 +410,11 @@ describe('lifeguard facts come from the Sithonia study 16/2025 (ΑΔΑ ΨΠ6ΡΩ
     for (const s of ['sarti-sithonia', 'toroni-beach-sithonia', 'armenistis-beach-sithonia', 'trani-ammouda-beach-sithonia'])
       expect(LIFEGUARD_REQUIRED.has(s)).toBe(true);
     expect(LIFEGUARD_REQUIRED.has('kalamitsi-nudist-beach-sithonia')).toBe(false);
+    // Polygyros (ΑΔΑ 63ΛΨΩΞΜ-2ΨΩ) and Aristotelis (study 01/2026) carry their own period and source.
+    const { LIFEGUARD } = await import('@/content/beach-facts');
+    expect(LIFEGUARD.get('paralia-psakoydia-kassandra')?.years).toBe('2025–2026');
+    expect(LIFEGUARD.get('kampoydi-akrathos-athos')?.municipality).toBe('aristotelis');
+    expect(LIFEGUARD.has('ierissos-beach-mainland')).toBe(false);
     const { locales } = await import('@/i18n/config');
     for (const l of locales) {
       const beach = (await import(`../messages/v4/${l}.json`)).default.beach;
@@ -454,5 +459,29 @@ describe('retired restaurant rows', () => {
     const { resolveInternal, REMOVED_RESTAURANTS } = await import('@/lib/seo/redirects');
     expect(REMOVED_RESTAURANTS['meliton-porto-carras']).toBeTruthy();
     expect(resolveInternal('/restaurants/meliton-porto-carras')).toBe('/places/neos-marmaras/restaurants');
+  });
+});
+
+describe('phase 3: internal links', () => {
+  it('has the link messages in all 7 locales', async () => {
+    const { locales } = await import('@/i18n/config');
+    for (const l of locales) {
+      const m = (await import(`../messages/v4/${l}.json`)).default;
+      expect(m.common.seeAlso, `${l}.common.seeAlso`).toBeTruthy();
+      expect(m.places.moreStaysHeading, `${l}.moreStaysHeading`).toContain('{inPlace}');
+      expect(m.places.eventsHeading, `${l}.eventsHeading`).toContain('{inPlace}');
+    }
+  });
+
+  it('points curated guide links only at live blog URLs', async () => {
+    const rel = await import('@/content/related-articles');
+    const { resolveInternal } = await import('@/lib/seo/redirects');
+    const slugs = [
+      ...Object.values(rel.ARTICLES_BY_VILLAGE).flat(), ...Object.values(rel.ARTICLES_BY_BEACH).flat(),
+      ...Object.values(rel.ARTICLES_BY_AREA).flat(), ...Object.values(rel.ARTICLES_BY_ACTIVITY).flat(),
+      ...Object.values(rel.ARTICLES_BY_CATEGORY).flat(), rel.BLUE_FLAG_ARTICLE,
+    ];
+    // A guide merged or redirected elsewhere must not be linked.
+    for (const s of slugs) expect(resolveInternal(`/blog/${s}`), s).toBe(`/blog/${s}`);
   });
 });

@@ -73,7 +73,8 @@
     "errorTitle": "Ceva nu a funcționat",
     "errorText": "Te rugăm să încerci din nou în câteva secunde.",
     "retry": "Încearcă din nou",
-    "machineNotice": "Acest text nu este încă disponibil în limba română, așa că îl afișăm în {language}."
+    "machineNotice": "Acest text nu este încă disponibil în limba română, așa că îl afișăm în {language}.",
+    "seeAlso": "Vezi și"
   },
   "places": {
     "hubTitle": "Localitățile și stațiunile din Halkidiki",
@@ -146,7 +147,9 @@
     "faqMunicipalityQ": "Din ce municipalitate face parte {name}?",
     "faqMunicipalityA": "{name} face parte din municipalitatea {municipality}, în unitatea regională Halkidiki.",
     "factSeatrac": "Acces în mare pentru persoane cu dizabilități",
-    "factSeatracValue": "SEATRAC pe plaja localității"
+    "factSeatracValue": "SEATRAC pe plaja localității",
+    "moreStaysHeading": "Încă {count, plural, one {# cazare} few {# cazări} other {# de cazări}} în {inPlace}",
+    "eventsHeading": "Evenimente în {inPlace}"
   },
   "beach": {
     "hubTitle": "Plajele din Halkidiki",
@@ -218,7 +221,7 @@
     "lifeguardLabel": "Salvamar",
     "lifeguardValue": "Obligatoriu 1 iunie – 30 septembrie (plajă aglomerată)",
     "faqLifeguardQ": "Există salvamar?",
-    "faqLifeguardA": "Căpitănia portului Ierissos a clasificat plaja drept aglomerată, așa că prezența salvamarilor este obligatorie între 1 iunie și 30 septembrie. Municipalitatea Sithonia a inclus-o în contractul său de salvamari pentru {years}."
+    "faqLifeguardA": "Autoritatea portuară competentă a clasificat plaja drept aglomerată, așa că prezența salvamarilor este obligatorie între 1 iunie și 30 septembrie. Municipalitatea {municipality} a inclus-o în contractul său de salvamari pentru {years}."
   },
   "food": {
     "hubTitle": "Unde să mănânci în Halkidiki",

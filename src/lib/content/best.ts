@@ -1,7 +1,7 @@
 import 'server-only';
 import { locales, type Locale } from '@/i18n/config';
 import { getActivities, getBeaches, getRestaurants } from '@/lib/db/content';
-import { bestGuides } from '@/lib/editorial';
+import { bestGuides, field } from '@/lib/editorial';
 import { ENRICHMENTS } from '@/content/editorial/best-enrichments';
 
 /**
@@ -47,6 +47,25 @@ export async function loadBest(slug: string) {
   return { guide, sel, items };
 }
 
+
+/**
+ * Lists the page's own item belongs to, for "see also" links back from beach,
+ * restaurant and activity pages. Same selection rules as the lists, and only
+ * lists indexed in this locale. Lists that rest on unverified tags ("quiet":
+ * free/organised) or take everything (instagram) are left out.
+ */
+const NOT_LINKED = new Set(['quiet-beaches', 'instagram-spots']);
+export async function bestListsFor(kind: Kind, row: Record<string, unknown>, locale: Locale) {
+  const out: Array<{ slug: string; title: string }> = [];
+  for (const [slug, sel] of Object.entries(SELECTION)) {
+    if (sel.kind !== kind || NOT_LINKED.has(slug) || !sel.match(row)) continue;
+    const data = await loadBest(slug);
+    if (!data || !bestIndexable(slug, data.items.length).includes(locale)) continue;
+    const title = field((data.guide as unknown as { title: Partial<Record<Locale, string>> }).title, locale).text;
+    if (title) out.push({ slug, title });
+  }
+  return out;
+}
 
 /** Locales where the list is worth indexing: a written intro and at least four entries. */
 export function bestIndexable(slug: string, itemCount: number): Locale[] {

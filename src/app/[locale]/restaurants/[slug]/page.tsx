@@ -18,6 +18,8 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Faq } from '@/components/ui/Faq';
+import { SeeAlso } from '@/components/ui/SeeAlso';
+import { bestListsFor } from '@/lib/content/best';
 import { Container, FactList, HeroImage, PageIntro, Prose, Section } from '@/components/ui/Layout';
 import { LocaleNotice } from '@/components/ui/LocaleNotice';
 import { MapEmbed } from '@/components/ui/MapEmbed';
@@ -216,6 +218,7 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
       </div>
       <RecentlyViewed type="restaurant" slug={slug} title={name} image={r.image_url as string | null} />
 
+      <SeeAlso title={common('seeAlso')} links={(await bestListsFor('restaurant', r as Record<string, unknown>, locale)).map((b) => ({ href: `/best/${b.slug}`, label: b.title }))} />
       <Faq title={common('faqTitle')} items={faqs} />
 
       {beaches.length > 0 && (
