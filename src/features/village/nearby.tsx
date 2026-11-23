@@ -4,13 +4,14 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { locales, type Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getVillage, getVillages, type VillageCard } from '@/lib/db/content';
-import { hasCoords, driveMinutes } from '@/lib/geo';
+import { hasCoords } from '@/lib/geo';
 import {
   nearActivities, nearBeaches, nearRestaurants, nearVillages, displayName, shownRating, type EntityKind,
   NEAR_RADIUS_KM, type Near,
 } from '@/lib/content/nearby';
 import { inPlace, placeName, HALKIDIKI } from '@/lib/content/place-names';
-import { formatDistance, formatList, greekAlt } from '@/lib/content/format';
+import { formatDistance, formatList, formatMetres, greekAlt } from '@/lib/content/format';
+import { BEACH_PROFILES, BLUE_FLAG_2026, BLUE_FLAG_SOURCE, BLUE_FLAG_YEAR, PROFILE_SOURCE } from '@/content/beach-facts';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { nearbyListPasses } from '@/lib/seo/quality';
 import { itemListLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
@@ -18,6 +19,8 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Faq } from '@/components/ui/Faq';
+import { documentedFeatures } from '@/lib/content/beach-documented';
+import { isNearestBeach } from '@/lib/content/beach-coverage';
 import { Container, PageIntro, Section } from '@/components/ui/Layout';
 
 export type NearbyKind = 'beaches' | 'restaurants' | 'activities';
@@ -39,7 +42,7 @@ async function load(kind: NearbyKind, slug: string, locale: Locale) {
   const items: Item[] = rows.map(({ item, km }) => {
     const tags =
       kind === 'beaches'
-        ? ((item.features as string[]) ?? []).filter((f) => labels.has(`beachFeatures.${f}`)).map((f) => labels(`beachFeatures.${f}`))
+        ? documentedFeatures(item.slug, item.features as string[]).filter((f) => labels.has(`beachFeatures.${f}`)).map((f) => labels(`beachFeatures.${f}`))
         : kind === 'restaurants'
           ? ((item.cuisine as string[]) ?? []).filter((c) => labels.has(`cuisineTypes.${c}`)).map((c) => labels(`cuisineTypes.${c}`))
           : item.category && labels.has(`activityCategories.${item.category}`) ? [labels(`activityCategories.${item.category}`)] : [];
@@ -84,28 +87,31 @@ export async function nearbyMetadata(kind: NearbyKind, locale: Locale, slug: str
   });
 }
 
-const has = (raw: Record<string, unknown>, f: string) => ((raw.features as string[]) ?? []).includes(f);
 
-async function buildFaqs(kind: NearbyKind, locale: Locale, slug: string, items: Item[]): Promise<FaqItem[]> {
+async function buildFaqs(kind: NearbyKind, locale: Locale, slug: string, items: Item[], village: { latitude: number | null; longitude: number | null }): Promise<FaqItem[]> {
   const t = await getTranslations({ locale, namespace: 'places' });
   const ip = inPlace(slug, locale);
   const near = items.filter((i) => i.km <= NEAR_RADIUS_KM);
-  const names = (list: Item[]) =>
-    formatList(list.slice(0, 4).map((i) => `${i.name} (${formatDistance(i.km, locale)})`), locale);
+  // `max` 4 for "the nearest …" answers; Infinity where the answer claims to be the full set.
+  const names = (list: Item[], max = 4) =>
+    formatList(list.slice(0, max).map((i) => `${i.name} (${formatDistance(i.km, locale)})`), locale);
   const faqs: FaqItem[] = [];
   const first = items[0];
 
   if (kind === 'beaches') {
-    faqs.push({
+    if (isNearestBeach(village, first.km)) faqs.push({
       q: t('faqNearestQ', { inPlace: ip }),
-      a: t('faqNearestA', { nearest: first.name, km: formatDistance(first.km, locale), minutes: driveMinutes(first.km) }),
+      a: t('faqNearestA', { nearest: first.name, km: formatDistance(first.km, locale) }),
     });
-    const sandy = near.filter((i) => has(i.raw, 'sandy'));
-    if (sandy.length) faqs.push({ q: t('faqSandyQ', { inPlace: ip }), a: t('faqSandyA', { list: names(sandy) }) });
-    const organized = near.filter((i) => has(i.raw, 'organized') || has(i.raw, 'sunbeds'));
-    if (organized.length) faqs.push({ q: t('faqOrganizedQ', { inPlace: ip }), a: t('faqOrganizedA', { list: names(organized) }) });
-    const quiet = near.filter((i) => has(i.raw, 'free') && !has(i.raw, 'organized'));
-    if (quiet.length) faqs.push({ q: t('faqQuietQ'), a: t('faqQuietA', { list: names(quiet) }) });
+    // Only answers with an official source (src/content/beach-facts.ts). The
+    // database's sandy/organised/free tags are incomplete, so they are not
+    // turned into claims here.
+    const flagged = near.filter((i) => BLUE_FLAG_2026.has(i.slug));
+    if (flagged.length) {
+      faqs.push({ q: t('faqBlueFlagQ', { inPlace: ip, year: BLUE_FLAG_YEAR }), a: t('faqBlueFlagA', { list: names(flagged, Infinity), year: BLUE_FLAG_YEAR }) });
+    }
+    const shallow = near.filter((i) => BEACH_PROFILES[i.slug]?.shallow === true);
+    if (shallow.length) faqs.push({ q: t('faqShallowQ', { inPlace: ip }), a: t('faqShallowA', { list: names(shallow, Infinity) }) });
   } else if (kind === 'restaurants') {
     faqs.push({
       q: t('faqRestaurantNearestQ', { inPlace: ip }),
@@ -146,14 +152,19 @@ export async function NearbyPage({ kind, locale, slug }: { kind: NearbyKind; loc
   const vars = { count: items.length, inPlace: ip, nearest: first.name, km: formatDistance(first.km, locale) };
 
   let intro = t(`${kind}Intro`, { ...vars, within: withinRadius, radius: NEAR_RADIUS_KM });
+  // Beaches within the radius that an official source says something about.
+  const documented = kind === 'beaches'
+    ? items.filter((i) => i.km <= NEAR_RADIUS_KM && (BLUE_FLAG_2026.has(i.slug) || BEACH_PROFILES[i.slug])).slice(0, 8)
+    : [];
   if (kind === 'beaches') {
-    const sandy = items.filter((i) => has(i.raw, 'sandy')).length;
-    const organized = items.filter((i) => has(i.raw, 'organized') || has(i.raw, 'sunbeds')).length;
-    const free = items.filter((i) => has(i.raw, 'free') && !has(i.raw, 'organized')).length;
-    intro += ` ${t('beachesMix', { sandy, organized, free })}`;
+    const flagged = items.filter((i) => i.km <= NEAR_RADIUS_KM && BLUE_FLAG_2026.has(i.slug));
+    if (flagged.length) {
+      // Name every one: "7 of them … : A, B, C and D" would read as if four were all.
+      intro += ` ${t('beachesBlueFlag', { count: flagged.length, year: BLUE_FLAG_YEAR, list: formatList(flagged.map((i) => i.name), locale) })}`;
+    }
   }
 
-  const faqs = await buildFaqs(kind, locale, slug, items);
+  const faqs = await buildFaqs(kind, locale, slug, items, village as { latitude: number | null; longitude: number | null });
   const villages = await nearVillages(village, 6);
   const basePath = kind === 'beaches' ? '/beaches' : kind === 'restaurants' ? '/restaurants' : '/activities';
   const sections: NearbyKind[] = ['beaches', 'restaurants', 'activities'];
@@ -211,6 +222,43 @@ export async function NearbyPage({ kind, locale, slug }: { kind: NearbyKind; loc
         ))}
       </CardGrid>
       <JsonLd data={itemListLd(locale, items.map((i) => ({ name: i.name, path: `${basePath}/${i.slug}` })))} />
+
+      {documented.length > 0 && (
+        <Section id="official-beach-data" title={t('officialTitle')} intro={t('officialIntro', { radius: NEAR_RADIUS_KM })}>
+          <ul className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
+            {documented.map((i) => {
+              const p = BEACH_PROFILES[i.slug];
+              const facts = [
+                BLUE_FLAG_2026.has(i.slug) && t('factBlueFlag', { year: BLUE_FLAG_YEAR }),
+                p?.coast && t(p.coast === 'sand-fine' ? 'factSandFine' : p.coast === 'sand-coarse' ? 'factSandCoarse' : 'factSand'),
+                p?.shallow === true && t('factShallow'),
+                p?.shallow === false && t('factNormalDepth'),
+                p?.depth5m && t('factDepth5m', { m: formatMetres(p.depth5m, locale) }),
+                p?.lengthM && t('factLength', { m: formatMetres(p.lengthM, locale) }),
+              ].filter(Boolean) as string[];
+              return (
+                <li key={i.slug} className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-baseline sm:gap-3">
+                  <Link href={`/beaches/${i.slug}`} className="font-semibold text-sea-700 hover:underline">{i.name}</Link>
+                  <span className="text-sm text-slate-500">{formatDistance(i.km, locale)}</span>
+                  <span className="text-sm text-slate-700 sm:flex-1">{facts.join(' · ')}</span>
+                  {p && (
+                    <a href={PROFILE_SOURCE(p.profile)} target="_blank" rel="noopener" className="text-xs text-slate-500 underline hover:text-sea-700">
+                      {t('officialProfile')}
+                    </a>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          <p className="mt-3 text-xs text-slate-500">
+            {t.rich('officialSources', {
+              year: BLUE_FLAG_YEAR,
+              profiles: (c) => <a href="https://bathingwaterprofiles.gr/el" target="_blank" rel="noopener" className="underline hover:text-sea-700">{c}</a>,
+              flags: (c) => <a href={BLUE_FLAG_SOURCE} target="_blank" rel="noopener" className="underline hover:text-sea-700">{c}</a>,
+            })}
+          </p>
+        </Section>
+      )}
 
       <Faq title={common('faqTitle')} items={faqs} />
 

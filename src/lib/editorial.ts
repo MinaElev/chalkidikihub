@@ -26,7 +26,7 @@ export const KEPT_GUIDES = [
 ];
 export const KEPT_ITINERARIES = ['3-days', '5-days', '7-days', '10-days'];
 export const KEPT_BEST = [
-  'beaches-kassandra', 'beaches-sithonia', 'instagram-spots', 'snorkeling-spots', 'historical-sites', 'water-sports',
+  'beaches-kassandra', 'beaches-sithonia', 'instagram-spots', 'historical-sites', 'water-sports',
   'kids-activities', 'quiet-beaches', 'beach-bars', 'restaurants-kassandra', 'restaurants-sithonia',
   'seafood-restaurants', 'romantic-restaurants', 'traditional-tavernas', 'hiking-trails',
 ];

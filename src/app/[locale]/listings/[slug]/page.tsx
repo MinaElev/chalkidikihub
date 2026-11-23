@@ -12,6 +12,9 @@ import { AREA_NAMES, inPlace, placeName } from '@/lib/content/place-names';
 import { formatDate, formatDistance, formatPrice, greekAlt } from '@/lib/content/format';
 import { plainText, renderRichText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
+import { BLUE_FLAG_2026, BLUE_FLAG_YEAR } from '@/content/beach-facts';
+import { CENSUS_YEAR, MUNICIPALITY_NAMES, VILLAGE_FACTS } from '@/content/village-facts';
+import { isNearestBeach } from '@/lib/content/beach-coverage';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { listingIndex } from '@/lib/seo/indexability';
 import { addressLd, geoLd, ratingLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
@@ -173,6 +176,35 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
 
   const [beaches, food] = geo ? await Promise.all([nearBeaches(l, 4), nearRestaurants(l, 4)]) : [[], []];
 
+  // Area facts from verified sources: ELSTAT 2021 census, EEPF Blue Flag list,
+  // straight-line distances from the owner's map pin. The owner's text is untouched.
+  const nearestBeach = beaches[0] && isNearestBeach(l, beaches[0].km) ? beaches[0] : undefined;
+  const villageFacts = village ? VILLAGE_FACTS[village.item.slug] : undefined;
+  const beachArgs = nearestBeach
+    ? {
+        beach: displayName(nearestBeach.item, locale, 'beach'),
+        beachKm: formatDistance(nearestBeach.km, locale),
+        flag: BLUE_FLAG_2026.has(nearestBeach.item.slug) ? 'yes' : 'no',
+        year: BLUE_FLAG_YEAR,
+      }
+    : null;
+  const areaText = village
+    ? [
+        t('areaVillage', { village: villageName!, villageKm: formatDistance(village.km, locale) }),
+        villageFacts
+          ? t('areaCensus', {
+              village: villageName!,
+              municipality: MUNICIPALITY_NAMES[villageFacts.municipality][locale],
+              n: villageFacts.population,
+              year: CENSUS_YEAR,
+            })
+          : '',
+        beachArgs ? t('areaBeach', beachArgs) : '',
+      ].filter(Boolean).join(' ')
+    : null;
+  const ownerCoversBeach = faqs.some((f) => /παραλ|beach|strand|plaj|плаж|plaž|пляж/i.test(`${f.q} ${f.a}`));
+  if (beachArgs && !ownerCoversBeach) faqs.push({ q: t('faqNearestBeachQ'), a: t('faqNearestBeachA', beachArgs) });
+
   const labels = {
     ...Object.fromEntries(
       ([
@@ -248,6 +280,12 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
           )}
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
           <Prose html={await renderLinked(body.text, locale, `/listings/${slug}`)} />
+          {areaText && (
+            <section className="mt-8">
+              <h2 className="font-display text-xl font-semibold text-slate-900">{t('areaTitle')}</h2>
+              <p className="mt-2 leading-relaxed text-slate-700">{areaText}</p>
+            </section>
+          )}
 
           {/* The host's own words: shown in the page language, or in English as a fallback — not in Greek on a foreign page. */}
           {story.text && (story.native || story.from === 'en') && (

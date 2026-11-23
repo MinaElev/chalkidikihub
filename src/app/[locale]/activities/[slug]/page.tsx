@@ -9,7 +9,7 @@ import { closestVillage, displayName, nearActivities, nearBeaches, ratingProps }
 import { AREA_NAMES, inPlace, placeName } from '@/lib/content/place-names';
 import { formatDistance, greekAlt } from '@/lib/content/format';
 import { localizeToken } from '@/lib/content/hours';
-import { plainText, renderRichText } from '@/lib/content/render';
+import { plainText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { activityIndex } from '@/lib/seo/indexability';
@@ -27,6 +27,7 @@ import { ShareButtons } from '@/components/v3/ShareButtons';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { renderLinked } from '@/lib/content/autolink';
 import { detailParams } from '@/lib/build-params';
+import { ACTIVITY_FACTS, formatSeasons } from '@/content/activity-facts';
 
 export const revalidate = 86400;
 
@@ -90,8 +91,15 @@ export default async function ActivityPage({ params }: PageProps<'/[locale]/acti
   const body = localize(a, 'description', locale);
   const geo = hasCoords(a);
   const villageName = village ? placeName(village.item.slug, locale, village.item) : null;
+  const official = ACTIVITY_FACTS[slug];
   const duration = localizeToken(a.duration, locale);
-  const price = localizeToken(a.price_range, locale);
+  // Official admission and hours replace the database's unsourced price text.
+  const price = official
+    ? official.price
+      ? t('officialPrice', { full: String(official.price.full), reduced: String(official.price.reduced) })
+      : t('officialFree')
+    : localizeToken(a.price_range, locale);
+  const hoursText = official ? formatSeasons(official.hours, locale, (k, v) => t(k, v)) : null;
   const category = a.category && cats.has(a.category) ? cats(a.category) : null;
 
   const [others, beaches] = geo ? await Promise.all([nearActivities(a, 5), nearBeaches(a, 4)]) : [[], []];
@@ -99,7 +107,8 @@ export default async function ActivityPage({ params }: PageProps<'/[locale]/acti
 
   const faqs: FaqItem[] = [];
   if (duration) faqs.push({ q: t('faqDurationQ'), a: t('faqDurationA', { duration }) });
-  if (price) faqs.push({ q: t('faqPriceQ'), a: t('faqPriceA', { price }) });
+  if (price) faqs.push({ q: t('faqPriceQ'), a: official ? t('faqOfficialPriceA', { price, source: official.sourceName }) : t('faqPriceA', { price }) });
+  if (official && hoursText) faqs.push({ q: t('faqHoursQ'), a: t('faqOfficialHoursA', { hours: hoursText, source: official.sourceName }) });
 
   return (
     <Container>
@@ -133,6 +142,15 @@ export default async function ActivityPage({ params }: PageProps<'/[locale]/acti
               { label: t('category'), value: category },
               { label: t('duration'), value: duration || null },
               { label: t('price'), value: price || null },
+              { label: t('openingHours'), value: hoursText },
+              {
+                label: t('officialSource'),
+                value: official ? (
+                  <a href={official.source} target="_blank" rel="noopener" className="text-sea-700 hover:underline">
+                    {official.sourceName}
+                  </a>
+                ) : null,
+              },
               {
                 label: t('location'),
                 value: village ? (

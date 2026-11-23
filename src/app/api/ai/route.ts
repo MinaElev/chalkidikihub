@@ -148,15 +148,12 @@ CONTENT to include:
 - Things to do and see (specific places, beaches, landmarks)
 - Best time to visit, tips for visitors
 
-Also provide the approximate population of this village.
-
 Return ONLY a JSON object:
 {
-  "description_el": "<h3>Heading</h3><p>Formatted HTML content...</p>",
-  "population": 1234
+  "description_el": "<h3>Heading</h3><p>Formatted HTML content...</p>"
 }
 
-IMPORTANT: Write natural, engaging Greek text that makes someone want to visit. Use HTML tags for formatting — NOT markdown. If you don't know the exact population, give your best estimate. No markdown, ONLY JSON.`;
+IMPORTANT: Write natural, engaging Greek text that makes someone want to visit. Use HTML tags for formatting — NOT markdown. No markdown, ONLY JSON.`;
 
       const result = await callOpenAI(prompt, 2000);
       const parsed = JSON.parse(result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());

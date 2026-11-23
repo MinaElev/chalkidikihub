@@ -60,8 +60,8 @@ export default function AdminNewVillagePage() {
       if (!res.ok) throw new Error('AI request failed');
       const data = await res.json();
       if (data.description_el) update('description_el', data.description_el);
-      if (data.population) update('population', data.population);
-      setSuccess('AI generated description + population!');
+      // Population is never guessed: enter the ELSTAT 2021 census figure by hand.
+      setSuccess('AI generated description!');
     } catch (err) { setError((err as Error).message); }
     setGenerating(false);
   }
@@ -135,7 +135,7 @@ export default function AdminNewVillagePage() {
               className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm">
               {AREAS.map(a => <option key={a} value={a}>{a}</option>)}
             </select></div>
-          <div><label className="block text-sm font-medium text-gray-700 mb-1">Population</label>
+          <div><label className="block text-sm font-medium text-gray-700 mb-1">Population (ELSTAT 2021 census — leave empty if unknown)</label>
             <input type="number" value={form.population as number} onChange={e => update('population', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm" /></div>
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Image</label>

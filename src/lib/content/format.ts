@@ -12,6 +12,11 @@ const UNITS: Record<Locale, { km: string; m: string }> = {
   ru: { km: 'км', m: 'м' },
 };
 
+/** "1.800 μ." / "1,800 m" — a length in metres with the locale's digit grouping and unit. */
+export function formatMetres(m: number, locale: Locale): string {
+  return `${new Intl.NumberFormat(htmlLang[locale]).format(m)} ${UNITS[locale].m}`;
+}
+
 /** "600 m" under 1 km, "3,2 km" under 10 km, "14 km" beyond — with the locale's decimal mark. */
 export function formatDistance(km: number, locale: Locale): string {
   const u = UNITS[locale];

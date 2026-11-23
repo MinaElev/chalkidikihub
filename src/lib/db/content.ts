@@ -6,6 +6,7 @@ import { cached, TAGS } from './cache';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
 import { withRewrite, withRowFix } from '@/content/rewrites';
 import { dbSlug, publicSlug } from '@/content/rewrites/slug-renames';
+import { MERGED_BEACHES, REMOVED_RESTAURANTS } from '@/lib/seo/redirects';
 
 /*
  * Public content loaders. Tables are small (≤ ~150 rows), so "card" lists are
@@ -119,13 +120,14 @@ async function one<T>(table: string, slug: string, columns = '*'): Promise<T | n
 
 // ── Beaches ────────────────────────────────────────────────────────────────
 export const getBeaches = cached('beaches:cards', [TAGS.beaches, TAGS.reviews], async () =>
+  // Duplicate rows (seo/redirects.ts MERGED_BEACHES) are redirected, so never listed.
   withGenuineRating(
     await all<BeachCard>(
       'beaches',
       `id, slug, area, latitude, longitude, image_url, image_alt, features, updated_at, ${NAME}, beach_reviews(rating, created_at, status)`,
     ),
     'beach_reviews',
-  ),
+  ).filter((b) => !(b.slug in MERGED_BEACHES)),
 );
 export const getBeach = cached('beaches:one', [TAGS.beaches, TAGS.reviews], async (slug: string) =>
   one<BeachCard & Record<string, unknown>>('beaches', slug, '*, beach_reviews(id, author_name, rating, comment_el, created_at, status)'),
@@ -136,7 +138,7 @@ export const getRestaurants = cached('restaurants:cards', [TAGS.restaurants], as
   all<RestaurantCard>(
     'restaurants',
     `id, slug, area, latitude, longitude, image_url, image_alt, cuisine, price_level, rating, reviews_count, has_sea_view, updated_at, ${NAME}`,
-  ),
+  ).then((rows) => rows.filter((r) => !(r.slug in REMOVED_RESTAURANTS))),
 );
 export const getRestaurant = cached('restaurants:one', [TAGS.restaurants, TAGS.reviews], (slug: string) =>
   one<RestaurantCard & Record<string, unknown>>('restaurants', slug, '*, restaurant_reviews(id, author_name, rating, comment_el, created_at, status)'),

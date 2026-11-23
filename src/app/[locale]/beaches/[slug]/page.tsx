@@ -4,16 +4,18 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getBeach, getBeaches, type BeachCard } from '@/lib/db/content';
-import { driveMinutes, hasCoords } from '@/lib/geo';
-import { localize, pick } from '@/lib/i18n/localize';
+import { hasCoords } from '@/lib/geo';
+import { localize } from '@/lib/i18n/localize';
 import {
   closestVillage, displayName, nearBeaches, nearListings, nearRestaurants, ratingProps,
 } from '@/lib/content/nearby';
 import { AREA_LOCATIVE, AREA_NAMES, fromPlace, inPlace, placeName } from '@/lib/content/place-names';
-import { formatDistance, formatList, greekAlt } from '@/lib/content/format';
-import { plainText, renderRichText } from '@/lib/content/render';
+import { formatDistance, formatList, formatMetres, greekAlt } from '@/lib/content/format';
+import { BEACH_PROFILES, BLUE_FLAG_2026, BLUE_FLAG_SOURCE, BLUE_FLAG_YEAR, PROFILE_SOURCE, SEATRAC_BEACHES, SEATRAC_SOURCE, LIFEGUARD_REQUIRED, LIFEGUARD_SOURCE, LIFEGUARD_YEARS } from '@/content/beach-facts';
+import { documentedFeatures, OFFICIAL_ONLY } from '@/lib/content/beach-documented';
+import { plainText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
-import { buildMetadata } from '@/lib/seo/metadata';
+import { buildMetadata, DESC_MAX } from '@/lib/seo/metadata';
 import { beachIndex } from '@/lib/seo/indexability';
 import { addressLd, geoLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -66,6 +68,10 @@ function storedMetaOk(text: string, locale: Locale, area: string) {
   return !Object.entries(AREA_WORDS).some(([a, re]) => a !== area && re.test(text));
 }
 
+/** German feature labels that begin with an adjective ("Organisiert", "Flaches Wasser"). */
+const DE_ADJECTIVE_LABELS = new Set(['organized', 'free', 'shallowWater', 'accessible', 'secluded', 'family-friendly']);
+
+
 export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/[slug]'>) {
   const { locale: raw, slug } = await params;
   const locale = raw as Locale;
@@ -78,7 +84,21 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/
   const place = village ? placeName(village.item.slug, locale, village.item) : AREA_NAMES[beach.area][locale];
   const metaTitle = localize(beach, 'meta_title', locale);
   const metaDesc = localize(beach, 'meta_description', locale);
-  const featureText = formatList(features(beach).filter((f) => labels.has(f)).slice(0, 4).map((f) => labels(f).toLocaleLowerCase()), locale);
+  // Labels go lower-case mid-sentence. German keeps nouns capitalised ("Blaue Flagge",
+  // "Sandstrand") and lower-cases only the labels that start with an adjective.
+  const lower = (key: string, s: string) =>
+    locale !== 'de' ? s.toLocaleLowerCase(locale) : DE_ADJECTIVE_LABELS.has(key) ? s.charAt(0).toLocaleLowerCase('de') + s.slice(1) : s;
+  const featureLabels = documentedFeatures(slug, features(beach)).filter((f) => labels.has(f)).map((f) => lower(f, labels(f)));
+  const inPlaceText = village ? inPlace(village.item.slug, locale) : place;
+  // Up to four features, fewer when a long beach or village name would push the
+  // description past Google's snippet length (it would be cut mid-word).
+  let generatedDesc = '';
+  for (let n = Math.min(4, featureLabels.length); n >= 1; n--) {
+    generatedDesc = t('metaDesc', { name, inPlace: inPlaceText, features: formatList(featureLabels.slice(0, n), locale) });
+    if (generatedDesc.length <= DESC_MAX) break;
+  }
+  // No documented features, or none fit: the same sentence without the feature list.
+  if (!generatedDesc || generatedDesc.length > DESC_MAX) generatedDesc = t('metaDescPlain', { name, inPlace: inPlaceText });
 
   return buildMetadata({
     locale,
@@ -87,7 +107,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/
     title: metaTitle.native && storedMetaOk(metaTitle.text, locale, beach.area) ? metaTitle.text : t('metaTitle', { name, place }),
     description: metaDesc.native && storedMetaOk(metaDesc.text, locale, beach.area)
       ? metaDesc.text
-      : t('metaDesc', { name, inPlace: village ? inPlace(village.item.slug, locale) : place, features: featureText || plainText(pick(beach, 'description', locale), 60) }),
+      : generatedDesc,
     image: beach.image_url,
     imageAlt: greekAlt(beach.image_alt, locale) ?? name,
     indexableLocales: (await beachIndex())[slug] ?? [],
@@ -119,7 +139,13 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
     : [[], [], []];
   const otherBeaches = beaches.filter((b) => b.item.slug !== slug).slice(0, 6);
 
-  const shore = f.includes('sandy') && f.includes('pebble') ? t('faqMixedShoreA') : f.includes('sandy') ? t('faqSandyA') : f.includes('pebble') ? t('faqPebbleA') : null;
+  // Shore, depth and Blue Flag come only from official sources
+  // (src/content/beach-facts.ts): checked against them, the sandy/pebble and
+  // shallowWater tags were wrong for several beaches (2026-11 audit).
+  const profile = BEACH_PROFILES[slug];
+  const blueFlag = BLUE_FLAG_2026.has(slug);
+  const shore = profile?.coast ? t(profile.coast === 'sand-fine' ? 'shoreSandFine' : profile.coast === 'sand-coarse' ? 'shoreSandCoarse' : 'shoreSand') : null;
+  const depth = profile?.depth5m ? formatMetres(profile.depth5m, locale) : null;
   const organized = f.includes('organized') || f.includes('sunbeds');
   const access = organized && f.includes('free') ? t('mixedValue') : organized ? t('organizedValue') : f.includes('free') ? t('freeValue') : null;
   const villageName = village ? placeName(village.item.slug, locale, village.item) : null;
@@ -134,17 +160,20 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
         inArea: AREA_LOCATIVE[beach.area][locale],
         km: formatDistance(village.km, locale),
         fromPlace: fromPlace(village.item.slug, locale, village.item),
-        minutes: driveMinutes(village.km),
       }),
     });
   }
-  if (shore) faqs.push({ q: t('faqShoreQ'), a: shore });
-  if (f.includes('shallowWater')) faqs.push({ q: t('faqKidsQ'), a: t('faqKidsA') });
+  if (shore) faqs.push({ q: t('faqShoreQ'), a: t('faqShoreOfficialA', { shore }) });
+  if (profile?.shallow !== undefined) {
+    const key = profile.shallow ? 'faqShallowYesA' : 'faqShallowNoA';
+    faqs.push({ q: t('faqShallowQ'), a: depth ? `${t(key)} ${t('faqDepthA', { m: depth })}` : t(key) });
+  }
   if (organized) faqs.push({ q: t('faqSunbedsQ'), a: t('faqSunbedsA') });
   if (f.includes('parking')) faqs.push({ q: t('faqParkingQ'), a: t('faqParkingA') });
   if (f.includes('nudist')) faqs.push({ q: t('faqNudistQ'), a: t('faqNudistA') });
-  if (f.includes('blue-flag')) faqs.push({ q: t('faqBlueFlagQ'), a: t('faqBlueFlagA') });
-  if (f.includes('accessible')) faqs.push({ q: t('faqAccessibleQ'), a: t('faqAccessibleA') });
+  if (blueFlag) faqs.push({ q: t('faqBlueFlagQ'), a: t('faqBlueFlagOfficialA', { year: BLUE_FLAG_YEAR }) });
+  if (LIFEGUARD_REQUIRED.has(slug)) faqs.push({ q: t('faqLifeguardQ'), a: t('faqLifeguardA', { years: LIFEGUARD_YEARS }) });
+  if (SEATRAC_BEACHES[slug]) faqs.push({ q: t('faqAccessibleQ'), a: t('faqSeatracA') });
 
   return (
     <Container>
@@ -193,10 +222,52 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
                 ) : AREA_NAMES[beach.area][locale],
               },
               { label: t('shore'), value: shore },
+              {
+                label: t('blueFlagLabel'),
+                value: blueFlag ? (
+                  <a href={BLUE_FLAG_SOURCE} target="_blank" rel="noopener" className="text-sea-700 hover:underline">
+                    {t('blueFlagValue', { year: BLUE_FLAG_YEAR })}
+                  </a>
+                ) : null,
+              },
+              {
+                label: t('officialLabel'),
+                value: profile ? (
+                  <>
+                    {[
+                      profile.shallow === true && t('factShallow'),
+                      profile.shallow === false && t('factNormalDepth'),
+                      depth && t('factDepth5m', { m: depth }),
+                      profile.lengthM && t('factLength', { m: formatMetres(profile.lengthM, locale) }),
+                    ].filter(Boolean).join(' · ')}
+                    {' '}
+                    <a href={PROFILE_SOURCE(profile.profile)} target="_blank" rel="noopener" className="whitespace-nowrap text-sea-700 hover:underline">
+                      {t('officialProfile')}
+                    </a>
+                  </>
+                ) : null,
+              },
+              {
+                label: t('lifeguardLabel'),
+                value: LIFEGUARD_REQUIRED.has(slug) ? (
+                  <a href={LIFEGUARD_SOURCE} target="_blank" rel="noopener" className="text-sea-700 hover:underline">
+                    {t('lifeguardValue')}
+                  </a>
+                ) : null,
+              },
+              {
+                label: t('seatracLabel'),
+                value: SEATRAC_BEACHES[slug] ? (
+                  <a href={SEATRAC_SOURCE(SEATRAC_BEACHES[slug])} target="_blank" rel="noopener" className="text-sea-700 hover:underline">
+                    {t('seatracValue')}
+                  </a>
+                ) : null,
+              },
               { label: t('access'), value: access },
               {
                 label: t('features'),
-                value: f.filter((x) => labels.has(x) && !['sandy', 'pebble', 'free', 'organized'].includes(x)).map((x) => labels(x)).join(' · ') || null,
+                // Shore, depth and Blue Flag are shown from official sources above, never from tags.
+                value: f.filter((x) => labels.has(x) && !OFFICIAL_ONLY.includes(x) && !['free', 'organized'].includes(x)).map((x) => labels(x)).join(' · ') || null,
               },
             ]}
           />
@@ -266,7 +337,7 @@ export default async function BeachPage({ params }: PageProps<'/[locale]/beaches
           // No aggregateRating: Google accepts review snippets only on types such as LocalBusiness,
           // Product or Event; on Beach/TouristAttraction Search Console flags it as an invalid
           // <parent_node>. The rating is still shown on the page.
-          amenityFeature: f
+          amenityFeature: documentedFeatures(slug, f)
             .filter((x) => labels.has(x))
             .map((x) => ({ '@type': 'LocationFeatureSpecification', name: labels(x), value: true })),
         }}

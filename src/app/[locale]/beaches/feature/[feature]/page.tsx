@@ -12,6 +12,7 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, PageIntro, Section } from '@/components/ui/Layout';
+import { documentedFeatures } from '@/lib/content/beach-documented';
 import { greekAlt } from '@/lib/content/format';
 
 export const revalidate = 86400;
@@ -25,7 +26,7 @@ async function load(feature: string) {
   if (!KEPT_FEATURES.includes(feature)) return null;
   const all = await getBeaches();
   const list = all
-    .filter((b) => (b.features ?? []).includes(feature))
+    .filter((b) => documentedFeatures(b.slug, b.features).includes(feature))
     .sort((a, b) => (b.rating ?? 0) * (b.reviews_count ? 1 : 0) - (a.rating ?? 0) * (a.reviews_count ? 1 : 0) || Number(Boolean(b.image_url)) - Number(Boolean(a.image_url)));
   return list;
 }
@@ -95,7 +96,7 @@ export default async function FeaturePage({ params }: PageProps<'/[locale]/beach
                   image={b.image_url}
                   imageAlt={greekAlt(b.image_alt, locale)}
                   priority={i < 2}
-                  badges={(b.features ?? []).filter((f) => f !== feature && labels.has(f)).slice(0, 2).map((f) => labels(f))}
+                  badges={documentedFeatures(b.slug, b.features).filter((f) => f !== feature && labels.has(f)).slice(0, 2).map((f) => labels(f))}
                   {...ratingProps(b, 'beach')}
                 />
               ))}

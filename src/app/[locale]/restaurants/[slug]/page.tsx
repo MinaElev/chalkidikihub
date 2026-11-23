@@ -10,7 +10,7 @@ import { closestVillage, displayName, nearBeaches, nearRestaurants, ratingProps 
 import { AREA_NAMES, inPlace, placeName } from '@/lib/content/place-names';
 import { formatDistance, formatList, greekAlt } from '@/lib/content/format';
 import { parseHours, hoursSummary } from '@/lib/content/hours';
-import { plainText, renderRichText } from '@/lib/content/render';
+import { plainText } from '@/lib/content/render';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { restaurantIndex } from '@/lib/seo/indexability';
 import { addressLd, geoLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
@@ -25,6 +25,10 @@ import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
 import { renderLinked } from '@/lib/content/autolink';
+import { BLUE_FLAG_2026, BLUE_FLAG_YEAR } from '@/content/beach-facts';
+import { MUNICIPALITY_NAMES, VILLAGE_FACTS } from '@/content/village-facts';
+import { COORDS_IN_DOUBT } from '@/content/restaurant-checks';
+import { isNearestBeach } from '@/lib/content/beach-coverage';
 import { detailParams } from '@/lib/build-params';
 
 export const revalidate = 86400;
@@ -94,11 +98,37 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
   const [beaches, food] = geo ? await Promise.all([nearBeaches(r, 4), nearRestaurants(r, 5)]) : [[], []];
   const otherFood = food.filter((f) => f.item.slug !== slug).slice(0, 4);
 
+  // Location facts from our own verified data: coordinates, ELSTAT municipality,
+  // EEPF Blue Flag list. Distances are straight-line, and the text says so.
+  const nearestBeach = !COORDS_IN_DOUBT.has(slug) && beaches[0] && isNearestBeach(r, beaches[0].km) ? beaches[0] : undefined;
+  const facts = village ? VILLAGE_FACTS[village.item.slug] : undefined;
+  const beachArgs = nearestBeach
+    ? {
+        beach: displayName(nearestBeach.item, locale, 'beach'),
+        beachKm: formatDistance(nearestBeach.km, locale),
+        flag: BLUE_FLAG_2026.has(nearestBeach.item.slug) ? 'yes' : 'no',
+        year: BLUE_FLAG_YEAR,
+      }
+    : null;
+  const locationText = village && !COORDS_IN_DOUBT.has(slug)
+    ? [
+        t('locationFacts', {
+          name,
+          village: villageName!,
+          villageKm: formatDistance(village.km, locale),
+          municipality: facts ? MUNICIPALITY_NAMES[facts.municipality][locale] : 'none',
+        }),
+        beachArgs ? t('locationBeach', beachArgs) : '',
+      ].filter(Boolean).join(' ')
+    : null;
+
   const faqs: FaqItem[] = [];
   if (hours.length) faqs.push({ q: t('faqHoursQ'), a: t('faqHoursA', { hours: hoursSummary(r.hours as string, locale) }) });
   if (r.accepts_reservations) faqs.push({ q: t('faqReservationsQ'), a: `${t('faqReservationsA')}${phone ? ` ${t('faqPhoneA', { phone })}` : ''}` });
   if (r.has_sea_view) faqs.push({ q: t('faqSeaViewQ'), a: t('faqSeaViewA') });
   if (r.price_level && t.has(`faqPrice_${r.price_level}`)) faqs.push({ q: t('faqPriceQ'), a: t(`faqPrice_${r.price_level}`) });
+
+  if (beachArgs) faqs.push({ q: t('faqNearestBeachQ', { name }), a: t('faqNearestBeachA', beachArgs) });
 
   const rating = ratingProps(r, 'restaurant');
 
@@ -136,6 +166,7 @@ export default async function RestaurantPage({ params }: PageProps<'/[locale]/re
         <div>
           {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
           <Prose html={await renderLinked(body.text, locale, `/restaurants/${slug}`)} />
+          {locationText && <p className="mt-6 max-w-3xl leading-relaxed text-slate-700">{locationText}</p>}
         </div>
         <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
           <FactList

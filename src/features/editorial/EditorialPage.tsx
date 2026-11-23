@@ -1,6 +1,6 @@
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
-import { renderRichText, withHeadingIds } from '@/lib/content/render';
+import { withHeadingIds } from '@/lib/content/render';
 import type { Crumb } from '@/lib/seo/jsonld';
 import { localeUrl, SITE_NAME, SITE_URL } from '@/lib/seo/site';
 import { JsonLd } from '@/components/seo/JsonLd';

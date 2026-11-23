@@ -21,7 +21,8 @@ export type PageSeo = {
 };
 
 const TITLE_MAX = 60;
-const DESC_MAX = 158;
+/** Longest meta description before it is clipped (Google shows ~155–160 characters). */
+export const DESC_MAX = 158;
 
 function clip(text: string, max: number) {
   const t = text.replace(/\s+/g, ' ').trim();

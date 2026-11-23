@@ -11,6 +11,7 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Container, PageIntro, Section } from '@/components/ui/Layout';
+import { documentedFeatures } from '@/lib/content/beach-documented';
 import { Link } from '@/i18n/navigation';
 
 /**
@@ -120,7 +121,7 @@ export default async function BeachAreaPage({ params }: PageProps<'/[locale]/bea
                 eyebrow={name || undefined}
                 image={b.image_url}
                 imageAlt={greekAlt(b.image_alt, locale)}
-                badges={(b.features ?? []).filter((f) => labels.has(f)).slice(0, 2).map((f) => labels(f))}
+                badges={documentedFeatures(b.slug, b.features).filter((f) => labels.has(f)).slice(0, 2).map((f) => labels(f))}
                 priority={i === 0 && j < 2}
                 {...ratingProps(b, 'beach')}
               />

@@ -113,6 +113,9 @@ export const BEST_MERGES: Record<string, string> = {
   'camping-spots': '/guide/camping',
   'romantic-getaways': '/listings',
   'luxury-hotels': '/listings',
+  // Listed the beaches tagged "pebble"; the official profiles show two of the five are sandy
+  // and nothing confirms the rest (2026-11-23). The snorkelling activity owns the intent.
+  'snorkeling-spots': '/activities/sithonia-snorkeling-sithonia',
 };
 
 /** Beach feature pages: kept ones stay; these fold elsewhere. */
@@ -122,8 +125,11 @@ export const FEATURE_MERGES: Record<string, string> = {
   waterSports: '/best/water-sports',
   organized: '/beaches',
   lifeguard: '/beaches',
+  pebble: '/beaches',
 };
-export const KEPT_FEATURES = ['nudist', 'free', 'parking', 'accessible', 'pebble', 'blue-flag', 'sunbeds', 'sandy'];
+// 'pebble' left on 2026-11-23: no official source confirms any pebble beach, and the
+// two pebble tags that could be checked were sandy beaches (audit/sources/BEACH-DATA-AUDIT.md).
+export const KEPT_FEATURES = ['nudist', 'free', 'parking', 'accessible', 'blue-flag', 'sunbeds', 'sandy'];
 
 export const KEPT_RESTAURANT_CATEGORIES = ['brunch'];
 export const RESTAURANT_CATEGORY_MERGES: Record<string, string> = {
@@ -240,8 +246,8 @@ const LEGACY_SLUG_FIXES: Array<[string, string]> = [
   ['/blog/paralia-sithonia-klimataria-beach', '/beaches/sithonia-klimataria-beach'],
   ['/blog/paralia-sarti-athos', '/beaches/sarti-sithonia'],
   ['/beaches/vourvourou-beach-sithonia', '/beaches/vourvourou-sithonia'],
-  ['/blog/carWash', '/blog'],
-  ['/blog/tiki-Floating', '/blog'],
+  // One rule for both (the platform's route table is kept small).
+  ['/blog/:slug(carWash|tiki-Floating)', '/blog'],
   ['/places/pyrgadikia-mainland', '/places/pyrgadikia'],
   // v3 spelling of Arnaia, and the Athos monastery v3 listed as a village.
   ['/places/arnea', '/places/arnaia'],
@@ -253,6 +259,25 @@ const LEGACY_SLUG_FIXES: Array<[string, string]> = [
   // There is no authors index; the bylines link to /authors/{username}.
   ['/authors', '/about'],
 ];
+
+/**
+ * Beach rows that duplicate another beach (public slug → the page that stays).
+ * Hidden from every list (lib/db/content.ts) and redirected. 2026-11-23: two
+ * entries described Hanioti's main beach; the older page had the traffic.
+ */
+export const MERGED_BEACHES: Record<string, string> = {
+  'paralia-chanioti-kassandra': 'hanioti-kassandra',
+};
+
+/**
+ * Restaurant rows describing a venue that does not exist (public slug → where
+ * visitors go instead). Hidden from every list (lib/db/content.ts). 2026-11-23:
+ * "Meliton" is Porto Carras's hotel, not a restaurant; the resort's fine-dining
+ * room is Crystals (portocarras.com/dining). Row kept in the database.
+ */
+export const REMOVED_RESTAURANTS: Record<string, string> = {
+  'meliton-porto-carras': '/places/neos-marmaras/restaurants',
+};
 
 /** Listings removed from the database that still had impressions; folded into their village. */
 export const REMOVED_LISTINGS: Record<string, string> = {
@@ -267,7 +292,14 @@ export function buildRedirects(): Rule[] {
   const rules: Rule[] = [];
 
   for (const [from, to] of LEGACY_SLUG_FIXES) rules.push(...both(from, to));
-  for (const [article, village] of Object.entries(BLOG_TO_PLACE)) rules.push(...both(`/blog/${article}`, `/places/${village}`));
+  // "odigos-gia-{village}" → "/places/{village}" in one rule pair; the rest one by one.
+  const sameSlug = Object.entries(BLOG_TO_PLACE).filter(([a, v]) => a === `odigos-gia-${v}`).map(([, v]) => v);
+  if (sameSlug.length) rules.push(...both(`/blog/odigos-gia-:village(${sameSlug.join('|')})`, '/places/:village'));
+  for (const [article, village] of Object.entries(BLOG_TO_PLACE)) {
+    if (article !== `odigos-gia-${village}`) rules.push(...both(`/blog/${article}`, `/places/${village}`));
+  }
+  for (const [from, to] of Object.entries(MERGED_BEACHES)) rules.push(...both(`/beaches/${from}`, `/beaches/${to}`));
+  for (const [from, to] of Object.entries(REMOVED_RESTAURANTS)) rules.push(...both(`/restaurants/${from}`, to));
   rules.push(...grouped('/blog', BLOG_MERGES));
   // One rule pair per village (the platform caps the number of redirects).
   const removedByVillage = new Map<string, string[]>();
