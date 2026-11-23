@@ -1,5 +1,4 @@
-import { notFound, permanentRedirect } from 'next/navigation';
-import { hasGreek } from '@/lib/content/translit';
+import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
@@ -45,19 +44,6 @@ async function load(slug: string) {
   return { a, village, reviews, rating: ratingOf(reviews) };
 }
 
-/** Hyphenated, lower-case, accent-free form of a Greek name, as v3 put it in URLs. */
-const greekKey = (s: string) =>
-  s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/ς/g, 'σ').replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
-
-async function slugFromGreekName(slug: string): Promise<string | null> {
-  let decoded = slug;
-  try { decoded = decodeURIComponent(slug); } catch { return null; }
-  if (!hasGreek(decoded)) return null;
-  const key = greekKey(decoded);
-  const hit = (await getActivities()).find((x) => typeof x.name_el === 'string' && greekKey(x.name_el) === key);
-  return hit?.slug ?? null;
-}
-
 export async function generateMetadata({ params }: PageProps<'/[locale]/activities/[slug]'>) {
   const { locale: raw, slug } = await params;
   const locale = raw as Locale;
@@ -90,13 +76,8 @@ export default async function ActivityPage({ params }: PageProps<'/[locale]/acti
   const locale = raw as Locale;
   setRequestLocale(locale);
   const data = await load(slug);
-  if (!data) {
-    // v3 linked some activities by their Greek name (/activities/μουσείο-…);
-    // send those to the Latin slug instead of a 404.
-    const target = await slugFromGreekName(slug);
-    if (target) permanentRedirect(`${locale === 'el' ? '' : `/${locale}`}/activities/${target}`);
-    notFound();
-  }
+  // Greek-named v3 URLs (/activities/μουσείο-…) are redirected in proxy.ts.
+  if (!data) notFound();
   const { a, village, reviews, rating } = data;
 
   const [t, shell, common, cats] = await Promise.all([

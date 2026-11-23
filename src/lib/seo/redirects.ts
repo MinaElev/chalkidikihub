@@ -337,6 +337,50 @@ export function resolveInLocation(location: string, category: string): string | 
     : `/places/${village}`;
 }
 
+/**
+ * v3 linked some activities by their Greek name (/activities/μουσείο-…), which
+ * GSC reports as 404s. Keyed by the folded Greek name (greekSlugKey), from the
+ * activities table on 2026-11-23. Matched in proxy.ts: a redirect thrown from
+ * the ISR page was cached as a 308 without a Location header.
+ */
+const GREEK_ACTIVITY_SLUGS: Record<string, string> = {
+  'αρχαια-ολυνθοσ': 'ancient-olynthos',
+  'αρχαια-σταγειρα': 'ancient-stagira',
+  'αρχαια-τορωνη-ληκυθοσ': 'ancient-toroni-lekythos',
+  'εκκλησια-του-αγιου-αντωνιου': 'church-of-agios-antonios',
+  'βολτα-με-βαρκα-στο-διαπορο': 'diaporos-island-boat-trip',
+  'μουσειο-αλιευτικων-σκαφων-εργαλειων': 'fisheries-museum',
+  'jet-ski-στη-σιθωνια': 'jet-ski-sithonia',
+  'υδατινο-παρκο-σανη': 'kassandra-aquapark',
+  'λαογραφικο-μουσειο-μουδανιων': 'laografiko-mouseio-moudanion',
+  'κρουαζιερα-γυρω-απο-το-αγιο-οροσ': 'mount-athos-cruise',
+  'μουσειο-μικρασιατικου-πολιτισμου': 'mouseio-mikrasiatikoy-politismoy',
+  'ιστιοπλοια-στον-νεο-μαρμαρα': 'neos-marmaras-sailing-sithonia',
+  'βολτα-στην-παλια-νικητη': 'old-nikiti-village-walk',
+  'σπηλαιο-πετραλωνων': 'petralona-cave',
+  'καταδυση-στην-κασσανδρα': 'scuba-diving-kassandra',
+  'ποδηλατικη-διαδρομη-σιθωνιασ': 'sithonia-cycling-trail-sithonia',
+  'σνορκελινγκ-στη-σιθωνια': 'sithonia-snorkeling-sithonia',
+  'ιερο-του-ποσειδωνα-στο-ποσειδι': 'temple-of-poseidon-posidi',
+  'παραλια-τορωνη': 'toroni-beach-sithonia',
+  'θεα-προσ-το-αγιο-οροσ': 'viewpoint-of-mount-athos',
+  'γευσιγνωσια-κρασιου': 'wine-tasting-halkidiki',
+};
+
+/** Lower-case, accent-free, hyphenated form of a Greek name ("Μουσείο Μικρασιατικού" → "μουσειο-μικρασιατικου"). */
+export const greekSlugKey = (s: string) =>
+  s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/ς/g, 'σ').replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
+
+/** Final URL for a Greek-named activity path ("/en/activities/μουσείο-…"), or null. */
+export function greekActivityRedirect(pathname: string): string | null {
+  let decoded: string;
+  try { decoded = decodeURIComponent(pathname); } catch { return null; }
+  const m = /^(\/(?:en|de|ro|bg|sr|ru))?\/activities\/([^/]+)\/?$/.exec(decoded);
+  if (!m || !/[Ͱ-Ͽ]/.test(m[2])) return null;
+  const slug = GREEK_ACTIVITY_SLUGS[greekSlugKey(m[2])];
+  return slug ? `${m[1] ?? ''}${resolveInternal(`/activities/${slug}`)}` : null;
+}
+
 type Pattern = { re: RegExp; names: string[]; destination: string };
 let compiled: { exact: Map<string, string>; patterns: Pattern[] } | null = null;
 

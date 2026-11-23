@@ -204,6 +204,17 @@ describe('internal link resolution', () => {
     expect(resolveInternal('/beaches/karidi-sithonia')).toBe('/beaches/karidi-sithonia');
   });
 
+  it('sends Greek-named activity URLs to the Latin slug, in every locale', async () => {
+    const { greekActivityRedirect } = await import('@/lib/seo/redirects');
+    const greek = encodeURIComponent('μουσείο-μικρασιατικού-πολιτισμού');
+    expect(greekActivityRedirect(`/en/activities/${greek}`)).toBe('/en/activities/mouseio-mikrasiatikoy-politismoy');
+    expect(greekActivityRedirect(`/activities/${greek}`)).toBe('/activities/mouseio-mikrasiatikoy-politismoy');
+    // Follows later redirects in one hop (this activity moved to its beach page).
+    expect(greekActivityRedirect(`/activities/${encodeURIComponent('παραλία-τορώνη')}`)).toBe('/beaches/toroni-beach-sithonia');
+    expect(greekActivityRedirect('/activities/mouseio-mikrasiatikoy-politismoy')).toBeNull();
+    expect(greekActivityRedirect(`/activities/${encodeURIComponent('άγνωστο')}`)).toBeNull();
+  });
+
   it('folds the 404s Search Console reported on 2026-11-23 into their successors', async () => {
     const { resolveInternal } = await import('@/lib/seo/redirects');
     expect(resolveInternal('/places/arnea')).toBe('/places/arnaia');

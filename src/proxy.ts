@@ -2,6 +2,7 @@ import createIntlMiddleware from 'next-intl/middleware';
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { routing } from '@/i18n/routing';
+import { greekActivityRedirect } from '@/lib/seo/redirects';
 
 const intl = createIntlMiddleware(routing);
 
@@ -14,6 +15,8 @@ export async function proxy(request: NextRequest) {
   // Token links (/r/, /requests/, /guest/ ...) keep their case.
   // Percent-escapes (%CE%B1) are left alone: their hex case means nothing.
   const { pathname } = request.nextUrl;
+  const greek = greekActivityRedirect(pathname);
+  if (greek) return NextResponse.redirect(new URL(greek, request.url), 308);
   if (/[A-Z]/.test(pathname.replace(/%[0-9A-F]{2}/gi, '')) && !PRIVATE.test(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = pathname.replace(/(%[0-9A-F]{2})|[^%]+/gi, (part, esc) => esc ?? part.toLowerCase());
