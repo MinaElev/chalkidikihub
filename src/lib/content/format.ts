@@ -1,4 +1,6 @@
 import { htmlLang, type Locale } from '@/i18n/config';
+import { BEACH_ALT_FIXES } from '@/content/rewrites/beach-alts';
+import { VERIFIED_ALTS } from '@/content/rewrites/image-alts';
 
 const UNITS: Record<Locale, { km: string; m: string }> = {
   el: { km: 'χλμ.', m: 'μ.' },
@@ -35,12 +37,21 @@ export function formatPrice(amount: number, locale: Locale, currency = 'EUR'): s
 
 export const capitalize = (s: string) => (s ? s[0].toLocaleUpperCase() + s.slice(1) : s);
 
+const BRAND_TAIL = /\s*[-|–—]\s*ChalkidikiHub\s*$/i;
+/** Hand-corrected "beach, village, area" alts: right on Greek pages, untranslated. */
+const CORRECTED_EL = new Set(Object.values(BEACH_ALT_FIXES).map((f) => f.image_alt).filter(Boolean));
+
 /**
- * The database keeps one image_alt per row, written in Greek. It describes
- * the photo on Greek pages; elsewhere it would be a Greek sentence on an
- * English (German, Russian...) page, so callers fall back to the item's
- * localised name instead.
+ * The photo description to show, in the page's language, or undefined so the
+ * caller falls back to the item's localised name. Only descriptions written
+ * after looking at the photo are used (VERIFIED_ALTS, with translations);
+ * the rest of the stored alts are English guesses or v3 formulas that could
+ * name the wrong place. (The name is historical: these used to be Greek-only.)
  */
 export function greekAlt(alt: unknown, locale: string): string | undefined {
-  return locale === 'el' && typeof alt === 'string' && alt.trim() ? alt : undefined;
+  if (typeof alt !== 'string') return undefined;
+  const clean = alt.replace(BRAND_TAIL, '').trim();
+  const verified = VERIFIED_ALTS[clean];
+  if (locale === 'el') return verified || CORRECTED_EL.has(clean) ? clean : undefined;
+  return verified?.[locale as keyof typeof verified];
 }

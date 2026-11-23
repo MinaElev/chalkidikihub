@@ -3,7 +3,7 @@ import { DistanceTable } from '@/features/editorial/DistanceTable';
 import { fromCities } from '@/lib/editorial';
 
 export const revalidate = 86400;
-export const dynamicParams = false;
+// No dynamicParams = false: in Next 16 an on-demand revalidation (admin save) then caches a 404 (NoFallbackError) for every page of the route. Unknown params still 404 via notFound().
 
 const route = editorialRoute({
   list: fromCities, base: '/from', param: 'city', sectionKey: 'secFrom', sectionHref: '/from',

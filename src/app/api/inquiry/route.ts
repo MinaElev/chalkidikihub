@@ -1,5 +1,6 @@
 import { after, NextResponse, type NextRequest } from 'next/server';
 import { adminDb } from '@/lib/supabase/clients';
+import { dbSlug } from '@/content/rewrites/slug-renames';
 import { allowRequest } from '@/lib/rate-limit';
 import { emailLayout, escapeHtml, sendMail } from '@/lib/email/mailer';
 import { isLocale } from '@/i18n/config';
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest) {
   const { data: listing } = await db
     .from('listings')
     .select('id, slug, title_el, owner_id, contact_email, status')
-    .eq('slug', slug)
+    .eq('slug', dbSlug('listings', slug))
     .eq('status', 'published')
     .maybeSingle();
   if (!listing) return NextResponse.json({ error: 'not-found' }, { status: 404 });

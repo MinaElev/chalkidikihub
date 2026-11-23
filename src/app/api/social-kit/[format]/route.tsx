@@ -2,6 +2,7 @@
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
 import { createApiClient } from '@/lib/api-helpers';
+import { dbSlug } from '@/content/rewrites/slug-renames';
 
 // Edge runtime matches the working /api/og route; qrcode lib replaced with
 // an external image fetch so no Node-only Buffer/canvas APIs are needed.
@@ -85,7 +86,7 @@ export async function GET(
     const { data: listing, error } = await supabase
       .from('listings')
       .select('title_el, title_en, tagline_el, tagline_en, location_name, guests_max, bedrooms, bathrooms, slug, listing_images(image_url, is_cover, sort_order)')
-      .eq('slug', slug)
+      .eq('slug', dbSlug('listings', slug))
       .single();
 
     if (error || !listing) {

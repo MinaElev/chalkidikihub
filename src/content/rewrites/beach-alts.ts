@@ -15,9 +15,11 @@ export const BEACH_ALT_FIXES: Record<string, Record<string, string>> = {
   'paralia-chanoti-grecotel-sithonia': { image_alt: 'Παραλία Χανιώτη (Grecotel), Κασσάνδρα', location_name: 'Παραλία Χανιώτη (Grecotel), Χανιώτη' },
   'chrousou-beach-sithonia': { image_alt: 'Παραλία Χρουσώ, Παλιούρι, Κασσάνδρα' },
   'agridia-athos': { image_alt: 'Παραλία Αγριδιά, Σάρτη, Σιθωνία' },
-  'tigania-beach-athos': { image_alt: 'Παραλία Τηγανιά, Καλαμίτσι, Σιθωνία' },
+  // Describes the photo uploaded on 23/11/2026 (kept in step with the database by scripts/apply-image-seo.mjs).
+  'tigania-beach-athos': { image_alt: 'Η παραλία Τηγανιά στο Καλαμίτσι της Σιθωνίας, με λείους βράχους, ψάθινες ομπρέλες και ρηχά τιρκουάζ νερά' },
   'paralia-vergias-kassandra': { image_alt: 'Παραλία Βεργιάς, Νέα Τρίγλια, ενδοχώρα Χαλκιδικής' },
-  'prassou-beach-athos': { image_alt: 'Παραλία Πράσσου (Ρόμπινσον), Καλαμίτσι, Σιθωνία', location_name: 'Παραλία Πράσσου (Ρόμπινσον), Καλαμίτσι' },
+  // Describes the photo uploaded on 23/11/2026 (kept in step with the database by scripts/apply-image-seo.mjs).
+  'prassou-beach-athos': { image_alt: 'Ο κολπίσκος της παραλίας Πράσσου (Ρόμπινσον) στο Καλαμίτσι, με αμμουδιά, λευκούς βράχους και το Άγιον Όρος στο βάθος', location_name: 'Παραλία Πράσσου (Ρόμπινσον), Καλαμίτσι' },
   'paralia-psakoydia-kassandra': { image_alt: 'Παραλία Ψακούδια, Γερακινή, ενδοχώρα Χαλκιδικής' },
   'beach-of-anthoupolis-kassandra': { image_alt: 'Παραλία Ανθούπολης, Νέα Τρίγλια, ενδοχώρα Χαλκιδικής' },
   'plagia-flogita-beach-kassandra': { image_alt: 'Παραλία Πλάγια-Φλογητά, Φλογητά, ενδοχώρα Χαλκιδικής' },

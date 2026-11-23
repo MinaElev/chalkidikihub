@@ -20,6 +20,7 @@ import { unstable_cache } from 'next/cache';
 import { locales } from '@/i18n/config';
 import { listingTitle } from '@/lib/content/listing-title';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
+import { dbSlug, publicSlug } from '@/content/rewrites/slug-renames';
 import type { Area, Beach, Restaurant, Activity, BlogArticle, Listing, Sale, AreaInfo } from '@/types';
 
 // Cache TTL for *BySlug detail fetchers. Set to 10 hours because:
@@ -325,7 +326,7 @@ export function transformListing(row: Record<string, unknown>) {
       created_at: r.created_at,
     }));
   return {
-    id: row.id, slug: row.slug, owner_id: row.owner_id,
+    id: row.id, slug: publicSlug('listings', String(row.slug)), owner_id: row.owner_id,
     // Business names stay as the owner wrote them (lib/content/listing-title.ts).
     title: Object.fromEntries(locales.map((l) => [l, listingTitle(row, l)])),
     description: {
@@ -443,7 +444,7 @@ export const getListingBySlug = unstable_cache(
     const supabase = createApiClient();
     const { data, error } = await supabase
       .from('listings').select(LISTING_FIELDS)
-      .eq('status', 'published').eq('slug', slug).maybeSingle();
+      .eq('status', 'published').eq('slug', dbSlug('listings', slug)).maybeSingle();
     if (error) throw new Error(`getListingBySlug supabase error for ${slug}: ${error.message}`);
     if (!data) return null;
     return transformListing(data as Record<string, unknown>) as unknown as Listing;

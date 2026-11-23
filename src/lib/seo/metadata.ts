@@ -36,14 +36,19 @@ function clip(text: string, max: number) {
  * gets pointed at a fallback translation; a non-indexable page gets
  * `noindex, follow` so it still passes link equity.
  */
+const BRAND_SUFFIX = new RegExp(`(\\s*[|–—-]\\s*${SITE_NAME})+\\s*$`, 'i');
+
 export function buildMetadata(seo: PageSeo): Metadata {
   // Pages that already earn clicks stay indexed even below the gate.
   const passing = seo.indexableLocales ?? locales;
   const indexable = locales.filter((l) => passing.includes(l) || isProven(l, seo.path));
   const isIndexable = indexable.includes(seo.locale);
   const canonical = localeUrl(seo.locale, seo.path);
-  const withBrand = seo.absoluteTitle || seo.title.length + SITE_NAME.length + 3 > TITLE_MAX;
-  const title = clip(withBrand ? seo.title : `${seo.title} | ${SITE_NAME}`, TITLE_MAX + 10);
+  // Hand-written titles in the database sometimes end with the brand already
+  // ("… Guide | ChalkidikiHub"); strip it so it is never shown twice.
+  const base = seo.absoluteTitle ? seo.title : seo.title.replace(BRAND_SUFFIX, '').trim();
+  const skipBrand = seo.absoluteTitle || base.length + SITE_NAME.length + 3 > TITLE_MAX;
+  const title = clip(skipBrand ? base : `${base} | ${SITE_NAME}`, TITLE_MAX + 10);
   const description = clip(seo.description, DESC_MAX);
   const images = [{ url: seo.image || DEFAULT_OG_IMAGE, alt: seo.imageAlt || seo.title }];
 

@@ -1,4 +1,5 @@
 // Guard: public read-only content.
+import { publicSlug } from '@/content/rewrites/slug-renames';
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
 import { cachedGet } from '@/lib/api-cache';
@@ -87,7 +88,7 @@ async function getHandler(request: NextRequest) {
   // Transform listings (title-based)
   function transformListingRows(rows: Record<string, unknown>[]): SearchItem[] {
     return rows.map((row) => ({
-      slug: row.slug as string,
+      slug: publicSlug('listings', row.slug as string),
       name: {
         el: (row.title_el as string) || '',
         en: (row.title_en as string) || '',

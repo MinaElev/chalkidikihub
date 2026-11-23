@@ -14,7 +14,7 @@ import { Container, Section } from '@/components/ui/Layout';
 import { greekAlt } from '@/lib/content/format';
 
 export const revalidate = 86400;
-export const dynamicParams = false;
+// No dynamicParams = false: in Next 16 an on-demand revalidation (admin save) then caches a 404 (NoFallbackError) for every page of the route. Unknown params still 404 via notFound().
 
 export function generateStaticParams() {
   return AUTHOR_LIST.map((a) => ({ username: a.username }));

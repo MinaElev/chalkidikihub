@@ -5,7 +5,7 @@ import { localizedColumns } from '@/lib/i18n/localize';
 import { cached, TAGS } from './cache';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
 import { withRewrite, withRowFix } from '@/content/rewrites';
-import { dbSlug } from '@/content/rewrites/slug-renames';
+import { dbSlug, publicSlug } from '@/content/rewrites/slug-renames';
 
 /*
  * Public content loaders. Tables are small (≤ ~150 rows), so "card" lists are
@@ -195,7 +195,7 @@ export const getListings = cached('listings:cards', [TAGS.listings, TAGS.reviews
     void _omit;
     const featured =
       r.plan === 'premium' && r.plan_status === 'active' && (!r.plan_expires_at || Date.parse(String(r.plan_expires_at)) > Date.now());
-    return { ...rest, cover_url: (cover as string) || null, featured } as unknown as ListingCard;
+    return { ...rest, slug: publicSlug('listings', String(r.slug)), cover_url: (cover as string) || null, featured } as unknown as ListingCard;
   }).sort((a, b) => Number(b.featured) - Number(a.featured));
 });
 
@@ -239,7 +239,7 @@ export const getListing = cached('listings:one', [TAGS.listings, TAGS.reviews], 
        listing_faqs(id, sort_order, ${localizedColumns('question', 'answer')}),
        listing_extras(id, sort_order, icon_key, price, currency, price_unit, included, ${localizedColumns('label', 'description')})`,
     )
-    .eq('slug', slug)
+    .eq('slug', dbSlug('listings', slug))
     .eq('status', 'published')
     .maybeSingle();
   if (error) throw new Error(`listing/${slug}: ${error.message}`);

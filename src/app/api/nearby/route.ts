@@ -1,4 +1,5 @@
 // Guard: public read-only content.
+import { publicSlug } from '@/content/rewrites/slug-renames';
 import { NextRequest, NextResponse } from 'next/server';
 import { createApiClient, toLocaleMap } from '@/lib/api-helpers';
 import { cachedGet } from '@/lib/api-cache';
@@ -97,7 +98,7 @@ async function getHandler(request: NextRequest) {
         return {
           id: r.id as string,
           type,
-          slug: r.slug as string,
+          slug: publicSlug(table, r.slug as string),
           name: toLocaleMap(r, useTitle ? 'title' : 'name'),
           distance_km: Math.round(d * 10) / 10,
           latitude: r.latitude as number,
