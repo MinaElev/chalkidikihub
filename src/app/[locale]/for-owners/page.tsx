@@ -2,7 +2,8 @@
 
 import { useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { Globe, Search, Sparkles, Users, CheckCircle, ArrowRight, Zap, ImageIcon } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowRight, BedDouble, CalendarDays, CalendarOff, Check, CheckCircle, Globe, Home, ImageIcon, Mail, MessageCircle, Percent, PlayCircle, Search, Sparkles, Users, Zap } from 'lucide-react';
 
 type ContentType = {
   hero: { title: string; subtitle: string; cta: string; cta2: string };
@@ -514,45 +515,227 @@ const content: Record<string, ContentType> = {
   },
 };
 
+type HeroCopy = {
+  badge: string;
+  /** The title in two parts; the second (the last word) is underlined. */
+  titleA: string;
+  titleB: string;
+  lead: string;
+  /** The line in bold. "Most owners receive requests": 62 of the 66 owners with a published listing had received one by Nov 2026. */
+  strong: string;
+  cta: string;
+  services: string;
+  benefits: [string, string, string, string];
+  /** The illustration on the right: an example, not a real listing or guest. */
+  demo: {
+    example: string; name: string; shown: string; place: string; beds: string; guests: string;
+    request: string; dates: string; party: string; ago: string; reply: string; replyText: string; noSync: string;
+  };
+};
+
+const hero: Record<string, HeroCopy> = {
+  el: {
+    badge: 'Για ιδιοκτήτες καταλυμάτων στη Χαλκιδική',
+    titleA: 'Προβάλετε το κατάλυμά σας στη Χαλκιδική και δεχτείτε απευθείας', titleB: 'αιτήματα',
+    lead: 'Φέρτε το κατάλυμά σας μπροστά σε στοχευμένο κοινό που ενδιαφέρεται για διακοπές στη Χαλκιδική, επικοινωνήστε απευθείας με επισκέπτες και λάβετε αιτήματα ενδιαφέροντος, χωρίς προμήθεια ανά κράτηση.',
+    strong: 'Δεν χρειάζεται σύνδεση διαθεσιμότητας: οι περισσότεροι ιδιοκτήτες λαμβάνουν αιτήματα ενδιαφέροντος.',
+    cta: 'Καταχωρήστε το κατάλυμά σας', services: 'Τι παρέχουμε',
+    benefits: ['Απευθείας αιτήματα', 'Χωρίς προμήθεια', 'Δεν απαιτείται live availability', 'Προβολή σε ταξιδιώτες της Χαλκιδικής'],
+    demo: {
+      example: 'Παράδειγμα', name: 'Το κατάλυμά σας', shown: 'Προβάλλεται', place: 'Σιθωνία, Χαλκιδική', beds: '3 υπνοδωμάτια', guests: 'έως 6 άτομα',
+      request: 'Νέο αίτημα ενδιαφέροντος', dates: '24 – 29 Ιουλίου', party: '2 ενήλικες + 1 παιδί', ago: 'πριν από 8 λεπτά',
+      reply: 'Απάντηση ιδιοκτήτη', replyText: '«Ευχαριστώ για το ενδιαφέρον! Το κατάλυμα είναι διαθέσιμο για τις ημερομηνίες που ζητάτε. Να σας στείλω περισσότερες πληροφορίες;»',
+      noSync: 'Χωρίς συγχρονισμό ημερολογίου',
+    },
+  },
+  en: {
+    badge: 'For accommodation owners in Halkidiki',
+    titleA: 'List your property in Halkidiki and receive direct', titleB: 'requests',
+    lead: 'Put your property in front of people who are planning a holiday in Halkidiki, talk to guests directly and receive enquiries, with no commission per booking.',
+    strong: 'You do not need to sync your availability: most owners receive enquiries.',
+    cta: 'List your property', services: 'What we offer',
+    benefits: ['Direct requests', 'No commission', 'No live availability needed', 'Seen by travellers to Halkidiki'],
+    demo: {
+      example: 'Example', name: 'Your property', shown: 'Listed', place: 'Sithonia, Halkidiki', beds: '3 bedrooms', guests: 'up to 6 guests',
+      request: 'New enquiry', dates: '24 – 29 July', party: '2 adults + 1 child', ago: '8 minutes ago',
+      reply: 'Owner’s reply', replyText: '“Thank you for your interest! The property is available on the dates you asked for. Shall I send you more details?”',
+      noSync: 'No calendar sync needed',
+    },
+  },
+  de: {
+    badge: 'Für Vermieter von Unterkünften auf Chalkidiki',
+    titleA: 'Präsentieren Sie Ihre Unterkunft auf Chalkidiki und erhalten Sie direkte', titleB: 'Anfragen',
+    lead: 'Zeigen Sie Ihre Unterkunft Menschen, die einen Urlaub auf Chalkidiki planen, kommunizieren Sie direkt mit Gästen und erhalten Sie Anfragen, ohne Provision pro Buchung.',
+    strong: 'Sie müssen Ihre Verfügbarkeit nicht synchronisieren: Die meisten Vermieter erhalten Anfragen.',
+    cta: 'Unterkunft eintragen', services: 'Was wir bieten',
+    benefits: ['Direkte Anfragen', 'Keine Provision', 'Keine Live-Verfügbarkeit nötig', 'Sichtbar für Chalkidiki-Reisende'],
+    demo: {
+      example: 'Beispiel', name: 'Ihre Unterkunft', shown: 'Online', place: 'Sithonia, Chalkidiki', beds: '3 Schlafzimmer', guests: 'bis zu 6 Gäste',
+      request: 'Neue Anfrage', dates: '24. – 29. Juli', party: '2 Erwachsene + 1 Kind', ago: 'vor 8 Minuten',
+      reply: 'Antwort des Vermieters', replyText: '„Vielen Dank für Ihr Interesse! Die Unterkunft ist an den gewünschten Tagen frei. Soll ich Ihnen weitere Informationen senden?“',
+      noSync: 'Ohne Kalendersynchronisierung',
+    },
+  },
+  bg: {
+    badge: 'За собственици на места за настаняване в Халкидики',
+    titleA: 'Представете имота си в Халкидики и получавайте директни', titleB: 'запитвания',
+    lead: 'Покажете имота си на хора, които планират почивка в Халкидики, общувайте директно с гостите и получавайте запитвания, без комисиона за резервация.',
+    strong: 'Не е нужно да синхронизирате заетостта: повечето собственици получават запитвания.',
+    cta: 'Регистрирайте имота си', services: 'Какво предлагаме',
+    benefits: ['Директни запитвания', 'Без комисиона', 'Без календар на живо', 'Видимост пред пътуващите към Халкидики'],
+    demo: {
+      example: 'Пример', name: 'Вашият имот', shown: 'Публикуван', place: 'Ситония, Халкидики', beds: '3 спални', guests: 'до 6 души',
+      request: 'Ново запитване', dates: '24 – 29 юли', party: '2 възрастни + 1 дете', ago: 'преди 8 минути',
+      reply: 'Отговор на собственика', replyText: '„Благодаря за интереса! Имотът е свободен за посочените дати. Да ви изпратя ли повече информация?“',
+      noSync: 'Без синхронизиране на календар',
+    },
+  },
+  ru: {
+    badge: 'Для владельцев жилья на Халкидиках',
+    titleA: 'Покажите своё жильё на Халкидиках и получайте прямые', titleB: 'запросы',
+    lead: 'Покажите своё жильё тем, кто планирует отдых на Халкидиках, общайтесь с гостями напрямую и получайте запросы без комиссии за бронирование.',
+    strong: 'Синхронизировать календарь не нужно: большинство владельцев получают запросы.',
+    cta: 'Разместить жильё', services: 'Что мы предлагаем',
+    benefits: ['Прямые запросы', 'Без комиссии', 'Календарь в реальном времени не нужен', 'Вас видят туристы, едущие на Халкидики'],
+    demo: {
+      example: 'Пример', name: 'Ваше жильё', shown: 'Опубликовано', place: 'Ситония, Халкидики', beds: '3 спальни', guests: 'до 6 гостей',
+      request: 'Новый запрос', dates: '24 – 29 июля', party: '2 взрослых + 1 ребёнок', ago: '8 минут назад',
+      reply: 'Ответ владельца', replyText: '«Спасибо за интерес! Жильё свободно на выбранные даты. Прислать вам больше информации?»',
+      noSync: 'Без синхронизации календаря',
+    },
+  },
+  ro: {
+    badge: 'Pentru proprietarii de cazări din Halkidiki',
+    titleA: 'Promovați-vă cazarea în Halkidiki și primiți direct', titleB: 'cereri',
+    lead: 'Aduceți-vă cazarea în fața unui public care își plănuiește vacanța în Halkidiki, comunicați direct cu turiștii și primiți cereri, fără comision pe rezervare.',
+    strong: 'Nu este nevoie să vă sincronizați disponibilitatea: majoritatea proprietarilor primesc cereri.',
+    cta: 'Înscrieți-vă cazarea', services: 'Ce oferim',
+    benefits: ['Cereri directe', 'Fără comision', 'Fără disponibilitate live', 'Vizibilitate în fața turiștilor din Halkidiki'],
+    demo: {
+      example: 'Exemplu', name: 'Cazarea dumneavoastră', shown: 'Publicată', place: 'Sithonia, Halkidiki', beds: '3 dormitoare', guests: 'până la 6 persoane',
+      request: 'Cerere nouă', dates: '24 – 29 iulie', party: '2 adulți + 1 copil', ago: 'acum 8 minute',
+      reply: 'Răspunsul proprietarului', replyText: '„Vă mulțumesc pentru interes! Cazarea este liberă în perioada dorită. Să vă trimit mai multe detalii?”',
+      noSync: 'Fără sincronizarea calendarului',
+    },
+  },
+  sr: {
+    badge: 'Za vlasnike smeštaja na Halkidikiju',
+    titleA: 'Predstavite svoj smeštaj na Halkidikiju i primajte direktne', titleB: 'upite',
+    lead: 'Predstavite svoj smeštaj ljudima koji planiraju odmor na Halkidikiju, komunicirajte direktno sa gostima i primajte upite, bez provizije po rezervaciji.',
+    strong: 'Nije potrebno da sinhronizujete dostupnost: većina vlasnika dobija upite.',
+    cta: 'Prijavite svoj smeštaj', services: 'Šta nudimo',
+    benefits: ['Direktni upiti', 'Bez provizije', 'Bez dostupnosti uživo', 'Vidljivost kod putnika za Halkidiki'],
+    demo: {
+      example: 'Primer', name: 'Vaš smeštaj', shown: 'Objavljeno', place: 'Sitonija, Halkidiki', beds: '3 spavaće sobe', guests: 'do 6 osoba',
+      request: 'Novi upit', dates: '24 – 29. jul', party: '2 odrasle osobe + 1 dete', ago: 'pre 8 minuta',
+      reply: 'Odgovor vlasnika', replyText: '„Hvala na interesovanju! Smeštaj je slobodan u traženom terminu. Da vam pošaljem više informacija?“',
+      noSync: 'Bez sinhronizacije kalendara',
+    },
+  },
+};
+
+const BENEFIT_ICONS = [Mail, Percent, CalendarOff, Users] as const;
+
 export default function ForOwnersPage() {
   const locale = useLocale();
   const t = content[locale] || content.en;
+  const h = hero[locale] || hero.en;
+  const d = h.demo;
 
   return (
     <div>
-      {/* Hero */}
-      <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white py-20 md:py-28">
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-        <div className="relative max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">{t.hero.title}</h1>
-          <p className="text-lg md:text-xl text-primary-100 mb-8 max-w-2xl mx-auto">{t.hero.subtitle}</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/auth/register" className="px-8 py-4 bg-white text-primary-700 font-bold rounded-xl text-lg hover:bg-primary-50 transition-colors shadow-lg">
-              {t.hero.cta}
-            </Link>
-            <Link href="/for-owners/services" className="px-8 py-4 border-2 border-white/30 text-white font-medium rounded-xl text-lg hover:bg-white/10 transition-colors">
-              {locale === 'el' ? 'Τι Παρέχουμε →' : locale === 'de' ? 'Was wir bieten →' : locale === 'bg' ? 'Какво предлагаме →' : locale === 'ru' ? 'Что мы предлагаем →' : locale === 'ro' ? 'Ce oferim →' : locale === 'sr' ? 'Šta nudimo →' : 'What We Offer →'}
-            </Link>
-            <a href="#how" className="px-8 py-4 border-2 border-white/30 text-white font-medium rounded-xl text-lg hover:bg-white/10 transition-colors">
-              {t.hero.cta2}
-            </a>
+      {/* Hero: light, like the home page, with an example of what an owner gets */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-sky-50 to-white">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[1.05fr_1fr] lg:py-16">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-full bg-sea-100 px-4 py-1.5 text-sm font-medium text-sea-800">
+              <Home className="size-4" aria-hidden /> {h.badge}
+            </p>
+            <h1 className="mt-5 text-3xl font-extrabold leading-[1.12] tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+              {h.titleA}{' '}
+              <span className="relative inline-block">
+                {h.titleB}
+                <span className="absolute inset-x-0 -bottom-1.5 h-1.5 rounded-full bg-sea-400/70" aria-hidden />
+              </span>
+            </h1>
+            <p className="mt-6 text-base leading-relaxed text-slate-600 sm:text-lg">
+              {h.lead} <strong className="font-bold text-gray-900">{h.strong}</strong>
+            </p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <Link href="/auth/register" className="inline-flex items-center justify-center gap-2 rounded-xl bg-sea-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-sea-600/30 transition-colors hover:bg-sea-700">
+                {h.cta} <ArrowRight className="size-5" aria-hidden />
+              </Link>
+              <a href="#how" className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-6 py-3.5 font-semibold text-sea-800 transition-colors hover:bg-sea-50">
+                <PlayCircle className="size-5" aria-hidden /> {t.hero.cta2}
+              </a>
+              <Link href="/for-owners/services" className="inline-flex items-center gap-1 px-2 py-2 text-sm font-semibold text-sea-700 hover:underline">
+                {h.services} <ArrowRight className="size-4" aria-hidden />
+              </Link>
+            </div>
+            <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-4 sm:divide-x sm:divide-gray-200">
+              {h.benefits.map((b, i) => {
+                const Icon = BENEFIT_ICONS[i];
+                return (
+                  <li key={b} className="sm:px-4 sm:first:pl-0">
+                    <span className="flex size-12 items-center justify-center rounded-2xl bg-sea-50 text-sea-600"><Icon className="size-6" aria-hidden /></span>
+                    <span className="mt-3 block text-sm font-semibold leading-snug text-gray-900">{b}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Illustration: an example listing, request and reply. Marked as an example; no real listing or guest. */}
+          <div className="relative isolate min-h-[30rem] overflow-hidden rounded-[2rem] p-5 shadow-xl sm:p-7" aria-label={d.example}>
+            <Image src="/images/hero/halkidiki-hero.webp" alt="" fill sizes="(min-width: 1024px) 45vw, 100vw" className="-z-20 object-cover" />
+            <span className="absolute inset-0 -z-10 bg-gradient-to-b from-sea-900/10 via-transparent to-sea-900/30" aria-hidden />
+            <p className="absolute left-5 top-5 rounded-full bg-gray-900/70 px-3 py-1 text-xs font-semibold text-white sm:left-7 sm:top-7">{d.example}</p>
+
+            <div className="ml-auto mt-10 max-w-xs rounded-2xl bg-white p-4 shadow-lg">
+              <div className="flex items-start justify-between gap-2">
+                <p className="font-bold text-gray-900">{d.name}</p>
+                <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700"><Check className="size-3" aria-hidden /> {d.shown}</span>
+              </div>
+              <p className="mt-0.5 text-sm text-slate-600">{d.place}</p>
+              <p className="mt-2 flex items-center gap-2 text-sm text-slate-600"><BedDouble className="size-4 text-sea-600" aria-hidden /> {d.beds}</p>
+              <p className="mt-1 flex items-center gap-2 text-sm text-slate-600"><Users className="size-4 text-sea-600" aria-hidden /> {d.guests}</p>
+            </div>
+
+            <div className="mt-5 max-w-sm rounded-2xl bg-white p-4 shadow-lg">
+              <div className="flex items-start justify-between gap-3">
+                <p className="flex items-center gap-2 font-bold text-gray-900"><Mail className="size-5 text-sea-600" aria-hidden /> {d.request}</p>
+                <span className="shrink-0 text-xs text-slate-500">{d.ago}</span>
+              </div>
+              <p className="mt-2 flex items-center gap-2 text-sm text-slate-700"><CalendarDays className="size-4 text-slate-400" aria-hidden /> {d.dates}</p>
+              <p className="mt-1 flex items-center gap-2 text-sm text-slate-700"><Users className="size-4 text-slate-400" aria-hidden /> {d.party}</p>
+            </div>
+
+            <div className="ml-auto mt-4 max-w-sm rounded-2xl bg-white p-4 shadow-lg">
+              <p className="flex items-center justify-between gap-2 font-bold text-gray-900">
+                <span className="flex items-center gap-2"><MessageCircle className="size-5 text-sea-600" aria-hidden /> {d.reply}</span>
+                <CheckCircle className="size-5 text-emerald-500" aria-hidden />
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700">{d.replyText}</p>
+            </div>
+
+            <p className="ml-auto mt-4 flex w-fit items-center gap-2 rounded-2xl bg-white/95 px-4 py-2.5 text-sm font-bold text-sea-800 shadow-lg">
+              <CalendarOff className="size-5" aria-hidden /> {d.noSync}
+            </p>
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
+      <section className="py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
           {/* h2 keeps the hero h1 from skipping straight to the h3 feature cards */}
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">{t.featuresTitle}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {t.features.map((f, idx) => (
-              <div key={idx} className="text-center p-6">
-                <div className="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <f.icon className="w-7 h-7 text-primary-600" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{f.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{f.desc}</p>
+          <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{t.featuresTitle}</h2>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {t.features.map((f) => (
+              <div key={f.title} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                <span className="flex size-12 items-center justify-center rounded-2xl bg-sea-50 text-sea-600"><f.icon className="size-6" aria-hidden /></span>
+                <h3 className="mt-4 text-lg font-bold text-gray-900">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -560,56 +743,50 @@ export default function ForOwnersPage() {
       </section>
 
       {/* How it works */}
-      <section id="how" className="py-16 md:py-24 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">{t.howItWorks.title}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {t.howItWorks.steps.map((step, idx) => (
-              <div key={idx} className="text-center">
-                <div className="w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                  {step.num}
-                </div>
-                <h3 className="font-bold text-gray-900 mb-1">{step.title}</h3>
-                <p className="text-sm text-gray-600">{step.desc}</p>
-                {idx < 3 && <ArrowRight className="w-5 h-5 text-primary-400 mx-auto mt-4 hidden md:block" />}
-              </div>
+      <section id="how" className="scroll-mt-20 bg-sky-50 py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{t.howItWorks.title}</h2>
+          <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {t.howItWorks.steps.map((step) => (
+              <li key={step.num} className="rounded-2xl bg-white p-6 shadow-sm">
+                <span className="flex size-10 items-center justify-center rounded-full bg-sea-600 text-lg font-bold text-white">{step.num}</span>
+                <h3 className="mt-4 font-bold text-gray-900">{step.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-slate-600">{step.desc}</p>
+              </li>
             ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Price and reasons, side by side */}
+      <section className="py-14 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2">
+          <div className="rounded-3xl border border-emerald-100 bg-emerald-50 p-7 sm:p-9">
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{t.free.title}</h2>
+            <p className="mt-4 text-3xl font-extrabold text-emerald-700 sm:text-4xl">{t.free.answer}</p>
+            <p className="mt-4 leading-relaxed text-slate-700">{t.free.desc}</p>
           </div>
-        </div>
-      </section>
-
-      {/* Free */}
-      <section className="py-16 md:py-24 bg-green-50">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">{t.free.title}</h2>
-          <div className="text-5xl font-bold text-green-600 mb-4">{t.free.answer}</div>
-          <p className="text-gray-600">{t.free.desc}</p>
-        </div>
-      </section>
-
-      {/* Why us */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">{t.whyUs.title}</h2>
-          <div className="space-y-3">
-            {t.whyUs.items.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-                <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
-                <span className="text-gray-700 font-medium">{item}</span>
-              </div>
-            ))}
+          <div className="rounded-3xl border border-gray-100 bg-white p-7 shadow-sm sm:p-9">
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{t.whyUs.title}</h2>
+            <ul className="mt-5 space-y-3">
+              {t.whyUs.items.map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <CheckCircle className="mt-0.5 size-5 shrink-0 text-emerald-500" aria-hidden />
+                  <span className="font-medium text-gray-800">{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 md:py-24 bg-primary-600 text-white text-center">
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.cta.title}</h2>
-          <p className="text-lg text-primary-100 mb-8">{t.cta.subtitle}</p>
-          <Link href="/auth/register"
-            className="inline-flex px-10 py-4 bg-white text-primary-700 font-bold rounded-xl text-lg hover:bg-primary-50 transition-colors shadow-lg">
-            {t.cta.button}
+      <section className="px-4 pb-4 sm:px-6">
+        <div className="mx-auto max-w-7xl rounded-3xl bg-gradient-to-br from-[#0b2540] to-[#0a3a5f] px-6 py-12 text-center text-white sm:py-16">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{t.cta.title}</h2>
+          <p className="mx-auto mt-3 max-w-xl text-lg text-white/85">{t.cta.subtitle}</p>
+          <Link href="/auth/register" className="mt-7 inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3.5 text-lg font-bold text-sea-800 shadow-lg transition-colors hover:bg-sea-50">
+            {h.cta} <ArrowRight className="size-5" aria-hidden />
           </Link>
         </div>
       </section>
