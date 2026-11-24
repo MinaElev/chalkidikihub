@@ -66,7 +66,7 @@ export function HomeDeals({ locale, areas, labels }: {
   if (deals.length === 0) return null;
 
   const fmt = (s: string, e: string) => {
-    const f = (v: string) => new Date(`${v}T00:00:00`).toLocaleDateString(locale === 'el' ? 'el-GR' : 'en-GB', { day: 'numeric', month: 'short' });
+    const f = (v: string) => new Date(`${v}T00:00:00`).toLocaleDateString(locale, { day: 'numeric', month: 'short' });
     return s === e ? f(s) : `${f(s)} – ${f(e)}`;
   };
 

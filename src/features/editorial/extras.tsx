@@ -41,17 +41,6 @@ export async function guideCovers(slugs: string[]): Promise<Record<string, strin
   return out;
 }
 
-const COPY = {
-  el: {
-    staysTitle: 'Καταλύματα που προτείνουμε', staysLead: 'Απευθείας από τους ιδιοκτήτες, χωρίς προμήθεια πλατφόρμας.', staysAll: 'Όλα τα καταλύματα',
-    articlesTitle: 'Διαβάστε επίσης', articlesAll: 'Όλα τα άρθρα',
-  },
-  en: {
-    staysTitle: 'Stays we recommend', staysLead: 'Direct from the owners, with no platform commission.', staysAll: 'All stays',
-    articlesTitle: 'Read next', articlesAll: 'All articles',
-  },
-} as const;
-
 const CARD_FACTS: CardFact['key'][] = ['pool', 'seaView', 'airConditioning', 'wifi', 'petsAllowed', 'parking'];
 const SIZES = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw';
 
@@ -80,8 +69,8 @@ export async function GuideAfter({ slug, locale, others, othersLabel }: {
   others: Array<{ href: string; label: string; image?: string }>;
   othersLabel: string;
 }) {
-  const c = COPY[locale === 'el' ? 'el' : 'en'];
-  const [common, stayT, amenityT, listings, liveIds, articles, media] = await Promise.all([
+  const [t, common, stayT, amenityT, listings, liveIds, articles, media] = await Promise.all([
+    getTranslations({ locale, namespace: 'home' }),
     getTranslations({ locale, namespace: 'common' }),
     getTranslations({ locale, namespace: 'stay' }),
     getTranslations({ locale, namespace: 'amenities' }),
@@ -102,7 +91,7 @@ export async function GuideAfter({ slug, locale, others, othersLabel }: {
       {stays.length > 0 && (
         <section aria-labelledby="guide-stays">
           <Container>
-            <Head id="guide-stays" title={c.staysTitle} lead={c.staysLead} href="/listings" cta={c.staysAll} />
+            <Head id="guide-stays" title={t('guideStaysTitle')} lead={t('guideStaysLead')} href="/listings" cta={t('guideStaysAll')} />
             <CardGrid cols={3}>
               {stays.map((l) => (
                 <Card
@@ -128,7 +117,7 @@ export async function GuideAfter({ slug, locale, others, othersLabel }: {
       {reads.length > 0 && (
         <section aria-labelledby="guide-reads">
           <Container>
-            <Head id="guide-reads" title={c.articlesTitle} href="/blog" cta={c.articlesAll} />
+            <Head id="guide-reads" title={t('guideReadsTitle')} href="/blog" cta={t('allArticles')} />
             <CardGrid cols={3}>
               {reads.map((a) => (
                 <Card key={a.slug} href={`/blog/${a.slug}`} title={pick(a, 'title', locale)} image={a.image_url} imageAlt={greekAlt(a.image_alt, locale)} sizes={SIZES} />

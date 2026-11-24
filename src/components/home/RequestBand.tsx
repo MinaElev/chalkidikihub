@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
 import { AREA_SLUGS, getAreas, getBeaches } from '@/lib/db/content';
 import { AREA_NAMES } from '@/lib/content/place-names';
@@ -6,27 +7,11 @@ import { AvailabilityQuickForm } from './AvailabilityQuickForm';
 
 /**
  * The compact "one request, many options" band with everything it needs:
- * area names, a real photo and its texts. Used on the test home page and on
- * guide pages. Its strings live here until the design is approved and they
- * move to messages/v4 (other locales fall back to English).
+ * area names, a real photo and its texts (home.req* messages). Used on the
+ * home page and on guide pages.
  */
-const COPY = {
-  el: {
-    titleA: 'Ένα αίτημα.', titleB: 'Πολλές επιλογές.',
-    lead: 'Πες μας πού και πότε. Οι ιδιοκτήτες σου απαντούν απευθείας.',
-    area: 'Περιοχή', anyArea: 'Όλη η Χαλκιδική', checkIn: 'Άφιξη', checkOut: 'Αναχώρηση', adults: 'Ενήλικες', submit: 'Στείλε αίτημα',
-    note: 'Δωρεάν. Στο επόμενο βήμα βάζεις τα στοιχεία επικοινωνίας σου και το αίτημα φεύγει.',
-  },
-  en: {
-    titleA: 'One request.', titleB: 'Many options.',
-    lead: 'Tell us where and when. The owners reply to you directly.',
-    area: 'Area', anyArea: 'All of Halkidiki', checkIn: 'Check-in', checkOut: 'Check-out', adults: 'Adults', submit: 'Send request',
-    note: 'Free. You add your contact details in the next step, and then the request is sent.',
-  },
-} as const;
-
 export async function RequestBand({ locale }: { locale: Locale }) {
-  const [areas, beaches] = await Promise.all([getAreas(), getBeaches()]);
+  const [areas, beaches, t] = await Promise.all([getAreas(), getBeaches(), getTranslations({ locale, namespace: 'home' })]);
   const image =
     (areas.find((a) => a.slug === 'sithonia')?.image_url as string | undefined) ||
     beaches.find((b) => b.area === 'sithonia' && b.image_url)?.image_url ||
@@ -36,7 +21,10 @@ export async function RequestBand({ locale }: { locale: Locale }) {
       <AvailabilityQuickForm
         areas={Object.fromEntries(AREA_SLUGS.map((a) => [a, AREA_NAMES[a][locale]]))}
         image={image}
-        labels={COPY[locale === 'el' ? 'el' : 'en']}
+        labels={{
+          titleA: t('reqTitleA'), titleB: t('reqTitleB'), lead: t('reqLead'), area: t('reqArea'), anyArea: t('reqAny'),
+          checkIn: t('reqIn'), checkOut: t('reqOut'), adults: t('reqAdults'), submit: t('reqSubmit'), note: t('reqNote'),
+        }}
       />
     </ClientIntl>
   );
