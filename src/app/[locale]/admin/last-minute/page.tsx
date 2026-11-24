@@ -11,6 +11,7 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
+import { Pager, usePaged } from '@/components/ui/Pager';
 import { createClient } from '@/lib/supabase/client';
 import {
   Loader2, Zap, MapPin, Calendar, User, ExternalLink, Trash2, Share2, CheckCircle2,
@@ -98,6 +99,7 @@ export default function AdminLastMinutePage() {
     () => rows.filter(r => (filter === 'all' ? true : isLive(r))),
     [rows, filter, today],
   );
+  const paged = usePaged(filtered, filter);
 
   const liveRows = rows.filter(isLive);
   const stats = {
@@ -161,7 +163,7 @@ export default function AdminLastMinutePage() {
         {filtered.length === 0 && (
           <div className="text-center py-12 text-gray-500">Καμία εγγραφή.</div>
         )}
-        {filtered.map(r => {
+        {paged.pageItems.map(r => {
           const live = isLive(r);
           const title = r.listings?.title_el || r.listings?.title_en || '—';
           const area = r.listings ? (AREA_LABELS[r.listings.area] || r.listings.area) : '—';
@@ -220,6 +222,7 @@ export default function AdminLastMinutePage() {
           );
         })}
       </div>
+      <Pager page={paged.page} total={paged.total} onPage={paged.setPage} />
     </div>
   );
 }

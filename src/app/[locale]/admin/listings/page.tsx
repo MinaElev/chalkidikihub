@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Pager, usePaged } from '@/components/ui/Pager';
 import { createClient } from '@/lib/supabase/client';
 import { List, Eye, EyeOff, Trash2, Loader2, ExternalLink, ChevronDown, ChevronUp, Phone, Mail, Search, Filter, Pencil, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
@@ -136,6 +137,8 @@ export default function AdminListingsPage() {
     return true;
   });
 
+  const paged = usePaged(filtered, JSON.stringify([filterArea, filterStatus, searchQuery]));
+
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
 
   return (
@@ -173,7 +176,7 @@ export default function AdminListingsPage() {
 
       {/* Listings */}
       <div className="space-y-3">
-        {filtered.map((listing) => {
+        {paged.pageItems.map((listing) => {
           const isExpanded = expanded === listing.id;
           return (
             <div key={listing.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
@@ -338,6 +341,7 @@ export default function AdminListingsPage() {
           </div>
         )}
       </div>
+      <Pager page={paged.page} total={paged.total} onPage={paged.setPage} />
     </div>
   );
 }

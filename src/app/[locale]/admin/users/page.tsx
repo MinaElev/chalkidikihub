@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Pager, usePaged } from '@/components/ui/Pager';
 import { createClient } from '@/lib/supabase/client';
-import { Users, Shield, User, Loader2, Trash2, KeyRound, MailCheck, MailWarning } from 'lucide-react';
+import { Users, Shield, User, Loader2, Trash2, KeyRound, MailCheck, MailWarning, Search } from 'lucide-react';
 
 interface Profile {
   id: string;
@@ -17,6 +18,7 @@ interface Profile {
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     loadUsers();
@@ -87,13 +89,26 @@ export default function AdminUsersPage() {
     setDeleting(null);
   }
 
+  const needle = searchQuery.trim().toLowerCase();
+  const filtered = needle
+    ? users.filter((u) => [u.full_name, u.email, u.phone].filter(Boolean).join(' ').toLowerCase().includes(needle))
+    : users;
+  const paged = usePaged(filtered, needle);
+
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
 
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
         <Users className="w-6 h-6 text-red-600" />
-        <h1 className="text-2xl font-bold text-gray-900">Users ({users.length})</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Users ({filtered.length}/{users.length})</h1>
+      </div>
+
+      <div className="relative mb-4 max-w-sm">
+        <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+        <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Αναζήτηση ονόματος, email, τηλεφώνου…"
+          className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-red-500" />
       </div>
 
       <div className="bg-white border border-gray-200 rounded-2xl overflow-x-auto">
@@ -109,7 +124,7 @@ export default function AdminUsersPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {users.map((user) => (
+            {paged.pageItems.map((user) => (
               <tr key={user.id} className="hover:bg-gray-50">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
@@ -187,6 +202,7 @@ export default function AdminUsersPage() {
           </tbody>
         </table>
       </div>
+      <Pager page={paged.page} total={paged.total} onPage={paged.setPage} />
     </div>
   );
 }

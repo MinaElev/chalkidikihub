@@ -32,3 +32,19 @@ export const driveMinutes = (km: number) => Math.max(2, Math.round((km * 1.3 * 6
 
 export const mapsDirectionsUrl = (p: { latitude: number; longitude: number }) =>
   `https://www.google.com/maps/dir/?api=1&destination=${p.latitude},${p.longitude}`;
+
+/**
+ * Where the map pickers start (Toroneos gulf — open sea). A listing saved
+ * with its pin still here (or nudged a few hundred metres) was never placed
+ * by its owner, so the public map would show it in the sea.
+ */
+export const DEFAULT_PIN = { latitude: 40.1, longitude: 23.6 } as const;
+
+/** True when the pin is missing or still within 1.5 km of DEFAULT_PIN (all sea). */
+export function isUnsetPin(latitude: number | null | undefined, longitude: number | null | undefined): boolean {
+  if (latitude == null || longitude == null || !Number.isFinite(latitude) || !Number.isFinite(longitude)) return true;
+  return distanceKm({ latitude, longitude }, DEFAULT_PIN) < 1.5;
+}
+
+export const UNSET_PIN_MESSAGE_EL =
+  'Η πινέζα του χάρτη είναι ακόμα στην αρχική θέση, μέσα στη θάλασσα. Σύρετέ την ή κάντε κλικ στον χάρτη, στο σημείο όπου βρίσκεται το κατάλυμα.';

@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity, Area } from '@/types';
 import { LocationPicker } from '@/legacy/components/ui/LocationPicker';
+import { isUnsetPin, UNSET_PIN_MESSAGE_EL } from '@/lib/geo';
 import NumberStepper from '@/legacy/components/ui/NumberStepper';
 import PriceInput from '@/legacy/components/ui/PriceInput';
 import { compressImage } from '@/lib/image-utils';
@@ -123,6 +124,11 @@ export default function EditListingPage() {
     e.preventDefault();
     setError('');
     setSuccess(false);
+    if (isUnsetPin(form.latitude, form.longitude)) {
+      setError(UNSET_PIN_MESSAGE_EL);
+      document.getElementById('listing-map')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     setSaving(true);
 
     const supabase = createClient();
@@ -325,11 +331,18 @@ export default function EditListingPage() {
         </div>
 
         {/* Map picker */}
+        <div id="listing-map">
         <LocationPicker
           latitude={form.latitude}
           longitude={form.longitude}
           onLocationChange={(lat, lng) => setForm((prev) => ({ ...prev, latitude: lat, longitude: lng }))}
         />
+            {isUnsetPin(form.latitude, form.longitude) && (
+              <p className="mt-2 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">
+                Η πινέζα δεν έχει τοποθετηθεί ακόμα. Σύρετέ την ή κάντε κλικ στον χάρτη, στο σημείο του καταλύματος.
+              </p>
+            )}
+        </div>
 
         {/* Amenities */}
         <div>

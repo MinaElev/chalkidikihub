@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
+import { fetchAll } from '@/lib/supabase/fetch-all';
 import { ImageIcon, Loader2, Zap, CheckCircle, AlertTriangle, Download } from 'lucide-react';
 
 interface ImageRecord {
@@ -62,7 +63,9 @@ export default function AdminImagesPage() {
     }
 
     // Listing images
-    const { data: listingImgs } = await supabase.from('listing_images').select('id, image_url, image_optimized, listing_id');
+    // Paged: listing_images has more rows than PostgREST's 1,000-row cap.
+    const listingImgs = await fetchAll((from, to) =>
+      supabase.from('listing_images').select('id, image_url, image_optimized, listing_id').order('id').range(from, to)).catch((e) => { console.error('listing_images', e); return []; });
     if (listingImgs) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (listingImgs as any[]).forEach((row: any) => {

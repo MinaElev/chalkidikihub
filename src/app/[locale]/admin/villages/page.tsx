@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useLocale } from 'next-intl';
+import { Pager, usePaged } from '@/components/ui/Pager';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import { Plus, Edit, Trash2, Loader2, MapPin, CheckCircle, XCircle, ImageIcon, ExternalLink, Search, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
@@ -139,6 +140,8 @@ export default function AdminVillagesPage() {
     return sortDir === 'asc' ? <ArrowUp className="w-3 h-3 text-red-600" /> : <ArrowDown className="w-3 h-3 text-red-600" />;
   }
 
+  const paged = usePaged(filtered, JSON.stringify([filterArea, searchQuery, sortKey, sortDir]));
+
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
 
   return (
@@ -231,7 +234,7 @@ export default function AdminVillagesPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {filtered.map((v) => {
+            {paged.pageItems.map((v) => {
               const issues = getSeoStatus(v);
               return (
                 <tr key={v.id} className="hover:bg-gray-50">
@@ -283,6 +286,7 @@ export default function AdminVillagesPage() {
           </tbody>
         </table>
       </div>
+      <Pager page={paged.page} total={paged.total} onPage={paged.setPage} />
     </div>
   );
 }

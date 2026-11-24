@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { fetchAll } from '@/lib/supabase/fetch-all';
 import { Link } from '@/i18n/navigation';
 import { Wrench, ImageIcon, Loader2, CheckCircle, Zap, Search, Sparkles, BarChart3 } from 'lucide-react';
 
@@ -55,7 +56,9 @@ export default function AdminToolsPage() {
     }
 
     // Scan listing_images (only non-optimized)
-    const { data: listingImgs } = await supabase.from('listing_images').select('id, image_url, listing_id, image_optimized').eq('image_optimized', false);
+    // Paged: listing_images can exceed PostgREST's 1,000-row cap.
+    const listingImgs = await fetchAll((from, to) =>
+      supabase.from('listing_images').select('id, image_url, listing_id, image_optimized').eq('image_optimized', false).order('id').range(from, to)).catch((e) => { console.error('listing_images', e); return []; });
     if (listingImgs) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (listingImgs as any[]).forEach((row: any) => {

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { fetchAll } from '@/lib/supabase/fetch-all';
 import { Search, CheckCircle, XCircle, AlertTriangle, Loader2, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
@@ -43,7 +44,9 @@ export default function AdminSeoPage() {
     ];
 
     // Get listing images count per listing
-    const { data: listingImagesData } = await supabase.from('listing_images').select('listing_id');
+    // Paged: listing_images has more rows than PostgREST's 1,000-row cap.
+    const listingImagesData = await fetchAll((from, to) =>
+      supabase.from('listing_images').select('id, listing_id').order('id').range(from, to)).catch((e) => { console.error('listing_images', e); return []; });
     const listingImageCounts: Record<string, number> = {};
     if (listingImagesData) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

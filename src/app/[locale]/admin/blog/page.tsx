@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
+import { Pager, usePaged } from '@/components/ui/Pager';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import { Plus, Edit, Trash2, Loader2, FileText, CheckCircle, XCircle, ImageIcon, ExternalLink, Search } from 'lucide-react';
@@ -80,6 +81,8 @@ export default function AdminBlogPage() {
     return true;
   });
 
+  const paged = usePaged(filtered, JSON.stringify([filterCategory, filterSeo, searchQuery]));
+
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
 
   return (
@@ -135,7 +138,7 @@ export default function AdminBlogPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {filtered.map((a) => {
+            {paged.pageItems.map((a) => {
               const issues = getSeoStatus(a);
               const isComplete = issues.length === 0;
               return (
@@ -189,6 +192,7 @@ export default function AdminBlogPage() {
           </tbody>
         </table>
       </div>
+      <Pager page={paged.page} total={paged.total} onPage={paged.setPage} />
     </div>
   );
 }

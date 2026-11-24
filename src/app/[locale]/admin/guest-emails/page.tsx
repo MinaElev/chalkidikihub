@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { fetchAll } from '@/lib/supabase/fetch-all';
 import {
   Loader2, Mail, Phone, Copy, Check, Download, Search, Radio, MessageSquare, MapPin, Info,
 } from 'lucide-react';
@@ -63,24 +64,25 @@ export default function AdminGuestEmailsPage() {
   useEffect(() => {
     (async () => {
       const supabase = createClient();
-      const [availRes, msgRes] = await Promise.all([
-        supabase
+      // Paged: .limit(5000) is silently capped at 1,000 rows by PostgREST.
+      const [availRows, msgRows] = await Promise.all([
+        fetchAll((from, to) => supabase
           .from('availability_requests')
-          .select('guest_name, guest_email, guest_phone, area, created_at')
-          .order('created_at', { ascending: false })
-          .limit(5000),
-        supabase
+          .select('id, guest_name, guest_email, guest_phone, area, created_at')
+          .order('created_at', { ascending: false }).order('id')
+          .range(from, to)).catch((e) => { console.error(e); return []; }),
+        fetchAll((from, to) => supabase
           .from('contact_messages')
-          .select('name, email, message, created_at')
+          .select('id, name, email, message, created_at')
           .like('subject', 'Αίτημα διαθεσιμότητας%')
-          .order('created_at', { ascending: false })
-          .limit(5000),
+          .order('created_at', { ascending: false }).order('id')
+          .range(from, to)).catch((e) => { console.error(e); return []; }),
       ]);
 
       const combined: Array<{
         email: string; name: string; phone: string; area: string; created_at: string; source: Source;
       }> = [
-        ...(((availRes.data as AvailRow[] | null) || []).map(r => ({
+        ...(((availRows as AvailRow[] | null) || []).map(r => ({
           email: r.guest_email || '',
           name: r.guest_name || '',
           phone: r.guest_phone || '',
@@ -88,7 +90,7 @@ export default function AdminGuestEmailsPage() {
           created_at: r.created_at,
           source: 'broadcast' as Source,
         }))),
-        ...(((msgRes.data as MsgRow[] | null) || []).map(r => ({
+        ...(((msgRows as MsgRow[] | null) || []).map(r => ({
           email: r.email || '',
           name: r.name || '',
           phone: parsePhone(r.message),

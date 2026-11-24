@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Pager, usePaged } from '@/components/ui/Pager';
 import { createClient } from '@/lib/supabase/client';
+import { fetchAll } from '@/lib/supabase/fetch-all';
 import { Loader2, Mail, Phone, Calendar, CalendarClock, Users, MapPin, ExternalLink, Send, MessageSquare, ChevronDown, ChevronUp, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 const AREA_LABELS: Record<string, string> = {
@@ -55,12 +57,14 @@ export default function AdminAvailabilityRequestsPage() {
   useEffect(() => {
     (async () => {
       const supabase = createClient();
-      const { data } = await supabase
+      // All rows, in 1,000-row pages: the stats and the "expire past" action
+      // need every request (the old .limit(200) silently dropped older ones).
+      const data = await fetchAll((from, to) => supabase
         .from('availability_requests')
         .select('id, public_token, guest_name, guest_email, guest_phone, area, check_in, check_out, adults, children, status, recipients_count, responses_count, created_at, expires_at')
-        .order('created_at', { ascending: false })
-        .limit(200);
-      setRows((data as Row[]) || []);
+        .order('created_at', { ascending: false }).order('id')
+        .range(from, to)).catch((e) => { console.error(e); return []; });
+      setRows(data as Row[]);
       setLoading(false);
     })();
   }, []);
@@ -159,6 +163,7 @@ export default function AdminAvailabilityRequestsPage() {
   }
 
   const filtered = rows.filter(r => filter === 'all' || r.status === filter);
+  const paged = usePaged(filtered, filter);
 
   const stats = {
     total: rows.length,
@@ -233,7 +238,7 @@ export default function AdminAvailabilityRequestsPage() {
         {filtered.length === 0 && (
           <div className="text-center py-12 text-gray-500">Καμία εγγραφή.</div>
         )}
-        {filtered.map(r => {
+        {paged.pageItems.map(r => {
           const isExpanded = expandedId === r.id;
           const recipients = recipientsCache[r.id];
           const isLoadingRecip = loadingRecipients === r.id;
@@ -371,6 +376,7 @@ export default function AdminAvailabilityRequestsPage() {
           );
         })}
       </div>
+      <Pager page={paged.page} total={paged.total} onPage={paged.setPage} />
     </div>
   );
 }

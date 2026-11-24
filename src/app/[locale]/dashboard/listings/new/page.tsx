@@ -11,6 +11,7 @@ import { Loader2, Upload, X, Sparkles, MapPin, Star, Waves, CheckCircle2, AlertC
 import { compressImage } from '@/lib/image-utils';
 import { isBillingActive, ANNUAL_PLAN, CUTOFF_FREE_UNTIL_EL } from '@/lib/billing';
 import { LocationPicker } from '@/legacy/components/ui/LocationPicker';
+import { isUnsetPin, UNSET_PIN_MESSAGE_EL } from '@/lib/geo';
 import NumberStepper from '@/legacy/components/ui/NumberStepper';
 import PriceInput from '@/legacy/components/ui/PriceInput';
 
@@ -190,6 +191,11 @@ export default function NewListingPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+    if (isUnsetPin(form.latitude, form.longitude)) {
+      setError(UNSET_PIN_MESSAGE_EL);
+      document.getElementById('listing-map')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     setLoading(true);
 
     const supabase = createClient();
@@ -394,9 +400,14 @@ export default function NewListingPage() {
           </div>
 
           {/* Map */}
-          <div>
+          <div id="listing-map">
             <LocationPicker latitude={form.latitude} longitude={form.longitude}
               onLocationChange={(lat, lng) => setForm((p) => ({ ...p, latitude: lat, longitude: lng }))} />
+            {isUnsetPin(form.latitude, form.longitude) && (
+              <p className="mt-2 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">
+                Η πινέζα δεν έχει τοποθετηθεί ακόμα. Σύρετέ την ή κάντε κλικ στον χάρτη, στο σημείο του καταλύματος.
+              </p>
+            )}
             {nearestBeach && (
               <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-sky-700 bg-sky-50 border border-sky-100 rounded-lg px-2.5 py-1">
                 <Waves className="w-3.5 h-3.5" /> Κοντινότερη παραλία: <strong>{nearestBeach.name}</strong> ({nearestBeach.km < 1 ? `${Math.round(nearestBeach.km * 1000)} μ` : `${nearestBeach.km.toFixed(1)} χλμ`}) — αναφέρετέ την στην περιγραφή!

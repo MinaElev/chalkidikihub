@@ -11,6 +11,7 @@ import { AIHelper } from '@/legacy/components/admin/AIHelper';
 import { ALL_AMENITIES, AREA_SLUGS } from '@/lib/constants';
 import { Amenity } from '@/types';
 import { LocationPicker } from '@/legacy/components/ui/LocationPicker';
+import { isUnsetPin, UNSET_PIN_MESSAGE_EL } from '@/lib/geo';
 import { ImportFromUrl } from '@/legacy/components/listings/ImportFromUrl';
 import NumberStepper from '@/legacy/components/ui/NumberStepper';
 import PriceInput from '@/legacy/components/ui/PriceInput';
@@ -104,7 +105,13 @@ export default function AdminEditListingPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSaving(true); setError(''); setSuccess('');
+    setError(''); setSuccess('');
+    if (isUnsetPin(Number(form.latitude), Number(form.longitude))) {
+      setError(UNSET_PIN_MESSAGE_EL);
+      document.getElementById('listing-map')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    setSaving(true);
     const supabase = createClient();
 
     // Auto-set image_url from cover photo for SEO (Open Graph, JSON-LD)
@@ -339,11 +346,18 @@ export default function AdminEditListingPage() {
         </div>
 
         {/* Map picker */}
+        <div id="listing-map">
         <LocationPicker
           latitude={Number(form.latitude) || 40.1}
           longitude={Number(form.longitude) || 23.6}
           onLocationChange={(lat, lng) => { update('latitude', lat); update('longitude', lng); }}
         />
+            {isUnsetPin(Number(form.latitude), Number(form.longitude)) && (
+              <p className="mt-2 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">
+                Η πινέζα δεν έχει τοποθετηθεί ακόμα. Σύρετέ την ή κάντε κλικ στον χάρτη, στο σημείο του καταλύματος.
+              </p>
+            )}
+        </div>
 
         {/* Amenities */}
         <div>

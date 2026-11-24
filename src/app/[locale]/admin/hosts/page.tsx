@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import { Pager, usePaged } from '@/components/ui/Pager';
 import { createClient } from '@/lib/supabase/client';
 import { Loader2, ExternalLink, Eye, EyeOff, Search, Users, Globe } from 'lucide-react';
 
@@ -94,6 +95,7 @@ export default function AdminHostsPage() {
       return true;
     });
   }, [rows, q, filter]);
+  const paged = usePaged(filtered, JSON.stringify([q, filter]));
 
   const stats = useMemo(() => ({
     enabled: rows.filter((r) => r.public_page_enabled && r.public_slug).length,
@@ -182,7 +184,7 @@ export default function AdminHostsPage() {
               {filtered.length === 0 && (
                 <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-500">No matching owners.</td></tr>
               )}
-              {filtered.map((r) => {
+              {paged.pageItems.map((r) => {
                 const url = r.public_slug ? `/host/${r.public_slug}` : null;
                 const fullUrl = url ? `https://chalkidikihub.gr${url}` : null;
                 const hasBio = Boolean(r.bio_el?.trim() || r.bio_en?.trim());
@@ -262,6 +264,7 @@ export default function AdminHostsPage() {
             </tbody>
           </table>
         </div>
+        <Pager page={paged.page} total={paged.total} onPage={paged.setPage} />
       </div>
     </div>
   );

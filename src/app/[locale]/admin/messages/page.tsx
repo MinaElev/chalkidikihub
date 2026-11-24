@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { Pager, PAGE_SIZE } from '@/components/ui/Pager';
 import { createClient } from '@/lib/supabase/client';
 import { MessageSquare, Mail, Loader2, Check, Trash2 } from 'lucide-react';
 
@@ -15,20 +16,53 @@ interface ContactMsg {
   created_at: string;
 }
 
+const INQUIRY_PATTERN = 'Αίτημα διαθεσιμότητας%';
+
 export default function AdminMessagesPage() {
   const [messages, setMessages] = useState<ContactMsg[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<string | null>(null);
   const [tab, setTab] = useState<'messages' | 'inquiries'>('messages');
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [counts, setCounts] = useState({ messages: 0, inquiries: 0, unread: 0 });
 
-  useEffect(() => { loadMessages(); }, []);
-
-  async function loadMessages() {
+  // One page from the database at a time (the table grows daily and an
+  // unpaged select stops at PostgREST's 1,000-row cap). Tab counts come
+  // from head-only count queries.
+  const loadMessages = useCallback(async () => {
     const supabase = createClient();
-    const { data } = await supabase.from('contact_messages').select('*').order('created_at', { ascending: false });
-    setMessages((data as ContactMsg[]) || []);
+    let q = supabase.from('contact_messages')
+      .select('id, name, email, subject, message, locale, read, created_at', { count: 'exact' })
+      .order('created_at', { ascending: false }).order('id')
+      .range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
+    q = tab === 'inquiries'
+      ? q.like('subject', INQUIRY_PATTERN)
+      : q.or(`subject.is.null,subject.not.like."${INQUIRY_PATTERN}"`);
+    const head = () => supabase.from('contact_messages').select('id', { count: 'exact', head: true });
+    const [list, all, inq, unreadAll, unreadInq] = await Promise.all([
+      q,
+      head(),
+      head().like('subject', INQUIRY_PATTERN),
+      head().eq('read', false),
+      head().eq('read', false).like('subject', INQUIRY_PATTERN),
+    ]);
+    // Deleting the last message on the last page: step back a page.
+    if (!list.data?.length && page > 1) { setPage(page - 1); return; }
+    setMessages((list.data as ContactMsg[]) || []);
+    setTotal(list.count || 0);
+    setCounts({
+      messages: (all.count || 0) - (inq.count || 0),
+      inquiries: inq.count || 0,
+      unread: (unreadAll.count || 0) - (unreadInq.count || 0),
+    });
     setLoading(false);
-  }
+  }, [page, tab]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- data load on page/tab change
+    loadMessages();
+  }, [loadMessages]);
 
   async function markRead(id: string) {
     const supabase = createClient();
@@ -44,10 +78,9 @@ export default function AdminMessagesPage() {
     loadMessages();
   }
 
-  const isInquiry = (m: ContactMsg) => m.subject?.startsWith('Αίτημα διαθεσιμότητας');
-  const filtered = tab === 'inquiries' ? messages.filter(isInquiry) : messages.filter(m => !isInquiry(m));
-  const unreadCount = messages.filter((m) => !m.read && !isInquiry(m)).length;
-  const inquiryCount = messages.filter(isInquiry).length;
+  const filtered = messages;
+  const unreadCount = counts.unread;
+  const inquiryCount = counts.inquiries;
   const selectedMsg = messages.find((m) => m.id === selected);
 
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-red-600" /></div>;
@@ -61,14 +94,14 @@ export default function AdminMessagesPage() {
 
       {/* Tabs */}
       <div className="flex gap-2 mb-6">
-        <button onClick={() => { setTab('messages'); setSelected(null); }}
+        <button onClick={() => { setTab('messages'); setPage(1); setSelected(null); }}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             tab === 'messages' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}>
-          Μηνύματα ({messages.filter(m => !isInquiry(m)).length})
+          Μηνύματα ({counts.messages})
           {unreadCount > 0 && <span className="px-1.5 py-0.5 bg-white/30 rounded-full text-[10px] font-bold">{unreadCount}</span>}
         </button>
-        <button onClick={() => { setTab('inquiries'); setSelected(null); }}
+        <button onClick={() => { setTab('inquiries'); setPage(1); setSelected(null); }}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             tab === 'inquiries' ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}>
@@ -100,6 +133,7 @@ export default function AdminMessagesPage() {
                 <div className="text-[10px] text-gray-400 mt-1">{new Date(msg.created_at).toLocaleDateString('el')}</div>
               </button>
             ))}
+            <Pager page={page} total={total} onPage={(p) => { setPage(p); setSelected(null); }} className="flex-wrap text-xs" />
           </div>
 
           {/* Message detail */}
