@@ -50,7 +50,7 @@ export async function Footer({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <footer className="mt-20 bg-gray-900 text-gray-400">
+    <footer data-site-footer className="mt-20 bg-gray-900 text-gray-400">
       {/* Owners call-out, as on v3. */}
       <div className="border-b border-gray-800">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-10 sm:px-6 md:flex-row md:items-center">
