@@ -159,4 +159,3 @@ export async function GuideAfter({ slug, locale, others, othersLabel }: {
     </div>
   );
 }
-
