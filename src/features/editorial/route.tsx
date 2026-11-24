@@ -6,6 +6,8 @@ import { field, guideBody, indexableLocales, type EditorialDoc } from '@/lib/edi
 import { plainText } from '@/lib/content/render';
 import { EditorialPage } from './EditorialPage';
 import { Narrow } from '@/components/ui/Layout';
+import { RequestBand } from '@/components/home/RequestBand';
+import { GuideAfter, guideCovers } from './extras';
 
 type Params = Promise<{ locale: string } & Record<string, string>>;
 
@@ -65,6 +67,10 @@ export function editorialRoute(opts: {
       .slice(0, 8)
       .map((d) => ({ href: `${opts.base}/${d.slug}`, label: field(d.title, locale).text }));
 
+    // Guides get a cover photo, the request band and cards; /costs, /from and /itinerary keep the plain layout.
+    const enhanced = opts.base === '/guide';
+    const covers = enhanced ? await guideCovers(opts.list().map((d) => d.slug)) : {};
+
     return (
       <EditorialPage
         locale={locale}
@@ -82,6 +88,16 @@ export function editorialRoute(opts: {
         related={related}
         relatedLabel={t('related')}
         top={opts.top?.(doc.slug, locale)}
+        cover={enhanced ? covers[doc.slug] : undefined}
+        mid={enhanced ? <RequestBand locale={locale} /> : undefined}
+        after={enhanced ? (
+          <GuideAfter
+            slug={doc.slug}
+            locale={locale}
+            othersLabel={t('related')}
+            others={opts.list().filter((d) => d.slug !== doc.slug).map((d) => ({ href: `${opts.base}/${d.slug}`, label: field(d.title, locale).text, image: covers[d.slug] }))}
+          />
+        ) : undefined}
       >
         {opts.bottom && <Narrow>{opts.bottom(doc.slug, locale)}</Narrow>}
       </EditorialPage>

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { withHeadingIds } from '@/lib/content/render';
@@ -13,8 +14,14 @@ type Body = { text: string; native: boolean; from: Locale | null };
 
 /** Long-form editorial page: breadcrumbs, H1, lead, table of contents, body, related links. */
 export async function EditorialPage({
-  locale, crumbs, title, lead, body, path, contentsLabel, related, relatedLabel, top, children, updated,
+  locale, crumbs, title, lead, body, path, contentsLabel, related, relatedLabel, top, children, updated, cover, mid, after,
 }: {
+  /** Cover photo under the lead. */
+  cover?: string;
+  /** Full-width block placed between two sections, about halfway down the text. */
+  mid?: React.ReactNode;
+  /** Replaces the plain related-links row after the text (e.g. cards). */
+  after?: React.ReactNode;
   /** Shown above the table of contents, e.g. a comparison table. */
   top?: React.ReactNode;
   locale: Locale;
@@ -30,12 +37,18 @@ export async function EditorialPage({
   updated?: string;
 }) {
   const { html, toc } = withHeadingIds(await renderLinked(body.text, locale, path));
+  const [htmlA, htmlB] = mid ? splitAtMiddleHeading(html) : [html, ''];
   return (
     <>
       <Narrow className="pt-6">
         <Breadcrumbs locale={locale} crumbs={crumbs} />
         <h1 className="mt-6 font-display text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">{title}</h1>
         {lead && <p className="mt-4 text-lg leading-relaxed text-slate-600">{lead}</p>}
+        {cover && (
+          <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-2xl bg-sand-100">
+            <Image src={cover} alt="" fill priority sizes="(min-width: 768px) 48rem, 100vw" className="object-cover" />
+          </div>
+        )}
       </Narrow>
       <Narrow className="mt-8">
         {!body.native && body.from && <LocaleNotice locale={locale} from={body.from} />}
@@ -50,10 +63,18 @@ export async function EditorialPage({
             </ol>
           </nav>
         )}
-        <Prose html={html} />
+        <Prose html={htmlA} />
       </Narrow>
+      {/* Short texts (fewer than four sections) are not split: the block goes after the text. */}
+      {mid && (
+        <>
+          <div className="my-10">{mid}</div>
+          {htmlB && <Narrow><Prose html={htmlB} /></Narrow>}
+        </>
+      )}
       {children}
-      {related && related.length > 0 && (
+      {after}
+      {!after && related && related.length > 0 && (
         <Narrow className="mt-14">
           <h2 className="font-display text-xl font-semibold text-slate-900">{relatedLabel}</h2>
           <ul className="mt-4 flex flex-wrap gap-2">
@@ -80,4 +101,12 @@ export async function EditorialPage({
       />
     </>
   );
+}
+
+/** Splits body HTML in two at the <h2> nearest its middle; [html, ''] when there are fewer than four sections. */
+function splitAtMiddleHeading(html: string): [string, string] {
+  const starts = [...html.matchAll(/<h2[\s>]/g)].map((m) => m.index ?? 0);
+  if (starts.length < 4) return [html, ''];
+  const cut = starts.reduce((best, i) => (Math.abs(i - html.length / 2) < Math.abs(best - html.length / 2) ? i : best), starts[1]);
+  return cut > 0 ? [html.slice(0, cut), html.slice(cut)] : [html, ''];
 }

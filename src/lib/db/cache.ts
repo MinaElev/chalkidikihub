@@ -20,6 +20,7 @@ export const TAGS = {
   hosts: 'hosts',
   deals: 'deals',
   reviews: 'reviews',
+  guides: 'guides',
 } as const;
 export type Tag = (typeof TAGS)[keyof typeof TAGS];
 

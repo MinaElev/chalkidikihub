@@ -9,7 +9,7 @@ import {
   Landmark, Wrench, FileText, Settings, Home, LogOut, Shield,
   ScrollText, Menu, X, Image, BarChart3, MessageSquare, ClipboardList, Mail,
   Sparkles, Star, Building, Tag, Languages, ShieldCheck, Church, Link2, QrCode,
-  Wand2, Bell, Zap, AtSign, Layers, Search, ChevronDown, Ticket, Wallet,
+  Wand2, Bell, Zap, AtSign, Layers, Search, ChevronDown, Ticket, Wallet, BookOpen,
 } from 'lucide-react';
 
 type Item = { href: string; icon: React.ElementType; label: string; kw?: string };
@@ -58,6 +58,7 @@ const SECTIONS: Section[] = [
   ]},
   { id: 'editorial', title: 'Editorial', defaultOpen: false, items: [
     { href: '/admin/blog', icon: FileText, label: 'Blog', kw: 'άρθρα' },
+    { href: '/admin/guides', icon: BookOpen, label: 'Οδηγοί', kw: 'οδηγοί guides φωτογραφίες εξώφυλλο' },
     { href: '/admin/translations', icon: Languages, label: 'Translations', kw: 'μεταφράσεις γλώσσες' },
     { href: '/admin/quality', icon: ShieldCheck, label: 'Quality Check', kw: 'ποιότητα' },
     { href: '/admin/monthly-report', icon: Mail, label: 'Monthly Owner Report', kw: 'report email' },

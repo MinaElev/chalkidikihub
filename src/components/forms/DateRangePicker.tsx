@@ -38,7 +38,7 @@ export type DateRangeLabels = {
  * it never runs off a phone screen.
  */
 export function DateRangePicker({
-  checkIn, checkOut, onChange, locale, labels, maxDays = 365, invalid, blocked, single,
+  checkIn, checkOut, onChange, locale, labels, maxDays = 365, invalid, blocked, single, floating,
 }: {
   checkIn: string;
   checkOut: string;
@@ -56,6 +56,11 @@ export function DateRangePicker({
   blocked?: string[];
   /** One month at a time even on wide screens (narrow sidebars). */
   single?: boolean;
+  /**
+   * On wide screens the calendar floats over the page instead of pushing it
+   * down (compact one-row forms). Phones keep the inline calendar.
+   */
+  floating?: boolean;
 }) {
   const blockedSet = useMemo(() => new Set(blocked ?? []), [blocked]);
   const sortedBlocked = useMemo(() => [...blockedSet].sort(), [blockedSet]);
@@ -203,7 +208,7 @@ export function DateRangePicker({
   };
 
   return (
-    <div>
+    <div className={floating ? 'relative' : undefined}>
       <div className={`flex overflow-hidden rounded-xl border bg-white ${invalid ? 'border-red-300' : open ? 'border-sea-500 ring-4 ring-sea-500/10' : 'border-gray-200'}`}>
         {half('in')}
         <span className="my-2 w-px bg-gray-200" aria-hidden />
@@ -211,7 +216,7 @@ export function DateRangePicker({
       </div>
 
       {open && (
-        <div className="mt-2 rounded-2xl border border-gray-200 bg-white p-3 shadow-lg sm:p-4">
+        <div className={`mt-2 rounded-2xl border border-gray-200 bg-white p-3 shadow-lg sm:p-4 ${floating ? 'lg:absolute lg:left-0 lg:z-30 lg:w-[38rem] lg:shadow-2xl' : ''}`}>
           <div className="mb-2 flex items-center justify-between gap-2">
             <button type="button" onClick={() => shift(-1)} disabled={atStart} aria-label={labels.prev} className="flex size-9 items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 disabled:opacity-30">
               <ChevronLeft className="size-5" aria-hidden />
