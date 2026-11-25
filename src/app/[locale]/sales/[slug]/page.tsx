@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/sales/[s
     locale,
     path: `/sales/${slug}`,
     title: pick(s, 'meta_title', locale) || pick(s, 'title', locale),
-    description: pick(s, 'meta_description', locale) || plainText(body.text, 155),
+    description: pick(s, 'meta_description', locale) || plainText(body.text, 400),
     image: imgs[0]?.image_url,
     indexableLocales: passes ? [locale] : [],
   });

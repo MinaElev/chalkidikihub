@@ -14,6 +14,8 @@ export type Author = {
   role: Record<string, string>;
   /** Localised bio. */
   bio: Record<string, string>;
+  /** Search snippet (≤158 chars); the bio is longer. */
+  metaDesc: Record<string, string>;
   /** Topics for Person.knowsAbout — a concrete expertise signal for Google. */
   knowsAbout: string[];
   /** Tailwind gradient classes for the initials avatar (no real photo yet). */
@@ -42,6 +44,15 @@ export const AUTHORS: Record<string, Author> = {
       bg: 'Димитрис изследва всеки ъгъл на Халкидики, обхващайки плажове, скрити дестинации, пешеходни маршрути и пътеводители, които помагат на посетителите да открият региона като местни жители.',
       ru: 'Димитрис исследует каждый уголок Халкидики, освещая пляжи, скрытые направления, туристические маршруты и путеводители, которые помогают посетителям открывать регион так, как это делают местные жители.',
     },
+    metaDesc: {
+      el: "Ο Δημήτρης γράφει για τις παραλίες, τα κρυφά σημεία, τα μονοπάτια και τους οδηγούς του ChalkidikiHub, για να γνωρίσετε τη Χαλκιδική όπως οι ντόπιοι.",
+      en: "Dimitris writes ChalkidikiHub's guides to beaches, hidden spots, hiking trails and itineraries, to help visitors get to know Halkidiki the way locals do.",
+      de: "Dimitris schreibt die ChalkidikiHub-Ratgeber zu Stränden, versteckten Orten, Wanderwegen und Routen, damit Sie Chalkidiki wie Einheimische kennenlernen.",
+      ro: "Dimitris scrie ghidurile ChalkidikiHub despre plaje, locuri ascunse, trasee de drumeție și itinerarii, ca să descoperi Halkidiki așa cum o cunosc localnicii.",
+      sr: "Dimitris piše vodiče ChalkidikiHub-a o plažama, skrivenim mestima, planinarskim stazama i planovima puta, da biste Halkidiki upoznali kao meštani.",
+      bg: "Димитрис пише пътеводителите на ChalkidikiHub за плажове, скрити места, пешеходни пътеки и маршрути, за да опознаете Халкидики като местните.",
+      ru: "Димитрис пишет путеводители ChalkidikiHub о пляжах, укромных местах, пеших тропах и маршрутах, чтобы вы узнали Халкидики, как местные жители.",
+    },
     knowsAbout: ['Halkidiki beaches', 'Travel guides', 'Hiking trails', 'Sithonia', 'Kassandra', 'Hidden destinations', 'Itineraries'],
     avatarGradient: 'from-sky-500 to-blue-700',
   },
@@ -65,6 +76,15 @@ export const AUTHORS: Record<string, Author> = {
       sr: 'Sofija pokriva gastronomiju, kulturu i lokalne biznise Halkidikija, ističući autentična iskustva, tradicionalne ukuse i preporuke za svaku sezonu.',
       bg: 'София обхваща гастрономията, културата и местния бизнес на Халкидики, подчертавайки автентични преживявания, традиционни вкусове и препоръки за всеки сезон.',
       ru: 'София освещает гастрономию, культуру и местный бизнес Халкидики, подчеркивая аутентичные впечатления, традиционные вкусы и рекомендации для каждого сезона.',
+    },
+    metaDesc: {
+      el: "Η Σοφία γράφει για τη γαστρονομία, τον πολιτισμό και τις τοπικές επιχειρήσεις της Χαλκιδικής: παραδοσιακές γεύσεις, ταβέρνες και προτάσεις για κάθε εποχή.",
+      en: "Sofia writes about Halkidiki's food, culture and local businesses: traditional flavours, tavernas, local products and recommendations for every season.",
+      de: "Sofia schreibt über Küche, Kultur und lokale Betriebe in Chalkidiki: traditionelle Gerichte, Tavernen, regionale Produkte und Tipps für jede Jahreszeit.",
+      ro: "Sofia scrie despre gastronomia, cultura și afacerile locale din Halkidiki: arome tradiționale, taverne, produse locale și recomandări pentru fiecare sezon.",
+      sr: "Sofija piše o gastronomiji, kulturi i lokalnim biznisima Halkidikija: tradicionalni ukusi, taverne, lokalni proizvodi i preporuke za svaku sezonu.",
+      bg: "София пише за кухнята, културата и местния бизнес на Халкидики: традиционни вкусове, таверни, местни продукти и препоръки за всеки сезон.",
+      ru: "София пишет о кухне, культуре и местном бизнесе Халкидики: традиционные вкусы, таверны, местные продукты и советы на любой сезон.",
     },
     knowsAbout: ['Greek cuisine', 'Halkidiki gastronomy', 'Local products', 'Tavernas', 'Culture', 'Local businesses', 'Lifestyle'],
     avatarGradient: 'from-rose-500 to-amber-600',

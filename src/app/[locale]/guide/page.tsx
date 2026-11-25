@@ -11,7 +11,7 @@ export const revalidate = 86400;
 export async function generateMetadata({ params }: PageProps<'/[locale]/guide'>) {
   const locale = (await params).locale as Locale;
   const t = await getTranslations({ locale, namespace: 'guides' });
-  return buildMetadata({ locale, path: '/guide', title: t('hubMetaTitle'), description: t('hubLead') });
+  return buildMetadata({ locale, path: '/guide', title: t('hubMetaTitle'), description: t('hubMetaDesc') });
 }
 
 export default async function GuidesHub({ params }: PageProps<'/[locale]/guide'>) {

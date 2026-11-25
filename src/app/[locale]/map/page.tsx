@@ -8,7 +8,7 @@ import MapClient from './_client';
 const MAP_LOCALES: Locale[] = ['el', 'en'];
 
 const COPY: Record<Locale, { title: string; description: string }> = {
-  el: { title: 'Χάρτης Χαλκιδικής: παραλίες, φαγητό και διαμονή', description: 'Διαδραστικός χάρτης της Χαλκιδικής με τις παραλίες, τα εστιατόρια, τις δραστηριότητες και τα καταλύματα. Φιλτράρετε ανά κατηγορία και ανοίξτε τη σελίδα κάθε σημείου.' },
+  el: { title: 'Χάρτης Χαλκιδικής: παραλίες, φαγητό και διαμονή', description: 'Διαδραστικός χάρτης της Χαλκιδικής με παραλίες, εστιατόρια, δραστηριότητες και καταλύματα. Φιλτράρετε ανά κατηγορία και ανοίξτε τη σελίδα κάθε σημείου.' },
   en: { title: 'Halkidiki map: beaches, food and places to stay', description: 'Interactive map of Halkidiki with its beaches, restaurants, activities and places to stay. Filter by category and open the page of any spot.' },
   de: { title: 'Chalkidiki-Karte: Strände, Essen und Unterkünfte', description: 'Interaktive Karte von Chalkidiki mit Stränden, Restaurants, Aktivitäten und Unterkünften. Nach Kategorie filtern und die Seite jedes Ortes öffnen.' },
   ro: { title: 'Harta Halkidiki: plaje, restaurante și cazare', description: 'Hartă interactivă a Halkidiki cu plaje, restaurante, activități și locuri de cazare. Filtrați după categorie și deschideți pagina fiecărui loc.' },

@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/blog/[sl
     locale,
     path: `/blog/${slug}`,
     title: title.native ? title.text : pick(a, 'title', locale),
-    description: desc.native ? desc.text : plainText(pick(a, 'excerpt', locale) || pick(a, 'content', locale), 155),
+    description: desc.native ? desc.text : plainText(pick(a, 'excerpt', locale) || pick(a, 'content', locale), 400),
     image: a.image_url,
     imageAlt: greekAlt(a.image_alt, locale) ?? undefined,
     type: 'article',

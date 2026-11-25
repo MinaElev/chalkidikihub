@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/beaches'
     locale,
     path: '/beaches',
     title: t('hubMetaTitle', { count: beaches.length }),
-    description: t('hubLead'),
+    description: t('hubMetaDesc'),
     image: beaches.find((b) => b.image_url)?.image_url,
   });
 }

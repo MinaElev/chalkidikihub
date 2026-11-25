@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/ev-charg
   const locale = (await params).locale as Locale;
   const t = await getTranslations({ locale, namespace: 'ev' });
   const chargers = await getChargers();
-  return buildMetadata({ locale, path: '/ev-chargers', title: t('metaTitle'), description: t('lead'), indexableLocales: chargers.length >= 5 ? undefined : [] });
+  return buildMetadata({ locale, path: '/ev-chargers', title: t('metaTitle'), description: t('metaDesc'), indexableLocales: chargers.length >= 5 ? undefined : [] });
 }
 
 export default async function EvPage({ params }: PageProps<'/[locale]/ev-chargers'>) {

@@ -9,13 +9,13 @@ const TITLES: Record<string, string> = {
   bg: 'За собственици', ru: 'Для владельцев', ro: 'Pentru proprietari', sr: 'Za vlasnike',
 };
 const DESCRIPTIONS: Record<string, string> = {
-  el: 'Καταχωρίστε δωρεάν την επιχείρησή σας στο Chalkidiki Hub — προβολή καταλυμάτων, εστιατορίων και δραστηριοτήτων στη Χαλκιδική σε 7 γλώσσες.',
-  en: 'List your business for free on Chalkidiki Hub — showcase accommodation, restaurants and activities in Halkidiki across 7 languages.',
-  de: 'Registrieren Sie Ihr Unternehmen kostenlos auf Chalkidiki Hub — Unterkünfte, Restaurants und Aktivitäten in Chalkidiki in 7 Sprachen.',
-  bg: 'Регистрирайте безплатно бизнеса си в Chalkidiki Hub — настанявания, ресторанти и дейности в Халкидики на 7 езика.',
-  ru: 'Бесплатно разместите свой бизнес на Chalkidiki Hub — жильё, рестораны и развлечения Халкидики на 7 языках.',
-  ro: 'Înregistrați-vă gratuit afacerea pe Chalkidiki Hub — cazări, restaurante și activități în Halkidiki în 7 limbi.',
-  sr: 'Registrujte svoj biznis besplatno na Chalkidiki Hub — smeštaj, restorani i aktivnosti na Halkidikiju na 7 jezika.',
+  el: "Καταχωρίστε το κατάλυμά σας στη Χαλκιδική και δεχτείτε αιτήματα απευθείας από επισκέπτες, χωρίς προμήθεια ανά κράτηση και χωρίς συγχρονισμό ημερολογίου.",
+  en: "List your property in Halkidiki and receive enquiries directly from guests, with no commission per booking and no calendar sync. In 7 languages.",
+  de: "Inserieren Sie Ihre Unterkunft in Chalkidiki und erhalten Sie Anfragen direkt von Gästen, ohne Provision pro Buchung und ohne Kalenderabgleich. In 7 Sprachen.",
+  bg: "Публикувайте имота си в Халкидики и получавайте запитвания директно от гости, без комисиона за резервация и без синхронизиране на календар. На 7 езика.",
+  ru: "Разместите жильё на Халкидики и получайте запросы напрямую от гостей, без комиссии за бронирование и без синхронизации календаря. На 7 языках.",
+  ro: "Listați-vă proprietatea din Halkidiki și primiți cereri direct de la oaspeți, fără comision pe rezervare și fără sincronizarea calendarului. În 7 limbi.",
+  sr: "Oglasite svoj smeštaj na Halkidikiju i primajte upite direktno od gostiju, bez provizije po rezervaciji i bez sinhronizacije kalendara. Na 7 jezika.",
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {

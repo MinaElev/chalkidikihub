@@ -46,6 +46,21 @@ const T: Record<Locale, { title: string; airport: string; village: string; km: s
   ru: { title: 'Расстояния до деревень Халкидики', airport: 'От аэропорта Салоников', village: 'Деревня', km: 'Расстояние', time: 'На машине', note: 'Приблизительно, без остановок и ожидания на границе: дорога до Неа-Мудании, как описано выше, плюс оценка оттуда до деревни.', h: 'ч', m: 'мин' },
 };
 
+/** Sentence for the page's meta description (long, then short), only where the table is shown. */
+const META: Record<Locale, readonly [string, string]> = {
+  el: ['Με πίνακα αποστάσεων μέχρι τα χωριά της Χαλκιδικής.', 'Με πίνακα αποστάσεων.'],
+  en: ['With a table of distances to Halkidiki villages.', 'Plus a distance table.'],
+  de: ['Mit Entfernungstabelle zu den Orten in Chalkidiki.', 'Mit Entfernungstabelle.'],
+  ro: ['Cu tabel de distanțe până la satele din Halkidiki.', 'Cu tabel de distanțe.'],
+  bg: ['С таблица на разстоянията до селата в Халкидики.', 'С таблица на разстоянията.'],
+  sr: ['Uz tabelu udaljenosti do sela na Halkidikiju.', 'Uz tabelu udaljenosti.'],
+  ru: ['С таблицей расстояний до деревень Халкидики.', 'С таблицей расстояний.'],
+};
+
+export function distanceMetaExtra(city: string, locale: Locale): readonly string[] | null {
+  return TO_NEA_MOUDANIA[city] ? META[locale] : null;
+}
+
 const round = (n: number, step: number) => Math.round(n / step) * step;
 
 export async function DistanceTable({ city, locale }: { city: string; locale: Locale }) {

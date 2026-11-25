@@ -13,9 +13,29 @@ import Image from 'next/image';
 import { FaqSection } from '@/components/ui/FaqSection';
 import { generateMountAthosFaqs } from '@/content/editorial/athos-faqs';
 import { hreflangMap } from '@/lib/seo/site';
+import { DESC_MAX, extendDescription } from '@/lib/seo/metadata';
 
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
+
+/** Rank and founding year, as shown on the page, for the meta description (long, then short). */
+const RANK: Record<string, readonly [string, string, string]> = {
+  el: ['Θέση {rank} στην ιεραρχία των 20 μονών, ίδρυση {year}.', 'Ίδρυση: {year}.', 'Θέση {rank} στην ιεραρχία των 20 μονών.'],
+  en: ['Ranked {rank} of the 20 monasteries, founded in {year}.', 'Founded in {year}.', 'Ranked {rank} of the 20 monasteries.'],
+  de: ['Rang {rank} von 20 Klöstern, gegründet {year}.', 'Gegründet {year}.', 'Rang {rank} von 20 Klöstern.'],
+  bg: ['Място {rank} от 20 в йерархията, основан през {year} г.', 'Основан през {year} г.', 'Място {rank} от 20 в йерархията.'],
+  ru: ['{rank}-е место в иерархии 20 монастырей, основан в {year} году.', 'Основан в {year} году.', '{rank}-е место в иерархии 20 монастырей.'],
+  ro: ['Locul {rank} din 20 în ierarhie, fondată în {year}.', 'Fondată în {year}.', 'Locul {rank} din 20 în ierarhie.'],
+  sr: ['{rank}. mesto od 20 u hijerarhiji, osnovan {year}. godine.', 'Osnovan {year}. godine.', '{rank}. mesto od 20 u hijerarhiji.'],
+};
+
+/** Rank and founding year; only the rank when the description already gives the year. */
+function rankSentence(m: { rank: number; founded: number }, locale: string, base: string): string[] | null {
+  if (!m.rank || !m.founded) return null;
+  const [both, year, rank] = RANK[locale] ?? RANK.en;
+  const options = base.includes(String(m.founded)) ? [rank] : [both, year];
+  return options.map((s) => s.replace('{rank}', String(m.rank)).replace('{year}', String(m.founded)));
+}
 
 // Merge DB data with hardcoded fallback (DB may have empty fields)
 function mergeLocaleMap(db: Record<string, string>, fallback: Record<string, string>): Record<string, string> {
@@ -57,7 +77,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const m = await getMonastery(slug);
   if (!m) return { title: 'Monastery | Mount Athos' };
   const title = m.metaTitle[locale] || m.metaTitle.en;
-  const description = m.metaDesc[locale] || m.metaDesc.en;
+  // This page doesn't go through buildMetadata, so drop whole trailing sentences past DESC_MAX.
+  let base = (m.metaDesc[locale] || m.metaDesc.en).trim();
+  while (base.length > DESC_MAX && base.lastIndexOf('. ') > 0) base = base.slice(0, base.lastIndexOf('. ') + 1);
+  const description = extendDescription(base, [rankSentence(m, locale, base)]);
   return {
     title: { absolute: finalizeTitle(title) }, description,
     openGraph: { title, description },

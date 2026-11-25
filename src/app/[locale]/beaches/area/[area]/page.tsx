@@ -39,13 +39,28 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/
   const locale = raw as Locale;
   const data = await load(area);
   if (!data) return {};
-  const t = await getTranslations({ locale, namespace: 'beach' });
+  const [t, more] = await Promise.all([
+    getTranslations({ locale, namespace: 'beach' }),
+    getTranslations({ locale, namespace: 'metaExtra' }),
+  ]);
   const where = AREA_OF[data.area][locale];
+  // The same village grouping the page shows: count, then the villages with the most beaches.
+  const villages = await closestVillagesFor(data.list, locale);
+  const counts = new Map<string, number>();
+  for (const b of data.list) {
+    const v = villages.get(b.slug);
+    if (v) counts.set(v, (counts.get(v) ?? 0) + 1);
+  }
+  const top = [...counts.entries()].sort(([a, x], [b, y]) => y - x || a.localeCompare(b, locale)).slice(0, 3);
   return buildMetadata({
     locale,
     path: `/beaches/area/${area}`,
     title: t('areaMetaTitle', { area: where, count: data.list.length }),
     description: t('areaLead', { area: where }),
+    extra: [
+      counts.size > 1 && more('areaBeachCount', { count: data.list.length, villages: counts.size }),
+      top.length > 1 && [3, 2].map((n) => more('areaBeachTop', { list: top.slice(0, n).map(([v, c]) => `${v} (${c})`).join(', ') })),
+    ],
     image: [...data.list].sort((a, b) => score(b) - score(a)).find((b) => b.image_url)?.image_url,
   });
 }

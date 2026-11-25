@@ -22,7 +22,7 @@ export const ABOUT: Record<string, AboutContent> = {
   el: {
     metaTitle: 'Σχετικά με το ChalkidikiHub | Ποιοι είμαστε',
     metaDescription:
-      'Το ChalkidikiHub είναι μια ανεξάρτητη πύλη για τη Χαλκιδική: 500+ καταλύματα, παραλίες, εστιατόρια και οδηγοί ταξιδιού σε 7 γλώσσες — χωρίς προμήθειες και με δομημένα δεδομένα ορατά σε AI.',
+      "Ποιοι είμαστε: το ChalkidikiHub είναι ανεξάρτητος οδηγός για τη Χαλκιδική από ντόπιους. Καταλύματα απευθείας από ιδιοκτήτες, χωρίς προμήθεια, σε 7 γλώσσες.",
     hero: {
       eyebrow: 'Ποιοι είμαστε',
       title: 'Η Χαλκιδική, χωρίς μεσάζοντες',
@@ -45,7 +45,7 @@ export const ABOUT: Record<string, AboutContent> = {
       {
         type: 'list',
         items: [
-          '500+ καταλύματα: βίλες, διαμερίσματα, παραδοσιακά πετρόκτιστα, ξενοδοχεία και studios — με φωτογραφίες, χάρτη και απευθείας επικοινωνία',
+          '100+ καταλύματα: βίλες, διαμερίσματα, παραδοσιακά πετρόκτιστα, ξενοδοχεία και studios — με φωτογραφίες, χάρτη και απευθείας επικοινωνία',
           'Αναλυτικούς οδηγούς για 60+ χωριά της Κασσάνδρας, Σιθωνίας και της κυρίως Χαλκιδικής',
           'Λίστες με τις καλύτερες παραλίες ανά τύπο (αμμώδεις, οργανωμένες, ελεύθερες, οικογενειακές)',
           'Εστιατόρια, beach bars, παραδοσιακές ταβέρνες και cafés',
@@ -74,7 +74,7 @@ export const ABOUT: Record<string, AboutContent> = {
       },
     ],
     stats: [
-      { label: 'Καταλύματα', value: '500+' },
+      { label: 'Καταλύματα', value: '100+' },
       { label: 'Γλώσσες', value: '7' },
       { label: 'Προμήθεια', value: '0%' },
     ],
@@ -86,7 +86,7 @@ export const ABOUT: Record<string, AboutContent> = {
   en: {
     metaTitle: 'About ChalkidikiHub | Who we are',
     metaDescription:
-      'ChalkidikiHub is an independent travel directory for Halkidiki, Greece: 500+ stays, beaches, restaurants and travel guides in 7 languages — zero commissions and structured data visible to AI assistants.',
+      "About ChalkidikiHub: an independent Halkidiki guide built by locals. Stays booked directly with owners at 0% commission, beaches and guides in 7 languages.",
     hero: {
       eyebrow: 'Who we are',
       title: 'Halkidiki, without the middlemen',
@@ -109,7 +109,7 @@ export const ABOUT: Record<string, AboutContent> = {
       {
         type: 'list',
         items: [
-          '500+ stays: villas, apartments, traditional stone houses, hotels and studios — with photos, map and direct contact',
+          '100+ stays: villas, apartments, traditional stone houses, hotels and studios — with photos, map and direct contact',
           'Detailed guides for 60+ villages across Kassandra, Sithonia and mainland Halkidiki',
           'Curated beach lists by type (sandy, organised, free, family-friendly)',
           'Restaurants, beach bars, traditional tavernas and cafés',
@@ -138,7 +138,7 @@ export const ABOUT: Record<string, AboutContent> = {
       },
     ],
     stats: [
-      { label: 'Properties', value: '500+' },
+      { label: 'Properties', value: '100+' },
       { label: 'Languages', value: '7' },
       { label: 'Commission', value: '0%' },
     ],
@@ -150,7 +150,7 @@ export const ABOUT: Record<string, AboutContent> = {
   de: {
     metaTitle: 'Über ChalkidikiHub | Wer wir sind',
     metaDescription:
-      'ChalkidikiHub ist ein unabhängiges Reiseverzeichnis für Chalkidiki: 500+ Unterkünfte, Strände, Restaurants und Reiseführer in 7 Sprachen — ohne Provision und mit strukturierten Daten für KI-Assistenten.',
+      "Über ChalkidikiHub: ein unabhängiges Verzeichnis für Chalkidiki, gemacht von Einheimischen. Unterkünfte direkt beim Eigentümer, 0 % Provision, in 7 Sprachen.",
     hero: {
       eyebrow: 'Wer wir sind',
       title: 'Chalkidiki, ohne Zwischenhändler',
@@ -173,7 +173,7 @@ export const ABOUT: Record<string, AboutContent> = {
       {
         type: 'list',
         items: [
-          '500+ Unterkünfte: Villen, Apartments, traditionelle Steinhäuser, Hotels und Studios — mit Fotos, Karte und direktem Kontakt',
+          '100+ Unterkünfte: Villen, Apartments, traditionelle Steinhäuser, Hotels und Studios — mit Fotos, Karte und direktem Kontakt',
           'Ausführliche Reiseführer für über 60 Dörfer in Kassandra, Sithonia und im Festland-Chalkidiki',
           'Kuratierte Strandlisten nach Typ (sandig, organisiert, kostenlos, familienfreundlich)',
           'Restaurants, Beach-Bars, traditionelle Tavernen und Cafés',
@@ -202,7 +202,7 @@ export const ABOUT: Record<string, AboutContent> = {
       },
     ],
     stats: [
-      { label: 'Unterkünfte', value: '500+' },
+      { label: 'Unterkünfte', value: '100+' },
       { label: 'Sprachen', value: '7' },
       { label: 'Provision', value: '0%' },
     ],
@@ -214,7 +214,7 @@ export const ABOUT: Record<string, AboutContent> = {
   bg: {
     metaTitle: 'За ChalkidikiHub | Кои сме ние',
     metaDescription:
-      'ChalkidikiHub е независим туристически каталог за Халкидики: 500+ настанявания, плажове, ресторанти и пътеводители на 7 езика — без комисиона и със структурирани данни за AI асистенти.',
+      "За ChalkidikiHub: независим каталог за Халкидики, създаден от местни хора. Настаняване директно от собствениците, без комисиона, плажове и пътеводители.",
     hero: {
       eyebrow: 'Кои сме ние',
       title: 'Халкидики, без посредници',
@@ -237,7 +237,7 @@ export const ABOUT: Record<string, AboutContent> = {
       {
         type: 'list',
         items: [
-          '500+ настанявания: вили, апартаменти, традиционни каменни къщи, хотели и студия — със снимки, карта и директен контакт',
+          '100+ настанявания: вили, апартаменти, традиционни каменни къщи, хотели и студия — със снимки, карта и директен контакт',
           'Подробни пътеводители за 60+ села в Касандра, Ситония и континентална Халкидики',
           'Подбрани списъци с плажове по тип (пясъчни, организирани, свободни, семейни)',
           'Ресторанти, плажни барове, традиционни таверни и кафенета',
@@ -266,7 +266,7 @@ export const ABOUT: Record<string, AboutContent> = {
       },
     ],
     stats: [
-      { label: 'Имоти', value: '500+' },
+      { label: 'Имоти', value: '100+' },
       { label: 'Езици', value: '7' },
       { label: 'Комисиона', value: '0%' },
     ],
@@ -278,7 +278,7 @@ export const ABOUT: Record<string, AboutContent> = {
   ru: {
     metaTitle: 'О ChalkidikiHub | Кто мы',
     metaDescription:
-      'ChalkidikiHub — независимый туристический каталог Халкидики: 500+ вариантов жилья, пляжи, рестораны и путеводители на 7 языках. Без комиссий, со структурированными данными для AI-ассистентов.',
+      "О ChalkidikiHub: независимый каталог Халкидики, созданный местными жителями. Жильё напрямую у владельцев, без комиссии, пляжи и путеводители на 7 языках.",
     hero: {
       eyebrow: 'Кто мы',
       title: 'Халкидики без посредников',
@@ -301,7 +301,7 @@ export const ABOUT: Record<string, AboutContent> = {
       {
         type: 'list',
         items: [
-          '500+ вариантов жилья: виллы, апартаменты, традиционные каменные дома, отели и студии — с фотографиями, картой и прямым контактом',
+          '100+ вариантов жилья: виллы, апартаменты, традиционные каменные дома, отели и студии — с фотографиями, картой и прямым контактом',
           'Подробные путеводители по 60+ деревням Кассандры, Ситонии и материковой Халкидики',
           'Подборки пляжей по типу (песчаные, оборудованные, свободные, семейные)',
           'Рестораны, пляжные бары, традиционные таверны и кафе',
@@ -330,7 +330,7 @@ export const ABOUT: Record<string, AboutContent> = {
       },
     ],
     stats: [
-      { label: 'Объекты', value: '500+' },
+      { label: 'Объекты', value: '100+' },
       { label: 'Языки', value: '7' },
       { label: 'Комиссия', value: '0%' },
     ],
@@ -342,7 +342,7 @@ export const ABOUT: Record<string, AboutContent> = {
   ro: {
     metaTitle: 'Despre ChalkidikiHub | Cine suntem',
     metaDescription:
-      'ChalkidikiHub este un director turistic independent pentru Halkidiki: peste 500 de cazări, plaje, restaurante și ghiduri în 7 limbi — fără comisioane și cu date structurate pentru asistenții AI.',
+      "Despre ChalkidikiHub: director independent pentru Halkidiki, făcut de localnici. Cazare direct de la proprietari, fără comision, plaje și ghiduri, în 7 limbi.",
     hero: {
       eyebrow: 'Cine suntem',
       title: 'Halkidiki, fără intermediari',
@@ -365,7 +365,7 @@ export const ABOUT: Record<string, AboutContent> = {
       {
         type: 'list',
         items: [
-          'Peste 500 de cazări: vile, apartamente, case tradiționale din piatră, hoteluri și studio-uri — cu fotografii, hartă și contact direct',
+          'Peste 100 de cazări: vile, apartamente, case tradiționale din piatră, hoteluri și studio-uri — cu fotografii, hartă și contact direct',
           'Ghiduri detaliate pentru peste 60 de sate din Kassandra, Sithonia și Halkidiki continentală',
           'Liste curate de plaje pe categorii (cu nisip, organizate, libere, pentru familii)',
           'Restaurante, beach bar-uri, taverne tradiționale și cafenele',
@@ -394,7 +394,7 @@ export const ABOUT: Record<string, AboutContent> = {
       },
     ],
     stats: [
-      { label: 'Proprietăți', value: '500+' },
+      { label: 'Proprietăți', value: '100+' },
       { label: 'Limbi', value: '7' },
       { label: 'Comision', value: '0%' },
     ],
@@ -406,7 +406,7 @@ export const ABOUT: Record<string, AboutContent> = {
   sr: {
     metaTitle: 'O ChalkidikiHub | Ko smo mi',
     metaDescription:
-      'ChalkidikiHub je nezavisni turistički direktorijum za Halkidiki: 500+ smeštaja, plaže, restorani i vodiči na 7 jezika — bez provizije i sa strukturiranim podacima za AI asistente.',
+      "O ChalkidikiHub-u: nezavisni vodič za Halkidiki koji prave meštani. Smeštaj direktno od vlasnika, bez provizije, uz plaže, sela i vodiče na 7 jezika.",
     hero: {
       eyebrow: 'Ko smo mi',
       title: 'Halkidiki, bez posrednika',
@@ -429,7 +429,7 @@ export const ABOUT: Record<string, AboutContent> = {
       {
         type: 'list',
         items: [
-          '500+ smeštaja: vile, apartmani, tradicionalne kamene kuće, hoteli i studii — sa fotografijama, mapom i direktnim kontaktom',
+          '100+ smeštaja: vile, apartmani, tradicionalne kamene kuće, hoteli i studii — sa fotografijama, mapom i direktnim kontaktom',
           'Detaljni vodiči za preko 60 sela na Kasandri, Sitoniji i kopnenom Halkidikiju',
           'Pažljivo odabrani spiskovi plaža po tipu (peščane, organizovane, slobodne, porodične)',
           'Restorani, beach barovi, tradicionalne taverne i kafići',
@@ -458,7 +458,7 @@ export const ABOUT: Record<string, AboutContent> = {
       },
     ],
     stats: [
-      { label: 'Smeštaji', value: '500+' },
+      { label: 'Smeštaji', value: '100+' },
       { label: 'Jezika', value: '7' },
       { label: 'Provizija', value: '0%' },
     ],

@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/authors/
     locale,
     path: `/authors/${username}`,
     title: `${author.name} — ${author.role[locale] ?? author.role.en}`,
-    description: author.bio[locale] ?? author.bio.en,
+    description: author.metaDesc[locale] ?? author.metaDesc.en,
   });
 }
 

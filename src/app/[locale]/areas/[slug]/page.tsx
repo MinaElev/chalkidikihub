@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/areas/[s
     locale,
     path: `/areas/${slug}`,
     title: title.native ? title.text : `${AREA_NAMES[data.area][locale]}, ${HALKIDIKI[locale]}`,
-    description: desc.native ? desc.text : plainText(body.text, 155),
+    description: desc.native ? desc.text : plainText(body.text, 400),
     image: (data.row.image_url as string) || undefined,
     indexableLocales: locales.filter((l) => {
       const b = localize(data.row, 'description', l);

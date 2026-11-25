@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/restaura
     locale,
     path: '/restaurants',
     title: t('hubMetaTitle', { count: items.length }),
-    description: t('hubLead'),
+    description: t('hubMetaDesc'),
     image: items.find((r) => r.image_url)?.image_url,
   });
 }

@@ -11,6 +11,7 @@ import { formatDistance, greekAlt } from '@/lib/content/format';
 import { localizeToken } from '@/lib/content/hours';
 import { plainText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
+import { nearestBeachExtra } from '@/lib/seo/meta-extra';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { activityIndex } from '@/lib/seo/indexability';
 import { addressLd, geoLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
@@ -63,6 +64,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/activiti
   const place = village ? placeName(village.item.slug, locale, village.item) : AREA_NAMES[a.area][locale];
   const metaTitle = localize(a, 'meta_title', locale);
   const metaDesc = localize(a, 'meta_description', locale);
+  const nearestBeach = await nearestBeachExtra(a, locale);
   const category = a.category && cats.has(a.category) ? cats(a.category).toLocaleLowerCase() : '';
   return buildMetadata({
     locale,
@@ -71,6 +73,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/activiti
     description: metaDesc.native
       ? metaDesc.text
       : t('metaDesc', { name, inPlace: village ? inPlace(village.item.slug, locale) : place, category }),
+    extra: [nearestBeach],
     image: a.image_url,
     indexableLocales: (await activityIndex())[slug] ?? [],
   });

@@ -161,7 +161,13 @@
     "factSeatrac": "Pristup moru za osobe sa invaliditetom",
     "factSeatracValue": "SEATRAC na plaži mesta",
     "moreStaysHeading": "Još {count, plural, one {# smeštaj} few {# smeštaja} other {# smeštaja}} u mestu {inPlace}",
-    "eventsHeading": "Događaji u mestu {inPlace}"
+    "eventsHeading": "Događaji u mestu {inPlace}",
+    "restaurantsMetaMore": "{count, plural, one {# predlog} few {# predloga} other {# predloga}} za hranu i piće, sa vrstom kuhinje i nivoom cena.",
+    "activitiesMetaMore": "{count, plural, one {# ideja} few {# ideje} other {# ideja}} za dane kada želite nešto drugo osim plaže.",
+    "beachesMetaMore": "{within, plural, one {# plaža} few {# plaže} other {# plaža}} u krugu od {radius} km od centra mesta.",
+    "restaurantsMetaMoreShort": "Sa vrstom kuhinje i nivoom cena.",
+    "activitiesMetaMoreShort": "Ukupno {count, plural, one {# ideja} few {# ideje} other {# ideja}}.",
+    "beachesMetaMoreShort": "U krugu od {radius} km od mesta."
   },
   "beach": {
     "hubTitle": "Plaže na Halkidikiju",
@@ -233,7 +239,8 @@
     "lifeguardLabel": "Spasilac",
     "lifeguardValue": "Obavezan od 1. juna do 30. septembra (posećena plaža)",
     "faqLifeguardQ": "Da li postoji spasilac?",
-    "faqLifeguardA": "Nadležna lučka kapetanija svrstala je plažu među posećene, pa je spasilačko obezbeđenje obavezno od 1. juna do 30. septembra. Opština {municipality} ju je uvrstila u ugovor o spasilačkom obezbeđenju za {years}."
+    "faqLifeguardA": "Nadležna lučka kapetanija svrstala je plažu među posećene, pa je spasilačko obezbeđenje obavezno od 1. juna do 30. septembra. Opština {municipality} ju je uvrstila u ugovor o spasilačkom obezbeđenju za {years}.",
+    "hubMetaDesc": "Sve plaže Halkidikija: plitki peščani zalivi za decu, skrivene uvale na Sitoniji i uređene obale na Kasandri, po poluostrvu i po karakteristikama."
   },
   "food": {
     "hubTitle": "Gde jesti na Halkidikiju",
@@ -273,7 +280,8 @@
     "locationFacts": "{name} se nalazi {villageKm} od mesta {village}{municipality, select, none {} other { (opština {municipality})}}.",
     "faqNearestBeachQ": "Koja je najbliža plaža objektu {name}?",
     "faqNearestBeachA": "Najbliža plaža je {beach}, oko {beachKm} vazdušnom linijom{flag, select, yes {; nosi Plavu zastavu {year}} other {}}.",
-    "locationBeach": "Najbliža plaža je {beach}, {beachKm} vazdušnom linijom{flag, select, yes {, sa Plavom zastavom {year}} other {}}."
+    "locationBeach": "Najbliža plaža je {beach}, {beachKm} vazdušnom linijom{flag, select, yes {, sa Plavom zastavom {year}} other {}}.",
+    "hubMetaDesc": "Riblje taverne uz more, beach barovi, pekare za doručak i barovi za veče na Halkidikiju, po poluostrvima, sa kuhinjom, nivoom cena i ocenom."
   },
   "activity": {
     "hubTitle": "Šta raditi na Halkidikiju",
@@ -310,7 +318,7 @@
     "hubLead": "Apartmani, vile i kuće koje rezervišete direktno kod vlasnika, bez provizije platforme. Svaki smeštaj sa fotografijama, sadržajima, pravilima kuće i najbližim plažama.",
     "inArea": "Smeštaj {area}",
     "metaTitle": "{name}: smeštaj u mestu {inPlace}, do {guests} osoba",
-    "metaDesc": "{name} u mestu {inPlace}: spavaćih soba {bedrooms}, do {guests} osoba{price}. Pitajte vlasnika direktno za slobodne termine.",
+    "metaDesc": "{name} u mestu {inPlace}: {bedrooms, plural, one {# spavaća soba} few {# spavaće sobe} other {# spavaćih soba}}, {guests, plural, one {# osoba} few {do # osobe} other {do # osoba}}{price}. Pitajte vlasnika direktno za slobodne termine.",
     "priceFromMeta": ", od {price}/noć",
     "guests": "{count, plural, one {# osoba} few {do # osobe} other {do # osoba}}",
     "bedrooms": "{count, plural, one {# spavaća soba} few {# spavaće sobe} other {# spavaćih soba}}",
@@ -400,12 +408,13 @@
     "areaCensus": "{village} pripada opštini {municipality} i ima {n, plural, one {# stalnog stanovnika} few {# stalna stanovnika} other {# stalnih stanovnika}} (popis {year}, ELSTAT).",
     "areaBeach": "Najbliža plaža je {beach}, {beachKm} vazdušnom linijom{flag, select, yes {, sa Plavom zastavom {year}} other {}}.",
     "faqNearestBeachQ": "Koliko je udaljena najbliža plaža?",
-    "faqNearestBeachA": "Najbliža plaža je {beach}, oko {beachKm} vazdušnom linijom{flag, select, yes {; nosi Plavu zastavu {year}} other {}}."
+    "faqNearestBeachA": "Najbliža plaža je {beach}, oko {beachKm} vazdušnom linijom{flag, select, yes {; nosi Plavu zastavu {year}} other {}}.",
+    "hubMetaDesc": "Apartmani, vile i kuće na Halkidikiju koje rezervišete direktno kod vlasnika, bez provizije platforme. Fotografije, sadržaji, kućna pravila i najbliže plaže."
   },
   "articles": {
     "hubTitle": "Članci i vodiči o Halkidikiju",
     "hubMetaTitle": "Vodiči za Halkidiki: {count} članaka o plažama, hrani i putovanju",
-    "hubLead": "Praktični vodiči ljudi koji žive i putuju po Halkidikiju: gde se kupati, kada doći, šta jesti i kako isplanirati odmor.",
+    "hubLead": "Praktični vodiči ljudi koji žive i putuju po Halkidikiju: gde se kupati, kada doći, šta jesti i kako da isplanirate odmor na tri poluostrva.",
     "latest": "Najnovije",
     "cat_guides": "Vodiči",
     "cat_beaches": "Plaže",
@@ -427,7 +436,7 @@
   },
   "home": {
     "metaTitle": "Halkidiki: plaže, mesta, hrana i smeštaj | ChalkidikiHub",
-    "metaDesc": "Nezavisni vodič za Halkidiki: {beaches} plaža sa mapom i temperaturom vode, {villages} mesta, taverne i smeštaj direktno od vlasnika.",
+    "metaDesc": "Nezavisni vodič za Halkidiki: {beaches} plaža sa mapom i temperaturom vode, {villages} mesta, taverne i smeštaj koji se rezerviše direktno kod vlasnika.",
     "h1": "Otkrijte Halkidiki i isplanirajte putovanje",
     "lead": "Smeštaj, plaže, mesta, hrana, doživljaji i korisne informacije za odmor koji se pamti.",
     "ctaBeaches": "Pronađite plažu",
@@ -437,6 +446,7 @@
     "statStays": "smeštaja",
     "peninsulasTitle": "Tri „prsta” i kopno",
     "peninsulasLead": "Svako poluostrvo ima svoj karakter. Počnite od onog koje vam odgovara.",
+    "areasMetaDesc": "Tri poluostrva i unutrašnjost Halkidikija: Kasandra na sat od Soluna, divlja Sitonija, poluostrvo Atos sa Uranopolisom i planinska sela u unutrašnjosti.",
     "kassandraBlurb": "Uređene peščane plaže, bičbarovi i živahne večeri, sat vremena od Soluna.",
     "sithoniaBlurb": "Borova šuma do same vode, tirkizne uvale i mirnija mesta.",
     "athosBlurb": "Uranopolis, Amuljani i krstarenja duž obale Svete Gore.",
@@ -509,7 +519,9 @@
     "fromHubLead": "Kolima preko Balkana, avionom do Soluna ili autobusom: rute, udaljenosti, putarine i granični prelazi iz svakog većeg grada.",
     "bestListTitle": "Spisak",
     "faqTitle": "Česta pitanja o Halkidikiju",
-    "faqLead": "Kratki, praktični odgovori o prevozu, plažama, hrani, smeštaju i svakodnevnim pitanjima."
+    "faqLead": "Kratki, praktični odgovori o prevozu, plažama, hrani, smeštaju i svakodnevnim pitanjima.",
+    "faqMetaDesc": "Odgovori na česta pitanja o Halkidikiju u šest celina: plaže, smeštaj, prevoz po regionu, hrana i piće, praktične informacije i aktivnosti.",
+    "hubMetaDesc": "Vodiči za odmor na Halkidikiju: kada doći, kako stići iz vaše zemlje, koliko koštaju hrana i smeštaj, gotovi planovi puta i izbori po temama."
   },
   "events": {
     "hubTitle": "Događaji i festivali na Halkidikiju",
@@ -551,7 +563,8 @@
     "cost": "Cena",
     "source": "Izvor podataka: Open Charge Map",
     "none": "Trenutno nismo uspeli da učitamo stanice.",
-    "near": "kod mesta {place}"
+    "near": "kod mesta {place}",
+    "metaDesc": "Punjači za električna vozila na Halkidikiju po poluostrvima, sa tipovima utičnica i snagom, prema Open Charge Map. Dostupnost proverite u aplikaciji."
   },
   "finder": {
     "all": "Ceo Halkidiki",
@@ -585,5 +598,16 @@
     "seeBeaches": "Pogledajte plaže",
     "seeStays": "Pogledajte smeštaj",
     "openMap": "Otvorite mapu"
+  },
+  "metaExtra": {
+    "nearestBeach": "Najbliža plaža: {beach}, na {km}.",
+    "nearestBeachShort": "Najbliža plaža: {beach}.",
+    "beachNearby": "Plaža u blizini: {beach}, na {km}.",
+    "beachNearbyShort": "Plaža u blizini: {beach}.",
+    "photosMap": "Fotografije i mapa.",
+    "areaDistance": "{inArea}, {km} od mesta {fromPlace}.",
+    "villageFacts": "Opština {municipality}, broj stanovnika: {n, number} ({year}).",
+    "areaBeachCount": "{count, plural, one {# plaža} few {# plaže} other {# plaža}} kod {villages, plural, one {# mesta} other {# mesta}}.",
+    "areaBeachTop": "Najviše plaža: {list}."
   }
 }

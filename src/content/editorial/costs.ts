@@ -41,15 +41,7 @@ export const COST_GUIDES: CostGuide[] = [
       ro: 'Halkidiki costuri 2026 | Buget zilnic',
       sr: 'Halkidiki cene 2026 | Dnevni budžet',
     },
-    metaDesc: {
-      el: 'Πόσο κοστίζουν οι διακοπές στη Χαλκιδική; Ημερήσιος προϋπολογισμός για budget, mid-range και luxury ταξιδιώτες.',
-      en: 'How much do holidays in Halkidiki cost? Daily budget breakdown for budget, mid-range, and luxury travelers.',
-      de: 'Was kosten Ferien in Chalkidiki? Tagesbudget für Sparreisende, Mittelklasse und Luxus.',
-      bg: 'Колко струва ваканцията в Халкидики? Дневен бюджет за икономични, средни и луксозни пътешественици.',
-      ru: 'Сколько стоит отдых в Халкидики? Дневной бюджет для бюджетных, средних и люксовых путешественников.',
-      ro: 'Cât costă vacanța în Halkidiki? Buget zilnic pentru călători economi, medii și de lux.',
-      sr: 'Koliko košta odmor u Halkidikiju? Dnevni budžet za ekonomične, srednje i luksuzne putinike.',
-    },
+    metaDesc: { el: "Πόσο κοστίζει η Χαλκιδική τη μέρα; Περίπου €40–60 με χαμηλό budget, €80–150 στη μεσαία κατηγορία και €200–400 για πολυτέλεια. Και πώς να κάνετε οικονομία.", en: "How much does Halkidiki cost per day? About €40–60 on a budget, €80–150 mid-range and €200–400 for luxury, plus money-saving tips and prices by season.", de: "Was kostet Chalkidiki pro Tag? Etwa 40–60 € mit kleinem Budget, 80–150 € in der Mittelklasse und 200–400 € mit Luxus. Dazu Spartipps und Preise nach Saison.", bg: "Колко струва Халкидики на ден? Около €40–60 при скромен бюджет, €80–150 в средния клас и €200–400 за лукс. Плюс съвети за пестене и цени по сезони.", ru: "Сколько стоит день на Халкидики? Около €40–60 при скромном бюджете, €80–150 в среднем сегменте и €200–400 для люкса. Как сэкономить и цены по сезонам.", ro: "Cât costă o zi în Halkidiki? Cam €40–60 cu buget redus, €80–150 la nivel mediu și €200–400 pentru lux. Plus sfaturi de economisire și prețuri pe sezoane.", sr: "Koliko košta dan na Halkidikiju? Oko €40–60 uz skroman budžet, €80–150 u srednjoj klasi i €200–400 za luksuz. Uz savete za uštedu i cene po sezonama." },
     content: {
       el: `<h2>Επισκόπηση Κόστους</h2>
 <p>Η Χαλκιδική προσφέρει <strong>εξαιρετική σχέση ποιότητας-τιμής</strong> σε σύγκριση με άλλα ελληνικά νησιά. Είτε ταξιδεύετε με χαμηλό budget είτε αναζητάτε πολυτέλεια, υπάρχει κάτι για κάθε πορτοφόλι. Δείτε τον <a href="/guide/budget">οδηγό οικονομικών διακοπών</a> για περισσότερα tips.</p>
@@ -379,15 +371,7 @@ export const COST_GUIDES: CostGuide[] = [
       ro: 'Prețuri mâncare Halkidiki 2026 | Restaurante',
       sr: 'Cene hrane Halkidiki 2026 | Restorani',
     },
-    metaDesc: {
-      el: 'Πόσο κοστίζει το φαγητό στη Χαλκιδική; Τιμές εστιατορίων, ταβερνών, καφέ, σουβλάκι, θαλασσινά, supermarket.',
-      en: 'How much does food cost in Halkidiki? Restaurant, taverna, coffee, souvlaki, seafood, supermarket prices.',
-      de: 'Was kostet Essen in Chalkidiki? Restaurant-, Taverne-, Kaffee-, Souvlaki-, Meeresfrüchte-Preise.',
-      bg: 'Колко струва храната в Халкидики? Цени на ресторанти, таверни, кафе, сувлаки, морски дарове.',
-      ru: 'Сколько стоит еда в Халкидики? Цены ресторанов, таверн, кофе, сувлаки, морепродуктов.',
-      ro: 'Cât costă mâncarea în Halkidiki? Prețuri restaurante, taverne, cafea, souvlaki, fructe de mare.',
-      sr: 'Koliko košta hrana u Halkidikiju? Cene restorana, taverni, kafe, suvlaki, morskih plodova.',
-    },
+    metaDesc: { el: "Τιμές φαγητού και ποτού στη Χαλκιδική: από ελληνικό καφέ (€1,50–2,50) ως σουβλάκι και φρέσκο ψάρι, πού να φάτε οικονομικά και πώς να γλιτώσετε χρήματα.", en: "Food and drink prices in Halkidiki: a price list from Greek coffee (€1.50–2.50) to souvlaki and fresh fish, where to eat on a budget and how to save money.", de: "Preise für Essen und Trinken in Chalkidiki: von griechischem Kaffee (1,50–2,50 €) bis Souvlaki und frischem Fisch, wo man günstig isst und wie man spart.", bg: "Цени на храна и напитки в Халкидики: от гръцко кафе (€1,50–2,50) до сувлаки и прясна риба, къде да се храните евтино и как да спестите пари.", ru: "Цены на еду и напитки на Халкидики: от греческого кофе (€1,50–2,50) до сувлаки и свежей рыбы, где поесть недорого и как сэкономить деньги.", ro: "Prețuri la mâncare și băutură în Halkidiki: de la cafeaua grecească (€1,50–2,50) la souvlaki și pește proaspăt, unde mănânci ieftin și cum economisești.", sr: "Cene hrane i pića na Halkidikiju: od grčke kafe (€1,50–2,50) do suvlakija i sveže ribe, gde se može jesti povoljno i kako da uštedite novac." },
     content: {
       el: `<h2>Επισκόπηση</h2>
 <p>Η Χαλκιδική προσφέρει <strong>εξαιρετικό φαγητό σε λογικές τιμές</strong>. Από σουβλάκι στο χέρι μέχρι gourmet θαλασσινά, υπάρχει κάτι για κάθε γεύση και πορτοφόλι. Ανακαλύψτε τα καλύτερα <a href="/restaurants">εστιατόρια</a> της περιοχής.</p>
@@ -697,15 +681,7 @@ export const COST_GUIDES: CostGuide[] = [
       ro: 'Prețuri cazare Halkidiki 2026 | Hoteluri',
       sr: 'Cene smeštaja Halkidiki 2026 | Hoteli',
     },
-    metaDesc: {
-      el: 'Τιμές ξενοδοχείων, studio, βιλών και camping στη Χαλκιδική 2026. Σύγκριση ανά εποχή και περιοχή.',
-      en: 'Hotel, studio, villa, and camping prices in Halkidiki 2026. Comparison by season and area.',
-      de: 'Hotel-, Studio-, Villa- und Campingpreise in Chalkidiki 2026. Vergleich nach Saison und Gebiet.',
-      bg: 'Цени на хотели, студиа, вили и къмпинги в Халкидики 2026.',
-      ru: 'Цены на отели, студии, виллы и кемпинги в Халкидики 2026.',
-      ro: 'Prețuri hoteluri, studiouri, vile și camping Halkidiki 2026.',
-      sr: 'Cene hotela, studija, vila i kampova u Halkidikiju 2026.',
-    },
+    metaDesc: { el: "Τιμές καταλυμάτων στη Χαλκιδική 2026 ανά τύπο, εποχή και περιοχή: κάμπινγκ από €15–25 τη νύχτα, studio €40–70 τον Ιούνιο και €60–120 τον Ιούλιο–Αύγουστο.", en: "Accommodation prices in Halkidiki 2026 by type, season and area: camping from €15–25 a night, studios €40–70 in June and €60–120 in July and August.", de: "Unterkunftspreise in Chalkidiki 2026 nach Art, Saison und Gebiet: Camping ab 15–25 € pro Nacht, Studios 40–70 € im Juni und 60–120 € im Juli und August.", bg: "Цени на настаняване в Халкидики 2026 по вид, сезон и район: къмпинг от €15–25 на нощ, студио €40–70 през юни и €60–120 през юли и август.", ru: "Цены на жильё на Халкидики в 2026 году по типу, сезону и району: кемпинг от €15–25 за ночь, студия €40–70 в июне и €60–120 в июле–августе.", ro: "Prețuri de cazare în Halkidiki 2026, pe tip, sezon și zonă: camping de la €15–25 pe noapte, studiouri €40–70 în iunie și €60–120 în iulie–august.", sr: "Cene smeštaja na Halkidikiju 2026. po vrsti, sezoni i oblasti: kamp od €15–25 po noći, studio €40–70 u junu i €60–120 u julu i avgustu." },
     content: {
       el: `<h2>Επισκόπηση</h2>
 <p>Η Χαλκιδική προσφέρει <strong>μεγάλη ποικιλία καταλυμάτων</strong> — από οικονομικά camping μέχρι πολυτελή 5* resorts. Οι τιμές εξαρτώνται από τον τύπο, την εποχή και την περιοχή. <a href="/listings">Βρείτε κατάλυμα</a> που ταιριάζει στο budget σας.</p>
@@ -963,15 +939,7 @@ export const COST_GUIDES: CostGuide[] = [
       ro: 'Închiriere mașină Halkidiki 2026 | Prețuri',
       sr: 'Iznajmljivanje auta Halkidiki 2026 | Cene',
     },
-    metaDesc: {
-      el: 'Πόσο κοστίζει η ενοικίαση αυτοκινήτου στη Χαλκιδική; Τιμές, ασφάλεια, καύσιμα, πάρκινγκ, tips εξοικονόμησης.',
-      en: 'How much does car rental cost in Halkidiki? Prices, insurance, fuel, parking, money-saving tips.',
-      de: 'Was kostet ein Mietwagen in Chalkidiki? Preise, Versicherung, Kraftstoff, Parkplätze, Spartipps.',
-      bg: 'Колко струва наемането на кола в Халкидики? Цени, застраховка, гориво, паркиране, съвети.',
-      ru: 'Сколько стоит аренда авто в Халкидики? Цены, страховка, топливо, парковка, советы.',
-      ro: 'Cât costă închirierea mașinii în Halkidiki? Prețuri, asigurare, combustibil, parcare, sfaturi.',
-      sr: 'Koliko košta iznajmljivanje auta u Halkidikiju? Cene, osiguranje, gorivo, parking, saveti.',
-    },
+    metaDesc: { el: "Ενοικίαση αυτοκινήτου στη Χαλκιδική 2026: μικρό αυτοκίνητο περίπου €25–40 τη μέρα, μεσαίο €35–55, SUV €50–80, καύσιμα, ασφάλεια και συμβουλές.", en: "Car rental in Halkidiki 2026: economy cars about €25–40 a day, mid-size €35–55, SUVs €50–80, plus fuel, insurance and tips. Public transport is limited.", de: "Mietwagen in Chalkidiki 2026: Kleinwagen etwa 25–40 € pro Tag, Mittelklasse 35–55 €, SUV 50–80 €, dazu Sprit, Versicherung und Spartipps.", bg: "Кола под наем в Халкидики 2026: малка кола около €25–40 на ден, средна €35–55, SUV €50–80, плюс гориво, застраховка и съвети.", ru: "Аренда авто на Халкидики в 2026 году: эконом около €25–40 в день, средний класс €35–55, SUV €50–80, а также топливо, страховка и советы.", ro: "Mașină închiriată în Halkidiki 2026: clasa economic cam €25–40 pe zi, clasa medie €35–55, SUV €50–80, plus combustibil, asigurare și sfaturi.", sr: "Iznajmljivanje auta na Halkidikiju 2026: ekonomična klasa oko €25–40 dnevno, srednja €35–55, SUV €50–80, uz gorivo, osiguranje i savete." },
     content: {
       el: `<h2>Επισκόπηση</h2>
 <p>Η <a href="/guide/car-rental">ενοικίαση αυτοκινήτου</a> είναι ο <strong>καλύτερος τρόπος εξερεύνησης</strong> της Χαλκιδικής. Τα δημόσια μέσα μεταφοράς είναι περιορισμένα, οπότε ένα αυτοκίνητο σας δίνει πλήρη ελευθερία. Δείτε και τις <a href="/guide/driving-distances">αποστάσεις οδήγησης</a>.</p>
@@ -1283,15 +1251,7 @@ export const COST_GUIDES: CostGuide[] = [
       ro: 'Vacanță în familie Halkidiki 2026 | Costuri și buget',
       sr: 'Porodični odmor Halkidiki 2026 | Budžet',
     },
-    metaDesc: {
-      el: 'Πόσο κοστίζουν οι οικογενειακές διακοπές στη Χαλκιδική; Εβδομαδιαίος προϋπολογισμός για 2 ενήλικες + 2 παιδιά.',
-      en: 'How much does a family holiday in Halkidiki cost? Weekly budget for 2 adults + 2 kids.',
-      de: 'Was kostet ein Familienurlaub in Chalkidiki? Wochenbudget für 2 Erwachsene + 2 Kinder.',
-      bg: 'Колко струва семейна ваканция в Халкидики? Седмичен бюджет за 2 възрастни + 2 деца.',
-      ru: 'Сколько стоит семейный отдых в Халкидики? Недельный бюджет на 2 взрослых + 2 детей.',
-      ro: 'Cât costă o vacanță în familie în Halkidiki? Buget săptămânal pentru 2 adulți + 2 copii.',
-      sr: 'Koliko košta porodični odmor u Halkidikiju? Nedeljni budžet za 2 odrasla + 2 dece.',
-    },
+    metaDesc: { el: "Οικογενειακές διακοπές στη Χαλκιδική, 2 ενήλικες και 2 παιδιά: περίπου €800–1.200 την εβδομάδα οικονομικά, €1.500–2.500 άνετα, €3.000–5.000 πολυτελώς.", en: "Family holiday budget for Halkidiki, 2 adults and 2 kids: about €800–1,200 a week on a budget, €1,500–2,500 comfortable, €3,000–5,000 luxury. Tips to save.", de: "Familienurlaub in Chalkidiki, 2 Erwachsene und 2 Kinder: etwa 800–1.200 € pro Woche sparsam, 1.500–2.500 € komfortabel, 3.000–5.000 € luxuriös.", bg: "Семейна ваканция в Халкидики за 2 възрастни и 2 деца: около €800–1200 седмично при скромен бюджет, €1500–2500 комфортно, €3000–5000 луксозно.", ru: "Семейный отдых на Халкидики, 2 взрослых и 2 детей: около €800–1200 в неделю эконом, €1500–2500 комфорт, €3000–5000 люкс. Советы, как сэкономить.", ro: "Vacanță în familie în Halkidiki, 2 adulți și 2 copii: cam €800–1.200 pe săptămână economic, €1.500–2.500 confortabil, €3.000–5.000 de lux.", sr: "Porodični odmor na Halkidikiju, 2 odrasle osobe i 2 deteta: oko €800–1.200 nedeljno uz skroman budžet, €1.500–2.500 udobno, €3.000–5.000 luksuzno." },
     content: {
       el: `<h2>Επισκόπηση</h2>
 <p>Η Χαλκιδική είναι <strong>ιδανικός προορισμός για οικογένειες</strong> — ασφαλείς παραλίες, κοντινές αποστάσεις και λογικές τιμές. Δείτε τον <a href="/guide/families">οδηγό οικογενειακών διακοπών</a> για πρακτικές συμβουλές.</p>

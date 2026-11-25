@@ -77,11 +77,13 @@ export async function nearbyMetadata(kind: NearbyKind, locale: Locale, slug: str
     nearest: first.name,
     km: formatDistance(first.km, locale),
   };
+  const moreVars = { ...vars, within: data.items.filter((i) => i.km <= NEAR_RADIUS_KM).length, radius: NEAR_RADIUS_KM };
   return buildMetadata({
     locale,
     path: `/places/${slug}/${kind}`,
     title: `${t(`${kind}Title`, vars)}, ${HALKIDIKI[locale]}`,
     description: t(`${kind}MetaDesc`, vars),
+    extra: [[`${kind}MetaMore`, `${kind}MetaMoreShort`].map((key) => t(key, moreVars))],
     image: first.image,
     indexableLocales: data.indexable ? locales : [],
   });

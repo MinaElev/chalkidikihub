@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/config';
-import { buildMetadata } from '@/lib/seo/metadata';
+import { buildMetadata, type DescExtra } from '@/lib/seo/metadata';
 import { field, guideBody, indexableLocales, type EditorialDoc } from '@/lib/editorial';
 import { plainText } from '@/lib/content/render';
 import { EditorialPage } from './EditorialPage';
@@ -27,6 +27,8 @@ export function editorialRoute(opts: {
   top?: (slug: string, locale: Locale) => React.ReactNode;
   /** Extra block after the body (e.g. a distance table). */
   bottom?: (slug: string, locale: Locale) => React.ReactNode;
+  /** Extra fact sentences for the meta description (see buildMetadata's `extra`). */
+  metaExtra?: (slug: string, locale: Locale) => readonly DescExtra[];
 }) {
   const find = (slug: string) => opts.list().find((d) => d.slug === slug);
 
@@ -42,7 +44,8 @@ export function editorialRoute(opts: {
       locale,
       path: `${opts.base}/${doc.slug}`,
       title: (title.text || field(doc.title, locale).text).replace(/\s*\|\s*(Chalkidiki ?Hub|ChalkidikiHub)\s*$/i, ''),
-      description: desc.text || plainText(body.text, 155),
+      description: desc.text || plainText(body.text, 400),
+      extra: desc.text ? opts.metaExtra?.(doc.slug, locale) : undefined,
       type: 'article',
       indexableLocales: await indexableLocales(doc, opts.useOverrides),
     });

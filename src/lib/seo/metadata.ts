@@ -18,17 +18,64 @@ export type PageSeo = {
   modifiedTime?: string;
   /** Title already contains the brand — don't append " | ChalkidikiHub". */
   absoluteTitle?: boolean;
+  /**
+   * Extra sentences of real facts, appended to the description in order while
+   * they fit (see extendDescription). Bing flags descriptions under ~120
+   * characters; a template sentence alone is often 85–110.
+   */
+  extra?: readonly DescExtra[];
 };
+
+/** One extra sentence, or alternatives (the first one that still fits is used). */
+export type DescExtra = string | readonly string[] | null | undefined | false;
 
 const TITLE_MAX = 60;
 /** Longest meta description before it is clipped (Google shows ~155–160 characters). */
 export const DESC_MAX = 158;
+
+/**
+ * Appends whole sentences to a description while it stays within `max`, so
+ * nothing is ever cut mid-sentence. An array entry is a list of alternatives,
+ * longest first: the first one that fits is used.
+ */
+export function extendDescription(base: string, extras: readonly DescExtra[] = [], max = DESC_MAX): string {
+  let out = base.replace(/\s+/g, ' ').trim();
+  for (const extra of extras) {
+    if (!extra) continue;
+    const options = typeof extra === 'string' ? [extra] : extra;
+    for (const raw of options) {
+      const sentence = raw.replace(/\s+/g, ' ').trim();
+      if (!sentence) continue;
+      const joined = out ? `${/[.!?…]$/.test(out) ? out : `${out}.`} ${sentence}` : sentence;
+      if (joined.length <= max) {
+        out = joined;
+        break;
+      }
+    }
+  }
+  return out;
+}
 
 function clip(text: string, max: number) {
   const t = text.replace(/\s+/g, ' ').trim();
   if (t.length <= max) return t;
   const cut = t.slice(0, max - 1);
   return `${cut.slice(0, Math.max(cut.lastIndexOf(' '), max - 20))}…`;
+}
+
+/**
+ * Shortens a too-long description without cutting a sentence in half when it
+ * can: the last whole sentence that fits, if it keeps at least `min`
+ * characters; otherwise the plain clip with an ellipsis.
+ */
+export function fitDescription(text: string, max = DESC_MAX, min = 100): string {
+  const t = text.replace(/\s+/g, ' ').trim();
+  if (t.length <= max) return t;
+  const head = t.slice(0, max + 1);
+  let end = -1;
+  for (const m of head.matchAll(/[.!?…](?=\s|$)/g)) if (m.index! < max) end = m.index!;
+  if (end + 1 >= min) return t.slice(0, end + 1);
+  return clip(t, max);
 }
 
 /**
@@ -49,7 +96,7 @@ export function buildMetadata(seo: PageSeo): Metadata {
   const base = seo.absoluteTitle ? seo.title : seo.title.replace(BRAND_SUFFIX, '').trim();
   const skipBrand = seo.absoluteTitle || base.length + SITE_NAME.length + 3 > TITLE_MAX;
   const title = clip(skipBrand ? base : `${base} | ${SITE_NAME}`, TITLE_MAX + 10);
-  const description = clip(seo.description, DESC_MAX);
+  const description = fitDescription(extendDescription(fitDescription(seo.description), seo.extra));
   const images = [{ url: seo.image || DEFAULT_OG_IMAGE, alt: seo.imageAlt || seo.title }];
 
   return {

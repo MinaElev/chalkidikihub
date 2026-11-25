@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/listings
     locale,
     path: '/listings',
     title: t('hubMetaTitle', { count: items.length }),
-    description: t('hubLead'),
+    description: t('hubMetaDesc'),
     image: items.find((l) => l.cover_url)?.cover_url,
   });
 }

@@ -91,7 +91,7 @@
   "places": {
     "hubTitle": "Orte und Ferienorte auf Chalkidiki",
     "hubMetaTitle": "Orte auf Chalkidiki: Reiseführer für {count} Ziele",
-    "hubLead": "Von den Steingassen in Afytos bis zu den Buchten rund um Sarti: jeder Ort mit den nächstgelegenen Stränden, Restaurants und Unterkünften – sortiert nach Halbinsel.",
+    "hubLead": "Von den Steingassen in Afytos bis zu den Buchten rund um Sarti: jeder Ort mit den nächstgelegenen Stränden, Restaurants und Unterkünften, nach Halbinsel.",
     "villagesIn": "Orte in {area}",
     "villageMetaTitle": "{name}, Chalkidiki: Strände, Essen und Unterkünfte",
     "villageMetaDesc": "Reiseführer für {name}: die {beaches} nächsten Strände, Essen, Unterkünfte und Sehenswertes in der Umgebung.",
@@ -161,7 +161,13 @@
     "factSeatrac": "Barrierefreier Meerzugang",
     "factSeatracValue": "SEATRAC am Strand des Ortes",
     "moreStaysHeading": "{count, plural, one {# weitere Unterkunft} other {# weitere Unterkünfte}} in {inPlace}",
-    "eventsHeading": "Veranstaltungen in {inPlace}"
+    "eventsHeading": "Veranstaltungen in {inPlace}",
+    "restaurantsMetaMore": "{count, plural, one {# Adresse} other {# Adressen}} zum Essen und Trinken, mit Küche und Preisniveau.",
+    "activitiesMetaMore": "{count, plural, one {# Idee} other {# Ideen}} für die Tage, an denen Sie etwas anderes als den Strand wollen.",
+    "beachesMetaMore": "{within, plural, one {# Strand} other {# Strände}} im Umkreis von {radius} km um die Ortsmitte.",
+    "restaurantsMetaMoreShort": "Mit Küche und Preisniveau.",
+    "activitiesMetaMoreShort": "Insgesamt {count, plural, one {# Idee} other {# Ideen}}.",
+    "beachesMetaMoreShort": "Im Umkreis von {radius} km um den Ort."
   },
   "beach": {
     "hubTitle": "Strände auf Chalkidiki",
@@ -233,7 +239,8 @@
     "lifeguardLabel": "Rettungsschwimmer",
     "lifeguardValue": "Vorgeschrieben vom 1. Juni bis 30. September (stark besuchter Strand)",
     "faqLifeguardQ": "Gibt es einen Rettungsschwimmer?",
-    "faqLifeguardA": "Die zuständige Hafenbehörde hat den Strand als stark besucht eingestuft; eine Rettungsschwimmeraufsicht ist daher vom 1. Juni bis 30. September vorgeschrieben. Die Gemeinde {municipality} hat ihn in ihren Rettungsschwimmervertrag für {years} aufgenommen."
+    "faqLifeguardA": "Die zuständige Hafenbehörde hat den Strand als stark besucht eingestuft; eine Rettungsschwimmeraufsicht ist daher vom 1. Juni bis 30. September vorgeschrieben. Die Gemeinde {municipality} hat ihn in ihren Rettungsschwimmervertrag für {years} aufgenommen.",
+    "hubMetaDesc": "Alle Strände in Chalkidiki: flache Sandbuchten für Kinder, versteckte Buchten auf Sithonia und organisierte Strände auf Kassandra, nach Halbinsel und Merkmal."
   },
   "food": {
     "hubTitle": "Essen gehen auf Chalkidiki",
@@ -273,7 +280,8 @@
     "locationFacts": "{name} liegt {villageKm} von {village} entfernt{municipality, select, none {} other { (Gemeinde {municipality})}}.",
     "faqNearestBeachQ": "Welcher Strand liegt {name} am nächsten?",
     "faqNearestBeachA": "Der nächste Strand ist {beach}, etwa {beachKm} Luftlinie{flag, select, yes {; er trägt die Blaue Flagge {year}} other {}}.",
-    "locationBeach": "Der nächste Strand ist {beach}, {beachKm} Luftlinie{flag, select, yes {, mit Blauer Flagge {year}} other {}}."
+    "locationBeach": "Der nächste Strand ist {beach}, {beachKm} Luftlinie{flag, select, yes {, mit Blauer Flagge {year}} other {}}.",
+    "hubMetaDesc": "Fischtavernen am Wasser, Strandbars, Bäckereien fürs Frühstück und Bars für den Abend in Chalkidiki, nach Halbinsel, mit Küche, Preisniveau und Bewertung."
   },
   "activity": {
     "hubTitle": "Erleben auf Chalkidiki",
@@ -399,7 +407,8 @@
     "areaCensus": "{village} gehört zur Gemeinde {municipality} und hat {n, plural, one {# ständigen Einwohner} other {# ständige Einwohner}} (Volkszählung {year}, ELSTAT).",
     "areaBeach": "Der nächste Strand ist {beach}, {beachKm} Luftlinie{flag, select, yes {, mit Blauer Flagge {year}} other {}}.",
     "faqNearestBeachQ": "Wie weit ist der nächste Strand?",
-    "faqNearestBeachA": "Der nächste Strand ist {beach}, etwa {beachKm} Luftlinie{flag, select, yes {; er trägt die Blaue Flagge {year}} other {}}."
+    "faqNearestBeachA": "Der nächste Strand ist {beach}, etwa {beachKm} Luftlinie{flag, select, yes {; er trägt die Blaue Flagge {year}} other {}}.",
+    "hubMetaDesc": "Wohnungen, Villen und Häuser in Chalkidiki, direkt beim Eigentümer gebucht, ohne Plattformgebühr. Mit Fotos, Ausstattung, Hausregeln und nächsten Stränden."
   },
   "articles": {
     "hubTitle": "Artikel und Reiseführer zu Chalkidiki",
@@ -436,6 +445,7 @@
     "statStays": "Unterkünfte",
     "peninsulasTitle": "Drei „Finger“ und das Festland",
     "peninsulasLead": "Jede Halbinsel hat ihren eigenen Charakter. Beginnen Sie mit der, die zu Ihnen passt.",
+    "areasMetaDesc": "Die drei Halbinseln und das Hinterland: Kassandra eine Stunde von Thessaloniki, das wildere Sithonia, die Athos-Halbinsel mit Ouranoupoli und die Bergdörfer.",
     "kassandraBlurb": "Gut ausgestattete Sandstrände, Strandbars und lebhafte Abende, eine Stunde von Thessaloniki.",
     "sithoniaBlurb": "Pinienwald bis ans Wasser, türkisfarbene Buchten und ruhigere Dörfer.",
     "athosBlurb": "Ouranoupoli, Ammouliani und Bootsfahrten entlang der Küste des Berges Athos.",
@@ -508,7 +518,9 @@
     "fromHubLead": "Mit dem Auto über den Balkan, per Flug nach Thessaloniki oder mit dem Bus: Routen, Entfernungen, Maut und Grenzübergänge aus allen großen Städten.",
     "bestListTitle": "Die Liste",
     "faqTitle": "Häufige Fragen zu Chalkidiki",
-    "faqLead": "Kurze, praktische Antworten zu Anreise, Stränden, Essen, Unterkunft und Alltag."
+    "faqLead": "Kurze, praktische Antworten zu Anreise, Stränden, Essen, Unterkunft und Alltag.",
+    "faqMetaDesc": "Antworten auf häufige Fragen zu Chalkidiki in sechs Bereichen: Strände, Unterkunft, unterwegs vor Ort, Essen und Trinken, Praktisches und Aktivitäten.",
+    "hubMetaDesc": "Ratgeber für den Urlaub in Chalkidiki: beste Reisezeit, Anreise aus Ihrem Land, Kosten für Essen und Unterkunft, fertige Reisepläne und Themenlisten."
   },
   "events": {
     "hubTitle": "Veranstaltungen und Feste auf Chalkidiki",
@@ -550,7 +562,8 @@
     "cost": "Preis",
     "source": "Datenquelle: Open Charge Map",
     "none": "Die Ladestationen konnten gerade nicht geladen werden.",
-    "near": "bei {place}"
+    "near": "bei {place}",
+    "metaDesc": "E-Ladestationen in Chalkidiki nach Halbinsel, mit Steckertypen und Leistung, laut Open Charge Map. Verfügbarkeit und Preis in der App des Betreibers prüfen."
   },
   "finder": {
     "all": "Ganz Chalkidiki",
@@ -584,5 +597,16 @@
     "seeBeaches": "Strände ansehen",
     "seeStays": "Unterkünfte ansehen",
     "openMap": "Karte öffnen"
+  },
+  "metaExtra": {
+    "nearestBeach": "Nächster Strand: {beach}, {km} entfernt.",
+    "nearestBeachShort": "Nächster Strand: {beach}.",
+    "beachNearby": "Strand in der Nähe: {beach}, {km} entfernt.",
+    "beachNearbyShort": "Strand in der Nähe: {beach}.",
+    "photosMap": "Fotos und Karte.",
+    "areaDistance": "{inArea}, {km} von {fromPlace} entfernt.",
+    "villageFacts": "Gemeinde {municipality}, {n, number} Einwohner ({year}).",
+    "areaBeachCount": "{count, plural, one {# Strand} other {# Strände}} bei {villages, plural, one {# Ort} other {# Orten}}.",
+    "areaBeachTop": "Die meisten Strände bei: {list}."
   }
 }

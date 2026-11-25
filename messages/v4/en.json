@@ -161,7 +161,13 @@
     "factSeatrac": "Sea access for wheelchair users",
     "factSeatracValue": "SEATRAC at the village beach",
     "moreStaysHeading": "{count, plural, one {# more place} other {# more places}} to stay in {inPlace}",
-    "eventsHeading": "Events in {inPlace}"
+    "eventsHeading": "Events in {inPlace}",
+    "restaurantsMetaMore": "{count, plural, one {# place} other {# places}} to eat and drink, with cuisine and price level.",
+    "activitiesMetaMore": "{count, plural, one {# idea} other {# ideas}} for the days you want something other than the beach.",
+    "beachesMetaMore": "{within, plural, one {# beach} other {# beaches}} within {radius} km of the village centre.",
+    "restaurantsMetaMoreShort": "With cuisine and price level.",
+    "activitiesMetaMoreShort": "{count, plural, one {# idea} other {# ideas}} in total.",
+    "beachesMetaMoreShort": "Within {radius} km of the village."
   },
   "beach": {
     "hubTitle": "Halkidiki beaches",
@@ -233,7 +239,8 @@
     "lifeguardLabel": "Lifeguard",
     "lifeguardValue": "Required 1 June – 30 September (busy beach)",
     "faqLifeguardQ": "Is there a lifeguard?",
-    "faqLifeguardA": "The local port authority has classed the beach as busy, so lifeguard cover is mandatory from 1 June to 30 September. The Municipality of {municipality} includes it in its lifeguard contract for {years}."
+    "faqLifeguardA": "The local port authority has classed the beach as busy, so lifeguard cover is mandatory from 1 June to 30 September. The Municipality of {municipality} includes it in its lifeguard contract for {years}.",
+    "hubMetaDesc": "Every beach in Halkidiki: shallow sandy bays for kids, hidden coves on Sithonia and organised shores on Kassandra, by peninsula and by feature."
   },
   "food": {
     "hubTitle": "Where to eat in Halkidiki",
@@ -273,7 +280,8 @@
     "locationFacts": "{name} is {villageKm} from {village}{municipality, select, none {} other { (Municipality of {municipality})}}.",
     "faqNearestBeachQ": "What is the nearest beach to {name}?",
     "faqNearestBeachA": "The nearest beach is {beach}, about {beachKm} in a straight line{flag, select, yes {; it holds a {year} Blue Flag} other {}}.",
-    "locationBeach": "The nearest beach is {beach}, {beachKm} in a straight line{flag, select, yes {, with a {year} Blue Flag} other {}}."
+    "locationBeach": "The nearest beach is {beach}, {beachKm} in a straight line{flag, select, yes {, with a {year} Blue Flag} other {}}.",
+    "hubMetaDesc": "Fish tavernas by the water, beach bars, bakeries for breakfast and evening bars in Halkidiki, grouped by peninsula, with cuisine, price level and rating."
   },
   "activity": {
     "hubTitle": "Things to do in Halkidiki",
@@ -310,7 +318,7 @@
     "hubLead": "Apartments, villas and houses you book directly with the owner, with no platform fees. Each place comes with photos, amenities, house rules and the closest beaches.",
     "inArea": "Places to stay {area}",
     "metaTitle": "{name}: stay in {inPlace}, sleeps {guests}",
-    "metaDesc": "{name} in {inPlace}: {bedrooms} bedrooms, sleeps {guests}{price}. Ask the owner about availability directly.",
+    "metaDesc": "{name} in {inPlace}: {bedrooms, plural, one {# bedroom} other {# bedrooms}}, sleeps {guests}{price}. Ask the owner about availability directly.",
     "priceFromMeta": ", from {price}/night",
     "guests": "{count, plural, one {# guest} other {up to # guests}}",
     "bedrooms": "{count, plural, one {# bedroom} other {# bedrooms}}",
@@ -399,7 +407,8 @@
     "areaCensus": "{village} belongs to the Municipality of {municipality} and has {n, plural, one {# permanent resident} other {# permanent residents}} ({year} census, ELSTAT).",
     "areaBeach": "The nearest beach is {beach}, {beachKm} in a straight line{flag, select, yes {, with a {year} Blue Flag} other {}}.",
     "faqNearestBeachQ": "How far is the nearest beach?",
-    "faqNearestBeachA": "The nearest beach is {beach}, about {beachKm} in a straight line{flag, select, yes {; it holds a {year} Blue Flag} other {}}."
+    "faqNearestBeachA": "The nearest beach is {beach}, about {beachKm} in a straight line{flag, select, yes {; it holds a {year} Blue Flag} other {}}.",
+    "hubMetaDesc": "Apartments, villas and houses in Halkidiki you book directly with the owner, with no platform fees. Photos, amenities, house rules and the nearest beaches."
   },
   "articles": {
     "hubTitle": "Articles and guides about Halkidiki",
@@ -436,6 +445,7 @@
     "statStays": "places to stay",
     "peninsulasTitle": "Three “legs” and the mainland",
     "peninsulasLead": "Each peninsula has its own character. Start with the one that suits you.",
+    "areasMetaDesc": "Halkidiki's three peninsulas and mainland: Kassandra an hour from Thessaloniki, wilder Sithonia, the Athos peninsula with Ouranoupoli, and inland villages.",
     "kassandraBlurb": "Organised sandy beaches, beach bars and lively evenings, an hour from Thessaloniki.",
     "sithoniaBlurb": "Pine forest down to the water, turquoise coves and quieter villages.",
     "athosBlurb": "Ouranoupoli, Ammouliani and boat trips along the Mount Athos coast.",
@@ -508,7 +518,9 @@
     "fromHubLead": "By road from the Balkans, by plane to Thessaloniki or by bus: routes, distances, tolls and border crossings from every major city.",
     "bestListTitle": "The list",
     "faqTitle": "Halkidiki FAQ",
-    "faqLead": "Short, practical answers about transport, beaches, food, accommodation and everyday questions."
+    "faqLead": "Short, practical answers about transport, beaches, food, accommodation and everyday questions.",
+    "faqMetaDesc": "Answers to common questions about Halkidiki in six sections: beaches, accommodation, getting around, food and drink, practical information and things to do.",
+    "hubMetaDesc": "Guides to plan a Halkidiki holiday: when to come, how to get here from your country, food and accommodation costs, ready-made itineraries and themed picks."
   },
   "events": {
     "hubTitle": "Events and festivals in Halkidiki",
@@ -550,7 +562,8 @@
     "cost": "Pricing",
     "source": "Data source: Open Charge Map",
     "none": "We couldn't load the stations right now.",
-    "near": "near {place}"
+    "near": "near {place}",
+    "metaDesc": "EV charging stations in Halkidiki by peninsula, with plug types and power, from Open Charge Map. Check availability and price in the operator's app."
   },
   "finder": {
     "all": "All of Halkidiki",
@@ -584,5 +597,16 @@
     "seeBeaches": "See the beaches",
     "seeStays": "See places to stay",
     "openMap": "Open the map"
+  },
+  "metaExtra": {
+    "nearestBeach": "Nearest beach: {beach}, {km} away.",
+    "nearestBeachShort": "Nearest beach: {beach}.",
+    "beachNearby": "Beach nearby: {beach}, {km} away.",
+    "beachNearbyShort": "Beach nearby: {beach}.",
+    "photosMap": "Photos and map.",
+    "areaDistance": "{inArea}, {km} from {fromPlace}.",
+    "villageFacts": "Municipality of {municipality}, population {n, number} ({year}).",
+    "areaBeachCount": "{count, plural, one {# beach} other {# beaches}} in {villages, plural, one {# village} other {# villages}}.",
+    "areaBeachTop": "Most beaches near: {list}."
   }
 }

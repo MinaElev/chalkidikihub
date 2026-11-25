@@ -41,15 +41,7 @@ export const ITINERARIES: ItineraryGuide[] = [
       ro: '3 zile în Halkidiki — itinerar',
       sr: '3 dana na Halkidikiju — plan',
     },
-    metaDesc: {
-      el: 'Πώς να περάσετε 3 τέλειες μέρες στη Χαλκιδική. Παραλίες Κασσάνδρας, Σιθωνίας, εστιατόρια, αξιοθέατα. Μπάτζετ €200-400.',
-      en: 'How to spend 3 perfect days in Halkidiki. Kassandra and Sithonia beaches, restaurants, sights. Budget €200-400 per person.',
-      de: 'So verbringen Sie 3 perfekte Tage in Chalkidiki. Strände, Restaurants, Sehenswürdigkeiten. Budget €200-400 pro Person.',
-      bg: 'Как да прекарате 3 перфектни дни в Халкидики. Плажове, ресторанти, забележителности. Бюджет €200-400.',
-      ru: 'Как провести 3 идеальных дня в Халкидики. Пляжи Кассандры и Ситонии, рестораны, достопримечательности. Бюджет €200-400.',
-      ro: 'Cum să petreceți 3 zile perfecte în Halkidiki: plaje în Kassandra și Sithonia, restaurante, obiective. Buget €200-400 de persoană.',
-      sr: 'Kako provesti 3 savršena dana na Halkidikiju: plaže Kasandre i Sitonije, restorani, znamenitosti. Budžet €200-400 po osobi.',
-    },
+    metaDesc: { el: "3 μέρες στη Χαλκιδική: 1η μέρα Κασσάνδρα, 2η μέρα παραλίες της Σιθωνίας, 3η μέρα πρωινό μπάνιο και αναχώρηση. Εκτιμώμενο κόστος €200–400 ανά άτομο.", en: "3 days in Halkidiki: day 1 in Kassandra, day 2 beach-hopping in Sithonia, day 3 a morning swim before you leave. Estimated budget €200–400 per person.", de: "3 Tage in Chalkidiki: Tag 1 Kassandra, Tag 2 Strandhopping auf Sithonia, Tag 3 ein Morgenbad vor der Abreise. Geschätztes Budget 200–400 € pro Person.", bg: "3 дни в Халкидики: ден 1 – Касандра, ден 2 – плажовете на Ситония, ден 3 – сутрешно плуване и отпътуване. Ориентировъчен бюджет €200–400 на човек.", ru: "3 дня на Халкидики: день 1 — Кассандра, день 2 — пляжи Ситонии, день 3 — утреннее купание и отъезд. Примерный бюджет €200–400 на человека.", ro: "3 zile în Halkidiki: ziua 1 în Kassandra, ziua 2 pe plajele din Sithonia, ziua 3 o baie de dimineață și plecarea. Buget estimat €200–400 de persoană.", sr: "3 dana na Halkidikiju: prvi dan Kasandra, drugi dan plaže Sitonije, treći dan jutarnje kupanje i polazak. Okvirni budžet je €200–400 po osobi." },
     content: {
       el: `<h2>Για Ποιον Είναι Αυτό το Πρόγραμμα</h2>
 <p>Αυτό το πρόγραμμα 3 ημερών είναι ιδανικό για <strong>σύντομες αποδράσεις</strong> — ζευγάρια, παρέες ή οικογένειες που θέλουν μια γρήγορη γεύση Χαλκιδικής. Εκτιμώμενο κόστος: <strong>€200-400 ανά άτομο</strong> (κατάλυμα, φαγητό, μετακινήσεις).</p>
@@ -274,15 +266,7 @@ export const ITINERARIES: ItineraryGuide[] = [
       ro: '5 zile în Halkidiki — itinerar',
       sr: '5 dana na Halkidikiju — plan',
     },
-    metaDesc: {
-      el: 'Πλήρες πρόγραμμα 5 ημερών στη Χαλκιδική. Κασσάνδρα, Σιθωνία, Αμμουλιανή. Μπάτζετ €400-700.',
-      en: 'Complete 5-day itinerary for Halkidiki. Kassandra, Sithonia, Ammouliani island. Budget €400-700 per person.',
-      de: 'Kompletter 5-Tage-Reiseplan für Chalkidiki: Kassandra, Sithonia, Ammouliani. Budget €400-700 pro Person.',
-      bg: 'Пълен маршрут за 5 дни в Халкидики. Касандра, Ситония, Амулиани. Бюджет €400-700.',
-      ru: 'Полный маршрут на 5 дней в Халкидики. Кассандра, Ситония, Аммулиани. Бюджет €400-700.',
-      ro: 'Itinerar complet de 5 zile în Halkidiki: Kassandra, Sithonia, Ammouliani. Buget €400-700 de persoană.',
-      sr: 'Kompletan plan za 5 dana na Halkidikiju: Kasandra, Sitonija, Amuljani. Budžet €400-700 po osobi.',
-    },
+    metaDesc: { el: "5 μέρες στη Χαλκιδική: δύο μέρες Κασσάνδρα (Άφυτος, Καλλιθέα, Χανιώτη), δύο Σιθωνία και μία εκδρομή στην Αμμουλιανή. Κόστος €400–700 ανά άτομο.", en: "5 days in Halkidiki: two days in Kassandra (Afytos, Kallithea, Hanioti), two in Sithonia and a day trip to Ammouliani island. Budget €400–700 per person.", de: "5 Tage in Chalkidiki: zwei Tage Kassandra (Afytos, Kallithea, Chanioti), zwei Tage Sithonia und ein Ausflug nach Ammouliani. Budget 400–700 € pro Person.", bg: "5 дни в Халкидики: два дни Касандра (Афитос, Калитея, Ханиоти), два дни Ситония и екскурзия до остров Амулиани. Бюджет €400–700 на човек.", ru: "5 дней на Халкидики: два дня на Кассандре (Афитос, Калитея, Ханиоти), два на Ситонии и поездка на остров Аммулиани. Бюджет €400–700 на человека.", ro: "5 zile în Halkidiki: două zile în Kassandra (Afytos, Kallithea, Hanioti), două în Sithonia și o excursie pe insula Ammouliani. Buget €400–700 de persoană.", sr: "5 dana na Halkidikiju: dva dana na Kasandri (Afitos, Kalitea, Hanioti), dva na Sitoniji i izlet na ostrvo Amuljani. Budžet je €400–700 po osobi." },
     content: {
       el: `<h2>Για Ποιον Είναι Αυτό το Πρόγραμμα</h2>
 <p>Με 5 μέρες μπορείτε να απολαύσετε <strong>και τις δύο μεγάλες χερσονήσους</strong> συν μια ημερήσια εκδρομή στο νησί. Ιδανικό για ζευγάρια και οικογένειες. Μπάτζετ: <strong>€400-700 ανά άτομο</strong>.</p>
@@ -498,15 +482,7 @@ export const ITINERARIES: ItineraryGuide[] = [
       ro: '7 zile în Halkidiki — itinerar',
       sr: '7 dana na Halkidikiju — plan',
     },
-    metaDesc: {
-      el: 'Αναλυτικό πρόγραμμα 7 ημερών στη Χαλκιδική. Κασσάνδρα, Σιθωνία, ορεινά χωριά, Αμμουλιανή, Ουρανούπολη. Μπάτζετ €600-1200.',
-      en: 'Detailed 7-day itinerary for Halkidiki. Kassandra, Sithonia, mountain villages, Ammouliani, Ouranoupoli. Budget €600-1200.',
-      de: 'Detaillierter 7-Tage-Reiseplan für Chalkidiki: Kassandra, Sithonia, Bergdörfer, Ammouliani, Ouranoupoli. Budget €600-1200.',
-      bg: 'Подробен 7-дневен маршрут за Халкидики. Касандра, Ситония, планински села, Амулиани. Бюджет €600-1200.',
-      ru: 'Подробный 7-дневный маршрут по Халкидики. Кассандра, Ситония, горные деревни, Аммулиани. Бюджет €600-1200.',
-      ro: 'Itinerar detaliat de 7 zile în Halkidiki: Kassandra, Sithonia, sate de munte, Ammouliani, Ouranoupoli. Buget €600-1200.',
-      sr: 'Detaljan plan za 7 dana na Halkidikiju: Kasandra, Sitonija, planinska sela, Amuljani, Uranupolis. Budžet €600-1200.',
-    },
+    metaDesc: { el: "Μία εβδομάδα στη Χαλκιδική: Κασσάνδρα, Σιθωνία, ορεινά χωριά, Αμμουλιανή και Δρένια, κρουαζιέρα στο Άγιον Όρος από την Ουρανούπολη. €600–1200 ανά άτομο.", en: "One week in Halkidiki: Kassandra, Sithonia, mountain villages, Ammouliani and the Drenia islets, a Mount Athos cruise from Ouranoupoli. €600–1200 per person.", de: "Eine Woche Chalkidiki: Kassandra, Sithonia, Bergdörfer, Ammouliani und die Drenia-Inseln, Athos-Kreuzfahrt ab Ouranoupoli. Budget 600–1200 € pro Person.", bg: "Седмица в Халкидики: Касандра, Ситония, планинските села, Амулиани и островите Дрения, круиз около Атон от Уранополи. Бюджет €600–1200 на човек.", ru: "Неделя на Халкидики: Кассандра, Ситония, горные деревни, Аммулиани и острова Дрения, круиз вдоль Афона из Уранополиса. Бюджет €600–1200 на человека.", ro: "O săptămână în Halkidiki: Kassandra, Sithonia, sate de munte, Ammouliani și insulele Drenia, croazieră la Athos din Ouranoupoli. Buget €600–1200 de persoană.", sr: "Nedelju dana na Halkidikiju: Kasandra, Sitonija, planinska sela, Amuljani i ostrva Drenija, krstarenje oko Svete Gore iz Uranopolisa. €600–1200 po osobi." },
     content: {
       el: `<h2>Για Ποιον Είναι Αυτό το Πρόγραμμα</h2>
 <p>Μια ολόκληρη εβδομάδα σας δίνει χρόνο να <strong>γνωρίσετε τη Χαλκιδική σε βάθος</strong> — παραλίες, βουνά, νησιά και πολιτισμό. Μπάτζετ: <strong>€600-1200 ανά άτομο</strong>.</p>
@@ -746,15 +722,7 @@ export const ITINERARIES: ItineraryGuide[] = [
       ro: '10 zile în Halkidiki — itinerar',
       sr: '10 dana na Halkidikiju — plan',
     },
-    metaDesc: {
-      el: 'Αναλυτικό πρόγραμμα 10 ημερών στη Χαλκιδική. Παραλίες, χωριά, νησιά, Θεσσαλονίκη, γαστρονομία. Μπάτζετ €900-1800.',
-      en: 'Detailed 10-day itinerary for Halkidiki. Beaches, villages, islands, Thessaloniki day trip, gastronomy. Budget €900-1800.',
-      de: 'Detaillierter 10-Tage-Reiseplan für Chalkidiki: Strände, Dörfer, Inseln, Tagesausflug nach Thessaloniki, Gastronomie. Budget €900-1800.',
-      bg: 'Подробен 10-дневен маршрут за Халкидики. Плажове, села, острови, Солун. Бюджет €900-1800.',
-      ru: 'Подробный 10-дневный маршрут по Халкидики. Пляжи, деревни, острова, Салоники. Бюджет €900-1800.',
-      ro: 'Itinerar detaliat de 10 zile în Halkidiki: plaje, sate, insule, excursie la Salonic, gastronomie. Buget €900-1800.',
-      sr: 'Detaljan plan za 10 dana na Halkidikiju: plaže, sela, ostrva, izlet u Solun, gastronomija. Budžet €900-1800.',
-    },
+    metaDesc: { el: "10 μέρες στη Χαλκιδική: Κασσάνδρα, Σιθωνία, ορεινά χωριά, Αμμουλιανή και Δρένια, κρουαζιέρα στο Άγιον Όρος, Θεσσαλονίκη, γαστρονομία. €900–1800 ανά άτομο.", en: "10 days in Halkidiki: Kassandra, Sithonia, mountain villages, Ammouliani and Drenia, a Mount Athos cruise, Thessaloniki a food and wine day. €900–1800 each.", de: "10 Tage Chalkidiki: Kassandra, Sithonia, Bergdörfer, Ammouliani und Drenia, Athos-Kreuzfahrt, Thessaloniki und ein Tag für Essen und Wein. 900–1800 € p. P.", bg: "10 дни в Халкидики: Касандра, Ситония, планински села, Амулиани и Дрения, круиз около Атон, Солун и ден за храна и вино. Бюджет €900–1800 на човек.", ru: "10 дней на Халкидики: Кассандра, Ситония, горные деревни, Аммулиани и Дрения, круиз вдоль Афона, Салоники и гастрономический день. €900–1800 на человека.", ro: "10 zile în Halkidiki: Kassandra, Sithonia, sate de munte, Ammouliani și Drenia, croazieră la Athos, Salonic și o zi de gastronomie. €900–1800 de persoană.", sr: "10 dana na Halkidikiju: Kasandra, Sitonija, planinska sela, Amuljani i Drenija, krstarenje oko Svete Gore, Solun i dan za hranu i vino. €900–1800 po osobi." },
     content: {
       el: `<h2>Για Ποιον Είναι Αυτό το Πρόγραμμα</h2>
 <p>10 ημέρες σημαίνει <strong>ολοκληρωμένες διακοπές</strong> — κάθε γωνιά της Χαλκιδικής συν εκδρομές. Ιδανικό για οικογένειες ή ζευγάρια που θέλουν να χαλαρώσουν. Μπάτζετ: <strong>€900-1800 ανά άτομο</strong>.</p>

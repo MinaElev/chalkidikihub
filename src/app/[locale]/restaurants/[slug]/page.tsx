@@ -11,6 +11,7 @@ import { AREA_NAMES, inPlace, placeName } from '@/lib/content/place-names';
 import { formatDistance, formatList, greekAlt } from '@/lib/content/format';
 import { parseHours, hoursSummary } from '@/lib/content/hours';
 import { plainText } from '@/lib/content/render';
+import { nearestBeachExtra } from '@/lib/seo/meta-extra';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { restaurantIndex } from '@/lib/seo/indexability';
 import { addressLd, geoLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
@@ -62,6 +63,8 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/restaura
   ]);
   const name = displayName(r, locale, 'restaurant');
   const place = village ? placeName(village.item.slug, locale, village.item) : AREA_NAMES[r.area][locale];
+  // Same rule as the page body: no claim when this restaurant's pin is in doubt.
+  const nearestBeach = COORDS_IN_DOUBT.has(slug) ? null : await nearestBeachExtra(r, locale);
   const cuisine = formatList((r.cuisine ?? []).filter((c) => cuisines.has(c)).slice(0, 3).map((c) => cuisines(c).toLocaleLowerCase()), locale);
   return buildMetadata({
     locale,
@@ -70,6 +73,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/restaura
     // ("The Cricket" for Τζίτζικας). People search these places by name.
     title: t('metaTitle', { name, place }),
     description: t('metaDesc', { name, inPlace: village ? inPlace(village.item.slug, locale) : place, cuisine }),
+    extra: [nearestBeach, r.price_level && t.has(`faqPrice_${r.price_level}`) && t(`faqPrice_${r.price_level}`)],
     image: r.image_url,
     indexableLocales: (await restaurantIndex())[slug] ?? [],
   });

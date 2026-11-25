@@ -13,13 +13,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     sr: 'Šta nudimo vlasnicima — ChalkidikiHub',
   };
   const descriptions: Record<string, string> = {
-    el: 'Αναλυτικά όλα όσα προσφέρουμε δωρεάν στους ιδιοκτήτες καταλυμάτων στη Χαλκιδική: προβολή σε 7 γλώσσες σε 30.000 τουρίστες/μήνα, QR Guest Guide, προσωπική σελίδα και προαιρετικό ημερολόγιο διαθεσιμότητας.',
-    en: 'Everything we offer for free to property owners in Halkidiki: 7-language exposure to 30,000 monthly tourists, QR Guest Guide, personal landing page and an optional availability calendar.',
-    de: 'Alle kostenlosen Leistungen für Unterkunftseigentümer in Chalkidiki: 7-Sprachen-Promotion zu 30.000 Touristen/Monat, QR Guest Guide, persönliche Seite und ein optionaler Belegungskalender.',
-    bg: 'Всичко, което предлагаме безплатно на собствениците в Халкидики: реклама на 7 езика до 30 000 туристи/месец, QR гид за гости, персонална страница и календар за свободни дати по желание.',
-    ru: 'Все, что мы бесплатно предлагаем владельцам в Халкидиках: продвижение на 7 языках для 30 000 туристов/месяц, QR-гид для гостей, персональная страница и календарь занятости по желанию.',
-    ro: 'Tot ce oferim gratuit proprietarilor din Halkidiki: promovare în 7 limbi către 30.000 turiști/lună, ghid QR pentru oaspeți, pagină personală și calendar opțional de disponibilitate.',
-    sr: 'Sve što besplatno nudimo vlasnicima na Halkidikiju: promocija na 7 jezika za 30.000 turista/mesec, QR vodič za goste, personalna stranica i opcioni kalendar dostupnosti.',
+    el: 'Όσα προσφέρουμε σε ιδιοκτήτες καταλυμάτων στη Χαλκιδική: προβολή σε 7 γλώσσες, προσωπική σελίδα, QR Guest Guide και προαιρετικό ημερολόγιο, χωρίς προμήθεια.',
+    en: 'What we offer property owners in Halkidiki: visibility in 7 languages, a personal page, a QR Guest Guide and an optional availability calendar, no commission.',
+    de: 'Was wir Eigentümern in Chalkidiki bieten: Sichtbarkeit in 7 Sprachen, eigene Seite, QR Guest Guide und ein optionaler Belegungskalender, ohne Provision.',
+    bg: 'Какво предлагаме на собствениците в Халкидики: видимост на 7 езика, собствена страница, QR гид за гости и календар за свободни дати по желание, без комисиона.',
+    ru: 'Что мы предлагаем владельцам на Халкидики: продвижение на 7 языках, личная страница, QR-гид для гостей и календарь занятости по желанию, без комиссии.',
+    ro: 'Ce oferim proprietarilor din Halkidiki: vizibilitate în 7 limbi, pagină proprie, ghid QR pentru oaspeți și calendar opțional, fără comision.',
+    sr: 'Šta nudimo vlasnicima na Halkidikiju: vidljivost na 7 jezika, sopstvena stranica, QR vodič za goste i opcioni kalendar dostupnosti, bez provizije.',
   };
 
   return collectionMeta({

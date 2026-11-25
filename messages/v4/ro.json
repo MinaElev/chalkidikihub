@@ -91,7 +91,7 @@
   "places": {
     "hubTitle": "Localitățile și stațiunile din Halkidiki",
     "hubMetaTitle": "Localități din Halkidiki: ghid pentru {count} destinații",
-    "hubLead": "De la ulițele pietruite din Afytos la golfurile din jurul Sartiului: fiecare localitate cu cele mai apropiate plaje, locuri unde să mănânci și cazări, grupate pe peninsule.",
+    "hubLead": "De la ulițele pietruite din Afytos la golfurile din jurul Sartiului: fiecare localitate cu plajele apropiate, unde mănânci și cazări, pe peninsule.",
     "villagesIn": "Localități din {area}",
     "villageMetaTitle": "{name}, Halkidiki: plaje, mâncare și cazare",
     "villageMetaDesc": "Ghid pentru {name}: cele mai apropiate {beaches} plaje, unde să mănânci, unde să te cazezi și ce să vezi în jurul localității.",
@@ -161,7 +161,13 @@
     "factSeatrac": "Acces în mare pentru persoane cu dizabilități",
     "factSeatracValue": "SEATRAC pe plaja localității",
     "moreStaysHeading": "Încă {count, plural, one {# cazare} few {# cazări} other {# de cazări}} în {inPlace}",
-    "eventsHeading": "Evenimente în {inPlace}"
+    "eventsHeading": "Evenimente în {inPlace}",
+    "restaurantsMetaMore": "{count, plural, one {# opțiune} few {# opțiuni} other {# de opțiuni}} pentru mâncare și băuturi, cu tipul de bucătărie și nivelul prețurilor.",
+    "activitiesMetaMore": "{count, plural, one {# idee} few {# idei} other {# de idei}} pentru zilele în care vrei altceva decât plaja.",
+    "beachesMetaMore": "{within, plural, one {# plajă} few {# plaje} other {# de plaje}} pe o rază de {radius} km de centrul localității.",
+    "restaurantsMetaMoreShort": "Cu tipul de bucătărie și nivelul prețurilor.",
+    "activitiesMetaMoreShort": "În total, {count, plural, one {# idee} few {# idei} other {# de idei}}.",
+    "beachesMetaMoreShort": "Pe o rază de {radius} km de localitate."
   },
   "beach": {
     "hubTitle": "Plajele din Halkidiki",
@@ -233,7 +239,8 @@
     "lifeguardLabel": "Salvamar",
     "lifeguardValue": "Obligatoriu 1 iunie – 30 septembrie (plajă aglomerată)",
     "faqLifeguardQ": "Există salvamar?",
-    "faqLifeguardA": "Autoritatea portuară competentă a clasificat plaja drept aglomerată, așa că prezența salvamarilor este obligatorie între 1 iunie și 30 septembrie. Municipalitatea {municipality} a inclus-o în contractul său de salvamari pentru {years}."
+    "faqLifeguardA": "Autoritatea portuară competentă a clasificat plaja drept aglomerată, așa că prezența salvamarilor este obligatorie între 1 iunie și 30 septembrie. Municipalitatea {municipality} a inclus-o în contractul său de salvamari pentru {years}.",
+    "hubMetaDesc": "Toate plajele din Halkidiki: golfuri cu nisip și apă mică pentru copii, golfulețe ascunse în Sithonia și plaje amenajate în Kassandra, pe peninsule."
   },
   "food": {
     "hubTitle": "Unde să mănânci în Halkidiki",
@@ -273,7 +280,8 @@
     "locationFacts": "{name} se află la {villageKm} de {village}{municipality, select, none {} other { (municipalitatea {municipality})}}.",
     "faqNearestBeachQ": "Care este cea mai apropiată plajă de {name}?",
     "faqNearestBeachA": "Cea mai apropiată plajă este {beach}, la aproximativ {beachKm} în linie dreaptă{flag, select, yes {; are Steag Albastru {year}} other {}}.",
-    "locationBeach": "Cea mai apropiată plajă este {beach}, la {beachKm} în linie dreaptă{flag, select, yes {, cu Steag Albastru {year}} other {}}."
+    "locationBeach": "Cea mai apropiată plajă este {beach}, la {beachKm} în linie dreaptă{flag, select, yes {, cu Steag Albastru {year}} other {}}.",
+    "hubMetaDesc": "Taverne cu pește lângă apă, baruri pe plajă, brutării pentru micul dejun și baruri de seară în Halkidiki, pe peninsule, cu bucătărie, nivel de preț și notă."
   },
   "activity": {
     "hubTitle": "Ce poți face în Halkidiki",
@@ -310,7 +318,7 @@
     "hubLead": "Apartamente, vile și case pe care le rezervi direct la proprietar, fără comisioane de platformă. Fiecare cu fotografii, facilități, reguli și cele mai apropiate plaje.",
     "inArea": "Cazare {area}",
     "metaTitle": "{name}: cazare în {inPlace}, până la {guests} persoane",
-    "metaDesc": "{name} în {inPlace}: {bedrooms} dormitoare, până la {guests} persoane{price}. Întreabă proprietarul direct despre disponibilitate.",
+    "metaDesc": "{name} în {inPlace}: {bedrooms, plural, one {# dormitor} few {# dormitoare} other {# de dormitoare}}, {guests, plural, one {# persoană} few {până la # persoane} other {până la # de persoane}}{price}. Întreabă proprietarul direct despre disponibilitate.",
     "priceFromMeta": ", de la {price}/noapte",
     "guests": "{count, plural, one {# persoană} few {până la # persoane} other {până la # de persoane}}",
     "bedrooms": "{count, plural, one {# dormitor} few {# dormitoare} other {# de dormitoare}}",
@@ -400,7 +408,8 @@
     "areaCensus": "{village} face parte din municipalitatea {municipality} și are {n, plural, one {# locuitor permanent} few {# locuitori permanenți} other {# de locuitori permanenți}} (recensământul din {year}, ELSTAT).",
     "areaBeach": "Cea mai apropiată plajă este {beach}, la {beachKm} în linie dreaptă{flag, select, yes {, cu Steag Albastru {year}} other {}}.",
     "faqNearestBeachQ": "Cât de departe este cea mai apropiată plajă?",
-    "faqNearestBeachA": "Cea mai apropiată plajă este {beach}, la aproximativ {beachKm} în linie dreaptă{flag, select, yes {; are Steag Albastru {year}} other {}}."
+    "faqNearestBeachA": "Cea mai apropiată plajă este {beach}, la aproximativ {beachKm} în linie dreaptă{flag, select, yes {; are Steag Albastru {year}} other {}}.",
+    "hubMetaDesc": "Apartamente, vile și case în Halkidiki, rezervate direct de la proprietar, fără taxe de platformă. Fotografii, facilități, reguli și cele mai apropiate plaje."
   },
   "articles": {
     "hubTitle": "Articole și ghiduri despre Halkidiki",
@@ -437,6 +446,7 @@
     "statStays": "cazări",
     "peninsulasTitle": "Trei „degete” și zona continentală",
     "peninsulasLead": "Fiecare peninsulă are caracterul ei. Începe cu cea care ți se potrivește.",
+    "areasMetaDesc": "Cele trei peninsule și interiorul Halkidikiului: Kassandra, la o oră de Salonic, Sithonia mai sălbatică, peninsula Athos cu Ouranoupoli și satele de munte.",
     "kassandraBlurb": "Plaje cu nisip amenajate, baruri pe plajă și seri animate, la o oră de Salonic.",
     "sithoniaBlurb": "Pădure de pini până la apă, golfulețe turcoaz și sate mai liniștite.",
     "athosBlurb": "Ouranoupoli, Ammouliani și croaziere de-a lungul coastei Muntelui Athos.",
@@ -509,12 +519,14 @@
     "fromHubLead": "Cu mașina prin Balcani, cu avionul până la Salonic sau cu autocarul: rute, distanțe, taxe de drum și puncte de frontieră din fiecare oraș mare.",
     "bestListTitle": "Lista",
     "faqTitle": "Întrebări frecvente despre Halkidiki",
-    "faqLead": "Răspunsuri scurte și practice despre transport, plaje, mâncare, cazare și viața de zi cu zi."
+    "faqLead": "Răspunsuri scurte și practice despre transport, plaje, mâncare, cazare și viața de zi cu zi.",
+    "faqMetaDesc": "Răspunsuri la întrebările frecvente despre Halkidiki, în șase secțiuni: plaje, cazare, transport, mâncare și băutură, informații practice și activități.",
+    "hubMetaDesc": "Ghiduri pentru vacanța în Halkidiki: când să vii, cum ajungi din țara ta, cât costă mâncarea și cazarea, itinerarii gata făcute și topuri pe teme."
   },
   "events": {
     "hubTitle": "Evenimente și festivaluri în Halkidiki",
     "hubMetaTitle": "Evenimente în Halkidiki: festivaluri și sărbători locale pe luni",
-    "hubLead": "Festivalurile, sărbătorile satelor (panigiria) și evenimentele din Halkidiki — cu datele de anul acesta, acolo unde sunt anunțate, și perioada obișnuită din fiecare an.",
+    "hubLead": "Festivalurile, sărbătorile satelor (panigiria) și evenimentele din Halkidiki — cu datele anunțate pentru anul acesta și perioada obișnuită.",
     "when": "Când",
     "where": "Unde",
     "category": "Tip",
@@ -551,7 +563,8 @@
     "cost": "Tarif",
     "source": "Sursa datelor: Open Charge Map",
     "none": "Nu am putut încărca stațiile acum.",
-    "near": "lângă {place}"
+    "near": "lângă {place}",
+    "metaDesc": "Stații de încărcare pentru mașini electrice în Halkidiki, pe peninsule, cu tipuri de prize și putere, după Open Charge Map. Disponibilitatea, în aplicație."
   },
   "finder": {
     "all": "Tot Halkidiki",
@@ -585,5 +598,16 @@
     "seeBeaches": "Vezi plajele",
     "seeStays": "Vezi cazările",
     "openMap": "Deschide harta"
+  },
+  "metaExtra": {
+    "nearestBeach": "Cea mai apropiată plajă: {beach}, la {km}.",
+    "nearestBeachShort": "Cea mai apropiată plajă: {beach}.",
+    "beachNearby": "Plajă în apropiere: {beach}, la {km}.",
+    "beachNearbyShort": "Plajă în apropiere: {beach}.",
+    "photosMap": "Fotografii și hartă.",
+    "areaDistance": "{inArea}, la {km} de {fromPlace}.",
+    "villageFacts": "Municipalitatea {municipality}, populație {n, number} ({year}).",
+    "areaBeachCount": "{count, plural, one {# plajă} few {# plaje} other {# de plaje}} în {villages, plural, one {# localitate} few {# localități} other {# de localități}}.",
+    "areaBeachTop": "Cele mai multe plaje lângă: {list}."
   }
 }

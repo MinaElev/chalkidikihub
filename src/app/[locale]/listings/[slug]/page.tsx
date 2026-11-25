@@ -4,7 +4,7 @@ import { BedDouble, Bath, Check, ExternalLink, Globe, Phone, Users } from 'lucid
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getListing, getListings, getLiveCalendarListingIds, type ListingCard } from '@/lib/db/content';
-import { hasCoords } from '@/lib/geo';
+import { hasCoords, isUnsetPin } from '@/lib/geo';
 import { publicDb } from '@/lib/supabase/clients';
 import { inPageScript, localize, pick } from '@/lib/i18n/localize';
 import { closestVillage, displayName, nearBeaches, nearRestaurants, ratingProps } from '@/lib/content/nearby';
@@ -15,6 +15,7 @@ import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews'
 import { BLUE_FLAG_2026, BLUE_FLAG_YEAR } from '@/content/beach-facts';
 import { CENSUS_YEAR, MUNICIPALITY_NAMES, VILLAGE_FACTS } from '@/content/village-facts';
 import { isNearestBeach } from '@/lib/content/beach-coverage';
+import { nearestBeachExtra } from '@/lib/seo/meta-extra';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { listingIndex } from '@/lib/seo/indexability';
 import { addressLd, geoLd, ratingLd, type Faq as FaqItem } from '@/lib/seo/jsonld';
@@ -76,12 +77,16 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/listings
   const name = displayName(l, locale, 'listing');
   const ip = village ? inPlace(village.item.slug, locale) : AREA_NAMES[l.area][locale];
   const pics = photos(l, locale, name);
+  // An unset pin sits in the sea, so its "nearest beach" would be a guess.
+  const pinned = hasCoords(l) && !isUnsetPin(l.latitude, l.longitude);
+  const nearestBeach = pinned ? await nearestBeachExtra(l, locale) : null;
   const price = l.price_per_night ? t('priceFromMeta', { price: formatPrice(Number(l.price_per_night), locale) }) : '';
   return buildMetadata({
     locale,
     path: `/listings/${slug}`,
     title: t('metaTitle', { name, inPlace: ip, guests: l.guests_max }),
     description: t('metaDesc', { name, inPlace: ip, bedrooms: l.bedrooms, guests: l.guests_max, price }),
+    extra: [nearestBeach, `${t('noFees')}.`],
     image: pics[0]?.url,
     indexableLocales: l.is_closed ? [] : ((await listingIndex())[slug] ?? []),
   });

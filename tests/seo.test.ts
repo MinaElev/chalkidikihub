@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { assessQuality, indexableIn, nearbyListPasses, wordCount } from '@/lib/seo/quality';
 import { parseSitemapId, sitemapGroup } from '@/lib/seo/sitemap-groups';
 import { locales } from '@/i18n/config';
-import { buildMetadata } from '@/lib/seo/metadata';
+import { buildMetadata, DESC_MAX, extendDescription, fitDescription } from '@/lib/seo/metadata';
 import { buildRedirects, resolveInLocation } from '@/lib/seo/redirects';
 import { localize } from '@/lib/i18n/localize';
 
@@ -483,5 +483,37 @@ describe('phase 3: internal links', () => {
     ];
     // A guide merged or redirected elsewhere must not be linked.
     for (const s of slugs) expect(resolveInternal(`/blog/${s}`), s).toBe(`/blog/${s}`);
+  });
+});
+
+describe('extendDescription', () => {
+  it('appends whole sentences while they fit', () => {
+    expect(extendDescription('Short base', ['One more.', 'And another.'])).toBe('Short base. One more. And another.');
+  });
+  it('skips a sentence that would pass the limit and keeps trying the next', () => {
+    const base = 'x'.repeat(DESC_MAX - 12) + '.';
+    expect(extendDescription(base, ['A sentence that is far too long.', 'Fits.'])).toBe(`${base} Fits.`);
+  });
+  it('uses the first alternative that fits', () => {
+    const base = 'y'.repeat(DESC_MAX - 20) + '.';
+    expect(extendDescription(base, [['This alternative is too long to fit.', 'Short one.']])).toBe(`${base} Short one.`);
+  });
+  it('ignores empty and false entries', () => {
+    expect(extendDescription('Base.', [null, undefined, false, '', 'Tail.'])).toBe('Base. Tail.');
+  });
+});
+
+describe('fitDescription', () => {
+  it('keeps a text that fits', () => {
+    expect(fitDescription('Short and fine.')).toBe('Short and fine.');
+  });
+  it('cuts at the last whole sentence instead of mid-sentence', () => {
+    const first = 'a'.repeat(120) + '.';
+    expect(fitDescription(`${first} ${'b'.repeat(60)} end.`)).toBe(first);
+  });
+  it('falls back to an ellipsis when no sentence is long enough', () => {
+    const out = fitDescription('Tiny. ' + 'word '.repeat(60));
+    expect(out.endsWith('…')).toBe(true);
+    expect(out.length).toBeLessThanOrEqual(DESC_MAX);
   });
 });

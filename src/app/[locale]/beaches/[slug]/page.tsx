@@ -10,7 +10,7 @@ import {
   closestVillage, displayName, nearBeaches, nearListings, nearRestaurants, ratingProps,
 } from '@/lib/content/nearby';
 import { AREA_LOCATIVE, AREA_NAMES, fromPlace, inPlace, placeName } from '@/lib/content/place-names';
-import { formatDistance, formatList, formatMetres, greekAlt } from '@/lib/content/format';
+import { capitalize, formatDistance, formatList, formatMetres, greekAlt } from '@/lib/content/format';
 import { BEACH_PROFILES, BLUE_FLAG_2026, BLUE_FLAG_SOURCE, BLUE_FLAG_YEAR, PROFILE_SOURCE, SEATRAC_BEACHES, SEATRAC_SOURCE, LIFEGUARD } from '@/content/beach-facts';
 import { MUNICIPALITY_NAMES } from '@/content/village-facts';
 import { documentedFeatures, OFFICIAL_ONLY } from '@/lib/content/beach-documented';
@@ -85,6 +85,12 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/
   const { beach, village } = data;
   const t = await getTranslations({ locale, namespace: 'beach' });
   const labels = await getTranslations({ locale, namespace: 'beachFeatures' });
+  const more = await getTranslations({ locale, namespace: 'metaExtra' });
+  const whereVars = village && {
+    inArea: AREA_LOCATIVE[beach.area][locale],
+    km: formatDistance(village.km, locale),
+    fromPlace: fromPlace(village.item.slug, locale, village.item),
+  };
   const name = displayName(beach, locale, 'beach');
   const place = village ? placeName(village.item.slug, locale, village.item) : AREA_NAMES[beach.area][locale];
   const metaTitle = localize(beach, 'meta_title', locale);
@@ -113,6 +119,10 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/beaches/
     description: metaDesc.native && storedMetaOk(metaDesc.text, locale, beach.area)
       ? metaDesc.text
       : generatedDesc,
+    extra: [
+      village && whereVars && [t('faqWhereA', whereVars), capitalize(more('areaDistance', whereVars))],
+      beach.image_url && hasCoords(beach) && more('photosMap'),
+    ],
     image: beach.image_url,
     imageAlt: greekAlt(beach.image_alt, locale) ?? name,
     indexableLocales: (await beachIndex())[slug] ?? [],

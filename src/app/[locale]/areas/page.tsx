@@ -14,7 +14,7 @@ export const revalidate = 86400;
 export async function generateMetadata({ params }: PageProps<'/[locale]/areas'>) {
   const locale = (await params).locale as Locale;
   const t = await getTranslations({ locale, namespace: 'home' });
-  return buildMetadata({ locale, path: '/areas', title: t('peninsulasTitle'), description: t('peninsulasLead') });
+  return buildMetadata({ locale, path: '/areas', title: t('peninsulasTitle'), description: t('areasMetaDesc') });
 }
 
 export default async function AreasPage({ params }: PageProps<'/[locale]/areas'>) {

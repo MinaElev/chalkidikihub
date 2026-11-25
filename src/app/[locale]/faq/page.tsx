@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/faq'>) {
   const locale = (await params).locale as Locale;
   const t = await getTranslations({ locale, namespace: 'guides' });
   const nativeIn = locales.filter((l) => sections(l).every((s) => s.items.every((i) => i.q.native && i.a.native)));
-  return buildMetadata({ locale, path: '/faq', title: t('faqTitle'), description: t('faqLead'), indexableLocales: nativeIn });
+  return buildMetadata({ locale, path: '/faq', title: t('faqTitle'), description: t('faqMetaDesc'), indexableLocales: nativeIn });
 }
 
 export default async function FaqPage({ params }: PageProps<'/[locale]/faq'>) {

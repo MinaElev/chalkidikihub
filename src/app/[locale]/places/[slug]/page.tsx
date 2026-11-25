@@ -14,8 +14,9 @@ import { localize, pick } from '@/lib/i18n/localize';
 import {
   nearActivities, nearBeaches, nearListings, nearRestaurants, nearVillages, displayName, ratingProps,
 } from '@/lib/content/nearby';
-import { AREA_NAMES, HALKIDIKI, inPlace, placeName } from '@/lib/content/place-names';
+import { AREA_NAMES, fromPlace, HALKIDIKI, inPlace, placeName } from '@/lib/content/place-names';
 import { formatDistance, greekAlt } from '@/lib/content/format';
+import { nearestBeachExtra } from '@/lib/seo/meta-extra';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { villageIndex } from '@/lib/seo/indexability';
 import { geoLd } from '@/lib/seo/jsonld';
@@ -51,6 +52,24 @@ async function load(slug: string) {
 }
 
 
+/** Census and municipality sentences for the description, longest first. */
+async function villageFacts(slug: string, name: string, locale: Locale): Promise<string[]> {
+  const facts = VILLAGE_FACTS[slug];
+  if (!facts) return [];
+  const [stay, places, more] = await Promise.all([
+    getTranslations({ locale, namespace: 'stay' }),
+    getTranslations({ locale, namespace: 'places' }),
+    getTranslations({ locale, namespace: 'metaExtra' }),
+  ]);
+  const municipality = MUNICIPALITY_NAMES[facts.municipality][locale];
+  return [
+    stay('areaCensus', { village: name, municipality, n: facts.population, year: CENSUS_YEAR }),
+    places('faqMunicipalityA', { name, municipality }),
+    more('villageFacts', { municipality, n: facts.population, year: CENSUS_YEAR }),
+    `${places('factMunicipalityValue', { municipality })}.`,
+  ];
+}
+
 export async function generateMetadata({ params }: PageProps<'/[locale]/places/[slug]'>) {
   const { locale: raw, slug } = await params;
   const locale = raw as Locale;
@@ -58,11 +77,14 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/places/[
   if (!data) return {};
   const t = await getTranslations({ locale, namespace: 'places' });
   const name = placeName(slug, locale, data.village);
+  // The nearest beach (listed first on the page): the fallback for villages without census facts.
+  const nearestBeach = await nearestBeachExtra(data.village, locale, 20);
   return buildMetadata({
     locale,
     path: `/places/${slug}`,
     title: t('villageMetaTitle', { name }),
-    description: t('villageMetaDesc', { name, inPlace: inPlace(slug, locale), beaches: data.beaches.length }),
+    description: t('villageMetaDesc', { name, inPlace: inPlace(slug, locale), about: fromPlace(slug, locale, data.village), beaches: data.beaches.length }),
+    extra: [await villageFacts(slug, name, locale), nearestBeach],
     image: data.image,
     indexableLocales: (await villageIndex())[slug] ?? [],
   });
