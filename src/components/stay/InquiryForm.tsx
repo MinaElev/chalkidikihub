@@ -3,7 +3,9 @@
 import { useMemo, useState } from 'react';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
 import { DateRangePicker } from '@/components/forms/DateRangePicker';
+import { PhoneField } from '@/components/forms/PhoneField';
 import { trackEvent } from '@/components/layout/TrafficCounter';
+import { setStayDates, useStayDates } from './stayDates';
 
 export type InquiryLabels = Record<
   | 'formTitle' | 'formIntro' | 'formCheckIn' | 'formCheckOut' | 'formGuests' | 'formName' | 'formEmail'
@@ -22,7 +24,7 @@ type Status = 'idle' | 'sending' | 'done' | 'error' | 'limited';
 const field = 'mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-sea-500 focus:outline-none focus:ring-2 focus:ring-sea-200';
 
 export function InquiryForm({
-  slug, locale, maxGuests, labels, blocked,
+  slug, locale, maxGuests, labels, blocked, searchLabel,
 }: {
   slug: string;
   locale: string;
@@ -30,10 +32,15 @@ export function InquiryForm({
   labels: InquiryLabels;
   /** Booked nights from the stay's calendar, so they can't be picked. */
   blocked?: string[];
+  /** Placeholder of the phone country search. */
+  searchLabel?: string;
 }) {
   const [status, setStatus] = useState<Status>('idle');
-  const [dates, setDates] = useState({ checkIn: '', checkOut: '' });
-  const [missingDates, setMissingDates] = useState(false);
+  // Shared with the availability calendar: tapping dates there fills them in here.
+  const dates = useStayDates();
+  const [missingDatesTried, setMissingDates] = useState(false);
+  // Dates picked later on the calendar clear the warning too.
+  const missingDates = missingDatesTried && !(dates.checkIn && dates.checkOut);
   const plural = useMemo(() => new Intl.PluralRules(locale), [locale]);
   const nights = (count: number) => (labels.formNights[plural.select(count)] ?? labels.formNights.other ?? '{count}').replace('{count}', String(count));
 
@@ -51,7 +58,11 @@ export function InquiryForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, checkIn: dates.checkIn, checkOut: dates.checkOut, slug, locale }),
       });
-      if (res.ok) trackEvent('inquiry');
+      if (res.ok) {
+        trackEvent('inquiry');
+        // Counted apart (not as an extra contact) to see how many requests the clickable calendar brings.
+        if (dates.fromCalendar) trackEvent('inquiry_calendar');
+      }
       setStatus(res.ok ? 'done' : res.status === 429 ? 'limited' : 'error');
     } catch {
       setStatus('error');
@@ -78,7 +89,7 @@ export function InquiryForm({
         <DateRangePicker
           checkIn={dates.checkIn}
           checkOut={dates.checkOut}
-          onChange={(v) => { setDates(v); if (v.checkIn && v.checkOut) setMissingDates(false); }}
+          onChange={(v) => { setStayDates({ ...v, fromCalendar: false }); if (v.checkIn && v.checkOut) setMissingDates(false); }}
           locale={locale}
           blocked={blocked}
           single
@@ -102,16 +113,13 @@ export function InquiryForm({
       </label>
       <label className="block text-xs font-medium text-slate-700">
         {labels.formName}
-        <input name="name" autoComplete="name" required maxLength={120} className={field} />
+        <input id="inquiry-name" name="name" autoComplete="name" required maxLength={120} className={field} />
       </label>
       <label className="block text-xs font-medium text-slate-700">
         {labels.formEmail}
         <input type="email" name="email" autoComplete="email" required maxLength={200} className={field} />
       </label>
-      <label className="block text-xs font-medium text-slate-700">
-        {labels.formPhone}
-        <input type="tel" name="phone" autoComplete="tel" maxLength={30} className={field} />
-      </label>
+      <PhoneField name="phone" label={labels.formPhone} locale={locale} inputClassName={field} searchLabel={searchLabel} />
       <label className="block text-xs font-medium text-slate-700">
         {labels.formMessage}
         <textarea name="message" rows={3} maxLength={2000} placeholder={labels.formMessagePlaceholder} className={field} />

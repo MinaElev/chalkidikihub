@@ -26,7 +26,7 @@ export async function AvailabilityCalendar({
   title: string;
   labels: {
     free: string; busy: string; updated: string; live: string; syncedWith: string; prev: string; next: string;
-    checkoutOnly: string; checkinOnly: string;
+    checkoutOnly: string; checkinOnly: string; pickCheckIn: string; pickCheckOut: string; clear: string;
   };
 }) {
   const start = new Date();
@@ -86,7 +86,10 @@ export async function AvailabilityCalendar({
           firstMonth={start.toISOString().slice(0, 7)}
           monthCount={MONTHS}
           lang={lang}
-          labels={{ prev: labels.prev, next: labels.next, checkoutOnly: labels.checkoutOnly, checkinOnly: labels.checkinOnly }}
+          labels={{
+            prev: labels.prev, next: labels.next, checkoutOnly: labels.checkoutOnly, checkinOnly: labels.checkinOnly,
+            pickCheckIn: labels.pickCheckIn, pickCheckOut: labels.pickCheckOut, clear: labels.clear,
+          }}
         />
       </div>
 

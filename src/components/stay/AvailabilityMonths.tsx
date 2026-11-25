@@ -1,7 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { nightsBetween, setStayDates, useStayDates } from './stayDates';
 
 type DayState = 'past' | 'free' | 'busy' | 'outOnly' | 'inOnly';
 
@@ -28,6 +29,11 @@ const CELL: Record<DayState, string> = {
  * The month grids of AvailabilityCalendar, browsable: two months side by side
  * (one on phones) with arrows through every month the server sent (a year).
  * Busy days arrive as ISO dates; everything else is computed here.
+ *
+ * The days are also the request form's date picker: first tap = check-in,
+ * second tap = check-out (only across free nights). The dates go straight
+ * into InquiryForm and the visitor is taken to its name field, so asking the
+ * owner is two taps plus name and email.
  */
 export function AvailabilityMonths({
   busy, today, firstMonth, monthCount, lang, labels,
@@ -39,10 +45,32 @@ export function AvailabilityMonths({
   firstMonth: string;
   monthCount: number;
   lang: string;
-  labels: { prev: string; next: string; checkoutOnly: string; checkinOnly: string };
+  labels: { prev: string; next: string; checkoutOnly: string; checkinOnly: string; pickCheckIn: string; pickCheckOut: string; clear: string };
 }) {
   const [offset, setOffset] = useState(0);
   const busySet = useMemo(() => new Set(busy), [busy]);
+  const { checkIn, checkOut } = useStayDates();
+  const choosingOut = Boolean(checkIn && !checkOut);
+  const canArrive = (iso: string) => iso >= today && !busySet.has(iso);
+  const canLeave = (iso: string) => Boolean(checkIn) && iso > checkIn && nightsBetween(checkIn, iso).every((n) => !busySet.has(n));
+
+  function pick(iso: string) {
+    if (choosingOut && canLeave(iso)) {
+      setStayDates({ checkIn, checkOut: iso, fromCalendar: true });
+      // Take the visitor to the form (far below on phones) and let them type their name.
+      const nameField = document.getElementById('inquiry-name') as HTMLInputElement | null;
+      if (nameField) {
+        const r = nameField.getBoundingClientRect();
+        if (r.top < 80 || r.bottom > window.innerHeight) {
+          const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          nameField.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+        }
+        nameField.focus({ preventScroll: true });
+      }
+      return;
+    }
+    if (canArrive(iso)) setStayDates({ checkIn: iso, checkOut: '', fromCalendar: true });
+  }
   const [y0, m0] = firstMonth.split('-').map(Number);
   const weekdays = useMemo(() => {
     const f = new Intl.DateTimeFormat(lang, { weekday: 'narrow' });
@@ -66,7 +94,7 @@ export function AvailabilityMonths({
         const prevBusy = busySet.has(prev);
         const state: DayState =
           iso < today ? 'past' : !nightBusy && !prevBusy ? 'free' : nightBusy && prevBusy ? 'busy' : nightBusy ? 'outOnly' : 'inOnly';
-        return { day: d + 1, state };
+        return { day: d + 1, iso, state };
       }),
     ];
     return { label: monthFmt.format(first), cells };
@@ -81,6 +109,14 @@ export function AvailabilityMonths({
   return (
     <div>
       <div className="mb-3 flex items-center justify-end gap-2">
+        {/* What the next tap does: the calendar doubles as the request form's date picker. */}
+        <p className="mr-auto text-sm font-medium text-sea-800" aria-live="polite">
+          {checkIn && checkOut ? (
+            <button type="button" onClick={() => setStayDates({ checkIn: '', checkOut: '', fromCalendar: false })} className="inline-flex items-center gap-1 text-slate-600 underline-offset-2 hover:underline">
+              <X className="size-4" aria-hidden />{labels.clear}
+            </button>
+          ) : choosingOut ? labels.pickCheckOut : labels.pickCheckIn}
+        </p>
         <button type="button" className={arrow} onClick={() => setOffset((o) => Math.max(0, o - 1))} disabled={offset === 0} aria-label={labels.prev}>
           <ChevronLeft className="size-5" aria-hidden />
         </button>
@@ -96,18 +132,28 @@ export function AvailabilityMonths({
               <p className="mb-3 text-center text-sm font-semibold capitalize text-slate-800">{m.label}</p>
               <div className="grid grid-cols-7 gap-1 text-center text-xs">
                 {weekdays.map((w, k) => <span key={k} className="pb-1 font-medium text-slate-400">{w}</span>)}
-                {m.cells.map((c, k) =>
-                  c ? (
-                    <span
+                {m.cells.map((c, k) => {
+                  if (!c) return <span key={k} />;
+                  const clickable = choosingOut ? canLeave(c.iso) || canArrive(c.iso) : canArrive(c.iso);
+                  const edge = c.iso === checkIn || c.iso === checkOut;
+                  const inside = Boolean(checkIn && checkOut && c.iso > checkIn && c.iso < checkOut);
+                  const look = edge ? 'bg-sea-600 font-semibold text-white' : inside ? 'bg-sea-100 font-medium text-sea-900' : CELL[c.state];
+                  const half = !edge && !inside ? HALF[c.state as keyof typeof HALF] : undefined;
+                  return (
+                    <button
                       key={k}
+                      type="button"
+                      disabled={!clickable}
+                      onClick={() => pick(c.iso)}
+                      aria-pressed={edge || inside}
                       title={c.state === 'outOnly' ? labels.checkoutOnly : c.state === 'inOnly' ? labels.checkinOnly : undefined}
-                      style={HALF[c.state as keyof typeof HALF] ? { backgroundImage: HALF[c.state as keyof typeof HALF] } : undefined}
-                      className={`rounded-md py-1.5 ${CELL[c.state]}`}
+                      style={half ? { backgroundImage: half } : undefined}
+                      className={`rounded-md py-1.5 transition disabled:cursor-default ${look} ${clickable && !edge ? 'cursor-pointer hover:ring-2 hover:ring-sea-400' : ''}`}
                     >
                       {c.day}
-                    </span>
-                  ) : <span key={k} />,
-                )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           );

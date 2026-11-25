@@ -124,6 +124,6 @@ export function TrafficCounter() {
 }
 
 /** For forms: count a completed inquiry / availability request. */
-export function trackEvent(event: 'inquiry' | 'availability_request') {
+export function trackEvent(event: 'inquiry' | 'inquiry_calendar' | 'availability_request') {
   try { window.dispatchEvent(new CustomEvent('chub:track', { detail: event })); } catch { /* ignore */ }
 }

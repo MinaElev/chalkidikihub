@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
   const db = adminDb();
   const { data: listing } = await db
     .from('listings')
-    .select('id, slug, title_el, owner_id, contact_email, status')
+    .select('id, slug, title_el, owner_id, contact_email, status, show_calendar')
     .eq('slug', dbSlug('listings', slug))
     .eq('status', 'published')
     .maybeSingle();
@@ -73,17 +73,37 @@ export async function POST(request: NextRequest) {
   if (to) {
     const nights =
       checkIn && checkOut ? Math.round((Date.parse(checkOut) - Date.parse(checkIn)) / 86_400_000) : null;
+    // Checked here, not taken from the browser: are all requested nights free on the owner's public calendar?
+    let freeOnCalendar = false;
+    if (nights && listing.show_calendar) {
+      const { count } = await db
+        .from('listing_availability')
+        .select('date', { count: 'exact', head: true })
+        .eq('listing_id', listing.id)
+        .neq('status', 'available')
+        .gte('date', checkIn)
+        .lt('date', checkOut);
+      freeOnCalendar = count === 0;
+    }
     const rows = [
       ['Κατάλυμα', title],
       ['Άφιξη', checkIn || '-'],
       ['Αναχώρηση', checkOut || '-'],
       ...(nights ? [['Βράδια', String(nights)]] : []),
+      ...(freeOnCalendar ? [['Ημερολόγιο', 'Οι ημερομηνίες είναι ελεύθερες στο ημερολόγιό σας']] : []),
       ['Άτομα', String(guests)],
       ['Όνομα', name],
       ['Email', email],
       ['Τηλέφωνο', phone || '-'],
       ['Γλώσσα επισκέπτη', locale.toUpperCase()],
     ];
+    // The form sends the number with its country code (+…), so the owner can call or WhatsApp in one tap.
+    const phoneDigits = phone.replace(/\D/g, '');
+    const btn = 'display:inline-block;margin:12px 8px 0 0;padding:10px 16px;border-radius:8px;font-weight:600;text-decoration:none;color:#fff';
+    const callButtons =
+      phone.startsWith('+') && phoneDigits.length >= 8 && phoneDigits.length <= 15
+        ? `<p><a href="tel:+${phoneDigits}" style="${btn};background:#0369a1">📞 Κλήση</a><a href="https://wa.me/${phoneDigits}" style="${btn};background:#16a34a">WhatsApp</a></p>`
+        : '';
     // Already stored in contact_messages; mail the owner after the response so a
     // slow mail server never keeps the guest waiting.
     after(async () => {
@@ -98,6 +118,7 @@ export async function POST(request: NextRequest) {
            <table cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">${rows
              .map(([k, v]) => `<tr><td style="color:#64748b;width:40%">${k}</td><td><strong>${escapeHtml(v)}</strong></td></tr>`)
              .join('')}</table>
+           ${callButtons}
            ${message ? `<p style="margin-top:16px;padding:12px;background:#f1f5f9;border-radius:8px">${escapeHtml(message).replace(/\n/g, '<br>')}</p>` : ''}`,
         ),
       });

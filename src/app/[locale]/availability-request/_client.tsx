@@ -7,6 +7,8 @@ import { CalendarDays, Users, Wallet, Send, CheckCircle2, AlertCircle, MapPin, P
 import { DateRangePicker, isoDate } from '@/components/forms/DateRangePicker';
 import { hasSupabaseAuthCookie } from '@/lib/auth-cookie';
 import { trackEvent } from '@/components/layout/TrafficCounter';
+import { PhoneInput, usePhoneCountry } from '@/components/forms/PhoneField';
+import { internationalPhone } from '@/lib/phone-countries';
 
 const AREA_KEYS = ['kassandra', 'sithonia', 'athos', 'mainland'] as const;
 /** Budget per night. Stays on the site: median 100€, a quarter above 160€ (Nov 2026). */
@@ -22,6 +24,9 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export default function AvailabilityRequestClient({ initialArea }: { initialArea: string }) {
   const t = useTranslations('availabilityRequest');
   const locale = useLocale();
+  const common = useTranslations('common');
+  // Country code in front of the phone, so owners get a number they can call or WhatsApp.
+  const phoneCountry = usePhoneCountry(locale);
   const router = useRouter();
   const mountedAt = useRef(0);
   useEffect(() => {
@@ -194,6 +199,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
+          guest_phone: internationalPhone(form.guest_phone, phoneCountry.country),
           locale,
           elapsed: mountedAt.current ? Date.now() - mountedAt.current : 0,
         }),
@@ -387,15 +393,20 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
           />
         </Field>
 
-        <Field label={t('phoneLabel')} icon={Phone} required error={attempted ? fieldErrors.guest_phone : undefined}>
-          <input
-            type="tel"
-            required
-            autoComplete="tel"
+        {/* group: the country picker is a button, which a wrapping <label> would hijack. */}
+        <Field label={t('phoneLabel')} icon={Phone} required group error={attempted ? fieldErrors.guest_phone : undefined}>
+          <PhoneInput
+            id="guest-phone"
+            locale={locale}
             value={form.guest_phone}
-            onChange={e => setForm({ ...form, guest_phone: e.target.value })}
-            className="input"
-            placeholder={t('phonePlaceholder')}
+            onChange={(v) => setForm((f) => ({ ...f, guest_phone: v }))}
+            country={phoneCountry.country}
+            onCountry={phoneCountry.setCountry}
+            fromBrowser={phoneCountry.fromBrowser}
+            inputClassName="input"
+            required
+            searchLabel={common('search')}
+            label={t('phoneLabel')}
           />
         </Field>
 

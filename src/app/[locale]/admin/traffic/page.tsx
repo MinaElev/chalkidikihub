@@ -65,7 +65,7 @@ const KIND_LABEL: Record<string, string> = {
   search: 'Αναζήτηση', map: 'Χάρτης', availability: 'Αίτημα διαθεσιμότητας', owners: 'Για ιδιοκτήτες', sales: 'Πωλήσεις', other: 'Άλλες σελίδες',
 };
 const EVENT_LABEL: Record<string, string> = {
-  call: 'Κλήσεις', email: 'Email', whatsapp: 'WhatsApp', inquiry: 'Φόρμα επικοινωνίας', availability_request: 'Αιτήματα διαθεσιμότητας',
+  call: 'Κλήσεις', email: 'Email', whatsapp: 'WhatsApp', inquiry: 'Φόρμα επικοινωνίας', inquiry_calendar: '↳ με ημερομηνίες από το ημερολόγιο', availability_request: 'Αιτήματα διαθεσιμότητας',
   booking_link: 'Booking / Airbnb', website: 'Website ιδιοκτήτη', directions: 'Οδηγίες χάρτη', outbound: 'Άλλοι εξωτερικοί σύνδεσμοι',
 };
 /** Actions that mean "a guest reached out" (outbound links are not counted as contacts). */

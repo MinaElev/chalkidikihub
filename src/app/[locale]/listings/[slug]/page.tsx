@@ -273,6 +273,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
                   live: t('liveAvailability'), syncedWith: t.raw('availabilitySyncedWith') as string,
                   prev: t('availabilityPrev'), next: t('availabilityNext'),
                   checkoutOnly: t('availabilityCheckoutOnly'), checkinOnly: t('availabilityCheckinOnly'),
+                  pickCheckIn: t('formPickCheckIn'), pickCheckOut: t('formPickCheckOut'), clear: t('formClearDates'),
                 }}
               />
             </div>
@@ -349,7 +350,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
               <li className="flex items-center gap-2"><Check className="size-4 text-emerald-600" aria-hidden />{t('directOwner')}</li>
             </ul>
             <hr className="my-5 border-slate-200" />
-            {<InquiryForm slug={slug} locale={locale} maxGuests={l.guests_max} labels={labels} blocked={blocked} />}
+            {<InquiryForm slug={slug} locale={locale} maxGuests={l.guests_max} labels={labels} blocked={blocked} searchLabel={shell('search')} />}
             {phone && (
               <a href={`tel:${phone.replace(/\s+/g, '')}`} className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-sea-200 px-4 py-3 font-semibold text-sea-800 hover:bg-sea-50">
                 <Phone className="size-4" aria-hidden />{t('call')}: {phone}
@@ -401,7 +402,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
                 </p>
               ) : <span className="flex-1" />}
               {phone && (
-                <a href={`tel:${phone.replace(/s+/g, '')}`} aria-label={`${t('call')}: ${phone}`} className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-sea-200 text-sea-800">
+                <a href={`tel:${phone.replace(/\s+/g, '')}`} aria-label={`${t('call')}: ${phone}`} className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-sea-200 text-sea-800">
                   <Phone className="size-5" aria-hidden />
                 </a>
               )}
