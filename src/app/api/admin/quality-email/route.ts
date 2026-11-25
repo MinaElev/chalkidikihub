@@ -11,6 +11,8 @@ export const maxDuration = 300;
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://chalkidikihub.gr';
 const REPLY_TO = 'mnc@hotmail.gr';
 const LOG_PREFIX = 'Mass email (quality)';
+/** Owner emails inside: never let the nginx proxy cache keep a copy. */
+const NO_STORE = { headers: { 'Cache-Control': 'no-store' } };
 
 type OwnerReport = {
   ownerId: string;
@@ -77,11 +79,11 @@ export async function GET(req: NextRequest) {
     const previewId = req.nextUrl.searchParams.get('preview');
     if (previewId) {
       const [r] = await buildReports([previewId]);
-      if (!r) return NextResponse.json({ error: 'no_issues' }, { status: 404 });
+      if (!r) return NextResponse.json({ error: 'no_issues' }, { status: 404, ...NO_STORE });
       const mail = qualityEmail({ ownerName: r.name, listings: r.listings, siteUrl: SITE });
-      return NextResponse.json({ to: r.email, subject: mail.subject, html: mail.html });
+      return NextResponse.json({ to: r.email, subject: mail.subject, html: mail.html }, NO_STORE);
     }
-    return NextResponse.json({ owners: await buildReports() });
+    return NextResponse.json({ owners: await buildReports() }, NO_STORE);
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
