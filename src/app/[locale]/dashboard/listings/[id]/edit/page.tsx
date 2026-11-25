@@ -117,10 +117,27 @@ export default function EditListingPage() {
   }, [listingId]);
 
   // Jump to the section named in the URL (#rules, #photos…) once it exists.
+  // The photo, caption and list editors above it load after this, so the page
+  // keeps growing for a few seconds and a single jump lands far above the
+  // section. Keep the section pinned while the layout settles, and stop as
+  // soon as the owner scrolls or touches the page themselves.
   useEffect(() => {
     if (loading) return;
     const id = window.location.hash.slice(1);
-    if (id) requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    const target = id ? document.getElementById(id) : null;
+    if (!target) return;
+    const pin = () => target.scrollIntoView({ block: 'start' });
+    requestAnimationFrame(pin);
+    const ro = new ResizeObserver(pin);
+    ro.observe(document.body);
+    const stop = () => {
+      ro.disconnect();
+      clearTimeout(timer);
+      for (const ev of ['wheel', 'touchstart', 'keydown', 'mousedown'] as const) window.removeEventListener(ev, stop);
+    };
+    const timer = setTimeout(stop, 5000);
+    for (const ev of ['wheel', 'touchstart', 'keydown', 'mousedown'] as const) window.addEventListener(ev, stop, { passive: true });
+    return stop;
   }, [loading]);
 
   const dirty = useMemo(() => {
