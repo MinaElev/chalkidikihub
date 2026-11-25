@@ -18,7 +18,7 @@ const PER_AREA = 10;
 export async function generateMetadata({ params }: PageProps<'/[locale]/listings'>) {
   const locale = (await params).locale as Locale;
   const t = await getTranslations({ locale, namespace: 'stay' });
-  const items = (await getListings()).filter((l) => !l.is_closed);
+  const items = await getListings();
   return buildMetadata({
     locale,
     path: '/listings',

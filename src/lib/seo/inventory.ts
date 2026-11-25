@@ -69,7 +69,7 @@ export async function inventory(): Promise<Entry[]> {
   detail('/activities', activities, aI, 0.6);
   detail('/blog', articles, artI, 0.7);
   detail('/events', events as unknown as Array<{ slug: string; updated_at?: string }>, eI, 0.5);
-  detail('/listings', listings.filter((l) => !l.is_closed), lI, 0.7);
+  detail('/listings', listings, lI, 0.7);
 
   for (const v of villages) {
     if (v.slug === 'pyrgadikia-mainland') continue;

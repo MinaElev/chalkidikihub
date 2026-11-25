@@ -7,10 +7,11 @@ import { createClient } from '@/lib/supabase/client';
 import { Link } from '@/i18n/navigation';
 import {
   Plus, Edit, Trash2, Eye, EyeOff, Loader2, QrCode, Calendar,
-  Users, BedDouble, Bath, Wand2, MapPin, ExternalLink,
-  MoreHorizontal, Lock, Search, TrendingUp, Palette,
-  Sparkles, Camera, Clock, AlertCircle, CheckCircle2, ChevronDown,
+  Users, BedDouble, Bath, MapPin, ExternalLink,
+  MoreHorizontal, Search, TrendingUp, Palette,
+  Sparkles, Camera, Clock, AlertCircle, CheckCircle2, ChevronDown, CreditCard, RefreshCw, Landmark,
 } from 'lucide-react';
+import { subscriptionView } from '@/lib/billing-view';
 import { HostPagePromoBanner } from '@/legacy/components/dashboard/HostPagePromoBanner';
 
 // Read the clock outside render code (react-hooks/purity); callers run once per request or event.
@@ -45,7 +46,6 @@ interface DbListing {
   bedrooms: number;
   bathrooms: number;
   status: string;
-  is_closed: boolean;
   created_at: string;
   updated_at: string | null;
   listing_images: Img[];
@@ -63,6 +63,12 @@ interface DbListing {
   rule_pets: boolean | null;
   rule_parties: boolean | null;
   rule_kids: boolean | null;
+  // Billing
+  billing_exempt: boolean;
+  plan: string | null;
+  plan_status: string | null;
+  plan_expires_at: string | null;
+  bank_transfer_requested_at: string | null;
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -146,7 +152,7 @@ export default function MyListingsPage() {
   const [loading, setLoading] = useState(true);
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
   const [q, setQ] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft' | 'closed'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all');
 
   useEffect(() => {
     loadListings();
@@ -220,8 +226,7 @@ export default function MyListingsPage() {
     const total = listings.length;
     const published = listings.filter(l => l.status === 'published').length;
     const drafts = listings.filter(l => l.status === 'draft').length;
-    const closed = listings.filter(l => l.is_closed).length;
-    return { total, published, drafts, closed };
+    return { total, published, drafts };
   }, [listings]);
 
   const filtered = useMemo(() => {
@@ -229,7 +234,6 @@ export default function MyListingsPage() {
     return listings.filter(l => {
       if (statusFilter === 'published' && l.status !== 'published') return false;
       if (statusFilter === 'draft' && l.status !== 'draft') return false;
-      if (statusFilter === 'closed' && !l.is_closed) return false;
       if (needle) {
         const hay = [l.title_el, l.title_en, l.location_name, l.area].filter(Boolean).join(' ').toLowerCase();
         if (!hay.includes(needle)) return false;
@@ -250,15 +254,13 @@ export default function MyListingsPage() {
     all: locale === 'el' ? 'Όλα' : 'All',
     published: locale === 'el' ? 'Δημοσιευμένα' : 'Published',
     drafts: locale === 'el' ? 'Προσχέδια' : 'Drafts',
-    closed: locale === 'el' ? 'Κλειστά' : 'Closed',
     active: locale === 'el' ? 'Ενεργό' : 'Active',
     searchPlaceholder: locale === 'el' ? 'Αναζήτηση...' : 'Search…',
     guests: locale === 'el' ? 'άτομα' : 'guests',
     beds: locale === 'el' ? 'κρεβ.' : 'beds',
     baths: locale === 'el' ? 'μπάνια' : 'baths',
     perNight: locale === 'el' ? '/νύχτα' : '/night',
-    details: locale === 'el' ? 'Στοιχεία' : 'Details',
-    siteEditor: locale === 'el' ? 'Site καταλύματος' : 'Brand site',
+    details: locale === 'el' ? 'Επεξεργασία' : 'Edit',
     calendar: locale === 'el' ? 'Ημερολόγιο' : 'Calendar',
     preview: locale === 'el' ? 'Προβολή' : 'Preview',
     qr: 'QR',
@@ -280,7 +282,7 @@ export default function MyListingsPage() {
           {listings.length > 0 && (
             <p className="text-xs text-gray-500 mt-1">
               {stats.total} {stats.total === 1 ? 'κατάλυμα' : 'καταλύματα'} ·{' '}
-              <span className="text-green-700">{stats.published} δημοσιευμένα</span>{stats.drafts > 0 && <>, <span className="text-amber-700">{stats.drafts} προσχέδια</span></>}{stats.closed > 0 && <>, <span className="text-orange-700">{stats.closed} κλειστά</span></>}
+              <span className="text-green-700">{stats.published} δημοσιευμένα</span>{stats.drafts > 0 && <>, <span className="text-amber-700">{stats.drafts} προσχέδια</span></>}
             </p>
           )}
         </div>
@@ -340,7 +342,6 @@ export default function MyListingsPage() {
                 { k: 'all',       label: L.all,       n: stats.total },
                 { k: 'published', label: L.published, n: stats.published },
                 { k: 'draft',     label: L.drafts,    n: stats.drafts },
-                { k: 'closed',    label: L.closed,    n: stats.closed },
               ] as const).map(f => (
                 <button
                   key={f.k}
@@ -365,7 +366,6 @@ export default function MyListingsPage() {
               const images = Array.isArray(listing.listing_images) ? listing.listing_images : [];
               const cover = images.find(i => i.is_cover)?.image_url || images[0]?.image_url;
               const isPublished = listing.status === 'published';
-              const isClosed = !!listing.is_closed;
               const completeness = computeCompleteness(listing);
               const updatedRelative = formatRelativeTime(listing.updated_at, locale);
               const isStale = listing.updated_at
@@ -384,11 +384,6 @@ export default function MyListingsPage() {
                           {L.noImage}
                         </div>
                       )}
-                      {isClosed && (
-                        <div className="absolute top-2 left-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-orange-600/90 text-white text-[10px] font-semibold backdrop-blur-sm">
-                          <Lock className="w-3 h-3" /> {L.closed}
-                        </div>
-                      )}
                     </div>
 
                     {/* Content */}
@@ -396,11 +391,9 @@ export default function MyListingsPage() {
                       {/* Title + status + completeness */}
                       <div className="flex items-start gap-2 flex-wrap">
                         <h3 className="text-base font-semibold text-gray-900 min-w-0 flex-1 truncate">{title}</h3>
-                        {!isClosed && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800 border border-green-200 shrink-0">
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> {L.active}
-                          </span>
-                        )}
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800 border border-green-200 shrink-0">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> {L.active}
+                        </span>
                         <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium shrink-0 ${
                           isPublished ? 'bg-green-50 text-green-700' : 'bg-amber-50 text-amber-700'
                         }`}>
@@ -441,6 +434,8 @@ export default function MyListingsPage() {
 
                       {/* Nudges — friendly reminders for the two most impactful
                           quality gaps (description + photos). */}
+                      <PaymentStrip listing={listing} locale={locale} />
+
                       <ThinDescriptionNudge
                         listingId={listing.id}
                         descriptionLength={(listing.description_el || '').length}
@@ -461,17 +456,10 @@ export default function MyListingsPage() {
                         <div className="flex items-center gap-2 min-w-max sm:min-w-0 sm:flex-wrap">
                           <Link
                             href={`/dashboard/listings/${listing.id}/edit`}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs font-medium rounded-lg whitespace-nowrap"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold rounded-lg shadow-sm whitespace-nowrap"
                           >
                             <Edit className="w-3.5 h-3.5" />
                             {L.details}
-                          </Link>
-                          <Link
-                            href={`/dashboard/listings/${listing.id}/brand`}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold rounded-lg shadow-sm whitespace-nowrap"
-                          >
-                            <Wand2 className="w-3.5 h-3.5" />
-                            {L.siteEditor}
                           </Link>
                           <Link
                             href={`/dashboard/listings/${listing.id}/availability`}
@@ -711,7 +699,7 @@ function ThinDescriptionNudge({
         <p className="text-xs text-amber-800 mt-0.5 leading-relaxed">{text.body}</p>
       </div>
       <Link
-        href={`/dashboard/listings/${listingId}/edit`}
+        href={`/dashboard/listings/${listingId}/edit#basics`}
         className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-semibold rounded-lg self-center"
       >
         {text.cta}
@@ -764,7 +752,7 @@ function PhotoCountNudge({
         <p className="text-xs text-sky-800 mt-0.5 leading-relaxed">{text.body}</p>
       </div>
       <Link
-        href={`/dashboard/listings/${listingId}/edit`}
+        href={`/dashboard/listings/${listingId}/edit#photos`}
         className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 bg-sky-600 hover:bg-sky-700 text-white text-[11px] font-semibold rounded-lg self-center"
       >
         {text.cta}
@@ -975,6 +963,46 @@ function ListingHealthBanner({ listings, locale }: { listings: DbListing[]; loca
           {dismissLabel}
         </button>
       </div>
+    </div>
+  );
+}
+
+// Payment due / renewal / pending deposit, with a button straight to that
+// listing's payment panel on /dashboard/billing. Nothing for paid-up or
+// free-forever listings.
+function PaymentStrip({ listing, locale }: { listing: DbListing; locale: string }) {
+  const t = useTranslations('billing');
+  const v = subscriptionView(listing, []);
+  const fmt = (d: Date | null) => (d ? d.toLocaleDateString(locale === 'sr' ? 'sr-Latn-RS' : locale, { day: 'numeric', month: 'short', year: 'numeric' }) : '');
+
+  if (v.state === 'awaiting_bank') {
+    return (
+      <div className="mt-3 flex items-center gap-3 flex-wrap rounded-xl border border-sky-200 bg-sky-50 px-3 py-2.5 text-xs text-sky-900">
+        <Landmark className="w-4 h-4 shrink-0 text-sky-600" />
+        <span className="flex-1 min-w-0"><strong>{t('state.awaiting_bank')}.</strong> {t('listingCard.hintBank')}</span>
+        <Link href={`/dashboard/billing?pay=${listing.id}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-sky-300 bg-white text-sky-700 font-semibold hover:bg-sky-100 whitespace-nowrap">
+          {t('action.showBank')}
+        </Link>
+      </div>
+    );
+  }
+  if (!v.needsAction || !v.action) return null;
+
+  const danger = v.state === 'grace' || v.state === 'expired';
+  const label = v.state === 'expiring' ? t('state.expiring', { days: Math.max(0, v.daysLeft ?? 0) }) : t(`state.${v.state}`);
+  const hint = v.state === 'unpaid' ? t('listingCard.hintUnpaid')
+    : v.state === 'expiring' ? t('listingCard.hintExpiring')
+    : v.state === 'grace' ? t('listingCard.hintGrace', { date: fmt(v.graceEndsAt) })
+    : t('listingCard.hintExpired');
+  return (
+    <div className={`mt-3 flex items-center gap-3 flex-wrap rounded-xl border px-3 py-2.5 text-xs ${danger ? 'border-rose-200 bg-rose-50 text-rose-900' : 'border-amber-200 bg-amber-50 text-amber-900'}`}>
+      <AlertCircle className={`w-4 h-4 shrink-0 ${danger ? 'text-rose-600' : 'text-amber-600'}`} />
+      <span className="flex-1 min-w-0"><strong>{label}.</strong> {hint}</span>
+      <Link href={`/dashboard/billing?pay=${listing.id}`}
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-semibold whitespace-nowrap">
+        {v.action === 'pay' ? <CreditCard className="w-3.5 h-3.5" /> : <RefreshCw className="w-3.5 h-3.5" />}
+        {v.action === 'pay' ? t('action.pay') : t('action.renew')}
+      </Link>
     </div>
   );
 }

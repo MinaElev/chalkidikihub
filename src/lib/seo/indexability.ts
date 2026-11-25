@@ -75,6 +75,6 @@ export const villageIndex = make({ table: 'villages', field: 'description', kind
 /** Owners write shorter texts; listing pages also carry facts, rules and a map. */
 export const listingIndex = make({
   table: 'listings', field: 'description', kind: 'detail', tag: TAGS.listings, minWords: 60,
-  extra: 'is_closed, listing_images(image_url)',
+  extra: 'listing_images(image_url)',
   image: (r) => Boolean(r.image_url) || ((r.listing_images as unknown[]) ?? []).length > 0,
 });

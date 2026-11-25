@@ -9,7 +9,7 @@ import { publicDb } from '@/lib/supabase/clients';
 import { inPageScript, localize, pick } from '@/lib/i18n/localize';
 import { closestVillage, displayName, nearBeaches, nearRestaurants, ratingProps } from '@/lib/content/nearby';
 import { AREA_NAMES, inPlace, placeName } from '@/lib/content/place-names';
-import { formatDate, formatDistance, formatPrice, greekAlt } from '@/lib/content/format';
+import { formatDistance, formatPrice, greekAlt } from '@/lib/content/format';
 import { plainText, renderRichText } from '@/lib/content/render';
 import { genuineReviews, ratingOf, type ReviewRow } from '@/lib/content/reviews';
 import { BLUE_FLAG_2026, BLUE_FLAG_YEAR } from '@/content/beach-facts';
@@ -88,7 +88,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/listings
     description: t('metaDesc', { name, inPlace: ip, bedrooms: l.bedrooms, guests: l.guests_max, price }),
     extra: [nearestBeach, `${t('noFees')}.`],
     image: pics[0]?.url,
-    indexableLocales: l.is_closed ? [] : ((await listingIndex())[slug] ?? []),
+    indexableLocales: (await listingIndex())[slug] ?? [],
   });
 }
 
@@ -259,12 +259,6 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
 
       <Gallery photos={pics} label={t('photos')} labels={{ close: shell('close'), previous: shell('previous'), next: shell('next') }} />
 
-      {l.is_closed && (
-        <p className="mt-6 rounded-xl bg-amber-50 px-4 py-3 text-amber-900">
-          {t('closedNotice')} {l.reopening_date ? t('reopens', { date: formatDate(l.reopening_date as string, locale) }) : ''}
-        </p>
-      )}
-
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div>
           {/* The calendar comes first: when it exists it is the most useful thing on the page. */}
@@ -355,7 +349,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
               <li className="flex items-center gap-2"><Check className="size-4 text-emerald-600" aria-hidden />{t('directOwner')}</li>
             </ul>
             <hr className="my-5 border-slate-200" />
-            {!l.is_closed && <InquiryForm slug={slug} locale={locale} maxGuests={l.guests_max} labels={labels} blocked={blocked} />}
+            {<InquiryForm slug={slug} locale={locale} maxGuests={l.guests_max} labels={labels} blocked={blocked} />}
             {phone && (
               <a href={`tel:${phone.replace(/\s+/g, '')}`} className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-sea-200 px-4 py-3 font-semibold text-sea-800 hover:bg-sea-50">
                 <Phone className="size-4" aria-hidden />{t('call')}: {phone}
@@ -363,7 +357,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
             )}
             {/* Owner-supplied links: nofollow + ugc, opened in a new tab so the visitor keeps this page. */}
             {website && (
-              <a href={website} target="_blank" rel="nofollow ugc noopener noreferrer" className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-3 font-semibold text-slate-800 hover:bg-slate-50">
+              <a href={website} data-track="website" target="_blank" rel="nofollow ugc noopener noreferrer" className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-3 font-semibold text-slate-800 hover:bg-slate-50">
                 <Globe className="size-4" aria-hidden />{t('ownWebsite')}
               </a>
             )}
@@ -395,7 +389,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
 
       {/* Phones: the price and the request form sit after the whole description, so they stay one tap away.
           Takes the place of the site's bottom bar on this page (BottomNav hides itself here). */}
-      {(!l.is_closed || phone) && (
+      {(
         <>
           <div className="h-20 md:hidden" aria-hidden />
           <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur md:hidden">
@@ -411,9 +405,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
                   <Phone className="size-5" aria-hidden />
                 </a>
               )}
-              {!l.is_closed && (
-                <a href="#inquiry" className="shrink-0 rounded-xl bg-sea-600 px-4 py-3 text-sm font-semibold text-white">{t('formTitle')}</a>
-              )}
+              <a href="#inquiry" className="shrink-0 rounded-xl bg-sea-600 px-4 py-3 text-sm font-semibold text-white">{t('formTitle')}</a>
             </div>
           </div>
         </>

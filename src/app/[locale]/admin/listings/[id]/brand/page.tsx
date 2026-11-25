@@ -30,7 +30,6 @@ interface BrandData {
   parking_info: L;
   check_in_info: L;
   // Closed-state reason (appears in the public 'Closed' banner)
-  closed_reason: L;
   // SEO meta (what Google shows in SERP)
   meta_title: L;
   meta_description: L;
@@ -42,7 +41,6 @@ const FIELD_KEYS: (keyof BrandData)[] = [
   'tagline', 'owner_story',
   'house_rules_extra',
   'how_to_reach', 'wifi_info', 'parking_info', 'check_in_info',
-  'closed_reason',
   'meta_title', 'meta_description', 'image_alt',
 ];
 
@@ -65,7 +63,6 @@ export default function AdminBrandEditorPage() {
     tagline: emptyL(), owner_story: emptyL(),
     house_rules_extra: emptyL(),
     how_to_reach: emptyL(), wifi_info: emptyL(), parking_info: emptyL(), check_in_info: emptyL(),
-    closed_reason: emptyL(),
     meta_title: emptyL(), meta_description: emptyL(), image_alt: emptyL(),
   });
   const [dirty, setDirty] = useState(false);
@@ -95,7 +92,6 @@ export default function AdminBrandEditorPage() {
       wifi_info:         pick('wifi_info'),
       parking_info:      pick('parking_info'),
       check_in_info:     pick('check_in_info'),
-      closed_reason:     pick('closed_reason'),
       meta_title:        pick('meta_title'),
       meta_description:  pick('meta_description'),
       image_alt:         pick('image_alt'),
@@ -395,21 +391,6 @@ export default function AdminBrandEditorPage() {
         />
       </div>
 
-      {/* Section: Closed-state reason */}
-      <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
-        <Info className="w-5 h-5 text-amber-500" /> Closed-state reason
-      </h2>
-      <div className="space-y-3 mb-6">
-        <MultilangField
-          label="Αιτιολογία κλεισίματος"
-          description="Εμφανίζεται στο orange banner όταν ο owner ενεργοποιήσει το 'Κλειστό προσωρινά'. Πολλοί owners γράφουν μόνο ελληνικά — μετάφρασε τα υπόλοιπα από εδώ."
-          values={data.closed_reason}
-          onChange={(lang, v) => updateField('closed_reason', lang, v)}
-          type="textarea" rows={2}
-          onFillMissing={(src) => fillMissing('closed_reason', src)}
-          filling={fillingField === 'closed_reason'}
-        />
-      </div>
 
       {/* Section: SEO meta */}
       <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
@@ -468,7 +449,7 @@ export default function AdminBrandEditorPage() {
       <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900">
         <strong>Σημείωση</strong>: Αυτός ο editor διαχειρίζεται τα πεδία της στήλης <code className="bg-amber-100 px-1 rounded">listings</code>.
         Για multilang editing των FAQs / Emergency contacts / Extras / Photo captions, χρησιμοποίησε τον editor του ιδιοκτήτη
-        (<Link href={`/dashboard/listings/${listingId}/brand`} className="underline">/dashboard/listings/{listingId}/brand</Link>)
+        (<Link href={`/dashboard/listings/${listingId}/edit#more`} className="underline">/dashboard/listings/{listingId}/edit</Link>)
         — ο admin επίσης έχει πρόσβαση μέσω των RLS policies.
       </div>
     </div>

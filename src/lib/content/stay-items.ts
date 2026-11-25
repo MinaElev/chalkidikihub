@@ -27,10 +27,9 @@ export async function buildStayItems(locale: Locale): Promise<StayItem[]> {
   ]);
   const beachPoints = beaches.filter(hasCoords);
   const live = new Set(liveIds);
-  const open = items.filter((l) => !l.is_closed);
-  const villages = await closestVillagesFor(open, locale, 6);
+  const villages = await closestVillagesFor(items, locale, 6);
 
-  return open.map((l) => {
+  return items.map((l) => {
     const beach = nearest(l, beachPoints, 1, 3)[0];
     const has = new Set(l.amenities ?? []);
     return {

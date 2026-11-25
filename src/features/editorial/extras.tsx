@@ -80,7 +80,7 @@ export async function GuideAfter({ slug, locale, others, othersLabel }: {
     getGuideMedia(),
   ]);
   const live = new Set(liveIds);
-  const stays = pickHomeStays(listings.filter((l) => !l.is_closed && l.cover_url), live, 3);
+  const stays = pickHomeStays(listings.filter((l) => l.cover_url), live, 3);
   const villages = await closestVillagesFor(stays, locale, 6);
   // The articles chosen in Admin → Guides, topped up with the newest ones that have a photo.
   const chosen = (media[slug]?.articles ?? []).map((s) => articles.find((a) => a.slug === s)).filter((a): a is (typeof articles)[number] => Boolean(a));

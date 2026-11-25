@@ -155,7 +155,7 @@ export default async function AreaPage({ params }: PageProps<'/[locale]/areas/[s
   const inArea = <T extends { area: string }>(list: T[]) => list.filter((x) => x.area === area);
   const topBeaches = inArea(beaches).sort((a, b) => (b.reviews_count ?? 0) - (a.reviews_count ?? 0) || Number(Boolean(b.image_url)) - Number(Boolean(a.image_url))).slice(0, 5);
   const topFood = inArea(restaurants).sort((a, b) => (b.rating ?? 0) * Math.log10(10 + (b.reviews_count ?? 0)) - (a.rating ?? 0) * Math.log10(10 + (a.reviews_count ?? 0))).slice(0, 3);
-  const stays = inArea(listings).filter((l) => !l.is_closed).slice(0, 6);
+  const stays = inArea(listings).slice(0, 6);
   const todo = inArea(activities).slice(0, 3);
   const areaVillages = inArea(villages)
     .filter((v) => v.slug !== 'pyrgadikia-mainland')

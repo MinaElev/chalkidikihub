@@ -26,7 +26,7 @@ export async function nearActivities(origin: LatLng, limit = NEAR_LIMIT): Promis
   return nearest(origin, await getActivities(), limit, 60);
 }
 export async function nearListings(origin: LatLng, limit = 8, maxKm = 6): Promise<Near<ListingCard>[]> {
-  return nearest(origin, (await getListings()).filter((l) => !l.is_closed), limit, maxKm);
+  return nearest(origin, await getListings(), limit, maxKm);
 }
 
 /** Nearest other villages on the same peninsula. */

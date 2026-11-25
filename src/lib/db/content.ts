@@ -84,7 +84,6 @@ export type ListingCard = Row & {
   amenities: string[];
   rating: number | null;
   reviews_count: number | null;
-  is_closed: boolean | null;
   updated_at: string;
   cover_url: string | null;
   /** Premium plan active: ranked first and badged (the 149€ tier promises both). */
@@ -177,7 +176,7 @@ export const getListings = cached('listings:cards', [TAGS.listings, TAGS.reviews
     .from('listings')
     .select(
       `id, slug, owner_id, area, location_name, latitude, longitude, image_url, price_per_night, guests_max,
-       bedrooms, bathrooms, amenities, rating, reviews_count, is_closed, updated_at, plan, plan_status, plan_expires_at, ${localizedColumns('title', 'tagline')},
+       bedrooms, bathrooms, amenities, rating, reviews_count, updated_at, plan, plan_status, plan_expires_at, ${localizedColumns('title', 'tagline')},
        listing_images(image_url, is_cover, sort_order)`,
     )
     .eq('status', 'published')

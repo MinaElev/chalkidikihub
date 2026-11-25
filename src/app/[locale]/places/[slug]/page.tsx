@@ -129,7 +129,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
   const homes = allVillages.filter((v) => v.slug !== 'pyrgadikia-mainland');
   const homeOf = (row: { latitude: number | null; longitude: number | null }) =>
     hasCoords(row) ? nearest(row as { latitude: number; longitude: number }, homes, 1, 6)[0]?.item.slug : undefined;
-  const prices = priceStats(allListings.filter((l) => !l.is_closed && homeOf(l) === slug), allListings.filter((l) => !l.is_closed));
+  const prices = priceStats(allListings.filter((l) => homeOf(l) === slug), allListings);
   const cuisine = cuisineStats(allRestaurants.filter((r) => homeOf(r) === slug), allRestaurants.filter((r) => r.area === village.area));
 
   const [restaurants, activities, stays, villages] = geo
@@ -148,7 +148,7 @@ export default async function VillagePage({ params }: PageProps<'/[locale]/place
   // Every other stay that sits in this village (its closest village), by name.
   const shown = new Set(stays.map(({ item }) => item.slug));
   const moreStays = allListings
-    .filter((l) => !l.is_closed && !shown.has(l.slug) && homeOf(l) === slug)
+    .filter((l) => !shown.has(l.slug) && homeOf(l) === slug)
     .map((l) => ({ slug: l.slug, name: displayName(l, locale, 'listing') }))
     .sort((a, b) => a.name.localeCompare(b.name, locale));
 

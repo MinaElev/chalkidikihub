@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation';
 import {
   Loader2, Wand2, Sparkles, BookOpen, HelpCircle, Eye, ChevronRight, Plus,
   AlertTriangle, Calendar, Shield, ShieldCheck, Info, Sparkle,
-  Image as ImageIcon, MapPin, Lock,
+  Image as ImageIcon, MapPin,
 } from 'lucide-react';
 
 interface DbListing {
@@ -21,8 +21,6 @@ interface DbListing {
   owner_email?: string;
   tagline_el: string | null;
   owner_story_el: string | null;
-  is_closed?: boolean;
-  reopening_date?: string | null;
   // House rules / practical (set if any of the structured fields are filled)
   house_rules_filled: boolean;
   practical_filled: boolean;
@@ -167,7 +165,6 @@ export default function SiteBuilderPage() {
         .select(`
           id, slug, title_el, title_en, area, status, owner_id,
           tagline_el, owner_story_el,
-          is_closed, reopening_date,
           check_in_time, check_out_time, rule_smoking, rule_pets, rule_parties, rule_kids,
           quiet_hours_from, quiet_hours_to, house_rules_extra_el,
           how_to_reach_el, wifi_info_el, parking_info_el, check_in_info_el
@@ -262,8 +259,6 @@ export default function SiteBuilderPage() {
           return {
             ...row,
             owner_email: row.owner_id ? ownerEmails[row.owner_id] : undefined,
-            is_closed: Boolean(row.is_closed),
-            reopening_date: row.reopening_date || null,
             house_rules_filled,
             practical_filled,
             faqs_count: faqCounts[row.id] || 0,
@@ -353,17 +348,11 @@ export default function SiteBuilderPage() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h2 className="text-base font-semibold text-gray-900 truncate">{title}</h2>
-                      {/* Active / Closed status — always visible */}
-                      {listing.is_closed ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-orange-100 text-orange-800 border border-orange-200">
-                          <Lock className="w-3 h-3" /> Κλειστό
-                        </span>
-                      ) : (
+                      {/* Every listing is open; availability comes from the calendar. */}
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800 border border-green-200">
                           <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                           Ενεργό
                         </span>
-                      )}
                     </div>
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1 text-xs text-gray-500">
                       <span className="capitalize">{listing.area}</span>
@@ -400,7 +389,7 @@ export default function SiteBuilderPage() {
                       {t.viewPublic}
                     </Link>
                     <Link
-                      href={`/dashboard/listings/${listing.id}/brand`}
+                      href={`/dashboard/listings/${listing.id}/edit`}
                       className="inline-flex items-center gap-1.5 text-xs font-semibold text-white px-3 py-2 bg-primary-600 hover:bg-primary-700 rounded-lg shadow-sm"
                     >
                       <Wand2 className="w-3.5 h-3.5" />
@@ -419,7 +408,7 @@ export default function SiteBuilderPage() {
                     desc={t.tagline.desc}
                     status={hasTagline ? t.configured : t.notSet}
                     statusColor={hasTagline ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
-                    href={`/dashboard/listings/${listing.id}/brand`}
+                    href={`/dashboard/listings/${listing.id}/edit#about`}
                     cta={t.brandEdit}
                   />
                   <FeatureRow
@@ -429,7 +418,7 @@ export default function SiteBuilderPage() {
                     desc={t.story.desc}
                     status={hasStory ? t.configured : t.notSet}
                     statusColor={hasStory ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
-                    href={`/dashboard/listings/${listing.id}/brand`}
+                    href={`/dashboard/listings/${listing.id}/edit#about`}
                     cta={t.brandEdit}
                   />
                   <FeatureRow
@@ -439,7 +428,7 @@ export default function SiteBuilderPage() {
                     desc={t.faqs.desc}
                     status={faqsCount > 0 ? `${faqsCount}` : t.notSet}
                     statusColor={faqsCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
-                    href={`/dashboard/listings/${listing.id}/brand`}
+                    href={`/dashboard/listings/${listing.id}/edit#more`}
                     cta={t.brandEdit}
                   />
                   <FeatureRow
@@ -449,7 +438,7 @@ export default function SiteBuilderPage() {
                     desc={t.emergency.desc}
                     status={emergencyCount > 0 ? `${emergencyCount}` : t.notSet}
                     statusColor={emergencyCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
-                    href={`/dashboard/listings/${listing.id}/brand`}
+                    href={`/dashboard/listings/${listing.id}/edit#more`}
                     cta={t.brandEdit}
                   />
                   <FeatureRow
@@ -459,7 +448,7 @@ export default function SiteBuilderPage() {
                     desc={t.houseRules.desc}
                     status={houseRulesFilled ? t.configured : t.notSet}
                     statusColor={houseRulesFilled ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
-                    href={`/dashboard/listings/${listing.id}/brand`}
+                    href={`/dashboard/listings/${listing.id}/edit#rules`}
                     cta={t.brandEdit}
                   />
                   <FeatureRow
@@ -469,7 +458,7 @@ export default function SiteBuilderPage() {
                     desc={t.practical.desc}
                     status={practicalFilled ? t.configured : t.notSet}
                     statusColor={practicalFilled ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
-                    href={`/dashboard/listings/${listing.id}/brand`}
+                    href={`/dashboard/listings/${listing.id}/edit#practical`}
                     cta={t.brandEdit}
                   />
                   <FeatureRow
@@ -479,7 +468,7 @@ export default function SiteBuilderPage() {
                     desc={t.extras.desc}
                     status={extrasCount > 0 ? `${extrasCount}` : t.notSet}
                     statusColor={extrasCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
-                    href={`/dashboard/listings/${listing.id}/brand`}
+                    href={`/dashboard/listings/${listing.id}/edit#more`}
                     cta={t.brandEdit}
                   />
                   <FeatureRow
@@ -489,7 +478,7 @@ export default function SiteBuilderPage() {
                     desc={t.captions.desc}
                     status={totalPhotos > 0 ? `${captionsCount}/${totalPhotos}` : t.notSet}
                     statusColor={captionsCount > 0 ? 'text-green-700 bg-green-50' : 'text-gray-500 bg-gray-50'}
-                    href={`/dashboard/listings/${listing.id}/brand`}
+                    href={`/dashboard/listings/${listing.id}/edit#photos`}
                     cta={t.brandEdit}
                   />
                   <FeatureRow
@@ -499,7 +488,7 @@ export default function SiteBuilderPage() {
                     desc={t.nearby.desc}
                     status={nearbyOverridesCount > 0 ? `${nearbyOverridesCount} hidden` : t.configured}
                     statusColor={'text-green-700 bg-green-50'}
-                    href={`/dashboard/listings/${listing.id}/brand`}
+                    href={`/dashboard/listings/${listing.id}/edit#more`}
                     cta={t.brandEdit}
                   />
                   <FeatureRow

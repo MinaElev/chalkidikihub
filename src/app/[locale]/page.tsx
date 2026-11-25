@@ -92,7 +92,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
 
   const live = new Set(liveIds);
   // Six stays: Amira House, then Premium, then an hourly rotation of the front-page list (pickHomeStays).
-  const stays = pickHomeStays(listings.filter((l) => !l.is_closed && l.cover_url), live, 6);
+  const stays = pickHomeStays(listings.filter((l) => l.cover_url), live, 6);
   const stayVillages = await closestVillagesFor(stays, locale, 6);
 
   const ranked = [...beaches]
