@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { requireCronOrSuperAdmin } from '@/lib/route-guards';
 import { adminDb } from '@/lib/supabase/clients';
 import { syncFeeds } from '@/lib/availability/ical-sync';
+import { runInquiryFollowups } from '@/lib/inquiry-followups';
 
 export const maxDuration = 300;
 
@@ -28,12 +29,16 @@ async function run(request: NextRequest) {
   );
   const results = await syncFeeds(due);
   const failed = results.filter((r) => !r.ok);
+  // Same schedule for the request reminders (owner after 24 h, guest after 48 h):
+  // calendars are fresh right now, so "free on your dates" in the guest email is too.
+  const followups = await runInquiryFollowups().catch((e: unknown) => ({ error: e instanceof Error ? e.message : String(e) }));
   return NextResponse.json(
     {
       feeds: feeds?.length ?? 0,
       synced: results.length,
       changed: results.filter((r) => r.changed).length,
       failed: failed.map((r) => ({ feedId: r.feedId, error: r.error })),
+      followups,
     },
     { headers: { 'Cache-Control': 'no-store' } },
   );

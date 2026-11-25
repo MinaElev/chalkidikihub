@@ -87,3 +87,18 @@ export function internationalPhone(raw: string, country: string): string {
   if (local.startsWith(code) && local.length > code.length + 8) return `+${local}`;
   return `+${code}${local}`;
 }
+
+/**
+ * The owner's number as WhatsApp wants it (digits with country code), or null
+ * when it can't be a mobile: owners are Greek, so a bare 69… gets +30, and a
+ * Greek landline (2…) is left out.
+ */
+export function whatsappNumber(raw: string): string | null {
+  let d = raw.replace(/[^\d+]/g, '');
+  if (d.startsWith('00')) d = `+${d.slice(2)}`;
+  if (!d.startsWith('+')) d = /^69\d{8}$/.test(d) ? `+30${d}` : /^3069\d{8}$/.test(d) ? `+${d}` : '';
+  const digits = d.replace(/\D/g, '');
+  if (!digits || digits.length < 8 || digits.length > 15) return null;
+  if (digits.startsWith('30') && !digits.startsWith('3069')) return null;
+  return digits;
+}

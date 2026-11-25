@@ -12,35 +12,39 @@ export function InquiryReplyForm({
   token, initial, answered, nights,
 }: {
   token: string;
-  initial: Status;
+  /** direct: from the reminder's "I already answered the guest myself". */
+  initial: Status | 'direct';
   answered: { status: string; at: string } | null;
   nights: number | null;
 }) {
-  const [status, setStatus] = useState<Status>(initial);
+  const [status, setStatus] = useState<Status>(initial === 'unavailable' ? 'unavailable' : 'available');
+  const [direct, setDirect] = useState(initial === 'direct');
   const [price, setPrice] = useState('');
   const [message, setMessage] = useState('');
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error' | 'answered'>(answered ? 'answered' : 'idle');
 
   if (state === 'answered' || state === 'done') {
-    const was = state === 'done' ? status : answered?.status;
+    const was = state === 'done' ? (direct ? 'direct' : status) : answered?.status;
     return (
       <div role="status" className="flex items-start gap-3 rounded-2xl bg-emerald-50 p-5 text-emerald-900">
         <CheckCircle2 className="mt-0.5 size-5 shrink-0" aria-hidden />
         <p>
-          {state === 'done' ? 'Η απάντησή σας στάλθηκε στον επισκέπτη.' : `Έχετε ήδη απαντήσει${answered?.at ? ` (${answered.at})` : ''}.`}{' '}
+          {state === 'done'
+            ? was === 'direct' ? 'Σημειώθηκε ότι απαντήσατε απευθείας. Δεν θα λάβετε άλλη υπενθύμιση.' : 'Η απάντησή σας στάλθηκε στον επισκέπτη.'
+            : `Έχετε ήδη απαντήσει${answered?.at ? ` (${answered.at})` : ''}.`}{' '}
           {was === 'available' ? 'Αν σας απαντήσει, το email του θα έρθει απευθείας σε εσάς.' : 'Ευχαριστούμε που απαντήσατε.'}
         </p>
       </div>
     );
   }
 
-  async function send() {
+  async function send(asDirect = false) {
     setState('sending');
     try {
       const res = await fetch(`/api/inquiry-reply/${encodeURIComponent(token)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status, price: status === 'available' ? price : '', message }),
+        body: JSON.stringify(asDirect ? { status: 'direct' } : { status, price: status === 'available' ? price : '', message }),
       });
       setState(res.ok ? 'done' : res.status === 409 ? 'answered' : 'error');
     } catch {
@@ -58,6 +62,27 @@ export function InquiryReplyForm({
       <Icon className="size-5" aria-hidden />{label}
     </button>
   );
+
+  if (direct) {
+    return (
+      <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5">
+        <p className="text-slate-700">Έχετε ήδη μιλήσει με τον επισκέπτη απευθείας (email ή τηλέφωνο); Θα το σημειώσουμε, χωρίς να του σταλεί κάτι.</p>
+        <button
+          type="button"
+          onClick={() => send(true)}
+          disabled={state === 'sending'}
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-sea-600 px-4 py-3 font-semibold text-white hover:bg-sea-700 disabled:opacity-60"
+        >
+          {state === 'sending' && <Loader2 className="size-4 animate-spin" aria-hidden />}
+          Ναι, έχω απαντήσει
+        </button>
+        <button type="button" onClick={() => setDirect(false)} className="w-full text-sm font-medium text-sea-700 underline underline-offset-2">
+          Όχι, θέλω να απαντήσω τώρα
+        </button>
+        {state === 'error' && <p role="alert" className="text-sm text-red-700">Δεν αποθηκεύτηκε. Δοκιμάστε ξανά σε λίγο.</p>}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5">
@@ -85,7 +110,7 @@ export function InquiryReplyForm({
       <p className="text-xs text-slate-500">Το υπόλοιπο email μεταφράζεται αυτόματα στη γλώσσα του επισκέπτη, αλλά το μήνυμά σας στέλνεται όπως το γράψετε. Αν ο επισκέπτης δεν μιλά ελληνικά, γράψτε το στα αγγλικά.</p>
       <button
         type="button"
-        onClick={send}
+        onClick={() => send()}
         disabled={state === 'sending'}
         className="flex w-full items-center justify-center gap-2 rounded-xl bg-sea-600 px-4 py-3 font-semibold text-white hover:bg-sea-700 disabled:opacity-60"
       >

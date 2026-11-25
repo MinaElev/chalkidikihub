@@ -24,7 +24,12 @@ function load(): StayDates {
   if (current) return current;
   current = EMPTY;
   try {
-    const v = JSON.parse(localStorage.getItem(KEY) || 'null') as { checkIn?: string; checkOut?: string } | null;
+    // Links from our emails carry the guest's dates (?in=…&out=…); they win over the stored ones.
+    const q = new URLSearchParams(window.location.search);
+    const fromUrl = /^\d{4}-\d{2}-\d{2}$/.test(q.get('in') ?? '') && /^\d{4}-\d{2}-\d{2}$/.test(q.get('out') ?? '')
+      ? { checkIn: q.get('in')!, checkOut: q.get('out')! }
+      : null;
+    const v = fromUrl ?? (JSON.parse(localStorage.getItem(KEY) || 'null') as { checkIn?: string; checkOut?: string } | null);
     if (v?.checkIn && v.checkOut && v.checkIn >= today() && v.checkOut > v.checkIn) {
       current = { checkIn: v.checkIn, checkOut: v.checkOut, fromCalendar: false };
     }

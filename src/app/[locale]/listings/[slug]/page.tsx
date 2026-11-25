@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { BedDouble, Bath, Check, ExternalLink, Globe, Phone, Users } from 'lucide-react';
+import { BedDouble, Bath, Check, Clock, ExternalLink, Globe, Phone, Users } from 'lucide-react';
 import type { Locale } from '@/i18n/config';
 import { Link } from '@/i18n/navigation';
 import { getListing, getListings, getLiveCalendarListingIds, type ListingCard } from '@/lib/db/content';
@@ -31,6 +31,9 @@ import { Reviews } from '@/components/ui/Reviews';
 import { Gallery, type Photo } from '@/components/stay/Gallery';
 import { AvailabilityCalendar } from '@/components/stay/AvailabilityCalendar';
 import { InquiryForm, type InquiryLabels } from '@/components/stay/InquiryForm';
+import { WhatsAppButton } from '@/components/stay/WhatsAppButton';
+import { whatsappNumber } from '@/lib/phone-countries';
+import { replySpeed, SITE_URL } from '@/lib/inquiry';
 import { ReviewForm } from '@/components/v3/ReviewForm';
 import { ShareButtons } from '@/components/v3/ShareButtons';
 import { RecentlyViewed } from '@/components/v3/RecentlyViewed';
@@ -225,6 +228,18 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
   } as InquiryLabels;
   // Booked nights for the inquiry calendar (only when the owner shows a calendar).
   const blocked = l.show_calendar ? await bookedNights(String(l.id)) : undefined;
+  // "Usually replies within …", from the owner's one-click answers (needs at least 3).
+  const speed = await replySpeed(String(l.id));
+  const speedLabel = speed === 'hour' ? t('replyWithinHour') : speed === 'hours' ? t('replyWithinHours') : speed === 'day' ? t('replyWithinDay') : null;
+  // WhatsApp with a ready message (name, picked dates, link back here), when the owner's number is a mobile.
+  const waNumber = phone ? whatsappNumber(phone) : null;
+  const waProps = waNumber
+    ? {
+        number: waNumber, name, locale,
+        url: `${SITE_URL}${locale === 'el' ? '' : `/${locale}`}/listings/${slug}`,
+        labels: { button: t('whatsapp'), text: t.raw('whatsappText') as string, dates: t.raw('whatsappDates') as string },
+      }
+    : null;
 
   return (
     <Container>
@@ -350,6 +365,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
             <ul className="mt-4 space-y-1.5 text-sm text-slate-700">
               <li className="flex items-center gap-2"><Check className="size-4 text-emerald-600" aria-hidden />{t('noFees')}</li>
               <li className="flex items-center gap-2"><Check className="size-4 text-emerald-600" aria-hidden />{t('directOwner')}</li>
+              {speedLabel && <li className="flex items-center gap-2 font-medium text-emerald-800"><Clock className="size-4 text-emerald-600" aria-hidden />{speedLabel}</li>}
             </ul>
             <hr className="my-5 border-slate-200" />
             {<InquiryForm slug={slug} locale={locale} maxGuests={l.guests_max} labels={labels} blocked={blocked} searchLabel={shell('search')} />}
@@ -358,6 +374,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
                 <Phone className="size-4" aria-hidden />{t('call')}: {phone}
               </a>
             )}
+            {waProps && <WhatsAppButton {...waProps} />}
             {/* Owner-supplied links: nofollow + ugc, opened in a new tab so the visitor keeps this page. */}
             {website && (
               <a href={website} data-track="website" target="_blank" rel="nofollow ugc noopener noreferrer" className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-3 font-semibold text-slate-800 hover:bg-slate-50">
@@ -408,6 +425,7 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
                   <Phone className="size-5" aria-hidden />
                 </a>
               )}
+              {waProps && <WhatsAppButton {...waProps} compact />}
               <a href="#inquiry" className="shrink-0 rounded-xl bg-sea-600 px-4 py-3 text-sm font-semibold text-white">{t('formTitle')}</a>
             </div>
           </div>

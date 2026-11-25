@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Heart, Loader2, Home, Waves, UtensilsCrossed, Landmark, Trash2 } from 'lucide-react';
+import { FavoritesInquiry } from '@/components/stay/FavoritesInquiry';
 
 interface Favorite {
   id: string;
@@ -26,11 +27,13 @@ export default function FavoritesPage() {
   const router = useRouter();
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState(true);
+  const [accountEmail, setAccountEmail] = useState<string | undefined>();
 
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) { router.push('/auth/login'); return; }
+      setAccountEmail(user.email ?? undefined);
       const { data } = await supabase.from('favorites').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
       setFavorites((data as Favorite[]) || []);
       setLoading(false);
@@ -53,6 +56,15 @@ export default function FavoritesPage() {
           {({"el":"Τα αγαπημένα μου","en":"My Favorites","de":"Meine Favoriten","bg":"Любими","ru":"Избранное","ro":"Favoritele mele","sr":"Moji omiljeni"} as Record<string, string>)[locale] ?? "My Favorites"} ({favorites.length})
         </h1>
       </div>
+
+      {/* Two or more favourite stays: ask them all at once. */}
+      {favorites.filter((f) => f.item_type === 'listing').length >= 2 && (
+        <FavoritesInquiry
+          locale={locale}
+          accountEmail={accountEmail}
+          stays={favorites.filter((f) => f.item_type === 'listing').map((f) => ({ slug: f.item_slug, title: f.item_slug.replace(/-/g, ' ') }))}
+        />
+      )}
 
       {favorites.length === 0 ? (
         <div className="text-center py-16 bg-white border border-gray-200 rounded-2xl">

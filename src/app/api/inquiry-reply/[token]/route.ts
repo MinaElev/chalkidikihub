@@ -4,6 +4,7 @@ import { allowRequest } from '@/lib/rate-limit';
 import { listingTitle } from '@/lib/content/listing-title';
 import { publicSlug } from '@/content/rewrites/slug-renames';
 import { mailGuestReply } from '@/lib/emails/inquiry-reply';
+import { similarFreeStays } from '@/lib/inquiry';
 import type { Locale } from '@/i18n/config';
 import { isLocale } from '@/i18n/config';
 
@@ -25,7 +26,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   } catch {
     return NextResponse.json({ error: 'bad-request' }, { status: 400 });
   }
-  const status = body.status === 'available' ? 'available' : body.status === 'unavailable' ? 'unavailable' : null;
+  // direct = the owner already answered the guest themselves: recorded, no email.
+  const status = (['available', 'unavailable', 'direct'] as const).find((s) => s === body.status) ?? null;
   if (!status) return NextResponse.json({ error: 'invalid' }, { status: 400 });
   const priceNum = Number(body.price);
   const price = status === 'available' && Number.isFinite(priceNum) && priceNum > 0 && priceNum < 1_000_000 ? Math.round(priceNum) : null;
@@ -41,9 +43,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     .update({ reply_status: status, reply_price: price, reply_message: message || null, replied_at: new Date().toISOString() })
     .eq('reply_token', token)
     .is('reply_status', null)
-    .select('listing_id, owner_id, guest_name, guest_email, check_in, check_out, locale')
+    .select('listing_id, owner_id, guest_name, guest_email, guest_phone, check_in, check_out, guests, locale')
     .maybeSingle();
   if (!row) return NextResponse.json({ error: 'already-answered' }, { status: 409 });
+  if (status === 'direct') return NextResponse.json({ ok: true });
 
   const [{ data: listing }, { data: owner }] = await Promise.all([
     db.from('listings').select('*').eq('id', row.listing_id).maybeSingle(),
@@ -52,7 +55,23 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   if (!listing) return NextResponse.json({ ok: true });
 
   const locale = (isLocale(row.locale) ? row.locale : 'en') as Locale;
+  // A "no" comes with other stays free on the same dates (not the ones this guest already asked).
+  let stays: Awaited<ReturnType<typeof similarFreeStays>> = [];
+  if (status === 'unavailable' && row.check_in && row.check_out) {
+    const { data: asked } = await db
+      .from('listing_inquiries')
+      .select('listing_id')
+      .eq('guest_email', row.guest_email)
+      .eq('check_in', row.check_in)
+      .eq('check_out', row.check_out);
+    stays = await similarFreeStays(
+      row.listing_id,
+      { name: row.guest_name, email: row.guest_email, phone: row.guest_phone ?? '', message: '', checkIn: row.check_in, checkOut: row.check_out, guests: row.guests ?? 1, locale },
+      (asked ?? []).map((a) => a.listing_id as string),
+    ).catch(() => []);
+  }
   const ok = await mailGuestReply({
+    stays,
     guestEmail: row.guest_email,
     guestName: row.guest_name,
     locale,

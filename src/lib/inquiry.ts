@@ -40,7 +40,27 @@ export type InquiryListing = {
   show_calendar: boolean | null;
 };
 
-export type InquirySource = 'form' | 'calendar' | 'similar';
+export type InquirySource = 'form' | 'calendar' | 'similar' | 'favorites';
+
+const BTN = 'display:inline-block;margin:12px 8px 0 0;padding:10px 16px;border-radius:8px;font-weight:600;text-decoration:none';
+
+/** The owner's one-click answer buttons (request email and the 24-hour reminder). */
+export function replyButtonsHtml(token: string): string {
+  const reply = (a: string) => `${SITE_URL}/inquiry-reply/${token}?a=${a}`;
+  return `<div style="margin-top:20px;padding:16px;border:1px solid #e2e8f0;border-radius:12px">
+    <p style="margin:0 0 4px;font-weight:600">Απαντήστε με ένα κλικ</p>
+    <p style="margin:0;color:#64748b;font-size:13px">Ο επισκέπτης παίρνει αμέσως email στη γλώσσα του. Μπορείτε να προσθέσετε τιμή ή μήνυμα.</p>
+    <a href="${reply('available')}" style="${BTN};color:#fff;background:#059669">✓ Είναι διαθέσιμο</a><a href="${reply('unavailable')}" style="${BTN};color:#334155;background:#f1f5f9;border:1px solid #cbd5e1">✗ Δεν είναι διαθέσιμο</a>
+  </div>`;
+}
+
+/** Call / WhatsApp buttons for a number sent in +international form. */
+export function callButtonsHtml(phone: string | null): string {
+  const digits = (phone ?? '').replace(/\D/g, '');
+  return phone?.startsWith('+') && digits.length >= 8 && digits.length <= 15
+    ? `<p><a href="tel:+${digits}" style="${BTN};color:#fff;background:#0369a1">📞 Κλήση</a><a href="https://wa.me/${digits}" style="${BTN};color:#fff;background:#16a34a">WhatsApp</a></p>`
+    : '';
+}
 
 const nightsOf = (d: InquiryData) =>
   d.checkIn && d.checkOut ? Math.round((Date.parse(d.checkOut) - Date.parse(d.checkIn)) / 86_400_000) : null;
@@ -113,20 +133,8 @@ export async function deliverInquiry(db: SupabaseClient, listing: InquiryListing
     ['Γλώσσα επισκέπτη', d.locale.toUpperCase()],
   ];
   // The form sends the number with its country code (+…), so the owner can call or WhatsApp in one tap.
-  const phoneDigits = d.phone.replace(/\D/g, '');
-  const btn = 'display:inline-block;margin:12px 8px 0 0;padding:10px 16px;border-radius:8px;font-weight:600;text-decoration:none';
-  const callButtons =
-    d.phone.startsWith('+') && phoneDigits.length >= 8 && phoneDigits.length <= 15
-      ? `<p><a href="tel:+${phoneDigits}" style="${btn};color:#fff;background:#0369a1">📞 Κλήση</a><a href="https://wa.me/${phoneDigits}" style="${btn};color:#fff;background:#16a34a">WhatsApp</a></p>`
-      : '';
-  const reply = (a: string) => `${SITE_URL}/inquiry-reply/${replyToken}?a=${a}`;
-  const replyButtons = replyToken
-    ? `<div style="margin-top:20px;padding:16px;border:1px solid #e2e8f0;border-radius:12px">
-         <p style="margin:0 0 4px;font-weight:600">Απαντήστε με ένα κλικ</p>
-         <p style="margin:0;color:#64748b;font-size:13px">Ο επισκέπτης παίρνει αμέσως email στη γλώσσα του. Μπορείτε να προσθέσετε τιμή ή μήνυμα.</p>
-         <a href="${reply('available')}" style="${btn};color:#fff;background:#059669">✓ Είναι διαθέσιμο</a><a href="${reply('unavailable')}" style="${btn};color:#334155;background:#f1f5f9;border:1px solid #cbd5e1">✗ Δεν είναι διαθέσιμο</a>
-       </div>`
-    : '';
+  const callButtons = callButtonsHtml(d.phone);
+  const replyButtons = replyToken ? replyButtonsHtml(replyToken) : '';
 
   after(async () => {
     const ok = await sendMail({
@@ -159,13 +167,13 @@ export type SimilarStay = { slug: string; name: string; image: string | null; pr
  * free on every requested night, closest first. Only listings with a live
  * calendar (synced in the last day) count, so "free" is a fact, not a guess.
  */
-export async function similarFreeStays(listingId: string, d: InquiryData): Promise<SimilarStay[]> {
+export async function similarFreeStays(listingId: string, d: InquiryData, exclude: string[] = []): Promise<SimilarStay[]> {
   if (!nightsOf(d)) return [];
   const [all, liveIds] = await Promise.all([getListings(), getLiveCalendarListingIds()]);
   const self = all.find((l) => l.id === listingId);
   if (!self) return [];
   const live = new Set(liveIds);
-  const pool = all.filter((l) => l.id !== listingId && l.area === self.area && live.has(l.id) && (l.guests_max || 0) >= d.guests);
+  const pool = all.filter((l) => l.id !== listingId && !exclude.includes(l.id) && l.area === self.area && live.has(l.id) && (l.guests_max || 0) >= d.guests);
   if (!pool.length) return [];
 
   const { data } = await adminDb()
@@ -224,6 +232,32 @@ export function readOffer(token: unknown): Offer | null {
   try {
     const offer = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as Offer;
     return offer.exp > Date.now() ? offer : null;
+  } catch {
+    return null;
+  }
+}
+
+// ── Reply speed badge ──────────────────────────────────────────────────────
+
+/**
+ * How fast the owner usually answers requests from the one-click buttons:
+ * the median over the last 180 days, shown only with at least 3 answers and
+ * only when it is within a day. "Already answered directly" doesn't count
+ * (its time is when they clicked, not when they answered).
+ */
+export async function replySpeed(listingId: string): Promise<'hour' | 'hours' | 'day' | null> {
+  try {
+    const { data, error } = await adminDb()
+      .from('listing_inquiries')
+      .select('created_at, replied_at')
+      .eq('listing_id', listingId)
+      .in('reply_status', ['available', 'unavailable'])
+      .gte('created_at', new Date(Date.now() - 180 * 86_400_000).toISOString())
+      .limit(200);
+    if (error || !data || data.length < 3) return null;
+    const hours = data.map((r) => (Date.parse(r.replied_at as string) - Date.parse(r.created_at as string)) / 3_600_000).sort((a, b) => a - b);
+    const median = hours[Math.floor(hours.length / 2)];
+    return median <= 1 ? 'hour' : median <= 6 ? 'hours' : median <= 24 ? 'day' : null;
   } catch {
     return null;
   }

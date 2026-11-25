@@ -65,7 +65,7 @@ export default async function Page({
             <div className="mt-6">
               <InquiryReplyForm
                 token={token}
-                initial={a === 'unavailable' ? 'unavailable' : 'available'}
+                initial={a === 'unavailable' ? 'unavailable' : a === 'direct' ? 'direct' : 'available'}
                 answered={row.reply_status ? { status: row.reply_status, at: row.replied_at ? day(row.replied_at) : '' } : null}
                 nights={nights}
               />
