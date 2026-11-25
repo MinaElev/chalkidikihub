@@ -4,7 +4,8 @@ import { allowRequest } from '@/lib/rate-limit';
 import { listingTitle } from '@/lib/content/listing-title';
 import { publicSlug } from '@/content/rewrites/slug-renames';
 import { mailGuestReply } from '@/lib/emails/inquiry-reply';
-import { similarFreeStays } from '@/lib/inquiry';
+import { SITE_URL, areaStays, similarFreeStays } from '@/lib/inquiry';
+import { areaInviteLink } from '@/lib/area-invite';
 import type { Locale } from '@/i18n/config';
 import { isLocale } from '@/i18n/config';
 
@@ -43,7 +44,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     .update({ reply_status: status, reply_price: price, reply_message: message || null, replied_at: new Date().toISOString() })
     .eq('reply_token', token)
     .is('reply_status', null)
-    .select('listing_id, owner_id, guest_name, guest_email, guest_phone, check_in, check_out, guests, locale')
+    .select('id, listing_id, owner_id, guest_name, guest_email, guest_phone, check_in, check_out, guests, locale')
     .maybeSingle();
   if (!row) return NextResponse.json({ error: 'already-answered' }, { status: 409 });
   if (status === 'direct') return NextResponse.json({ ok: true });
@@ -57,6 +58,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   const locale = (isLocale(row.locale) ? row.locale : 'en') as Locale;
   // A "no" comes with other stays free on the same dates (not the ones this guest already asked).
   let stays: Awaited<ReturnType<typeof similarFreeStays>> = [];
+  let others: typeof stays = [];
+  let invite: Awaited<ReturnType<typeof areaInviteLink>> = null;
   if (status === 'unavailable' && row.check_in && row.check_out) {
     const { data: asked } = await db
       .from('listing_inquiries')
@@ -69,9 +72,16 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       { name: row.guest_name, email: row.guest_email, phone: row.guest_phone ?? '', message: '', checkIn: row.check_in, checkOut: row.check_out, guests: row.guests ?? 1, locale },
       (asked ?? []).map((a) => a.listing_id as string),
     ).catch(() => []);
+    const exclude = (asked ?? []).map((a) => a.listing_id as string);
+    [invite, others] = await Promise.all([
+      areaInviteLink(row.id, SITE_URL, locale).catch(() => null),
+      stays.length ? Promise.resolve([]) : areaStays(row.listing_id, row.guests ?? 1, locale, exclude).catch(() => []),
+    ]);
   }
   const ok = await mailGuestReply({
     stays,
+    others,
+    invite,
     guestEmail: row.guest_email,
     guestName: row.guest_name,
     locale,

@@ -1,15 +1,7 @@
 // Guard: public form → honeypot, minimum fill time and per-IP daily cap.
-import { NextRequest, NextResponse, after } from 'next/server';
-import crypto from 'crypto';
+import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/api-helpers';
-import {
-  prepareBroadcast,
-  sendBroadcast,
-  sendGuestConfirmation,
-  generatePublicToken,
-  MAX_REQUESTS_PER_DAY,
-  type AvailabilityRequestRow,
-} from '@/lib/availability/dispatch';
+import { createAreaRequest, hashIp, requestIp } from '@/lib/availability/create-request';
 
 // Owner matching runs inline (a few fast queries) so we can tell the visitor how
 // many owners will be notified. The slow half — up to 50 sequential Gmail sends
@@ -52,14 +44,6 @@ function isValidPhone(p: string): boolean {
   // E.164 country plus short local-only numbers).
   const digits = p.replace(/\D/g, '');
   return digits.length >= 6 && digits.length <= 18;
-}
-
-function hashIp(ip: string): string {
-  return crypto
-    .createHash('sha256')
-    .update(ip + (process.env.NEXT_PUBLIC_SITE_URL || ''))
-    .digest('hex')
-    .slice(0, 32);
 }
 
 export async function POST(request: NextRequest) {
@@ -133,154 +117,24 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createAdminClient();
-
-    // ─── Rate limits ──────────────────────────────────────────────────
-    const ip =
-      request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
-      request.headers.get('x-real-ip') ||
-      'unknown';
-    const ipHash = hashIp(ip);
-
-    const day = new Date(Date.now() - 86_400_000).toISOString();
-    const month = new Date(Date.now() - 30 * 86_400_000).toISOString();
-
-    const [emailDayRes, ipDayRes, emailMonthRes, totalDayRes] = await Promise.all([
-      supabase
-        .from('availability_requests')
-        .select('id', { count: 'exact', head: true })
-        .eq('guest_email', guest_email)
-        .gte('created_at', day),
-      supabase
-        .from('availability_requests')
-        .select('id', { count: 'exact', head: true })
-        .eq('ip_hash', ipHash)
-        .gte('created_at', day),
-      supabase
-        .from('availability_requests')
-        .select('id', { count: 'exact', head: true })
-        .eq('guest_email', guest_email)
-        .gte('created_at', month),
-      supabase
-        .from('availability_requests')
-        .select('id', { count: 'exact', head: true })
-        .gte('created_at', day),
-    ]);
-
-    if ((emailDayRes.count || 0) >= 1) {
-      return NextResponse.json(
-        { error: 'rate_limit_email_day', message: 'Έχεις ήδη στείλει αίτημα τις τελευταίες 24 ώρες.' },
-        { status: 429 },
-      );
+    const result = await createAreaRequest(
+      supabase,
+      {
+        guest_name, guest_email, guest_phone, area, check_in, check_out, adults, children,
+        budget_min, budget_max, property_type: property_type || null, notes: notes || null, locale,
+      },
+      hashIp(requestIp(request.headers)),
+    );
+    if (!result.ok) {
+      return NextResponse.json({ error: result.error, message: result.message }, { status: result.status });
     }
-    if ((ipDayRes.count || 0) >= 3) {
-      return NextResponse.json(
-        { error: 'rate_limit_ip_day', message: 'Πολλά αιτήματα από αυτή τη συσκευή. Δοκίμασε ξανά αύριο.' },
-        { status: 429 },
-      );
-    }
-    if ((emailMonthRes.count || 0) >= 5) {
-      return NextResponse.json(
-        { error: 'rate_limit_email_month', message: 'Έχεις ξεπεράσει το όριο αιτημάτων ανά μήνα.' },
-        { status: 429 },
-      );
-    }
-    if ((totalDayRes.count || 0) >= MAX_REQUESTS_PER_DAY) {
-      return NextResponse.json(
-        {
-          error: 'platform_daily_cap',
-          message: 'Η πλατφόρμα δέχεται περιορισμένο αριθμό αιτημάτων ημερησίως. Δοκίμασε ξανά αύριο.',
-        },
-        { status: 429 },
-      );
-    }
-
-    // ─── Insert request ───────────────────────────────────────────────
-    const public_token = generatePublicToken();
-    const expires_at = new Date(co.getTime() + 7 * 86_400_000).toISOString();
-
-    const { data: inserted, error: insErr } = await supabase
-      .from('availability_requests')
-      .insert({
-        public_token,
-        guest_name,
-        guest_email,
-        guest_phone,
-        area,
-        check_in,
-        check_out,
-        adults,
-        children,
-        budget_min,
-        budget_max,
-        property_type: property_type || null,
-        notes: notes || null,
-        status: 'active',
-        expires_at,
-        ip_hash: ipHash,
-        locale,
-      })
-      .select('id, public_token, guest_name, guest_email, guest_phone, area, check_in, check_out, adults, children, budget_min, budget_max, property_type, notes, locale')
-      .single();
-
-    if (insErr || !inserted) {
-      return NextResponse.json({ error: 'insert_failed', detail: insErr?.message }, { status: 500 });
-    }
-
-    const requestRow = inserted as AvailabilityRequestRow;
-
-    // ─── Match owners (inline, fast) ─────────────────────────────────
-    // Only the matching runs synchronously so we can report the count. The
-    // actual email sending is deferred to `after()` below.
-    const { creds, candidates } = await prepareBroadcast(supabase, requestRow);
-    const recipientCount = candidates.length;
-
-    // Record the intended recipient count now so the guest dashboard shows the
-    // right "waiting" number immediately, even before the emails finish sending.
-    if (recipientCount > 0) {
-      await supabase
-        .from('availability_requests')
-        .update({ recipients_count: recipientCount })
-        .eq('id', inserted.id);
-    }
-
-    // ─── Send emails + guest confirmation + log AFTER responding ─────
-    after(async () => {
-      try {
-        let sent = 0;
-        let failed = 0;
-        if (creds && candidates.length > 0) {
-          const r = await sendBroadcast(supabase, requestRow, candidates, creds);
-          sent = r.sent;
-          failed = r.failed;
-          // Correct the count if some sends failed (recipients_count = actually sent).
-          if (sent !== recipientCount) {
-            await supabase
-              .from('availability_requests')
-              .update({ recipients_count: sent })
-              .eq('id', inserted.id);
-          }
-        }
-
-        await sendGuestConfirmation(supabase, requestRow, sent).catch(() => {});
-
-        await supabase.from('activity_logs').insert({
-          type: 'user_action',
-          severity: 'info',
-          message: `Availability request submitted (${area}, ${sent} owners notified)`,
-          details: { request_id: inserted.id, area, sent, failed },
-        });
-      } catch {
-        // Swallow — the request row is already saved; the guest can still track
-        // it via the dashboard link, and the activity log is best-effort.
-      }
-    });
 
     return NextResponse.json({
       success: true,
-      public_token,
-      dashboard_url: `/requests/${public_token}`,
-      recipients_count: recipientCount,
-      no_matches: recipientCount === 0 && !!creds,
+      public_token: result.public_token,
+      dashboard_url: `/requests/${result.public_token}`,
+      recipients_count: result.recipients_count,
+      no_matches: result.no_matches,
     });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });

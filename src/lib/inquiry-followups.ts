@@ -3,7 +3,8 @@ import { adminDb } from '@/lib/supabase/clients';
 import { emailLayout, escapeHtml, sendMail } from '@/lib/email/mailer';
 import { listingTitle } from '@/lib/content/listing-title';
 import { isLocale, type Locale } from '@/i18n/config';
-import { callButtonsHtml, replyButtonsHtml, similarFreeStays } from '@/lib/inquiry';
+import { SITE_URL, areaStays, callButtonsHtml, replyButtonsHtml, similarFreeStays } from '@/lib/inquiry';
+import { areaInviteLink } from '@/lib/area-invite';
 import { mailGuestFollowup } from '@/lib/emails/inquiry-reply';
 
 const HOUR = 3_600_000;
@@ -84,8 +85,13 @@ export async function runInquiryFollowups(): Promise<{ reminded: number; followe
         { name: r.guest_name, email: r.guest_email, phone: r.guest_phone ?? '', message: '', checkIn: r.check_in, checkOut: r.check_out, guests: r.guests ?? 1, locale },
         (asked ?? []).map((a) => a.listing_id as string),
       ).catch(() => []);
-      if (stays.length) {
+      const exclude = (asked ?? []).map((a) => a.listing_id as string);
+      const invite = await areaInviteLink(r.id, SITE_URL, locale).catch(() => null);
+      const others = stays.length ? [] : await areaStays(r.listing_id, r.guests ?? 1, locale, exclude).catch(() => []);
+      if (stays.length || invite) {
         const ok = await mailGuestFollowup({
+          others,
+          invite,
           guestEmail: r.guest_email,
           guestName: r.guest_name,
           locale,

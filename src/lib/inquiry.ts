@@ -186,23 +186,70 @@ export async function similarFreeStays(listingId: string, d: InquiryData, exclud
     .limit(5000);
   const busy = new Set((data ?? []).map((r) => r.listing_id as string));
   const free = pool.filter((l) => !busy.has(l.id));
+  return stayCards(self, free, d.locale as Locale);
+}
 
+type ListingRow = Awaited<ReturnType<typeof getListings>>[number];
+
+/** Closest first (when the stay has a map pin), as email cards. */
+async function stayCards(self: ListingRow, list: ListingRow[], locale: Locale, max = 4): Promise<SimilarStay[]> {
   const ordered = hasCoords(self)
-    ? [...nearest(self, free.filter(hasCoords)).map((n) => n.item), ...free.filter((l) => !hasCoords(l))]
-    : free;
-
-  const locale = d.locale as Locale;
+    ? [...nearest(self, list.filter(hasCoords)).map((n) => n.item), ...list.filter((l) => !hasCoords(l))]
+    : list;
   const [t, common] = await Promise.all([
     getTranslations({ locale, namespace: 'stay' }),
     getTranslations({ locale, namespace: 'common' }),
   ]);
-  return ordered.slice(0, 4).map((l) => ({
+  return ordered.slice(0, max).map((l) => ({
     slug: l.slug,
     name: displayName(l, locale, 'listing'),
     image: l.cover_url ? optimizedImage(l.cover_url, 256) : null,
     price: l.price_per_night ? `${common('from')} ${formatPrice(Number(l.price_per_night), locale)} ${t('perNight')}` : null,
     guests: t('guests', { count: l.guests_max }),
   }));
+}
+
+/**
+ * Other stays in the same area with a photo and room for the guests, closest
+ * first. Their calendars are NOT checked, so the email must not call them free:
+ * they are shown as "stays you can ask", next to the request-the-whole-area button.
+ */
+export async function areaStays(listingId: string, guests: number, locale: Locale, exclude: string[] = []): Promise<SimilarStay[]> {
+  const all = await getListings();
+  const self = all.find((l) => l.id === listingId);
+  if (!self) return [];
+  const pool = all.filter((l) => l.id !== listingId && !exclude.includes(l.id) && l.area === self.area && l.cover_url && (l.guests_max || 0) >= guests);
+  return stayCards(self, pool, locale);
+}
+
+/** The peninsula a listing is on (kassandra / sithonia / athos / mainland), if known. */
+export async function listingArea(listingId: string): Promise<string | null> {
+  const l = (await getListings()).find((x) => x.id === listingId);
+  return l?.area && ['kassandra', 'sithonia', 'athos', 'mainland'].includes(l.area) ? l.area : null;
+}
+
+// ── Signed invite: "send this request to the whole area" ──────────────────
+
+/**
+ * Link in the guest's "not available" / follow-up email. Carries only the
+ * listing request's id; the server reloads the guest's details from it, so
+ * the link can't be used to send anything else. No expiry: the request's own
+ * dates (must still be in the future) are the limit.
+ */
+const signInvite = (id: string) => createHmac('sha256', secret()).update(`area-invite:${id}`).digest('base64url').slice(0, 32);
+
+export function areaInviteToken(inquiryId: string): string {
+  // No dot: paths with a dot are taken for files and skip the page router.
+  return `${inquiryId}${signInvite(inquiryId)}`;
+}
+
+export function readAreaInvite(token: string): string | null {
+  const id = token.slice(0, 36);
+  const sig = token.slice(36);
+  if (!sig || !/^[0-9a-f-]{36}$/.test(id)) return null;
+  const want = Buffer.from(signInvite(id));
+  const got = Buffer.from(sig);
+  return want.length === got.length && timingSafeEqual(want, got) ? id : null;
 }
 
 // ── Signed offer: "send the same request to these too" ────────────────────
