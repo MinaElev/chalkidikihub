@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle, Clock, Home, Building, UserCheck, AtSign, Globe, Copy, Check, FileText } from 'lucide-react';
 import { EMAIL_TEMPLATES } from './templates';
+import { QualityCampaign } from './QualityCampaign';
 
 interface Recipient {
   id: string;
@@ -400,6 +401,9 @@ export default function AdminEmailPage() {
 
         {/* Right: Compose */}
         <div className="lg:col-span-2 space-y-4">
+
+          {/* Personalised quality reminder — its own recipients and send flow. */}
+          <QualityCampaign />
 
           {/* Template library — «Χρήση» fills the composer, «Αντιγραφή» puts the
               raw HTML on the clipboard for use outside this panel. */}
