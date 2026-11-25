@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Mail, Send, Loader2, Users, UserX, Eye, CheckCircle, AlertTriangle, Clock, Home, Building, UserCheck, AtSign, Globe, Copy, Check, FileText } from 'lucide-react';
 import { EMAIL_TEMPLATES } from './templates';
 import { QualityCampaign } from './QualityCampaign';
+import { ResponseCampaign } from './ResponseCampaign';
 
 interface Recipient {
   id: string;
@@ -404,6 +405,9 @@ export default function AdminEmailPage() {
 
           {/* Personalised quality reminder — its own recipients and send flow. */}
           <QualityCampaign />
+
+          {/* Response rate per owner + polite "press not available" reminder. */}
+          <ResponseCampaign />
 
           {/* Template library — «Χρήση» fills the composer, «Αντιγραφή» puts the
               raw HTML on the clipboard for use outside this panel. */}
