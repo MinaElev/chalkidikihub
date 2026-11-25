@@ -7,7 +7,7 @@ import { greekActivityRedirect } from '@/lib/seo/redirects';
 const intl = createIntlMiddleware(routing);
 
 // Signed-in areas plus token links (guest guides, availability replies, bookings).
-const PRIVATE = /^\/(?:(?:en|de|ro|bg|sr|ru)\/)?(?:admin|dashboard|auth|requests|r|book|guest|favorites)(?:\/|$)/;
+const PRIVATE = /^\/(?:(?:en|de|ro|bg|sr|ru)\/)?(?:admin|dashboard|auth|requests|r|book|guest|favorites|inquiry-reply)(?:\/|$)/;
 
 export async function proxy(request: NextRequest) {
   // One URL per page: v3 linked some slugs with capitals (/blog/BARbatolis).
