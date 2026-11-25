@@ -217,8 +217,10 @@ export default async function ListingPage({ params }: PageProps<'/[locale]/listi
         'formMessagePlaceholder', 'formSubmit', 'formSending', 'formSuccess', 'formError', 'formTooMany', 'formPrivacy',
         'formAddDate', 'formPickCheckIn', 'formPickCheckOut', 'formClearDates', 'formDone', 'formMissingDates',
         'availabilityPrev', 'availabilityNext',
+        'datesFree', 'datesBusy', 'savedDetails', 'savedClear', 'similarTitle', 'similarIntro', 'similarSent',
       ] as const).map((k) => [k, t(k)]),
     ),
+    similarSend: t.raw('similarSend') as string,
     formNights: t.raw('formNights') as InquiryLabels['formNights'],
   } as InquiryLabels;
   // Booked nights for the inquiry calendar (only when the owner shows a calendar).

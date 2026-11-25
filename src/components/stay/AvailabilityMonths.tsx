@@ -47,18 +47,31 @@ export function AvailabilityMonths({
   lang: string;
   labels: { prev: string; next: string; checkoutOnly: string; checkinOnly: string; pickCheckIn: string; pickCheckOut: string; clear: string };
 }) {
-  const [offset, setOffset] = useState(0);
+  // null until the visitor moves through the months: then dates kept from another
+  // stay open on their month instead of today's.
+  const [moved, setOffset] = useState<number | null>(null);
+  const [y0, m0] = firstMonth.split('-').map(Number);
   const busySet = useMemo(() => new Set(busy), [busy]);
   const { checkIn, checkOut } = useStayDates();
   const choosingOut = Boolean(checkIn && !checkOut);
   const canArrive = (iso: string) => iso >= today && !busySet.has(iso);
   const canLeave = (iso: string) => Boolean(checkIn) && iso > checkIn && nightsBetween(checkIn, iso).every((n) => !busySet.has(n));
+  // Dates kept from another stay may be booked here: then they are not drawn as a selection.
+  const rangeFree = !checkOut || nightsBetween(checkIn, checkOut).every((n) => !busySet.has(n));
+  const last = monthCount - 1;
+  const monthOf = (iso: string) => (Number(iso.slice(0, 4)) - y0) * 12 + Number(iso.slice(5, 7)) - m0;
+  const offset = moved ?? (checkIn ? Math.min(last, Math.max(0, monthOf(checkIn))) : 0);
 
   function pick(iso: string) {
+    setOffset(offset); // stay on these months while picking
     if (choosingOut && canLeave(iso)) {
       setStayDates({ checkIn, checkOut: iso, fromCalendar: true });
-      // Take the visitor to the form (far below on phones) and let them type their name.
-      const nameField = document.getElementById('inquiry-name') as HTMLInputElement | null;
+      // Take the visitor to the form (far below on phones): to the first empty field,
+      // or straight to the send button when their details are remembered.
+      const empty = ['inquiry-name', 'inquiry-email']
+        .map((id) => document.getElementById(id) as HTMLInputElement | null)
+        .find((el) => el && !el.value);
+      const nameField = empty ?? (document.getElementById('inquiry-submit') as HTMLElement | null);
       if (nameField) {
         const r = nameField.getBoundingClientRect();
         if (r.top < 80 || r.bottom > window.innerHeight) {
@@ -71,7 +84,6 @@ export function AvailabilityMonths({
     }
     if (canArrive(iso)) setStayDates({ checkIn: iso, checkOut: '', fromCalendar: true });
   }
-  const [y0, m0] = firstMonth.split('-').map(Number);
   const weekdays = useMemo(() => {
     const f = new Intl.DateTimeFormat(lang, { weekday: 'narrow' });
     return Array.from({ length: 7 }, (_, i) => f.format(new Date(Date.UTC(2024, 0, 1 + i))));
@@ -102,7 +114,6 @@ export function AvailabilityMonths({
 
   // Two visible at a time (one on phones); the arrows move one month, up to the
   // last month, so phones can reach it too.
-  const last = monthCount - 1;
   const shown = [offset, offset + 1].filter((i) => i < monthCount);
   const arrow = 'flex size-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50 disabled:opacity-30';
 
@@ -117,10 +128,10 @@ export function AvailabilityMonths({
             </button>
           ) : choosingOut ? labels.pickCheckOut : labels.pickCheckIn}
         </p>
-        <button type="button" className={arrow} onClick={() => setOffset((o) => Math.max(0, o - 1))} disabled={offset === 0} aria-label={labels.prev}>
+        <button type="button" className={arrow} onClick={() => setOffset(Math.max(0, offset - 1))} disabled={offset === 0} aria-label={labels.prev}>
           <ChevronLeft className="size-5" aria-hidden />
         </button>
-        <button type="button" className={arrow} onClick={() => setOffset((o) => Math.min(last, o + 1))} disabled={offset >= last} aria-label={labels.next}>
+        <button type="button" className={arrow} onClick={() => setOffset(Math.min(last, offset + 1))} disabled={offset >= last} aria-label={labels.next}>
           <ChevronRight className="size-5" aria-hidden />
         </button>
       </div>
@@ -135,8 +146,8 @@ export function AvailabilityMonths({
                 {m.cells.map((c, k) => {
                   if (!c) return <span key={k} />;
                   const clickable = choosingOut ? canLeave(c.iso) || canArrive(c.iso) : canArrive(c.iso);
-                  const edge = c.iso === checkIn || c.iso === checkOut;
-                  const inside = Boolean(checkIn && checkOut && c.iso > checkIn && c.iso < checkOut);
+                  const edge = rangeFree && (c.iso === checkIn || c.iso === checkOut);
+                  const inside = rangeFree && Boolean(checkIn && checkOut && c.iso > checkIn && c.iso < checkOut);
                   const look = edge ? 'bg-sea-600 font-semibold text-white' : inside ? 'bg-sea-100 font-medium text-sea-900' : CELL[c.state];
                   const half = !edge && !inside ? HALF[c.state as keyof typeof HALF] : undefined;
                   return (

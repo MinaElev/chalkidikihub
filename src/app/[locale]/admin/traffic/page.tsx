@@ -65,11 +65,11 @@ const KIND_LABEL: Record<string, string> = {
   search: 'Αναζήτηση', map: 'Χάρτης', availability: 'Αίτημα διαθεσιμότητας', owners: 'Για ιδιοκτήτες', sales: 'Πωλήσεις', other: 'Άλλες σελίδες',
 };
 const EVENT_LABEL: Record<string, string> = {
-  call: 'Κλήσεις', email: 'Email', whatsapp: 'WhatsApp', inquiry: 'Φόρμα επικοινωνίας', inquiry_calendar: '↳ με ημερομηνίες από το ημερολόγιο', availability_request: 'Αιτήματα διαθεσιμότητας',
+  call: 'Κλήσεις', email: 'Email', whatsapp: 'WhatsApp', inquiry: 'Φόρμα επικοινωνίας', inquiry_calendar: '↳ με ημερομηνίες από το ημερολόγιο', inquiry_similar: 'Αιτήματα σε παρόμοια καταλύματα', availability_request: 'Αιτήματα διαθεσιμότητας',
   booking_link: 'Booking / Airbnb', website: 'Website ιδιοκτήτη', directions: 'Οδηγίες χάρτη', outbound: 'Άλλοι εξωτερικοί σύνδεσμοι',
 };
 /** Actions that mean "a guest reached out" (outbound links are not counted as contacts). */
-const CONTACT = new Set(['call', 'email', 'whatsapp', 'inquiry', 'availability_request', 'booking_link', 'website', 'directions']);
+const CONTACT = new Set(['call', 'email', 'whatsapp', 'inquiry', 'inquiry_similar', 'availability_request', 'booking_link', 'website', 'directions']);
 const DEVICE_LABEL: Record<string, string> = { mobile: 'Κινητό', tablet: 'Tablet', desktop: 'Υπολογιστής' };
 const LANG_LABEL: Record<string, string> = { el: 'Ελληνικά', en: 'Αγγλικά', de: 'Γερμανικά', ro: 'Ρουμανικά', sr: 'Σερβικά', bg: 'Βουλγαρικά', ru: 'Ρωσικά' };
 

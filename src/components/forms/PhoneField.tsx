@@ -203,15 +203,18 @@ export function PhoneInput({
 
 /** PhoneInput for plain forms: the full international number goes in a hidden input called `name`. */
 export function PhoneField({
-  name, label, locale, inputClassName, searchLabel,
+  name, label, locale, inputClassName, searchLabel, defaultValue,
 }: {
   name: string;
   label: string;
   locale: string;
   inputClassName: string;
   searchLabel?: string;
+  /** Shown until the visitor types (e.g. their number remembered from last time). */
+  defaultValue?: string;
 }) {
-  const [raw, setRaw] = useState('');
+  const [typed, setRaw] = useState<string | null>(null);
+  const raw = typed ?? defaultValue ?? '';
   const { country, setCountry, fromBrowser } = usePhoneCountry(locale);
   return (
     <div className="text-xs font-medium text-slate-700">

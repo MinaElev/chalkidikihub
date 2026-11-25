@@ -8,7 +8,7 @@
 export const LOCALES = ['el', 'en', 'de', 'ro', 'sr', 'bg', 'ru'] as const;
 
 /** Contact actions we count. Anything else is dropped. */
-export const EVENTS = ['call', 'email', 'whatsapp', 'inquiry', 'inquiry_calendar', 'availability_request', 'booking_link', 'website', 'directions', 'outbound'] as const;
+export const EVENTS = ['call', 'email', 'whatsapp', 'inquiry', 'inquiry_calendar', 'inquiry_similar', 'availability_request', 'booking_link', 'website', 'directions', 'outbound'] as const;
 export type TrafficEvent = (typeof EVENTS)[number];
 
 /** Sections of the site the counter never looks at. */

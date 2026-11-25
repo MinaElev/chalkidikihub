@@ -1,9 +1,9 @@
-import { after, NextResponse, type NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { adminDb } from '@/lib/supabase/clients';
 import { dbSlug } from '@/content/rewrites/slug-renames';
 import { allowRequest } from '@/lib/rate-limit';
-import { emailLayout, escapeHtml, sendMail } from '@/lib/email/mailer';
 import { isLocale } from '@/i18n/config';
+import { deliverInquiry, signOffer, similarFreeStays, type InquiryData } from '@/lib/inquiry';
 
 /**
  * POST /api/inquiry — a visitor asks an owner about availability.
@@ -13,6 +13,9 @@ import { isLocale } from '@/i18n/config';
  *
  * Stored in contact_messages with v3's exact subject/body format, so owners'
  * existing inbox (and its read state in inquiry_reads) keeps working.
+ *
+ * The answer lists other stays free on the same dates, with a signed offer
+ * that /api/inquiry/also accepts to send them the same request.
  */
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -31,19 +34,21 @@ export async function POST(request: NextRequest) {
   if (clip(body.website, 200)) return NextResponse.json({ ok: true });
 
   const slug = clip(body.slug, 200).replace(/[^a-z0-9-]/g, '');
-  const name = clip(body.name, 120);
-  const email = clip(body.email, 200).replace(/[\r\n]/g, '');
-  const phone = clip(body.phone, 30).replace(/[^\d+()\s-]/g, '');
-  const message = clip(body.message, 2000);
-  const checkIn = clip(body.checkIn, 10);
-  const checkOut = clip(body.checkOut, 10);
-  const guests = Math.min(Math.max(Number(body.guests) || 0, 1), 30);
-  const locale = isLocale(clip(body.locale, 5)) ? clip(body.locale, 5) : 'el';
+  const d: InquiryData = {
+    name: clip(body.name, 120),
+    email: clip(body.email, 200).replace(/[\r\n]/g, ''),
+    phone: clip(body.phone, 30).replace(/[^\d+()\s-]/g, ''),
+    message: clip(body.message, 2000),
+    checkIn: clip(body.checkIn, 10),
+    checkOut: clip(body.checkOut, 10),
+    guests: Math.min(Math.max(Number(body.guests) || 0, 1), 30),
+    locale: isLocale(clip(body.locale, 5)) ? clip(body.locale, 5) : 'el',
+  };
 
-  if (!slug || !name || !EMAIL.test(email) || (checkIn && !DATE.test(checkIn)) || (checkOut && !DATE.test(checkOut))) {
+  if (!slug || !d.name || !EMAIL.test(d.email) || (d.checkIn && !DATE.test(d.checkIn)) || (d.checkOut && !DATE.test(d.checkOut))) {
     return NextResponse.json({ error: 'invalid' }, { status: 400 });
   }
-  if (checkIn && checkOut && checkOut <= checkIn) return NextResponse.json({ error: 'invalid-dates' }, { status: 400 });
+  if (d.checkIn && d.checkOut && d.checkOut <= d.checkIn) return NextResponse.json({ error: 'invalid-dates' }, { status: 400 });
 
   if (!(await allowRequest(request, 'inquiry', 5, 30))) {
     return NextResponse.json({ error: 'too-many' }, { status: 429 });
@@ -58,73 +63,19 @@ export async function POST(request: NextRequest) {
     .maybeSingle();
   if (!listing) return NextResponse.json({ error: 'not-found' }, { status: 404 });
 
-  const title = listing.title_el || slug;
-  const { error } = await db.from('contact_messages').insert({
-    name,
-    email,
-    subject: `Αίτημα διαθεσιμότητας: ${title}`,
-    message: `Κατάλυμα: ${title} (${slug})\nCheck-in: ${checkIn || '-'}\nCheck-out: ${checkOut || '-'}\nΆτομα: ${guests}\nΤηλέφωνο: ${phone || '-'}\n\n${message}`,
-    locale,
-  });
-  if (error) return NextResponse.json({ error: 'store-failed' }, { status: 500 });
+  const source = body.source === 'calendar' ? 'calendar' : 'form';
+  if (!(await deliverInquiry(db, listing, d, source))) return NextResponse.json({ error: 'store-failed' }, { status: 500 });
 
-  const { data: owner } = await db.from('profiles').select('email, full_name').eq('id', listing.owner_id).maybeSingle();
-  const to = owner?.email || listing.contact_email;
-  if (to) {
-    const nights =
-      checkIn && checkOut ? Math.round((Date.parse(checkOut) - Date.parse(checkIn)) / 86_400_000) : null;
-    // Checked here, not taken from the browser: are all requested nights free on the owner's public calendar?
-    let freeOnCalendar = false;
-    if (nights && listing.show_calendar) {
-      const { count } = await db
-        .from('listing_availability')
-        .select('date', { count: 'exact', head: true })
-        .eq('listing_id', listing.id)
-        .neq('status', 'available')
-        .gte('date', checkIn)
-        .lt('date', checkOut);
-      freeOnCalendar = count === 0;
-    }
-    const rows = [
-      ['Κατάλυμα', title],
-      ['Άφιξη', checkIn || '-'],
-      ['Αναχώρηση', checkOut || '-'],
-      ...(nights ? [['Βράδια', String(nights)]] : []),
-      ...(freeOnCalendar ? [['Ημερολόγιο', 'Οι ημερομηνίες είναι ελεύθερες στο ημερολόγιό σας']] : []),
-      ['Άτομα', String(guests)],
-      ['Όνομα', name],
-      ['Email', email],
-      ['Τηλέφωνο', phone || '-'],
-      ['Γλώσσα επισκέπτη', locale.toUpperCase()],
-    ];
-    // The form sends the number with its country code (+…), so the owner can call or WhatsApp in one tap.
-    const phoneDigits = phone.replace(/\D/g, '');
-    const btn = 'display:inline-block;margin:12px 8px 0 0;padding:10px 16px;border-radius:8px;font-weight:600;text-decoration:none;color:#fff';
-    const callButtons =
-      phone.startsWith('+') && phoneDigits.length >= 8 && phoneDigits.length <= 15
-        ? `<p><a href="tel:+${phoneDigits}" style="${btn};background:#0369a1">📞 Κλήση</a><a href="https://wa.me/${phoneDigits}" style="${btn};background:#16a34a">WhatsApp</a></p>`
-        : '';
-    // Already stored in contact_messages; mail the owner after the response so a
-    // slow mail server never keeps the guest waiting.
-    after(async () => {
-      const ok = await sendMail({
-        to,
-        replyTo: email,
-        subject: `Νέο αίτημα διαθεσιμότητας — ${title}`,
-        html: emailLayout(
-          'Νέο αίτημα διαθεσιμότητας',
-          `<p>${owner?.full_name ? `Γεια σας, ${escapeHtml(owner.full_name)}.` : 'Γεια σας,'}</p>
-           <p>Ένας επισκέπτης ρώτησε για διαθεσιμότητα μέσω του ChalkidikiHub. Απαντήστε απευθείας σε αυτό το email.</p>
-           <table cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">${rows
-             .map(([k, v]) => `<tr><td style="color:#64748b;width:40%">${k}</td><td><strong>${escapeHtml(v)}</strong></td></tr>`)
-             .join('')}</table>
-           ${callButtons}
-           ${message ? `<p style="margin-top:16px;padding:12px;background:#f1f5f9;border-radius:8px">${escapeHtml(message).replace(/\n/g, '<br>')}</p>` : ''}`,
-        ),
-      });
-      if (!ok) await db.from('activity_logs').insert({ type: 'error', severity: 'error', message: 'Inquiry email to owner failed', details: { slug, to } });
-    });
+  // Never let the suggestions break a request that already went through.
+  let similar: Awaited<ReturnType<typeof similarFreeStays>> = [];
+  try {
+    similar = await similarFreeStays(listing.id, d);
+  } catch (e) {
+    console.error('inquiry similar:', e instanceof Error ? e.message : e);
   }
-
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({
+    ok: true,
+    similar,
+    offer: similar.length ? signOffer(d, similar.map((s) => s.slug)) : null,
+  });
 }
