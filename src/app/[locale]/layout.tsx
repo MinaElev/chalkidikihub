@@ -15,6 +15,7 @@ import { BottomNav } from '@/components/layout/BottomNav';
 import { ServiceWorker } from '@/components/layout/ServiceWorker';
 import { CookieConsent } from '@/components/v3/CookieConsent';
 import { Analytics as GoogleAnalytics } from '@/components/v3/Analytics';
+import { TrafficCounter } from '@/components/layout/TrafficCounter';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { organizationLd, websiteLd } from '@/lib/seo/jsonld';
 import { BackToTop } from '@/components/v3/BackToTop';
@@ -89,6 +90,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
           <LangSuggestBanner />
           <CookieConsent />
           <GoogleAnalytics />
+          <TrafficCounter />
           <ServiceWorker />
         </NextIntlClientProvider>
         <JsonLd data={[organizationLd(), websiteLd(locale as Locale)]} />

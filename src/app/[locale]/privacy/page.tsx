@@ -28,10 +28,10 @@ type PrivacyContent = {
 };
 
 const content: Record<string, PrivacyContent> = {
-  sr: {"title":"Politika Privatnosti","lastUpdated":"Poslednje ažuriranje: April 2026","sections":[{"heading":"1. Ko smo mi","body":["Vebsajt chalkidikihub.gr funkcioniše pod upravom Mina Elefteriadisa. Kontakt email: mnc@hotmail.gr"]},{"heading":"2. Koje podatke prikupljamo","body":["Prikupljamo samo podatke koje nam vi pružate:",{"type":"list","items":["Vlasnici: Ime, email, telefon, podaci o smeštaju","Posetioci: Ne prikupljamo lične podatke"]}]},{"heading":"3. Kako koristimo podatke","body":[{"type":"list","items":["Za funkcionisanje vašeg naloga","Za prikaz vaših oglasa","Za poboljšanje vebsajta"]},"Ne prodajemo, ne delimo i ne prenosimo vaše podatke trećim stranama."]},{"heading":"4. Skladištenje podataka","body":["Podaci se bezbedno skladište na Supabase (EU serveri). Lozinke su šifrovane i nisu dostupne nikome."]},{"heading":"5. Kolačići","body":["Koristimo dve kategorije kolačića:",{"type":"list","items":["Neophodni — prijava, jezičke postavke. Uvek aktivni.","Statistički (Google Analytics) — aktiviraju se samo uz vašu izričitu saglasnost. Ako odbijete, statistika poseta se ne prikuplja."]},"Možete promeniti svoje opcije u bilo kom trenutku putem cookie banera na dnu svake stranice."]},{"heading":"6. Vaša prava","body":["Imate pravo na:",{"type":"list","items":["Pristup vašim podacima","Ispravku netačnih podataka","Brisanje vašeg naloga","Izvoz vaših podataka"]},"Za bilo koji zahtev, kontaktirajte mnc@hotmail.gr"]},{"heading":"7. Izmene","body":["Možemo ažurirati ovu politiku. Datum na vrhu ove stranice će biti ažuriran."]}]},
+  sr: {"title":"Politika Privatnosti","lastUpdated":"Poslednje ažuriranje: Novembar 2026","sections":[{"heading":"1. Ko smo mi","body":["Vebsajt chalkidikihub.gr funkcioniše pod upravom Mina Elefteriadisa. Kontakt email: mnc@hotmail.gr"]},{"heading":"2. Koje podatke prikupljamo","body":["Prikupljamo samo podatke koje nam vi pružate:",{"type":"list","items":["Vlasnici: Ime, email, telefon, podaci o smeštaju","Posetioci: Ne prikupljamo lične podatke"]}]},{"heading":"3. Kako koristimo podatke","body":[{"type":"list","items":["Za funkcionisanje vašeg naloga","Za prikaz vaših oglasa","Za poboljšanje vebsajta"]},"Ne prodajemo, ne delimo i ne prenosimo vaše podatke trećim stranama."]},{"heading":"4. Skladištenje podataka","body":["Podaci se bezbedno skladište na Supabase (EU serveri). Lozinke su šifrovane i nisu dostupne nikome."]},{"heading":"5. Kolačići","body":["Koristimo dve kategorije kolačića:",{"type":"list","items":["Neophodni — prijava, jezičke postavke. Uvek aktivni.","Statistički (Google Analytics) — njegovi kolačići se aktiviraju samo uz vašu izričitu saglasnost. Ako odbijete, Google prima samo anonimne signale bez kolačića, koji vas ne identifikuju."]},"Pored toga, posete brojimo anonimno sopstvenim alatom, bez kolačića: koliko puta je svaka stranica otvorena, odakle je poseta došla (npr. Google), vrstu uređaja i klikove za kontakt (npr. poziv). Ne čuvamo IP adresu niti bilo šta što vas identifikuje — samo dnevne zbirove. Zato ovo brojanje obuhvata sve posetioce.","Možete promeniti svoje opcije u bilo kom trenutku putem cookie banera na dnu svake stranice."]},{"heading":"6. Vaša prava","body":["Imate pravo na:",{"type":"list","items":["Pristup vašim podacima","Ispravku netačnih podataka","Brisanje vašeg naloga","Izvoz vaših podataka"]},"Za bilo koji zahtev, kontaktirajte mnc@hotmail.gr"]},{"heading":"7. Izmene","body":["Možemo ažurirati ovu politiku. Datum na vrhu ove stranice će biti ažuriran."]}]},
   el: {
     title: 'Πολιτική Απορρήτου',
-    lastUpdated: 'Τελευταία ενημέρωση: Απρίλιος 2026',
+    lastUpdated: 'Τελευταία ενημέρωση: Νοέμβριος 2026',
     sections: [
       {
         heading: '1. Ποιοι είμαστε',
@@ -80,9 +80,10 @@ const content: Record<string, PrivacyContent> = {
             type: 'list',
             items: [
               'Απαραίτητα — σύνδεση, προτίμηση γλώσσας. Πάντα ενεργά.',
-              'Στατιστικά (Google Analytics) — ενεργοποιούνται μόνο μετά τη ρητή σου συναίνεση. Αν αρνηθείς, δεν συλλέγονται στατιστικά επισκέψεων.',
+              'Στατιστικά (Google Analytics) — τα cookies του ενεργοποιούνται μόνο μετά τη ρητή σου συναίνεση. Αν αρνηθείς, η Google λαμβάνει μόνο ανώνυμα σήματα χωρίς cookies, που δεν σε αναγνωρίζουν.',
             ],
           },
+          'Επιπλέον, μετράμε ανώνυμα την επισκεψιμότητα με δικό μας εργαλείο, χωρίς cookies: πόσες φορές προβάλλεται κάθε σελίδα, από πού ήρθε η επίσκεψη (π.χ. Google), τον τύπο συσκευής και τα κλικ επικοινωνίας (π.χ. κλήση). Δεν αποθηκεύουμε διεύθυνση IP ή οποιοδήποτε στοιχείο σε αναγνωρίζει· κρατάμε μόνο ημερήσια σύνολα. Γι’ αυτό η μέτρηση αυτή αφορά όλους τους επισκέπτες.',
           'Μπορείς να αλλάξεις τις επιλογές σου ανά πάσα στιγμή μέσω του cookie banner στο κάτω μέρος κάθε σελίδας.',
         ],
       },
@@ -112,7 +113,7 @@ const content: Record<string, PrivacyContent> = {
   },
   en: {
     title: 'Privacy Policy',
-    lastUpdated: 'Last updated: April 2026',
+    lastUpdated: 'Last updated: November 2026',
     sections: [
       {
         heading: '1. Who we are',
@@ -161,9 +162,10 @@ const content: Record<string, PrivacyContent> = {
             type: 'list',
             items: [
               'Essential — login session and language preference. Always on.',
-              'Analytics (Google Analytics) — enabled only after your explicit consent. If you decline, no visitor analytics are collected.',
+              'Analytics (Google Analytics) — its cookies are enabled only after your explicit consent. If you decline, Google receives only anonymous, cookieless signals that do not identify you.',
             ],
           },
+          'We also count traffic anonymously with our own tool, without cookies: how often each page is viewed, where the visit came from (e.g. Google), the type of device and contact clicks (e.g. a call). We store no IP address or anything else that identifies you — only daily totals — so this count covers every visitor.',
           'You can change your choice at any time via the cookie banner at the bottom of every page.',
         ],
       },
@@ -193,7 +195,7 @@ const content: Record<string, PrivacyContent> = {
   },
   de: {
     title: 'Datenschutzrichtlinie',
-    lastUpdated: 'Letzte Aktualisierung: April 2026',
+    lastUpdated: 'Letzte Aktualisierung: November 2026',
     sections: [
       {
         heading: '1. Wer wir sind',
@@ -242,9 +244,10 @@ const content: Record<string, PrivacyContent> = {
             type: 'list',
             items: [
               'Notwendig — Anmeldung und Spracheinstellung. Immer aktiv.',
-              'Statistik (Google Analytics) — nur nach ausdrücklicher Einwilligung. Lehnen Sie ab, werden keine Besucherstatistiken erhoben.',
+              'Statistik (Google Analytics) — die Cookies werden nur nach ausdrücklicher Einwilligung gesetzt. Lehnen Sie ab, erhält Google nur anonyme Signale ohne Cookies, die Sie nicht identifizieren.',
             ],
           },
+          'Zusätzlich zählen wir die Besuche anonym mit einem eigenen Werkzeug, ohne Cookies: wie oft jede Seite aufgerufen wird, woher der Besuch kam (z. B. Google), den Gerätetyp und Kontakt-Klicks (z. B. Anruf). Wir speichern keine IP-Adresse und nichts, was Sie identifiziert – nur Tagessummen. Daher umfasst diese Zählung alle Besucher.',
           'Sie können Ihre Auswahl jederzeit über das Cookie-Banner am unteren Rand jeder Seite ändern.',
         ],
       },
@@ -274,7 +277,7 @@ const content: Record<string, PrivacyContent> = {
   },
   bg: {
     title: 'Политика за поверителност',
-    lastUpdated: 'Последна актуализация: Април 2026',
+    lastUpdated: 'Последна актуализация: Ноември 2026',
     sections: [
       {
         heading: '1. Кои сме ние',
@@ -323,9 +326,10 @@ const content: Record<string, PrivacyContent> = {
             type: 'list',
             items: [
               'Необходими — сесия за вход и език. Винаги активни.',
-              'Статистически (Google Analytics) — активират се само след изричното ви съгласие. Ако откажете, не се събира статистика за посетителите.',
+              'Статистически (Google Analytics) — бисквитките му се активират само след изричното ви съгласие. Ако откажете, Google получава само анонимни сигнали без бисквитки, които не ви идентифицират.',
             ],
           },
+          'Освен това броим посещенията анонимно със собствен инструмент, без бисквитки: колко пъти се отваря всяка страница, откъде е дошло посещението (напр. Google), вида устройство и кликванията за контакт (напр. обаждане). Не съхраняваме IP адрес или нещо друго, което ви идентифицира — само дневни суми. Затова това преброяване обхваща всички посетители.',
           'Можете да промените избора си по всяко време чрез банера за бисквитки в долната част на всяка страница.',
         ],
       },
@@ -355,7 +359,7 @@ const content: Record<string, PrivacyContent> = {
   },
   ru: {
     title: 'Политика конфиденциальности',
-    lastUpdated: 'Последнее обновление: Апрель 2026',
+    lastUpdated: 'Последнее обновление: Ноябрь 2026',
     sections: [
       {
         heading: '1. Кто мы',
@@ -404,9 +408,10 @@ const content: Record<string, PrivacyContent> = {
             type: 'list',
             items: [
               'Необходимые — сессия входа и язык. Всегда активны.',
-              'Статистика (Google Analytics) — включается только после вашего явного согласия. Если откажетесь, статистика посещений не собирается.',
+              'Статистика (Google Analytics) — её cookies включаются только после вашего явного согласия. Если откажетесь, Google получает лишь анонимные сигналы без cookies, которые вас не идентифицируют.',
             ],
           },
+          'Кроме того, мы анонимно считаем посещения собственным инструментом, без cookies: сколько раз открывается каждая страница, откуда пришёл посетитель (например, из Google), тип устройства и клики для связи (например, звонок). Мы не храним IP-адрес и ничего, что вас идентифицирует, — только суммы за день. Поэтому этот подсчёт охватывает всех посетителей.',
           'Вы можете изменить выбор в любое время через cookie-баннер внизу каждой страницы.',
         ],
       },
@@ -436,7 +441,7 @@ const content: Record<string, PrivacyContent> = {
   },
   ro: {
     title: 'Politica de confidentialitate',
-    lastUpdated: 'Ultima actualizare: Aprilie 2026',
+    lastUpdated: 'Ultima actualizare: Noiembrie 2026',
     sections: [
       {
         heading: '1. Cine suntem',
@@ -485,9 +490,10 @@ const content: Record<string, PrivacyContent> = {
             type: 'list',
             items: [
               'Esențiale — sesiune de autentificare și preferința de limbă. Întotdeauna active.',
-              'Statistici (Google Analytics) — activate doar după consimțământul explicit. Dacă refuzați, nu se colectează statistici de vizitatori.',
+              'Statistici (Google Analytics) — cookie-urile sale se activează doar după consimțământul explicit. Dacă refuzați, Google primește doar semnale anonime, fără cookie-uri, care nu vă identifică.',
             ],
           },
+          'În plus, numărăm vizitele anonim cu un instrument propriu, fără cookie-uri: de câte ori este afișată fiecare pagină, de unde a venit vizita (de ex. Google), tipul de dispozitiv și clicurile de contact (de ex. un apel). Nu stocăm adresa IP sau orice altceva care vă identifică — doar totaluri zilnice. De aceea această numărare acoperă toți vizitatorii.',
           'Puteți schimba alegerea în orice moment prin banner-ul de cookie-uri din partea de jos a fiecărei pagini.',
         ],
       },

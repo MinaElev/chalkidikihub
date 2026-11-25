@@ -6,6 +6,7 @@ import { useRouter } from '@/i18n/navigation';
 import { CalendarDays, Users, Wallet, Send, CheckCircle2, AlertCircle, MapPin, Phone, Mail, User, Search, Sparkles, MailCheck, Loader2, Minus, Plus } from 'lucide-react';
 import { DateRangePicker, isoDate } from '@/components/forms/DateRangePicker';
 import { hasSupabaseAuthCookie } from '@/lib/auth-cookie';
+import { trackEvent } from '@/components/layout/TrafficCounter';
 
 const AREA_KEYS = ['kassandra', 'sithonia', 'athos', 'mainland'] as const;
 /** Budget per night. Stays on the site: median 100€, a quarter above 160€ (Nov 2026). */
@@ -203,6 +204,7 @@ export default function AvailabilityRequestClient({ initialArea }: { initialArea
         setSubmitting(false);
         return;
       }
+      trackEvent('availability_request');
       // The API responds almost instantly (the emails are sent afterwards). Hold
       // the 3-step overlay long enough for all steps to play through and read as
       // completed before we reveal the success screen.

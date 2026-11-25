@@ -18,6 +18,11 @@ type Section = { id: string; title: string; defaultOpen: boolean; items: Item[] 
 const SECTIONS_KEY = 'chub_admin_sections';
 
 const SECTIONS: Section[] = [
+  // Payments first: money matters (bank deposits to confirm, refunds, expiries).
+  { id: 'payments', title: 'Πληρωμές', defaultOpen: true, items: [
+    { href: '/admin/billing', icon: Wallet, label: 'Billing', kw: 'χρεώσεις πληρωμές έσοδα revenue refund λήξεις καταθέσεις iban viva' },
+    { href: '/admin/discounts', icon: Ticket, label: 'Discount Codes', kw: 'εκπτώσεις κωδικοί coupons billing χρέωση καταχώρηση' },
+  ]},
   { id: 'places', title: 'Places', defaultOpen: false, items: [
     { href: '/admin/beaches', icon: Waves, label: 'Beaches', kw: 'παραλίες' },
     { href: '/admin/restaurants', icon: UtensilsCrossed, label: 'Restaurants', kw: 'εστιατόρια φαγητό' },
@@ -32,8 +37,6 @@ const SECTIONS: Section[] = [
     { href: '/admin/brand-sites', icon: Wand2, label: 'Brand Sites' },
     { href: '/admin/sales', icon: Building, label: 'Sales', kw: 'πωλήσεις ακίνητα' },
     { href: '/admin/business-types', icon: Tag, label: 'Business Types' },
-    { href: '/admin/discounts', icon: Ticket, label: 'Discount Codes', kw: 'εκπτώσεις κωδικοί coupons billing χρέωση καταχώρηση' },
-    { href: '/admin/billing', icon: Wallet, label: 'Billing', kw: 'χρεώσεις πληρωμές έσοδα revenue refund λήξεις' },
   ]},
   { id: 'moderation', title: 'Moderation', defaultOpen: true, items: [
     { href: '/admin/reviews', icon: Star, label: 'Reviews', kw: 'κριτικές αξιολογήσεις' },
@@ -47,6 +50,7 @@ const SECTIONS: Section[] = [
     { href: '/admin/qr-email', icon: QrCode, label: 'QR Email' },
   ]},
   { id: 'seo', title: 'SEO & Analytics', defaultOpen: false, items: [
+    { href: '/admin/traffic', icon: BarChart3, label: 'Επισκεψιμότητα', kw: 'traffic visitors επισκέπτες προβολές στατιστικά analytics πηγές' },
     { href: '/admin/seo', icon: BarChart3, label: 'SEO Dashboard', kw: 'seo analytics' },
     { href: '/admin/seo-audit', icon: BarChart3, label: 'SEO Audit', kw: 'seo' },
     { href: '/admin/seo-health', icon: BarChart3, label: 'SEO Health (live HTML)', kw: 'seo' },
@@ -77,6 +81,7 @@ const SECTIONS: Section[] = [
 
 // Which badge counts surface in the "needs attention" strip.
 const ATTENTION: { href: string; label: string; icon: React.ElementType }[] = [
+  { href: '/admin/billing', label: 'Καταθέσεις', icon: Wallet },
   { href: '/admin/reviews', label: 'Κριτικές', icon: Star },
   { href: '/admin/submissions', label: 'Υποβολές', icon: ClipboardList },
   { href: '/admin/messages', label: 'Μηνύματα', icon: MessageSquare },
@@ -114,8 +119,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       const { data } = await supabase.from('profiles').select('role').eq('id', user.id).single();
       if (data?.role !== 'superadmin') { router.push('/dashboard'); return; }
       setRole(data.role);
+      // Admins' own browsing must not inflate the traffic counter.
+      try { localStorage.setItem('chub_no_count', '1'); } catch { /* ignore */ }
       const todayStr = new Date().toISOString().slice(0, 10);
-      const [subRes, msgRes, revBeach, revRest, revAct, availRes, lmdRes] = await Promise.all([
+      const [subRes, msgRes, revBeach, revRest, revAct, availRes, lmdRes, bankRes] = await Promise.all([
         supabase.from('user_submissions').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
         supabase.from('contact_messages').select('subject').eq('read', false),
         supabase.from('beach_reviews').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
@@ -123,6 +130,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         supabase.from('activity_reviews').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
         supabase.from('availability_requests').select('*', { count: 'exact', head: true }).eq('status', 'active'),
         supabase.from('last_minute_deals').select('*', { count: 'exact', head: true }).eq('status', 'active').gte('end_date', todayStr),
+        // Bank deposits an owner announced that are not confirmed yet.
+        supabase.from('listings').select('*', { count: 'exact', head: true })
+          .not('bank_transfer_requested_at', 'is', null).neq('plan_status', 'active'),
       ]);
       const unreadMsgs = (msgRes.data || []).filter(m => !m.subject?.startsWith('Αίτημα διαθεσιμότητας')).length;
       const pendingReviews = (revBeach.count || 0) + (revRest.count || 0) + (revAct.count || 0);
@@ -132,6 +142,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         '/admin/reviews': pendingReviews,
         '/admin/availability-requests': availRes.count || 0,
         '/admin/last-minute': lmdRes.count || 0,
+        '/admin/billing': bankRes.count || 0,
       });
       setLoading(false);
     });

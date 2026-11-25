@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
 import { DateRangePicker } from '@/components/forms/DateRangePicker';
+import { trackEvent } from '@/components/layout/TrafficCounter';
 
 export type InquiryLabels = Record<
   | 'formTitle' | 'formIntro' | 'formCheckIn' | 'formCheckOut' | 'formGuests' | 'formName' | 'formEmail'
@@ -50,6 +51,7 @@ export function InquiryForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, checkIn: dates.checkIn, checkOut: dates.checkOut, slug, locale }),
       });
+      if (res.ok) trackEvent('inquiry');
       setStatus(res.ok ? 'done' : res.status === 429 ? 'limited' : 'error');
     } catch {
       setStatus('error');
