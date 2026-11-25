@@ -3,7 +3,7 @@
  *
  * Decision 2026-09-07: one paid tier only. Price is VAT-inclusive (24% ΦΠΑ
  * already inside the 90€); invoices (τιμολόγια) are issued manually off-platform,
- * so we do NOT use Stripe Tax. Stripe simply collects the gross amount.
+ * so the payment provider (Viva) simply collects the gross amount.
  *
  * Cutoff (decision 2026-09-07): listings created BEFORE 2027-01-01 are free
  * forever (grandfathered by date). Listings created on/after the cutoff pay the
@@ -97,7 +97,7 @@ export function normalizeCode(raw: string): string {
 /**
  * Apply a discount to the annual price. Returns the final charge in cents,
  * clamped to [0, price]. A `free` code, a `percent` of 100, or a `fixed` at or
- * above the price all yield 0 → the caller skips Stripe and activates directly.
+ * above the price all yield 0 → the caller skips Viva and activates directly.
  */
 export function applyDiscount(priceCents: number, d: Pick<DiscountCode, 'kind' | 'value'>): number {
   let final = priceCents;

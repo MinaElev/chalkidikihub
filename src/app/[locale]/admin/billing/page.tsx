@@ -22,7 +22,7 @@ export default function AdminBillingPage() {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [expiries, setExpiries] = useState<Expiry[]>([]);
   const [bankPending, setBankPending] = useState<{ id: string; title_el: string | null; bank_transfer_requested_at: string | null; plan_status: string }[]>([]);
-  const [health, setHealth] = useState<{ stripe_secret: boolean; webhook_secret: boolean; cron_secret: boolean; iban_set: boolean; last_billing_event: string | null } | null>(null);
+  const [health, setHealth] = useState<{ viva_env: string; viva_checkout: boolean; viva_merchant: boolean; cron_secret: boolean; iban_set: boolean; last_billing_event: string | null } | null>(null);
   const [iban, setIban] = useState({ billing_iban: '', billing_beneficiary: '', billing_bank: '', billing_bic: '' });
   const [ibanSaved, setIbanSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -121,7 +121,10 @@ export default function AdminBillingPage() {
         body: JSON.stringify({ listing_id: p.listing_id }),
       });
       const json = await res.json().catch(() => ({}));
-      if (!res.ok) setError(json.error === 'stripe_not_configured' ? 'Λείπει το Stripe key.' : (json.error || 'Αποτυχία επιστροφής.'));
+      if (!res.ok) setError(
+        json.error === 'payments_not_configured' ? 'Λείπουν τα Viva Merchant ID / API Key.'
+          : json.error === 'legacy_stripe_payment' ? 'Η πληρωμή έγινε μέσω Stripe — κάντε την επιστροφή από το Stripe dashboard.'
+            : (json.error || 'Αποτυχία επιστροφής.'));
       else await reload();
     } catch { setError('Σφάλμα δικτύου.'); }
     setBusy(null);
@@ -164,8 +167,8 @@ export default function AdminBillingPage() {
       {health && (
         <div className="mb-6 flex flex-wrap gap-2">
           {[
-            { ok: health.stripe_secret, label: 'Stripe key' },
-            { ok: health.webhook_secret, label: 'Webhook secret' },
+            { ok: health.viva_checkout, label: `Viva checkout (${health.viva_env})` },
+            { ok: health.viva_merchant, label: 'Viva Merchant/API key' },
             { ok: health.cron_secret, label: 'Cron secret' },
             { ok: health.iban_set, label: 'IBAN' },
           ].map((h) => (

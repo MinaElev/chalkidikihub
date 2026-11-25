@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json().catch(() => ({}));
   const listingId = typeof body.listing_id === 'string' ? body.listing_id : null;
-  const renew = body.renew === true;
+  const explicitRenew = body.renew === true;
   if (!listingId) return NextResponse.json({ error: 'listing_id required' }, { status: 400 });
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -34,6 +34,10 @@ export async function POST(req: NextRequest) {
     .from('listings').select('id, owner_id, billing_exempt, plan, plan_status, plan_expires_at').eq('id', listingId).maybeSingle();
   if (!listing) return NextResponse.json({ error: 'listing_not_found' }, { status: 404 });
   if (listing.billing_exempt) return NextResponse.json({ error: 'listing_exempt' }, { status: 409 });
+  // A deposit for a listing that was already on a paid plan (past due or
+  // lapsed) is a renewal: a past-due listing must stay published, not drop
+  // back into review.
+  const renew = explicitRenew || listing.plan_status === 'past_due' || listing.plan_status === 'expired';
   if (!renew && listing.plan_status === 'active') return NextResponse.json({ error: 'already_paid' }, { status: 409 });
 
   // Amount = the tier the owner requested (stored on the listing at request time).
@@ -57,6 +61,7 @@ export async function POST(req: NextRequest) {
       plan: planCfg.key, plan_status: 'active',
       plan_expires_at: planExpiryFrom(base).toISOString(),
       bank_transfer_requested_at: null, renewal_reminded_at: null,
+      ...(listing.plan_status === 'expired' ? { status: 'pending' } : {}),
     }).eq('id', listing.id);
   } else {
     await svc.from('listings').update({

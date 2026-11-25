@@ -47,7 +47,7 @@ const COPY: Record<string, Copy> = {
     grandfatherTitle: 'Καταχωρήστε έως τις 31/12/2026 — δωρεάν για πάντα',
     grandfatherBody: 'Κάθε κατάλυμα που καταχωρείται έως τις 31 Δεκεμβρίου 2026 παραμένει δωρεάν εφ\' όρου ζωής, με όλα τα χαρακτηριστικά του. Το ετήσιο πακέτο 90€ αφορά μόνο νέες καταχωρήσεις από την 1 Ιανουαρίου 2027 και μετά.',
     cta: 'Καταχώρησε το κατάλυμά σου',
-    ctaHint: 'Πληρωμή με ασφάλεια μέσω Stripe. Δημοσίευση μετά από έλεγχο ποιότητας.',
+    ctaHint: 'Ασφαλής πληρωμή με κάρτα μέσω Viva. Δημοσίευση μετά από έλεγχο ποιότητας.',
     faqTitle: 'Συχνές ερωτήσεις',
     faq: [
       { q: 'Παίρνετε προμήθεια από τις κρατήσεις;', a: 'Όχι. 0% προμήθεια. Οι επισκέπτες επικοινωνούν απευθείας μαζί σας. Πληρώνετε μόνο το ετήσιο πακέτο.' },
@@ -76,7 +76,7 @@ const COPY: Record<string, Copy> = {
     grandfatherTitle: 'List by Dec 31, 2026 — free forever',
     grandfatherBody: 'Every property listed by December 31, 2026 stays free for life, with all its features. The €90 annual package applies only to new listings from January 1, 2027 onward.',
     cta: 'List your property',
-    ctaHint: 'Secure payment via Stripe. Published after a quality review.',
+    ctaHint: 'Secure card payment via Viva. Published after a quality review.',
     faqTitle: 'Frequently asked questions',
     faq: [
       { q: 'Do you take a booking commission?', a: 'No. 0% commission. Guests contact you directly. You only pay the annual package.' },

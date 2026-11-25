@@ -527,7 +527,7 @@ export default function NewListingPage() {
           <div className="pt-4 border-t border-gray-200 space-y-4">
             {billingActive ? (
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-900 leading-relaxed">
-                💳 <strong>Ετήσια καταχώρηση — {ANNUAL_PLAN.priceLabel}/έτος:</strong> Η νέα καταχώρηση δημοσιεύεται με ένα ετήσιο πακέτο των <strong>{ANNUAL_PLAN.priceLabel}</strong> (με ΦΠΑ 24%). Μετά την υποβολή θα μεταφερθείτε στη σελίδα <strong>Χρέωσης</strong> για ασφαλή πληρωμή (Stripe) — εκεί μπορείτε να εισάγετε και <strong>κωδικό έκπτωσης</strong> αν έχετε. Μόλις ολοκληρωθεί, η ομάδα ελέγχει το κατάλυμα και το δημοσιεύει.
+                💳 <strong>Ετήσια καταχώρηση — {ANNUAL_PLAN.priceLabel}/έτος:</strong> Η νέα καταχώρηση δημοσιεύεται με ένα ετήσιο πακέτο των <strong>{ANNUAL_PLAN.priceLabel}</strong> (με ΦΠΑ 24%). Μετά την υποβολή θα μεταφερθείτε στη σελίδα <strong>Χρέωσης</strong> για ασφαλή πληρωμή με κάρτα (Viva) — εκεί μπορείτε να εισάγετε και <strong>κωδικό έκπτωσης</strong> αν έχετε. Μόλις ολοκληρωθεί, η ομάδα ελέγχει το κατάλυμα και το δημοσιεύει.
               </div>
             ) : (
               <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-sm text-emerald-900 leading-relaxed">

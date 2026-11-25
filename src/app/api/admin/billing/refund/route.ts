@@ -2,18 +2,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient as createServiceClient } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
-import { stripeFetch } from '@/lib/stripe';
+import { refundTransaction, vivaConfig } from '@/lib/viva';
 import { internalHeaders } from '@/lib/route-guards';
 
 /**
  * Admin: refund a listing's annual payment and deactivate it. Used when a
- * paid-before-review listing is rejected. Issues a Stripe refund against the
- * stored payment_intent, records it on billing_payments, and archives the
- * listing (plan → expired). Free activations (no payment_intent) skip Stripe
- * and are just deactivated.
+ * paid-before-review listing is rejected. Issues a Viva refund against the
+ * stored transaction, records it on billing_payments, and archives the
+ * listing (plan → expired). Free activations and bank transfers (no
+ * transaction id) skip Viva and are just deactivated.
  *
- * The refund also fires a charge.refunded webhook; both paths guard on
- * refunded_at, so whichever lands first wins and the other is a no-op.
+ * The Viva reversal webhook only logs, so this route is the one place a
+ * refund deactivates a listing.
  */
 export async function POST(req: NextRequest) {
   // Admin gate.
@@ -48,14 +48,17 @@ export async function POST(req: NextRequest) {
   if (pay?.refunded_at) return NextResponse.json({ error: 'already_refunded' }, { status: 409 });
 
   let refundCents = 0;
-  // Real (non-free) payment → refund via Stripe.
+  // Real (non-free) card payment → refund via Viva. stripe_payment_intent holds
+  // the Viva transactionId (column name is from the Stripe era).
   if (pay?.stripe_payment_intent && (pay.amount_cents || 0) > 0) {
-    if (!process.env.STRIPE_SECRET_KEY) return NextResponse.json({ error: 'stripe_not_configured' }, { status: 500 });
-    const r = await stripeFetch<{ id: string; amount: number }>('/refunds', {
-      method: 'POST', body: { payment_intent: pay.stripe_payment_intent },
-    });
-    if (!r.ok) return NextResponse.json({ error: r.error || 'stripe_refund_failed' }, { status: 500 });
-    refundCents = r.data.amount ?? pay.amount_cents ?? 0;
+    if (pay.stripe_payment_intent.startsWith('pi_')) {
+      // Paid through the old Stripe integration — refund it in the Stripe dashboard.
+      return NextResponse.json({ error: 'legacy_stripe_payment' }, { status: 409 });
+    }
+    if (!vivaConfig().merchant) return NextResponse.json({ error: 'payments_not_configured' }, { status: 500 });
+    const r = await refundTransaction(pay.stripe_payment_intent, pay.amount_cents);
+    if (!r.ok) return NextResponse.json({ error: r.error }, { status: 502 });
+    refundCents = pay.amount_cents;
   }
 
   // Record + deactivate (idempotent with the webhook via refunded_at).

@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient as createServiceClient } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
-import { stripeFetch } from '@/lib/stripe';
+import { checkoutUrl, createOrder, encodeBillingRef, vivaConfig } from '@/lib/viva';
 import { internalHeaders } from '@/lib/route-guards';
 import {
   applyDiscount, isCodeRedeemable, normalizeCode, planExpiryFrom, planByKey,
@@ -10,18 +10,17 @@ import {
 } from '@/lib/billing';
 
 /**
- * Create a Stripe Checkout Session for a NEW listing's annual package —
- * optionally with an admin-issued discount code applied.
+ * Start a Viva Smart Checkout payment for a listing's annual package (new or
+ * renewal) — optionally with an admin-issued discount code applied.
  *
  * Flow ("pay-before-review"): the owner submitted a listing which the DB gate
- * put in status='pending_payment'. This endpoint charges the annual fee on the
- * PLATFORM account (no Connect / transfer_data). Because we build the line item
- * with inline price_data, a discount is just a smaller unit_amount — no Stripe
- * coupon object needed. A code that zeroes the price (free / 100% / fixed ≥ price)
- * activates the listing immediately, with no Stripe round-trip.
+ * put in status='pending_payment'. A discount is just a smaller order amount.
+ * A code that zeroes the price (free / 100% / fixed ≥ price) activates the
+ * listing immediately, with no Viva round-trip.
  *
- * On a normal paid session the Stripe webhook flips the listing to 'pending'
- * (admin review) and logs the payment; here we only do that for the free path.
+ * On a paid order, the Viva webhook / return route (lib/billing-activate.ts)
+ * flips the listing to 'pending' (admin review) and logs the payment; here we
+ * only do that for the free path.
  */
 export async function POST(req: NextRequest) {
   const authed = await createClient();
@@ -89,7 +88,7 @@ export async function POST(req: NextRequest) {
   const finalCents = discount ? applyDiscount(plan.priceCents, discount) : plan.priceCents;
   const discountCents = plan.priceCents - finalCents;
 
-  // ── Free path: the code zeroes the price → activate without Stripe ──
+  // ── Free path: the code zeroes the price → activate without Viva ──
   if (finalCents <= 0) {
     // New activation reuses a per-listing id (blocks double free-activation);
     // renewals are timestamped since a listing renews many times.
@@ -111,12 +110,14 @@ export async function POST(req: NextRequest) {
     }
     if (!duplicate) {
       if (renew) {
-        // Extend from the later of now / current expiry; keep status (stays live).
+        // Extend from the later of now / current expiry; keep status (stays
+        // live) unless the plan had lapsed and the listing was archived.
         const base = listing.plan_expires_at && new Date(listing.plan_expires_at) > new Date()
           ? new Date(listing.plan_expires_at) : new Date();
         await svc.from('listings').update({
           plan: plan.key, plan_status: 'active',
           plan_expires_at: planExpiryFrom(base).toISOString(), renewal_reminded_at: null,
+          ...(listing.plan_status === 'expired' ? { status: 'pending' } : {}),
         }).eq('id', listing.id);
       } else {
         await svc.from('listings').update({
@@ -148,56 +149,40 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ free: true });
   }
 
-  // ── Paid path: Stripe Checkout for the (possibly discounted) amount ──
-  if (!process.env.STRIPE_SECRET_KEY) {
-    return NextResponse.json({ error: 'stripe_not_configured' }, { status: 500 });
+  // ── Paid path: Viva Smart Checkout for the (possibly discounted) amount ──
+  if (!vivaConfig().checkout) {
+    return NextResponse.json({ error: 'payments_not_configured' }, { status: 500 });
   }
 
   const { data: profile } = await svc
-    .from('profiles').select('email').eq('id', user.id).maybeSingle();
+    .from('profiles').select('email, full_name').eq('id', user.id).maybeSingle();
   const customerEmail = profile?.email || user.email || '';
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin;
-  const successUrl = `${baseUrl}/el/dashboard/billing?paid=1&listing=${listing.id}`;
-  const cancelUrl = `${baseUrl}/el/dashboard/billing?cancelled=1&listing=${listing.id}`;
   const tierLabel = plan.key === 'premium' ? 'Premium' : 'Ετήσια';
   const productName = `${renew ? `Ανανέωση ${tierLabel}` : `${tierLabel} καταχώρηση`} ChalkidikiHub — ${listing.title_el || 'κατάλυμα'}`;
 
-  const sessionBody: Record<string, string | number> = {
-    mode: 'payment',
-    // No payment_method_types restriction → Stripe Checkout offers every method
-    // enabled in the dashboard (card, Apple Pay, Google Pay, …) for a modern feel.
-    locale: 'el',
-    'line_items[0][price_data][currency]': plan.currency,
-    'line_items[0][price_data][product_data][name]': productName,
-    'line_items[0][price_data][unit_amount]': finalCents,
-    'line_items[0][quantity]': 1,
-    customer_email: customerEmail,
-    client_reference_id: listing.id,
-    'metadata[kind]': 'listing_billing',
-    'metadata[listing_id]': listing.id,
-    'metadata[owner_id]': user.id,
-    'metadata[plan]': plan.key,
-    success_url: successUrl,
-    cancel_url: cancelUrl,
-  };
-  // Show the listing's cover photo on the checkout page (branded touch).
-  if (listing.image_url && /^https:\/\//.test(listing.image_url)) {
-    sessionBody['line_items[0][price_data][product_data][images][0]'] = listing.image_url;
-  }
-  if (renew) sessionBody['metadata[renewal]'] = '1';
-  if (discount) {
-    sessionBody['metadata[discount_code]'] = discount.code;
-    sessionBody['metadata[discount_cents]'] = discountCents;
+  // Success/failure redirects are set on the Viva payment source (not per order);
+  // both point at /api/billing/viva/return, which verifies the transaction and
+  // forwards to the dashboard. The webhook does the same work in the background.
+  const order = await createOrder({
+    amountCents: finalCents,
+    customerTrns: productName,
+    merchantTrns: encodeBillingRef({
+      listingId: listing.id,
+      ownerId: user.id,
+      plan: plan.key,
+      renewal: renew,
+      discountCode: discount?.code ?? null,
+      discountCents,
+    }),
+    email: customerEmail,
+    fullName: profile?.full_name || undefined,
+    requestLang: 'el-GR',
+  });
+  if (!order.ok) {
+    console.error('viva createOrder failed', order.error);
+    return NextResponse.json({ error: 'payment_provider_error' }, { status: 502 });
   }
 
-  const result = await stripeFetch<{ id: string; url: string }>(
-    '/checkout/sessions',
-    { method: 'POST', body: sessionBody as Record<string, unknown> },
-  );
-  if (!result.ok) {
-    return NextResponse.json({ error: result.error || 'stripe_error' }, { status: 500 });
-  }
-
-  return NextResponse.json({ url: result.data.url, session_id: result.data.id });
+  return NextResponse.json({ url: checkoutUrl(order.orderCode), order_code: order.orderCode });
 }

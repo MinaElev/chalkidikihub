@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import { createClient as createServiceClient } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
+import { vivaConfig } from '@/lib/viva';
 
 /**
  * Admin billing health: surfaces whether the payment plumbing is configured
@@ -29,9 +30,11 @@ export async function GET() {
     lastWebhook = log?.created_at || null;
   }
 
+  const viva = vivaConfig();
   return NextResponse.json({
-    stripe_secret: !!process.env.STRIPE_SECRET_KEY,
-    webhook_secret: !!process.env.STRIPE_WEBHOOK_SECRET,
+    viva_env: viva.env,
+    viva_checkout: viva.checkout,
+    viva_merchant: viva.merchant,
     cron_secret: !!process.env.CRON_SECRET,
     iban_set: iban,
     last_billing_event: lastWebhook,
