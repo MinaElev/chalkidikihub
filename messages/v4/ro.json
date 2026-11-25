@@ -609,5 +609,164 @@
     "villageFacts": "Municipalitatea {municipality}, populație {n, number} ({year}).",
     "areaBeachCount": "{count, plural, one {# plajă} few {# plaje} other {# de plaje}} în {villages, plural, one {# localitate} few {# localități} other {# de localități}}.",
     "areaBeachTop": "Cele mai multe plaje lângă: {list}."
+  },
+  "billing": {
+    "title": "Abonamente și plăți",
+    "subtitle": "Fiecare anunț are propriul abonament anual. Aici vedeți ce pachet are fiecare, când expiră și ce ați plătit.",
+    "untitled": "(fără titlu)",
+    "deletedListing": "(anunț șters)",
+    "perYear": "/an",
+    "compare": "Comparați pachetele",
+    "flash": {
+      "paidTitle": "Plata a fost efectuată!",
+      "paidBody": "Vă mulțumim! Anunțul dumneavoastră este în verificare și va fi publicat în curând. V-am trimis un e-mail de confirmare.",
+      "cancelled": "Plata a fost anulată. Anunțul este salvat și puteți plăti oricând de pe această pagină.",
+      "pending": "Așteptăm confirmarea plății de la bancă. De obicei durează câteva minute – chitanța vă vine pe e-mail."
+    },
+    "steps": {
+      "submitted": "Trimis",
+      "payment": "Plată",
+      "review": "Verificare",
+      "live": "Publicat"
+    },
+    "err": {
+      "invalidCode": "Codul de reducere nu este valid sau a expirat.",
+      "network": "Problemă de conexiune. Încercați din nou.",
+      "cardUnavailable": "Plata cu cardul nu este disponibilă acum. Încercați din nou puțin mai târziu sau alegeți transferul bancar.",
+      "exempt": "Acest anunț este gratuit pentru totdeauna – nu este nevoie de plată.",
+      "alreadyPaid": "Acest anunț are deja un abonament activ.",
+      "notPayable": "Acest anunț nu poate fi plătit în starea actuală. Vă rugăm să ne contactați.",
+      "session": "Sesiunea a expirat. Autentificați-vă din nou.",
+      "generic": "Plata nu a pornit ({code}). Încercați din nou sau contactați-ne.",
+      "bankFailed": "Cererea de transfer bancar nu a fost înregistrată. Încercați din nou.",
+      "saveFailed": "Datele nu au fost salvate. Încercați din nou."
+    },
+    "summary": {
+      "paid": "Abonamente active",
+      "free": "Gratuite pentru totdeauna",
+      "action": "Necesită atenție",
+      "nextExpiry": "Următoarea expirare"
+    },
+    "allFree": {
+      "title": "Nu aveți nimic de plătit",
+      "body": "Toate anunțurile dumneavoastră au fost create până la {date}, așa că rămân gratuite pentru totdeauna. Nu expiră și nu trebuie reînnoite."
+    },
+    "subs": {
+      "heading": "Abonamentele dumneavoastră",
+      "hint": "Un abonament pentru fiecare anunț. Cele care necesită atenție apar primele.",
+      "empty": "Nu aveți încă niciun anunț.",
+      "addListing": "Adăugați primul anunț"
+    },
+    "tier": {
+      "premium": "Premium",
+      "annual": "Pachet de bază",
+      "free": "Gratuit pentru totdeauna",
+      "none": "Niciun pachet ales încă"
+    },
+    "tierDesc": {
+      "premium": "Poziție mai bună în rezultate și insigna „Recomandat”",
+      "annual": "Anunț complet, 0% comision"
+    },
+    "state": {
+      "free_forever": "Fără cost",
+      "active": "Activ",
+      "expiring": "{days, plural, =0 {Expiră azi} one {Expiră în # zi} few {Expiră în # zile} other {Expiră în # de zile}}",
+      "grace": "Expirat – perioadă de grație",
+      "expired": "Expirat",
+      "awaiting_bank": "Se așteaptă transferul",
+      "unpaid": "Se așteaptă plata"
+    },
+    "field": {
+      "validFrom": "Valabil de la",
+      "expires": "Expiră",
+      "expiredOn": "A expirat pe",
+      "lastPayment": "Ultima plată"
+    },
+    "note": {
+      "free": "Acest anunț a fost creat până la {date}, așa că rămâne gratuit pentru totdeauna.",
+      "active": "Abonamentul nu se reînnoiește automat. Vă reamintim prin e-mail cu 30 de zile înainte de expirare.",
+      "expiring": "Reînnoiți până la {date} ca anunțul să rămână online fără întrerupere. Noul an se adaugă după expirarea actuală, deci nu pierdeți nicio zi.",
+      "grace": "Anunțul rămâne publicat până la {date}. Dacă nu este reînnoit până atunci, va fi retras.",
+      "expired": "Anunțul nu mai apare pe site. După reînnoire, va fi verificat din nou și publicat.",
+      "awaitingBank": "Am notat că veți plăti prin transfer bancar. Imediat ce primim banii, activăm abonamentul și vă trimitem chitanța.",
+      "unpaid": "Anunțul nu este publicat până când plata nu este finalizată."
+    },
+    "action": {
+      "pay": "Plătiți",
+      "renew": "Reînnoiți pentru 1 an",
+      "upgrade": "Treceți la Premium",
+      "showBank": "Date pentru transfer",
+      "cardInstead": "Plătiți cu cardul în schimb",
+      "editListing": "Editați anunțul",
+      "close": "Închideți"
+    },
+    "panel": {
+      "titlePay": "Alegeți pachetul și modul de plată",
+      "titleRenew": "Reînnoirea abonamentului",
+      "payInfo": "Abonamentul este valabil un an de la data plății.",
+      "renewFrom": "Noul an începe pe {date}, când se încheie cel actual.",
+      "renewToday": "Noul an începe de azi.",
+      "premiumNow": "Premium se activează imediat după confirmarea plății.",
+      "vat": "Prețurile includ TVA 24%.",
+      "code": "Cod de reducere (opțional)",
+      "codePlaceholder": "ex. FRIEND2027",
+      "apply": "Aplicați",
+      "codeFree": "Gratuit cu acest cod!",
+      "codeNewPrice": "Preț nou: {price} (−{discount})",
+      "payCard": "Plătiți {price} cu cardul",
+      "activateFree": "Activați gratuit",
+      "bank": "Transfer bancar",
+      "secure": "Plățile cu cardul se fac pe pagina de plată securizată Viva."
+    },
+    "bank": {
+      "title": "Date pentru transfer",
+      "bank": "Banca",
+      "beneficiary": "Beneficiar",
+      "amount": "Suma",
+      "reference": "La detaliile plății scrieți numele anunțului. Imediat ce primim transferul, activăm abonamentul și vă trimitem chitanța.",
+      "noIban": "Am înregistrat cererea dumneavoastră și vă vom contacta cu datele pentru transfer."
+    },
+    "method": {
+      "card": "Card",
+      "bank_transfer": "Transfer",
+      "free": "Cod",
+      "comp": "Gratuit"
+    },
+    "history": {
+      "heading": "Istoricul plăților",
+      "hint": "Fiecare plată, anunțul pentru care a fost făcută și chitanța ei.",
+      "total": "Total plătit:",
+      "empty": "Nu ați efectuat încă nicio plată.",
+      "date": "Data",
+      "listing": "Anunț",
+      "method": "Mod",
+      "amount": "Suma",
+      "receipt": "Chitanță",
+      "packageLine": "{tier} · 1 an",
+      "discount": "cod {code} (−{amount})",
+      "free": "Gratuit",
+      "refunded": "Rambursat pe {date}",
+      "open": "Vedeți"
+    },
+    "invoice": {
+      "heading": "Date de facturare",
+      "filled": "Completate",
+      "notFilled": "Opțional",
+      "hint": "Completați doar dacă aveți nevoie de factură. Datele se salvează și se folosesc pentru toate anunțurile dumneavoastră.",
+      "name": "Firmă sau nume complet",
+      "vat": "Cod fiscal (CUI)",
+      "taxOffice": "Administrația fiscală",
+      "address": "Adresă",
+      "save": "Salvați",
+      "saved": "Salvat",
+      "note": "Pentru factură, răspundeți la e-mailul de confirmare a plății și o emitem noi."
+    },
+    "listingCard": {
+      "hintUnpaid": "Nu este publicat până la finalizarea plății.",
+      "hintExpiring": "Reînnoiți ca să rămână online fără întrerupere.",
+      "hintGrace": "Rămâne online până la {date}.",
+      "hintExpired": "Nu mai apare pe site.",
+      "hintBank": "Imediat ce primim transferul, anunțul se activează."
+    }
   }
 }

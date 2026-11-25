@@ -608,5 +608,164 @@
     "villageFacts": "Gemeinde {municipality}, {n, number} Einwohner ({year}).",
     "areaBeachCount": "{count, plural, one {# Strand} other {# Strände}} bei {villages, plural, one {# Ort} other {# Orten}}.",
     "areaBeachTop": "Die meisten Strände bei: {list}."
+  },
+  "billing": {
+    "title": "Abos & Zahlungen",
+    "subtitle": "Jeder Eintrag hat sein eigenes Jahresabo. Hier sehen Sie, welches Paket jeder Eintrag hat, wann es abläuft und was Sie bezahlt haben.",
+    "untitled": "(ohne Titel)",
+    "deletedListing": "(gelöschter Eintrag)",
+    "perYear": "/Jahr",
+    "compare": "Pakete vergleichen",
+    "flash": {
+      "paidTitle": "Zahlung abgeschlossen!",
+      "paidBody": "Vielen Dank! Ihr Eintrag wird geprüft und in Kürze veröffentlicht. Eine Bestätigung haben wir Ihnen per E-Mail geschickt.",
+      "cancelled": "Die Zahlung wurde abgebrochen. Ihr Eintrag ist gespeichert, und Sie können jederzeit auf dieser Seite bezahlen.",
+      "pending": "Wir warten auf die Bestätigung Ihrer Bank. Das dauert meist nur wenige Minuten – die Quittung kommt per E-Mail."
+    },
+    "steps": {
+      "submitted": "Eingereicht",
+      "payment": "Zahlung",
+      "review": "Prüfung",
+      "live": "Online"
+    },
+    "err": {
+      "invalidCode": "Dieser Rabattcode ist ungültig oder abgelaufen.",
+      "network": "Verbindungsproblem. Bitte versuchen Sie es erneut.",
+      "cardUnavailable": "Kartenzahlung ist gerade nicht möglich. Bitte versuchen Sie es gleich noch einmal oder wählen Sie Banküberweisung.",
+      "exempt": "Dieser Eintrag ist dauerhaft kostenlos – eine Zahlung ist nicht nötig.",
+      "alreadyPaid": "Dieser Eintrag hat bereits ein aktives Abo.",
+      "notPayable": "Für diesen Eintrag ist in seinem aktuellen Zustand keine Zahlung möglich. Bitte kontaktieren Sie uns.",
+      "session": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "generic": "Die Zahlung wurde nicht gestartet ({code}). Bitte versuchen Sie es erneut oder kontaktieren Sie uns.",
+      "bankFailed": "Ihre Anfrage zur Überweisung wurde nicht gespeichert. Bitte versuchen Sie es erneut.",
+      "saveFailed": "Ihre Angaben wurden nicht gespeichert. Bitte versuchen Sie es erneut."
+    },
+    "summary": {
+      "paid": "Aktive Abos",
+      "free": "Dauerhaft kostenlos",
+      "action": "Handlungsbedarf",
+      "nextExpiry": "Nächster Ablauf"
+    },
+    "allFree": {
+      "title": "Sie müssen nichts bezahlen",
+      "body": "Alle Ihre Einträge wurden bis zum {date} angelegt und bleiben deshalb dauerhaft kostenlos. Sie laufen nie ab und müssen nicht verlängert werden."
+    },
+    "subs": {
+      "heading": "Ihre Abos",
+      "hint": "Ein Abo pro Eintrag. Was Ihre Aufmerksamkeit braucht, steht oben.",
+      "empty": "Sie haben noch keine Einträge.",
+      "addListing": "Ersten Eintrag anlegen"
+    },
+    "tier": {
+      "premium": "Premium",
+      "annual": "Basispaket",
+      "free": "Dauerhaft kostenlos",
+      "none": "Noch kein Paket gewählt"
+    },
+    "tierDesc": {
+      "premium": "Weiter oben in den Ergebnissen und ein „Empfohlen“-Abzeichen",
+      "annual": "Vollständiger Eintrag, 0 % Provision"
+    },
+    "state": {
+      "free_forever": "Kostenlos",
+      "active": "Aktiv",
+      "expiring": "{days, plural, =0 {Läuft heute ab} one {Läuft in # Tag ab} other {Läuft in # Tagen ab}}",
+      "grace": "Abgelaufen – Kulanzfrist",
+      "expired": "Abgelaufen",
+      "awaiting_bank": "Überweisung ausstehend",
+      "unpaid": "Zahlung ausstehend"
+    },
+    "field": {
+      "validFrom": "Gültig ab",
+      "expires": "Läuft ab",
+      "expiredOn": "Abgelaufen am",
+      "lastPayment": "Letzte Zahlung"
+    },
+    "note": {
+      "free": "Dieser Eintrag wurde bis zum {date} angelegt und bleibt deshalb dauerhaft kostenlos.",
+      "active": "Das Abo verlängert sich nicht automatisch. Wir erinnern Sie 30 Tage vor Ablauf per E-Mail.",
+      "expiring": "Verlängern Sie bis zum {date}, damit der Eintrag ohne Unterbrechung online bleibt. Das neue Jahr beginnt erst nach dem aktuellen Ablauf – Sie verlieren keinen Tag.",
+      "grace": "Der Eintrag bleibt bis zum {date} veröffentlicht. Wird er bis dahin nicht verlängert, geht er offline.",
+      "expired": "Der Eintrag erscheint nicht mehr auf der Website. Nach einer Verlängerung wird er erneut geprüft und veröffentlicht.",
+      "awaitingBank": "Wir haben vermerkt, dass Sie per Banküberweisung zahlen. Sobald das Geld eingeht, aktivieren wir das Abo und schicken Ihnen eine Quittung.",
+      "unpaid": "Der Eintrag wird erst veröffentlicht, wenn die Zahlung abgeschlossen ist."
+    },
+    "action": {
+      "pay": "Bezahlen",
+      "renew": "Um 1 Jahr verlängern",
+      "upgrade": "Auf Premium upgraden",
+      "showBank": "Überweisungsdaten",
+      "cardInstead": "Stattdessen mit Karte zahlen",
+      "editListing": "Eintrag bearbeiten",
+      "close": "Schließen"
+    },
+    "panel": {
+      "titlePay": "Paket und Zahlungsart wählen",
+      "titleRenew": "Abo verlängern",
+      "payInfo": "Das Abo gilt ein Jahr ab dem Tag der Zahlung.",
+      "renewFrom": "Das neue Jahr beginnt am {date}, wenn das aktuelle endet.",
+      "renewToday": "Das neue Jahr beginnt heute.",
+      "premiumNow": "Premium ist aktiv, sobald die Zahlung durch ist.",
+      "vat": "Alle Preise inkl. 24 % MwSt.",
+      "code": "Rabattcode (optional)",
+      "codePlaceholder": "z. B. FRIEND2027",
+      "apply": "Einlösen",
+      "codeFree": "Mit diesem Code kostenlos!",
+      "codeNewPrice": "Neuer Preis: {price} (−{discount})",
+      "payCard": "{price} mit Karte zahlen",
+      "activateFree": "Kostenlos aktivieren",
+      "bank": "Banküberweisung",
+      "secure": "Kartenzahlungen laufen über die sichere Zahlungsseite von Viva."
+    },
+    "bank": {
+      "title": "Überweisungsdaten",
+      "bank": "Bank",
+      "beneficiary": "Empfänger",
+      "amount": "Betrag",
+      "reference": "Geben Sie als Verwendungszweck den Namen des Eintrags an. Sobald die Überweisung eingeht, aktivieren wir das Abo und schicken Ihnen eine Quittung.",
+      "noIban": "Wir haben Ihre Anfrage gespeichert und melden uns mit den Überweisungsdaten bei Ihnen."
+    },
+    "method": {
+      "card": "Karte",
+      "bank_transfer": "Überweisung",
+      "free": "Code",
+      "comp": "Kostenlos"
+    },
+    "history": {
+      "heading": "Zahlungsverlauf",
+      "hint": "Jede Zahlung, der zugehörige Eintrag und die Quittung.",
+      "total": "Insgesamt bezahlt:",
+      "empty": "Sie haben noch keine Zahlungen getätigt.",
+      "date": "Datum",
+      "listing": "Eintrag",
+      "method": "Zahlungsart",
+      "amount": "Betrag",
+      "receipt": "Quittung",
+      "packageLine": "{tier} · 1 Jahr",
+      "discount": "Code {code} (−{amount})",
+      "free": "Kostenlos",
+      "refunded": "Erstattet am {date}",
+      "open": "Ansehen"
+    },
+    "invoice": {
+      "heading": "Rechnungsdaten",
+      "filled": "Ausgefüllt",
+      "notFilled": "Optional",
+      "hint": "Nur ausfüllen, wenn Sie eine Rechnung brauchen. Die Angaben werden gespeichert und für alle Ihre Einträge verwendet.",
+      "name": "Firma oder vollständiger Name",
+      "vat": "USt-IdNr. / Steuernummer",
+      "taxOffice": "Finanzamt",
+      "address": "Adresse",
+      "save": "Speichern",
+      "saved": "Gespeichert",
+      "note": "Für eine Rechnung antworten Sie einfach auf die Zahlungsbestätigung – wir stellen sie Ihnen aus."
+    },
+    "listingCard": {
+      "hintUnpaid": "Wird erst nach Abschluss der Zahlung veröffentlicht.",
+      "hintExpiring": "Verlängern Sie, damit er ohne Unterbrechung online bleibt.",
+      "hintGrace": "Bleibt bis zum {date} online.",
+      "hintExpired": "Erscheint nicht mehr auf der Website.",
+      "hintBank": "Sobald Ihre Überweisung eingeht, wird der Eintrag aktiviert."
+    }
   }
 }

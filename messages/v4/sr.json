@@ -609,5 +609,164 @@
     "villageFacts": "Opština {municipality}, broj stanovnika: {n, number} ({year}).",
     "areaBeachCount": "{count, plural, one {# plaža} few {# plaže} other {# plaža}} kod {villages, plural, one {# mesta} other {# mesta}}.",
     "areaBeachTop": "Najviše plaža: {list}."
+  },
+  "billing": {
+    "title": "Pretplate i plaćanja",
+    "subtitle": "Svaki oglas ima svoju godišnju pretplatu. Ovde vidite koji paket ima svaki oglas, kada ističe i šta ste platili.",
+    "untitled": "(bez naslova)",
+    "deletedListing": "(obrisan oglas)",
+    "perYear": "/god.",
+    "compare": "Uporedite pakete",
+    "flash": {
+      "paidTitle": "Plaćanje je uspelo!",
+      "paidBody": "Hvala vam! Vaš oglas je na proveri i uskoro će biti objavljen. Poslali smo vam potvrdu e-poštom.",
+      "cancelled": "Plaćanje je otkazano. Oglas je sačuvan i možete ga platiti kad god želite sa ove stranice.",
+      "pending": "Čekamo da banka potvrdi plaćanje. To obično traje nekoliko minuta – priznanicu ćete dobiti e-poštom."
+    },
+    "steps": {
+      "submitted": "Poslato",
+      "payment": "Plaćanje",
+      "review": "Provera",
+      "live": "Objavljeno"
+    },
+    "err": {
+      "invalidCode": "Kod za popust nije važeći ili je istekao.",
+      "network": "Problem sa vezom. Pokušajte ponovo.",
+      "cardUnavailable": "Plaćanje karticom trenutno nije dostupno. Pokušajte ponovo za koji trenutak ili izaberite bankovnu uplatu.",
+      "exempt": "Ovaj oglas je zauvek besplatan – plaćanje nije potrebno.",
+      "alreadyPaid": "Ovaj oglas već ima aktivnu pretplatu.",
+      "notPayable": "Ovaj oglas u trenutnom stanju ne može da se plati. Javite nam se.",
+      "session": "Sesija je istekla. Prijavite se ponovo.",
+      "generic": "Plaćanje nije pokrenuto ({code}). Pokušajte ponovo ili nam se javite.",
+      "bankFailed": "Zahtev za bankovnu uplatu nije zabeležen. Pokušajte ponovo.",
+      "saveFailed": "Podaci nisu sačuvani. Pokušajte ponovo."
+    },
+    "summary": {
+      "paid": "Aktivne pretplate",
+      "free": "Zauvek besplatno",
+      "action": "Traže pažnju",
+      "nextExpiry": "Sledeće isticanje"
+    },
+    "allFree": {
+      "title": "Ne morate ništa da platite",
+      "body": "Svi vaši oglasi napravljeni su do {date}, pa ostaju zauvek besplatni. Ne ističu i ne treba ih obnavljati."
+    },
+    "subs": {
+      "heading": "Vaše pretplate",
+      "hint": "Jedna pretplata po oglasu. Prvo su prikazani oni kojima je potrebna vaša pažnja.",
+      "empty": "Još nemate nijedan oglas.",
+      "addListing": "Dodajte prvi"
+    },
+    "tier": {
+      "premium": "Premium",
+      "annual": "Osnovni paket",
+      "free": "Zauvek besplatno",
+      "none": "Paket još nije izabran"
+    },
+    "tierDesc": {
+      "premium": "Više mesto u rezultatima i oznaka „Preporučeno”",
+      "annual": "Kompletan oglas, 0% provizije"
+    },
+    "state": {
+      "free_forever": "Bez naplate",
+      "active": "Aktivna",
+      "expiring": "{days, plural, =0 {Ističe danas} one {Ističe za # dan} few {Ističe za # dana} other {Ističe za # dana}}",
+      "grace": "Istekla – period odlaganja",
+      "expired": "Istekla",
+      "awaiting_bank": "Čeka se uplata",
+      "unpaid": "Čeka plaćanje"
+    },
+    "field": {
+      "validFrom": "Važi od",
+      "expires": "Ističe",
+      "expiredOn": "Isteklo",
+      "lastPayment": "Poslednje plaćanje"
+    },
+    "note": {
+      "free": "Ovaj oglas je napravljen do {date}, pa ostaje zauvek besplatan.",
+      "active": "Pretplata se ne obnavlja automatski. Podsetićemo vas e-poštom 30 dana pre isticanja.",
+      "expiring": "Obnovite do {date} da bi oglas ostao na mreži bez prekida. Nova godina se dodaje posle trenutnog isticanja, tako da ne gubite nijedan dan.",
+      "grace": "Oglas ostaje objavljen do {date}. Ako ga do tada ne obnovite, biće povučen.",
+      "expired": "Oglas se više ne prikazuje na sajtu. Posle obnove ponovo ide na proveru i objavljivanje.",
+      "awaitingBank": "Zabeležili smo da plaćate bankovnom uplatom. Čim novac stigne, aktiviramo pretplatu i šaljemo vam priznanicu.",
+      "unpaid": "Oglas se ne objavljuje dok se plaćanje ne završi."
+    },
+    "action": {
+      "pay": "Platite",
+      "renew": "Obnovite na 1 godinu",
+      "upgrade": "Pređite na Premium",
+      "showBank": "Podaci za uplatu",
+      "cardInstead": "Platite karticom umesto toga",
+      "editListing": "Uredite oglas",
+      "close": "Zatvorite"
+    },
+    "panel": {
+      "titlePay": "Izaberite paket i način plaćanja",
+      "titleRenew": "Obnova pretplate",
+      "payInfo": "Pretplata važi godinu dana od dana plaćanja.",
+      "renewFrom": "Nova godina počinje {date}, kada se završava trenutna.",
+      "renewToday": "Nova godina počinje od danas.",
+      "premiumNow": "Premium se uključuje čim plaćanje prođe.",
+      "vat": "Cene uključuju PDV od 24%.",
+      "code": "Kod za popust (opciono)",
+      "codePlaceholder": "npr. FRIEND2027",
+      "apply": "Primenite",
+      "codeFree": "Besplatno sa ovim kodom!",
+      "codeNewPrice": "Nova cena: {price} (−{discount})",
+      "payCard": "Platite {price} karticom",
+      "activateFree": "Aktivirajte besplatno",
+      "bank": "Bankovna uplata",
+      "secure": "Plaćanje karticom obavlja se na bezbednoj stranici za plaćanje kompanije Viva."
+    },
+    "bank": {
+      "title": "Podaci za uplatu",
+      "bank": "Banka",
+      "beneficiary": "Primalac",
+      "amount": "Iznos",
+      "reference": "U svrhu uplate upišite naziv oglasa. Čim uplata stigne, aktiviramo pretplatu i šaljemo vam priznanicu.",
+      "noIban": "Zabeležili smo vaš zahtev i javićemo vam se sa podacima za uplatu."
+    },
+    "method": {
+      "card": "Kartica",
+      "bank_transfer": "Uplata",
+      "free": "Kod",
+      "comp": "Besplatno"
+    },
+    "history": {
+      "heading": "Istorija plaćanja",
+      "hint": "Svako plaćanje, oglas na koji se odnosi i priznanica.",
+      "total": "Ukupno plaćeno:",
+      "empty": "Još niste ništa platili.",
+      "date": "Datum",
+      "listing": "Oglas",
+      "method": "Način",
+      "amount": "Iznos",
+      "receipt": "Priznanica",
+      "packageLine": "{tier} · 1 godina",
+      "discount": "kod {code} (−{amount})",
+      "free": "Besplatno",
+      "refunded": "Vraćeno {date}",
+      "open": "Pogledajte"
+    },
+    "invoice": {
+      "heading": "Podaci za račun",
+      "filled": "Popunjeno",
+      "notFilled": "Opciono",
+      "hint": "Popunite samo ako vam treba račun. Podaci se čuvaju i koriste za sve vaše oglase.",
+      "name": "Naziv firme ili ime i prezime",
+      "vat": "PIB",
+      "taxOffice": "Poreska uprava",
+      "address": "Adresa",
+      "save": "Sačuvajte",
+      "saved": "Sačuvano",
+      "note": "Za račun odgovorite na e-poruku kojom smo potvrdili plaćanje i izdaćemo vam ga."
+    },
+    "listingCard": {
+      "hintUnpaid": "Ne objavljuje se dok se plaćanje ne završi.",
+      "hintExpiring": "Obnovite da bi ostao na mreži bez prekida.",
+      "hintGrace": "Ostaje na mreži do {date}.",
+      "hintExpired": "Više se ne prikazuje na sajtu.",
+      "hintBank": "Čim uplata stigne, oglas se aktivira."
+    }
   }
 }

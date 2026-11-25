@@ -608,5 +608,164 @@
     "villageFacts": "Municipality of {municipality}, population {n, number} ({year}).",
     "areaBeachCount": "{count, plural, one {# beach} other {# beaches}} in {villages, plural, one {# village} other {# villages}}.",
     "areaBeachTop": "Most beaches near: {list}."
+  },
+  "billing": {
+    "title": "Subscriptions & payments",
+    "subtitle": "Each listing has its own annual subscription. Here you can see which package each one is on, when it expires and what you have paid.",
+    "untitled": "(untitled)",
+    "deletedListing": "(deleted listing)",
+    "perYear": "/year",
+    "compare": "Compare the packages",
+    "flash": {
+      "paidTitle": "Payment complete!",
+      "paidBody": "Thank you! Your listing is being reviewed and will be published shortly. We have sent you a confirmation email.",
+      "cancelled": "The payment was cancelled. Your listing is saved, and you can pay whenever you like from this page.",
+      "pending": "We are waiting for the bank to confirm your payment. This usually takes a few minutes — your receipt will arrive by email."
+    },
+    "steps": {
+      "submitted": "Submitted",
+      "payment": "Payment",
+      "review": "Review",
+      "live": "Live"
+    },
+    "err": {
+      "invalidCode": "This discount code is invalid or has expired.",
+      "network": "Connection problem. Please try again.",
+      "cardUnavailable": "Card payment is not available right now. Please try again shortly or choose bank transfer.",
+      "exempt": "This listing is free forever — no payment is needed.",
+      "alreadyPaid": "This listing already has an active subscription.",
+      "notPayable": "This listing cannot be paid for in its current state. Please contact us.",
+      "session": "Your session has expired. Please sign in again.",
+      "generic": "The payment did not start ({code}). Please try again or contact us.",
+      "bankFailed": "Your bank-transfer request was not recorded. Please try again.",
+      "saveFailed": "Your details were not saved. Please try again."
+    },
+    "summary": {
+      "paid": "Active subscriptions",
+      "free": "Free forever",
+      "action": "Need attention",
+      "nextExpiry": "Next expiry"
+    },
+    "allFree": {
+      "title": "You have nothing to pay",
+      "body": "All your listings were created by {date}, so they stay free forever. They never expire and never need renewing."
+    },
+    "subs": {
+      "heading": "Your subscriptions",
+      "hint": "One subscription per listing. Anything that needs your attention is shown first.",
+      "empty": "You have no listings yet.",
+      "addListing": "Add your first one"
+    },
+    "tier": {
+      "premium": "Premium",
+      "annual": "Basic package",
+      "free": "Free forever",
+      "none": "No package chosen yet"
+    },
+    "tierDesc": {
+      "premium": "Higher placement in results and a “Featured” badge",
+      "annual": "Full listing, 0% commission"
+    },
+    "state": {
+      "free_forever": "No charge",
+      "active": "Active",
+      "expiring": "{days, plural, =0 {Expires today} one {Expires in # day} other {Expires in # days}}",
+      "grace": "Expired — grace period",
+      "expired": "Expired",
+      "awaiting_bank": "Awaiting deposit",
+      "unpaid": "Awaiting payment"
+    },
+    "field": {
+      "validFrom": "Valid from",
+      "expires": "Expires",
+      "expiredOn": "Expired on",
+      "lastPayment": "Last payment"
+    },
+    "note": {
+      "free": "This listing was created by {date}, so it stays free forever.",
+      "active": "The subscription does not renew automatically. We will remind you by email 30 days before it expires.",
+      "expiring": "Renew by {date} to keep the listing online without a break. The new year is added after the current expiry, so you lose no days.",
+      "grace": "The listing stays published until {date}. If it is not renewed by then, it will be taken offline.",
+      "expired": "The listing no longer appears on the site. Renew it to send it back for review and publication.",
+      "awaitingBank": "We have noted that you will pay by bank transfer. As soon as the money arrives, we activate the subscription and send you a receipt.",
+      "unpaid": "The listing is not published until the payment is complete."
+    },
+    "action": {
+      "pay": "Pay",
+      "renew": "Renew for 1 year",
+      "upgrade": "Upgrade to Premium",
+      "showBank": "Deposit details",
+      "cardInstead": "Pay by card instead",
+      "editListing": "Edit listing",
+      "close": "Close"
+    },
+    "panel": {
+      "titlePay": "Choose a package and how to pay",
+      "titleRenew": "Renew subscription",
+      "payInfo": "The subscription runs for one year from the day you pay.",
+      "renewFrom": "The new year starts on {date}, when the current one ends.",
+      "renewToday": "The new year starts today.",
+      "premiumNow": "Premium switches on as soon as the payment goes through.",
+      "vat": "Prices include 24% VAT.",
+      "code": "Discount code (optional)",
+      "codePlaceholder": "e.g. FRIEND2027",
+      "apply": "Apply",
+      "codeFree": "Free with this code!",
+      "codeNewPrice": "New price: {price} (−{discount})",
+      "payCard": "Pay {price} by card",
+      "activateFree": "Activate for free",
+      "bank": "Bank transfer",
+      "secure": "Card payments are made on Viva’s secure payment page."
+    },
+    "bank": {
+      "title": "Deposit details",
+      "bank": "Bank",
+      "beneficiary": "Beneficiary",
+      "amount": "Amount",
+      "reference": "Put the listing name as the payment reference. Once the deposit arrives, we activate the subscription and send you a receipt.",
+      "noIban": "We have recorded your request and will contact you with the deposit details."
+    },
+    "method": {
+      "card": "Card",
+      "bank_transfer": "Bank transfer",
+      "free": "Code",
+      "comp": "Free"
+    },
+    "history": {
+      "heading": "Payment history",
+      "hint": "Every charge, the listing it was for, and its receipt.",
+      "total": "Total paid:",
+      "empty": "You have not made any payments yet.",
+      "date": "Date",
+      "listing": "Listing",
+      "method": "Method",
+      "amount": "Amount",
+      "receipt": "Receipt",
+      "packageLine": "{tier} · 1 year",
+      "discount": "code {code} (−{amount})",
+      "free": "Free",
+      "refunded": "Refunded {date}",
+      "open": "View"
+    },
+    "invoice": {
+      "heading": "Invoice details",
+      "filled": "Filled in",
+      "notFilled": "Optional",
+      "hint": "Fill these in only if you need a tax invoice. They are saved and used for all your listings.",
+      "name": "Company or full name",
+      "vat": "VAT number",
+      "taxOffice": "Tax office",
+      "address": "Address",
+      "save": "Save",
+      "saved": "Saved",
+      "note": "For a tax invoice, reply to the payment confirmation email and we will issue one."
+    },
+    "listingCard": {
+      "hintUnpaid": "Not published until the payment is complete.",
+      "hintExpiring": "Renew to keep it online without a break.",
+      "hintGrace": "Stays online until {date}.",
+      "hintExpired": "No longer shown on the site.",
+      "hintBank": "As soon as your deposit arrives, the listing is activated."
+    }
   }
 }
